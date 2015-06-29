@@ -1,48 +1,36 @@
 {
-<<<<<<< HEAD
   "name": "lidl-workshop",
   "version": "0.1.0",
   "description": "lidl",
-  "main": "gulpfile.js",
-=======
-  "name": "dgastli-test-workshop",
-  "version": "0.0.1",
-  "description": "tester la webApp",
   "main": "index.js",
->>>>>>> 4ae140880e6af3cad6cf59aecde711401100e9a8
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/dgastli/testWorkshop.git"
+    "url": "git+https://github.com/dgastli/LIDL-workshop.git"
   },
-<<<<<<< HEAD
   "keywords": [
-    "gastli"
+    "dgastli"
   ],
-  "author": "Gastli Dorra",
-  "license": "ISC",
-=======
-  "license": "BSD-3-Clause",
->>>>>>> 4ae140880e6af3cad6cf59aecde711401100e9a8
+  "author": "Gastli dorra",
+  "license": "MIT",
   "bugs": {
-    "url": "https://github.com/dgastli/testWorkshop/issues"
+    "url": "https://github.com/dgastli/LIDL-workshop/issues"
   },
-  "homepage": "https://github.com/dgastli/testWorkshop#readme",
-<<<<<<< HEAD
-  "devDependencies": {
+  "homepage": "https://github.com/dgastli/LIDL-workshop#readme",
+  "dependencies": {
+    "array": "^0.4.3",
     "browserify": "^10.2.4",
+    "react": "^0.13.3",
+    "iii": "0.0.8",
+    "lodash": "^3.9.3"
+  },
+  "devDependencies": {
     "del": "^1.2.0",
     "gulp": "^3.9.0",
     "gulp-browserify": "^0.5.1",
     "gulp-react": "^3.0.1",
-    "react": "^0.13.3",
-    "react-tools": "^0.13.3"
-=======
-  "dependencies": {
-    "iii": "0.0.8",
-    "lodash": "^3.9.3"
->>>>>>> 4ae140880e6af3cad6cf59aecde711401100e9a8
+    "reactify": "^1.1.1"
   }
 }
