@@ -11,7 +11,8 @@ var sourceCodes = [
   "Text out",
   "{ a:Number in,b:Number out}",
   "{ x:Number,y:Number} out",
-  "{ desired:Dimension out, min:Dimension out,max:Dimension out, actual:Arranging in }"
+  "{ desired:Dimension out, min:Dimension out,max:Dimension out, actual:Arranging in }",
+  "{x:{ a:Text in,b:[Number] out},y:{ a:{x:Number,y:Number} in,b:Number out}}"
 ];
 
 // Pour chacun de
