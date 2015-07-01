@@ -1,18 +1,30 @@
 var React = require('react');
+var iii = require('iii');
 
 class CodeEditor extends React.Component {
 
   constructor(props) {
     super(props);
-    this.state={openedTab:0};
+    this.state={openedTab:0,error:false};
   }
 
-  openTab0(){
+  openTab0(e){
     this.setState({openedTab:0});
   }
 
-  openTab1(){
+  openTab1(e){
     this.setState({openedTab:1});
+  }
+
+  codeChanged(e){
+    try {
+      var newModel = iii.parser.parse(e.target.value,{startRule:"interface"});
+      this.setState({error:false});
+      console.log("ok");
+    } catch (errorMessage) {
+      this.setState({error:true});
+      console.log(errorMessage);
+    }
   }
 
   render() {
@@ -27,7 +39,7 @@ class CodeEditor extends React.Component {
           </div>
         </div>
         <div className="TabContent">
-          <textarea defaultValue={this.props.code} name="code"  style={{display:this.state.openedTab===0?'inline':'none'}}/>
+          <textarea className={this.state.error?"error":""} defaultValue={this.props.code} name="code"  style={{display:this.state.openedTab===0?'inline':'none'}} onChange={this.codeChanged.bind(this)}/>
           <textarea defaultValue={this.props.scenario} name="scenario" style={{display:this.state.openedTab===1?'inline':'none'}}/>
         </div>
       </div>
