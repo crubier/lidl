@@ -16,11 +16,20 @@ class CodeEditor extends React.Component {
     this.setState({openedTab:1});
   }
 
+  componentDidMount() {
+    this.evaluateCode(this.props.code);
+  }
+
   codeChanged(e){
+    this.evaluateCode(e.target.value);
+  }
+
+  evaluateCode(code){
     try {
-      var newModel = iii.parser.parse(e.target.value,{startRule:"interface"});
+      var newModel = iii.parser.parse(code,{startRule:"interface"});
       this.setState({error:false});
-      console.log("ok");
+      // Recuperer cela pour que cela mette a jour le tableau
+      console.log(JSON.stringify(iii.interfaces.listOfAtoms(newModel,"main")));
     } catch (errorMessage) {
       this.setState({error:true});
       console.log(errorMessage);
@@ -49,6 +58,6 @@ class CodeEditor extends React.Component {
 
 CodeEditor.propTypes = {code:React.PropTypes.string,scenario:React.PropTypes.string,};
 
-CodeEditor.defaultProps =  {code:"This is some code",scenario:"This is a scenario"};
+CodeEditor.defaultProps =  {code:"{a:Number in,b:Number out}",scenario:"This is a scenario"};
 
 module.exports = CodeEditor;
