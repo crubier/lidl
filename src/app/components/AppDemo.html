@@ -35,13 +35,18 @@
 </head>
 <body>
 
+<script>
+function openFile(){
+  window.open("page-openFile.html",'width=400,height=200');
+}
+</script>
 <div id='cssmenu'>
 <ul>
    <li class='active'><a href='#'>File</a>
       <ul>
          <li><a href='#'>New File</a>
          </li>
-         <li><a href='#'>Open File</a>
+         <li><a href='#' onClick="openFile()">Open File</a>
          </li>
          <li><a href='#'>Save</a>
          </li>
