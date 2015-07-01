@@ -5,10 +5,10 @@ class CodeEditor extends React.Component {
   render() {
     return (<div className="CodeEditor">
     <div className="Tabs">
-      <div className="Tab">Tab1</div>
-      <div className="Tab">Tab2</div>
+      <div className="Tab"><span>Tab1</span></div>
+      <div className="Tab"><span>Tab2</span></div>
       </div>
-      <div className="Panel">the content</div>
+      <div className="TabContent"><textarea name="Text1" rows="2" defaultValue="Hello this is some code"></textarea></div>
     </div>);
   }
 }
@@ -16,7 +16,7 @@ class CodeEditor extends React.Component {
 class TraceViewer extends React.Component {
   render() {
     return (<div className="TraceViewer">
-      Trace viewer
+      <span>Trace viewer</span>
     </div>);
   }
 }
