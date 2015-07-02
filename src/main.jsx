@@ -14,29 +14,29 @@ class Main extends React.Component {
   }
 
   onCodeChange(newCode) {
-    evaluateCode(newCode);
+    this.evaluateCode(newCode);
   }
 
   evaluateCode(code){
     try {
       var newModel = iii.parser.parse(code,{startRule:"interface"});
-      this.setState({error:false});
+      this.setState({error:""});
       // Recuperer cela pour que cela mette a jour le tableau
       console.log(JSON.stringify(iii.interfaces.listOfAtoms(newModel,"main")));
     } catch (errorMessage) {
-      this.setState({error:true});
+      this.setState({error:errorMessage});
       console.log(errorMessage);
     }
   }
 
   getErrorMessage() {
-    // Retourner le message d'erreur
+    return this.state.error;
   }
 
   render() {
     return (
       <div className="Main">
-        <CodeEditor error={this.getErrorMessage()} code={this.state.code} onCodeChange={this.changeCode.bind(this)}/>
+        <CodeEditor error={this.state.error} code={this.state.code} onCodeChange={this.onCodeChange.bind(this)}/>
         <TraceViewer />
       </div>
     );
