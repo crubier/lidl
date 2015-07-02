@@ -1,11 +1,11 @@
 var React = require('react');
-var iii = require('iii');
+
 
 class CodeEditor extends React.Component {
 
   constructor(props) {
     super(props);
-    this.state={openedTab:0,error:false};
+    this.state={openedTab:0};
   }
 
   openTab0(e){
@@ -17,24 +17,15 @@ class CodeEditor extends React.Component {
   }
 
   componentDidMount() {
-    this.evaluateCode(this.props.code);
+    // this.evaluateCode(this.props.code);
   }
 
   codeChanged(e){
-    this.evaluateCode(e.target.value);
+    // this.evaluateCode(e.target.value);
+    this.props.onCodeChange(e.target.value);
   }
 
-  evaluateCode(code){
-    try {
-      var newModel = iii.parser.parse(code,{startRule:"interface"});
-      this.setState({error:false});
-      // Recuperer cela pour que cela mette a jour le tableau
-      console.log(JSON.stringify(iii.interfaces.listOfAtoms(newModel,"main")));
-    } catch (errorMessage) {
-      this.setState({error:true});
-      console.log(errorMessage);
-    }
-  }
+
 
   render() {
     return (
@@ -48,7 +39,7 @@ class CodeEditor extends React.Component {
           </div>
         </div>
         <div className="TabContent">
-          <textarea className={this.state.error?"error":""} defaultValue={this.props.code} name="code"  style={{display:this.state.openedTab===0?'inline':'none'}} onChange={this.codeChanged.bind(this)}/>
+          <textarea className={this.props.error!==""?"error":""} defaultValue={this.props.code} name="code"  style={{display:this.state.openedTab===0?'inline':'none'}} onChange={this.codeChanged.bind(this)}/>
           <textarea defaultValue={this.props.scenario} name="scenario" style={{display:this.state.openedTab===1?'inline':'none'}}/>
         </div>
       </div>
@@ -56,8 +47,8 @@ class CodeEditor extends React.Component {
   }
 }
 
-CodeEditor.propTypes = {code:React.PropTypes.string,scenario:React.PropTypes.string,};
+CodeEditor.propTypes = {error:React.PropTypes.string,code:React.PropTypes.string,scenario:React.PropTypes.string,};
 
-CodeEditor.defaultProps =  {code:"{a:Number in,b:Number out}",scenario:"This is a scenario"};
+CodeEditor.defaultProps =  {error:"",code:"{a:Number in,b:Number out}",scenario:"This is a scenario"};
 
 module.exports = CodeEditor;
