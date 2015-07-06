@@ -10,6 +10,7 @@ class CodeEditor extends React.Component {
 
   openTab0(e){
     this.setState({openedTab:0});
+
   }
 
   openTab1(e){
@@ -42,13 +43,14 @@ class CodeEditor extends React.Component {
           <textarea className={this.props.error!==""?"error":""} defaultValue={this.props.code} name="code"  style={{display:this.state.openedTab===0?'inline':'none'}} onChange={this.codeChanged.bind(this)}/>
           <textarea defaultValue={this.props.scenario} name="scenario" style={{display:this.state.openedTab===1?'inline':'none'}}/>
         </div>
+
       </div>
     );
   }
 }
 
-CodeEditor.propTypes = {error:React.PropTypes.string,code:React.PropTypes.string,scenario:React.PropTypes.string,};
+CodeEditor.propTypes = {error:React.PropTypes.string,code:React.PropTypes.string,scenario:React.PropTypes.string, model:React.PropTypes.string,};
 
-CodeEditor.defaultProps =  {error:"",code:"{a:Number in,b:Number out}",scenario:"This is a scenario"};
+CodeEditor.defaultProps =  {error:"",code:"{a:Number in,b:Number out}",scenario:"This is a scenario",model:"coucou"};
 
 module.exports = CodeEditor;

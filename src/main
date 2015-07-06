@@ -1,0 +1,11 @@
+
+
+        return(
+        <ul>
+        {this.props.listOfAtoms.map(function() {
+          return   <Column fixed={true}/>;
+        })}
+      </ul>
+
+
+  );
