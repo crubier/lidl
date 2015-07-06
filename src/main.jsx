@@ -1,7 +1,6 @@
 var React = require('react');
 var CodeEditor = require('./codeEditor.jsx');
 var TraceViewer = require('./traceViewer.jsx');
-var estraverse= require('estraverse');
 var iii = require('iii');
 
 
