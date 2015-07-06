@@ -9,7 +9,7 @@ class Main extends React.Component {
 
   constructor(props) {
     super(props);
-    this.state={model:"dorrnnnnnnnnna"};
+    this.state={listOfAtoms:[],error:""};
   }
 
   onCodeChange(newCode) {
@@ -33,18 +33,26 @@ class Main extends React.Component {
     }
   }
 
+  evaluateScenario(scenario) {
+    /* TODO meme esprit que evaluateCode */
+    try {
+      JSON.parse(scenario);
+    }
+    catch (errorMessage) {
+      console.log(errorMessage);
+    }
+  }
+
   listOfAtoms(newModel){
     return iii.interfaces.listOfAtoms(newModel,"main");
   }
-  getErrorMessage() {
-    return this.state.error;
-  }
+
 
   render() {
     return (
       <div className="Main">
         <CodeEditor error={this.state.error} code={this.state.code} onCodeChange={this.onCodeChange.bind(this)} model={this.state.model}/>
-        <TraceViewer listOfAtoms={this.state.listOfAtoms}/>
+        <TraceViewer listOfAtoms={this.state.listOfAtoms}/> /* TODO on doit aussi passer le scenario en prop  */
       </div>
     );
   }

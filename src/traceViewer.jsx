@@ -1,7 +1,8 @@
 var React = require('react');
-
 var FixedDataTable = require('fixed-data-table');
-var React = require('react');
+
+var _ = require('lodash');
+
 
 var Column = FixedDataTable.Column;
 
@@ -13,11 +14,26 @@ var Table = FixedDataTable.Table;
 
 class TraceViewer extends React.Component {
   _rowGetter(index){
+    var listOfAtoms = this.props.listOfAtoms;
 
+    // En JS, deux notations equivalentes :
+    //    a.x
+    //    a["x"]
+    // Ca permet de faire
+    //    a["coucou dorra"]
+    // a.coucou dorra     /!\ marche pas
 
-      var key1=main.a;
-      var key2=main.b;
-      return {key1:"dorr",key2:"dorrgast"};
+    // Pour chaque interface atomique contenue dans this.props.listOfAtoms
+
+    var res = {};
+    _.forEach(
+      this.props.listOfAtoms,
+      function(x){
+        res[x.name] = 0 ;/* TODO Recuperer la valeur de la cellule dans la index-ème cellule de this.props.scenario  */
+      }
+    )
+
+    return res;
 
 }
 
@@ -30,7 +46,6 @@ class TraceViewer extends React.Component {
       console.log(x.name);
       console.log(x.data.name);
       console.log(x.direction);
-
     })}
 
     console.log("dorra= ",JSON.stringify(listOfAtoms)) ;
@@ -45,7 +60,7 @@ class TraceViewer extends React.Component {
       rowHeight={30}
       groupHeaderHeight={30}
       headerHeight={30}
-      rowGetter={this._rowGetter}    ////////////////////////////
+      rowGetter={this._rowGetter}    /* TODO  rowGetter={this._rowGetter.bind(this)}*/
       rowsCount={1}
       width={650}
       height={300}
@@ -68,7 +83,7 @@ class TraceViewer extends React.Component {
   }
 }
 
-TraceViewer.propTypes = {listOfAtoms:React.PropTypes.array,};
+TraceViewer.propTypes = {listOfAtoms:React.PropTypes.array,scenario:React.PropTypes.array};
 
-TraceViewer.defaultProps =  {listOfAtoms:[]};
+TraceViewer.defaultProps =  {listOfAtoms:[],scenario:[]};
 module.exports = TraceViewer;
