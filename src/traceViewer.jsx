@@ -25,6 +25,14 @@ class TraceViewer extends React.Component {
 
   render() {
     var listOfAtoms = this.props.listOfAtoms;
+
+    {listOfAtoms.map(function(x) {
+      console.log(x.name);
+      console.log(x.data.name);
+      console.log(x.direction);
+
+    })}
+
     console.log("dorra= ",JSON.stringify(listOfAtoms)) ;
     var compteur =0;
     return (
