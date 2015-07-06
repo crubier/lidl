@@ -14,7 +14,7 @@ var Table = FixedDataTable.Table;
 
 class TraceViewer extends React.Component {
   _rowGetter(index){
-    var listOfAtoms = this.props.listOfAtoms;
+/*    var listOfAtoms = this.props.listOfAtoms;
 
     // En JS, deux notations equivalentes :
     //    a.x
@@ -30,11 +30,11 @@ class TraceViewer extends React.Component {
       this.props.listOfAtoms,
       function(x){
         res[x.name] = 0 ;/* TODO Recuperer la valeur de la cellule dans la index-ème cellule de this.props.scenario  */
-      }
+    /*  }
     )
 
     return res;
-
+*/
 }
 
 
@@ -49,7 +49,6 @@ class TraceViewer extends React.Component {
     })}
 
     console.log("dorra= ",JSON.stringify(listOfAtoms)) ;
-    var compteur =0;
     return (
 
 
@@ -70,9 +69,12 @@ class TraceViewer extends React.Component {
       overflowY={"auto"}>
 
       {listOfAtoms.map(function(x) {
-        console.log(x.name);
-        compteur++;
-         return   <Column   fixed={true} label={x.name} dataKey={x.name} width={150} />;
+         return  (
+        <ColumnGroup fixed={true} label={x.name}>
+           <Column   fixed={true} label={x.data.name} dataKey={x.data.name} width={150} />
+           <Column   fixed={true} label={x.direction} dataKey={x.direction} width={150} />
+        </ColumnGroup>
+      );
 
       })}
 
