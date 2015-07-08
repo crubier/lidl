@@ -22,8 +22,12 @@ class CodeEditor extends React.Component {
   }
 
   codeChanged(e){
-    // this.evaluateCode(e.target.value);
     this.props.onCodeChange(e.target.value);
+  }
+
+  scenarioChanged(e){
+    this.props.onScenarioChange(e.target.value);
+
   }
 
 
@@ -40,8 +44,8 @@ class CodeEditor extends React.Component {
           </div>
         </div>
         <div className="TabContent">
-          <textarea className={this.props.error!==""?"error":""} defaultValue={this.props.code} name="code"  style={{display:this.state.openedTab===0?'inline':'none'}} onChange={this.codeChanged.bind(this)}/>
-          <textarea defaultValue={this.props.scenario} name="scenario" style={{display:this.state.openedTab===1?'inline':'none'}}/>
+          <textarea className={this.props.errorCode!==""?"error":""} defaultValue={this.props.code} name="code"  style={{display:this.state.openedTab===0?'inline':'none'}} onChange={this.codeChanged.bind(this)} />
+          <textarea className={this.props.errorScenario!==""?"error":""} defaultValue={this.props.scenario} name="scenario" style={{display:this.state.openedTab===1?'inline':'none'}} onChange={this.scenarioChanged.bind(this)}/>1
         </div>
 
       </div>
@@ -49,8 +53,8 @@ class CodeEditor extends React.Component {
   }
 }
 
-CodeEditor.propTypes = {error:React.PropTypes.string,code:React.PropTypes.string,scenario:React.PropTypes.string, model:React.PropTypes.string,};
+CodeEditor.propTypes = {errorCode:React.PropTypes.string,errorScenario:React.PropTypes.string,code:React.PropTypes.string,scenario:React.PropTypes.string, modelCode:React.PropTypes.string, modelScenario:React.PropTypes.string,};
 
-CodeEditor.defaultProps =  {error:"",code:"{a:Number in,b:Number out}",scenario:"This is a scenario",model:"coucou"};
+CodeEditor.defaultProps =  {errorCode:"",errorScenario:"",code:"{a:Number in,b:Number out}",scenario:"This is a scenario",modelCode:"",modelScenario:""};
 
 module.exports = CodeEditor;

@@ -36,7 +36,7 @@ class TraceViewer extends React.Component {
       {},
       {x:4,y:5}
     ];
-    console.log(tab[0].x);
+    //console.log(tab[0].x);
     _.forEach(
       this.props.listOfAtoms,
       function(x){
@@ -54,12 +54,12 @@ class TraceViewer extends React.Component {
     var listOfAtoms = this.props.listOfAtoms;
 
     {listOfAtoms.map(function(x) {
-      console.log(x.name);
-      console.log(x.data.name);
-      console.log(x.direction);
+      //console.log(x.name);
+      //console.log(x.data.name);
+      //console.log(x.direction);
     })}
 
-    console.log("dorra= ",JSON.stringify(listOfAtoms)) ;
+    //console.log("dorra= ",JSON.stringify(listOfAtoms)) ;
     return (
 
 
