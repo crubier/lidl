@@ -28,7 +28,6 @@ class Main extends React.Component {
       //console.log("new=", newModelCode);
       var listOfAtoms=iii.interfaces.listOfAtoms(newModelCode,"main");
 
-      //console.log(JSON.stringify(listOfAtoms));
       this.setState({modelCode:newModelCode});
       this.setState({listOfAtoms:listOfAtoms});
       //console.log(JSON.stringify(this.state.listOfAtoms));
