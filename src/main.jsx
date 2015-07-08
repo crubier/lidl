@@ -3,6 +3,7 @@ var CodeEditor = require('./codeEditor.jsx');
 var TraceViewer = require('./traceViewer.jsx');
 var iii = require('iii');
 var scenarioChecker = require('./scenarioChecker.js');
+var scenarioInvalidException=require('./ScenarioInvalidException.js');
 
 
 class Main extends React.Component {
@@ -17,7 +18,6 @@ class Main extends React.Component {
   }
 
   onScenarioChange(newScenario) {
-    console.log(newScenario);
     this.evaluateScenario(newScenario);
   }
 
@@ -44,22 +44,20 @@ class Main extends React.Component {
 
     try {
       var newModelScenario =JSON.parse(scenario);
-      this.setState({errorScenario:""});
-      console.log("1 =",this.state.errorScenario);
-      console.log("JSON.PARSE");
-      console.log(newModelScenario);
-      console.log("gastli =",this.state.modelCode);
-      scenarioChecker.check(this.state.modelCode,newModelScenario,"main");
-      //var newModelScenario=scenarioChecker.check(this.state.modelCode,parseScenario,"main");
+      scenarioChecker.check(this.state.modelCode,newModelScenario,"main")==true;
       this.setState({modelScenario:newModelScenario});
-
-    }
-    catch (errorMessage) {
+      this.setState({errorScenario:""});
+/*
+  }catch(errorMessage if errorMessage instanceof ScenarioInvalidException ) {
+          this.setState({errorCode:errorMessage});
+          console.log(errorMessage);
+*/
+  }catch (errorMessage) {
       this.setState({errorScenario:errorMessage});
-      console.log("2 =",this.state.errorScenario);
+      console.log(errorMessage);
 
-    }
   }
+}
 
   listOfAtoms(newModel){
     return iii.interfaces.listOfAtoms(newModel,"main");
