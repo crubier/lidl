@@ -18,11 +18,9 @@ function check(modelCode, scenario, prefix) {
   }
 
   key=_.keys(res);
-  console.log("res key",key);
   values= _.values(res);
   values=_.map(values, function(n) { return n.toLowerCase(); });
 
-console.log("scenario ",JSON.stringify(scenario));
  for( var i=0;i<scenario.length;i++){
 
   scenarioVar =_.keys(scenario[i]);
@@ -34,11 +32,12 @@ console.log("scenario ",JSON.stringify(scenario));
    console.log("scenarioVar.length ", scenarioVar.length);
    for(var j=0;j<scenarioVal.length;j++){
      console.log("rentrer dans la boucle for");
-     scenarioVar=listOfAtomicInterfaces(scenarioVal[j],scenarioVar, prefix,j);
+     listOfAtomicInterfaces(scenarioVal[j],scenarioVar, prefix,j);
 
 
   }
   console.log(scenarioVar);
+  console.log(scenarioVal);
 
 
 
@@ -51,28 +50,16 @@ console.log("scenario ",JSON.stringify(scenario));
  }
 }
 
-
-
- /*
-  _.mapValues(scenario[0], function(x) {   //boucle for
-      console.log(x);
-  });*/
-
-  //console.log( "_.keys =",_.keys(listOfAtoms));
-  /*_.every(scenario, function(x) {
-
-    // utiliser _.keys(object)   pour avoir la liste des clefs d'un objet
-    // utiliser une fonction recursive, donc appeller check()
-    return true;
-  })*/
   if (test==false){
     throw new scenarioInvalidException.ScenarioInvalidException("Scenario Invalid");
   }
 }
 
+
+
 function listOfAtomicInterfaces(scenarioVal,scenarioVar, prefix,indice) {
   console.log("prefix ", prefix);
-  console.log("scenarioVar.length", scenarioVar.length);
+  console.log("scenarioVar.length", scenarioVar);
   var tailleScenarioVar=scenarioVar.length;
   switch (typeof scenarioVal) {
 
@@ -82,18 +69,18 @@ function listOfAtomicInterfaces(scenarioVal,scenarioVar, prefix,indice) {
         console.log("key ",key);
       var value=_.values(scenarioVal);
         console.log("value ", value);
+        console.log("indice ",indice);
       prefix=scenarioVar[indice]    ;  //scenariovar est une seule case
         console.log("nouveau prefix ", prefix);
       key=_.map(key, function(n) { return prefix+"."+ n; });  //main.a.c
       console.log("nouveau key ", key);
-      //scenarioVar = _.union(scenarioVar,key);
       scenarioVar[indice]=key[0];
       console.log("scenarioVar.length", scenarioVar.length);
       console.log("nouveauo scenarioVar ", scenarioVar);
       scenarioVal=value[0];
       console.log("nouveau scenarioVal", scenarioVal);
       listOfAtomicInterfaces(scenarioVal,scenarioVar, prefix,indice);
-      return scenarioVar;
+      return {scenarioVar,scenarioVal};
 
        break;
     default:

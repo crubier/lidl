@@ -55,6 +55,6 @@ class CodeEditor extends React.Component {
 
 CodeEditor.propTypes = {errorCode:React.PropTypes.string,errorScenario:React.PropTypes.string,code:React.PropTypes.string,scenario:React.PropTypes.string, modelCode:React.PropTypes.string, modelScenario:React.PropTypes.string,};
 
-CodeEditor.defaultProps =  {errorCode:"",errorScenario:"",code:"{a:Number in,b:Number out}",scenario:"This is a scenario",modelCode:"",modelScenario:""};
+CodeEditor.defaultProps =  {errorCode:"",errorScenario:"",code:"{a:{e:Number out},b:{c:{d:Number in}}}",scenario:'[{"a":{"e":2},"b":{"c":{"d":5}}}]',modelCode:"",modelScenario:""};
 
 module.exports = CodeEditor;
