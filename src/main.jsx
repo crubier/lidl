@@ -25,9 +25,9 @@ class Main extends React.Component {
     try {
       var newModelCode = iii.parser.parse(code,{startRule:"interface"});
       this.setState({errorCode:""});
-      //console.log("new=", newModelCode);
+      console.log("new=", newModelCode);
       var listOfAtoms=iii.interfaces.listOfAtoms(newModelCode,"main");
-
+      console.log(JSON.stringify(listOfAtoms));
       this.setState({modelCode:newModelCode});
       this.setState({listOfAtoms:listOfAtoms});
       //console.log(JSON.stringify(this.state.listOfAtoms));
@@ -43,8 +43,10 @@ class Main extends React.Component {
 
     try {
       var newModelScenario =JSON.parse(scenario);
-      scenarioChecker.check(this.state.modelCode,newModelScenario,"main")==true;
       this.setState({modelScenario:newModelScenario});
+      scenarioChecker.check(this.state.modelCode,newModelScenario,"main");
+      console.log("dorra");
+
       this.setState({errorScenario:""});
 /*
   }catch(errorMessage if errorMessage instanceof ScenarioInvalidException ) {

@@ -17,16 +17,28 @@ function check(modelCode, scenario, prefix) {
     }
   }
 
-  //console.log(res["main.a"]);
   key=_.keys(res);
+  console.log("res key",key);
   values= _.values(res);
   values=_.map(values, function(n) { return n.toLowerCase(); });
 
-
+console.log("scenario ",JSON.stringify(scenario));
  for( var i=0;i<scenario.length;i++){
-   scenarioVar =_.keys(scenario[i]);
+
+  scenarioVar =_.keys(scenario[i]);
+  console.log("scenarioVar ", scenarioVar);
+  scenarioVar=_.map(scenarioVar, function(n) { return prefix+"."+ n; });
+   console.log("keys = ",scenarioVar);
    scenarioVal=_.values(scenario[i]);
-   scenarioVar=_.map(scenarioVar, function(n) { return prefix+"."+ n; });
+   console.log("scenarioVal ", scenarioVal);
+   console.log("scenarioVar.length ", scenarioVar.length);
+   for(var j=0;j<scenarioVal.length;j++){
+     console.log("rentrer dans la boucle for");
+     scenarioVar=listOfAtomicInterfaces(scenarioVal[j],scenarioVar, prefix);
+
+
+  }
+  console.log(scenarioVar);
 
 
 
@@ -38,6 +50,9 @@ function check(modelCode, scenario, prefix) {
     test=false;
  }
 }
+
+
+
  /*
   _.mapValues(scenario[0], function(x) {   //boucle for
       console.log(x);
@@ -54,6 +69,42 @@ function check(modelCode, scenario, prefix) {
     throw new scenarioInvalidException.ScenarioInvalidException("Scenario Invalid");
   }
 }
+
+function listOfAtomicInterfaces(scenarioVal,scenarioVar, prefix) {
+  console.log("prefix ", prefix);
+  console.log("scenarioVar.length", scenarioVar.length);
+  var tailleScenarioVar=scenarioVar.length;
+  switch (typeof scenarioVal) {
+
+    case "object":
+      console.log("cas objet");
+      var key = _.keys(scenarioVal);
+        console.log("key ",key);
+      var value=_.values(scenarioVal);
+        console.log("value ", value);
+      prefix=scenarioVar[scenarioVar.length-1]    ;  //scenariovar est une seule case
+        console.log("nouveau prefix ", prefix);
+      key=_.map(key, function(n) { return prefix+"."+ n; });  //main.a.c
+      console.log("nouveau key ", key);
+      //scenarioVar = _.union(scenarioVar,key);
+      scenarioVar=key;
+      console.log("scenarioVar.length", scenarioVar.length);
+      console.log("nouveauo scenarioVar ", scenarioVar);
+      scenarioVal=value[0];
+      console.log("nouveau scenarioVal", scenarioVal);
+      listOfAtomicInterfaces(scenarioVal,scenarioVar, prefix);
+      return scenarioVar;
+
+       break;
+    default:
+    console.log("cas simple");
+    console.log("nouveau scenarioVar", scenarioVar);
+      return scenarioVar;
+      break;
+  }
+}
+
+
 
 
 
