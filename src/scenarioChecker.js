@@ -34,7 +34,7 @@ console.log("scenario ",JSON.stringify(scenario));
    console.log("scenarioVar.length ", scenarioVar.length);
    for(var j=0;j<scenarioVal.length;j++){
      console.log("rentrer dans la boucle for");
-     scenarioVar=listOfAtomicInterfaces(scenarioVal[j],scenarioVar, prefix);
+     scenarioVar=listOfAtomicInterfaces(scenarioVal[j],scenarioVar, prefix,j);
 
 
   }
@@ -70,7 +70,7 @@ console.log("scenario ",JSON.stringify(scenario));
   }
 }
 
-function listOfAtomicInterfaces(scenarioVal,scenarioVar, prefix) {
+function listOfAtomicInterfaces(scenarioVal,scenarioVar, prefix,indice) {
   console.log("prefix ", prefix);
   console.log("scenarioVar.length", scenarioVar.length);
   var tailleScenarioVar=scenarioVar.length;
@@ -82,17 +82,17 @@ function listOfAtomicInterfaces(scenarioVal,scenarioVar, prefix) {
         console.log("key ",key);
       var value=_.values(scenarioVal);
         console.log("value ", value);
-      prefix=scenarioVar[scenarioVar.length-1]    ;  //scenariovar est une seule case
+      prefix=scenarioVar[indice]    ;  //scenariovar est une seule case
         console.log("nouveau prefix ", prefix);
       key=_.map(key, function(n) { return prefix+"."+ n; });  //main.a.c
       console.log("nouveau key ", key);
       //scenarioVar = _.union(scenarioVar,key);
-      scenarioVar[scenarioVar.length-1]=key[0];
+      scenarioVar[indice]=key[0];
       console.log("scenarioVar.length", scenarioVar.length);
       console.log("nouveauo scenarioVar ", scenarioVar);
       scenarioVal=value[0];
       console.log("nouveau scenarioVal", scenarioVal);
-      listOfAtomicInterfaces(scenarioVal,scenarioVar, prefix);
+      listOfAtomicInterfaces(scenarioVal,scenarioVar, prefix,indice);
       return scenarioVar;
 
        break;
