@@ -87,7 +87,7 @@ function listOfAtomicInterfaces(scenarioVal,scenarioVar, prefix) {
       key=_.map(key, function(n) { return prefix+"."+ n; });  //main.a.c
       console.log("nouveau key ", key);
       //scenarioVar = _.union(scenarioVar,key);
-      scenarioVar=key;
+      scenarioVar[scenarioVar.length-1]=key[0];
       console.log("scenarioVar.length", scenarioVar.length);
       console.log("nouveauo scenarioVar ", scenarioVar);
       scenarioVal=value[0];
