@@ -63,14 +63,11 @@ compteur++;
 //tableau=tableau.concat(resultat);
 console.log("tableau ",JSON.stringify(tableau));
 };
-console.log("tableau =",JSON.stringify(tableau));
-console.log("tableau 1=",JSON.stringify(tableau[0]));
-console.log("tableau 2=",JSON.stringify(tableau[1]));
-console.log("tableau 3=",JSON.stringify(tableau[2]));
+
   if (test==false){
     throw new scenarioInvalidException.ScenarioInvalidException("Scenario Invalid");
   }
-
+  return tableau;
 }
 
 

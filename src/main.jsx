@@ -10,7 +10,7 @@ class Main extends React.Component {
 
   constructor(props) {
     super(props);
-    this.state={listOfAtoms:[],errorCode:"",errorSnario:""};
+    this.state={listOfAtoms:[],errorCode:"",errorSnario:"",listOfValues:[]};
   }
 
   onCodeChange(newCode) {
@@ -44,10 +44,11 @@ class Main extends React.Component {
     try {
       var newModelScenario =JSON.parse(scenario);
       this.setState({modelScenario:newModelScenario});
-      scenarioChecker.check(this.state.modelCode,newModelScenario,"main");
+      var listOfValues=scenarioChecker.check(this.state.modelCode,newModelScenario,"main");
       console.log("dorra");
-
+      console.log("listOfValues =",JSON.stringify(listOfValues));
       this.setState({errorScenario:""});
+      this.setState({listOfValues:listOfValues});
 /*
   }catch(errorMessage if errorMessage instanceof ScenarioInvalidException ) {
           this.setState({errorCode:errorMessage});
@@ -69,7 +70,7 @@ class Main extends React.Component {
     return (
       <div className="Main">
         <CodeEditor errorScenario={this.state.errorScenario} errorCode={this.state.errorCode} code={this.state.code} onCodeChange={this.onCodeChange.bind(this)} modelCode={this.state.modelCode} modelScenario={this.state.modelScenario} scenario={this.state.scenario} onScenarioChange={this.onScenarioChange.bind(this)}/>
-        <TraceViewer listOfAtoms={this.state.listOfAtoms} /> /* TODO on doit aussi passer le scenario en prop  */
+        <TraceViewer listOfAtoms={this.state.listOfAtoms} listOfValues={this.state.listOfValues}/> /* TODO on doit aussi passer le scenario en prop  */
       </div>
     );
   }
