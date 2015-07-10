@@ -49,11 +49,7 @@ class Main extends React.Component {
       console.log("listOfValues =",JSON.stringify(listOfValues));
       this.setState({errorScenario:""});
       this.setState({listOfValues:listOfValues});
-/*
-  }catch(errorMessage if errorMessage instanceof ScenarioInvalidException ) {
-          this.setState({errorCode:errorMessage});
-          console.log(errorMessage);
-*/
+
   }catch (errorMessage) {
       this.setState({errorScenario:errorMessage});
       console.log(errorMessage);
