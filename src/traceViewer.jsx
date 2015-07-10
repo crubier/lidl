@@ -10,12 +10,17 @@ var ColumnGroup = FixedDataTable.ColumnGroup;
 var PropTypes = React.PropTypes;
 var Table = FixedDataTable.Table;
 
+var row = [
+  ['a1', 'b1'],
+  ['a2', 'b3'],
 
+];
 
 class TraceViewer extends React.Component {
+
   _rowGetter(index){
 
-
+/*
    var listOfAtoms = this.props.listOfAtoms;
    var listOfValues=this.props.listOfValues;
    console.log("verif =",JSON.stringify(listOfValues));
@@ -54,7 +59,8 @@ class TraceViewer extends React.Component {
      }
      res[res.length]=ligne;
      console.log("resultat final =",JSON.stringify(res));
-   }
+     return res[index];
+   }*/
 
 
 
@@ -78,6 +84,7 @@ class TraceViewer extends React.Component {
 
     return res[index];
 */
+return row[index];
 }
 
 
