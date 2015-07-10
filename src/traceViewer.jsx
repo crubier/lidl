@@ -10,17 +10,13 @@ var ColumnGroup = FixedDataTable.ColumnGroup;
 var PropTypes = React.PropTypes;
 var Table = FixedDataTable.Table;
 
-var row = [
-  ['a1', 'b1'],
-  ['a2', 'b3'],
 
-];
 
 class TraceViewer extends React.Component {
 
   _rowGetter(index){
 
-/*
+
    var listOfAtoms = this.props.listOfAtoms;
    var listOfValues=this.props.listOfValues;
    console.log("verif =",JSON.stringify(listOfValues));
@@ -59,8 +55,8 @@ class TraceViewer extends React.Component {
      }
      res[res.length]=ligne;
      console.log("resultat final =",JSON.stringify(res));
-     return res[index];
-   }*/
+
+   }
 
 
 
@@ -78,13 +74,16 @@ class TraceViewer extends React.Component {
 /*    _.forEach(
       this.props.listOfAtoms,
       function(x){
-        res[x.name] = tab[0].x ;/* TODO Recuperer la valeur de la cellule dans la index-ème cellule de this.props.scenario  */
+        res[x.name] = tab[0].x ;/*  Recuperer la valeur de la cellule dans la index-ème cellule de this.props.scenario  */
     /*  }
     )
 
     return res[index];
 */
-return row[index];
+
+
+ //return res[index];
+
 }
 
 
@@ -111,7 +110,7 @@ return row[index];
       rowHeight={30}
       groupHeaderHeight={30}
       headerHeight={30}
-      rowGetter={this._rowGetter.bind(this)}    /* TODO  rowGetter={this._rowGetter.bind(this)}*/
+      rowGetter={this._rowGetter.bind(this)}
       rowsCount={1}
       width={650}
       height={300}
@@ -123,8 +122,8 @@ return row[index];
       {listOfAtoms.map(function(x) {
          return  (
         <ColumnGroup fixed={true} label={x.name}>
-           <Column   fixed={true} label={x.data.name} dataKey={x.data.name} width={150} />
-           <Column   fixed={true} label={x.direction} dataKey={x.direction} width={150} />
+           <Column   fixed={true} label={x.data.name} dataKey={x.name} width={150} />
+           <Column   fixed={true} label={x.direction} dataKey={"d"+x.name} width={150} />
         </ColumnGroup>
       );
 
