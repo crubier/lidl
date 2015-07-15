@@ -62,6 +62,7 @@ class Main extends React.Component {
   }
 
 
+
   render() {
     return (
       <div className="Main">
@@ -71,5 +72,6 @@ class Main extends React.Component {
     );
   }
 }
+
 
 React.render(<Main/>, document.getElementById("main"));

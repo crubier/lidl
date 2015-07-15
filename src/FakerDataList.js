@@ -1,14 +1,29 @@
-class FakeObjectDataListStore {
-  constructor(/*number*/ size){
+
+class FakerDataList {
+  constructor( size){
     this.size = size || 2000;
     this._cache = [];
-  }
+    this.listOfValues=[[{"key":"main.a.e","value":2},{"key":"main.b.c.d","value":5}],[{"key":"main.a.e","value":1}]];
+    console.log("coucou ",JSON.stringify([[{"key":"main.a.e","value":2},{"key":"main.b.c.d","value":5}],[{"key":"main.a.e","value":1}]]));
+    }
 
-  createFakeRowObjectData(/*number*/ index,resultat) /*object*/ {
-    return {
-      'main.a.e':resultat[index][0],  // il faut savoir obtenir dynamiquement les  datakey de chaque colonne
-      'main.b.c.d':resultat[index][1],
-    };
+
+  createFakeRowObjectData( index) {
+
+      for (var i=0;i<this.listOfValues.length;i++){
+        var  ligne=this.listOfValues[i];
+        {ligne.map(function(x){
+            return  (
+              x["key"]=x["value"]
+            );
+
+         })}
+
+
+
+      }
+
+
   }
 
   getObjectAt( index) {
@@ -40,4 +55,4 @@ class FakeObjectDataListStore {
   }
 }
 
-module.exports = FakeObjectDataListStore;
+module.exports = FakerDataList;

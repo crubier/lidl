@@ -12,14 +12,14 @@ var Table = FixedDataTable.Table;
 var FakerDataList=require('./FakerDataList.js');
 var key='dorra';
 
+
 class TraceViewer extends React.Component {
 
+  constructor(props) {
+    super(props);
+    this.state={dataList: new FakerDataList(ROWS)};
+  }
 
-  getInitialState() {
-   return {
-     dataList: new FakerDataList(ROWS)
-   }
- }
 
 /*
   _rowGetter(index){
@@ -72,16 +72,26 @@ class TraceViewer extends React.Component {
  return res[index];
 }
 */
+/*
 
+getInitialState() {
+
+ return {
+   dataList: new FakerDataList(ROWS)
+
+ }
+
+}
+
+*/
 _rowGetter(index){
+
     return this.state.dataList.getObjectAt(index);
   }
-
 
   render() {
     var listOfAtoms = this.props.listOfAtoms;
     var listOfValues=this.props.listOfValues;
-    console.log("sadok",JSON.stringify(listOfValues));
 
     {listOfAtoms.map(function(x) {
       //console.log(x.name);
@@ -126,7 +136,7 @@ _rowGetter(index){
   }
 }
 
-TraceViewer.propTypes = {listOfAtoms:React.PropTypes.array,scenario:React.PropTypes.array};
+TraceViewer.propTypes = {listOfAtoms:React.PropTypes.array,scenario:React.PropTypes.array,};
 
 TraceViewer.defaultProps =  {listOfAtoms:[],scenario:[]};
 module.exports = TraceViewer;
