@@ -1,23 +1,24 @@
 
 class FakerDataList {
-  constructor( size){
+  constructor( size, listOfValues){
     this.size = size || 2000;
     this._cache = [];
-    this.listOfValues=[[{"key":"main.a.e","value":2},{"key":"main.b.c.d","value":5}],[{"key":"main.a.e","value":1}]];
-    console.log("coucou ",JSON.stringify([[{"key":"main.a.e","value":2},{"key":"main.b.c.d","value":5}],[{"key":"main.a.e","value":1}]]));
+    this.listOfValues=listOfValues;
+    console.log("coucou ",JSON.stringify(listOfValues));
     }
 
 
   createFakeRowObjectData( index) {
-
+      console.log("index ",index);
       for (var i=0;i<this.listOfValues.length;i++){
         var  ligne=this.listOfValues[i];
-        {ligne.map(function(x){
-            return  (
-              x["key"]=x["value"]
-            );
 
-         })}
+        _.forEach(ligne, function(x) {
+          return  (
+            x["key"]:x.value  // problème ici
+          );
+        });
+
 
 
 

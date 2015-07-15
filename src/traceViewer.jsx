@@ -17,7 +17,8 @@ class TraceViewer extends React.Component {
 
   constructor(props) {
     super(props);
-    this.state={dataList: new FakerDataList(ROWS)};
+    this.state={dataList: new FakerDataList(ROWS,this.props.listOfValues)}; // probleme this.props.listOfValues pas définit
+
   }
 
 
