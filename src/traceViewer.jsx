@@ -10,53 +10,82 @@ var ColumnGroup = FixedDataTable.ColumnGroup;
 var PropTypes = React.PropTypes;
 var Table = FixedDataTable.Table;
 var FakerDataList=require('./FakerDataList.js');
-var ZyngaScroller = require('./ZyngaScroller.js');
-var TouchableArea = require('./TouchableArea.js');
-var cloneWithProps = require('react/lib/cloneWithProps');
-var PropTypes = React.PropTypes;
 
 
-function isTouchDevice() {
-  return 'ontouchstart' in document.documentElement // works on most browsers
-    || 'onmsgesturechange' in window; // works on ie10
-};
+
 
 class TraceViewer extends React.Component {
 
-  constructor(props) {
-    super(props);
-    this.state={dataList: new FakerDataList(ROWS,this.props.listOfValues),left: 0,top: 0,contentHeight: 0,contentWidth: 0}; // probleme this.props.listOfValues pas définit
 
-  }
-/*
-  componentWillMount() {
-    this.scroller = new ZyngaScroller(this._handleScroll);
-  }*/
+    constructor(props) {
+      super(props);
+      this.state={dataList: this._dataListGetter()}; // probleme this.props.listOfValues pas définit
+      console.log ("cc" );
+    }
+
+  _dataListGetter(){
+
+
+   var listOfAtoms = [{"name":"main.a.e","data":{"type":"DataAtomic","name":"Number"},"direction":"in"},{"name":"main.b.c.d","data":{"type":"DataAtomic","name":"Number"},"direction":"in"}];
+   var listOfValues=[[{"key":"main.a.e","value":2}],[{"key":"main.a.e","value":1}]];
+   console.log("verif =",JSON.stringify(listOfValues));
+   var res=[];
+   for(var i=0;i<listOfValues.length;i++){
+     var ligne=[];
+     console.log("i ", i);
+     for(var j=0;j<listOfAtoms.length;j++){
+       var k=0;
+       console.log("j =",j);
+       console.log("listOfAtoms[j].name ",listOfAtoms[j].name);
+       console.log("listOfValues[i][k].key ",listOfValues[i][k].key);
+       console.log("taille de listOfValues[i].length =",listOfValues[i].length);
+
+       while(((listOfValues[i][k].key)!=listOfAtoms[j].name)&&(k<listOfValues[i].length)){
+         console.log("k= ",k);
+         console.log("slama2 =",listOfValues[i][k].key);
+         k++;
+         console.log("k2 =",k);
+         if(k==listOfValues[i].length){
+           break;
+         }
+       }
+
+
+
+
+       if (k<listOfValues[i].length){
+         console.log("slama =",listOfValues[i][k].key);
+         ligne[j]=listOfValues[i][k].value;
+         console.log("ligne ",ligne) ;//
+
+       }else{
+         ligne[j]='-';
+       }
+     }
+     res[res.length]=ligne;
+     console.log("resultat final =",JSON.stringify(res));
+
+   }
+ console.log ("res" ,JSON.stringify(res));
+ return res;
+}
+
+
+
+
 
 
   _rowGetter(index){
-      return this.state.dataList.getObjectAt(index);
+
+      console.log("_rowGetter ",JSON.stringify(this.state.dataList[index]));
+      return this.state.dataList[index];
   }
 
 
 
 
   render() {
-    /*
-    if (!isTouchDevice()) {
-      return cloneWithProps(this.props.children, {
-        tableHeight: this.props.tableHeight,
-        tableWidth: this.props.tableWidth,
-      });
-    }
 
-    var example = cloneWithProps(this.props.children, {
-      onContentDimensionsChange: this._onContentDimensionsChange,
-      left: this.state.left,
-      top: this.state.top,
-      tableHeight: this.props.tableHeight,
-      tableWidth: this.props.tableWidth,
-    });*/
 
 
     var listOfAtoms = this.props.listOfAtoms;
@@ -66,7 +95,7 @@ class TraceViewer extends React.Component {
 
 
       <div className="TraceViewer">
-      
+
 
       <Table
       rowHeight={30}
@@ -81,6 +110,8 @@ class TraceViewer extends React.Component {
       overflowX={"auto"}
       overflowY={"auto"}>
 
+
+
       {listOfAtoms.map(function(x) {
          return  (
         <ColumnGroup fixed={true} label={x.name}>
@@ -91,6 +122,8 @@ class TraceViewer extends React.Component {
 
       })}
 
+
+
     </Table>
 
       </div>
@@ -98,21 +131,7 @@ class TraceViewer extends React.Component {
   }
 
 
-  _onContentDimensionsChange(contentHeight, contentWidth) {
-    this.scroller.setDimensions(
-      this.props.tableWidth,
-      this.props.tableHeight,
-      contentWidth,
-      contentHeight
-    );
-  }
 
-  _handleScroll(left, top) {
-    this.setState({
-      left: left,
-      top: top
-    });
-  }
 
 }
 

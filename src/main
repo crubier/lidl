@@ -70,3 +70,15 @@ getInitialState() {
 }
 
 */
+
+
+
+{listOfAtoms.map(function(x) {
+   return  (
+  <ColumnGroup fixed={true} label={x.name}>
+     <Column   fixed={true} label={x.data.name} dataKey={x.name} width={150} />
+     <Column   fixed={true} label={x.direction} dataKey={"d"+x.name} width={150} />
+  </ColumnGroup>
+);
+
+})}
