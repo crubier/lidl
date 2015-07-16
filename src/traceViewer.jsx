@@ -10,16 +10,29 @@ var ColumnGroup = FixedDataTable.ColumnGroup;
 var PropTypes = React.PropTypes;
 var Table = FixedDataTable.Table;
 var FakerDataList=require('./FakerDataList.js');
-var key='dorra';
+var ZyngaScroller = require('./ZyngaScroller.js');
+var TouchableArea = require('./TouchableArea.js');
+var cloneWithProps = require('react/lib/cloneWithProps');
+var PropTypes = React.PropTypes;
 
+
+function isTouchDevice() {
+  return 'ontouchstart' in document.documentElement // works on most browsers
+    || 'onmsgesturechange' in window; // works on ie10
+};
 
 class TraceViewer extends React.Component {
 
   constructor(props) {
     super(props);
-    this.state={dataList: new FakerDataList(ROWS,this.props.listOfValues)}; // probleme this.props.listOfValues pas définit
+    this.state={dataList: new FakerDataList(ROWS,this.props.listOfValues),left: 0,top: 0,contentHeight: 0,contentWidth: 0}; // probleme this.props.listOfValues pas définit
 
   }
+/*
+  componentWillMount() {
+    this.scroller = new ZyngaScroller(this._handleScroll);
+  }*/
+
 
   _rowGetter(index){
       return this.state.dataList.getObjectAt(index);
@@ -29,6 +42,23 @@ class TraceViewer extends React.Component {
 
 
   render() {
+    /*
+    if (!isTouchDevice()) {
+      return cloneWithProps(this.props.children, {
+        tableHeight: this.props.tableHeight,
+        tableWidth: this.props.tableWidth,
+      });
+    }
+
+    var example = cloneWithProps(this.props.children, {
+      onContentDimensionsChange: this._onContentDimensionsChange,
+      left: this.state.left,
+      top: this.state.top,
+      tableHeight: this.props.tableHeight,
+      tableWidth: this.props.tableWidth,
+    });*/
+
+
     var listOfAtoms = this.props.listOfAtoms;
     var listOfValues=this.props.listOfValues;
 
@@ -36,7 +66,7 @@ class TraceViewer extends React.Component {
 
 
       <div className="TraceViewer">
-
+      
 
       <Table
       rowHeight={30}
@@ -67,11 +97,29 @@ class TraceViewer extends React.Component {
     );
   }
 
+
+  _onContentDimensionsChange(contentHeight, contentWidth) {
+    this.scroller.setDimensions(
+      this.props.tableWidth,
+      this.props.tableHeight,
+      contentWidth,
+      contentHeight
+    );
+  }
+
+  _handleScroll(left, top) {
+    this.setState({
+      left: left,
+      top: top
+    });
+  }
+
 }
 
-TraceViewer.propTypes = {listOfAtoms:React.PropTypes.array,scenario:React.PropTypes.array,};
+TraceViewer.propTypes = {listOfAtoms:React.PropTypes.array,scenario:React.PropTypes.array,tableWidth: React.PropTypes.number.isRequired,
+    tableHeight: React.PropTypes.number.isRequired,};
 
-TraceViewer.defaultProps =  {listOfAtoms:[],scenario:[]};
+TraceViewer.defaultProps =  {listOfAtoms:[],scenario:[],tableWidth: 500,tableHeight: 500};
 module.exports = TraceViewer;
 
 
