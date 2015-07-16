@@ -21,86 +21,17 @@ class TraceViewer extends React.Component {
 
   }
 
-
-/*
   _rowGetter(index){
-
-
-   var listOfAtoms = this.props.listOfAtoms;
-   var listOfValues=this.props.listOfValues;
-   console.log("verif =",JSON.stringify(listOfValues));
-   var res=[];
-   for(var i=0;i<listOfValues.length;i++){
-     var ligne=[];
-     console.log("i ", i);
-     for(var j=0;j<listOfAtoms.length;j++){
-       var k=0;
-       console.log("j =",j);
-       console.log("listOfAtoms[j].name ",listOfAtoms[j].name);
-       console.log("listOfValues[i][k].key ",listOfValues[i][k].key);
-       console.log("taille de listOfValues[i].length =",listOfValues[i].length);
-
-       while(((listOfValues[i][k].key)!=listOfAtoms[j].name)&&(k<listOfValues[i].length)){
-         console.log("k= ",k);
-         console.log("slama2 =",listOfValues[i][k].key);
-         k++;
-         console.log("k2 =",k);
-         if(k==listOfValues[i].length){
-           break;
-         }
-       }
-
-
-
-
-       if (k<listOfValues[i].length){
-         console.log("slama =",listOfValues[i][k].key);
-         ligne[j]=listOfValues[i][k].value;
-         console.log("ligne ",ligne) ;//
-
-       }else{
-         ligne[j]='-';
-       }
-     }
-     res[res.length]=ligne;
-     console.log("resultat final =",JSON.stringify(res));
-
-   }
-
-
-
-
- return res[index];
-}
-*/
-/*
-
-getInitialState() {
-
- return {
-   dataList: new FakerDataList(ROWS)
-
- }
-
-}
-
-*/
-_rowGetter(index){
-
-    return this.state.dataList.getObjectAt(index);
+      return this.state.dataList.getObjectAt(index);
   }
+
+
+
 
   render() {
     var listOfAtoms = this.props.listOfAtoms;
     var listOfValues=this.props.listOfValues;
 
-    {listOfAtoms.map(function(x) {
-      //console.log(x.name);
-      //console.log(x.data.name);
-      //console.log(x.direction);
-    })}
-
-    //console.log("dorra= ",JSON.stringify(listOfAtoms)) ;
     return (
 
 
@@ -135,6 +66,7 @@ _rowGetter(index){
       </div>
     );
   }
+
 }
 
 TraceViewer.propTypes = {listOfAtoms:React.PropTypes.array,scenario:React.PropTypes.array,};
