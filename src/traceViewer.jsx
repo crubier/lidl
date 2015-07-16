@@ -76,9 +76,9 @@ class TraceViewer extends React.Component {
 
 
   _rowGetter(index){
-
+      var ligne =this.state.dataList[index];
       console.log("_rowGetter ",JSON.stringify(this.state.dataList[index]));
-      return this.state.dataList[index];
+      return {1:ligne[0],3:ligne[1]};//this.state.dataList[index];
   }
 
 
@@ -87,6 +87,8 @@ class TraceViewer extends React.Component {
   render() {
 
 
+    var controlledScrolling =
+      this.props.left !== undefined || this.props.top !== undefined;
 
     var listOfAtoms = this.props.listOfAtoms;
     var listOfValues=this.props.listOfValues;
@@ -102,25 +104,26 @@ class TraceViewer extends React.Component {
       groupHeaderHeight={30}
       headerHeight={30}
       rowGetter={this._rowGetter.bind(this)}
-      rowsCount={1}
+      rowsCount={this.state.dataList.length}
       width={650}
-      height={300}
-      scrollTop={0}
-      scrollLeft={0}
-      overflowX={"auto"}
-      overflowY={"auto"}>
+      height={this.props.tableHeight}
+      scrollTop={this.props.top}
+      scrollLeft={this.props.left}
+      overflowX={controlledScrolling ? "hidden" : "auto"}
+      overflowY={controlledScrolling ? "hidden" : "auto"}>
 
 
 
-      {listOfAtoms.map(function(x) {
-         return  (
-        <ColumnGroup fixed={true} label={x.name}>
-           <Column   fixed={true} label={x.data.name} dataKey={x.name} width={150} />
-           <Column   fixed={true} label={x.direction} dataKey={"d"+x.name} width={150} />
+
+        <ColumnGroup fixed={true} label={"main.a.e"}>
+           <Column   fixed={true} label={"number"} dataKey={"1"} width={150} />
+           <Column   fixed={true} label={"in"} dataKey={"2"} width={150} />
         </ColumnGroup>
-      );
+        <ColumnGroup fixed={true} label={"main.b.c.d"}>
+           <Column   fixed={true} label={"number"} dataKey={"3"} width={150} />
+           <Column   fixed={true} label={"in"} dataKey={"4"} width={150} />
+        </ColumnGroup>
 
-      })}
 
 
 
@@ -135,8 +138,7 @@ class TraceViewer extends React.Component {
 
 }
 
-TraceViewer.propTypes = {listOfAtoms:React.PropTypes.array,scenario:React.PropTypes.array,tableWidth: React.PropTypes.number.isRequired,
-    tableHeight: React.PropTypes.number.isRequired,};
+TraceViewer.propTypes = {listOfAtoms:React.PropTypes.array,scenario:React.PropTypes.array,onContentDimensionsChange: React.PropTypes.func,left: React.PropTypes.number,top: React.PropTypes.number};
 
 TraceViewer.defaultProps =  {listOfAtoms:[],scenario:[],tableWidth: 500,tableHeight: 500};
 module.exports = TraceViewer;

@@ -82,3 +82,17 @@ getInitialState() {
 );
 
 })}
+
+
+
+rowHeight={30}
+groupHeaderHeight={30}
+headerHeight={30}
+rowGetter={this._rowGetter.bind(this)}
+rowsCount={1}
+width={650}
+height={300}
+scrollTop={0}
+scrollLeft={0}
+overflowX={"auto"}
+overflowY={"auto"}>
