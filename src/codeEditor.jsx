@@ -19,7 +19,6 @@ class CodeEditor extends React.Component {
 
   componentDidMount() {
      this.props.evaluateCode(this.props.code);
-     console.log("componentDidMount");
      this.props.evaluateScenario(this.props.scenario);
   }
 
@@ -57,6 +56,6 @@ class CodeEditor extends React.Component {
 
 CodeEditor.propTypes = {errorCode:React.PropTypes.string,errorScenario:React.PropTypes.string,code:React.PropTypes.string,scenario:React.PropTypes.string, modelCode:React.PropTypes.string, modelScenario:React.PropTypes.string,};
 
-CodeEditor.defaultProps =  {errorCode:"",errorScenario:"",code:"{a:{e:Number in},b:{c:{d:Number in}}}",scenario:'[{"a":{"e":2},"b":{"c":{"d":5}}},{"a":{"e":1}}]',modelCode:"",modelScenario:""};
+CodeEditor.defaultProps =  {errorCode:"",errorScenario:"",code:"{a:{e:Number in},b:{c:{d:Number in}}}",scenario:'[{"a":{"e":2},"b":{"c":{"d":5}}},{"a":{"e":1}},{"a":{"e":0},"b":{"c":{"d":-5}}},{},{"b":{"c":{"d":10}}}]',modelCode:"",modelScenario:""};
 
 module.exports = CodeEditor;

@@ -20,15 +20,14 @@ class TraceViewer extends React.Component {
     constructor(props) {
       super(props);
       this.state={dataList: this._dataListGetter()}; // probleme this.props.listOfValues pas définit
-      console.log ("cc" );
+
     }
 
   _dataListGetter(){
 
 
    var listOfAtoms = [{"name":"main.a.e","data":{"type":"DataAtomic","name":"Number"},"direction":"in"},{"name":"main.b.c.d","data":{"type":"DataAtomic","name":"Number"},"direction":"in"}];
-   var listOfValues=[[{"key":"main.a.e","value":2},{"key":"main.b.c.d","value":5}],[{"key":"main.a.e","value":1}],[{"key":"main.a.e","value":0},{"key":"main.b.c.d","value":-5}], []];
-   console.log("verif =",JSON.stringify(listOfValues));
+   var listOfValues=[[{"key":"main.a.e","value":2},{"key":"main.b.c.d","value":5}],[{"key":"main.a.e","value":1}],[{"key":"main.a.e","value":0},{"key":"main.b.c.d","value":-5}], [],[{"key":"main.b.c.d","value":10}]];
    var res=[];
    for(var i=0;i<listOfValues.length;i++){
      var ligne=[];
@@ -72,10 +71,10 @@ class TraceViewer extends React.Component {
      }
    }
      res[res.length]=ligne;
-     console.log("resultat final =",JSON.stringify(res));
+     //console.log("resultat final =",JSON.stringify(res));
 
    }
- console.log ("res" ,JSON.stringify(res));
+ console.log ("dataList" ,JSON.stringify(res));
  return res;
 }
 
@@ -86,7 +85,7 @@ class TraceViewer extends React.Component {
 
   _rowGetter(index){
       var ligne =this.state.dataList[index];
-      console.log("_rowGetter ",JSON.stringify(this.state.dataList[index]));
+
 
         return {0:ligne[0],1:ligne[1]};//this.state.dataList[index];
 
