@@ -27,24 +27,32 @@ class TraceViewer extends React.Component {
 
 
    var listOfAtoms = [{"name":"main.a.e","data":{"type":"DataAtomic","name":"Number"},"direction":"in"},{"name":"main.b.c.d","data":{"type":"DataAtomic","name":"Number"},"direction":"in"}];
-   var listOfValues=[[{"key":"main.a.e","value":2}],[{"key":"main.a.e","value":1}]];
+   var listOfValues=[[{"key":"main.a.e","value":2},{"key":"main.b.c.d","value":5}],[{"key":"main.a.e","value":1}],[{"key":"main.a.e","value":0},{"key":"main.b.c.d","value":-5}], []];
    console.log("verif =",JSON.stringify(listOfValues));
    var res=[];
    for(var i=0;i<listOfValues.length;i++){
      var ligne=[];
-     console.log("i ", i);
+     //console.log("i ", i);
+     if(listOfValues[i].length==0){
+       for(var j=0;j<listOfAtoms.length;j++){
+         ligne[j]='-';
+       }
+     }else{
      for(var j=0;j<listOfAtoms.length;j++){
+
+
+
        var k=0;
-       console.log("j =",j);
-       console.log("listOfAtoms[j].name ",listOfAtoms[j].name);
-       console.log("listOfValues[i][k].key ",listOfValues[i][k].key);
-       console.log("taille de listOfValues[i].length =",listOfValues[i].length);
+       //console.log("j =",j);
+       //console.log("listOfAtoms[j].name ",listOfAtoms[j].name);
+       //console.log("listOfValues[i][k].key ",listOfValues[i][k].key);
+       //console.log("taille de listOfValues[i].length =",listOfValues[i].length);
 
        while(((listOfValues[i][k].key)!=listOfAtoms[j].name)&&(k<listOfValues[i].length)){
-         console.log("k= ",k);
-         console.log("slama2 =",listOfValues[i][k].key);
+         //console.log("k= ",k);
+         //console.log("slama2 =",listOfValues[i][k].key);
          k++;
-         console.log("k2 =",k);
+         //console.log("k2 =",k);
          if(k==listOfValues[i].length){
            break;
          }
@@ -54,14 +62,15 @@ class TraceViewer extends React.Component {
 
 
        if (k<listOfValues[i].length){
-         console.log("slama =",listOfValues[i][k].key);
+         //console.log("slama =",listOfValues[i][k].key);
          ligne[j]=listOfValues[i][k].value;
-         console.log("ligne ",ligne) ;//
+         //console.log("ligne ",ligne) ;//
 
        }else{
          ligne[j]='-';
        }
      }
+   }
      res[res.length]=ligne;
      console.log("resultat final =",JSON.stringify(res));
 
@@ -78,7 +87,9 @@ class TraceViewer extends React.Component {
   _rowGetter(index){
       var ligne =this.state.dataList[index];
       console.log("_rowGetter ",JSON.stringify(this.state.dataList[index]));
-      return {1:ligne[0],3:ligne[1]};//this.state.dataList[index];
+
+        return {0:ligne[0],1:ligne[1]};//this.state.dataList[index];
+
   }
 
 
@@ -92,6 +103,7 @@ class TraceViewer extends React.Component {
 
     var listOfAtoms = this.props.listOfAtoms;
     var listOfValues=this.props.listOfValues;
+    var key=-1;
 
     return (
 
@@ -115,15 +127,18 @@ class TraceViewer extends React.Component {
 
 
 
-        <ColumnGroup fixed={true} label={"main.a.e"}>
-           <Column   fixed={true} label={"number"} dataKey={"1"} width={150} />
-           <Column   fixed={true} label={"in"} dataKey={"2"} width={150} />
+      {listOfAtoms.map(function(x) {
+        key++;
+         return  (
+        <ColumnGroup fixed={true} label={x.name}>
+           <Column   fixed={true} label={x.data.name} dataKey={key} width={150} />
+           <Column   fixed={true} label={x.direction} dataKey={x.name} width={150} />
         </ColumnGroup>
-        <ColumnGroup fixed={true} label={"main.b.c.d"}>
-           <Column   fixed={true} label={"number"} dataKey={"3"} width={150} />
-           <Column   fixed={true} label={"in"} dataKey={"4"} width={150} />
-        </ColumnGroup>
+      );
 
+
+
+      })}
 
 
 
