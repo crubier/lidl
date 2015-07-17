@@ -2,7 +2,7 @@ var React = require('react');
 var CodeEditor = require('./codeEditor.jsx');
 var TraceViewer = require('./traceViewer.jsx');
 var iii = require('iii');
-var scenarioChecker = require('./scenarioChecker.js');
+var scenarioChecker = require('./scenario.js');
 var scenarioInvalidException=require('./ScenarioInvalidException.js');
 var modelCodeInitial = {"type":"InterfaceComposite","element":[{"type":"InterfaceCompositeElement","key":"a","value":{"type":"InterfaceComposite","element":[{"type":"InterfaceCompositeElement","key":"e","value":{"type":"InterfaceAtomic","data":{"type":"DataAtomic","name":"Number"},"direction":"in"}}]}},{"type":"InterfaceCompositeElement","key":"b","value":{"type":"InterfaceComposite","element":[{"type":"InterfaceCompositeElement","key":"c","value":{"type":"InterfaceComposite","element":[{"type":"InterfaceCompositeElement","key":"d","value":{"type":"InterfaceAtomic","data":{"type":"DataAtomic","name":"Number"},"direction":"in"}}]}}]}}]};
 
@@ -10,7 +10,7 @@ class Main extends React.Component {
 
   constructor(props) {
     super(props);
-    this.state={listOfAtoms:[],errorCode:"",errorSnario:"",listOfValues:[],modelCode:modelCodeInitial,modelScenario:""};
+    this.state={listOfAtoms:[],errorCode:"",errorSnario:"",modelCode:modelCodeInitial,modelScenario:[]};
   }
 
   onCodeChange(newCode) {
@@ -44,10 +44,10 @@ class Main extends React.Component {
     try {
       var newModelScenario =JSON.parse(scenario);
       this.setState({modelScenario:newModelScenario});
-      var listOfValues=scenarioChecker.check(this.state.modelCode,newModelScenario,"main");
-      console.log("resultat =",JSON.stringify(listOfValues));
+      // var listOfValues=scenarioChecker.check(this.state.modelCode,newModelScenario,"main");
+      // console.log("resultat =",JSON.stringify(listOfValues));
       this.setState({errorScenario:""});
-      this.setState({listOfValues:listOfValues});
+      // this.setState({listOfValues:listOfValues});
 
 
   }catch (errorMessage) {
@@ -68,7 +68,7 @@ class Main extends React.Component {
     return (
       <div className="Main">
         <CodeEditor errorScenario={this.state.errorScenario} errorCode={this.state.errorCode} code={this.state.code} evaluateCode={this.evaluateCode.bind(this)} evaluateScenario={this.evaluateScenario.bind(this)} onCodeChange={this.onCodeChange.bind(this)} modelCode={this.state.modelCode} modelScenario={this.state.modelScenario} scenario={this.state.scenario} onScenarioChange={this.onScenarioChange.bind(this)}/>
-        <TraceViewer listOfAtoms={this.state.listOfAtoms} listOfValues={this.state.listOfValues}/> /* TODO on doit aussi passer le scenario en prop  */
+        <TraceViewer listOfAtoms={this.state.listOfAtoms} scenario={this.state.modelScenario}/> /* TODO on doit aussi passer le scenario en prop  */
       </div>
     );
   }

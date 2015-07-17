@@ -65,3 +65,10 @@ Remplacer `<Column/>` par `<ColumnGroup><Column></ColumnGroup>`
 ## Tableau : affichage du scenario
 
 Voir code source de traceViewer
+
+
+# 17 Juillet
+
+Cas ou on a un scenario qui correspond a une interface atomique
+
+[5,3,2,4,null,3]
