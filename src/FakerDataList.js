@@ -11,24 +11,6 @@ class FakerDataList {
 
   createFakeRowObjectData( index) {
 
-    /*
-      for (var i=0;i<this.listOfValues.length;i++){
-
-
-        var  ligne=this.listOfValues[i];
-
-        _.forEach(ligne, function(x) {
-
-          return  (
-            x["key"]:x.value  // problème ici
-          );
-        });
-
-
-
-
-      }*/
-
       return {
       1: index,
       2: index+1,
@@ -36,7 +18,6 @@ class FakerDataList {
       4: index+3,
 
     };
-
 
   }
 
