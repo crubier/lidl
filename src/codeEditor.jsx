@@ -1,4 +1,5 @@
 var React = require('react');
+var SkyLight = require('react-skylight');
 
 
 class CodeEditor extends React.Component {
@@ -38,7 +39,9 @@ class CodeEditor extends React.Component {
     this.props.onInteractionChange(e.target.value);
   }
 
-
+  showExecutedMode(){
+    this.refs.ExecutedMode.show();
+  }
 
   render() {
     return (
@@ -57,7 +60,15 @@ class CodeEditor extends React.Component {
         <div className="TabContent">
           <textarea className={this.props.errorInterface!==""?"error":""} defaultValue={this.props.Interface} name="interface"  style={{display:this.state.openedTab===0?'inline':'none'}} onChange={this.interfaceChanged.bind(this)} />
           <textarea className={this.props.errorScenario!==""?"error":""} defaultValue={this.props.scenario} name="scenario" style={{display:this.state.openedTab===1?'inline':'none'}} onChange={this.scenarioChanged.bind(this)}/>
-          <textarea className={this.props.errorInteraction!==""?"error":""} defaultValue={this.props.Interaction} name="interaction" style={{display:this.state.openedTab===2?'inline':'none'}} onChange={this.interactionChanged.bind(this)}/>
+          <div>
+            <textarea className={this.props.errorInteraction!==""?"error":""} defaultValue={this.props.Interaction} name="interaction" style={{display:this.state.openedTab===2?'inline':'none'}} onChange={this.interactionChanged.bind(this)}/>
+            
+              <button onClick={this.showExecutedMode}>Executed Mode</button>
+
+            <SkyLight ref="ExecutedMode" title="Executed Mode">
+              Executed Mode
+            </SkyLight>
+          </div>
         </div>
 
       </div>
