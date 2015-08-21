@@ -218,6 +218,5 @@ module.exports = TraceViewer;
         res[x.name] = tab[0].x ;/*  Recuperer la valeur de la cellule dans la index-ème cellule de this.props.scenario  */
 /*  }
     )
-
     return res[index];
 */
