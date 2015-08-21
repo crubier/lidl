@@ -33,7 +33,9 @@ class CodeEditor extends React.Component {
 
   scenarioChanged(e){
     this.props.onScenarioChange(e.target.value);
-
+  }
+  interactionChanged(e){
+    this.props.onInteractionChange(e.target.value);
   }
 
 
@@ -54,7 +56,8 @@ class CodeEditor extends React.Component {
         </div>
         <div className="TabContent">
           <textarea className={this.props.errorInterface!==""?"error":""} defaultValue={this.props.Interface} name="interface"  style={{display:this.state.openedTab===0?'inline':'none'}} onChange={this.interfaceChanged.bind(this)} />
-          <textarea className={this.props.errorScenario!==""?"error":""} defaultValue={this.props.scenario} name="scenario" style={{display:this.state.openedTab===1?'inline':'none'}} onChange={this.scenarioChanged.bind(this)}/>1
+          <textarea className={this.props.errorScenario!==""?"error":""} defaultValue={this.props.scenario} name="scenario" style={{display:this.state.openedTab===1?'inline':'none'}} onChange={this.scenarioChanged.bind(this)}/>
+          <textarea className={this.props.errorInteraction!==""?"error":""} defaultValue={this.props.Interaction} name="interaction" style={{display:this.state.openedTab===2?'inline':'none'}} onChange={this.interactionChanged.bind(this)}/>
         </div>
 
       </div>
@@ -62,8 +65,8 @@ class CodeEditor extends React.Component {
   }
 }
 
-CodeEditor.propTypes = {errorInterface:React.PropTypes.string,errorScenario:React.PropTypes.string,Interface:React.PropTypes.string,scenario:React.PropTypes.string, modelInterface:React.PropTypes.string, modelScenario:React.PropTypes.string,};
+CodeEditor.propTypes = {errorInteraction:React.PropTypes.string,errorInterface:React.PropTypes.string,errorScenario:React.PropTypes.string,Interface:React.PropTypes.string,Interaction:React.PropTypes.string,scenario:React.PropTypes.string, modelInterface:React.PropTypes.string,modelInteraction:React.PropTypes.string, modelScenario:React.PropTypes.string,};
 
-CodeEditor.defaultProps =  {errorInterface:"",errorScenario:"",Interface:"{a:{e:Number in},b:{c:{d:Number in}}}",scenario:'[{"a":{"e":2},"b":{"c":{"d":5}}},{"a":{"e":1}},{"a":{"e":0},"b":{"c":{"d":-5}}},{},{"b":{"c":{"d":10}}}]',modelInterface:"",modelScenario:""};
+CodeEditor.defaultProps =  {errorInteraction:"",errorInterface:"",errorScenario:"",Interface:"{a:{e:Number in},b:{c:{d:Number in}}}",Interaction:"(    Coucou   ( Bob ), il est  ( (13) heures (27) minutes )  )",scenario:'[{"a":{"e":2},"b":{"c":{"d":5}}},{"a":{"e":1}},{"a":{"e":0},"b":{"c":{"d":-5}}},{},{"b":{"c":{"d":10}}}]',modelInterface:"",modelScenario:"",modelInteraction:"",};
 
 module.exports = CodeEditor;
