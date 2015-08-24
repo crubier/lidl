@@ -7,11 +7,11 @@ var source = require('vinyl-source-stream');
 var buffer = require('vinyl-buffer');
 var uglify = require('gulp-uglify');
 var gutil = require('gulp-util');
-var jest = require('gulp-jest');
+//var jest = require('gulp-jest');
 
 gulp.task('default',['js','html','css']);
 
-
+/*
 gulp.task('jest', function () {
     return gulp.src('./').pipe(jest({
         // scriptPreprocessor: "./spec/support/preprocessor.js",
@@ -30,7 +30,7 @@ gulp.task('jest', function () {
         ],
         collectCoverage:true
     }));
-});
+});*/
 
 
 

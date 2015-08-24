@@ -1,6 +1,7 @@
 var React = require('react');
 var FixedDataTable = require('fixed-data-table');
 
+
 var _ = require('lodash');
 var ROWS = 1000000;
 
@@ -9,10 +10,12 @@ var Column = FixedDataTable.Column;
 var ColumnGroup = FixedDataTable.ColumnGroup;
 var PropTypes = React.PropTypes;
 var Table = FixedDataTable.Table;
+var rowNumber=3;
 // var FakerDataList = require('./FakerDataList.js');
 
 var scenarioUtils=require('./scenario.js');
 
+//console.log("length ",scenarioLength);
 function testxxxx(){
   console.log("bobobobbobobobobobobo");
 }
@@ -23,7 +26,8 @@ class TraceViewer extends React.Component {
     super(props);
     this.state = {
       tableWidth: this.props.tableWidth,
-      tableHeight: this.props.tableHeight
+      tableHeight: this.props.tableHeight,
+      tableRowNumber:3
     };
 // this.state = {
 //   dataList: this._dataListGetter()
@@ -159,18 +163,44 @@ class TraceViewer extends React.Component {
     return scenarioUtils.flattenElement(row,prefix);
   }
 
+
+backward(){
+    if(rowNumber>0){
+      rowNumber=rowNumber-1;
+    }
+    this.setState({tableRowNumber:rowNumber});
+}
+
+forward(){
+    if(rowNumber<this.props.scenario.length){
+      rowNumber=rowNumber+1;
+    }
+    this.setState({tableRowNumber:rowNumber});
+
+}
+fastBackward(){
+    rowNumber=0;
+    this.setState({tableRowNumber:rowNumber});
+}
+fastForward(){
+    rowNumber=this.props.scenario.length;
+    this.setState({tableRowNumber:rowNumber});
+  }
+
+
+
   render() {
 
     var controlledScrolling = this.props.left !== undefined || this.props.top !== undefined;
 
     var listOfAtoms = this.props.listOfAtoms;
-    // var listOfValues = this.props.listOfValues;
-    // var key = -1;
+
+
 
     return (
       <div className="TraceViewer">
 
-        <Table groupHeaderHeight={30} headerHeight={30} height={this.state.tableHeight} width={this.state.tableWidth} overflowX={controlledScrolling ? "hidden" : "auto"} overflowY={controlledScrolling ? "hidden" : "auto"} rowGetter={this._rowGetter.bind(this)} rowHeight={30} rowsCount={this.props.scenario.length} scrollLeft={this.props.left} scrollTop={this.props.top}>
+        <Table groupHeaderHeight={30} headerHeight={30} height={this.state.tableHeight} width={this.state.tableWidth} overflowX={controlledScrolling ? "hidden" : "auto"} overflowY={controlledScrolling ? "hidden" : "auto"} rowGetter={this._rowGetter.bind(this)} rowHeight={30} rowsCount={this.state.tableRowNumber} scrollLeft={this.props.left} scrollTop={this.props.top}>
 
           {listOfAtoms.map(function(x) {
             return (
@@ -180,8 +210,16 @@ class TraceViewer extends React.Component {
           ); })}
 
         </Table>
+        <div class="list-item">
+          <button class="fa fa-backward" onClick={this.backward.bind(this)}>backward</button>
+          <button class="fa fa-backward" onClick={this.fastBackward.bind(this)}>fast backward</button>
+          <button class="fa fa-forward" onClick={this.forward.bind(this)}>forward</button>
+          <button class="fa fa-fast-forward" onClick={this.fastForward.bind(this)}>fast forward</button>
+        </div>
 
       </div>
+
+
     );
   }
 

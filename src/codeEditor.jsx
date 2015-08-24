@@ -1,7 +1,6 @@
 var React = require('react');
 var SkyLight = require('react-skylight');
-
-
+var iii = require('iii');
 class CodeEditor extends React.Component {
 
   constructor(props) {
@@ -39,11 +38,13 @@ class CodeEditor extends React.Component {
     this.props.onInteractionChange(e.target.value);
   }
 
-  showExecutedMode(){
-    this.refs.ExecutedMode.show();
+  showCompiledMode(){
+    refs.CompiledMode.show();
   }
 
   render() {
+    //var compiledInteraction=iii.compiler.compileToIii (this.props.Interaction) ;
+
     return (
       <div className="CodeEditor">
         <div className="Tabs">
@@ -62,12 +63,8 @@ class CodeEditor extends React.Component {
           <textarea className={this.props.errorScenario!==""?"error":""} defaultValue={this.props.scenario} name="scenario" style={{display:this.state.openedTab===1?'inline':'none'}} onChange={this.scenarioChanged.bind(this)}/>
           <div>
             <textarea className={this.props.errorInteraction!==""?"error":""} defaultValue={this.props.Interaction} name="interaction" style={{display:this.state.openedTab===2?'inline':'none'}} onChange={this.interactionChanged.bind(this)}/>
-            
-              <button onClick={this.showExecutedMode}>Executed Mode</button>
-
-            <SkyLight ref="ExecutedMode" title="Executed Mode">
-              Executed Mode
-            </SkyLight>
+            <button onClick={this.showCompiledMode}>Compiled Mode</button>
+            <SkyLight ref="CompiledMode" title="Compiled Mode">compiledInteraction</SkyLight>
           </div>
         </div>
 
