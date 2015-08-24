@@ -39,12 +39,12 @@ class CodeEditor extends React.Component {
   }
 
   showCompiledMode(){
-    refs.CompiledMode.show();
+    this.refs.CompiledMode.show();
   }
 
   render() {
     //var compiledInteraction=iii.compiler.compileToIii (this.props.Interaction) ;
-
+    var compiledInteraction= "coucou dorra!";
     return (
       <div className="CodeEditor">
         <div className="Tabs">
@@ -63,8 +63,8 @@ class CodeEditor extends React.Component {
           <textarea className={this.props.errorScenario!==""?"error":""} defaultValue={this.props.scenario} name="scenario" style={{display:this.state.openedTab===1?'inline':'none'}} onChange={this.scenarioChanged.bind(this)}/>
           <div>
             <textarea className={this.props.errorInteraction!==""?"error":""} defaultValue={this.props.Interaction} name="interaction" style={{display:this.state.openedTab===2?'inline':'none'}} onChange={this.interactionChanged.bind(this)}/>
-            <button onClick={this.showCompiledMode}>Compiled Mode</button>
-            <SkyLight ref="CompiledMode" title="Compiled Mode">compiledInteraction</SkyLight>
+            <button onClick={this.showCompiledMode.bind(this)}>Compiled Mode</button>
+            <SkyLight ref="CompiledMode" title="Compiled Mode">{compiledInteraction}</SkyLight>
           </div>
         </div>
 

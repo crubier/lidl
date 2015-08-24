@@ -27,7 +27,7 @@ class TraceViewer extends React.Component {
     this.state = {
       tableWidth: this.props.tableWidth,
       tableHeight: this.props.tableHeight,
-      tableRowNumber:3
+      tableRowNumber:0
     };
 // this.state = {
 //   dataList: this._dataListGetter()
