@@ -10,7 +10,7 @@ var Column = FixedDataTable.Column;
 var ColumnGroup = FixedDataTable.ColumnGroup;
 var PropTypes = React.PropTypes;
 var Table = FixedDataTable.Table;
-var rowNumber=3;
+var rowNumber=0;
 // var FakerDataList = require('./FakerDataList.js');
 
 var scenarioUtils=require('./scenario.js');
@@ -211,17 +211,11 @@ fastForward(){
 
         </Table>
         <div class="list-item">
-          <button class="fa fa-backward" onClick={this.backward.bind(this)}>backward</button>
-          <button class="fa fa-backward" onClick={this.fastBackward.bind(this)}>fast backward</button>
-          <button class="fa fa-forward" onClick={this.forward.bind(this)}>forward</button>
-          <button class="fa fa-fast-forward" onClick={this.fastForward.bind(this)}>fast forward</button>
-        </div>
-        <div class="list-item">
         <i class="fa fa-backward"></i>
-          <i class="fa fa-backward" onClick={this.backward.bind(this)}>ccc</i>
-          <i class="fa fa-backward" onClick={this.fastBackward.bind(this)}></i>
-          <i class="fa fa-forward" onClick={this.forward.bind(this)}></i>
-          <i class="fa fa-fast-forward" onClick={this.fastForward.bind(this)}></i>
+          <i className="fa fa-fast-backward" onClick={this.fastBackward.bind(this)}></i>
+          <i className="fa fa-backward" onClick={this.backward.bind(this)}></i>
+          <i className="fa fa-forward" onClick={this.forward.bind(this)}></i>
+          <i className="fa fa-fast-forward" onClick={this.fastForward.bind(this)}></i>
         </div>
 
       </div>
