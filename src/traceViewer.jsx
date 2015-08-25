@@ -218,7 +218,7 @@ fastForward(){
         </div>
         <div class="list-item">
         <i class="fa fa-backward"></i>
-          <i class="fa fa-backward" onClick={this.backward.bind(this)}></i>
+          <i class="fa fa-backward" onClick={this.backward.bind(this)}>ccc</i>
           <i class="fa fa-backward" onClick={this.fastBackward.bind(this)}></i>
           <i class="fa fa-forward" onClick={this.forward.bind(this)}></i>
           <i class="fa fa-fast-forward" onClick={this.fastForward.bind(this)}></i>
