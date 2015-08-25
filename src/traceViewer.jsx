@@ -216,6 +216,13 @@ fastForward(){
           <button class="fa fa-forward" onClick={this.forward.bind(this)}>forward</button>
           <button class="fa fa-fast-forward" onClick={this.fastForward.bind(this)}>fast forward</button>
         </div>
+        <div class="list-item">
+        <i class="fa fa-backward"></i>
+          <i class="fa fa-backward" onClick={this.backward.bind(this)}></i>
+          <i class="fa fa-backward" onClick={this.fastBackward.bind(this)}></i>
+          <i class="fa fa-forward" onClick={this.forward.bind(this)}></i>
+          <i class="fa fa-fast-forward" onClick={this.fastForward.bind(this)}></i>
+        </div>
 
       </div>
 

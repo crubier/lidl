@@ -43,7 +43,8 @@ class CodeEditor extends React.Component {
   }
 
   render() {
-    //var compiledInteraction=iii.compiler.compileToIii (this.props.Interaction) ;
+
+    //var compiledInteraction=iii.compiler.compileToIii(this.props.Interaction) ;
     var compiledInteraction= "coucou dorra!";
     return (
       <div className="CodeEditor">
