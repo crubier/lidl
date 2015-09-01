@@ -10,7 +10,7 @@ class Main extends React.Component {
 
   constructor(props) {
     super(props);
-    this.state={listOfAtoms:[],errorInterface:"",errorInteraction:"",errorSnario:"",modelInteraction:"",modelInterface:modelInterfaceInitial,modelScenario:[]};
+    this.state={listOfAtoms:[],errorInterface:"",errorInteraction:"",errorSnario:"",Interaction:"interaction (test):Number out with interaction (a):Number out is (previous(#a)) is ({x:(a),y:(#a),z:(#b)})",modelInterface:modelInterfaceInitial,modelScenario:[]};
   }
 
   onInterfaceChange(newInterface) {
@@ -27,14 +27,14 @@ class Main extends React.Component {
 
   evaluateInteraction(Interaction){
     try {
-      var newModelInteraction = iii.parser.parse(Interaction,{startRule:"interaction"});
+      var newModelInteraction = iii.parser.parse(Interaction);
       this.setState({errorInteraction:""});
 
-      this.setState({modelInteraction:newModelInteraction});
+      this.setState({Interaction:Interaction});
 
     } catch (errorMessage) {
-      this.setState({errorInteraction:errorMessage});
-
+      this.setState({errorInteraction:JSON.stringify(errorMessage)});
+      console.log(errorMessage);
     }
 
   }
@@ -65,7 +65,7 @@ class Main extends React.Component {
       // console.log("resultat =",JSON.stringify(listOfValues));
       this.setState({errorScenario:""});
       // this.setState({listOfValues:listOfValues});
-
+      // enlever les models
 
   }catch (errorMessage) {
       console.log("erreur", errorMessage);
@@ -84,7 +84,7 @@ class Main extends React.Component {
   render() {
     return (
       <div className="Main">
-        <CodeEditor errorInteraction={this.state.errorInteraction} errorScenario={this.state.errorScenario} errorInterface={this.state.errorInterface} Interface={this.state.Interface} Interaction={this.state.Interaction} evaluateInterface={this.evaluateInterface.bind(this)} evaluateScenario={this.evaluateScenario.bind(this)} onInteractionChange={this.onInteractionChange.bind(this)} onInterfaceChange={this.onInterfaceChange.bind(this)} modelInterface={this.state.modelCode} modelScenario={this.state.modelScenario} modelInteraction={this.state.modelInteraction} scenario={this.state.scenario} onScenarioChange={this.onScenarioChange.bind(this)}/>
+        <CodeEditor errorInteraction={this.state.errorInteraction} errorScenario={this.state.errorScenario} errorInterface={this.state.errorInterface} Interface={this.state.Interface} Interaction={this.state.Interaction} evaluateInterface={this.evaluateInterface.bind(this)} evaluateScenario={this.evaluateScenario.bind(this)} onInteractionChange={this.onInteractionChange.bind(this)} onInterfaceChange={this.onInterfaceChange.bind(this)} modelInterface={this.state.modelCode} modelScenario={this.state.modelScenario} scenario={this.state.scenario} onScenarioChange={this.onScenarioChange.bind(this)}/>
         <TraceViewer listOfAtoms={this.state.listOfAtoms} scenario={this.state.modelScenario}/> /* TODO on doit aussi passer le scenario en prop  */
       </div>
     );
