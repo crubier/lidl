@@ -10,7 +10,7 @@ class Main extends React.Component {
 
   constructor(props) {
     super(props);
-    this.state={listOfAtoms:[],errorInterface:"",errorInteraction:"",errorSnario:"",Interface: "{a:{e:Number in},b:{c:{d:Number in}}}",Interaction:"interaction (test):Number out with interaction (a):Number out is (previous(#a)) is ({x:(a),y:(#a),z:(#b)})",scenario:'[{"a":{"e":2},"b":{"c":{"d":5}}},{"a":{"e":1}},{"a":{"e":0},"b":{"c":{"d":-5}}},{},{"b":{"c":{"d":10}}}]'};
+    this.state={listOfAtoms:[],errorInterface:"",errorInteraction:"",errorSnario:"",Interface: "{a:{e:Number in},b:{c:{d:Number in}}}",Interaction:"interaction (test):Number out with interaction (a):Number out is (previous(#a)) is ({x:(a),y:(#a),z:(#b)})",scenario:'[{"a":{"e":2},"b":{"c":{"d":5}}},{"a":{"e":1}},{"a":{"e":0},"b":{"c":{"d":-5}}},{},{"b":{"c":{"d":10}}}]',compiledInteraction:"({x:(previous(#0)),y:(#0),z:(#1)})"};
   }
 
   onInterfaceChange(newInterface) {
@@ -25,15 +25,20 @@ class Main extends React.Component {
     this.evaluateScenario(newScenario);
   }
 
+
+
   evaluateInteraction(Interaction){
     try {
       var newModelInteraction = iii.parser.parse(Interaction);
-      var newModelInterface = newModelInteraction[0].signature.interface
+      var newModelInterface = newModelInteraction[0].signature.interface;
       this.setState({errorInterface:""});
       var listOfAtoms=iii.interfaces.listOfAtoms(newModelInterface,"main");
       this.setState({Interface:newModelInterface});
       this.setState({listOfAtoms:listOfAtoms});
       this.setState({errorInteraction:"",Interaction:Interaction});
+      var compiled=iii.compiler.compileToIii(this.state.Interaction);
+      this.setState({compiledInteraction:compiled});
+      console.log("cccc",this.state.compiledInteraction);
 
     } catch (errorMessage) {
       this.setState({errorInteraction:JSON.stringify(errorMessage)});

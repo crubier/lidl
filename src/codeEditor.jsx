@@ -28,6 +28,8 @@ class CodeEditor extends React.Component {constructor(props) {
 
   }
 
+
+
   componentDidMount() {
     this.props.evaluateInterface(this.props.Interface);
     this.props.evaluateScenario(this.props.scenario);
@@ -50,7 +52,7 @@ class CodeEditor extends React.Component {constructor(props) {
 
   render() {
 
-    var compiledInteraction = iii.compiler.compileToIii(this.props.Interaction);
+    //var compiledInteraction = iii.compiler.compileToIii(this.props.Interaction);
 
 
 
@@ -61,31 +63,24 @@ class CodeEditor extends React.Component {constructor(props) {
           <div className={this.state.openedTab === 0
             ? 'Tab active'
             : 'Tab'} onClick={this.openTab0.bind(this)}>
-            <span>Interface editor</span>
+            <span>Scenario editor</span>
           </div>
           <div className={this.state.openedTab === 1
             ? 'Tab active'
             : 'Tab'} onClick={this.openTab1.bind(this)}>
-            <span>Scenario editor</span>
+            <span>Interaction editor</span>
           </div>
           <div className={this.state.openedTab === 2
             ? 'Tab active'
             : 'Tab'} onClick={this.openTab2.bind(this)}>
-            <span>Interaction editor</span>
+            <span>Compiled interaction</span>
           </div>
         </div>
         <div className="TabContent">
-          <textarea className={this.props.errorInterface !== ""
-            ? "error"
-            : ""} defaultValue={this.props.Interface} name="interface" onChange={this.interfaceChanged.bind(this)} style={{
-            display: this.state.openedTab === 0
-              ? 'inline'
-              : 'none'
-          }}/>
           <textarea className={this.props.errorScenario !== ""
             ? "error"
             : ""} defaultValue={this.props.scenario} name="scenario" onChange={this.scenarioChanged.bind(this)} style={{
-            display: this.state.openedTab === 1
+            display: this.state.openedTab === 0
               ? 'inline'
               : 'none'
           }}/>
@@ -93,12 +88,15 @@ class CodeEditor extends React.Component {constructor(props) {
             <textarea className={this.props.errorInteraction !== ""
               ? "error"
               : ""} defaultValue={this.props.Interaction} name="interaction" onChange={this.interactionChanged.bind(this)} style={{
+              display: this.state.openedTab === 1
+                ? 'inline'
+                : 'none'
+            }}/>
+            <textarea disabled defaultValue={this.props.compiledInteraction} name="compiledInteraction" style={{
               display: this.state.openedTab === 2
                 ? 'inline'
                 : 'none'
             }}/>
-            <button onClick={this.showCompiledMode.bind(this)}>Compiled Mode</button>
-            <SkyLight ref="CompiledMode" title="Compiled Mode">{compiledInteraction}</SkyLight>
           </div>
         </div>
 
@@ -112,8 +110,8 @@ CodeEditor.propTypes = {
   errorInterface: React.PropTypes.string,
   errorScenario: React.PropTypes.string,
   Interface: React.PropTypes.string,
-  Interaction: React.PropTypes.string
-
+  Interaction: React.PropTypes.string,
+  compiledInteraction:React.PropTypes.string
 };
 
 CodeEditor.defaultProps = {
@@ -122,7 +120,8 @@ CodeEditor.defaultProps = {
   errorScenario: "",
   Interface: "{a:{e:Number in},b:{c:{d:Number in}}}",
   Interaction: "interaction (test):Number out with interaction (a):Number out is (previous(#a)) is ({x:(a),y:(#a),z:(#b)})",
-  scenario: '[{"a":{"e":2},"b":{"c":{"d":5}}},{"a":{"e":1}},{"a":{"e":0},"b":{"c":{"d":-5}}},{},{"b":{"c":{"d":10}}}]'
+  scenario: '[{"a":{"e":2},"b":{"c":{"d":5}}},{"a":{"e":1}},{"a":{"e":0},"b":{"c":{"d":-5}}},{},{"b":{"c":{"d":10}}}]',
+  compiledInteraction:"({x:(previous(#0)),y:(#0),z:(#1)})"
 
 };
 

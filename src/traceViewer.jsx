@@ -56,7 +56,7 @@ class TraceViewer extends React.Component {
     var win = window;
     this.setState({
       tableWidth: win.innerWidth / 2,
-      tableHeight: win.innerHeight
+      tableHeight: win.innerHeight/2,
     });
   }
 
@@ -194,9 +194,6 @@ fastForward(){
     var controlledScrolling = this.props.left !== undefined || this.props.top !== undefined;
 
     var listOfAtoms = this.props.listOfAtoms;
-    console.log("list of atoms ", JSON.stringify(listOfAtoms));
-
-
 
     return (
       <div className="TraceViewer">
