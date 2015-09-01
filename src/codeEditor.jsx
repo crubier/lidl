@@ -112,10 +112,8 @@ CodeEditor.propTypes = {
   errorInterface: React.PropTypes.string,
   errorScenario: React.PropTypes.string,
   Interface: React.PropTypes.string,
-  Interaction: React.PropTypes.string,
-  scenario: React.PropTypes.string,
-  modelInterface: React.PropTypes.string,
-  modelScenario: React.PropTypes.string
+  Interaction: React.PropTypes.string
+
 };
 
 CodeEditor.defaultProps = {
@@ -124,9 +122,8 @@ CodeEditor.defaultProps = {
   errorScenario: "",
   Interface: "{a:{e:Number in},b:{c:{d:Number in}}}",
   Interaction: "interaction (test):Number out with interaction (a):Number out is (previous(#a)) is ({x:(a),y:(#a),z:(#b)})",
-  scenario: '[{"a":{"e":2},"b":{"c":{"d":5}}},{"a":{"e":1}},{"a":{"e":0},"b":{"c":{"d":-5}}},{},{"b":{"c":{"d":10}}}]',
-  modelInterface: "",
-  modelScenario: ""
+  scenario: '[{"a":{"e":2},"b":{"c":{"d":5}}},{"a":{"e":1}},{"a":{"e":0},"b":{"c":{"d":-5}}},{},{"b":{"c":{"d":10}}}]'
+
 };
 
 module.exports = CodeEditor;

@@ -10,7 +10,7 @@ class Main extends React.Component {
 
   constructor(props) {
     super(props);
-    this.state={listOfAtoms:[],errorInterface:"",errorInteraction:"",errorSnario:"",Interaction:"interaction (test):Number out with interaction (a):Number out is (previous(#a)) is ({x:(a),y:(#a),z:(#b)})",modelInterface:modelInterfaceInitial,modelScenario:[]};
+    this.state={listOfAtoms:[],errorInterface:"",errorInteraction:"",errorSnario:"",Interface: "{a:{e:Number in},b:{c:{d:Number in}}}",Interaction:"interaction (test):Number out with interaction (a):Number out is (previous(#a)) is ({x:(a),y:(#a),z:(#b)})",scenario:'[{"a":{"e":2},"b":{"c":{"d":5}}},{"a":{"e":1}},{"a":{"e":0},"b":{"c":{"d":-5}}},{},{"b":{"c":{"d":10}}}]'};
   }
 
   onInterfaceChange(newInterface) {
@@ -28,17 +28,11 @@ class Main extends React.Component {
   evaluateInteraction(Interaction){
     try {
       var newModelInteraction = iii.parser.parse(Interaction);
-
-
-        var newModelInterface = newModelInteraction[0].signature.interface
-        this.setState({errorInterface:""});
-        var listOfAtoms=iii.interfaces.listOfAtoms(newModelInterface,"main");
-        this.setState({modelInterface:newModelInterface});
-        this.setState({listOfAtoms:listOfAtoms});
-
-        //console.log(JSON.stringify(this.state.listOfAtoms));
-
-
+      var newModelInterface = newModelInteraction[0].signature.interface
+      this.setState({errorInterface:""});
+      var listOfAtoms=iii.interfaces.listOfAtoms(newModelInterface,"main");
+      this.setState({Interface:newModelInterface});
+      this.setState({listOfAtoms:listOfAtoms});
       this.setState({errorInteraction:"",Interaction:Interaction});
 
     } catch (errorMessage) {
@@ -53,11 +47,8 @@ class Main extends React.Component {
       var newModelInterface = iii.parser.parse(Interface,{startRule:"interface"});
       this.setState({errorInterface:""});
       var listOfAtoms=iii.interfaces.listOfAtoms(newModelInterface,"main");
-      this.setState({modelInterface:newModelInterface});
+      this.setState({Interface:newModelInterface});
       this.setState({listOfAtoms:listOfAtoms});
-
-      //console.log(JSON.stringify(this.state.listOfAtoms));
-
     } catch (errorMessage) {
       this.setState({errorInterface:errorMessage});
 
@@ -69,7 +60,7 @@ class Main extends React.Component {
 
     try {
       var newModelScenario =JSON.parse(scenario);
-      this.setState({modelScenario:newModelScenario});
+      this.setState({scenario:newModelScenario});
       // var listOfValues=scenarioChecker.check(this.state.modelCode,newModelScenario,"main");
       // console.log("resultat =",JSON.stringify(listOfValues));
       this.setState({errorScenario:""});
@@ -93,8 +84,8 @@ class Main extends React.Component {
   render() {
     return (
       <div className="Main">
-        <CodeEditor errorInteraction={this.state.errorInteraction} errorScenario={this.state.errorScenario} errorInterface={this.state.errorInterface} Interface={this.state.Interface} Interaction={this.state.Interaction} evaluateInterface={this.evaluateInterface.bind(this)} evaluateScenario={this.evaluateScenario.bind(this)} onInteractionChange={this.onInteractionChange.bind(this)} onInterfaceChange={this.onInterfaceChange.bind(this)} modelInterface={this.state.modelInterface} modelScenario={this.state.modelScenario} scenario={this.state.scenario} onScenarioChange={this.onScenarioChange.bind(this)}/>
-        <TraceViewer listOfAtoms={this.state.listOfAtoms} scenario={this.state.modelScenario}/> /* TODO on doit aussi passer le scenario en prop  */
+        <CodeEditor errorInteraction={this.state.errorInteraction} errorScenario={this.state.errorScenario} errorInterface={this.state.errorInterface} Interface={this.state.Interface} Interaction={this.state.Interaction} evaluateInterface={this.evaluateInterface.bind(this)} evaluateScenario={this.evaluateScenario.bind(this)} onInteractionChange={this.onInteractionChange.bind(this)} onInterfaceChange={this.onInterfaceChange.bind(this)} scenario={this.state.scenario} onScenarioChange={this.onScenarioChange.bind(this)}/>
+        <TraceViewer listOfAtoms={this.state.listOfAtoms} scenario={this.state.scenario}/> /* TODO on doit aussi passer le scenario en prop  */
       </div>
     );
   }

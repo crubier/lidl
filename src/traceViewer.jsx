@@ -194,6 +194,7 @@ fastForward(){
     var controlledScrolling = this.props.left !== undefined || this.props.top !== undefined;
 
     var listOfAtoms = this.props.listOfAtoms;
+    console.log("list of atoms ", JSON.stringify(listOfAtoms));
 
 
 
