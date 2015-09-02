@@ -197,7 +197,12 @@ fastForward(){
 
     return (
       <div className="TraceViewer">
-
+        <div className="icons">
+          <i className="fa fa-fast-backward" onClick={this.fastBackward.bind(this)}></i>
+          <i className="fa fa-backward" onClick={this.backward.bind(this)}></i>
+          <i className="fa fa-forward" onClick={this.forward.bind(this)}></i>
+          <i className="fa fa-fast-forward" onClick={this.fastForward.bind(this)}></i>
+        </div>
         <Table groupHeaderHeight={30} headerHeight={30} height={this.state.tableHeight} width={this.state.tableWidth} overflowX={controlledScrolling ? "hidden" : "auto"} overflowY={controlledScrolling ? "hidden" : "auto"} rowGetter={this._rowGetter.bind(this)} rowHeight={30} rowsCount={this.state.tableRowNumber} scrollLeft={this.props.left} scrollTop={this.props.top}>
 
           {listOfAtoms.map(function(x) {
@@ -208,13 +213,7 @@ fastForward(){
           ); })}
 
         </Table>
-        <div className="list-item">
-        <i class="fa fa-backward"></i>
-          <i className="fa fa-fast-backward" onClick={this.fastBackward.bind(this)}></i>
-          <i className="fa fa-backward" onClick={this.backward.bind(this)}></i>
-          <i className="fa fa-forward" onClick={this.forward.bind(this)}></i>
-          <i className="fa fa-fast-forward" onClick={this.fastForward.bind(this)}></i>
-        </div>
+
 
       </div>
 
