@@ -208,7 +208,7 @@ fastForward(){
           ); })}
 
         </Table>
-        <div class="list-item">
+        <div className="list-item">
         <i class="fa fa-backward"></i>
           <i className="fa fa-fast-backward" onClick={this.fastBackward.bind(this)}></i>
           <i className="fa fa-backward" onClick={this.backward.bind(this)}></i>

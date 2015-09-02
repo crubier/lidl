@@ -51,12 +51,8 @@ class CodeEditor extends React.Component {constructor(props) {
   }
 
   render() {
-
+    console.log("erruer", this.props.errorScenario);
     //var compiledInteraction = iii.compiler.compileToIii(this.props.Interaction);
-
-
-
-//var compiledInteraction= "coucou dorra!";
     return (
       <div className="CodeEditor">
         <div className="Tabs">
@@ -77,6 +73,7 @@ class CodeEditor extends React.Component {constructor(props) {
           </div>
         </div>
         <div className="TabContent">
+
           <textarea className={this.props.errorScenario !== ""
             ? "error"
             : ""} defaultValue={this.props.scenario} name="scenario" onChange={this.scenarioChanged.bind(this)} style={{
@@ -84,6 +81,15 @@ class CodeEditor extends React.Component {constructor(props) {
               ? 'inline'
               : 'none'
           }}/>
+
+          
+          <textarea className="errorScenario" defaultValue={this.props.errorScenario} name="errorScenario" style={{
+            display: this.props.errorScenario !== ""
+              ? 'inline'
+              : 'none'
+          }}/>
+
+
           <div>
             <textarea className={this.props.errorInteraction !== ""
               ? "error"
@@ -117,7 +123,7 @@ CodeEditor.propTypes = {
 CodeEditor.defaultProps = {
   errorInteraction: "",
   errorInterface: "",
-  errorScenario: "",
+  errorScenario: "fffffff",
   Interface: "{a:{e:Number in},b:{c:{d:Number in}}}",
   Interaction: "interaction (test):Number out with interaction (a):Number out is (previous(#a)) is ({x:(a),y:(#a),z:(#b)})",
   scenario: '[{"a":{"e":2},"b":{"c":{"d":5}}},{"a":{"e":1}},{"a":{"e":0},"b":{"c":{"d":-5}}},{},{"b":{"c":{"d":10}}}]',
