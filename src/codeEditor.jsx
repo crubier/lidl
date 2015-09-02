@@ -46,12 +46,13 @@ class CodeEditor extends React.Component {constructor(props) {
     this.props.onInteractionChange(e.target.value);
   }
 
+
   showCompiledMode() {
     this.refs.CompiledMode.show();
   }
 
   render() {
-    console.log("erruer", this.props.errorScenario);
+    console.log("erreuuur", this.props.errorScenario);
     //var compiledInteraction = iii.compiler.compileToIii(this.props.Interaction);
     return (
       <div className="CodeEditor">
@@ -82,9 +83,9 @@ class CodeEditor extends React.Component {constructor(props) {
               : 'none'
           }}/>
 
-          
-          <textarea className="errorScenario" defaultValue={this.props.errorScenario} name="errorScenario" style={{
-            display: this.props.errorScenario !== ""
+
+          <textarea disabled id="errorS" className="errorScenario" defaultValue={this.props.errorScenario} name="errorScenario"  style={{
+            display: this.props.errorScenario !== "" && this.state.openedTab === 0
               ? 'inline'
               : 'none'
           }}/>
@@ -98,7 +99,13 @@ class CodeEditor extends React.Component {constructor(props) {
                 ? 'inline'
                 : 'none'
             }}/>
-            <textarea disabled defaultValue={this.props.compiledInteraction} name="compiledInteraction" style={{
+
+            <textarea disabled id="errorI" className="errorScenario" defaultValue={this.props.errorInteraction} name="errorInteraction"  style={{
+              display: this.props.errorInteraction !== "" && this.state.openedTab === 1
+                ? 'inline'
+                : 'none'
+            }}/>
+            <textarea disabled id="compiledI" defaultValue={this.props.compiledInteraction} name="compiledInteraction" style={{
               display: this.state.openedTab === 2
                 ? 'inline'
                 : 'none'
@@ -123,7 +130,7 @@ CodeEditor.propTypes = {
 CodeEditor.defaultProps = {
   errorInteraction: "",
   errorInterface: "",
-  errorScenario: "fffffff",
+  errorScenario: "",
   Interface: "{a:{e:Number in},b:{c:{d:Number in}}}",
   Interaction: "interaction (test):Number out with interaction (a):Number out is (previous(#a)) is ({x:(a),y:(#a),z:(#b)})",
   scenario: '[{"a":{"e":2},"b":{"c":{"d":5}}},{"a":{"e":1}},{"a":{"e":0},"b":{"c":{"d":-5}}},{},{"b":{"c":{"d":10}}}]',

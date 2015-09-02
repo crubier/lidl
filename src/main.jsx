@@ -9,12 +9,13 @@ class Main extends React.Component {
 
   constructor(props) {
     super(props);
-    this.state={listOfAtoms:[],errorInterface:"",errorInteraction:"",errorScenario:"gggg",Interface: "{a:{e:Number in},b:{c:{d:Number in}}}",Interaction:"interaction (test):Number out with interaction (a):Number out is (previous(#a)) is ({x:(a),y:(#a),z:(#b)})",scenario:'[{"a":{"e":2},"b":{"c":{"d":5}}},{"a":{"e":1}},{"a":{"e":0},"b":{"c":{"d":-5}}},{},{"b":{"c":{"d":10}}}]',compiledInteraction:"({x:(previous(#0)),y:(#0),z:(#1)})"};
+    this.state={listOfAtoms:[],errorInterface:"",errorInteraction:"",errorScenario:"",Interface: "{a:{e:Number in},b:{c:{d:Number in}}}",Interaction:"interaction (test):Number out with interaction (a):Number out is (previous(#a)) is ({x:(a),y:(#a),z:(#b)})",scenario:'[{"a":{"e":2},"b":{"c":{"d":5}}},{"a":{"e":1}},{"a":{"e":0},"b":{"c":{"d":-5}}},{},{"b":{"c":{"d":10}}}]',compiledInteraction:"({x:(previous(#0)),y:(#0),z:(#1)})"};
   }
 
   onInterfaceChange(newInterface) {
     this.evaluateInterface(newInterface);
   }
+
 
   onInteractionChange(newInteraction) {
     this.evaluateInteraction(newInteraction);
@@ -38,10 +39,18 @@ class Main extends React.Component {
       var compiled=iii.compiler.compileToIii(this.state.Interaction);
       this.setState({compiledInteraction:compiled});
       console.log("cccc",this.state.compiledInteraction);
+      var compiledInter=document.getElementById("compiledI");
+      compiledInter.value=compiled;
+      var elemI=document.getElementById("errorI");
+      elemI.value="";
 
     } catch (errorMessage) {
       this.setState({errorInteraction:JSON.stringify(errorMessage)});
+      var compiledInter=document.getElementById("compiledI");
+      compiledInter.value=errorMessage;
       console.log(errorMessage);
+      var elemI=document.getElementById("errorI");
+      elemI.value=errorMessage;
     }
 
   }
@@ -63,6 +72,7 @@ class Main extends React.Component {
     /* TODO meme esprit que evaluateCode */
 
     try {
+      console.log("erreur main AVANT LE CATCH ", this.state.errorScenario);
       var newModelScenario =JSON.parse(scenario);
       this.setState({scenario:newModelScenario});
       // var listOfValues=scenarioChecker.check(this.state.modelCode,newModelScenario,"main");
@@ -70,11 +80,15 @@ class Main extends React.Component {
       this.setState({errorScenario:""});
       // this.setState({listOfValues:listOfValues});
       // enlever les models
+      var elem=document.getElementById("errorS");
+      elem.value="";
 
   }catch (errorMessage) {
-      console.log("erreur", errorMessage);
-      this.setState({errorScenario:errorMessage});
 
+      this.setState({errorScenario:errorMessage});
+      var elem=document.getElementById("errorS");
+      elem.value=errorMessage;
+      console.log("erreur main", this.state.errorScenario);
 
   }
 }
