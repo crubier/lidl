@@ -110,6 +110,28 @@ class CodeEditor extends React.Component {constructor(props) {
                 ? 'inline'
                 : 'none'
             }}/>
+
+            <textarea disabled className="statics"  defaultValue="Number of variables :"  style={{
+              display: this.state.openedTab === 2
+                ? 'inline'
+                : 'none'
+            }}/>
+            
+            <textarea disabled className="statics"  defaultValue="Number of 'Previous' :"  style={{
+              display: this.state.openedTab === 2
+                ? 'inline'
+                : 'none'
+            }}/>
+
+            <textarea disabled className="statics" defaultValue="Number of 'id':"  style={{
+              display: this.state.openedTab === 2
+                ? 'inline'
+                : 'none'
+            }}/>
+
+
+
+
           </div>
         </div>
 
