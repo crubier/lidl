@@ -4,6 +4,7 @@ var TraceViewer = require('./traceViewer.jsx');
 var iii = require('iii');
 var scenarioChecker = require('./scenario.js');
 var scenarioInvalidException=require('./ScenarioInvalidException.js');
+var _ = require('lodash');
 
 class Main extends React.Component {
 
@@ -25,6 +26,21 @@ class Main extends React.Component {
     this.evaluateScenario(newScenario);
   }
 
+  nbrOfPrevious(newInteraction){
+    var total=0;
+    console.log("hi",newInteraction.operand);
+    newInteraction.operand.forEach(function(x) {
+      console.log("foreach");
+      total+=nbrOfPrevious(x);
+      if(iii.operator.parse(newInteraction.operator)==="Previous"){
+        console.log("ok");
+        total++;
+      }
+    });
+    console.log("total =",total);
+    return total;
+  }
+
 
 
   evaluateInteraction(Interaction){
@@ -38,11 +54,17 @@ class Main extends React.Component {
       this.setState({errorInteraction:"",Interaction:Interaction});
       var compiled=iii.compiler.compileToIii(this.state.Interaction);
       this.setState({compiledInteraction:compiled});
-      console.log("cccc",this.state.compiledInteraction);
       var compiledInter=document.getElementById("compiledI");
       compiledInter.value=compiled;
       var elemI=document.getElementById("errorI");
       elemI.value="";
+      console.log("sss",newModelInteraction.operator);
+      console.log(this.nbrOfPrevious(newModelInteraction));
+      console.log("dorrra");
+      var nbrPrevious=this.nbrOfPrevious();
+      var nbrPrev=document.getElementById("nbrPrevious");
+      nbrPrev.value="Number of previous : "+nbrPrevious;
+
 
     } catch (errorMessage) {
       this.setState({errorInteraction:JSON.stringify(errorMessage)});
@@ -72,7 +94,6 @@ class Main extends React.Component {
     /* TODO meme esprit que evaluateCode */
 
     try {
-      console.log("erreur main AVANT LE CATCH ", this.state.errorScenario);
       var newModelScenario =JSON.parse(scenario);
       this.setState({scenario:newModelScenario});
       // var listOfValues=scenarioChecker.check(this.state.modelCode,newModelScenario,"main");
@@ -96,7 +117,6 @@ class Main extends React.Component {
   listOfAtoms(newModel){
     return iii.interfaces.listOfAtoms(newModel,"main");
   }
-
 
 
   render() {

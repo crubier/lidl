@@ -47,12 +47,13 @@ class CodeEditor extends React.Component {constructor(props) {
   }
 
 
+
   showCompiledMode() {
     this.refs.CompiledMode.show();
   }
 
+
   render() {
-    console.log("erreuuur", this.props.errorScenario);
     //var compiledInteraction = iii.compiler.compileToIii(this.props.Interaction);
     return (
       <div className="CodeEditor">
@@ -116,8 +117,8 @@ class CodeEditor extends React.Component {constructor(props) {
                 ? 'inline'
                 : 'none'
             }}/>
-            
-            <textarea disabled className="statics"  defaultValue="Number of 'Previous' :"  style={{
+
+            <textarea disabled id="nbrPrevious" className="statics"  defaultValue="Number of previous : 0"  style={{
               display: this.state.openedTab === 2
                 ? 'inline'
                 : 'none'
@@ -146,7 +147,8 @@ CodeEditor.propTypes = {
   errorScenario: React.PropTypes.string,
   Interface: React.PropTypes.string,
   Interaction: React.PropTypes.string,
-  compiledInteraction:React.PropTypes.string
+  compiledInteraction:React.PropTypes.string,
+
 };
 
 CodeEditor.defaultProps = {
@@ -156,7 +158,7 @@ CodeEditor.defaultProps = {
   Interface: "{a:{e:Number in},b:{c:{d:Number in}}}",
   Interaction: "interaction (test):Number out with interaction (a):Number out is (previous(#a)) is ({x:(a),y:(#a),z:(#b)})",
   scenario: '[{"a":{"e":2},"b":{"c":{"d":5}}},{"a":{"e":1}},{"a":{"e":0},"b":{"c":{"d":-5}}},{},{"b":{"c":{"d":10}}}]',
-  compiledInteraction:"({x:(previous(#0)),y:(#0),z:(#1)})"
+  compiledInteraction:"({x:(previous(#0)),y:(#0),z:(#1)})",
 
 };
 
