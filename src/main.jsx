@@ -41,6 +41,20 @@ class Main extends React.Component {
     return total;
   }
 
+  nbrOfId(newInteraction){
+    var total=0;
+    console.log("hi",newInteraction.operand);
+    newInteraction.operand.forEach(function(x) {
+      console.log("foreach");
+      total+=nbrOfId(x);
+      if(iii.operator.parse(newInteraction.operator)==="id"){
+      console.log("ok");
+        total++;
+      }
+    });
+    console.log("total =",total);
+    return total;
+  }
 
 
   evaluateInteraction(Interaction){
