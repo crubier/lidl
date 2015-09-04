@@ -35,6 +35,7 @@
   "dependencies": {
     "array": "^0.4.3",
     "font-awesome": "^4.4.0",
+    "gulp-gh-pages": "^0.5.2",
     "iii": "^0.1.2",
     "json-stringify-safe": "^5.0.1",
     "lodash": "^3.9.3",
