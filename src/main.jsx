@@ -1,10 +1,14 @@
 var React = require('react');
 var CodeEditor = require('./codeEditor.jsx');
 var TraceViewer = require('./traceViewer.jsx');
+var operator = require('iii/dist/operator.js');
 var iii = require('iii');
 var scenarioChecker = require('./scenario.js');
 var scenarioInvalidException=require('./ScenarioInvalidException.js');
 var _ = require('lodash');
+var nbrPrevious=0;
+var me=this;
+console.log("me ",me);
 
 class Main extends React.Component {
 
@@ -25,14 +29,15 @@ class Main extends React.Component {
   onScenarioChange(newScenario) {
     this.evaluateScenario(newScenario);
   }
-
+/*
   nbrOfPrevious(newInteraction){
     var total=0;
     console.log("hi",newInteraction[0].interaction.operand.length);
     var length=newInteraction[0].interaction.operand.length;
     _.forEach(newInteraction[0].interaction.operand,function(x){
       console.log("foreach");
-      total+=nbrOfPrevious(x);
+      console.log(x);
+      total+= nbrOfPrevious(x);
       if(iii.operator.parse(newInteraction[0].interaction.operator)==="previous"){
         console.log("ok");
         total++;
@@ -42,7 +47,26 @@ class Main extends React.Component {
     return total;
   }
 
-  
+*/
+
+
+nbrOfPrevious(newInteraction){
+  var total=0;
+  console.log("hi",newInteraction.operand.length);
+  var length=newInteraction.operand.length;
+  _.forEach(newInteraction.operand,function(x){
+    console.log("foreach");
+    console.log(x);
+    total+= this.nbrOfPrevious(x);
+    console.log(operator);
+    if(operator.parse(newInteraction.operator)==="previous"){
+      console.log("okkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkk");
+      total++;
+    }
+  }.bind(this));
+  console.log("total =",total);
+  return total;
+}
 
 
   evaluateInteraction(Interaction){
@@ -60,9 +84,17 @@ class Main extends React.Component {
       compiledInter.value=compiled;
       var elemI=document.getElementById("errorI");
       elemI.value="";
-      console.log(this.nbrOfPrevious(newModelInteraction));
       console.log("dorrra");
-      var nbrPrevious=this.nbrOfPrevious(newModelInteraction);
+
+      console.log("length  ",newModelInteraction.length);
+
+      _.forEach(newModelInteraction,function(x){
+        console.log("cccccc");
+        nbrPrevious+=this.nbrOfPrevious(x.interaction);
+        console.log("sadok");
+      }.bind(this));
+
+      //var nbrPrevious=this.nbrOfPrevious(newModelInteraction[0].interaction);
       var nbrPrev=document.getElementById("nbrPrevious");
       nbrPrev.value="Number of previous : "+nbrPrevious;
       console.log("doa");
