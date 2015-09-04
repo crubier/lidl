@@ -72,7 +72,6 @@ gulp.task('css', function () {
 
 gulp.task('clean', function (cb) {
   del([
-    'dist',
-    'build',
+    'dist'
   ], cb);
 });
