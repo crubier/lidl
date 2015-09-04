@@ -61,12 +61,17 @@ gulp.task('js', function () {
 });
 
 gulp.task('html', function () {
-  return gulp.src('src/main.html')
+  return gulp.src('src/index.html')
         .pipe(gulp.dest('dist/'));
 });
 
-gulp.task('css', function () {
-  gulp.src('src/main.styl')
+gulp.task('css',['styl'],function(){
+  return gulp.src('src/*.css')
+      .pipe(gulp.dest('dist/'));
+});
+
+gulp.task('styl', function () {
+  return gulp.src('src/main.styl')
     .pipe(sourcemaps.init())
     .pipe(stylus())
     .pipe(sourcemaps.write('./'))
