@@ -1,14 +1,13 @@
 var React = require('react');
 var CodeEditor = require('./codeEditor.jsx');
 var TraceViewer = require('./traceViewer.jsx');
-var operator = require('iii/dist/operator.js');
+//var operator = require('iii/dist/operator.js');
 var iii = require('iii');
 var scenarioChecker = require('./scenario.js');
 var scenarioInvalidException=require('./ScenarioInvalidException.js');
 var _ = require('lodash');
 var nbrPrevious=0;
-var me=this;
-console.log("me ",me);
+
 
 class Main extends React.Component {
 
@@ -58,8 +57,8 @@ nbrOfPrevious(newInteraction){
     console.log("foreach");
     console.log(x);
     total+= this.nbrOfPrevious(x);
-    console.log(operator);
-    if(operator.parse(newInteraction.operator)==="previous"){
+    console.log(iii.operator.parse("previous$").toEqual("Previous"));
+    if(iii.operator.parse(newInteraction.operator)==="Previous"){
       console.log("okkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkk");
       total++;
     }
