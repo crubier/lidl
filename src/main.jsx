@@ -28,11 +28,12 @@ class Main extends React.Component {
 
   nbrOfPrevious(newInteraction){
     var total=0;
-    console.log("hi",newInteraction.operand);
-    newInteraction.operand.forEach(function(x) {
+    console.log("hi",newInteraction[0].interaction.operand.length);
+    var length=newInteraction[0].interaction.operand.length;
+    _.forEach(newInteraction[0].interaction.operand,function(x){
       console.log("foreach");
       total+=nbrOfPrevious(x);
-      if(iii.operator.parse(newInteraction.operator)==="Previous"){
+      if(iii.operator.parse(newInteraction[0].interaction.operator)==="previous"){
         console.log("ok");
         total++;
       }
@@ -41,20 +42,7 @@ class Main extends React.Component {
     return total;
   }
 
-  nbrOfId(newInteraction){
-    var total=0;
-    console.log("hi",newInteraction.operand);
-    newInteraction.operand.forEach(function(x) {
-      console.log("foreach");
-      total+=nbrOfId(x);
-      if(iii.operator.parse(newInteraction.operator)==="id"){
-      console.log("ok");
-        total++;
-      }
-    });
-    console.log("total =",total);
-    return total;
-  }
+  
 
 
   evaluateInteraction(Interaction){
@@ -72,12 +60,12 @@ class Main extends React.Component {
       compiledInter.value=compiled;
       var elemI=document.getElementById("errorI");
       elemI.value="";
-      console.log("sss",newModelInteraction.operator);
       console.log(this.nbrOfPrevious(newModelInteraction));
       console.log("dorrra");
-      var nbrPrevious=this.nbrOfPrevious();
+      var nbrPrevious=this.nbrOfPrevious(newModelInteraction);
       var nbrPrev=document.getElementById("nbrPrevious");
       nbrPrev.value="Number of previous : "+nbrPrevious;
+      console.log("doa");
 
 
     } catch (errorMessage) {
