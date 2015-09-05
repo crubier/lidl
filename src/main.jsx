@@ -42,7 +42,7 @@ class Main extends React.Component {
     return total;
   }
 
-  
+
 
 
   evaluateInteraction(Interaction){
@@ -54,19 +54,25 @@ class Main extends React.Component {
       this.setState({Interface:newModelInterface});
       this.setState({listOfAtoms:listOfAtoms});
       this.setState({errorInteraction:"",Interaction:Interaction});
-      var compiled=iii.compiler.compileToIii(this.state.Interaction);
+      var compiled=iii.compiler.compileToIii(Interaction);
+
       this.setState({compiledInteraction:compiled});
       var compiledInter=document.getElementById("compiledI");
       compiledInter.value=compiled;
-      var elemI=document.getElementById("errorI");
-      elemI.value="";
-      console.log(this.nbrOfPrevious(newModelInteraction));
-      console.log("dorrra");
-      var nbrPrevious=this.nbrOfPrevious(newModelInteraction);
-      var nbrPrev=document.getElementById("nbrPrevious");
-      nbrPrev.value="Number of previous : "+nbrPrevious;
-      console.log("doa");
-
+      // TODO
+      // var elemI=document.getElementById("errorI");
+      // elemI.value="";
+      // console.log(this.nbrOfPrevious(newModelInteraction));
+      // console.log("dorrra");
+      // var nbrPrevious=this.nbrOfPrevious(newModelInteraction);
+      //
+      // // TODO corriger
+      // // Ce n'est pas très "react" comme façon de faire !
+      // var nbrPrev=document.getElementById("nbrPrevious");
+      //
+      // nbrPrev.value="Number of previous : "+nbrPrevious;
+      // console.log("doa");
+      this.setState({Interaction:Interaction});
 
     } catch (errorMessage) {
       this.setState({errorInteraction:JSON.stringify(errorMessage)});
