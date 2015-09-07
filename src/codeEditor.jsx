@@ -124,7 +124,7 @@ class CodeEditor extends React.Component {constructor(props) {
                 : 'none'
             }}/>
 
-            <textarea disabled id="nbrId" className="statics" defaultValue="Number of identifiers : 0"  style={{
+            <textarea disabled id="nbrId" className="statics" defaultValue="Number of id : 0"  style={{
               display: this.state.openedTab === 2
                 ? 'inline'
                 : 'none'

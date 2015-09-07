@@ -1,13 +1,12 @@
 var React = require('react');
 var CodeEditor = require('./codeEditor.jsx');
 var TraceViewer = require('./traceViewer.jsx');
-//var operator = require('iii/dist/operator.js');
 var iii = require('iii');
 var scenarioChecker = require('./scenario.js');
 var scenarioInvalidException=require('./ScenarioInvalidException.js');
 var _ = require('lodash');
+
 var nbrPrevious=0;
-var nbrId=0;
 
 
 class Main extends React.Component {
@@ -29,44 +28,41 @@ class Main extends React.Component {
   onScenarioChange(newScenario) {
     this.evaluateScenario(newScenario);
   }
+/*
+  nbrOfPrevious(newInteraction){
+    var total=0;
+    console.log("hi",newInteraction[0].interaction.operand.length);
+    var length=newInteraction[0].interaction.operand.length;
+    _.forEach(newInteraction[0].interaction.operand,function(x){
+      console.log("foreach");
+      console.log(x);
+      total+= nbrOfPrevious(x);
+      if(iii.operator.parse(newInteraction[0].interaction.operator)==="previous"){
+        console.log("ok");
+        total++;
+      }
+    });
+    console.log("total =",total);
+    return total;
+  }
 
+*/
 
-nbrOfPrevious(newInteraction){
-  var total=0;
-  console.log("hi",newInteraction.operand.length);
-  var length=newInteraction.operand.length;
-  _.forEach(newInteraction.operand,function(x){
-    console.log("foreach");
-    console.log(x);
-    total+= this.nbrOfPrevious(x);
-    console.log(iii.operator.parse("previous$").toEqual("Previous"));
-    if(iii.operator.parse(newInteraction.operator)==="Previous"){
-      console.log("okkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkk");
-      total++;
-    }
-  }.bind(this));
-  console.log("total =",total);
-  return total;
-}
-
-
-
-nbrOfId(newInteraction){
-  var total=0;
-  console.log("hi",newInteraction.operand.length);
-  var length=newInteraction.operand.length;
-  _.forEach(newInteraction.operand,function(x){
-    console.log("foreach");
-    console.log(x);
-    total+= this.nbrOfId(x);
-    if(iii.operator.parse(newInteraction.operator)==="Identifier"){
-      total++;
-    }
-  }.bind(this));
-  console.log("total =",total);
-  return total;
-}
-
+  nbrOfPrevious(newInteraction){
+    var total=0;
+    console.log("hi",newInteraction[0].interaction.operand.length);
+    var length=newInteraction[0].interaction.operand.length;
+    _.forEach(newInteraction[0].interaction.operand,function(x){
+      console.log("foreach");
+      total+=nbrOfPrevious(x);
+      if(iii.operator.parse(newInteraction[0].interaction.operator)==="previous"){
+        console.log("ok");
+        total++;
+      }
+    });
+    console.log("total =",total);
+    return total;
+  }
 
   evaluateInteraction(Interaction){
     try {
@@ -77,27 +73,43 @@ nbrOfId(newInteraction){
       this.setState({Interface:newModelInterface});
       this.setState({listOfAtoms:listOfAtoms});
       this.setState({errorInteraction:"",Interaction:Interaction});
-      var compiled=iii.compiler.compileToIii(this.state.Interaction);
+      var compiled=iii.compiler.compileToIii(Interaction);
+
       this.setState({compiledInteraction:compiled});
       var compiledInter=document.getElementById("compiledI");
       compiledInter.value=compiled;
-      var elemI=document.getElementById("errorI");
-      elemI.value="";
-      console.log("dorrra");
 
-      console.log("length  ",newModelInteraction.length);
-
-      _.forEach(newModelInteraction,function(x){
-        nbrPrevious+=this.nbrOfPrevious(x.interaction);
-        //nbrId+=this.nbrOfId(x.interaction);
-      }.bind(this));
-
-      var nbrPrev=document.getElementById("nbrPrevious");
-      nbrPrev.value="Number of previous : "+nbrPrevious;
-      //var nbrIden=document.getElementById("nbrId");
-      //nbrIden.value="Number of identifiers : "+nbrId;
-
-      console.log("finished");
+      // TODO
+      // var elemI=document.getElementById("errorI");
+      // elemI.value="";
+      // console.log(this.nbrOfPrevious(newModelInteraction));
+      // console.log("dorrra");
+      // var nbrPrevious=this.nbrOfPrevious(newModelInteraction);
+      //
+      // // TODO corriger
+      // // Ce n'est pas très "react" comme façon de faire !
+      // var nbrPrev=document.getElementById("nbrPrevious");
+      //
+      // nbrPrev.value="Number of previous : "+nbrPrevious;
+      // console.log("doa");
+      this.setState({Interaction:Interaction});
+// =======
+//       var elemI=document.getElementById("errorI");
+//       elemI.value="";
+//       console.log("dorrra");
+//
+//       console.log("length  ",newModelInteraction.length);
+//
+//       _.forEach(newModelInteraction,function(x){
+//         console.log("cccccc");
+//         nbrPrevious+=this.nbrOfPrevious(x.interaction);
+//         console.log("sadok");
+//       }.bind(this));
+//
+//       //var nbrPrevious=this.nbrOfPrevious(newModelInteraction[0].interaction);
+//       var nbrPrev=document.getElementById("nbrPrevious");
+//       nbrPrev.value="Number of previous : "+nbrPrevious;
+//       console.log("doa");
 
 
     } catch (errorMessage) {
