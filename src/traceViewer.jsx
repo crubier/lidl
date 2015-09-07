@@ -10,7 +10,7 @@ var Column = FixedDataTable.Column;
 var ColumnGroup = FixedDataTable.ColumnGroup;
 var PropTypes = React.PropTypes;
 var Table = FixedDataTable.Table;
-var rowNumber=0;
+var rowNumber=5;
 // var FakerDataList = require('./FakerDataList.js');
 
 var scenarioUtils=require('./scenario.js');
@@ -27,7 +27,7 @@ class TraceViewer extends React.Component {
     this.state = {
       tableWidth: this.props.tableWidth,
       tableHeight: this.props.tableHeight,
-      tableRowNumber:0
+      tableRowNumber:5
     };
 // this.state = {
 //   dataList: this._dataListGetter()
@@ -198,10 +198,10 @@ fastForward(){
     return (
       <div className="TraceViewer">
         <div className="icons">
-          <i className="fa fa-fast-backward" onClick={this.fastBackward.bind(this)}></i>
-          <i className="fa fa-backward" onClick={this.backward.bind(this)}></i>
-          <i className="fa fa-forward" onClick={this.forward.bind(this)}></i>
-          <i className="fa fa-fast-forward" onClick={this.fastForward.bind(this)}></i>
+          <i className="fa fa-fast-backward fa-3x" onClick={this.fastBackward.bind(this)}></i>
+          <i className="fa fa-backward fa-3x" onClick={this.backward.bind(this)}></i>
+          <i className="fa fa-forward fa-3x" onClick={this.forward.bind(this)}></i>
+          <i className="fa fa-fast-forward fa-3x" onClick={this.fastForward.bind(this)}></i>
         </div>
         <Table groupHeaderHeight={30} headerHeight={30} height={this.state.tableHeight} width={this.state.tableWidth} overflowX={controlledScrolling ? "hidden" : "auto"} overflowY={controlledScrolling ? "hidden" : "auto"} rowGetter={this._rowGetter.bind(this)} rowHeight={30} rowsCount={this.state.tableRowNumber} scrollLeft={this.props.left} scrollTop={this.props.top}>
 

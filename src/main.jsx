@@ -70,7 +70,7 @@ function nbrOfCompositions(interaction) {
       total++;
     }
   });
-  
+
   return total;
 }
 
@@ -123,8 +123,6 @@ class Main extends React.Component {constructor(props) {
     console.log("total =",total);
     return total;
   }
-
-
 */
 
 
