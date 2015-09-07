@@ -139,7 +139,7 @@ CodeEditor.propTypes = {
 };
 
 CodeEditor.defaultProps = {
-  stats: {variables:0,previous:0,identifiers:0,functions:0},
+  stats: {variables:0,previous:0,identifiers:0,functions:0,compositions:0},
   errorInteraction: "",
   errorInterface: "",
   errorScenario: "",

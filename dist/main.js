@@ -53646,7 +53646,7 @@ CodeEditor.propTypes = {
 };
 
 CodeEditor.defaultProps = {
-  stats: {variables:0,previous:0,identifiers:0,functions:0},
+  stats: {variables:0,previous:0,identifiers:0,functions:0,compositions:0},
   errorInteraction: "",
   errorInterface: "",
   errorScenario: "",
@@ -53705,7 +53705,8 @@ var ____Class0=React.Component;for(var ____Class0____Key in ____Class0){if(____C
         variables: 0,
         previous: 0,
         identifiers: 0,
-        functions: 0
+        functions: 0,
+        compositions:0
       }
     };
   }
@@ -53789,7 +53790,8 @@ var ____Class0=React.Component;for(var ____Class0____Key in ____Class0){if(____C
           variables: 0,
           previous: nbrOfPrevious(iii.identifiers.reduceIdentifiers(iii.interactions.expand(newModelDefinitions[0]).interaction)),
           identifiers: 0,
-          functions: 0
+          functions: 0,
+          compositions:0
         }
 
       });

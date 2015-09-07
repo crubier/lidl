@@ -38,7 +38,8 @@ class Main extends React.Component {constructor(props) {
         variables: 0,
         previous: 0,
         identifiers: 0,
-        functions: 0
+        functions: 0,
+        compositions:0
       }
     };
   }
@@ -122,7 +123,8 @@ class Main extends React.Component {constructor(props) {
           variables: 0,
           previous: nbrOfPrevious(iii.identifiers.reduceIdentifiers(iii.interactions.expand(newModelDefinitions[0]).interaction)),
           identifiers: 0,
-          functions: 0
+          functions: 0,
+          compositions:0
         }
 
       });
