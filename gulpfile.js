@@ -7,6 +7,7 @@ var source = require('vinyl-source-stream');
 var buffer = require('vinyl-buffer');
 var uglify = require('gulp-uglify');
 var gutil = require('gulp-util');
+var ghPages = require('gulp-gh-pages');
 //var jest = require('gulp-jest');
 
 gulp.task('default',['js','html','css']);
@@ -32,7 +33,10 @@ gulp.task('jest', function () {
     }));
 });*/
 
-
+gulp.task('deploy', ['default'],function() {
+  return gulp.src('./dist/**/*')
+    .pipe(ghPages());
+});
 
 gulp.task('js', function () {
   // set up the browserify instance on a task basis
@@ -57,12 +61,17 @@ gulp.task('js', function () {
 });
 
 gulp.task('html', function () {
-  return gulp.src('src/main.html')
+  return gulp.src('src/index.html')
         .pipe(gulp.dest('dist/'));
 });
 
-gulp.task('css', function () {
-  gulp.src('src/main.styl')
+gulp.task('css',['styl'],function(){
+  return gulp.src('src/*.css')
+      .pipe(gulp.dest('dist/'));
+});
+
+gulp.task('styl', function () {
+  return gulp.src('src/main.styl')
     .pipe(sourcemaps.init())
     .pipe(stylus())
     .pipe(sourcemaps.write('./'))
@@ -72,7 +81,6 @@ gulp.task('css', function () {
 
 gulp.task('clean', function (cb) {
   del([
-    'dist',
-    'build',
+    'dist'
   ], cb);
 });

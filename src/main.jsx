@@ -46,7 +46,11 @@ class Main extends React.Component {
     return total;
   }
 
+
 */
+
+
+
 
   nbrOfPrevious(newInteraction){
     var total=0;
@@ -93,6 +97,7 @@ class Main extends React.Component {
       // nbrPrev.value="Number of previous : "+nbrPrevious;
       // console.log("doa");
       this.setState({Interaction:Interaction});
+
 // =======
 //       var elemI=document.getElementById("errorI");
 //       elemI.value="";
@@ -110,6 +115,7 @@ class Main extends React.Component {
 //       var nbrPrev=document.getElementById("nbrPrevious");
 //       nbrPrev.value="Number of previous : "+nbrPrevious;
 //       console.log("doa");
+
 
 
     } catch (errorMessage) {
