@@ -118,8 +118,37 @@ class CodeEditor extends React.Component {constructor(props) {
               display: this.state.openedTab === 2
                 ? 'inline'
                 : 'none'
-            }}> { "Number of previous :" + this.props.stats.previous} </p>
-
+            }}>{ "Number of previous :" + this.props.stats.previous} </p>
+            <br/>
+            <br/>
+            <p style={{
+              display: this.state.openedTab === 2
+                ? 'inline'
+                : 'none'
+            }}> { "Number of identifiers :" + this.props.stats.identifiers} </p>
+            <br/>
+            <br/>
+            <p style={{
+              display: this.state.openedTab === 2
+                ? 'inline'
+                : 'none'
+            }}> { "Number of functions :" + this.props.stats.functions} </p>
+            <br/>
+            <br/>
+            <p style={{
+              display: this.state.openedTab === 2
+                ? 'inline'
+                : 'none'
+            }}> { "Number of compositions :" + this.props.stats.compositions} </p>
+            <br/>
+            <br/>
+            <p style={{
+              display: this.state.openedTab === 2
+                ? 'inline'
+                : 'none'
+            }}> { "Number of variables :" + (this.props.stats.identifiers+this.props.stats.previous)} </p>
+            <br/>
+            <br/>
           </div>
         </div>
       </div>

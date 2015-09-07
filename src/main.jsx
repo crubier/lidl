@@ -23,6 +23,57 @@ function nbrOfPrevious(interaction) {
   return total;
 }
 
+function nbrOfIdentifiers(interaction) {
+
+  var total = 0;
+  // console.log("hi", newInteraction[0].interaction.operand.length);
+  // var length = interaction.operand.length;
+  _.forEach(interaction.operand, function(x) {
+    // console.log("foreach");
+    total += nbrOfIdentifiers(x);
+    if (iii.operator.parse(interaction.operator) === "Identifier") {
+      // console.log("ok");
+      total++;
+    }
+  });
+  // console.log("total =", total);
+  return total;
+}
+
+function nbrOfFunctions(interaction) {
+
+  var total = 0;
+  // console.log("hi", newInteraction[0].interaction.operand.length);
+  // var length = interaction.operand.length;
+  _.forEach(interaction.operand, function(x) {
+    // console.log("foreach");
+    total += nbrOfFunctions(x);
+    if (iii.operator.parse(interaction.operator) === "Function") {
+      // console.log("ok");
+      total++;
+    }
+  });
+  // console.log("total =", total);
+  return total;
+}
+
+function nbrOfCompositions(interaction) {
+
+  var total = 0;
+  // console.log("hi", newInteraction[0].interaction.operand.length);
+  // var length = interaction.operand.length;
+  _.forEach(interaction.operand, function(x) {
+    // console.log("foreach");
+    total += nbrOfCompositions(x);
+    if (iii.operator.parse(interaction.operator) === "Composition") {
+      // console.log("ok");
+      total++;
+    }
+  });
+  
+  return total;
+}
+
 class Main extends React.Component {constructor(props) {
     super(props);
     this.state = {
