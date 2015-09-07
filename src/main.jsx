@@ -7,6 +7,7 @@ var scenarioChecker = require('./scenario.js');
 var scenarioInvalidException=require('./ScenarioInvalidException.js');
 var _ = require('lodash');
 var nbrPrevious=0;
+var nbrId=0;
 
 
 class Main extends React.Component {
@@ -28,25 +29,6 @@ class Main extends React.Component {
   onScenarioChange(newScenario) {
     this.evaluateScenario(newScenario);
   }
-/*
-  nbrOfPrevious(newInteraction){
-    var total=0;
-    console.log("hi",newInteraction[0].interaction.operand.length);
-    var length=newInteraction[0].interaction.operand.length;
-    _.forEach(newInteraction[0].interaction.operand,function(x){
-      console.log("foreach");
-      console.log(x);
-      total+= nbrOfPrevious(x);
-      if(iii.operator.parse(newInteraction[0].interaction.operator)==="previous"){
-        console.log("ok");
-        total++;
-      }
-    });
-    console.log("total =",total);
-    return total;
-  }
-
-*/
 
 
 nbrOfPrevious(newInteraction){
@@ -60,6 +42,24 @@ nbrOfPrevious(newInteraction){
     console.log(iii.operator.parse("previous$").toEqual("Previous"));
     if(iii.operator.parse(newInteraction.operator)==="Previous"){
       console.log("okkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkk");
+      total++;
+    }
+  }.bind(this));
+  console.log("total =",total);
+  return total;
+}
+
+
+
+nbrOfId(newInteraction){
+  var total=0;
+  console.log("hi",newInteraction.operand.length);
+  var length=newInteraction.operand.length;
+  _.forEach(newInteraction.operand,function(x){
+    console.log("foreach");
+    console.log(x);
+    total+= this.nbrOfId(x);
+    if(iii.operator.parse(newInteraction.operator)==="Identifier"){
       total++;
     }
   }.bind(this));
@@ -88,15 +88,16 @@ nbrOfPrevious(newInteraction){
       console.log("length  ",newModelInteraction.length);
 
       _.forEach(newModelInteraction,function(x){
-        console.log("cccccc");
         nbrPrevious+=this.nbrOfPrevious(x.interaction);
-        console.log("sadok");
+        //nbrId+=this.nbrOfId(x.interaction);
       }.bind(this));
 
-      //var nbrPrevious=this.nbrOfPrevious(newModelInteraction[0].interaction);
       var nbrPrev=document.getElementById("nbrPrevious");
       nbrPrev.value="Number of previous : "+nbrPrevious;
-      console.log("doa");
+      //var nbrIden=document.getElementById("nbrId");
+      //nbrIden.value="Number of identifiers : "+nbrId;
+
+      console.log("finished");
 
 
     } catch (errorMessage) {
