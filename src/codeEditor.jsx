@@ -1,6 +1,7 @@
 var React = require('react');
 var SkyLight = require('react-skylight');
 var iii = require('iii');
+
 class CodeEditor extends React.Component {constructor(props) {
     super(props);
     this.state = {
@@ -61,7 +62,7 @@ class CodeEditor extends React.Component {constructor(props) {
           <div className={this.state.openedTab === 0
             ? 'Tab active'
             : 'Tab'} onClick={this.openTab0.bind(this)}>
-            <span>Scenario editor</span>
+            <span> Scenario editor </span>
           </div>
           <div className={this.state.openedTab === 1
             ? 'Tab active'
@@ -112,36 +113,22 @@ class CodeEditor extends React.Component {constructor(props) {
                 : 'none'
             }}/>
 
-            <textarea disabled id="nbrVariables" className="statics"  defaultValue="Number of variables : 0"  style={{
+
+            <p style={{
               display: this.state.openedTab === 2
                 ? 'inline'
                 : 'none'
-            }}/>
-
-            <textarea disabled id="nbrPrevious" className="statics"  defaultValue="Number of previous : 0"  style={{
-              display: this.state.openedTab === 2
-                ? 'inline'
-                : 'none'
-            }}/>
-
-            <textarea disabled id="nbrId" className="statics" defaultValue="Number of id : 0"  style={{
-              display: this.state.openedTab === 2
-                ? 'inline'
-                : 'none'
-            }}/>
-
-
-
+            }}> { "Number of previous :" + this.props.stats.previous} </p>
 
           </div>
         </div>
-
       </div>
     );
   }
 }
 
 CodeEditor.propTypes = {
+  stats: React.PropTypes.object,
   errorInteraction: React.PropTypes.string,
   errorInterface: React.PropTypes.string,
   errorScenario: React.PropTypes.string,
@@ -152,6 +139,7 @@ CodeEditor.propTypes = {
 };
 
 CodeEditor.defaultProps = {
+  stats: {variables:0,previous:0,identifiers:0,functions:0},
   errorInteraction: "",
   errorInterface: "",
   errorScenario: "",
