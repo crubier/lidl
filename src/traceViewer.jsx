@@ -1,24 +1,12 @@
 var React = require('react');
 var FixedDataTable = require('fixed-data-table');
-
-
 var _ = require('lodash');
-var ROWS = 1000000;
-
 var Column = FixedDataTable.Column;
-
 var ColumnGroup = FixedDataTable.ColumnGroup;
-var PropTypes = React.PropTypes;
 var Table = FixedDataTable.Table;
 var rowNumber=5;
-// var FakerDataList = require('./FakerDataList.js');
-
 var scenarioUtils=require('./scenario.js');
 
-//console.log("length ",scenarioLength);
-function testxxxx(){
-  console.log("bobobobbobobobobobobo");
-}
 
 class TraceViewer extends React.Component {
 
@@ -30,9 +18,6 @@ class TraceViewer extends React.Component {
       tableRowNumber:5,
       openedTab: 0
     };
-// this.state = {
-//   dataList: this._dataListGetter()
-// }; // probleme this.props.listOfValues pas définit
 
   }
 
@@ -75,103 +60,6 @@ class TraceViewer extends React.Component {
     });
   }
 
-
-
-
-//   _dataListGetter() {
-//
-//     var listOfAtoms = [
-//       {
-//         "name": "main.a.e",
-//         "data": {
-//           "type": "DataAtomic",
-//           "name": "Number"
-//         },
-//         "direction": "in"
-//       }, {
-//         "name": "main.b.c.d",
-//         "data": {
-//           "type": "DataAtomic",
-//           "name": "Number"
-//         },
-//         "direction": "in"
-//       }
-//     ];
-//     var listOfValues = [
-//       [
-//         {
-//           "key": "main.a.e",
-//           "value": 2
-//         }, {
-//           "key": "main.b.c.d",
-//           "value": 5
-//         }
-//       ], [
-//         {
-//           "key": "main.a.e",
-//           "value": 1
-//         }
-//       ], [
-//         {
-//           "key": "main.a.e",
-//           "value": 0
-//         }, {
-//           "key": "main.b.c.d",
-//           "value": -5
-//         }
-//       ], [], [
-//         {
-//           "key": "main.b.c.d",
-//           "value": 10
-//         }
-//       ]
-//     ];
-//     var res = [];
-//
-//     for (var i = 0; i < listOfValues.length; i++) {
-//       var ligne = [];
-// //console.log("i ", i);
-//       if (listOfValues[i].length == 0) {
-//         for (var j = 0; j < listOfAtoms.length; j++) {
-//           ligne[j] = '-';
-//         }
-//       } else {
-//         for (var j = 0; j < listOfAtoms.length; j++) {
-//
-//           var k = 0;
-// //console.log("j =",j);
-// //console.log("listOfAtoms[j].name ",listOfAtoms[j].name);
-// //console.log("listOfValues[i][k].key ",listOfValues[i][k].key);
-// //console.log("taille de listOfValues[i].length =",listOfValues[i].length);
-//
-//           while (((listOfValues[i][k].key) != listOfAtoms[j].name) && (k < listOfValues[i].length)) {
-// //console.log("k= ",k);
-// //console.log("slama2 =",listOfValues[i][k].key);
-//             k++;
-// //console.log("k2 =",k);
-//             if (k == listOfValues[i].length) {
-//               break;
-//             }
-//           }
-//
-//           if (k < listOfValues[i].length) {
-// //console.log("slama =",listOfValues[i][k].key);
-//             ligne[j] = listOfValues[i][k].value;
-// //console.log("ligne ",ligne) ;//
-//
-//           } else {
-//             ligne[j] = '-';
-//           }
-//         }
-//       }
-//       res[res.length] = ligne;
-// //console.log("resultat final =",JSON.stringify(res));
-//
-//     }
-//     console.log ("dataList", JSON.stringify(res));
-//     return res;
-//   }
-
   _rowGetter(index) {
     var prefix = "main";
     var row = this.props.scenario[index];
@@ -203,14 +91,11 @@ fastForward(){
   }
 
 
-
   render() {
 
     var controlledScrolling = this.props.left !== undefined || this.props.top !== undefined;
-
     var listOfAtoms = this.props.listOfAtoms;
     var espace="         ";
-
     return (
       <div className="TraceViewer">
         <div className="Tabs">
@@ -300,22 +185,3 @@ TraceViewer.defaultProps = {
   tableHeight: 500
 };
 module.exports = TraceViewer;
-
-// En JS, deux notations equivalentes :
-//    a.x
-//    a["x"]
-// Ca permet de faire
-//    a["coucou dorra"]
-// a.coucou dorra     /!\ marche pas
-
-// Pour chaque interface atomique contenue dans this.props.listOfAtoms
-
-//console.log(tab[0].x);
-/*    _.forEach(
-      this.props.listOfAtoms,
-      function(x){
-        res[x.name] = tab[0].x ;/*  Recuperer la valeur de la cellule dans la index-ème cellule de this.props.scenario  */
-/*  }
-    )
-    return res[index];
-*/
