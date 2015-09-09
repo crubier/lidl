@@ -27,7 +27,8 @@ class TraceViewer extends React.Component {
     this.state = {
       tableWidth: this.props.tableWidth,
       tableHeight: this.props.tableHeight,
-      tableRowNumber:5
+      tableRowNumber:5,
+      openedTab: 0
     };
 // this.state = {
 //   dataList: this._dataListGetter()
@@ -45,6 +46,20 @@ class TraceViewer extends React.Component {
     } else {
       win.onresize = this._onResize.bind(this);
     }
+  }
+
+
+  openTab0(e) {
+    this.setState({
+      openedTab: 0
+    });
+
+  }
+
+  openTab1(e) {
+    this.setState({
+      openedTab: 1
+    });
   }
 
   _onResize() {
@@ -194,15 +209,58 @@ fastForward(){
     var controlledScrolling = this.props.left !== undefined || this.props.top !== undefined;
 
     var listOfAtoms = this.props.listOfAtoms;
+    var espace="         ";
 
     return (
       <div className="TraceViewer">
-        <div className="icons">
-          <i className="fa fa-fast-backward fa-3x" onClick={this.fastBackward.bind(this)}></i>
-          <i className="fa fa-backward fa-3x" onClick={this.backward.bind(this)}></i>
-          <i className="fa fa-forward fa-3x" onClick={this.forward.bind(this)}></i>
-          <i className="fa fa-fast-forward fa-3x" onClick={this.fastForward.bind(this)}></i>
+        <div className="Tabs">
+        <div className={this.state.openedTab === 0
+          ? 'TabTraceViewer active'
+          : 'TabTraceViewer'} onClick={this.openTab0.bind(this)}>
+          <span> Variables Table </span>
         </div>
+        <div className={this.state.openedTab === 1
+            ? 'TabTraceViewer active'
+            : 'TabTraceViewer'} onClick={this.openTab1.bind(this)}>
+            <span>Canvas</span>
+        </div>
+        </div>
+
+        <div className="TabContentTraceViewer">
+        <br/>
+        <div className="icons" style={{
+        display: this.state.openedTab === 0
+          ? 'inline'
+          : 'none'
+      }}>
+          <i className="fa fa-fast-backward fa-3x" onClick={this.fastBackward.bind(this)} style={{
+          display: this.state.openedTab === 0
+            ? 'inline'
+            : 'none'
+        }}>{espace}</i>
+          <i className="fa fa-backward fa-3x" onClick={this.backward.bind(this)}style={{
+          display: this.state.openedTab === 0
+            ? 'inline'
+            : 'none'
+        }}>{espace}</i>
+          <i className="fa fa-forward fa-3x" onClick={this.forward.bind(this)}style={{
+          display: this.state.openedTab === 0
+            ? 'inline'
+            : 'none'
+        }}>{espace}</i>
+          <i className="fa fa-fast-forward fa-3x" onClick={this.fastForward.bind(this)}style={{
+          display: this.state.openedTab === 0
+            ? 'inline'
+            : 'none'
+        }}>{espace}</i>
+        </div>
+        <br/>
+        <br/>
+        <div style={{
+        display: this.state.openedTab === 0
+          ? 'inline'
+          : 'none'
+      }}>
         <Table groupHeaderHeight={30} headerHeight={30} height={this.state.tableHeight} width={this.state.tableWidth} overflowX={controlledScrolling ? "hidden" : "auto"} overflowY={controlledScrolling ? "hidden" : "auto"} rowGetter={this._rowGetter.bind(this)} rowHeight={30} rowsCount={this.state.tableRowNumber} scrollLeft={this.props.left} scrollTop={this.props.top}>
 
           {listOfAtoms.map(function(x) {
@@ -213,10 +271,15 @@ fastForward(){
           ); })}
 
         </Table>
-
+        </div>
+        <canvas style={{
+        display: this.state.openedTab === 1
+          ? 'inline'
+          : 'none'
+      }} width="400" height="400" ></canvas>
 
       </div>
-
+      </div>
 
     );
   }

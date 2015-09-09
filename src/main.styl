@@ -16,9 +16,9 @@
  }
 
  div.icons {
-   vertical-align: middle;
-   height: 7%;
-   background-color:rgb(247, 247, 247);
+
+   height: 200px;
+   background-color:rgb(255, 250, 178);
  }
 
  div.stat {
@@ -104,7 +104,7 @@ background-color:rgb(116, 244, 255);
 float:left;
 width:50%;
 height:100%;
-background-color:rgb(255, 250, 178);
+background-color:rgb(255, 244, 92);
 vertical-align: middle;
 text-align:center;
 display:table-cell;
@@ -136,6 +136,9 @@ text-align:center;
 line-height:60px;
 }
 
+
+
+
 .Tab.active {
   background-color:rgb(200, 255, 252);
 }
@@ -144,10 +147,36 @@ line-height:60px;
   background-color:rgb(135, 171, 255);
 }
 
+.TabTraceViewer {
+  display:inline-block;
+width:50%;
+height:100%;
+margin:0;
+vertical-align: middle;
+text-align:center;
+line-height:60px;
+}
+
+.TabTraceViewer.active {
+  background-color:rgb(255, 250, 178);
+}
+
+.TabTraceViewer:hover {
+  background-color:rgb(247, 193, 99);
+}
+
+
 .TabContent {
   float:left;
 width:100%;
 height:calc(100% - 60px);
+}
+
+.TabContentTraceViewer {
+  float:left;
+width:100%;
+height:calc(100% - 60px);
+background-color:rgb(255, 250, 178);
 }
 
 .button{
@@ -181,6 +210,10 @@ button:hover {
   background-image: -o-linear-gradient(top, #f5f5f5, #b6b7b8);
   background-image: linear-gradient(to bottom, #f5f5f5, #b6b7b8);
   text-decoration: none;
+}
+
+canavas{
+  background-color: rgb(255, 255, 255);
 }
 
 

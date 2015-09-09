@@ -72,7 +72,7 @@ class CodeEditor extends React.Component {constructor(props) {
           <div className={this.state.openedTab === 2
             ? 'Tab active'
             : 'Tab'} onClick={this.openTab2.bind(this)}>
-            <span>Compiled interaction</span>
+            <span>Analyse</span>
           </div>
         </div>
         <div className="TabContent">
