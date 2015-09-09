@@ -15,7 +15,6 @@ class TraceViewer extends React.Component {
     this.state = {
       tableWidth: this.props.tableWidth,
       tableHeight: this.props.tableHeight,
-      tableRowNumber:5,
       openedTab: 0
     };
 
@@ -67,28 +66,6 @@ class TraceViewer extends React.Component {
   }
 
 
-backward(){
-    if(rowNumber>0){
-      rowNumber=rowNumber-1;
-    }
-    this.setState({tableRowNumber:rowNumber});
-}
-
-forward(){
-    if(rowNumber<this.props.scenario.length){
-      rowNumber=rowNumber+1;
-    }
-    this.setState({tableRowNumber:rowNumber});
-
-}
-fastBackward(){
-    rowNumber=0;
-    this.setState({tableRowNumber:rowNumber});
-}
-fastForward(){
-    rowNumber=this.props.scenario.length;
-    this.setState({tableRowNumber:rowNumber});
-  }
 
 
   render() {
@@ -118,22 +95,22 @@ fastForward(){
           ? 'inline'
           : 'none'
       }}>
-          <i className="fa fa-fast-backward fa-3x" onClick={this.fastBackward.bind(this)} style={{
+          <i className="fa fa-fast-backward fa-3x" onClick={this.props.fastBackward} style={{
           display: this.state.openedTab === 0
             ? 'inline'
             : 'none'
         }}>{espace}</i>
-          <i className="fa fa-backward fa-3x" onClick={this.backward.bind(this)}style={{
+          <i className="fa fa-backward fa-3x" onClick={this.props.backward}style={{
           display: this.state.openedTab === 0
             ? 'inline'
             : 'none'
         }}>{espace}</i>
-          <i className="fa fa-forward fa-3x" onClick={this.forward.bind(this)}style={{
+          <i className="fa fa-forward fa-3x" onClick={this.props.forward}style={{
           display: this.state.openedTab === 0
             ? 'inline'
             : 'none'
         }}>{espace}</i>
-          <i className="fa fa-fast-forward fa-3x" onClick={this.fastForward.bind(this)}style={{
+          <i className="fa fa-fast-forward fa-3x" onClick={this.props.fastForward}style={{
           display: this.state.openedTab === 0
             ? 'inline'
             : 'none'
@@ -146,7 +123,7 @@ fastForward(){
           ? 'inline'
           : 'none'
       }}>
-        <Table groupHeaderHeight={30} headerHeight={30} height={this.state.tableHeight} width={this.state.tableWidth} overflowX={controlledScrolling ? "hidden" : "auto"} overflowY={controlledScrolling ? "hidden" : "auto"} rowGetter={this._rowGetter.bind(this)} rowHeight={30} rowsCount={this.state.tableRowNumber} scrollLeft={this.props.left} scrollTop={this.props.top}>
+        <Table groupHeaderHeight={30} headerHeight={30} height={this.state.tableHeight} width={this.state.tableWidth} overflowX={controlledScrolling ? "hidden" : "auto"} overflowY={controlledScrolling ? "hidden" : "auto"} rowGetter={this._rowGetter.bind(this)} rowHeight={30} rowsCount={this.props.tableRowNumber} scrollLeft={this.props.left} scrollTop={this.props.top}>
 
           {listOfAtoms.map(function(x) {
             return (
@@ -175,13 +152,15 @@ TraceViewer.propTypes = {
   scenario: React.PropTypes.array,
   onContentDimensionsChange: React.PropTypes.func,
   left: React.PropTypes.number,
-  top: React.PropTypes.number
+  top: React.PropTypes.number,
+  tableRowNumber: React.PropTypes.number
 };
 
 TraceViewer.defaultProps = {
   listOfAtoms: [],
   scenario: [],
   tableWidth: 500,
-  tableHeight: 500
+  tableHeight: 500,
+  tableRowNumber: 5
 };
 module.exports = TraceViewer;

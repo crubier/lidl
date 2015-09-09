@@ -53717,7 +53717,7 @@ var ____Class1=React.Component;for(var ____Class1____Key in ____Class1){if(____C
             }}), 
 
 
-            React.createElement("div", {className: "Tab dorra", style: {
+            React.createElement("div", {className: "Tab compiledInteraction", style: {
               display: this.state.openedTab === 2
                 ? 'inline-block'
                 : 'none'
@@ -53808,6 +53808,7 @@ var TraceViewer = require('./traceViewer.jsx');
 var iii = require('iii');
 var scenarioChecker = require('./scenario.js');
 var _ = require('lodash');
+var rowNumber=5;
 
 function nbrOfPrevious(interaction) {
   var total = 0;
@@ -53862,6 +53863,7 @@ var ____Class0=React.Component;for(var ____Class0____Key in ____Class0){if(____C
       Interaction: "interaction (test):{a:{e:Number in},b:{c:{d:Number in}}} with interaction (a):Number out is (previous(#a)) is ({x:(a),y:(#a),z:(#b)})",
       scenario: '[{"a":{"e":2},"b":{"c":{"d":5}}},{"a":{"e":1}},{"a":{"e":0},"b":{"c":{"d":-5}}},{},{"b":{"c":{"d":10}}}]',
       compiledInteraction: "({x:(previous(#0)),y:(#0),z:(#1)})",
+      tableRowNumber:5,
       stats: {
         variables: 0,
         previous: 0,
@@ -53909,7 +53911,7 @@ var ____Class0=React.Component;for(var ____Class0____Key in ____Class0){if(____C
       });
     } catch (errorMessage) {
       this.setState({
-        errorInteraction: JSON.stringify(errorMessage)
+        errorInteraction: ""+errorMessage
       });
       console.log(errorMessage);
     }
@@ -53929,8 +53931,9 @@ var ____Class0=React.Component;for(var ____Class0____Key in ____Class0){if(____C
     } catch (errorMessage) {
 
       this.setState({
-        errorScenario: JSON.stringify(errorMessage)
+        errorScenario: ""+errorMessage
       });
+      console.log("ccc",this.state.errorScenario);
 
     }
   }});
@@ -53939,12 +53942,37 @@ var ____Class0=React.Component;for(var ____Class0____Key in ____Class0){if(____C
     return iii.interfaces.listOfAtoms(newModel, "main");
   }});
 
+
+
+  Object.defineProperty(Main.prototype,"backward",{writable:true,configurable:true,value:function(){"use strict";
+      if(rowNumber>0){
+        rowNumber=rowNumber-1;
+      }
+      this.setState({tableRowNumber:rowNumber});
+  }});
+
+  Object.defineProperty(Main.prototype,"forward",{writable:true,configurable:true,value:function(){"use strict";
+      if(rowNumber<this.state.scenario.length){
+        rowNumber=rowNumber+1;
+      }
+      this.setState({tableRowNumber:rowNumber});
+
+  }});
+  Object.defineProperty(Main.prototype,"fastBackward",{writable:true,configurable:true,value:function(){"use strict";
+      rowNumber=0;
+      this.setState({tableRowNumber:rowNumber});
+  }});
+  Object.defineProperty(Main.prototype,"fastForward",{writable:true,configurable:true,value:function(){"use strict";
+      rowNumber=this.state.scenario.length;
+      this.setState({tableRowNumber:rowNumber});
+    }});
+
   Object.defineProperty(Main.prototype,"render",{writable:true,configurable:true,value:function() {"use strict";
     return (
       React.createElement("div", {className: "Main"}, 
         React.createElement(CodeEditor, {Interaction: this.state.Interaction, errorInteraction: this.state.errorInteraction, errorScenario: this.state.errorScenario, evaluateInteraction: this.evaluateInteraction.bind(this), evaluateScenario: this.evaluateScenario.bind(this), onInteractionChange: this.onInteractionChange.bind(this), onScenarioChange: this.onScenarioChange.bind(this), scenario: this.state.scenario, 
         stats: this.state.stats, compiledInteraction: this.state.compiledInteraction}), 
-        React.createElement(TraceViewer, {listOfAtoms: this.state.listOfAtoms, scenario: this.state.scenario})
+        React.createElement(TraceViewer, {listOfAtoms: this.state.listOfAtoms, scenario: this.state.scenario, tableRowNumber: this.state.tableRowNumber, fastForward: this.fastForward.bind(this), fastBackward: this.fastBackward.bind(this), backward: this.backward.bind(this), forward: this.forward.bind(this)})
       )
     );
   }});
@@ -54011,7 +54039,6 @@ var ____Class2=React.Component;for(var ____Class2____Key in ____Class2){if(____C
     this.state = {
       tableWidth: this.props.tableWidth,
       tableHeight: this.props.tableHeight,
-      tableRowNumber:5,
       openedTab: 0
     };
 
@@ -54063,28 +54090,6 @@ var ____Class2=React.Component;for(var ____Class2____Key in ____Class2){if(____C
   }});
 
 
-Object.defineProperty(TraceViewer.prototype,"backward",{writable:true,configurable:true,value:function(){"use strict";
-    if(rowNumber>0){
-      rowNumber=rowNumber-1;
-    }
-    this.setState({tableRowNumber:rowNumber});
-}});
-
-Object.defineProperty(TraceViewer.prototype,"forward",{writable:true,configurable:true,value:function(){"use strict";
-    if(rowNumber<this.props.scenario.length){
-      rowNumber=rowNumber+1;
-    }
-    this.setState({tableRowNumber:rowNumber});
-
-}});
-Object.defineProperty(TraceViewer.prototype,"fastBackward",{writable:true,configurable:true,value:function(){"use strict";
-    rowNumber=0;
-    this.setState({tableRowNumber:rowNumber});
-}});
-Object.defineProperty(TraceViewer.prototype,"fastForward",{writable:true,configurable:true,value:function(){"use strict";
-    rowNumber=this.props.scenario.length;
-    this.setState({tableRowNumber:rowNumber});
-  }});
 
 
   Object.defineProperty(TraceViewer.prototype,"render",{writable:true,configurable:true,value:function() {"use strict";
@@ -54114,22 +54119,22 @@ Object.defineProperty(TraceViewer.prototype,"fastForward",{writable:true,configu
           ? 'inline'
           : 'none'
       }}, 
-          React.createElement("i", {className: "fa fa-fast-backward fa-3x", onClick: this.fastBackward.bind(this), style: {
+          React.createElement("i", {className: "fa fa-fast-backward fa-3x", onClick: this.props.fastBackward, style: {
           display: this.state.openedTab === 0
             ? 'inline'
             : 'none'
         }}, espace), 
-          React.createElement("i", {className: "fa fa-backward fa-3x", onClick: this.backward.bind(this), style: {
+          React.createElement("i", {className: "fa fa-backward fa-3x", onClick: this.props.backward, style: {
           display: this.state.openedTab === 0
             ? 'inline'
             : 'none'
         }}, espace), 
-          React.createElement("i", {className: "fa fa-forward fa-3x", onClick: this.forward.bind(this), style: {
+          React.createElement("i", {className: "fa fa-forward fa-3x", onClick: this.props.forward, style: {
           display: this.state.openedTab === 0
             ? 'inline'
             : 'none'
         }}, espace), 
-          React.createElement("i", {className: "fa fa-fast-forward fa-3x", onClick: this.fastForward.bind(this), style: {
+          React.createElement("i", {className: "fa fa-fast-forward fa-3x", onClick: this.props.fastForward, style: {
           display: this.state.openedTab === 0
             ? 'inline'
             : 'none'
@@ -54142,7 +54147,7 @@ Object.defineProperty(TraceViewer.prototype,"fastForward",{writable:true,configu
           ? 'inline'
           : 'none'
       }}, 
-        React.createElement(Table, {groupHeaderHeight: 30, headerHeight: 30, height: this.state.tableHeight, width: this.state.tableWidth, overflowX: controlledScrolling ? "hidden" : "auto", overflowY: controlledScrolling ? "hidden" : "auto", rowGetter: this.$TraceViewer_rowGetter.bind(this), rowHeight: 30, rowsCount: this.state.tableRowNumber, scrollLeft: this.props.left, scrollTop: this.props.top}, 
+        React.createElement(Table, {groupHeaderHeight: 30, headerHeight: 30, height: this.state.tableHeight, width: this.state.tableWidth, overflowX: controlledScrolling ? "hidden" : "auto", overflowY: controlledScrolling ? "hidden" : "auto", rowGetter: this.$TraceViewer_rowGetter.bind(this), rowHeight: 30, rowsCount: this.props.tableRowNumber, scrollLeft: this.props.left, scrollTop: this.props.top}, 
 
           listOfAtoms.map(function(x) {
             return (
@@ -54171,14 +54176,16 @@ TraceViewer.propTypes = {
   scenario: React.PropTypes.array,
   onContentDimensionsChange: React.PropTypes.func,
   left: React.PropTypes.number,
-  top: React.PropTypes.number
+  top: React.PropTypes.number,
+  tableRowNumber: React.PropTypes.number
 };
 
 TraceViewer.defaultProps = {
   listOfAtoms: [],
   scenario: [],
   tableWidth: 500,
-  tableHeight: 500
+  tableHeight: 500,
+  tableRowNumber: 5
 };
 module.exports = TraceViewer;
 

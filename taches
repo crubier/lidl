@@ -9,3 +9,25 @@ laisser une place pour le graphe
 
 dans la version compiler mettre un peu de stat : combien de variable , combien de previous, de id de fct recusrion  si ça va jusqu'au nmbre 17 c'est qu'il y a 17 #
 iii.operator.parse(interaction.operator)==="Previous" par exemple voir operator.pegjs
+
+
+07/09/2015
+
+identifier, composition, function, variable -----------------------------------------------------------
+varibale =identifier+previous -------------------------------------------------------------------------
+
+msg d'erreur si le scenario ne correspond pas à la definition    0000000000000000000000
+
+modification de la zore d'erreur (state au lieu de getElement)---------------------------------------------
+nommer compiled interaction=> Analyse -------------------------------------------------------------------
+rendre les icons plus grandes voir font-awesome dans exemple fa-2x ----------------------------------------
+
+modifier le tableau de sorte qu'on affiche tout à la base  000000000000000000000000000
+
+wimp interface
+
+svg
+ajouter 2 onglets coté droite : un pour le tableau et un pour canvas ----------------------------------------
+2eme onglet que le canvas
+
+nettoyer le code--------------------------------------------------------------------------------------------
