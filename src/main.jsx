@@ -125,8 +125,9 @@ class Main extends React.Component {constructor(props) {
     } catch (errorMessage) {
 
       this.setState({
-        errorScenario: JSON.stringify(errorMessage)
+        errorScenario: ""+errorMessage
       });
+      console.log("ccc",this.state.errorScenario);
 
     }
   }
