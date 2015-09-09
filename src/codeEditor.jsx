@@ -83,7 +83,7 @@ class CodeEditor extends React.Component {constructor(props) {
             }}/>
 
 
-            <div className="Tab dorra" style={{
+            <div className="Tab compiledInteraction" style={{
               display: this.state.openedTab === 2
                 ? 'inline-block'
                 : 'none'
