@@ -31,14 +31,10 @@ class CodeEditor extends React.Component {constructor(props) {
 
 
   componentDidMount() {
-    this.props.evaluateInterface(this.props.Interface);
     this.props.evaluateScenario(this.props.scenario);
     this.props.evaluateInteraction(this.props.Interaction);
   }
 
-  interfaceChanged(e) {
-    this.props.onInterfaceChange(e.target.value);
-  }
 
   scenarioChanged(e) {
     this.props.onScenarioChange(e.target.value);
@@ -48,14 +44,7 @@ class CodeEditor extends React.Component {constructor(props) {
   }
 
 
-
-  showCompiledMode() {
-    this.refs.CompiledMode.show();
-  }
-
-
   render() {
-    console.log("ee",this.props.errorScenario);
     return (
       <div className="CodeEditor">
         <div className="Tabs">
@@ -85,7 +74,6 @@ class CodeEditor extends React.Component {constructor(props) {
               : 'none'
           }}/>
 
-
             <textarea className={this.props.errorInteraction !== ""
               ? "error"
               : ""} defaultValue={this.props.Interaction} name="interaction" onChange={this.interactionChanged.bind(this)} style={{
@@ -112,10 +100,6 @@ class CodeEditor extends React.Component {constructor(props) {
                 ? 'inline-block'
                 : 'none'
             }} >{this.props.errorScenario}</div>
-
-
-
-
 
             <p style={{
               display: this.state.openedTab === 2
@@ -152,9 +136,6 @@ class CodeEditor extends React.Component {constructor(props) {
             }}> { "Number of variables :" + (this.props.stats.identifiers+this.props.stats.previous)} </p>
             <br/>
             <br/>
-
-
-
           </div>
         </div>
 
@@ -165,9 +146,7 @@ class CodeEditor extends React.Component {constructor(props) {
 CodeEditor.propTypes = {
   stats: React.PropTypes.object,
   errorInteraction: React.PropTypes.string,
-  errorInterface: React.PropTypes.string,
   errorScenario: React.PropTypes.string,
-  Interface: React.PropTypes.string,
   Interaction: React.PropTypes.string,
   compiledInteraction:React.PropTypes.string,
 
@@ -176,9 +155,7 @@ CodeEditor.propTypes = {
 CodeEditor.defaultProps = {
   stats: {variables:0,previous:0,identifiers:0,functions:0,compositions:0},
   errorInteraction: "",
-  errorInterface: "",
   errorScenario: "",
-  Interface: "{a:{e:Number in},b:{c:{d:Number in}}}",
   Interaction: "interaction (test):{a:{e:Number in},b:{c:{d:Number in}}} with interaction (a):Number out is (previous(#a)) is ({x:(a),y:(#a),z:(#b)})",
   scenario: '[{"a":{"e":2},"b":{"c":{"d":5}}},{"a":{"e":1}},{"a":{"e":0},"b":{"c":{"d":-5}}},{},{"b":{"c":{"d":10}}}]',
   compiledInteraction:"({x:(previous(#0)),y:(#0),z:(#1)})",
