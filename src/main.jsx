@@ -120,16 +120,22 @@ class Main extends React.Component {constructor(props) {
       this.setState({
         scenario: newModelScenario
       });
-      this.setState({
-        errorScenario: ""
-      });
 
+      this.setState({
+        errorScenario: "",
+      });
+      rowNumber=newModelScenario.length;
+      console.log("ee",this.state.scenario);
+      this.setState({
+        tableRowNumber: rowNumber
+      });
     } catch (errorMessage) {
 
       this.setState({
         errorScenario: ""+errorMessage
+
       });
-      console.log("ccc",this.state.errorScenario);
+
 
     }
   }
