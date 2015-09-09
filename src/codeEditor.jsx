@@ -55,7 +55,7 @@ class CodeEditor extends React.Component {constructor(props) {
 
 
   render() {
-    //var compiledInteraction = iii.compiler.compileToIii(this.props.Interaction);
+    console.log("ee",this.props.errorScenario);
     return (
       <div className="CodeEditor">
         <div className="Tabs">
@@ -86,14 +86,6 @@ class CodeEditor extends React.Component {constructor(props) {
           }}/>
 
 
-          <textarea disabled id="errorS" className="errorScenario" defaultValue={this.props.errorScenario} name="errorScenario"  style={{
-            display: this.props.errorScenario !== "" && this.state.openedTab === 0
-              ? 'inline'
-              : 'none'
-          }}/>
-
-
-          <div>
             <textarea className={this.props.errorInteraction !== ""
               ? "error"
               : ""} defaultValue={this.props.Interaction} name="interaction" onChange={this.interactionChanged.bind(this)} style={{
@@ -102,16 +94,27 @@ class CodeEditor extends React.Component {constructor(props) {
                 : 'none'
             }}/>
 
-            <textarea disabled id="errorI" className="errorScenario" defaultValue={this.props.errorInteraction} name="errorInteraction"  style={{
-              display: this.props.errorInteraction !== "" && this.state.openedTab === 1
-                ? 'inline'
-                : 'none'
-            }}/>
-            <textarea disabled id="compiledI" defaultValue={this.props.compiledInteraction} name="compiledInteraction" style={{
+
+            <div className="Tab dorra" style={{
               display: this.state.openedTab === 2
-                ? 'inline'
+                ? 'inline-block'
                 : 'none'
-            }}/>
+            }} >{this.props.compiledInteraction}</div>
+
+            <div className="errorScenario" style={{
+              display: this.props.errorInteraction !== "" && this.state.openedTab === 1
+                ? 'inline-block'
+                : 'none'
+            }} >{this.props.errorInteraction}</div>
+
+            <div className="errorScenario" style={{
+              display: this.props.errorScenario !== "" && this.state.openedTab === 0
+                ? 'inline-block'
+                : 'none'
+            }} >{this.props.errorScenario}</div>
+
+
+
 
 
             <p style={{
@@ -149,9 +152,12 @@ class CodeEditor extends React.Component {constructor(props) {
             }}> { "Number of variables :" + (this.props.stats.identifiers+this.props.stats.previous)} </p>
             <br/>
             <br/>
+
+
+
           </div>
         </div>
-      </div>
+
     );
   }
 }

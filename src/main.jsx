@@ -146,12 +146,12 @@ class Main extends React.Component {constructor(props) {
         Interaction: Interaction
       });
       var compiled = iii.compiler.compileToIii(Interaction);
-
+      console.log("cccc",compiled);
       this.setState({
         compiledInteraction: compiled
       });
-      var compiledInter = document.getElementById("compiledI");
-      compiledInter.value = compiled;
+      //var compiledInter = document.getElementById("compiledI");
+      //compiledInter.value = compiled;
 
 // TODO
 // var elemI=document.getElementById("errorI");
@@ -200,11 +200,11 @@ class Main extends React.Component {constructor(props) {
       this.setState({
         errorInteraction: JSON.stringify(errorMessage)
       });
-      var compiledInter = document.getElementById("compiledI");
-      compiledInter.value = errorMessage;
+      //var compiledInter = document.getElementById("compiledI");
+      //compiledInter.value = errorMessage;
       console.log(errorMessage);
-      var elemI = document.getElementById("errorI");
-      elemI.value = errorMessage;
+      //var elemI = document.getElementById("errorI");
+      //elemI.value = errorMessage;
     }
 
   }
@@ -240,24 +240,25 @@ class Main extends React.Component {constructor(props) {
       this.setState({
         scenario: newModelScenario
       });
-// var listOfValues=scenarioChecker.check(this.state.modelCode,newModelScenario,"main");
+     // var listOfValues=scenarioChecker.check(this.state.modelCode,newModelScenario,"main");
 // console.log("resultat =",JSON.stringify(listOfValues));
       this.setState({
         errorScenario: ""
       });
-// this.setState({listOfValues:listOfValues});
+     //this.setState({listOfValues:listOfValues});
 // enlever les models
-      var elem = document.getElementById("errorS");
-      elem.value = "";
+      //var elem = document.getElementById("errorS");
+      //elem.value = "";
 
     } catch (errorMessage) {
 
       this.setState({
-        errorScenario: errorMessage
+        errorScenario: JSON.stringify(errorMessage)
       });
-      var elem = document.getElementById("errorS");
-      elem.value = errorMessage;
+      //var elem = document.getElementById("errorS");
+      //elem.value = errorMessage;
       console.log("erreur main", this.state.errorScenario);
+      console.log("erreur main", errorMessage);
 
     }
   }
@@ -270,7 +271,7 @@ class Main extends React.Component {constructor(props) {
     return (
       <div className="Main">
         <CodeEditor Interaction={this.state.Interaction} Interface={this.state.Interface} errorInteraction={this.state.errorInteraction} errorInterface={this.state.errorInterface} errorScenario={this.state.errorScenario} evaluateInterface={this.evaluateInterface.bind(this)} evaluateScenario={this.evaluateScenario.bind(this)} onInteractionChange={this.onInteractionChange.bind(this)} onInterfaceChange={this.onInterfaceChange.bind(this)} onScenarioChange={this.onScenarioChange.bind(this)} scenario={this.state.scenario}
-        stats={this.state.stats}/>
+        stats={this.state.stats} compiledInteraction={this.state.compiledInteraction} />
         <TraceViewer listOfAtoms={this.state.listOfAtoms} scenario={this.state.scenario}/>
         /* TODO on doit aussi passer le scenario en prop */
       </div>
