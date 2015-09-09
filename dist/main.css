@@ -157,12 +157,10 @@ body {
 }
 div {
   vertical-align: middle;
-  height: 30%;
 }
 div.icons {
-  vertical-align: middle;
-  height: 7%;
-  background-color: #f7f7f7;
+  height: 200px;
+  background-color: #fffab2;
 }
 div.stat {
   vertical-align: middle;
@@ -172,9 +170,24 @@ div.stat {
   margin-top: 1px;
   margin-left: 250px;
 }
+.Tab.dorra {
+  text-align: left;
+  display: inline-block;
+  background-color: #c8fffc;
+  height: 289px;
+  width: 100%;
+}
+div.codeEditor {
+  width: 100%;
+  height: 100%;
+}
+p {
+  height: 500px;
+  font-size: 13pt;
+}
 textarea {
   width: 100%;
-  height: 295px;
+  height: 289px;
   border: none;
   margin: 0;
   resize: none;
@@ -190,7 +203,7 @@ textarea.statics {
 textarea.error {
   background-color: #ffbfbf;
 }
-textarea.errorScenario {
+div.errorScenario {
   width: 100%;
   height: 40px;
   border: none;
@@ -223,7 +236,7 @@ span {
   float: left;
   width: 50%;
   height: 100%;
-  background-color: #fffab2;
+  background-color: #fff45c;
   vertical-align: middle;
   text-align: center;
   display: table-cell;
@@ -257,10 +270,31 @@ span {
 .Tab:hover {
   background-color: #87abff;
 }
+.TabTraceViewer {
+  display: inline-block;
+  width: 50%;
+  height: 100%;
+  margin: 0;
+  vertical-align: middle;
+  text-align: center;
+  line-height: 60px;
+}
+.TabTraceViewer.active {
+  background-color: #fffab2;
+}
+.TabTraceViewer:hover {
+  background-color: #f7c163;
+}
 .TabContent {
   float: left;
   width: 100%;
   height: calc(100% - 60px);
+}
+.TabContentTraceViewer {
+  float: left;
+  width: 100%;
+  height: calc(100% - 60px);
+  background-color: #fffab2;
 }
 .button {
   position: relative;
@@ -291,6 +325,9 @@ button:hover {
   background-image: -o-linear-gradient(top, #f5f5f5, #b6b7b8);
   background-image: linear-gradient(to bottom, #f5f5f5, #b6b7b8);
   text-decoration: none;
+}
+canavas {
+  background-color: #fff;
 }
 
 /*# sourceMappingURL=main.css.map */
