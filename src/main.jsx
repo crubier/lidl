@@ -82,7 +82,7 @@ class Main extends React.Component {constructor(props) {
       errorInteraction: "",
       errorScenario: "",
       Interface: "{a:{e:Number in},b:{c:{d:Number in}}}",
-      Interaction: "interaction (test):Number out with interaction (a):Number out is (previous(#a)) is ({x:(a),y:(#a),z:(#b)})",
+      Interaction: "interaction (test):{a:{e:Number in},b:{c:{d:Number in}}} with interaction (a):Number out is (previous(#a)) is ({x:(a),y:(#a),z:(#b)})",
       scenario: '[{"a":{"e":2},"b":{"c":{"d":5}}},{"a":{"e":1}},{"a":{"e":0},"b":{"c":{"d":-5}}},{},{"b":{"c":{"d":10}}}]',
       compiledInteraction: "({x:(previous(#0)),y:(#0),z:(#1)})",
       stats: {
@@ -270,7 +270,7 @@ class Main extends React.Component {constructor(props) {
   render() {
     return (
       <div className="Main">
-        <CodeEditor Interaction={this.state.Interaction} Interface={this.state.Interface} errorInteraction={this.state.errorInteraction} errorInterface={this.state.errorInterface} errorScenario={this.state.errorScenario} evaluateInterface={this.evaluateInterface.bind(this)} evaluateScenario={this.evaluateScenario.bind(this)} onInteractionChange={this.onInteractionChange.bind(this)} onInterfaceChange={this.onInterfaceChange.bind(this)} onScenarioChange={this.onScenarioChange.bind(this)} scenario={this.state.scenario}
+        <CodeEditor Interaction={this.state.Interaction} Interface={this.state.Interface} errorInteraction={this.state.errorInteraction} errorInterface={this.state.errorInterface} errorScenario={this.state.errorScenario} evaluateInteraction={this.evaluateInteraction.bind(this)} evaluateInterface={this.evaluateInterface.bind(this)} evaluateScenario={this.evaluateScenario.bind(this)} onInteractionChange={this.onInteractionChange.bind(this)} onInterfaceChange={this.onInterfaceChange.bind(this)} onScenarioChange={this.onScenarioChange.bind(this)} scenario={this.state.scenario}
         stats={this.state.stats} compiledInteraction={this.state.compiledInteraction} />
         <TraceViewer listOfAtoms={this.state.listOfAtoms} scenario={this.state.scenario}/>
         /* TODO on doit aussi passer le scenario en prop */

@@ -30,10 +30,10 @@ class CodeEditor extends React.Component {constructor(props) {
   }
 
 
-
   componentDidMount() {
     this.props.evaluateInterface(this.props.Interface);
     this.props.evaluateScenario(this.props.scenario);
+    this.props.evaluateInteraction(this.props.Interaction);
   }
 
   interfaceChanged(e) {
@@ -179,7 +179,7 @@ CodeEditor.defaultProps = {
   errorInterface: "",
   errorScenario: "",
   Interface: "{a:{e:Number in},b:{c:{d:Number in}}}",
-  Interaction: "interaction (test):Number out with interaction (a):Number out is (previous(#a)) is ({x:(a),y:(#a),z:(#b)})",
+  Interaction: "interaction (test):{a:{e:Number in},b:{c:{d:Number in}}} with interaction (a):Number out is (previous(#a)) is ({x:(a),y:(#a),z:(#b)})",
   scenario: '[{"a":{"e":2},"b":{"c":{"d":5}}},{"a":{"e":1}},{"a":{"e":0},"b":{"c":{"d":-5}}},{},{"b":{"c":{"d":10}}}]',
   compiledInteraction:"({x:(previous(#0)),y:(#0),z:(#1)})",
 
