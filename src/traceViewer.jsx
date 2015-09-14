@@ -7,7 +7,6 @@ var Table = FixedDataTable.Table;
 var rowNumber=5;
 var scenarioUtils=require('./scenario.js');
 
-
 class TraceViewer extends React.Component {
 
   constructor(props) {
@@ -15,9 +14,41 @@ class TraceViewer extends React.Component {
     this.state = {
       tableWidth: this.props.tableWidth,
       tableHeight: this.props.tableHeight,
-      openedTab: 0
+      openedTab: 0,
+      mainInterfaceState:{time:0,mouse: {
+            buttons: 0,
+            position: {
+                x: 0,
+                y: 0
+            },
+            wheel: {
+                x: 0,
+                y: 0,
+                z: 0
+            }
+        }}
     };
 
+  }
+
+  mouse(e) {
+      var target = e.target;
+      var rect = React.findDOMNode(this.refs.iiicanvas).getBoundingClientRect();
+      var offsetX = e.clientX - rect.left;
+      var offsetY = e.clientY - rect.top;
+      this.setState({mainInterfaceState:{time:e.timeStamp,mouse : {
+          buttons: e.buttons,
+          position: {
+              x: offsetX,
+              y: offsetY
+          },
+          wheel: {
+              x: (e.deltaX !== undefined && e.deltaX !== null) ? e.deltaX : 0,
+              y: (e.deltaY !== undefined && e.deltaY !== null) ? e.deltaY : 0,
+              z: (e.deltaZ !== undefined && e.deltaZ !== null) ? e.deltaZ : 0
+          }
+      }}});
+      console.log("ok  "  + JSON.stringify(this.state));
   }
 
   componentDidMount() {
@@ -30,6 +61,61 @@ class TraceViewer extends React.Component {
     } else {
       win.onresize = this._onResize.bind(this);
     }
+
+    ///////////////////////////////////////////////////////////
+    // DEBUT  CODE iii Canvas
+
+    var iiicanvas = React.findDOMNode(this.refs.iiicanvas);
+
+    // Prevent context menu
+    iiicanvas.addEventListener("contextmenu", function(e) {
+      if (e.preventDefault !== undefined)
+          e.preventDefault();
+      if (e.stopPropagation !== undefined)
+          e.stopPropagation();
+      return false;
+    }, false);
+
+    // Mouse events
+    iiicanvas.addEventListener("mousemove", this.mouse.bind(this), false);
+    iiicanvas.addEventListener("mousedown", this.mouse.bind(this), false);
+    iiicanvas.addEventListener("mouseup", this.mouse.bind(this), false);
+    iiicanvas.addEventListener("wheel", this.mouse.bind(this), false);
+
+    // // Global
+    // window.addEventListener("resize", resize, false);
+
+    // // Keyboard events
+    // iiicanvas.addEventListener("keydown", keydown, false);
+    // iiicanvas.addEventListener("keyup", keyup, false);
+
+
+    //
+    // // Touch events
+    // iiicanvas.addEventListener("touchcancel", touch, false);
+    // iiicanvas.addEventListener("touchend", touch, false);
+    // iiicanvas.addEventListener("touchmove", touch, false);
+    // iiicanvas.addEventListener("touchstart", touch, false);
+    //
+    // // Device
+    // // window.addEventListener("devicemotion", devicemotion, false);
+    // window.addEventListener("deviceorientation", deviceorientation, false);
+    // window.addEventListener("devicelight", devicelight, false);
+    // window.addEventListener("deviceproximity", deviceproximity, false);
+    //
+    // window.setInterval(function(){
+    //   mainInterface.time = Date.now();
+    //   timeStep();
+    // }, 1000/60);
+
+
+    // FIN  CODE iii Canvas
+    ///////////////////////////////////////////////////////////
+
+
+
+
+
   }
 
 
@@ -134,7 +220,7 @@ class TraceViewer extends React.Component {
 
         </Table>
         </div>
-        <canvas style={{
+        <canvas ref="iiicanvas" style={{
         display: this.state.openedTab === 1
           ? 'inline'
           : 'none'
