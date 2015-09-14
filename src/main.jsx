@@ -56,7 +56,7 @@ class Main extends React.Component {constructor(props) {
       listOfAtoms: [],
       errorInteraction: "",
       errorScenario: "",
-      Interaction: "interaction (test):{time:Number in,mouse:{buttons:Number in,position:{x:Number in ,y:Number in},wheel:{x:Number in ,y:Number in,z:Number in}}} with interaction (a):Number out is (previous(#a)) is ({x:(a),y:(#a),z:(#b)})",
+      Interaction: "interaction (test):{time:Number in,size:{width:Number in, height:Number in}, mouse:{buttons:Number in,position:{x:Number in ,y:Number in},wheel:{x:Number in ,y:Number in,z:Number in}}} with interaction (a):Number out is (previous(#a)) is ({x:(a),y:(#a),z:(#b)})",
       scenario: '[]',
       compiledInteraction: "({x:(previous(#0)),y:(#0),z:(#1)})",
       tableRowNumber:5,
@@ -72,8 +72,8 @@ class Main extends React.Component {constructor(props) {
 
 
   addToScenario(mainInterfaceState){
+    console.log("dorra",mainInterfaceState.size.width)
     var theScenario=this.state.scenario;
-    console.log("hiii ",JSON.stringify(mainInterfaceState));
     var element={time:mainInterfaceState.time,mouse : {
         buttons: mainInterfaceState.mouse.buttons,
         position: {
@@ -163,13 +163,13 @@ class Main extends React.Component {constructor(props) {
         "F11": false,
         "F12": false
     }}
-        console.log( "dddd",mainInterfaceState.mouse.position.x);
+        console.log( "dddd",JSON.stringify(element));
     theScenario=theScenario.push(element);
     /*
     this.setState({
       scenario: theScenario
     });*/
-    console.log("doooooooo ",JSON.stringify(this.state.scenario));
+
     this.evaluateScenario(JSON.stringify(this.state.scenario));
   }
 

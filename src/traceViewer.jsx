@@ -98,9 +98,14 @@ class TraceViewer extends React.Component {
                 y: 0,
                 z: 0
             }
-        },}
+        },
+        size:{
+            width:500,
+            height:500
+        },
+        }
     };
-    console.log("eeeeeeeeeeeee",JSON.stringify(this.state.mainInterfaceState));
+
 
   }
 
@@ -110,7 +115,8 @@ class TraceViewer extends React.Component {
       var offsetX = e.clientX - rect.left;
       var offsetY = e.clientY - rect.top;
       var theKeyboard=this.state.mainInterfaceState.keyboard;
-      this.setState({mainInterfaceState:{keyboard:theKeyboard,time:e.timeStamp,mouse : {
+      var theSize=this.state.mainInterfaceState.size;
+      this.setState({mainInterfaceState:{keyboard:theKeyboard,size:theSize,time:e.timeStamp,mouse : {
           buttons: e.buttons,
           position: {
               x: offsetX,
@@ -122,16 +128,19 @@ class TraceViewer extends React.Component {
               z: (e.deltaZ !== undefined && e.deltaZ !== null) ? e.deltaZ : 0
           }
       }}});
-      console.log("gastli ",JSON.stringify(this.state.mainInterfaceState));
       this.scenarioChanged();
   }
 
   resize(e) {
+      var theKeyboard=this.state.mainInterfaceState.keyboard;
+      var theMouse=this.state.mainInterfaceState.mouse;
       var canvas=React.findDOMNode(this.refs.iiicanvas);
-      this.setState({mainInterfaceState:{time:e.timeStamp,size : {
+      this.setState({mainInterfaceState:{mouse:theMouse,keyboard:theKeyboard,time:e.timeStamp,size : {
           width: canvas.offsetWidth,
           height: canvas.offsetHeight
       }}});
+      this.scenarioChanged();
+      console.log("resiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiize",JSON.stringify(this.state.mainInterfaceState.size));
   }
 
 
@@ -202,7 +211,7 @@ class TraceViewer extends React.Component {
     iiicanvas.addEventListener("wheel", this.mouse.bind(this), false);
 
     // Global
-    window.addEventListener("resize", resize, false);
+    window.addEventListener("resize", this.resize.bind(this), false);
 
     // Keyboard events
     iiicanvas.addEventListener("keydown", this.keydown.bind(this), false);
@@ -253,6 +262,7 @@ class TraceViewer extends React.Component {
 
   scenarioChanged() {
     this.props.addToScenario(this.state.mainInterfaceState);
+    console.log("ddddd");
   }
 
   _onResize() {
@@ -337,7 +347,7 @@ class TraceViewer extends React.Component {
           {listOfAtoms.map(function(x) {
             return (
           <ColumnGroup key={x.name} fixed={true} label={x.name}>
-            <Column dataKey={x.name} fixed={true} label={x.data.name + " " + x.direction} width={150}/>
+            <Column dataKey={x.name} fixed={true} label={x.data.name + " " + x.direction} width={80}/>
           </ColumnGroup>
           ); })}
 
