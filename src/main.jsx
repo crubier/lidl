@@ -219,7 +219,15 @@ class Main extends React.Component {constructor(props) {
 
   evaluateScenario(scenario) {
     try {
+      true==false
       var newModelScenario = JSON.parse(scenario);
+      var newModelDefinitions = iii.parser.parse(this.state.Interaction);
+      var newModelInterface = newModelDefinitions[0].signature.interface;
+      console.log(JSON.stringify(scenarioChecker.check(newModelInterface,newModelScenario,"main")));
+      var test=scenarioChecker.check(newModelInterface,newModelScenario,"main");
+      console.log("sabra "+JSON.stringify(test));
+      console.log("test ",_.includes(test,false));
+      _.includes(test,false)==false;
       this.setState({
         scenario: newModelScenario
       });
@@ -228,7 +236,6 @@ class Main extends React.Component {constructor(props) {
         errorScenario: "",
       });
       rowNumber=newModelScenario.length;
-      console.log("ee",this.state.scenario);
       this.setState({
         tableRowNumber: rowNumber
       });

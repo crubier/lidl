@@ -17,13 +17,25 @@ function flattenElement(element, prefix) {
 }
 
 function checkElement(theInterface,element, prefix){
-  listOfNamesOfInputAtoms =  _.map(iii.interfaces.listOfAtoms(iii.interfaces.receptionInterface(theInterface),prefix),"name");
+
+  var listOfAtoms=iii.interfaces.listOfAtoms(theInterface,"main");
+   _.remove(listOfAtoms, function(n) {
+    return n.direction=="out";
+  });
+  listOfNamesOfInputAtoms = listOfAtoms;
+  console.log("salut"+JSON.stringify(listOfNamesOfInputAtoms));
   listOfElementKeys = _.keys(flattenElement(element,prefix));
-  return _.every(listOfElementKeys,function(x){return _.includes(listOfNamesOfInputAtoms,x);});
+  console.log("elemen "+JSON.stringify(element))
+  console.log(JSON.stringify(listOfElementKeys))
+  return _.map(listOfElementKeys,function(x){
+    console.log("include ",_.includes(listOfNamesOfInputAtoms,x));
+    return _.includes(listOfNamesOfInputAtoms,x);});
 }
 
 function check(theInterface,theScenario,prefix){
-  return _.every(theScenario,function(element){
+
+  return _.map(theScenario,function(element){
+    console.log("helllllllllllllllllllllllllllllllllllllllllllllla"+checkElement(theInterface,element,prefix))
     return checkElement(theInterface,element,prefix);
   })
 }
