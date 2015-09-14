@@ -223,11 +223,25 @@ class Main extends React.Component {constructor(props) {
       var newModelScenario = JSON.parse(scenario);
       var newModelDefinitions = iii.parser.parse(this.state.Interaction);
       var newModelInterface = newModelDefinitions[0].signature.interface;
+      var checker=true;
       console.log(JSON.stringify(scenarioChecker.check(newModelInterface,newModelScenario,"main")));
       var test=scenarioChecker.check(newModelInterface,newModelScenario,"main");
       console.log("sabra "+JSON.stringify(test));
-      console.log("test ",_.includes(test,false));
-      _.includes(test,false)==false;
+      //console.log("test ",_.includes(test,false));
+      console.log("length "+test[0])
+      _.map(test,function(n){
+        for(var i=0;i<n.length;i++){
+          console.log("ssss"+n[i]);
+          if(n[i]==false){
+            console.log("coucou");
+            checker=false
+          }
+        }
+
+      });
+
+
+      console.log("test vvv",checker);
       this.setState({
         scenario: newModelScenario
       });
