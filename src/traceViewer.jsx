@@ -89,7 +89,6 @@ class TraceViewer extends React.Component {
     // iiicanvas.addEventListener("keydown", keydown, false);
     // iiicanvas.addEventListener("keyup", keyup, false);
 
-
     //
     // // Touch events
     // iiicanvas.addEventListener("touchcancel", touch, false);
