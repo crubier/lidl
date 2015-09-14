@@ -156,8 +156,8 @@ CodeEditor.defaultProps = {
   stats: {variables:0,previous:0,identifiers:0,functions:0,compositions:0},
   errorInteraction: "",
   errorScenario: "",
-  Interaction: "interaction (test):{a:{e:Number in},b:{c:{d:Number in}}} with interaction (a):Number out is (previous(#a)) is ({x:(a),y:(#a),z:(#b)})",
-  scenario: '[{"a":{"e":2},"b":{"c":{"d":5}}},{"a":{"e":1}},{"a":{"e":0},"b":{"c":{"d":-5}}},{},{"b":{"c":{"d":10}}}]',
+  Interaction: "interaction (test):{time:Number in,mouse:{buttons:Number in,position:{x:Number in ,y:Number in},wheel:{x:Number in ,y:Number in,z:Number in}}} with interaction (a):Number out is (previous(#a)) is ({x:(a),y:(#a),z:(#b)})",
+  scenario: '[]',
   compiledInteraction:"({x:(previous(#0)),y:(#0),z:(#1)})",
 
 };

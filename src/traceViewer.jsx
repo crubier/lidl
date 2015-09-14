@@ -15,7 +15,79 @@ class TraceViewer extends React.Component {
       tableWidth: this.props.tableWidth,
       tableHeight: this.props.tableHeight,
       openedTab: 0,
-      mainInterfaceState:{time:0,mouse: {
+      mainInterfaceState:{keyboard: {
+          "U+0041": false,
+          "U+0040": false,
+          "U+0026": false,
+          "U+00E9": false,
+          "U+0022": false,
+          "U+0027": false,
+          "U+0028": false,
+          "U+00A7": false,
+          "U+00E8": false,
+          "U+0021": false,
+          "U+00E7": false,
+          "U+00E0": false,
+          "U+0029": false,
+          "U+002D": false,
+          "U+0009": true,
+          "U+005A": false,
+          "U+0045": false,
+          "U+0052": false,
+          "U+0054": false,
+          "U+0059": false,
+          "U+0055": false,
+          "U+0049": false,
+          "U+004F": false,
+          "U+0050": false,
+          "Unidentified": false,
+          "U+0024": false,
+          "Enter": false,
+          "Meta": false,
+          "Control": false,
+          "Alt": false,
+          "Shift": false,
+          "U+0051": false,
+          "U+0053": false,
+          "U+0044": false,
+          "U+0046": false,
+          "U+0047": false,
+          "U+0048": false,
+          "U+004A": false,
+          "U+004B": false,
+          "U+004C": false,
+          "U+004D": false,
+          "U+00F9": false,
+          "U+0020": false,
+          "U+003C": false,
+          "U+0057": false,
+          "U+0058": false,
+          "U+0043": false,
+          "U+0056": false,
+          "U+0042": false,
+          "U+004E": false,
+          "U+002C": false,
+          "U+003B": false,
+          "U+003A": false,
+          "U+003D": false,
+          "Left": false,
+          "Down": false,
+          "Right": false,
+          "Up": false,
+          "U+001B": false,
+          "F1": false,
+          "F2": false,
+          "F3": false,
+          "F4": false,
+          "F5": false,
+          "F6": false,
+          "F7": false,
+          "F8": false,
+          "F9": false,
+          "F10": false,
+          "F11": false,
+          "F12": false
+      },time:0,mouse: {
             buttons: 0,
             position: {
                 x: 0,
@@ -26,8 +98,9 @@ class TraceViewer extends React.Component {
                 y: 0,
                 z: 0
             }
-        }}
+        },}
     };
+    console.log("eeeeeeeeeeeee",JSON.stringify(this.state.mainInterfaceState));
 
   }
 
@@ -36,7 +109,8 @@ class TraceViewer extends React.Component {
       var rect = React.findDOMNode(this.refs.iiicanvas).getBoundingClientRect();
       var offsetX = e.clientX - rect.left;
       var offsetY = e.clientY - rect.top;
-      this.setState({mainInterfaceState:{time:e.timeStamp,mouse : {
+      var theKeyboard=this.state.mainInterfaceState.keyboard;
+      this.setState({mainInterfaceState:{keyboard:theKeyboard,time:e.timeStamp,mouse : {
           buttons: e.buttons,
           position: {
               x: offsetX,
@@ -48,8 +122,54 @@ class TraceViewer extends React.Component {
               z: (e.deltaZ !== undefined && e.deltaZ !== null) ? e.deltaZ : 0
           }
       }}});
+      console.log("gastli ",JSON.stringify(this.state.mainInterfaceState));
       this.scenarioChanged();
-      console.log("ok  "  + JSON.stringify(this.state));
+  }
+
+  resize(e) {
+      var canvas=React.findDOMNode(this.refs.iiicanvas);
+      this.setState({mainInterfaceState:{time:e.timeStamp,size : {
+          width: canvas.offsetWidth,
+          height: canvas.offsetHeight
+      }}});
+  }
+
+
+
+
+  keydown(e) {
+      var key;
+      console.log("eamamammama")
+      if (event.key !== undefined) {
+          key = event.key;
+      } else if (event.keyIdentifier !== undefined) {
+          key = event.keyIdentifier;
+      } else if (event.keyCode !== undefined) {
+          key = event.keyCode;
+      }
+      if (mainInterface.keyboard[key] !== true) {
+        var theKeyboard=mainInterface.keyboard[key]=true;
+        this.setState({mainInterfaceState:{time:e.timeStamp,keyboard:theKeyboard}});
+      }
+      this.scenarioChanged();
+  }
+
+  keyup(e) {
+      var key;
+      if (event.key !== undefined) {
+          key = event.key;
+      } else if (event.keyIdentifier !== undefined) {
+          key = event.keyIdentifier;
+      } else if (event.keyCode !== undefined) {
+          key = event.keyCode;
+      }
+      if (mainInterface.keyboard[key] !== false) {
+        console.log("doudou ",mainInterface.keyboard);
+        var theKeyboard=mainInterface.keyboard[key]=false;
+        this.setState({mainInterfaceState:{time:e.timeStamp,keyboard:theKeyboard}});
+      }
+      this.scenarioChanged();
+      console.log("okkk")
   }
 
   componentDidMount() {
@@ -67,8 +187,6 @@ class TraceViewer extends React.Component {
     // DEBUT  CODE iii Canvas
 
     var iiicanvas = React.findDOMNode(this.refs.iiicanvas);
-
-    // Prevent context menu
     iiicanvas.addEventListener("contextmenu", function(e) {
       if (e.preventDefault !== undefined)
           e.preventDefault();
@@ -83,12 +201,12 @@ class TraceViewer extends React.Component {
     iiicanvas.addEventListener("mouseup", this.mouse.bind(this), false);
     iiicanvas.addEventListener("wheel", this.mouse.bind(this), false);
 
-    // // Global
-    // window.addEventListener("resize", resize, false);
+    // Global
+    window.addEventListener("resize", resize, false);
 
-    // // Keyboard events
-    // iiicanvas.addEventListener("keydown", keydown, false);
-    // iiicanvas.addEventListener("keyup", keyup, false);
+    // Keyboard events
+    iiicanvas.addEventListener("keydown", this.keydown.bind(this), false);
+    iiicanvas.addEventListener("keyup", this.keyup.bind(this), false);
 
     //
     // // Touch events
@@ -132,7 +250,7 @@ class TraceViewer extends React.Component {
     });
   }
 
-/*********************************************************************************************************/
+
   scenarioChanged() {
     this.props.addToScenario(this.state.mainInterfaceState);
   }
