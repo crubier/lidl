@@ -165,10 +165,12 @@ class Main extends React.Component {constructor(props) {
     }}
         console.log( "dddd",JSON.stringify(element));
     theScenario=theScenario.push(element);
-    /*
+
     this.setState({
       scenario: theScenario
-    });*/
+    });
+    //var rect = React.findDOMNode(this.refs.scenario);
+    //rect.value=theScenario;
 
     this.evaluateScenario(JSON.stringify(this.state.scenario));
   }

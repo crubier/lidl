@@ -68,7 +68,7 @@ class CodeEditor extends React.Component {constructor(props) {
 
           <textarea className={this.props.errorScenario !== ""
             ? "error"
-            : ""} defaultValue={this.props.scenario} name="scenario" onChange={this.scenarioChanged.bind(this)} style={{
+            : ""} defaultValue={this.props.scenario} ref= "scenario" name="scenario" onChange={this.scenarioChanged.bind(this)} style={{
             display: this.state.openedTab === 0
               ? 'inline'
               : 'none'
