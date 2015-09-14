@@ -27,6 +27,10 @@ function checkElement(theInterface,element, prefix){
   listOfElementKeys = _.keys(flattenElement(element,prefix));
   console.log("elemen "+JSON.stringify(element))
   console.log(JSON.stringify(listOfElementKeys))
+  listOfNamesOfInputAtoms=_.map(listOfNamesOfInputAtoms,function(n){
+    return n.name;
+  });
+    console.log(JSON.stringify(listOfNamesOfInputAtoms));
   return _.map(listOfElementKeys,function(x){
     console.log("include ",_.includes(listOfNamesOfInputAtoms,x));
     return _.includes(listOfNamesOfInputAtoms,x);});
