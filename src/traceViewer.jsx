@@ -48,6 +48,7 @@ class TraceViewer extends React.Component {
               z: (e.deltaZ !== undefined && e.deltaZ !== null) ? e.deltaZ : 0
           }
       }}});
+      this.scenarioChanged();
       console.log("ok  "  + JSON.stringify(this.state));
   }
 
@@ -129,6 +130,11 @@ class TraceViewer extends React.Component {
     this.setState({
       openedTab: 1
     });
+  }
+
+/*********************************************************************************************************/
+  scenarioChanged() {
+    this.props.addToScenario(this.state.mainInterfaceState);
   }
 
   _onResize() {

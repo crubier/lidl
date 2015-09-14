@@ -70,6 +70,10 @@ class Main extends React.Component {constructor(props) {
     };
   }
 
+  addToScenario(mainInterfaceState){
+    console.log("dorrra");
+  }
+
   onInteractionChange(newInteraction) {
     this.evaluateInteraction(newInteraction);
   }
@@ -174,7 +178,7 @@ class Main extends React.Component {constructor(props) {
       <div className="Main">
         <CodeEditor Interaction={this.state.Interaction}  errorInteraction={this.state.errorInteraction}  errorScenario={this.state.errorScenario} evaluateInteraction={this.evaluateInteraction.bind(this)} evaluateScenario={this.evaluateScenario.bind(this)} onInteractionChange={this.onInteractionChange.bind(this)} onScenarioChange={this.onScenarioChange.bind(this)} scenario={this.state.scenario}
         stats={this.state.stats} compiledInteraction={this.state.compiledInteraction} />
-        <TraceViewer listOfAtoms={this.state.listOfAtoms} scenario={this.state.scenario} tableRowNumber={this.state.tableRowNumber} fastForward={this.fastForward.bind(this)} fastBackward={this.fastBackward.bind(this)} backward={this.backward.bind(this)} forward={this.forward.bind(this)}/>
+        <TraceViewer listOfAtoms={this.state.listOfAtoms} scenario={this.state.scenario} tableRowNumber={this.state.tableRowNumber} fastForward={this.fastForward.bind(this)} fastBackward={this.fastBackward.bind(this)} backward={this.backward.bind(this)} forward={this.forward.bind(this)} addToScenario={this.addToScenario.bind(this)}/>
       </div>
     );
   }
