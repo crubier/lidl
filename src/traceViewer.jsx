@@ -140,7 +140,6 @@ class TraceViewer extends React.Component {
           height: canvas.offsetHeight
       }}});
       this.scenarioChanged();
-      console.log("resiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiize",JSON.stringify(this.state.mainInterfaceState.size));
   }
 
 
@@ -148,7 +147,6 @@ class TraceViewer extends React.Component {
 
   keydown(e) {
       var key;
-      console.log("eamamammama")
       if (event.key !== undefined) {
           key = event.key;
       } else if (event.keyIdentifier !== undefined) {
@@ -173,12 +171,10 @@ class TraceViewer extends React.Component {
           key = event.keyCode;
       }
       if (mainInterface.keyboard[key] !== false) {
-        console.log("doudou ",mainInterface.keyboard);
         var theKeyboard=mainInterface.keyboard[key]=false;
         this.setState({mainInterfaceState:{time:e.timeStamp,keyboard:theKeyboard}});
       }
       this.scenarioChanged();
-      console.log("okkk")
   }
 
   componentDidMount() {
@@ -262,7 +258,6 @@ class TraceViewer extends React.Component {
 
   scenarioChanged() {
     this.props.addToScenario(this.state.mainInterfaceState);
-    console.log("ddddd");
   }
 
   _onResize() {

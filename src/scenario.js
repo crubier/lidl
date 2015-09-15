@@ -23,23 +23,17 @@ function checkElement(theInterface,element, prefix){
     return n.direction=="out";
   });
   listOfNamesOfInputAtoms = listOfAtoms;
-  console.log("salut"+JSON.stringify(listOfNamesOfInputAtoms));
   listOfElementKeys = _.keys(flattenElement(element,prefix));
-  console.log("elemen "+JSON.stringify(element))
-  console.log(JSON.stringify(listOfElementKeys))
   listOfNamesOfInputAtoms=_.map(listOfNamesOfInputAtoms,function(n){
     return n.name;
   });
-    console.log(JSON.stringify(listOfNamesOfInputAtoms));
   return _.map(listOfElementKeys,function(x){
-    console.log("include ",_.includes(listOfNamesOfInputAtoms,x));
     return _.includes(listOfNamesOfInputAtoms,x);});
 }
 
 function check(theInterface,theScenario,prefix){
 
   return _.map(theScenario,function(element){
-    console.log("helllllllllllllllllllllllllllllllllllllllllllllla"+checkElement(theInterface,element,prefix))
     return checkElement(theInterface,element,prefix);
   })
 }
