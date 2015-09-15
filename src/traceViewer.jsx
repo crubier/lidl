@@ -101,7 +101,7 @@ class TraceViewer extends React.Component {
           "F10": false,
           "F11": false,
           "F12": false
-      },
+      },touch: [],
 
         }
     };
@@ -125,7 +125,7 @@ class TraceViewer extends React.Component {
               y: (e.deltaY !== undefined && e.deltaY !== null) ? e.deltaY : 0,
               z: (e.deltaZ !== undefined && e.deltaZ !== null) ? e.deltaZ : 0
           }
-      },keyboard:this.state.mainInterfaceState.keyboard}});
+      },keyboard:this.state.mainInterfaceState.keyboard,touch:this.state.mainInterfaceState.touch,}});
       this.scenarioChanged();
   }
 
@@ -135,7 +135,7 @@ class TraceViewer extends React.Component {
       this.setState({mainInterfaceState:{size : {
           width: canvas.offsetWidth,
           height: canvas.offsetHeight
-      },time:e.timeStamp,mouse:this.state.mainInterfaceState.mouse,keyboard:this.state.mainInterfaceState.keyboard,}});
+      },time:e.timeStamp,mouse:this.state.mainInterfaceState.mouse,keyboard:this.state.mainInterfaceState.keyboard,touch:this.state.mainInterfaceState.touch,}});
       console.log("sarah 2"+JSON.stringify(this.state.mainInterfaceState))
       this.scenarioChanged();
   }
@@ -154,7 +154,7 @@ class TraceViewer extends React.Component {
       }
       if (mainInterface.keyboard[key] !== true) {
         var theKeyboard=mainInterface.keyboard[key]=true;
-        this.setState({mainInterfaceState:{size:this.state.mainInterfaceState.size,time:e.timeStamp,mouse:this.state.mainInterfaceState.mouse,keyboard:theKeyboard}});
+        this.setState({mainInterfaceState:{size:this.state.mainInterfaceState.size,time:e.timeStamp,mouse:this.state.mainInterfaceState.mouse,keyboard:theKeyboard,touch:this.state.mainInterfaceState.touch,}});
       }
       this.scenarioChanged();
   }
@@ -170,10 +170,36 @@ class TraceViewer extends React.Component {
       }
       if (mainInterface.keyboard[key] !== false) {
         var theKeyboard=mainInterface.keyboard[key]=false;
-        this.setState({mainInterfaceState:{size:this.state.mainInterfaceState.size,time:e.timeStamp,mouse:this.state.mainInterfaceState.mouse,keyboard:theKeyboard}});
+        this.setState({mainInterfaceState:{size:this.state.mainInterfaceState.size,time:e.timeStamp,mouse:this.state.mainInterfaceState.mouse,keyboard:theKeyboard,touch:this.state.mainInterfaceState.touch,}});
       }
       this.scenarioChanged();
   }
+
+
+  touch(e) {
+      var rect = React.findDOMNode(this.refs.iiicanvas).getBoundingClientRect();
+      var i;
+      var touches = [];
+      for (i = 0; i < e.touches.length; i++) {
+          touches[i] = {};
+          var offsetX = e.touches[i].clientX - rect.left;
+          var offsetY = e.touches[i].clientY - rect.top;
+          touches[i].position = {
+              x: offsetX,
+              y: offsetY
+          };
+          touches[i].identifier = e.touches[i].identifier;
+          touches[i].radius = {
+              x: e.touches[i].radiusX,
+              y: e.touches[i].radiusY
+          };
+          touches[i].rotationAngle = e.touches[i].rotationAngle;
+          touches[i].force = e.touches[i].force;
+      }
+      this.setState({mainInterfaceState:{size:this.state.mainInterfaceState.size,time:e.timeStamp,mouse:this.state.mainInterfaceState.mouse,keyboard:this.state.mainInterfaceState.keyboard,touch : touches}});
+      this.scenarioChanged();
+  }
+
 
   componentDidMount() {
     this._updateSize();
@@ -211,13 +237,12 @@ class TraceViewer extends React.Component {
     iiicanvas.addEventListener("keydown", this.keydown.bind(this), false);
     iiicanvas.addEventListener("keyup", this.keyup.bind(this), false);
 
-    //
     // // Touch events
-    // iiicanvas.addEventListener("touchcancel", touch, false);
-    // iiicanvas.addEventListener("touchend", touch, false);
-    // iiicanvas.addEventListener("touchmove", touch, false);
-    // iiicanvas.addEventListener("touchstart", touch, false);
-    //
+     iiicanvas.addEventListener("touchcancel", this.touch.bind(this), false);
+     iiicanvas.addEventListener("touchend", this.touch.bind(this), false);
+     iiicanvas.addEventListener("touchmove", this.touch.bind(this), false);
+     iiicanvas.addEventListener("touchstart", this.touch.bind(this), false);
+
     // // Device
     // // window.addEventListener("devicemotion", devicemotion, false);
     // window.addEventListener("deviceorientation", deviceorientation, false);

@@ -73798,8 +73798,8 @@ var React = require('react');
 var SkyLight = require('react-skylight');
 var iii = require('iii');
 
-var ____Class1=React.Component;for(var ____Class1____Key in ____Class1){if(____Class1.hasOwnProperty(____Class1____Key)){CodeEditor[____Class1____Key]=____Class1[____Class1____Key];}}var ____SuperProtoOf____Class1=____Class1===null?null:____Class1.prototype;CodeEditor.prototype=Object.create(____SuperProtoOf____Class1);CodeEditor.prototype.constructor=CodeEditor;CodeEditor.__superConstructor__=____Class1;function CodeEditor(props) {"use strict";
-    ____Class1.call(this,props);
+var ____Class2=React.Component;for(var ____Class2____Key in ____Class2){if(____Class2.hasOwnProperty(____Class2____Key)){CodeEditor[____Class2____Key]=____Class2[____Class2____Key];}}var ____SuperProtoOf____Class2=____Class2===null?null:____Class2.prototype;CodeEditor.prototype=Object.create(____SuperProtoOf____Class2);CodeEditor.prototype.constructor=CodeEditor;CodeEditor.__superConstructor__=____Class2;function CodeEditor(props) {"use strict";
+    ____Class2.call(this,props);
     this.state = {
       openedTab: 0
     };
@@ -73981,7 +73981,7 @@ var TraceViewer = require('./traceViewer.jsx');
 var iii = require('iii');
 var scenarioChecker = require('./scenario.js');
 var _ = require('lodash');
-var rowNumber=0;
+var rowNumber = 0;
 
 function nbrOfPrevious(interaction) {
   var total = 0;
@@ -74033,121 +74033,60 @@ var ____Class0=React.Component;for(var ____Class0____Key in ____Class0){if(____C
       listOfAtoms: [],
       errorInteraction: "",
       errorScenario: "",
-      scenarioText:"",
+      scenarioText: "",
       scenarioInvalid: "",
       Interaction: "interaction (test):{time:Number in,size:{width:Number in, height:Number in}, mouse:{buttons:Number in,position:{x:Number in ,y:Number in},wheel:{x:Number in ,y:Number in,z:Number in}}} with interaction (a):Number out is (previous(#a)) is ({x:(a),y:(#a),z:(#b)})",
       scenario: '[]',
       compiledInteraction: "({x:(previous(#0)),y:(#0),z:(#1)})",
-      tableRowNumber:5,
+      tableRowNumber: 5,
       stats: {
         variables: 0,
         previous: 0,
         identifiers: 0,
         functions: 0,
-        compositions:0
+        compositions: 0
       }
     };
   }
 
-
-  Object.defineProperty(Main.prototype,"addToScenario",{writable:true,configurable:true,value:function(mainInterfaceState){"use strict";
-    var theScenario=this.state.scenario;
+  Object.defineProperty(Main.prototype,"addToScenario",{writable:true,configurable:true,value:function(mainInterfaceState) {"use strict";
+    var theScenario = this.state.scenario;
     console.log(JSON.stringify(mainInterfaceState))
-    var element={time:mainInterfaceState.time,mouse : {
+    var element = {
+      time: mainInterfaceState.time,
+      mouse: {
         buttons: mainInterfaceState.mouse.buttons,
         position: {
-            x: mainInterfaceState.mouse.position.x,
-            y: mainInterfaceState.mouse.position.y
+          x: mainInterfaceState.mouse.position.x,
+          y: mainInterfaceState.mouse.position.y
         },
         wheel: {
-            x: (mainInterfaceState.mouse.wheel.x !== undefined && mainInterfaceState.mouse.wheel.x !== null) ? mainInterfaceState.mouse.wheel.x : 0,
-            y: (mainInterfaceState.mouse.wheel.y !== undefined && mainInterfaceState.mouse.wheel.y !== null) ? mainInterfaceState.mouse.wheel.y : 0,
-            z: (mainInterfaceState.mouse.wheel.z !== undefined && mainInterfaceState.mouse.wheel.z !== null) ? mainInterfaceState.mouse.wheel.z : 0
+          x: (mainInterfaceState.mouse.wheel.x !== undefined && mainInterfaceState.mouse.wheel.x !== null)
+            ? mainInterfaceState.mouse.wheel.x
+            : 0,
+          y: (mainInterfaceState.mouse.wheel.y !== undefined && mainInterfaceState.mouse.wheel.y !== null)
+            ? mainInterfaceState.mouse.wheel.y
+            : 0,
+          z: (mainInterfaceState.mouse.wheel.z !== undefined && mainInterfaceState.mouse.wheel.z !== null)
+            ? mainInterfaceState.mouse.wheel.z
+            : 0
         }
-    },
-    size:{
-        width:mainInterfaceState.size.width,
-        height:mainInterfaceState.size.height
-    },
-    /*
-    keyboard: {
-        "U+0041": false,
-        "U+0040": false,
-        "U+0026": false,
-        "U+00E9": false,
-        "U+0022": false,
-        "U+0027": false,
-        "U+0028": false,
-        "U+00A7": false,
-        "U+00E8": false,
-        "U+0021": false,
-        "U+00E7": false,
-        "U+00E0": false,
-        "U+0029": false,
-        "U+002D": false,
-        "U+0009": true,
-        "U+005A": false,
-        "U+0045": false,
-        "U+0052": false,
-        "U+0054": false,
-        "U+0059": false,
-        "U+0055": false,
-        "U+0049": false,
-        "U+004F": false,
-        "U+0050": false,
-        "Unidentified": false,
-        "U+0024": false,
-        "Enter": false,
-        "Meta": false,
-        "Control": false,
-        "Alt": false,
-        "Shift": false,
-        "U+0051": false,
-        "U+0053": false,
-        "U+0044": false,
-        "U+0046": false,
-        "U+0047": false,
-        "U+0048": false,
-        "U+004A": false,
-        "U+004B": false,
-        "U+004C": false,
-        "U+004D": false,
-        "U+00F9": false,
-        "U+0020": false,
-        "U+003C": false,
-        "U+0057": false,
-        "U+0058": false,
-        "U+0043": false,
-        "U+0056": false,
-        "U+0042": false,
-        "U+004E": false,
-        "U+002C": false,
-        "U+003B": false,
-        "U+003A": false,
-        "U+003D": false,
-        "Left": false,
-        "Down": false,
-        "Right": false,
-        "Up": false,
-        "U+001B": false,
-        "F1": false,
-        "F2": false,
-        "F3": false,
-        "F4": false,
-        "F5": false,
-        "F6": false,
-        "F7": false,
-        "F8": false,
-        "F9": false,
-        "F10": false,
-        "F11": false,
-        "F12": false
-    }*/}
-    theScenario=theScenario.concat(element);
+      },
+      size: {
+        width: mainInterfaceState.size.width,
+        height: mainInterfaceState.size.height
+      },
 
-    var theScenarioText=JSON.stringify(theScenario);
-    this.setState({scenarioText:theScenarioText,
-    scenario: theScenario});
+      keyboard: mainInterfaceState.keyboard,
+      touch: mainInterfaceState.touch
+    }
+    theScenario = theScenario.concat(element);
+
+    var theScenarioText = JSON.stringify(theScenario);
+    this.setState({
+      scenarioText: theScenarioText,
+      scenario: theScenario
+    });
     this.evaluateScenario(JSON.stringify(this.state.scenario));
   }});
 
@@ -74158,7 +74097,6 @@ var ____Class0=React.Component;for(var ____Class0____Key in ____Class0){if(____C
   Object.defineProperty(Main.prototype,"onScenarioChange",{writable:true,configurable:true,value:function(newScenario) {"use strict";
     this.evaluateScenario(newScenario);
   }});
-
 
   Object.defineProperty(Main.prototype,"evaluateInteraction",{writable:true,configurable:true,value:function(Interaction) {"use strict";
     try {
@@ -74183,12 +74121,12 @@ var ____Class0=React.Component;for(var ____Class0____Key in ____Class0){if(____C
           previous: nbrOfPrevious(iii.identifiers.reduceIdentifiers(iii.interactions.expand(newModelDefinitions[0]).interaction)),
           identifiers: 0,
           functions: 0,
-          compositions:0
+          compositions: 0
         }
       });
     } catch (errorMessage) {
       this.setState({
-        errorInteraction: ""+errorMessage
+        errorInteraction: "" + errorMessage
       });
     }
 
@@ -74199,20 +74137,20 @@ var ____Class0=React.Component;for(var ____Class0____Key in ____Class0){if(____C
       var newModelScenario = JSON.parse(scenario);
       var newModelDefinitions = iii.parser.parse(this.state.Interaction);
       var newModelInterface = newModelDefinitions[0].signature.interface;
-      var checker=true;
-      var test=scenarioChecker.check(newModelInterface,newModelScenario,"main");
-      _.map(test,function(n){
-        for(var i=0;i<n.length;i++){
-          if(n[i]==false){
-            checker=false
+      var checker = true;
+      var test = scenarioChecker.check(newModelInterface, newModelScenario, "main");
+      _.map(test, function(n) {
+        for (var i = 0; i < n.length; i++) {
+          if (n[i] == false) {
+            checker = false
           }
         }
       });
-      if(checker==false){
+      if (checker == false) {
         this.setState({
           scenarioInvalid: "scenario does not match the definition"
         });
-      }else{
+      } else {
         this.setState({
           scenarioInvalid: ""
         });
@@ -74222,19 +74160,18 @@ var ____Class0=React.Component;for(var ____Class0____Key in ____Class0){if(____C
       });
 
       this.setState({
-        errorScenario: "",
+        errorScenario: ""
       });
-      rowNumber=newModelScenario.length;
+      rowNumber = newModelScenario.length;
       this.setState({
         tableRowNumber: rowNumber
       });
     } catch (errorMessage) {
 
       this.setState({
-        errorScenario: ""+errorMessage
+        errorScenario: "" + errorMessage
 
       });
-
 
     }
   }});
@@ -74243,43 +74180,49 @@ var ____Class0=React.Component;for(var ____Class0____Key in ____Class0){if(____C
     return iii.interfaces.listOfAtoms(newModel, "main");
   }});
 
-
-
-  Object.defineProperty(Main.prototype,"backward",{writable:true,configurable:true,value:function(){"use strict";
-      if(rowNumber>0){
-        rowNumber=rowNumber-1;
-      }
-      this.setState({tableRowNumber:rowNumber});
+  Object.defineProperty(Main.prototype,"backward",{writable:true,configurable:true,value:function() {"use strict";
+    if (rowNumber > 0) {
+      rowNumber = rowNumber - 1;
+    }
+    this.setState({
+      tableRowNumber: rowNumber
+    });
   }});
 
-  Object.defineProperty(Main.prototype,"forward",{writable:true,configurable:true,value:function(){"use strict";
-      if(rowNumber<this.state.scenario.length){
-        rowNumber=rowNumber+1;
-      }
-      this.setState({tableRowNumber:rowNumber});
+  Object.defineProperty(Main.prototype,"forward",{writable:true,configurable:true,value:function() {"use strict";
+    if (rowNumber < this.state.scenario.length) {
+      rowNumber = rowNumber + 1;
+    }
+    this.setState({
+      tableRowNumber: rowNumber
+    });
 
   }});
-  Object.defineProperty(Main.prototype,"fastBackward",{writable:true,configurable:true,value:function(){"use strict";
-      rowNumber=0;
-      this.setState({tableRowNumber:rowNumber});
+  Object.defineProperty(Main.prototype,"fastBackward",{writable:true,configurable:true,value:function() {"use strict";
+    rowNumber = 0;
+    this.setState({
+      tableRowNumber: rowNumber
+    });
   }});
-  Object.defineProperty(Main.prototype,"fastForward",{writable:true,configurable:true,value:function(){"use strict";
-      rowNumber=this.state.scenario.length;
-      this.setState({tableRowNumber:rowNumber});
-    }});
+  Object.defineProperty(Main.prototype,"fastForward",{writable:true,configurable:true,value:function() {"use strict";
+    rowNumber = this.state.scenario.length;
+    this.setState({
+      tableRowNumber: rowNumber
+    });
+  }});
 
   Object.defineProperty(Main.prototype,"render",{writable:true,configurable:true,value:function() {"use strict";
     return (
       React.createElement("div", {className: "Main"}, 
-        React.createElement(CodeEditor, {Interaction: this.state.Interaction, scenarioText: this.state.scenarioText, scenarioInvalid: this.state.scenarioInvalid, errorInteraction: this.state.errorInteraction, errorScenario: this.state.errorScenario, evaluateInteraction: this.evaluateInteraction.bind(this), evaluateScenario: this.evaluateScenario.bind(this), onInteractionChange: this.onInteractionChange.bind(this), onScenarioChange: this.onScenarioChange.bind(this), scenario: this.state.scenario, 
-        stats: this.state.stats, compiledInteraction: this.state.compiledInteraction}), 
-        React.createElement(TraceViewer, {listOfAtoms: this.state.listOfAtoms, scenario: this.state.scenario, tableRowNumber: this.state.tableRowNumber, fastForward: this.fastForward.bind(this), fastBackward: this.fastBackward.bind(this), backward: this.backward.bind(this), forward: this.forward.bind(this), addToScenario: this.addToScenario.bind(this)})
+        React.createElement(CodeEditor, {Interaction: this.state.Interaction, compiledInteraction: this.state.compiledInteraction, errorInteraction: this.state.errorInteraction, errorScenario: this.state.errorScenario, evaluateInteraction: this.evaluateInteraction.bind(this), evaluateScenario: this.evaluateScenario.bind(this), onInteractionChange: this.onInteractionChange.bind(this), onScenarioChange: this.onScenarioChange.bind(this), scenario: this.state.scenario, scenarioInvalid: this.state.scenarioInvalid, scenarioText: this.state.scenarioText, stats: this.state.stats}), 
+        React.createElement(TraceViewer, {addToScenario: this.addToScenario.bind(this), backward: this.backward.bind(this), fastBackward: this.fastBackward.bind(this), fastForward: this.fastForward.bind(this), forward: this.forward.bind(this), listOfAtoms: this.state.listOfAtoms, scenario: this.state.scenario, tableRowNumber: this.state.tableRowNumber})
       )
     );
   }});
 
 
 React.render(React.createElement(Main, null), document.getElementById("main"));
+
 
 }).call(this,require('_process'),typeof global !== "undefined" ? global : typeof self !== "undefined" ? self : typeof window !== "undefined" ? window : {},require("buffer").Buffer,arguments[3],arguments[4],arguments[5],arguments[6],"/src\\main.jsx","/src")
 
@@ -74342,10 +74285,10 @@ var Table = FixedDataTable.Table;
 var rowNumber=5;
 var scenarioUtils=require('./scenario.js');
 
-var ____Class2=React.Component;for(var ____Class2____Key in ____Class2){if(____Class2.hasOwnProperty(____Class2____Key)){TraceViewer[____Class2____Key]=____Class2[____Class2____Key];}}var ____SuperProtoOf____Class2=____Class2===null?null:____Class2.prototype;TraceViewer.prototype=Object.create(____SuperProtoOf____Class2);TraceViewer.prototype.constructor=TraceViewer;TraceViewer.__superConstructor__=____Class2;
+var ____Class1=React.Component;for(var ____Class1____Key in ____Class1){if(____Class1.hasOwnProperty(____Class1____Key)){TraceViewer[____Class1____Key]=____Class1[____Class1____Key];}}var ____SuperProtoOf____Class1=____Class1===null?null:____Class1.prototype;TraceViewer.prototype=Object.create(____SuperProtoOf____Class1);TraceViewer.prototype.constructor=TraceViewer;TraceViewer.__superConstructor__=____Class1;
 
   function TraceViewer(props) {"use strict";
-    ____Class2.call(this,props);
+    ____Class1.call(this,props);
     this.state = {
       tableWidth: this.props.tableWidth,
       tableHeight: this.props.tableHeight,
@@ -74436,7 +74379,7 @@ var ____Class2=React.Component;for(var ____Class2____Key in ____Class2){if(____C
           "F10": false,
           "F11": false,
           "F12": false
-      },
+      },touch: [],
 
         }
     };
@@ -74460,7 +74403,7 @@ var ____Class2=React.Component;for(var ____Class2____Key in ____Class2){if(____C
               y: (e.deltaY !== undefined && e.deltaY !== null) ? e.deltaY : 0,
               z: (e.deltaZ !== undefined && e.deltaZ !== null) ? e.deltaZ : 0
           }
-      },keyboard:this.state.mainInterfaceState.keyboard}});
+      },keyboard:this.state.mainInterfaceState.keyboard,touch:this.state.mainInterfaceState.touch,}});
       this.scenarioChanged();
   }});
 
@@ -74470,7 +74413,7 @@ var ____Class2=React.Component;for(var ____Class2____Key in ____Class2){if(____C
       this.setState({mainInterfaceState:{size : {
           width: canvas.offsetWidth,
           height: canvas.offsetHeight
-      },time:e.timeStamp,mouse:this.state.mainInterfaceState.mouse,keyboard:this.state.mainInterfaceState.keyboard,}});
+      },time:e.timeStamp,mouse:this.state.mainInterfaceState.mouse,keyboard:this.state.mainInterfaceState.keyboard,touch:this.state.mainInterfaceState.touch,}});
       console.log("sarah 2"+JSON.stringify(this.state.mainInterfaceState))
       this.scenarioChanged();
   }});
@@ -74489,7 +74432,7 @@ var ____Class2=React.Component;for(var ____Class2____Key in ____Class2){if(____C
       }
       if (mainInterface.keyboard[key] !== true) {
         var theKeyboard=mainInterface.keyboard[key]=true;
-        this.setState({mainInterfaceState:{size:this.state.mainInterfaceState.size,time:e.timeStamp,mouse:this.state.mainInterfaceState.mouse,keyboard:theKeyboard}});
+        this.setState({mainInterfaceState:{size:this.state.mainInterfaceState.size,time:e.timeStamp,mouse:this.state.mainInterfaceState.mouse,keyboard:theKeyboard,touch:this.state.mainInterfaceState.touch,}});
       }
       this.scenarioChanged();
   }});
@@ -74505,10 +74448,36 @@ var ____Class2=React.Component;for(var ____Class2____Key in ____Class2){if(____C
       }
       if (mainInterface.keyboard[key] !== false) {
         var theKeyboard=mainInterface.keyboard[key]=false;
-        this.setState({mainInterfaceState:{size:this.state.mainInterfaceState.size,time:e.timeStamp,mouse:this.state.mainInterfaceState.mouse,keyboard:theKeyboard}});
+        this.setState({mainInterfaceState:{size:this.state.mainInterfaceState.size,time:e.timeStamp,mouse:this.state.mainInterfaceState.mouse,keyboard:theKeyboard,touch:this.state.mainInterfaceState.touch,}});
       }
       this.scenarioChanged();
   }});
+
+
+  Object.defineProperty(TraceViewer.prototype,"touch",{writable:true,configurable:true,value:function(e) {"use strict";
+      var rect = React.findDOMNode(this.refs.iiicanvas).getBoundingClientRect();
+      var i;
+      var touches = [];
+      for (i = 0; i < e.touches.length; i++) {
+          touches[i] = {};
+          var offsetX = e.touches[i].clientX - rect.left;
+          var offsetY = e.touches[i].clientY - rect.top;
+          touches[i].position = {
+              x: offsetX,
+              y: offsetY
+          };
+          touches[i].identifier = e.touches[i].identifier;
+          touches[i].radius = {
+              x: e.touches[i].radiusX,
+              y: e.touches[i].radiusY
+          };
+          touches[i].rotationAngle = e.touches[i].rotationAngle;
+          touches[i].force = e.touches[i].force;
+      }
+      this.setState({mainInterfaceState:{size:this.state.mainInterfaceState.size,time:e.timeStamp,mouse:this.state.mainInterfaceState.mouse,keyboard:this.state.mainInterfaceState.keyboard,touch : touches}});
+      this.scenarioChanged();
+  }});
+
 
   Object.defineProperty(TraceViewer.prototype,"componentDidMount",{writable:true,configurable:true,value:function() {"use strict";
     this.$TraceViewer_updateSize();
@@ -74546,13 +74515,12 @@ var ____Class2=React.Component;for(var ____Class2____Key in ____Class2){if(____C
     iiicanvas.addEventListener("keydown", this.keydown.bind(this), false);
     iiicanvas.addEventListener("keyup", this.keyup.bind(this), false);
 
-    //
     // // Touch events
-    // iiicanvas.addEventListener("touchcancel", touch, false);
-    // iiicanvas.addEventListener("touchend", touch, false);
-    // iiicanvas.addEventListener("touchmove", touch, false);
-    // iiicanvas.addEventListener("touchstart", touch, false);
-    //
+     iiicanvas.addEventListener("touchcancel", this.touch.bind(this), false);
+     iiicanvas.addEventListener("touchend", this.touch.bind(this), false);
+     iiicanvas.addEventListener("touchmove", this.touch.bind(this), false);
+     iiicanvas.addEventListener("touchstart", this.touch.bind(this), false);
+
     // // Device
     // // window.addEventListener("devicemotion", devicemotion, false);
     // window.addEventListener("deviceorientation", deviceorientation, false);
