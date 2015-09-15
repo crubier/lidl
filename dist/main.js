@@ -74052,6 +74052,7 @@ var ____Class0=React.Component;for(var ____Class0____Key in ____Class0){if(____C
 
   Object.defineProperty(Main.prototype,"addToScenario",{writable:true,configurable:true,value:function(mainInterfaceState){"use strict";
     var theScenario=this.state.scenario;
+    console.log(JSON.stringify(mainInterfaceState))
     var element={time:mainInterfaceState.time,mouse : {
         buttons: mainInterfaceState.mouse.buttons,
         position: {
@@ -74349,7 +74350,21 @@ var ____Class2=React.Component;for(var ____Class2____Key in ____Class2){if(____C
       tableWidth: this.props.tableWidth,
       tableHeight: this.props.tableHeight,
       openedTab: 0,
-      mainInterfaceState:{/*keyboard: {
+      mainInterfaceState:{size:{
+          width:500,
+          height:500
+      },time:0,mouse: {
+            buttons: 0,
+            position: {
+                x: 0,
+                y: 0
+            },
+            wheel: {
+                x: 0,
+                y: 0,
+                z: 0
+            }
+        },keyboard: {
           "U+0041": false,
           "U+0040": false,
           "U+0026": false,
@@ -74421,22 +74436,8 @@ var ____Class2=React.Component;for(var ____Class2____Key in ____Class2){if(____C
           "F10": false,
           "F11": false,
           "F12": false
-      },*/time:0,mouse: {
-            buttons: 0,
-            position: {
-                x: 0,
-                y: 0
-            },
-            wheel: {
-                x: 0,
-                y: 0,
-                z: 0
-            }
-        },
-        size:{
-            width:500,
-            height:500
-        },
+      },
+
         }
     };
 
@@ -74448,9 +74449,7 @@ var ____Class2=React.Component;for(var ____Class2____Key in ____Class2){if(____C
       var rect = React.findDOMNode(this.refs.iiicanvas).getBoundingClientRect();
       var offsetX = e.clientX - rect.left;
       var offsetY = e.clientY - rect.top;
-      //var theKeyboard=this.state.mainInterfaceState.keyboard;
-      var theSize=this.state.mainInterfaceState.size;
-      this.setState({mainInterfaceState:{/*keyboard:theKeyboard,*/size:theSize,time:e.timeStamp,mouse : {
+      this.setState({mainInterfaceState:{size:this.state.mainInterfaceState.size,time:e.timeStamp,mouse : {
           buttons: e.buttons,
           position: {
               x: offsetX,
@@ -74461,18 +74460,18 @@ var ____Class2=React.Component;for(var ____Class2____Key in ____Class2){if(____C
               y: (e.deltaY !== undefined && e.deltaY !== null) ? e.deltaY : 0,
               z: (e.deltaZ !== undefined && e.deltaZ !== null) ? e.deltaZ : 0
           }
-      }}});
+      },keyboard:this.state.mainInterfaceState.keyboard}});
       this.scenarioChanged();
   }});
 
   Object.defineProperty(TraceViewer.prototype,"resize",{writable:true,configurable:true,value:function(e) {"use strict";
-      var theKeyboard=this.state.mainInterfaceState.keyboard;
-      var theMouse=this.state.mainInterfaceState.mouse;
+          console.log("sarah "+JSON.stringify(this.state.mainInterfaceState))
       var canvas=React.findDOMNode(this.refs.iiicanvas);
-      this.setState({mainInterfaceState:{mouse:theMouse,keyboard:theKeyboard,time:e.timeStamp,size : {
+      this.setState({mainInterfaceState:{size : {
           width: canvas.offsetWidth,
           height: canvas.offsetHeight
-      }}});
+      },time:e.timeStamp,mouse:this.state.mainInterfaceState.mouse,keyboard:this.state.mainInterfaceState.keyboard,}});
+      console.log("sarah 2"+JSON.stringify(this.state.mainInterfaceState))
       this.scenarioChanged();
   }});
 
@@ -74490,7 +74489,7 @@ var ____Class2=React.Component;for(var ____Class2____Key in ____Class2){if(____C
       }
       if (mainInterface.keyboard[key] !== true) {
         var theKeyboard=mainInterface.keyboard[key]=true;
-        this.setState({mainInterfaceState:{time:e.timeStamp,keyboard:theKeyboard}});
+        this.setState({mainInterfaceState:{size:this.state.mainInterfaceState.size,time:e.timeStamp,mouse:this.state.mainInterfaceState.mouse,keyboard:theKeyboard}});
       }
       this.scenarioChanged();
   }});
@@ -74506,7 +74505,7 @@ var ____Class2=React.Component;for(var ____Class2____Key in ____Class2){if(____C
       }
       if (mainInterface.keyboard[key] !== false) {
         var theKeyboard=mainInterface.keyboard[key]=false;
-        this.setState({mainInterfaceState:{time:e.timeStamp,keyboard:theKeyboard}});
+        this.setState({mainInterfaceState:{size:this.state.mainInterfaceState.size,time:e.timeStamp,mouse:this.state.mainInterfaceState.mouse,keyboard:theKeyboard}});
       }
       this.scenarioChanged();
   }});
@@ -74591,6 +74590,7 @@ var ____Class2=React.Component;for(var ____Class2____Key in ____Class2){if(____C
 
 
   Object.defineProperty(TraceViewer.prototype,"scenarioChanged",{writable:true,configurable:true,value:function() {"use strict";
+    console.log("farah "+JSON.stringify(this.state.mainInterfaceState))
     this.props.addToScenario(this.state.mainInterfaceState);
   }});
 

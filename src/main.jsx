@@ -75,6 +75,7 @@ class Main extends React.Component {constructor(props) {
 
   addToScenario(mainInterfaceState){
     var theScenario=this.state.scenario;
+    console.log(JSON.stringify(mainInterfaceState))
     var element={time:mainInterfaceState.time,mouse : {
         buttons: mainInterfaceState.mouse.buttons,
         position: {
