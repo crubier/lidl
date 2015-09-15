@@ -15,7 +15,7 @@ class TraceViewer extends React.Component {
       tableWidth: this.props.tableWidth,
       tableHeight: this.props.tableHeight,
       openedTab: 0,
-      mainInterfaceState:{keyboard: {
+      mainInterfaceState:{/*keyboard: {
           "U+0041": false,
           "U+0040": false,
           "U+0026": false,
@@ -87,7 +87,7 @@ class TraceViewer extends React.Component {
           "F10": false,
           "F11": false,
           "F12": false
-      },time:0,mouse: {
+      },*/time:0,mouse: {
             buttons: 0,
             position: {
                 x: 0,
@@ -114,9 +114,9 @@ class TraceViewer extends React.Component {
       var rect = React.findDOMNode(this.refs.iiicanvas).getBoundingClientRect();
       var offsetX = e.clientX - rect.left;
       var offsetY = e.clientY - rect.top;
-      var theKeyboard=this.state.mainInterfaceState.keyboard;
+      //var theKeyboard=this.state.mainInterfaceState.keyboard;
       var theSize=this.state.mainInterfaceState.size;
-      this.setState({mainInterfaceState:{keyboard:theKeyboard,size:theSize,time:e.timeStamp,mouse : {
+      this.setState({mainInterfaceState:{/*keyboard:theKeyboard,*/size:theSize,time:e.timeStamp,mouse : {
           buttons: e.buttons,
           position: {
               x: offsetX,

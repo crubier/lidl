@@ -56,6 +56,7 @@ class Main extends React.Component {constructor(props) {
       listOfAtoms: [],
       errorInteraction: "",
       errorScenario: "",
+      scenarioText:"",
       scenarioInvalid: "",
       Interaction: "interaction (test):{time:Number in,size:{width:Number in, height:Number in}, mouse:{buttons:Number in,position:{x:Number in ,y:Number in},wheel:{x:Number in ,y:Number in,z:Number in}}} with interaction (a):Number out is (previous(#a)) is ({x:(a),y:(#a),z:(#b)})",
       scenario: '[]',
@@ -90,6 +91,7 @@ class Main extends React.Component {constructor(props) {
         width:mainInterfaceState.size.width,
         height:mainInterfaceState.size.height
     },
+    /*
     keyboard: {
         "U+0041": false,
         "U+0040": false,
@@ -162,8 +164,12 @@ class Main extends React.Component {constructor(props) {
         "F10": false,
         "F11": false,
         "F12": false
-    }}
-    theScenario=theScenario.push(element);
+    }*/}
+    theScenario=theScenario.concat(element);
+
+    var theScenarioText=JSON.stringify(theScenario);
+    this.setState({scenarioText:theScenarioText,
+    scenario: theScenario});
     this.evaluateScenario(JSON.stringify(this.state.scenario));
   }
 
@@ -212,7 +218,6 @@ class Main extends React.Component {constructor(props) {
 
   evaluateScenario(scenario) {
     try {
-      true==false
       var newModelScenario = JSON.parse(scenario);
       var newModelDefinitions = iii.parser.parse(this.state.Interaction);
       var newModelInterface = newModelDefinitions[0].signature.interface;
@@ -288,7 +293,7 @@ class Main extends React.Component {constructor(props) {
   render() {
     return (
       <div className="Main">
-        <CodeEditor Interaction={this.state.Interaction}   scenarioInvalid={this.state.scenarioInvalid} errorInteraction={this.state.errorInteraction}  errorScenario={this.state.errorScenario} evaluateInteraction={this.evaluateInteraction.bind(this)} evaluateScenario={this.evaluateScenario.bind(this)} onInteractionChange={this.onInteractionChange.bind(this)} onScenarioChange={this.onScenarioChange.bind(this)} scenario={this.state.scenario}
+        <CodeEditor Interaction={this.state.Interaction}  scenarioText={this.state.scenarioText} scenarioInvalid={this.state.scenarioInvalid} errorInteraction={this.state.errorInteraction}  errorScenario={this.state.errorScenario} evaluateInteraction={this.evaluateInteraction.bind(this)} evaluateScenario={this.evaluateScenario.bind(this)} onInteractionChange={this.onInteractionChange.bind(this)} onScenarioChange={this.onScenarioChange.bind(this)} scenario={this.state.scenario}
         stats={this.state.stats} compiledInteraction={this.state.compiledInteraction} />
         <TraceViewer listOfAtoms={this.state.listOfAtoms} scenario={this.state.scenario} tableRowNumber={this.state.tableRowNumber} fastForward={this.fastForward.bind(this)} fastBackward={this.fastBackward.bind(this)} backward={this.backward.bind(this)} forward={this.forward.bind(this)} addToScenario={this.addToScenario.bind(this)}/>
       </div>
