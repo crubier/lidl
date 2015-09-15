@@ -44,7 +44,7 @@ class TraceViewer extends React.Component {
           "U+00E0": false,
           "U+0029": false,
           "U+002D": false,
-          "U+0009": true,
+          "U+0009": false,
           "U+005A": false,
           "U+0045": false,
           "U+0052": false,
@@ -243,7 +243,7 @@ class TraceViewer extends React.Component {
      iiicanvas.addEventListener("touchmove", this.touch.bind(this), false);
      iiicanvas.addEventListener("touchstart", this.touch.bind(this), false);
 
-    // // Device
+    // Device
     // // window.addEventListener("devicemotion", devicemotion, false);
     // window.addEventListener("deviceorientation", deviceorientation, false);
     // window.addEventListener("devicelight", devicelight, false);
