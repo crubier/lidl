@@ -366,7 +366,7 @@ class TraceViewer extends React.Component {
           {listOfAtoms.map(function(x) {
             return (
           <ColumnGroup key={x.name} fixed={true} label={x.name}>
-            <Column dataKey={x.name} fixed={true} label={x.data.name + " " + x.direction} width={80}/>
+            <Column dataKey={x.name} fixed={true} label={x.data.name + " " + x.direction} width={150}/>
           </ColumnGroup>
           ); })}
 
