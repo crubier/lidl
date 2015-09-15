@@ -225,6 +225,7 @@ span {
   text-align: center;
   display: table-cell;
   overflow: auto;
+  font-size: 9pt;
 }
 .Main {
   position: absolute;
@@ -280,8 +281,13 @@ span {
   height: calc(100% - 60px);
   background-color: #fffab2;
 }
-canavas {
+canvas {
   background-color: #fff;
 }
+/*
+.public_fixedDataTable_header,
+.public_fixedDataTable_header .public_fixedDataTableCell_main {
+  background-image: linear-gradient(#fff, #fff) !important;
+}*/
 
 /*# sourceMappingURL=main.css.map */
