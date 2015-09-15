@@ -56,6 +56,7 @@ class Main extends React.Component {constructor(props) {
       listOfAtoms: [],
       errorInteraction: "",
       errorScenario: "",
+      scenarioInvalid: "",
       Interaction: "interaction (test):{time:Number in,size:{width:Number in, height:Number in}, mouse:{buttons:Number in,position:{x:Number in ,y:Number in},wheel:{x:Number in ,y:Number in,z:Number in}}} with interaction (a):Number out is (previous(#a)) is ({x:(a),y:(#a),z:(#b)})",
       scenario: '[]',
       compiledInteraction: "({x:(previous(#0)),y:(#0),z:(#1)})",
@@ -165,10 +166,10 @@ class Main extends React.Component {constructor(props) {
     }}
         console.log( "dddd",JSON.stringify(element));
     theScenario=theScenario.push(element);
-
+    /*
     this.setState({
       scenario: theScenario
-    });
+    });*/
     //var rect = React.findDOMNode(this.refs.scenario);
     //rect.value=theScenario;
 
@@ -239,10 +240,16 @@ class Main extends React.Component {constructor(props) {
             checker=false
           }
         }
-
       });
-
-
+      if(checker==false){
+        this.setState({
+          scenarioInvalid: "scenario does not match the definition"
+        });
+      }else{
+        this.setState({
+          scenarioInvalid: ""
+        });
+      }
       console.log("test vvv",checker);
       this.setState({
         scenario: newModelScenario
@@ -298,7 +305,7 @@ class Main extends React.Component {constructor(props) {
   render() {
     return (
       <div className="Main">
-        <CodeEditor Interaction={this.state.Interaction}  errorInteraction={this.state.errorInteraction}  errorScenario={this.state.errorScenario} evaluateInteraction={this.evaluateInteraction.bind(this)} evaluateScenario={this.evaluateScenario.bind(this)} onInteractionChange={this.onInteractionChange.bind(this)} onScenarioChange={this.onScenarioChange.bind(this)} scenario={this.state.scenario}
+        <CodeEditor Interaction={this.state.Interaction}   scenarioInvalid={this.state.scenarioInvalid} errorInteraction={this.state.errorInteraction}  errorScenario={this.state.errorScenario} evaluateInteraction={this.evaluateInteraction.bind(this)} evaluateScenario={this.evaluateScenario.bind(this)} onInteractionChange={this.onInteractionChange.bind(this)} onScenarioChange={this.onScenarioChange.bind(this)} scenario={this.state.scenario}
         stats={this.state.stats} compiledInteraction={this.state.compiledInteraction} />
         <TraceViewer listOfAtoms={this.state.listOfAtoms} scenario={this.state.scenario} tableRowNumber={this.state.tableRowNumber} fastForward={this.fastForward.bind(this)} fastBackward={this.fastBackward.bind(this)} backward={this.backward.bind(this)} forward={this.forward.bind(this)} addToScenario={this.addToScenario.bind(this)}/>
       </div>

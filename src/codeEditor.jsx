@@ -68,7 +68,7 @@ class CodeEditor extends React.Component {constructor(props) {
 
           <textarea className={this.props.errorScenario !== ""
             ? "error"
-            : ""} defaultValue={this.props.scenario} ref= "scenario" name="scenario" onChange={this.scenarioChanged.bind(this)} style={{
+            : ""} defaultValue={this.props.scenario}  name="scenario" onChange={this.scenarioChanged.bind(this)} style={{
             display: this.state.openedTab === 0
               ? 'inline'
               : 'none'
@@ -95,11 +95,18 @@ class CodeEditor extends React.Component {constructor(props) {
                 : 'none'
             }} >{this.props.errorInteraction}</div>
 
+
             <div className="errorScenario" style={{
               display: this.props.errorScenario !== "" && this.state.openedTab === 0
                 ? 'inline-block'
                 : 'none'
             }} >{this.props.errorScenario}</div>
+
+            <div className="errorScenario" ref= "scenario" style={{
+              display: this.props.scenarioInvalid !== "" && this.state.openedTab === 0 && this.props.errorScenario== ""
+                ? 'inline-block'
+                : 'none'
+            }} >{this.props.scenarioInvalid}</div>
 
             <p style={{
               display: this.state.openedTab === 2
@@ -147,6 +154,7 @@ CodeEditor.propTypes = {
   stats: React.PropTypes.object,
   errorInteraction: React.PropTypes.string,
   errorScenario: React.PropTypes.string,
+  scenarioInvalid: React.PropTypes.string,
   Interaction: React.PropTypes.string,
   compiledInteraction:React.PropTypes.string,
 
@@ -156,6 +164,7 @@ CodeEditor.defaultProps = {
   stats: {variables:0,previous:0,identifiers:0,functions:0,compositions:0},
   errorInteraction: "",
   errorScenario: "",
+  scenarioInvalid: "",
   Interaction: "interaction (test):{time:Number in,size:{width:Number in, height:Number in},mouse:{buttons:Number in,position:{x:Number in ,y:Number in},wheel:{x:Number in ,y:Number in,z:Number in}}} with interaction (a):Number out is (previous(#a)) is ({x:(a),y:(#a),z:(#b)})",
   scenario: '[]',
   compiledInteraction:"({x:(previous(#0)),y:(#0),z:(#1)})",
