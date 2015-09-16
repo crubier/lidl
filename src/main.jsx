@@ -71,7 +71,7 @@ class Main extends React.Component {constructor(props) {
         functions: 0,
         compositions: 0
       },
-      scenarioText:"",
+      scenarioText:"[]",
       compilationResult:{
         transitionFunction:function(x){return x;},
         initializationFunction:function(){return {}}
@@ -165,6 +165,7 @@ class Main extends React.Component {constructor(props) {
   }
 
   runInteractionOnScenario(){
+    console.log("hiihiiii")
     var trace= [this.state.compilationResult.initializationFunction()];
     for(var i=1; i<this.state.scenario.length;i++){
        trace.push(this.state.compilationResult.transitionFunction({
@@ -269,7 +270,7 @@ class Main extends React.Component {constructor(props) {
   render() {
     return (
       <div className="Main">
-        <CodeEditor Interaction={this.state.Interaction} compiledInteraction={this.state.compiledInteraction} errorInteraction={this.state.errorInteraction} errorScenario={this.state.errorScenario} onInteractionChange={this.onInteractionChange.bind(this)} onScenarioChange={this.onScenarioChange.bind(this)} scenarioInvalid={this.state.scenarioInvalid} scenarioText={this.state.scenarioText} stats={this.state.stats}/>
+        <CodeEditor Interaction={this.state.Interaction} compiledInteraction={this.state.compiledInteraction} errorInteraction={this.state.errorInteraction} errorScenario={this.state.errorScenario} onInteractionChange={this.onInteractionChange.bind(this)} onScenarioChange={this.onScenarioChange.bind(this)} runInteractionOnScenario={this.runInteractionOnScenario.bind(this)} scenarioInvalid={this.state.scenarioInvalid} scenarioText={this.state.scenarioText} stats={this.state.stats}/>
         <TraceViewer addToScenario={this.addToScenario.bind(this)} backward={this.backward.bind(this)} fastBackward={this.fastBackward.bind(this)} fastForward={this.fastForward.bind(this)} forward={this.forward.bind(this)} listOfAtoms={this.state.listOfAtoms} scenario={_.map(this.state.trace,"inter")} tableRowNumber={this.state.tableRowNumber}/>
       </div>
     );

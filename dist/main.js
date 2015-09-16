@@ -74078,8 +74078,8 @@ var React = require('react');
 var SkyLight = require('react-skylight');
 var iii = require('iii');
 
-var ____Class1=React.Component;for(var ____Class1____Key in ____Class1){if(____Class1.hasOwnProperty(____Class1____Key)){CodeEditor[____Class1____Key]=____Class1[____Class1____Key];}}var ____SuperProtoOf____Class1=____Class1===null?null:____Class1.prototype;CodeEditor.prototype=Object.create(____SuperProtoOf____Class1);CodeEditor.prototype.constructor=CodeEditor;CodeEditor.__superConstructor__=____Class1;function CodeEditor(props) {"use strict";
-    ____Class1.call(this,props);
+var ____Class2=React.Component;for(var ____Class2____Key in ____Class2){if(____Class2.hasOwnProperty(____Class2____Key)){CodeEditor[____Class2____Key]=____Class2[____Class2____Key];}}var ____SuperProtoOf____Class2=____Class2===null?null:____Class2.prototype;CodeEditor.prototype=Object.create(____SuperProtoOf____Class2);CodeEditor.prototype.constructor=CodeEditor;CodeEditor.__superConstructor__=____Class2;function CodeEditor(props) {"use strict";
+    ____Class2.call(this,props);
     this.state = {
       openedTab: 0,
     };
@@ -74109,6 +74109,8 @@ var ____Class1=React.Component;for(var ____Class1____Key in ____Class1){if(____C
   Object.defineProperty(CodeEditor.prototype,"componentDidMount",{writable:true,configurable:true,value:function() {"use strict";
     this.props.onScenarioChange(this.props.scenarioText);
     this.props.onInteractionChange(this.props.Interaction);
+    
+    //this.props.runInteractionOnScenario();
   }});
 
 
@@ -74241,7 +74243,7 @@ CodeEditor.defaultProps = {
   stats: {variables:0,previous:0,identifiers:0,functions:0,compositions:0},
   errorInteraction: "",
   errorScenario: "",
-  scenarioText: "",
+  scenarioText: "[]",
   scenarioInvalid: "",
   Interaction: "interaction (test):{time:Number in,dimension:{width:Number in, height:Number in},mouse:{buttons:Number in,position:{x:Number in ,y:Number in},wheel:{x:Number in ,y:Number in,z:Number in}}} with interaction (a):Number out is (previous(#a)) is ({x:(a),y:(#a),z:(#b)})",
   compiledInteraction:"({x:(previous(#0)),y:(#0),z:(#1)})",
@@ -74603,7 +74605,7 @@ var ____Class0=React.Component;for(var ____Class0____Key in ____Class0){if(____C
         functions: 0,
         compositions: 0
       },
-      scenarioText:"",
+      scenarioText:"[]",
       compilationResult:{
         transitionFunction:function(x){return x;},
         initializationFunction:function(){return {}}
@@ -74697,6 +74699,7 @@ var ____Class0=React.Component;for(var ____Class0____Key in ____Class0){if(____C
   }});
 
   Object.defineProperty(Main.prototype,"runInteractionOnScenario",{writable:true,configurable:true,value:function(){"use strict";
+    console.log("hiihiiii")
     var trace= [this.state.compilationResult.initializationFunction()];
     for(var i=1; i<this.state.scenario.length;i++){
        trace.push(this.state.compilationResult.transitionFunction({
@@ -74801,7 +74804,7 @@ var ____Class0=React.Component;for(var ____Class0____Key in ____Class0){if(____C
   Object.defineProperty(Main.prototype,"render",{writable:true,configurable:true,value:function() {"use strict";
     return (
       React.createElement("div", {className: "Main"}, 
-        React.createElement(CodeEditor, {Interaction: this.state.Interaction, compiledInteraction: this.state.compiledInteraction, errorInteraction: this.state.errorInteraction, errorScenario: this.state.errorScenario, onInteractionChange: this.onInteractionChange.bind(this), onScenarioChange: this.onScenarioChange.bind(this), scenarioInvalid: this.state.scenarioInvalid, scenarioText: this.state.scenarioText, stats: this.state.stats}), 
+        React.createElement(CodeEditor, {Interaction: this.state.Interaction, compiledInteraction: this.state.compiledInteraction, errorInteraction: this.state.errorInteraction, errorScenario: this.state.errorScenario, onInteractionChange: this.onInteractionChange.bind(this), onScenarioChange: this.onScenarioChange.bind(this), runInteractionOnScenario: this.runInteractionOnScenario.bind(this), scenarioInvalid: this.state.scenarioInvalid, scenarioText: this.state.scenarioText, stats: this.state.stats}), 
         React.createElement(TraceViewer, {addToScenario: this.addToScenario.bind(this), backward: this.backward.bind(this), fastBackward: this.fastBackward.bind(this), fastForward: this.fastForward.bind(this), forward: this.forward.bind(this), listOfAtoms: this.state.listOfAtoms, scenario: _.map(this.state.trace,"inter"), tableRowNumber: this.state.tableRowNumber})
       )
     );
@@ -74982,10 +74985,10 @@ function draw(ctx, object) {
 }
 
 
-var ____Class2=React.Component;for(var ____Class2____Key in ____Class2){if(____Class2.hasOwnProperty(____Class2____Key)){TraceViewer[____Class2____Key]=____Class2[____Class2____Key];}}var ____SuperProtoOf____Class2=____Class2===null?null:____Class2.prototype;TraceViewer.prototype=Object.create(____SuperProtoOf____Class2);TraceViewer.prototype.constructor=TraceViewer;TraceViewer.__superConstructor__=____Class2;
+var ____Class1=React.Component;for(var ____Class1____Key in ____Class1){if(____Class1.hasOwnProperty(____Class1____Key)){TraceViewer[____Class1____Key]=____Class1[____Class1____Key];}}var ____SuperProtoOf____Class1=____Class1===null?null:____Class1.prototype;TraceViewer.prototype=Object.create(____SuperProtoOf____Class1);TraceViewer.prototype.constructor=TraceViewer;TraceViewer.__superConstructor__=____Class1;
 
   function TraceViewer(props) {"use strict";
-    ____Class2.call(this,props);
+    ____Class1.call(this,props);
     this.state = {
       tableWidth: this.props.tableWidth,
       tableHeight: this.props.tableHeight,
@@ -75293,12 +75296,13 @@ var ____Class2=React.Component;for(var ____Class2____Key in ____Class2){if(____C
 
         React.createElement("div", {style: {
         display: this.state.openedTab === 0
-          ? 'inline'
+          ? 'inline-block'
           : 'none',
-          overflow:"auto"
+          overflow:"auto",
+
       }}, 
 
-        React.createElement(Table, {groupHeaderHeight: 30, headerHeight: 30, height: this.state.tableHeight, width: this.state.tableWidth, overflowX: controlledScrolling ? "hidden" : "auto", overflowY: controlledScrolling ? "hidden" : "auto", rowGetter: this.$TraceViewer_rowGetter.bind(this), rowHeight: 30, rowsCount: this.props.tableRowNumber, scrollLeft: this.props.left, scrollTop: this.props.top}, 
+        React.createElement(Table, {groupHeaderHeight: 30, headerHeight: 30, height: 525, width: this.state.tableWidth, overflowX: controlledScrolling ? "hidden" : "auto", overflowY: controlledScrolling ? "hidden" : "auto", rowGetter: this.$TraceViewer_rowGetter.bind(this), rowHeight: 30, rowsCount: this.props.tableRowNumber, scrollLeft: this.props.left, scrollTop: this.props.top}, 
           listOfAtoms.map(function(x) {
             return (
           React.createElement(ColumnGroup, {key: x.name, fixed: true, label: x.name}, 
