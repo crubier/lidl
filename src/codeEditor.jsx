@@ -145,6 +145,13 @@ class CodeEditor extends React.Component {constructor(props) {
             }}> { "Number of variables :" + (this.props.stats.identifiers+this.props.stats.previous)} </p>
             <br/>
             <br/>
+            <p style={{
+              display: this.state.openedTab === 2
+                ? 'inline'
+                : 'none'
+            }}> { "Total of interactions :" + (this.props.stats.identifiers+this.props.stats.previous+this.props.stats.compositions+ this.props.stats.functions)} </p>
+            <br/>
+            <br/>
           </div>
         </div>
 
