@@ -15,7 +15,7 @@ class TraceViewer extends React.Component {
       tableWidth: this.props.tableWidth,
       tableHeight: this.props.tableHeight,
       openedTab: 0,
-      mainInterfaceState:{size:{
+      mainInterfaceState:{dimension:{
           width:500,
           height:500
       },time:0,mouse: {
@@ -52,7 +52,7 @@ class TraceViewer extends React.Component {
       var rect = React.findDOMNode(this.refs.iiicanvas).getBoundingClientRect();
       var offsetX = e.clientX - rect.left;
       var offsetY = e.clientY - rect.top;
-      this.setState({mainInterfaceState:{size:this.state.mainInterfaceState.size,time:e.timeStamp,mouse : {
+      this.setState({mainInterfaceState:{dimension:this.state.mainInterfaceState.dimension,time:e.timeStamp,mouse : {
           buttons: e.buttons,
           position: {
               x: offsetX,
@@ -68,13 +68,13 @@ class TraceViewer extends React.Component {
   }
 
   resize(e) {
-          console.log("sarah "+JSON.stringify(this.state.mainInterfaceState))
+
       var canvas=React.findDOMNode(this.refs.iiicanvas);
-      this.setState({mainInterfaceState:{size : {
+      this.setState({mainInterfaceState:{dimension : {
           width: canvas.offsetWidth,
           height: canvas.offsetHeight
       },time:e.timeStamp,mouse:this.state.mainInterfaceState.mouse,keyboard:this.state.mainInterfaceState.keyboard,touch:this.state.mainInterfaceState.touch,}});
-      console.log("sarah 2"+JSON.stringify(this.state.mainInterfaceState))
+
       this.scenarioChanged();
   }
 
@@ -82,7 +82,7 @@ class TraceViewer extends React.Component {
 
 
   keydown(e) {
-    console.log("keyboard")
+
       var key;
       if (event.key !== undefined) {
           key = event.key;
@@ -94,13 +94,13 @@ class TraceViewer extends React.Component {
       if (this.state.mainInterfaceState.keyboard[key] !== true) {
         var theKeyboard=this.state.mainInterfaceState.keyboard;
         theKeyboard[key]=true;
-        this.setState({mainInterfaceState:{size:this.state.mainInterfaceState.size,time:e.timeStamp,mouse:this.state.mainInterfaceState.mouse,keyboard:theKeyboard,touch:this.state.mainInterfaceState.touch,}});
+        this.setState({mainInterfaceState:{dimension:this.state.mainInterfaceState.dimension,time:e.timeStamp,mouse:this.state.mainInterfaceState.mouse,keyboard:theKeyboard,touch:this.state.mainInterfaceState.touch,}});
       }
       this.scenarioChanged();
   }
 
   keyup(e) {
-      console.log("keyboard1")
+
       var key;
       if (event.key !== undefined) {
           key = event.key;
@@ -112,7 +112,7 @@ class TraceViewer extends React.Component {
       if (this.state.mainInterfaceState.keyboard[key] !== false) {
         var theKeyboard=this.state.mainInterfaceState.keyboard;
         theKeyboard[key]=false;
-        this.setState({mainInterfaceState:{size:this.state.mainInterfaceState.size,time:e.timeStamp,mouse:this.state.mainInterfaceState.mouse,keyboard:theKeyboard,touch:this.state.mainInterfaceState.touch,}});
+        this.setState({mainInterfaceState:{dimension:this.state.mainInterfaceState.dimension,time:e.timeStamp,mouse:this.state.mainInterfaceState.mouse,keyboard:theKeyboard,touch:this.state.mainInterfaceState.touch,}});
       }
       this.scenarioChanged();
   }
@@ -138,7 +138,7 @@ class TraceViewer extends React.Component {
           touches[i].rotationAngle = e.touches[i].rotationAngle;
           touches[i].force = e.touches[i].force;
       }
-      this.setState({mainInterfaceState:{size:this.state.mainInterfaceState.size,time:e.timeStamp,mouse:this.state.mainInterfaceState.mouse,keyboard:this.state.mainInterfaceState.keyboard,touch : touches}});
+      this.setState({mainInterfaceState:{dimension:this.state.mainInterfaceState.dimension,time:e.timeStamp,mouse:this.state.mainInterfaceState.mouse,keyboard:this.state.mainInterfaceState.keyboard,touch : touches}});
       this.scenarioChanged();
   }
 
@@ -224,7 +224,7 @@ class TraceViewer extends React.Component {
 
 
   scenarioChanged() {
-    console.log("farah "+JSON.stringify(this.state.mainInterfaceState))
+
     this.props.addToScenario(this.state.mainInterfaceState);
   }
 

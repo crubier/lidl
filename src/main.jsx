@@ -4,6 +4,8 @@ var TraceViewer = require('./traceViewer.jsx');
 var iii = require('iii');
 var scenarioChecker = require('./scenario.js');
 var _ = require('lodash');
+var compExample=require('./compExample.js');
+
 var rowNumber = 0;
 
 function nbrOfPrevious(interaction) {
@@ -56,25 +58,30 @@ class Main extends React.Component {constructor(props) {
       listOfAtoms: [],
       errorInteraction: "",
       errorScenario: "",
-      scenarioText: "",
       scenarioInvalid: "",
-      Interaction: "interaction (test):{time:Number in,size:{width:Number in, height:Number in}, mouse:{buttons:Number in,position:{x:Number in ,y:Number in},wheel:{x:Number in ,y:Number in,z:Number in}}} with interaction (a):Number out is (previous(#a)) is ({x:(a),y:(#a),z:(#b)})",
-      scenario: '[]',
+      Interaction: "interaction (test):{time:Number in,dimension:{width:Number in, height:Number in}, mouse:{buttons:Number in,position:{x:Number in ,y:Number in},wheel:{x:Number in ,y:Number in,z:Number in}}} with interaction (a):Number out is (previous(#a)) is ({x:(a),y:(#a),z:(#b)})",
+      scenario: [],
       compiledInteraction: "({x:(previous(#0)),y:(#0),z:(#1)})",
       tableRowNumber: 5,
+      trace:[],
       stats: {
         variables: 0,
         previous: 0,
         identifiers: 0,
         functions: 0,
         compositions: 0
+      },
+      scenarioText:"",
+      compilationResult:{
+        transitionFunction:function(x){return x;},
+        initializationFunction:function(){return {}}
       }
+
     };
   }
 
   addToScenario(mainInterfaceState) {
     var theScenario = this.state.scenario;
-    console.log(JSON.stringify(mainInterfaceState))
     var element = {
       time: mainInterfaceState.time,
       mouse: {
@@ -95,19 +102,17 @@ class Main extends React.Component {constructor(props) {
             : 0
         }
       },
-      size: {
-        width: mainInterfaceState.size.width,
-        height: mainInterfaceState.size.height
+      dimension: {
+        width: mainInterfaceState.dimension.width,
+        height: mainInterfaceState.dimension.height
       },
 
       keyboard: mainInterfaceState.keyboard,
       touch: mainInterfaceState.touch
     }
-    theScenario = theScenario.concat(element);
+    theScenario.push(element);
 
-    var theScenarioText = JSON.stringify(theScenario);
     this.setState({
-      scenarioText: theScenarioText,
       scenario: theScenario
     });
     this.evaluateScenario(JSON.stringify(this.state.scenario));
@@ -145,18 +150,44 @@ class Main extends React.Component {constructor(props) {
           identifiers: 0,
           functions: 0,
           compositions: 0
-        }
+        },
+        compilationResult:compExample
+
       });
+      this.runInteractionOnScenario();
     } catch (errorMessage) {
       this.setState({
         errorInteraction: "" + errorMessage
       });
+            console.log("interaction "+errorMessage)
     }
 
   }
 
+  runInteractionOnScenario(){
+    var trace= [this.state.compilationResult.initializationFunction()];
+    for(var i=1; i<this.state.scenario.length;i++){
+       trace.push(this.state.compilationResult.transitionFunction({
+         memo: trace[i-1].memo,
+         state:trace[i-1].state,
+         args: {},
+         inter: this.state.scenario[i]
+       }));
+/*
+      trace.push({
+        memo: trace[i-1].memo,
+        state:trace[i-1].state,
+        args: {},
+        inter: this.state.scenario[i]
+      });*/
+    }
+    // console.log("scenario : "+JSON.stringify(_.map(trace,"inter")));
+    this.setState({trace:trace}) ;
+  }
+
   evaluateScenario(scenario) {
     try {
+      this.setState({scenarioText:scenario});
       var newModelScenario = JSON.parse(scenario);
       var newModelDefinitions = iii.parser.parse(this.state.Interaction);
       var newModelInterface = newModelDefinitions[0].signature.interface;
@@ -189,13 +220,14 @@ class Main extends React.Component {constructor(props) {
       this.setState({
         tableRowNumber: rowNumber
       });
+      this.runInteractionOnScenario();
     } catch (errorMessage) {
 
       this.setState({
         errorScenario: "" + errorMessage
 
       });
-
+      console.log("scenario "+errorMessage)
     }
   }
 
@@ -237,8 +269,8 @@ class Main extends React.Component {constructor(props) {
   render() {
     return (
       <div className="Main">
-        <CodeEditor Interaction={this.state.Interaction} compiledInteraction={this.state.compiledInteraction} errorInteraction={this.state.errorInteraction} errorScenario={this.state.errorScenario} evaluateInteraction={this.evaluateInteraction.bind(this)} evaluateScenario={this.evaluateScenario.bind(this)} onInteractionChange={this.onInteractionChange.bind(this)} onScenarioChange={this.onScenarioChange.bind(this)} scenario={this.state.scenario} scenarioInvalid={this.state.scenarioInvalid} scenarioText={this.state.scenarioText} stats={this.state.stats}/>
-        <TraceViewer addToScenario={this.addToScenario.bind(this)} backward={this.backward.bind(this)} fastBackward={this.fastBackward.bind(this)} fastForward={this.fastForward.bind(this)} forward={this.forward.bind(this)} listOfAtoms={this.state.listOfAtoms} scenario={this.state.scenario} tableRowNumber={this.state.tableRowNumber}/>
+        <CodeEditor Interaction={this.state.Interaction} compiledInteraction={this.state.compiledInteraction} errorInteraction={this.state.errorInteraction} errorScenario={this.state.errorScenario} onInteractionChange={this.onInteractionChange.bind(this)} onScenarioChange={this.onScenarioChange.bind(this)} scenarioInvalid={this.state.scenarioInvalid} scenarioText={this.state.scenarioText} stats={this.state.stats}/>
+        <TraceViewer addToScenario={this.addToScenario.bind(this)} backward={this.backward.bind(this)} fastBackward={this.fastBackward.bind(this)} fastForward={this.fastForward.bind(this)} forward={this.forward.bind(this)} listOfAtoms={this.state.listOfAtoms} scenario={_.map(this.state.trace,"inter")} tableRowNumber={this.state.tableRowNumber}/>
       </div>
     );
   }
