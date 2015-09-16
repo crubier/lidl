@@ -256,7 +256,10 @@ function initializationFunction() {
         proximity: 0
       },
       keyboard: {},
-      graphics: {}
+      graphics: {
+        type: "group",
+        content: [  ]
+      }
     }
   };
 }

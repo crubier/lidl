@@ -74311,7 +74311,7 @@ function ifthenelse(x) {
 }
 
 function transitionFunction(data) {
-console.log("transition");
+
   var mainInterface = data.inter;
 
   var previousState = data.state;
@@ -74333,7 +74333,7 @@ console.log("transition");
     width: mainInterface.dimension.width - 120,
     height: e1
   };
-console.log("transition1");
+
   // previously the button was pushed
   var e3 = previousState.pushed;
 
@@ -74345,26 +74345,26 @@ console.log("transition1");
 
   // cursor inside button
   var e6 = isInside(e5);
-console.log("transition11");
+
   // input for next
   var e7 = {
     a:e6,
     b:mainInterface.mouse.buttons !== 0
   };
-console.log("transition12");
+
   //  button clicked = mouse clicked and cursor inside button
   var e8 = and(e7);
-console.log("transition13");
+
   // button not previously pushed
   var e9 = not(e3);
-console.log("transition14");
+
   // input for next
   var e10 = {
     cond:e8,
     a:e9,
     b:e3
   };
-console.log("transition2");
+
   // if click on button the pushed = not previously pushed
   var e11 = ifthenelse(e10);
 
@@ -74412,7 +74412,7 @@ console.log("transition2");
       }
     }
   };
-console.log("transition3");
+
   var theButton = {
     type: "shadow",
     blur: e8 ? 10 : 20,
@@ -74456,7 +74456,7 @@ console.log("transition3");
       cursor
     ]
   };
-console.log("transition4");
+
   return {
     memo: {},
     state: {
@@ -74512,7 +74512,10 @@ function initializationFunction() {
         proximity: 0
       },
       keyboard: {},
-      graphics: {}
+      graphics: {
+        type: "group",
+        content: [  ]
+      }
     }
   };
 }
@@ -74710,7 +74713,7 @@ var ____Class0=React.Component;for(var ____Class0____Key in ____Class0){if(____C
         inter: this.state.scenario[i]
       });*/
     }
-    // console.log("scenario : "+JSON.stringify(_.map(trace,"inter")));
+    console.log("run : "+JSON.stringify(_.last(_.map(trace,"inter")).graphics));
     this.setState({trace:trace}) ;
   }});
 
@@ -74869,6 +74872,116 @@ var Table = FixedDataTable.Table;
 var rowNumber=5;
 var scenarioUtils=require('./scenario.js');
 
+
+
+
+// Generic retained mode rendering
+
+function draw(ctx, object) {
+    var i;
+    switch (object.type) {
+        case "move":
+            ctx.moveTo(object.x, object.y);
+            break;
+        case "line":
+            ctx.lineTo(object.x, object.y);
+            break;
+        case "cubic":
+            ctx.bezierCurveTo(object.cp1x, object.cp1y, object.cp2x, object.cp2y, object.x, object.y);
+            break;
+        case "quadratic":
+            ctx.quadraticCurveTo(object.cpx, object.cpy, object.x, object.y);
+            break;
+        case "arc":
+            ctx.arcTo(object.x1, object.y1, object.x2, object.y2, object.radius);
+            break;
+        case "begin":
+            ctx.beginPath();
+            break;
+        case "close":
+            ctx.closePath();
+            break;
+        case "path":
+            for (i = 0; i < object.content.length; i++) {
+                draw(ctx, object.content[i]);
+            }
+            break;
+        case "rect":
+            ctx.beginPath();
+            ctx.rect(object.x, object.y, object.width, object.height);
+            break;
+        case "shadow":
+            ctx.save();
+            ctx.shadowBlur = object.blur;
+            ctx.shadowColor = object.color;
+            ctx.shadowOffsetX = object.offset.x;
+            ctx.shadowOffsetY = object.offset.y;
+            draw(ctx, object.content);
+            ctx.restore();
+            break;
+        case "fill":
+            ctx.save();
+            ctx.fillStyle = object.style;
+            draw(ctx, object.content);
+            ctx.fill();
+            ctx.restore();
+            break;
+        case "stroke":
+            ctx.save();
+            ctx.strokeStyle = object.style;
+            draw(ctx, object.content);
+            ctx.stroke();
+            ctx.restore();
+            break;
+        case "clip":
+            ctx.save();
+            draw(ctx, object.region);
+            ctx.clip();
+            draw(ctx, object.content);
+            ctx.restore();
+            break;
+        case "transform":
+            ctx.save();
+            ctx.transform(object.a, object.b, object.c, object.d, object.e, object.f);
+            draw(ctx, object.content);
+            ctx.restore();
+            break;
+        case "scale":
+            ctx.save();
+            ctx.scale(object.width, object.height);
+            draw(ctx, object.content);
+            ctx.restore();
+            break;
+        case "translate":
+            ctx.save();
+            ctx.translate(object.x, object.y);
+            draw(ctx, object.content);
+            ctx.restore();
+            break;
+        case "rotate":
+            ctx.save();
+            ctx.rotate(object.angle);
+            draw(ctx, object.content);
+            ctx.restore();
+            break;
+        case "group":
+            for (i = 0; i < object.content.length; i++) {
+                draw(ctx, object.content[i]);
+            }
+            break;
+        case "text":
+            //TODO improve text alignement options using ctx.textMeasure()
+            ctx.textAlign = object.textAlign;
+            ctx.font = object.font;
+            ctx.beginPath();
+            ctx.fillText(object.text, object.x, object.y);
+            break;
+        default:
+            throw new Error("unexpected graphic element type \"" + object.type + "\"");
+    }
+}
+
+
 var ____Class2=React.Component;for(var ____Class2____Key in ____Class2){if(____Class2.hasOwnProperty(____Class2____Key)){TraceViewer[____Class2____Key]=____Class2[____Class2____Key];}}var ____SuperProtoOf____Class2=____Class2===null?null:____Class2.prototype;TraceViewer.prototype=Object.create(____SuperProtoOf____Class2);TraceViewer.prototype.constructor=TraceViewer;TraceViewer.__superConstructor__=____Class2;
 
   function TraceViewer(props) {"use strict";
@@ -74902,8 +75015,11 @@ var ____Class2=React.Component;for(var ____Class2____Key in ____Class2){if(____C
           "Right": false,
           "Up": false
       },touch: [],
-
-        }
+      graphics: {
+        type: "group",
+        content: [  ]
+      }
+    },
     };
 
 
@@ -74925,7 +75041,7 @@ var ____Class2=React.Component;for(var ____Class2____Key in ____Class2){if(____C
               y: (e.deltaY !== undefined && e.deltaY !== null) ? e.deltaY : 0,
               z: (e.deltaZ !== undefined && e.deltaZ !== null) ? e.deltaZ : 0
           }
-      },keyboard:this.state.mainInterfaceState.keyboard,touch:this.state.mainInterfaceState.touch}});
+      },keyboard:this.state.mainInterfaceState.keyboard,touch:this.state.mainInterfaceState.touch,graphics:this.state.mainInterfaceState.graphics}});
       this.scenarioChanged();
   }});
 
@@ -74935,7 +75051,7 @@ var ____Class2=React.Component;for(var ____Class2____Key in ____Class2){if(____C
       this.setState({mainInterfaceState:{dimension : {
           width: canvas.offsetWidth,
           height: canvas.offsetHeight
-      },time:e.timeStamp,mouse:this.state.mainInterfaceState.mouse,keyboard:this.state.mainInterfaceState.keyboard,touch:this.state.mainInterfaceState.touch,}});
+      },time:e.timeStamp,mouse:this.state.mainInterfaceState.mouse,keyboard:this.state.mainInterfaceState.keyboard,touch:this.state.mainInterfaceState.touch,graphics:this.state.mainInterfaceState.graphics}});
 
       this.scenarioChanged();
   }});
@@ -74956,7 +75072,7 @@ var ____Class2=React.Component;for(var ____Class2____Key in ____Class2){if(____C
       if (this.state.mainInterfaceState.keyboard[key] !== true) {
         var theKeyboard=this.state.mainInterfaceState.keyboard;
         theKeyboard[key]=true;
-        this.setState({mainInterfaceState:{dimension:this.state.mainInterfaceState.dimension,time:e.timeStamp,mouse:this.state.mainInterfaceState.mouse,keyboard:theKeyboard,touch:this.state.mainInterfaceState.touch,}});
+        this.setState({mainInterfaceState:{dimension:this.state.mainInterfaceState.dimension,time:e.timeStamp,mouse:this.state.mainInterfaceState.mouse,keyboard:theKeyboard,touch:this.state.mainInterfaceState.touch,graphics:this.state.mainInterfaceState.graphics}});
       }
       this.scenarioChanged();
   }});
@@ -74974,7 +75090,7 @@ var ____Class2=React.Component;for(var ____Class2____Key in ____Class2){if(____C
       if (this.state.mainInterfaceState.keyboard[key] !== false) {
         var theKeyboard=this.state.mainInterfaceState.keyboard;
         theKeyboard[key]=false;
-        this.setState({mainInterfaceState:{dimension:this.state.mainInterfaceState.dimension,time:e.timeStamp,mouse:this.state.mainInterfaceState.mouse,keyboard:theKeyboard,touch:this.state.mainInterfaceState.touch,}});
+        this.setState({mainInterfaceState:{dimension:this.state.mainInterfaceState.dimension,time:e.timeStamp,mouse:this.state.mainInterfaceState.mouse,keyboard:theKeyboard,touch:this.state.mainInterfaceState.touch,graphics:this.state.mainInterfaceState.graphics}});
       }
       this.scenarioChanged();
   }});
@@ -75000,10 +75116,21 @@ var ____Class2=React.Component;for(var ____Class2____Key in ____Class2){if(____C
           touches[i].rotationAngle = e.touches[i].rotationAngle;
           touches[i].force = e.touches[i].force;
       }
-      this.setState({mainInterfaceState:{dimension:this.state.mainInterfaceState.dimension,time:e.timeStamp,mouse:this.state.mainInterfaceState.mouse,keyboard:this.state.mainInterfaceState.keyboard,touch : touches}});
+      this.setState({mainInterfaceState:{dimension:this.state.mainInterfaceState.dimension,time:e.timeStamp,mouse:this.state.mainInterfaceState.mouse,keyboard:this.state.mainInterfaceState.keyboard,touch : touches,graphics:this.state.mainInterfaceState.graphics}});
       this.scenarioChanged();
   }});
 
+
+  Object.defineProperty(TraceViewer.prototype,"componentDidUpdate",{writable:true,configurable:true,value:function(prevProps,  prevState) {"use strict";
+
+    var canvas = React.findDOMNode(this.refs.iiicanvas);
+
+    var ctx = canvas.getContext("2d");
+    ctx.clearRect(0, 0, window.innerWidth/2, window.innerHeight-60);
+    console.log(JSON.stringify("cccccc "+this.props.scenario[this.props.scenario.length -1]));
+    draw(ctx, this.props.scenario[this.props.scenario.length -1].graphics);
+
+  }});
 
   Object.defineProperty(TraceViewer.prototype,"componentDidMount",{writable:true,configurable:true,value:function() {"use strict";
     this.$TraceViewer_updateSize();
@@ -75185,7 +75312,7 @@ var ____Class2=React.Component;for(var ____Class2____Key in ____Class2){if(____C
         display: this.state.openedTab === 1
           ? 'inline'
           : 'none'
-      }})
+      }, width: window.innerWidth/2, height: window.innerHeight-60})
 
       )
       )

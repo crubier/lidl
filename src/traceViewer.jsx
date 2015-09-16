@@ -7,6 +7,116 @@ var Table = FixedDataTable.Table;
 var rowNumber=5;
 var scenarioUtils=require('./scenario.js');
 
+
+
+
+// Generic retained mode rendering
+
+function draw(ctx, object) {
+    var i;
+    switch (object.type) {
+        case "move":
+            ctx.moveTo(object.x, object.y);
+            break;
+        case "line":
+            ctx.lineTo(object.x, object.y);
+            break;
+        case "cubic":
+            ctx.bezierCurveTo(object.cp1x, object.cp1y, object.cp2x, object.cp2y, object.x, object.y);
+            break;
+        case "quadratic":
+            ctx.quadraticCurveTo(object.cpx, object.cpy, object.x, object.y);
+            break;
+        case "arc":
+            ctx.arcTo(object.x1, object.y1, object.x2, object.y2, object.radius);
+            break;
+        case "begin":
+            ctx.beginPath();
+            break;
+        case "close":
+            ctx.closePath();
+            break;
+        case "path":
+            for (i = 0; i < object.content.length; i++) {
+                draw(ctx, object.content[i]);
+            }
+            break;
+        case "rect":
+            ctx.beginPath();
+            ctx.rect(object.x, object.y, object.width, object.height);
+            break;
+        case "shadow":
+            ctx.save();
+            ctx.shadowBlur = object.blur;
+            ctx.shadowColor = object.color;
+            ctx.shadowOffsetX = object.offset.x;
+            ctx.shadowOffsetY = object.offset.y;
+            draw(ctx, object.content);
+            ctx.restore();
+            break;
+        case "fill":
+            ctx.save();
+            ctx.fillStyle = object.style;
+            draw(ctx, object.content);
+            ctx.fill();
+            ctx.restore();
+            break;
+        case "stroke":
+            ctx.save();
+            ctx.strokeStyle = object.style;
+            draw(ctx, object.content);
+            ctx.stroke();
+            ctx.restore();
+            break;
+        case "clip":
+            ctx.save();
+            draw(ctx, object.region);
+            ctx.clip();
+            draw(ctx, object.content);
+            ctx.restore();
+            break;
+        case "transform":
+            ctx.save();
+            ctx.transform(object.a, object.b, object.c, object.d, object.e, object.f);
+            draw(ctx, object.content);
+            ctx.restore();
+            break;
+        case "scale":
+            ctx.save();
+            ctx.scale(object.width, object.height);
+            draw(ctx, object.content);
+            ctx.restore();
+            break;
+        case "translate":
+            ctx.save();
+            ctx.translate(object.x, object.y);
+            draw(ctx, object.content);
+            ctx.restore();
+            break;
+        case "rotate":
+            ctx.save();
+            ctx.rotate(object.angle);
+            draw(ctx, object.content);
+            ctx.restore();
+            break;
+        case "group":
+            for (i = 0; i < object.content.length; i++) {
+                draw(ctx, object.content[i]);
+            }
+            break;
+        case "text":
+            //TODO improve text alignement options using ctx.textMeasure()
+            ctx.textAlign = object.textAlign;
+            ctx.font = object.font;
+            ctx.beginPath();
+            ctx.fillText(object.text, object.x, object.y);
+            break;
+        default:
+            throw new Error("unexpected graphic element type \"" + object.type + "\"");
+    }
+}
+
+
 class TraceViewer extends React.Component {
 
   constructor(props) {
@@ -40,8 +150,11 @@ class TraceViewer extends React.Component {
           "Right": false,
           "Up": false
       },touch: [],
-
-        }
+      graphics: {
+        type: "group",
+        content: [  ]
+      }
+    },
     };
 
 
@@ -63,7 +176,7 @@ class TraceViewer extends React.Component {
               y: (e.deltaY !== undefined && e.deltaY !== null) ? e.deltaY : 0,
               z: (e.deltaZ !== undefined && e.deltaZ !== null) ? e.deltaZ : 0
           }
-      },keyboard:this.state.mainInterfaceState.keyboard,touch:this.state.mainInterfaceState.touch}});
+      },keyboard:this.state.mainInterfaceState.keyboard,touch:this.state.mainInterfaceState.touch,graphics:this.state.mainInterfaceState.graphics}});
       this.scenarioChanged();
   }
 
@@ -73,7 +186,7 @@ class TraceViewer extends React.Component {
       this.setState({mainInterfaceState:{dimension : {
           width: canvas.offsetWidth,
           height: canvas.offsetHeight
-      },time:e.timeStamp,mouse:this.state.mainInterfaceState.mouse,keyboard:this.state.mainInterfaceState.keyboard,touch:this.state.mainInterfaceState.touch,}});
+      },time:e.timeStamp,mouse:this.state.mainInterfaceState.mouse,keyboard:this.state.mainInterfaceState.keyboard,touch:this.state.mainInterfaceState.touch,graphics:this.state.mainInterfaceState.graphics}});
 
       this.scenarioChanged();
   }
@@ -94,7 +207,7 @@ class TraceViewer extends React.Component {
       if (this.state.mainInterfaceState.keyboard[key] !== true) {
         var theKeyboard=this.state.mainInterfaceState.keyboard;
         theKeyboard[key]=true;
-        this.setState({mainInterfaceState:{dimension:this.state.mainInterfaceState.dimension,time:e.timeStamp,mouse:this.state.mainInterfaceState.mouse,keyboard:theKeyboard,touch:this.state.mainInterfaceState.touch,}});
+        this.setState({mainInterfaceState:{dimension:this.state.mainInterfaceState.dimension,time:e.timeStamp,mouse:this.state.mainInterfaceState.mouse,keyboard:theKeyboard,touch:this.state.mainInterfaceState.touch,graphics:this.state.mainInterfaceState.graphics}});
       }
       this.scenarioChanged();
   }
@@ -112,7 +225,7 @@ class TraceViewer extends React.Component {
       if (this.state.mainInterfaceState.keyboard[key] !== false) {
         var theKeyboard=this.state.mainInterfaceState.keyboard;
         theKeyboard[key]=false;
-        this.setState({mainInterfaceState:{dimension:this.state.mainInterfaceState.dimension,time:e.timeStamp,mouse:this.state.mainInterfaceState.mouse,keyboard:theKeyboard,touch:this.state.mainInterfaceState.touch,}});
+        this.setState({mainInterfaceState:{dimension:this.state.mainInterfaceState.dimension,time:e.timeStamp,mouse:this.state.mainInterfaceState.mouse,keyboard:theKeyboard,touch:this.state.mainInterfaceState.touch,graphics:this.state.mainInterfaceState.graphics}});
       }
       this.scenarioChanged();
   }
@@ -138,10 +251,21 @@ class TraceViewer extends React.Component {
           touches[i].rotationAngle = e.touches[i].rotationAngle;
           touches[i].force = e.touches[i].force;
       }
-      this.setState({mainInterfaceState:{dimension:this.state.mainInterfaceState.dimension,time:e.timeStamp,mouse:this.state.mainInterfaceState.mouse,keyboard:this.state.mainInterfaceState.keyboard,touch : touches}});
+      this.setState({mainInterfaceState:{dimension:this.state.mainInterfaceState.dimension,time:e.timeStamp,mouse:this.state.mainInterfaceState.mouse,keyboard:this.state.mainInterfaceState.keyboard,touch : touches,graphics:this.state.mainInterfaceState.graphics}});
       this.scenarioChanged();
   }
 
+
+  componentDidUpdate( prevProps,  prevState) {
+
+    var canvas = React.findDOMNode(this.refs.iiicanvas);
+
+    var ctx = canvas.getContext("2d");
+    ctx.clearRect(0, 0, window.innerWidth/2, window.innerHeight-60);
+    console.log(JSON.stringify("cccccc "+this.props.scenario[this.props.scenario.length -1]));
+    draw(ctx, this.props.scenario[this.props.scenario.length -1].graphics);
+
+  }
 
   componentDidMount() {
     this._updateSize();
@@ -323,7 +447,7 @@ class TraceViewer extends React.Component {
         display: this.state.openedTab === 1
           ? 'inline'
           : 'none'
-      }}  ></canvas>
+      }} width={window.innerWidth/2} height={window.innerHeight-60} ></canvas>
 
       </div>
       </div>

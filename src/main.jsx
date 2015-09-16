@@ -181,7 +181,7 @@ class Main extends React.Component {constructor(props) {
         inter: this.state.scenario[i]
       });*/
     }
-    // console.log("scenario : "+JSON.stringify(_.map(trace,"inter")));
+    console.log("run : "+JSON.stringify(_.last(_.map(trace,"inter")).graphics));
     this.setState({trace:trace}) ;
   }
 
