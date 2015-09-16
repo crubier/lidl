@@ -74078,10 +74078,10 @@ var React = require('react');
 var SkyLight = require('react-skylight');
 var iii = require('iii');
 
-var ____Class2=React.Component;for(var ____Class2____Key in ____Class2){if(____Class2.hasOwnProperty(____Class2____Key)){CodeEditor[____Class2____Key]=____Class2[____Class2____Key];}}var ____SuperProtoOf____Class2=____Class2===null?null:____Class2.prototype;CodeEditor.prototype=Object.create(____SuperProtoOf____Class2);CodeEditor.prototype.constructor=CodeEditor;CodeEditor.__superConstructor__=____Class2;function CodeEditor(props) {"use strict";
-    ____Class2.call(this,props);
+var ____Class1=React.Component;for(var ____Class1____Key in ____Class1){if(____Class1.hasOwnProperty(____Class1____Key)){CodeEditor[____Class1____Key]=____Class1[____Class1____Key];}}var ____SuperProtoOf____Class1=____Class1===null?null:____Class1.prototype;CodeEditor.prototype=Object.create(____SuperProtoOf____Class1);CodeEditor.prototype.constructor=CodeEditor;CodeEditor.__superConstructor__=____Class1;function CodeEditor(props) {"use strict";
+    ____Class1.call(this,props);
     this.state = {
-      openedTab: 0
+      openedTab: 0,
     };
   }
 
@@ -74107,8 +74107,8 @@ var ____Class2=React.Component;for(var ____Class2____Key in ____Class2){if(____C
 
 
   Object.defineProperty(CodeEditor.prototype,"componentDidMount",{writable:true,configurable:true,value:function() {"use strict";
-    this.props.evaluateScenario(this.props.scenario);
-    this.props.evaluateInteraction(this.props.Interaction);
+    this.props.onScenarioChange(this.props.scenarioText);
+    this.props.onInteractionChange(this.props.Interaction);
   }});
 
 
@@ -74243,8 +74243,7 @@ CodeEditor.defaultProps = {
   errorScenario: "",
   scenarioText: "",
   scenarioInvalid: "",
-  Interaction: "interaction (test):{time:Number in,size:{width:Number in, height:Number in},mouse:{buttons:Number in,position:{x:Number in ,y:Number in},wheel:{x:Number in ,y:Number in,z:Number in}}} with interaction (a):Number out is (previous(#a)) is ({x:(a),y:(#a),z:(#b)})",
-  scenario: '[]',
+  Interaction: "interaction (test):{time:Number in,dimension:{width:Number in, height:Number in},mouse:{buttons:Number in,position:{x:Number in ,y:Number in},wheel:{x:Number in ,y:Number in,z:Number in}}} with interaction (a):Number out is (previous(#a)) is ({x:(a),y:(#a),z:(#b)})",
   compiledInteraction:"({x:(previous(#0)),y:(#0),z:(#1)})",
 
 };
@@ -74255,12 +74254,287 @@ module.exports = CodeEditor;
 
 },{"_process":8,"buffer":2,"iii":71,"react":411,"react-skylight":95}],413:[function(require,module,exports){
 (function (process,global,Buffer,__argument0,__argument1,__argument2,__argument3,__filename,__dirname){
+function isInside(x) {
+  if(x === null) {
+    return null;
+  } else {
+    if (x.rect===null || x.point === null) {
+      return null;
+    }
+    else {
+      return x.point.x >= x.rect.x && x.point.x <= x.rect.x + x.rect.width &&x.point.y >= x.rect.y && x.point.y <= x.rect.y + x.rect.height;
+    }
+  }
+}
+
+function and(x) {
+  if(x === null) {
+    return null;
+  } else {
+    if (x.a!==null && x.b !== null){
+      return x.a && x.b;
+    } else if ((x.a===null && x.b === false) || (x.b===null && x.a === false)) {
+      return false;
+    } else {
+      return null;
+    }
+  }
+}
+
+function not(x) {
+  if(x === null) {
+    return null;
+  } else {
+    return !x;
+  }
+}
+
+function restrictRange(x) {
+  return Math.min(Math.max(x.val, x.min), x.max);
+}
+
+
+function ifthenelse(x) {
+  if(x === null) {
+    return null;
+  } else {
+    if(x.cond ===null) {
+      return null;
+    } else {
+      if(x.cond) {
+        return x.a;
+      } else {
+        return x.b;
+      }
+    }
+  }
+}
+
+function transitionFunction(data) {
+console.log("transition");
+  var mainInterface = data.inter;
+
+  var previousState = data.state;
+
+  // input for next
+  var e0 = {
+    val: mainInterface.dimension.height - 500,
+    min:100,
+    max:400
+  };
+
+  // formulat for button height
+  var e1 = restrictRange(e0);
+
+  // size of the button
+  var e2 =  {
+    x: 60,
+    y: 100,
+    width: mainInterface.dimension.width - 120,
+    height: e1
+  };
+console.log("transition1");
+  // previously the button was pushed
+  var e3 = previousState.pushed;
+
+  // input for next
+  var e5 = {
+    point:mainInterface.mouse.position,
+    rect:e2
+  };
+
+  // cursor inside button
+  var e6 = isInside(e5);
+console.log("transition11");
+  // input for next
+  var e7 = {
+    a:e6,
+    b:mainInterface.mouse.buttons !== 0
+  };
+console.log("transition12");
+  //  button clicked = mouse clicked and cursor inside button
+  var e8 = and(e7);
+console.log("transition13");
+  // button not previously pushed
+  var e9 = not(e3);
+console.log("transition14");
+  // input for next
+  var e10 = {
+    cond:e8,
+    a:e9,
+    b:e3
+  };
+console.log("transition2");
+  // if click on button the pushed = not previously pushed
+  var e11 = ifthenelse(e10);
+
+
+  var cursor = {
+    type: "shadow",
+    blur: mainInterface.mouse.buttons === 0 ? 20 : 10,
+    offset: {
+      x: 0,
+      y: mainInterface.mouse.buttons === 0 ? 4 : 2
+    },
+    color: "rgba(0, 0, 0, 0.5)",
+    content: {
+      type: "translate",
+      x: mainInterface.mouse.position.x,
+      y: mainInterface.mouse.position.y,
+      content: {
+        type: "scale",
+        width: mainInterface.mouse.buttons === 0 ? 1 : 0.8,
+        height: mainInterface.mouse.buttons === 0 ? 1 : 0.8,
+        content: {
+          type: "fill",
+          style: "rgba(200, 0, 200, 1)",
+          content: {
+            type: "path",
+            content: [{
+              type: "begin"
+            }, {
+              type: "move",
+              x: 0,
+              y: 0
+            }, {
+              type: "line",
+              x: 0,
+              y: 15
+            }, {
+              type: "line",
+              x: 10.6,
+              y: 10.6
+            }, {
+              type: "close"
+            }]
+          }
+        }
+      }
+    }
+  };
+console.log("transition3");
+  var theButton = {
+    type: "shadow",
+    blur: e8 ? 10 : 20,
+    offset: {
+      x: 0,
+      y: e8 ? 2 : 4
+    },
+    color: "rgba(0, 0, 0, 0.5)",
+    content: {
+      type: "group",
+      content: [{
+        type: "fill",
+        style: "rgba(0, 171, 255, 1)",
+        content: {
+          type: "rect",
+          x: e2.x,
+          y: e2.y,
+          width: e2.width,
+          height: e2.height
+        }
+      }, {
+        type: "fill",
+        style: "rgba(255, 255, 255, 1)",
+        content: {
+          type: "text",
+          textAlign: "center",
+          font: "200 30px Helvetica neue",
+          text: e11?"Hello World !":"Bye world ...",
+          x: mainInterface.dimension.width / 2,
+          y: 100 + e2.height / 2
+        }
+      }]
+    }
+  };
+
+
+  var theGraphics = {
+    type: "group",
+    content: [
+      theButton,
+      cursor
+    ]
+  };
+console.log("transition4");
+  return {
+    memo: {},
+    state: {
+      pushed:e11
+    },
+    args: {},
+    inter: {
+      time: mainInterface.time,
+      mouse: mainInterface.mouse,
+      dimension: mainInterface.dimension,
+      touch: mainInterface.touch,
+      device: mainInterface.device,
+      keyboard: mainInterface.keyboard,
+      graphics: theGraphics
+    }
+  };
+
+}
+
+function initializationFunction() {
+  return {
+    memo: {},
+    state: {
+      pushed:false
+    },
+    args: {},
+    inter: {
+      time: 0,
+      mouse: {
+        buttons: 0,
+        position: {
+          x: 0,
+          y: 0
+        },
+        wheel: {
+          x: 0,
+          y: 0,
+          z: 0
+        }
+      },
+      dimension: {
+        width: 640,
+        height: 480
+      },
+      touch: [],
+      device: {
+        orientation: {
+          alpha: 0,
+          beta: 0,
+          gamma: 0
+        },
+        light: 0,
+        proximity: 0
+      },
+      keyboard: {},
+      graphics: {}
+    }
+  };
+}
+
+
+module.exports = {
+  transitionFunction: transitionFunction,
+  initializationFunction: initializationFunction
+};
+
+}).call(this,require('_process'),typeof global !== "undefined" ? global : typeof self !== "undefined" ? self : typeof window !== "undefined" ? window : {},require("buffer").Buffer,arguments[3],arguments[4],arguments[5],arguments[6],"/src\\compExample.js","/src")
+
+},{"_process":8,"buffer":2}],414:[function(require,module,exports){
+(function (process,global,Buffer,__argument0,__argument1,__argument2,__argument3,__filename,__dirname){
 var React = require('react');
 var CodeEditor = require('./codeEditor.jsx');
 var TraceViewer = require('./traceViewer.jsx');
 var iii = require('iii');
 var scenarioChecker = require('./scenario.js');
 var _ = require('lodash');
+var compExample=require('./compExample.js');
+
 var rowNumber = 0;
 
 function nbrOfPrevious(interaction) {
@@ -74313,25 +74587,30 @@ var ____Class0=React.Component;for(var ____Class0____Key in ____Class0){if(____C
       listOfAtoms: [],
       errorInteraction: "",
       errorScenario: "",
-      scenarioText: "",
       scenarioInvalid: "",
-      Interaction: "interaction (test):{time:Number in,size:{width:Number in, height:Number in}, mouse:{buttons:Number in,position:{x:Number in ,y:Number in},wheel:{x:Number in ,y:Number in,z:Number in}}} with interaction (a):Number out is (previous(#a)) is ({x:(a),y:(#a),z:(#b)})",
-      scenario: '[]',
+      Interaction: "interaction (test):{time:Number in,dimension:{width:Number in, height:Number in}, mouse:{buttons:Number in,position:{x:Number in ,y:Number in},wheel:{x:Number in ,y:Number in,z:Number in}}} with interaction (a):Number out is (previous(#a)) is ({x:(a),y:(#a),z:(#b)})",
+      scenario: [],
       compiledInteraction: "({x:(previous(#0)),y:(#0),z:(#1)})",
       tableRowNumber: 5,
+      trace:[],
       stats: {
         variables: 0,
         previous: 0,
         identifiers: 0,
         functions: 0,
         compositions: 0
+      },
+      scenarioText:"",
+      compilationResult:{
+        transitionFunction:function(x){return x;},
+        initializationFunction:function(){return {}}
       }
+
     };
   }
 
   Object.defineProperty(Main.prototype,"addToScenario",{writable:true,configurable:true,value:function(mainInterfaceState) {"use strict";
     var theScenario = this.state.scenario;
-    console.log(JSON.stringify(mainInterfaceState))
     var element = {
       time: mainInterfaceState.time,
       mouse: {
@@ -74352,19 +74631,17 @@ var ____Class0=React.Component;for(var ____Class0____Key in ____Class0){if(____C
             : 0
         }
       },
-      size: {
-        width: mainInterfaceState.size.width,
-        height: mainInterfaceState.size.height
+      dimension: {
+        width: mainInterfaceState.dimension.width,
+        height: mainInterfaceState.dimension.height
       },
 
       keyboard: mainInterfaceState.keyboard,
       touch: mainInterfaceState.touch
     }
-    theScenario = theScenario.concat(element);
+    theScenario.push(element);
 
-    var theScenarioText = JSON.stringify(theScenario);
     this.setState({
-      scenarioText: theScenarioText,
       scenario: theScenario
     });
     this.evaluateScenario(JSON.stringify(this.state.scenario));
@@ -74402,18 +74679,44 @@ var ____Class0=React.Component;for(var ____Class0____Key in ____Class0){if(____C
           identifiers: 0,
           functions: 0,
           compositions: 0
-        }
+        },
+        compilationResult:compExample
+
       });
+      this.runInteractionOnScenario();
     } catch (errorMessage) {
       this.setState({
         errorInteraction: "" + errorMessage
       });
+            console.log("interaction "+errorMessage)
     }
 
   }});
 
+  Object.defineProperty(Main.prototype,"runInteractionOnScenario",{writable:true,configurable:true,value:function(){"use strict";
+    var trace= [this.state.compilationResult.initializationFunction()];
+    for(var i=1; i<this.state.scenario.length;i++){
+       trace.push(this.state.compilationResult.transitionFunction({
+         memo: trace[i-1].memo,
+         state:trace[i-1].state,
+         args: {},
+         inter: this.state.scenario[i]
+       }));
+/*
+      trace.push({
+        memo: trace[i-1].memo,
+        state:trace[i-1].state,
+        args: {},
+        inter: this.state.scenario[i]
+      });*/
+    }
+    // console.log("scenario : "+JSON.stringify(_.map(trace,"inter")));
+    this.setState({trace:trace}) ;
+  }});
+
   Object.defineProperty(Main.prototype,"evaluateScenario",{writable:true,configurable:true,value:function(scenario) {"use strict";
     try {
+      this.setState({scenarioText:scenario});
       var newModelScenario = JSON.parse(scenario);
       var newModelDefinitions = iii.parser.parse(this.state.Interaction);
       var newModelInterface = newModelDefinitions[0].signature.interface;
@@ -74446,13 +74749,14 @@ var ____Class0=React.Component;for(var ____Class0____Key in ____Class0){if(____C
       this.setState({
         tableRowNumber: rowNumber
       });
+      this.runInteractionOnScenario();
     } catch (errorMessage) {
 
       this.setState({
         errorScenario: "" + errorMessage
 
       });
-
+      console.log("scenario "+errorMessage)
     }
   }});
 
@@ -74494,8 +74798,8 @@ var ____Class0=React.Component;for(var ____Class0____Key in ____Class0){if(____C
   Object.defineProperty(Main.prototype,"render",{writable:true,configurable:true,value:function() {"use strict";
     return (
       React.createElement("div", {className: "Main"}, 
-        React.createElement(CodeEditor, {Interaction: this.state.Interaction, compiledInteraction: this.state.compiledInteraction, errorInteraction: this.state.errorInteraction, errorScenario: this.state.errorScenario, evaluateInteraction: this.evaluateInteraction.bind(this), evaluateScenario: this.evaluateScenario.bind(this), onInteractionChange: this.onInteractionChange.bind(this), onScenarioChange: this.onScenarioChange.bind(this), scenario: this.state.scenario, scenarioInvalid: this.state.scenarioInvalid, scenarioText: this.state.scenarioText, stats: this.state.stats}), 
-        React.createElement(TraceViewer, {addToScenario: this.addToScenario.bind(this), backward: this.backward.bind(this), fastBackward: this.fastBackward.bind(this), fastForward: this.fastForward.bind(this), forward: this.forward.bind(this), listOfAtoms: this.state.listOfAtoms, scenario: this.state.scenario, tableRowNumber: this.state.tableRowNumber})
+        React.createElement(CodeEditor, {Interaction: this.state.Interaction, compiledInteraction: this.state.compiledInteraction, errorInteraction: this.state.errorInteraction, errorScenario: this.state.errorScenario, onInteractionChange: this.onInteractionChange.bind(this), onScenarioChange: this.onScenarioChange.bind(this), scenarioInvalid: this.state.scenarioInvalid, scenarioText: this.state.scenarioText, stats: this.state.stats}), 
+        React.createElement(TraceViewer, {addToScenario: this.addToScenario.bind(this), backward: this.backward.bind(this), fastBackward: this.fastBackward.bind(this), fastForward: this.fastForward.bind(this), forward: this.forward.bind(this), listOfAtoms: this.state.listOfAtoms, scenario: _.map(this.state.trace,"inter"), tableRowNumber: this.state.tableRowNumber})
       )
     );
   }});
@@ -74506,7 +74810,7 @@ React.render(React.createElement(Main, null), document.getElementById("main"));
 
 }).call(this,require('_process'),typeof global !== "undefined" ? global : typeof self !== "undefined" ? self : typeof window !== "undefined" ? window : {},require("buffer").Buffer,arguments[3],arguments[4],arguments[5],arguments[6],"/src\\main.jsx","/src")
 
-},{"./codeEditor.jsx":412,"./scenario.js":414,"./traceViewer.jsx":415,"_process":8,"buffer":2,"iii":71,"lodash":94,"react":411}],414:[function(require,module,exports){
+},{"./codeEditor.jsx":412,"./compExample.js":413,"./scenario.js":415,"./traceViewer.jsx":416,"_process":8,"buffer":2,"iii":71,"lodash":94,"react":411}],415:[function(require,module,exports){
 (function (process,global,Buffer,__argument0,__argument1,__argument2,__argument3,__filename,__dirname){
 var _ = require('lodash');
 var iii = require('iii');
@@ -74554,7 +74858,7 @@ module.exports.flattenElement = flattenElement;
 
 }).call(this,require('_process'),typeof global !== "undefined" ? global : typeof self !== "undefined" ? self : typeof window !== "undefined" ? window : {},require("buffer").Buffer,arguments[3],arguments[4],arguments[5],arguments[6],"/src\\scenario.js","/src")
 
-},{"_process":8,"buffer":2,"iii":71,"lodash":94}],415:[function(require,module,exports){
+},{"_process":8,"buffer":2,"iii":71,"lodash":94}],416:[function(require,module,exports){
 (function (process,global,Buffer,__argument0,__argument1,__argument2,__argument3,__filename,__dirname){
 var React = require('react');
 var FixedDataTable = require('fixed-data-table');
@@ -74565,15 +74869,15 @@ var Table = FixedDataTable.Table;
 var rowNumber=5;
 var scenarioUtils=require('./scenario.js');
 
-var ____Class1=React.Component;for(var ____Class1____Key in ____Class1){if(____Class1.hasOwnProperty(____Class1____Key)){TraceViewer[____Class1____Key]=____Class1[____Class1____Key];}}var ____SuperProtoOf____Class1=____Class1===null?null:____Class1.prototype;TraceViewer.prototype=Object.create(____SuperProtoOf____Class1);TraceViewer.prototype.constructor=TraceViewer;TraceViewer.__superConstructor__=____Class1;
+var ____Class2=React.Component;for(var ____Class2____Key in ____Class2){if(____Class2.hasOwnProperty(____Class2____Key)){TraceViewer[____Class2____Key]=____Class2[____Class2____Key];}}var ____SuperProtoOf____Class2=____Class2===null?null:____Class2.prototype;TraceViewer.prototype=Object.create(____SuperProtoOf____Class2);TraceViewer.prototype.constructor=TraceViewer;TraceViewer.__superConstructor__=____Class2;
 
   function TraceViewer(props) {"use strict";
-    ____Class1.call(this,props);
+    ____Class2.call(this,props);
     this.state = {
       tableWidth: this.props.tableWidth,
       tableHeight: this.props.tableHeight,
       openedTab: 0,
-      mainInterfaceState:{size:{
+      mainInterfaceState:{dimension:{
           width:500,
           height:500
       },time:0,mouse: {
@@ -74610,7 +74914,7 @@ var ____Class1=React.Component;for(var ____Class1____Key in ____Class1){if(____C
       var rect = React.findDOMNode(this.refs.iiicanvas).getBoundingClientRect();
       var offsetX = e.clientX - rect.left;
       var offsetY = e.clientY - rect.top;
-      this.setState({mainInterfaceState:{size:this.state.mainInterfaceState.size,time:e.timeStamp,mouse : {
+      this.setState({mainInterfaceState:{dimension:this.state.mainInterfaceState.dimension,time:e.timeStamp,mouse : {
           buttons: e.buttons,
           position: {
               x: offsetX,
@@ -74626,13 +74930,13 @@ var ____Class1=React.Component;for(var ____Class1____Key in ____Class1){if(____C
   }});
 
   Object.defineProperty(TraceViewer.prototype,"resize",{writable:true,configurable:true,value:function(e) {"use strict";
-          console.log("sarah "+JSON.stringify(this.state.mainInterfaceState))
+
       var canvas=React.findDOMNode(this.refs.iiicanvas);
-      this.setState({mainInterfaceState:{size : {
+      this.setState({mainInterfaceState:{dimension : {
           width: canvas.offsetWidth,
           height: canvas.offsetHeight
       },time:e.timeStamp,mouse:this.state.mainInterfaceState.mouse,keyboard:this.state.mainInterfaceState.keyboard,touch:this.state.mainInterfaceState.touch,}});
-      console.log("sarah 2"+JSON.stringify(this.state.mainInterfaceState))
+
       this.scenarioChanged();
   }});
 
@@ -74640,7 +74944,7 @@ var ____Class1=React.Component;for(var ____Class1____Key in ____Class1){if(____C
 
 
   Object.defineProperty(TraceViewer.prototype,"keydown",{writable:true,configurable:true,value:function(e) {"use strict";
-    console.log("keyboard")
+
       var key;
       if (event.key !== undefined) {
           key = event.key;
@@ -74652,13 +74956,13 @@ var ____Class1=React.Component;for(var ____Class1____Key in ____Class1){if(____C
       if (this.state.mainInterfaceState.keyboard[key] !== true) {
         var theKeyboard=this.state.mainInterfaceState.keyboard;
         theKeyboard[key]=true;
-        this.setState({mainInterfaceState:{size:this.state.mainInterfaceState.size,time:e.timeStamp,mouse:this.state.mainInterfaceState.mouse,keyboard:theKeyboard,touch:this.state.mainInterfaceState.touch,}});
+        this.setState({mainInterfaceState:{dimension:this.state.mainInterfaceState.dimension,time:e.timeStamp,mouse:this.state.mainInterfaceState.mouse,keyboard:theKeyboard,touch:this.state.mainInterfaceState.touch,}});
       }
       this.scenarioChanged();
   }});
 
   Object.defineProperty(TraceViewer.prototype,"keyup",{writable:true,configurable:true,value:function(e) {"use strict";
-      console.log("keyboard1")
+
       var key;
       if (event.key !== undefined) {
           key = event.key;
@@ -74670,7 +74974,7 @@ var ____Class1=React.Component;for(var ____Class1____Key in ____Class1){if(____C
       if (this.state.mainInterfaceState.keyboard[key] !== false) {
         var theKeyboard=this.state.mainInterfaceState.keyboard;
         theKeyboard[key]=false;
-        this.setState({mainInterfaceState:{size:this.state.mainInterfaceState.size,time:e.timeStamp,mouse:this.state.mainInterfaceState.mouse,keyboard:theKeyboard,touch:this.state.mainInterfaceState.touch,}});
+        this.setState({mainInterfaceState:{dimension:this.state.mainInterfaceState.dimension,time:e.timeStamp,mouse:this.state.mainInterfaceState.mouse,keyboard:theKeyboard,touch:this.state.mainInterfaceState.touch,}});
       }
       this.scenarioChanged();
   }});
@@ -74696,7 +75000,7 @@ var ____Class1=React.Component;for(var ____Class1____Key in ____Class1){if(____C
           touches[i].rotationAngle = e.touches[i].rotationAngle;
           touches[i].force = e.touches[i].force;
       }
-      this.setState({mainInterfaceState:{size:this.state.mainInterfaceState.size,time:e.timeStamp,mouse:this.state.mainInterfaceState.mouse,keyboard:this.state.mainInterfaceState.keyboard,touch : touches}});
+      this.setState({mainInterfaceState:{dimension:this.state.mainInterfaceState.dimension,time:e.timeStamp,mouse:this.state.mainInterfaceState.mouse,keyboard:this.state.mainInterfaceState.keyboard,touch : touches}});
       this.scenarioChanged();
   }});
 
@@ -74782,7 +75086,7 @@ var ____Class1=React.Component;for(var ____Class1____Key in ____Class1){if(____C
 
 
   Object.defineProperty(TraceViewer.prototype,"scenarioChanged",{writable:true,configurable:true,value:function() {"use strict";
-    console.log("farah "+JSON.stringify(this.state.mainInterfaceState))
+
     this.props.addToScenario(this.state.mainInterfaceState);
   }});
 
@@ -74910,7 +75214,7 @@ module.exports = TraceViewer;
 
 }).call(this,require('_process'),typeof global !== "undefined" ? global : typeof self !== "undefined" ? self : typeof window !== "undefined" ? window : {},require("buffer").Buffer,arguments[3],arguments[4],arguments[5],arguments[6],"/src\\traceViewer.jsx","/src")
 
-},{"./scenario.js":414,"_process":8,"buffer":2,"fixed-data-table":61,"lodash":94,"react":411}]},{},[413])
+},{"./scenario.js":415,"_process":8,"buffer":2,"fixed-data-table":61,"lodash":94,"react":411}]},{},[414])
 
 
 //# sourceMappingURL=main.js.map
