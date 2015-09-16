@@ -159,8 +159,10 @@ div {
   vertical-align: middle;
 }
 div.icons {
-  height: 200px;
+  overflow: auto;
   background-color: #fffab2;
+  margin-top: 15px;
+  margin-bottom: 15px;
 }
 .Tab.compiledInteraction {
   text-align: left;
@@ -283,6 +285,14 @@ span {
 }
 canvas {
   background-color: #fff;
+  display: inline-block;
+  position: static;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  width: 100%;
+  height: 100%;
 }
 /*
 .public_fixedDataTable_header,

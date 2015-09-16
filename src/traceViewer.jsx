@@ -309,6 +309,7 @@ class TraceViewer extends React.Component {
   render() {
 
     var controlledScrolling = this.props.left !== undefined || this.props.top !== undefined;
+
     var listOfAtoms = this.props.listOfAtoms;
     var espace="         ";
     return (
@@ -327,12 +328,13 @@ class TraceViewer extends React.Component {
         </div>
 
         <div className="TabContentTraceViewer">
-        <br/>
+
         <div className="icons" style={{
         display: this.state.openedTab === 0
-          ? 'inline'
+          ? 'inline-block'
           : 'none'
       }}>
+
           <i className="fa fa-fast-backward fa-3x" onClick={this.props.fastBackward} style={{
           display: this.state.openedTab === 0
             ? 'inline'
@@ -353,16 +355,17 @@ class TraceViewer extends React.Component {
             ? 'inline'
             : 'none'
         }}>{espace}</i>
+
         </div>
-        <br/>
-        <br/>
+
         <div style={{
         display: this.state.openedTab === 0
           ? 'inline'
-          : 'none'
+          : 'none',
+          overflow:"auto"
       }}>
-        <Table groupHeaderHeight={30} headerHeight={30} height={this.state.tableHeight} width={this.state.tableWidth} overflowX={controlledScrolling ? "hidden" : "auto"} overflowY={controlledScrolling ? "hidden" : "auto"} rowGetter={this._rowGetter.bind(this)} rowHeight={30} rowsCount={this.props.tableRowNumber} scrollLeft={this.props.left} scrollTop={this.props.top}>
 
+        <Table groupHeaderHeight={30} headerHeight={30} height={this.state.tableHeight} width={this.state.tableWidth} overflowX={controlledScrolling ? "hidden" : "auto"} overflowY={controlledScrolling ? "hidden" : "auto"} rowGetter={this._rowGetter.bind(this)} rowHeight={30} rowsCount={this.props.tableRowNumber} scrollLeft={this.props.left} scrollTop={this.props.top}>
           {listOfAtoms.map(function(x) {
             return (
           <ColumnGroup key={x.name} fixed={true} label={x.name}>
@@ -376,7 +379,7 @@ class TraceViewer extends React.Component {
         display: this.state.openedTab === 1
           ? 'inline'
           : 'none'
-      }} width="400" height="400" ></canvas>
+      }}  ></canvas>
 
       </div>
       </div>
