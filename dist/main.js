@@ -74109,8 +74109,8 @@ var ____Class1=React.Component;for(var ____Class1____Key in ____Class1){if(____C
   Object.defineProperty(CodeEditor.prototype,"componentDidMount",{writable:true,configurable:true,value:function() {"use strict";
     this.props.onScenarioChange(this.props.scenarioText);
     this.props.onInteractionChange(this.props.Interaction);
-
-    //this.props.runInteractionOnScenario();
+    this.props.onScenarioChange(this.props.scenarioText);
+    this.props.onInteractionChange(this.props.Interaction);
   }});
 
 
@@ -74624,7 +74624,7 @@ var ____Class0=React.Component;for(var ____Class0____Key in ____Class0){if(____C
         functions: 0,
         compositions: 0
       },
-      scenarioText:"[]",
+      scenarioText:'[{"time" :0}]',
       compilationResult:{
         transitionFunction:function(x){return x;},
         initializationFunction:function(){return {}}
@@ -74692,7 +74692,7 @@ var ____Class0=React.Component;for(var ____Class0____Key in ____Class0){if(____C
 
       this.setState({
         errorInteraction: "",
-        Interaction: Interaction
+
       });
       var compiled = iii.compiler.compileToIii(interactionToLowerCase(Interaction));
       this.setState({
@@ -74738,7 +74738,7 @@ var ____Class0=React.Component;for(var ____Class0____Key in ____Class0){if(____C
     try {
       this.setState({scenarioText:scenario});
       var newModelScenario = JSON.parse(scenario);
-      var newModelDefinitions = iii.parser.parse(this.state.Interaction);
+      var newModelDefinitions = iii.parser.parse(interactionToLowerCase(this.state.Interaction));
       var newModelInterface = newModelDefinitions[0].signature.interface;
       var checker = true;
       var test = scenarioChecker.check(newModelInterface, newModelScenario, "main");
@@ -74761,7 +74761,6 @@ var ____Class0=React.Component;for(var ____Class0____Key in ____Class0){if(____C
       this.setState({
         scenario: newModelScenario
       });
-
       this.setState({
         errorScenario: ""
       });
@@ -74819,7 +74818,7 @@ var ____Class0=React.Component;for(var ____Class0____Key in ____Class0){if(____C
     return (
       React.createElement("div", {className: "Main"}, 
         React.createElement(CodeEditor, {Interaction: this.state.Interaction, compiledInteraction: this.state.compiledInteraction, errorInteraction: this.state.errorInteraction, errorScenario: this.state.errorScenario, onInteractionChange: this.onInteractionChange.bind(this), onScenarioChange: this.onScenarioChange.bind(this), runInteractionOnScenario: this.runInteractionOnScenario.bind(this), scenarioInvalid: this.state.scenarioInvalid, scenarioText: this.state.scenarioText, stats: this.state.stats}), 
-        React.createElement(TraceViewer, {addToScenario: this.addToScenario.bind(this), backward: this.backward.bind(this), fastBackward: this.fastBackward.bind(this), fastForward: this.fastForward.bind(this), forward: this.forward.bind(this), listOfAtoms: this.state.listOfAtoms, scenario: _.map(this.state.trace,"inter"), tableRowNumber: this.state.tableRowNumber})
+        React.createElement(TraceViewer, {addToScenario: this.addToScenario.bind(this), backward: this.backward.bind(this), fastBackward: this.fastBackward.bind(this), fastForward: this.fastForward.bind(this), forward: this.forward.bind(this), listOfAtoms: this.state.listOfAtoms, scenario: _.map(this.state.trace,"inter"), tableRowNumber: this.state.tableRowNumber, scenarioText: this.state.scenarioText})
       )
     );
   }});
@@ -75139,12 +75138,10 @@ var ____Class2=React.Component;for(var ____Class2____Key in ____Class2){if(____C
 
 
   Object.defineProperty(TraceViewer.prototype,"componentDidUpdate",{writable:true,configurable:true,value:function(prevProps,  prevState) {"use strict";
-
     var canvas = React.findDOMNode(this.refs.iiicanvas);
 
     var ctx = canvas.getContext("2d");
     ctx.clearRect(0, 0, window.innerWidth/2, window.innerHeight-60);
-    //console.log(JSON.stringify("cccccc "+this.props.scenario[this.props.scenario.length -1]));
     draw(ctx, this.props.scenario[this.props.scenario.length -1].graphics);
 
   }});

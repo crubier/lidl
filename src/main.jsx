@@ -83,7 +83,7 @@ class Main extends React.Component {constructor(props) {
         functions: 0,
         compositions: 0
       },
-      scenarioText:"[]",
+      scenarioText:'[{"time" :0}]',
       compilationResult:{
         transitionFunction:function(x){return x;},
         initializationFunction:function(){return {}}
@@ -151,7 +151,7 @@ class Main extends React.Component {constructor(props) {
 
       this.setState({
         errorInteraction: "",
-        Interaction: Interaction
+
       });
       var compiled = iii.compiler.compileToIii(interactionToLowerCase(Interaction));
       this.setState({
@@ -197,7 +197,7 @@ class Main extends React.Component {constructor(props) {
     try {
       this.setState({scenarioText:scenario});
       var newModelScenario = JSON.parse(scenario);
-      var newModelDefinitions = iii.parser.parse(this.state.Interaction);
+      var newModelDefinitions = iii.parser.parse(interactionToLowerCase(this.state.Interaction));
       var newModelInterface = newModelDefinitions[0].signature.interface;
       var checker = true;
       var test = scenarioChecker.check(newModelInterface, newModelScenario, "main");
@@ -220,7 +220,6 @@ class Main extends React.Component {constructor(props) {
       this.setState({
         scenario: newModelScenario
       });
-
       this.setState({
         errorScenario: ""
       });
@@ -278,7 +277,7 @@ class Main extends React.Component {constructor(props) {
     return (
       <div className="Main">
         <CodeEditor Interaction={this.state.Interaction} compiledInteraction={this.state.compiledInteraction} errorInteraction={this.state.errorInteraction} errorScenario={this.state.errorScenario} onInteractionChange={this.onInteractionChange.bind(this)} onScenarioChange={this.onScenarioChange.bind(this)} runInteractionOnScenario={this.runInteractionOnScenario.bind(this)} scenarioInvalid={this.state.scenarioInvalid} scenarioText={this.state.scenarioText} stats={this.state.stats}/>
-        <TraceViewer addToScenario={this.addToScenario.bind(this)} backward={this.backward.bind(this)} fastBackward={this.fastBackward.bind(this)} fastForward={this.fastForward.bind(this)} forward={this.forward.bind(this)} listOfAtoms={this.state.listOfAtoms} scenario={_.map(this.state.trace,"inter")} tableRowNumber={this.state.tableRowNumber}/>
+        <TraceViewer addToScenario={this.addToScenario.bind(this)} backward={this.backward.bind(this)} fastBackward={this.fastBackward.bind(this)} fastForward={this.fastForward.bind(this)} forward={this.forward.bind(this)} listOfAtoms={this.state.listOfAtoms} scenario={_.map(this.state.trace,"inter")} tableRowNumber={this.state.tableRowNumber} scenarioText={this.state.scenarioText}/>
       </div>
     );
   }

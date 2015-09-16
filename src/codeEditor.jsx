@@ -33,8 +33,8 @@ class CodeEditor extends React.Component {constructor(props) {
   componentDidMount() {
     this.props.onScenarioChange(this.props.scenarioText);
     this.props.onInteractionChange(this.props.Interaction);
-
-    //this.props.runInteractionOnScenario();
+    this.props.onScenarioChange(this.props.scenarioText);
+    this.props.onInteractionChange(this.props.Interaction);
   }
 
 
