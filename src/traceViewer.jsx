@@ -262,7 +262,7 @@ class TraceViewer extends React.Component {
 
     var ctx = canvas.getContext("2d");
     ctx.clearRect(0, 0, window.innerWidth/2, window.innerHeight-60);
-    console.log(JSON.stringify("cccccc "+this.props.scenario[this.props.scenario.length -1]));
+    //console.log(JSON.stringify("cccccc "+this.props.scenario[this.props.scenario.length -1]));
     draw(ctx, this.props.scenario[this.props.scenario.length -1].graphics);
 
   }

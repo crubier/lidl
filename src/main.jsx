@@ -52,6 +52,18 @@ function nbrOfCompositions(interaction) {
   return total;
 }
 
+function interactionToLowerCase(interaction){
+  interaction=interaction.toLowerCase();
+
+  var indice=interaction.indexOf("number");
+
+  while(indice!=(-1)){
+      var interaction= interaction.replace("number", "Number");
+      indice=interaction.indexOf("number");
+  }
+  return interaction;
+}
+
 class Main extends React.Component {constructor(props) {
     super(props);
     this.state = {
@@ -59,7 +71,7 @@ class Main extends React.Component {constructor(props) {
       errorInteraction: "",
       errorScenario: "",
       scenarioInvalid: "",
-      Interaction: "interaction (test):{time:Number in,dimension:{width:Number in, height:Number in}, mouse:{buttons:Number in,position:{x:Number in ,y:Number in},wheel:{x:Number in ,y:Number in,z:Number in}}} with interaction (a):Number out is (previous(#a)) is ({x:(a),y:(#a),z:(#b)})",
+      Interaction: "interaction (test):{time:Number in,dimension:{width:Number in, height:Number in}, mouse:{buttons:Number in,position:{x:Number in ,y:Number in},wheel:{x:Number in ,y:Number in,z:Number in}},keyboard:{Enter: Number in, Meta: Number in, Control: Number in, Alt: Number in, Shift: Number in, Left: Number in, Down: Number in, Right: Number in, Up: Number in}} with interaction (a):Number out is (previous(#a)) is ({x:(a),y:(#a),z:(#b)})",
       scenario: [],
       compiledInteraction: "({x:(previous(#0)),y:(#0),z:(#1)})",
       tableRowNumber: 5,
@@ -128,22 +140,25 @@ class Main extends React.Component {constructor(props) {
 
   evaluateInteraction(Interaction) {
     try {
-      var newModelDefinitions = iii.parser.parse(Interaction);
+      var newModelDefinitions = iii.parser.parse(interactionToLowerCase(Interaction));
+
       var newModelInterface = newModelDefinitions[0].signature.interface;
+
       var listOfAtoms = iii.interfaces.listOfAtoms(newModelInterface, "main");
       this.setState({
         listOfAtoms: listOfAtoms
       });
+
       this.setState({
         errorInteraction: "",
         Interaction: Interaction
       });
-      var compiled = iii.compiler.compileToIii(Interaction);
+      var compiled = iii.compiler.compileToIii(interactionToLowerCase(Interaction));
       this.setState({
         compiledInteraction: compiled
       });
       this.setState({
-        Interaction: Interaction,
+        Interaction: interactionToLowerCase(Interaction),
         stats: {
           variables: 0,
           previous: nbrOfPrevious(iii.identifiers.reduceIdentifiers(iii.interactions.expand(newModelDefinitions[0]).interaction)),
@@ -155,6 +170,7 @@ class Main extends React.Component {constructor(props) {
 
       });
       this.runInteractionOnScenario();
+
     } catch (errorMessage) {
       this.setState({
         errorInteraction: "" + errorMessage
@@ -165,7 +181,6 @@ class Main extends React.Component {constructor(props) {
   }
 
   runInteractionOnScenario(){
-    console.log("hiihiiii")
     var trace= [this.state.compilationResult.initializationFunction()];
     for(var i=1; i<this.state.scenario.length;i++){
        trace.push(this.state.compilationResult.transitionFunction({
@@ -174,15 +189,7 @@ class Main extends React.Component {constructor(props) {
          args: {},
          inter: this.state.scenario[i]
        }));
-/*
-      trace.push({
-        memo: trace[i-1].memo,
-        state:trace[i-1].state,
-        args: {},
-        inter: this.state.scenario[i]
-      });*/
     }
-    console.log("run : "+JSON.stringify(_.last(_.map(trace,"inter")).graphics));
     this.setState({trace:trace}) ;
   }
 
