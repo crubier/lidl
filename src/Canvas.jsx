@@ -253,8 +253,10 @@ console.log("ccccc")
   render() {
 
     return (
-
+        <div>
         <canvas ref="iiicanvas" contentEditable="true" tabIndex="1"  width={window.innerWidth/2} height={window.innerHeight-60} ></canvas>
+        <div>cccc</div>
+        </div>
     );
   }
 }

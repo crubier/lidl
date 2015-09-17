@@ -237,6 +237,22 @@ span {
   height: 100%;
   background-color: #ffb2fe;
 }
+.scenarioEditor {
+  float: left;
+  width: 100%;
+  height: calc(100% - 60px);
+  background-color: #fff;
+}
+.interactionEditor {
+  float: left;
+  width: 100%;
+  height: calc(100% - 60px);
+}
+.analyse {
+  float: left;
+  width: 100%;
+  height: calc(100% - 60px);
+}
 .Tabs {
   width: 100%;
   height: 60px;
