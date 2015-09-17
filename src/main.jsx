@@ -1,6 +1,7 @@
 var React = require('react');
 var CodeEditor = require('./codeEditor.jsx');
 var TraceViewer = require('./traceViewer.jsx');
+
 var iii = require('iii');
 var scenarioChecker = require('./scenario.js');
 var _ = require('lodash');
@@ -93,7 +94,7 @@ class Main extends React.Component {constructor(props) {
   }
 
   addToScenario(mainInterfaceState) {
-    var theScenario = this.state.scenario;
+    var theScenario = JSON.parse(this.state.scenarioText);
     var element = {
       time: mainInterfaceState.time,
       mouse: {
@@ -182,12 +183,12 @@ class Main extends React.Component {constructor(props) {
 
   runInteractionOnScenario(){
     var trace= [this.state.compilationResult.initializationFunction()];
-    for(var i=1; i<this.state.scenario.length;i++){
+    for(var i=1; i<JSON.parse(this.state.scenarioText).length;i++){
        trace.push(this.state.compilationResult.transitionFunction({
          memo: trace[i-1].memo,
          state:trace[i-1].state,
          args: {},
-         inter: this.state.scenario[i]
+         inter: JSON.parse(this.state.scenarioText)[i]
        }));
     }
     this.setState({trace:trace}) ;
@@ -252,7 +253,7 @@ class Main extends React.Component {constructor(props) {
   }
 
   forward() {
-    if (rowNumber < this.state.scenario.length) {
+    if (rowNumber < JSON.parse(this.state.scenarioText).length) {
       rowNumber = rowNumber + 1;
     }
     this.setState({
@@ -267,7 +268,7 @@ class Main extends React.Component {constructor(props) {
     });
   }
   fastForward() {
-    rowNumber = this.state.scenario.length;
+    rowNumber = JSON.parse(this.state.scenarioText).length;
     this.setState({
       tableRowNumber: rowNumber
     });
