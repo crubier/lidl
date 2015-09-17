@@ -110,15 +110,47 @@ function draw(ctx, object) {
 class Canvas extends React.Component {
   constructor(props) {
     super(props);
+    this.state = {
+    mainInterfaceState:{dimension:{
+        width:500,
+        height:500
+    },time:0,mouse: {
+          buttons: 0,
+          position: {
+              x: 0,
+              y: 0
+          },
+          wheel: {
+              x: 0,
+              y: 0,
+              z: 0
+          }
+      },keyboard: {
+        "Enter": false,
+        "Meta": false,
+        "Control": false,
+        "Alt": false,
+        "Shift": false,
+        "Left": false,
+        "Down": false,
+        "Right": false,
+        "Up": false
+    },touch: [],
+    graphics: {
+      type: "group",
+      content: [  ]
+    }
+  },
 
-  }
+};
+}
 
   mouse(e) {
       var target = e.target;
       var rect = React.findDOMNode(this.refs.iiicanvas).getBoundingClientRect();
       var offsetX = e.clientX - rect.left;
       var offsetY = e.clientY - rect.top;
-      this.setState({mainInterfaceState:{dimension:this.props.mainInterfaceState.dimension,time:e.timeStamp,mouse : {
+      this.setState({mainInterfaceState:{dimension:this.state.mainInterfaceState.dimension,time:e.timeStamp,mouse : {
           buttons: e.buttons,
           position: {
               x: offsetX,
@@ -129,7 +161,7 @@ class Canvas extends React.Component {
               y: (e.deltaY !== undefined && e.deltaY !== null) ? e.deltaY : 0,
               z: (e.deltaZ !== undefined && e.deltaZ !== null) ? e.deltaZ : 0
           }
-      },keyboard:this.props.mainInterfaceState.keyboard,touch:this.props.mainInterfaceState.touch,graphics:this.props.mainInterfaceState.graphics}});
+      },keyboard:this.state.mainInterfaceState.keyboard,touch:this.state.mainInterfaceState.touch,graphics:this.state.mainInterfaceState.graphics}});
       this.scenarioChanged();
   }
 
@@ -139,7 +171,7 @@ class Canvas extends React.Component {
       this.setState({mainInterfaceState:{dimension : {
           width: canvas.offsetWidth,
           height: canvas.offsetHeight
-      },time:e.timeStamp,mouse:this.props.mainInterfaceState.mouse,keyboard:this.props.mainInterfaceState.keyboard,touch:this.props.mainInterfaceState.touch,graphics:this.props.mainInterfaceState.graphics}});
+      },time:e.timeStamp,mouse:this.state.mainInterfaceState.mouse,keyboard:this.state.mainInterfaceState.keyboard,touch:this.state.mainInterfaceState.touch,graphics:this.state.mainInterfaceState.graphics}});
 
       this.scenarioChanged();
   }
@@ -157,10 +189,10 @@ class Canvas extends React.Component {
       } else if (event.keyCode !== undefined) {
           key = event.keyCode;
       }
-      if (this.props.mainInterfaceState.keyboard[key] !== true) {
-        var theKeyboard=this.props.mainInterfaceState.keyboard;
+      if (this.state.mainInterfaceState.keyboard[key] !== true) {
+        var theKeyboard=this.state.mainInterfaceState.keyboard;
         theKeyboard[key]=true;
-        this.setState({mainInterfaceState:{dimension:this.props.mainInterfaceState.dimension,time:e.timeStamp,mouse:this.props.mainInterfaceState.mouse,keyboard:theKeyboard,touch:this.props.mainInterfaceState.touch,graphics:this.props.mainInterfaceState.graphics}});
+        this.setState({mainInterfaceState:{dimension:this.state.mainInterfaceState.dimension,time:e.timeStamp,mouse:this.state.mainInterfaceState.mouse,keyboard:theKeyboard,touch:this.state.mainInterfaceState.touch,graphics:this.state.mainInterfaceState.graphics}});
       }
       this.scenarioChanged();
   }
@@ -175,10 +207,10 @@ class Canvas extends React.Component {
       } else if (event.keyCode !== undefined) {
           key = event.keyCode;
       }
-      if (this.props.mainInterfaceState.keyboard[key] !== false) {
-        var theKeyboard=this.props.mainInterfaceState.keyboard;
+      if (this.state.mainInterfaceState.keyboard[key] !== false) {
+        var theKeyboard=this.state.mainInterfaceState.keyboard;
         theKeyboard[key]=false;
-        this.setState({mainInterfaceState:{dimension:this.props.mainInterfaceState.dimension,time:e.timeStamp,mouse:this.props.mainInterfaceState.mouse,keyboard:theKeyboard,touch:this.props.mainInterfaceState.touch,graphics:this.props.mainInterfaceState.graphics}});
+        this.setState({mainInterfaceState:{dimension:this.state.mainInterfaceState.dimension,time:e.timeStamp,mouse:this.state.mainInterfaceState.mouse,keyboard:theKeyboard,touch:this.state.mainInterfaceState.touch,graphics:this.state.mainInterfaceState.graphics}});
       }
       this.scenarioChanged();
   }
@@ -204,13 +236,13 @@ class Canvas extends React.Component {
           touches[i].rotationAngle = e.touches[i].rotationAngle;
           touches[i].force = e.touches[i].force;
       }
-      this.setState({mainInterfaceState:{dimension:this.props.mainInterfaceState.dimension,time:e.timeStamp,mouse:this.props.mainInterfaceState.mouse,keyboard:this.props.mainInterfaceState.keyboard,touch : touches,graphics:this.props.mainInterfaceState.graphics}});
+      this.setState({mainInterfaceState:{dimension:this.state.mainInterfaceState.dimension,time:e.timeStamp,mouse:this.state.mainInterfaceState.mouse,keyboard:this.state.mainInterfaceState.keyboard,touch : touches,graphics:this.state.mainInterfaceState.graphics}});
       this.scenarioChanged();
   }
 
   scenarioChanged() {
 console.log("ccccc")
-    this.props.addToScenario(this.props.mainInterfaceState);
+    this.props.addToScenario(this.state.mainInterfaceState);
   }
 
   componentDidMount() {
@@ -261,40 +293,8 @@ console.log("ccccc")
   }
 }
   Canvas.propTypes = {
-    mainInterfaceState:React.PropTypes.object
   };
 
   Canvas.defaultProps = {
-    mainInterfaceState:{dimension:{
-        width:500,
-        height:500
-    },time:0,mouse: {
-          buttons: 0,
-          position: {
-              x: 0,
-              y: 0
-          },
-          wheel: {
-              x: 0,
-              y: 0,
-              z: 0
-          }
-      },keyboard: {
-        "Enter": false,
-        "Meta": false,
-        "Control": false,
-        "Alt": false,
-        "Shift": false,
-        "Left": false,
-        "Down": false,
-        "Right": false,
-        "Up": false
-    },touch: [],
-    graphics: {
-      type: "group",
-      content: [  ]
-    }
-  }
-
   };
   module.exports = Canvas;

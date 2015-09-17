@@ -7,7 +7,7 @@ var Table = FixedDataTable.Table;
 var rowNumber=5;
 var scenarioUtils=require('./scenario.js');
 
-class variablesTable extends React.Component {
+class VariablesTable extends React.Component {
 
   constructor(props) {
     super(props);
@@ -36,7 +36,7 @@ class variablesTable extends React.Component {
       }}>
 
           <i className="fa fa-fast-backward fa-3x" onClick={this.props.fastBackward} style={{
-          display: this.PropTypes.openedTab === 0
+          display: this.props.openedTab === 0
             ? 'inline'
             : 'none'
         }}>{espace}</i>
@@ -82,7 +82,7 @@ class variablesTable extends React.Component {
 
 }
 
-variablesTable.propTypes = {
+VariablesTable.propTypes = {
   listOfAtoms: React.PropTypes.array,
   scenario: React.PropTypes.array,
   onContentDimensionsChange: React.PropTypes.func,
@@ -91,11 +91,11 @@ variablesTable.propTypes = {
   tableRowNumber: React.PropTypes.number
 };
 
-variablesTable.defaultProps = {
+VariablesTable.defaultProps = {
   listOfAtoms: [],
   scenario: [],
   tableWidth: 500,
   tableHeight: 500,
   tableRowNumber: 5
 };
-module.exports = variablesTable;
+module.exports = VariablesTable;
