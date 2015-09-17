@@ -73,7 +73,6 @@ class Main extends React.Component {constructor(props) {
       errorScenario: "",
       scenarioInvalid: "",
       Interaction: "interaction (test):{time:Number in,dimension:{width:Number in, height:Number in}, mouse:{buttons:Number in,position:{x:Number in ,y:Number in},wheel:{x:Number in ,y:Number in,z:Number in}},keyboard:{Enter: Number in, Meta: Number in, Control: Number in, Alt: Number in, Shift: Number in, Left: Number in, Down: Number in, Right: Number in, Up: Number in}} with interaction (a):Number out is (previous(#a)) is ({x:(a),y:(#a),z:(#b)})",
-      scenario: [],
       compiledInteraction: "({x:(previous(#0)),y:(#0),z:(#1)})",
       tableRowNumber: 5,
       trace:[],
@@ -126,9 +125,9 @@ class Main extends React.Component {constructor(props) {
     theScenario.push(element);
 
     this.setState({
-      scenario: theScenario
+      scenarioText: JSON.stringify(theScenario)
     });
-    this.evaluateScenario(JSON.stringify(this.state.scenario));
+    this.evaluateScenario(this.state.scenarioText);
   }
 
   onInteractionChange(newInteraction) {
@@ -218,9 +217,7 @@ class Main extends React.Component {constructor(props) {
           scenarioInvalid: ""
         });
       }
-      this.setState({
-        scenario: newModelScenario
-      });
+
       this.setState({
         errorScenario: ""
       });
