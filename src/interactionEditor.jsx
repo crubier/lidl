@@ -11,7 +11,6 @@ class InteractionEditor extends React.Component {
   }
 
   render() {
-    console.log("hiihahaha "+this.props.openedTab)
     return (
 
       <div  className="interactionEditor" style={{

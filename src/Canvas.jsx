@@ -105,6 +105,7 @@ function draw(ctx, object) {
         default:
             throw new Error("unexpected graphic element type \"" + object.type + "\"");
     }
+
 }
 
 class Canvas extends React.Component {
@@ -241,7 +242,6 @@ class Canvas extends React.Component {
   }
 
   scenarioChanged() {
-console.log("ccccc")
     this.props.addToScenario(this.state.mainInterfaceState);
   }
 
@@ -287,7 +287,6 @@ console.log("ccccc")
     return (
         <div>
         <canvas ref="iiicanvas" contentEditable="true" tabIndex="1"  width={window.innerWidth/2} height={window.innerHeight-60} ></canvas>
-        <div>cccc</div>
         </div>
     );
   }

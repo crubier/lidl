@@ -16,7 +16,6 @@ class VariablesTable extends React.Component {
 
   _rowGetter(index) {
     var prefix = "main";
-    console.log("dadddoutaa "+JSON.stringify(this.props.scenario))
     var row = this.props.scenario[index];
     return scenarioUtils.flattenElement(row,prefix);
   }

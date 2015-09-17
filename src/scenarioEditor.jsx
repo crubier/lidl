@@ -2,14 +2,12 @@ var React = require('react');
 var iii = require('iii');
 
 class ScenarioEditor extends React.Component {
-      //console.log("hiiiii")
   constructor(props) {
     super(props);
   }
 
   scenarioChanged(e) {
     this.props.onScenarioChange(e.target.value);
-    console.log(this.props.openedTab)
   }
 
   render() {

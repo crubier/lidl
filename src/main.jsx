@@ -175,7 +175,7 @@ class Main extends React.Component {constructor(props) {
       this.setState({
         errorInteraction: "" + errorMessage
       });
-            console.log("interaction "+errorMessage)
+          
     }
 
   }
@@ -191,10 +191,12 @@ class Main extends React.Component {constructor(props) {
        }));
     }
     this.setState({trace:trace}) ;
+
   }
 
   evaluateScenario(scenario) {
     try {
+
       this.setState({scenarioText:scenario});
       var newModelScenario = JSON.parse(scenario);
       var newModelDefinitions = iii.parser.parse(interactionToLowerCase(this.state.Interaction));
@@ -232,7 +234,6 @@ class Main extends React.Component {constructor(props) {
         errorScenario: "" + errorMessage
 
       });
-      console.log("scenario "+errorMessage)
     }
   }
 
