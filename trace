@@ -3,6 +3,7 @@ var _ = require('lodash');
 var Canvas= require('./canvas.jsx');
 var VariablesTable= require('./variablesTable.jsx');
 
+console.log("    sarah "+Canvas)
 
 
 
@@ -29,7 +30,7 @@ class TraceViewer extends React.Component {
     } else {
       win.onresize = this._onResize.bind(this);
     }
-  
+    console.log("fafafafa")
   }
 
   _onResize() {

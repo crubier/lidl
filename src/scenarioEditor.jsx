@@ -11,6 +11,8 @@ class ScenarioEditor extends React.Component {
   }
 
   render() {
+    console.log("ddddd",this.props.errorScenario)
+    console.log("ffffff",this.props.scenarioInvalid)
     return (
 
       <div  className="scenarioEditor" style={{
@@ -30,17 +32,15 @@ class ScenarioEditor extends React.Component {
 
 
             <div className="errorScenario" style={{
-              display: this.props.openedTab === 0
+              display: this.props.errorScenario !== "" && this.props.openedTab === 0
                 ? 'inline-block'
-                : 'none',
-                overflow:"auto",
+                : 'none'
             }} >{this.props.errorScenario}</div>
 
             <div className="errorScenario" style={{
-              display: this.props.openedTab === 0
+              display: this.props.scenarioInvalid !== "" && this.props.openedTab === 0 && this.props.errorScenario== ""
                 ? 'inline-block'
-                : 'none',
-                overflow:"auto",
+                : 'none'
             }} >{this.props.scenarioInvalid}</div>
 
           </div>
