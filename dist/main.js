@@ -53247,104 +53247,97 @@ module.exports = require('./lib/React');
 (function (process,global,Buffer,__argument0,__argument1,__argument2,__argument3,__filename,__dirname){
 var React = require('react');
 var iii = require('iii');
+var _ =require('lodash');
 
-var ____Class7=React.Component;for(var ____Class7____Key in ____Class7){if(____Class7.hasOwnProperty(____Class7____Key)){Analyse[____Class7____Key]=____Class7[____Class7____Key];}}var ____SuperProtoOf____Class7=____Class7===null?null:____Class7.prototype;Analyse.prototype=Object.create(____SuperProtoOf____Class7);Analyse.prototype.constructor=Analyse;Analyse.__superConstructor__=____Class7;
+function nbrOfPrevious(interaction) {
+  var total = 0;
+  _.forEach(interaction.operand, function(x) {
+    total += nbrOfPrevious(x);
+  });
+  if (iii.operator.parse(interaction.operator) === "Previous") {
+    total++;
+  }
+  return total;
+}
+
+function nbrOfIdentifiers(interaction) {
+  function listOfIdentifiers(a){
+    var list=[];
+    _.forEach(a.operand, function(x) {
+      list.push(listOfIdentifiers(x));
+    });
+    if (iii.operator.parse(a.operator) === "Identifier") {
+      list.push(a.operator);
+    }
+    return list;
+  }
+  return _.uniq(_.flattenDeep(listOfIdentifiers(interaction))).length;
+}
+
+function nbrOfFunctions(interaction) {
+  var total = 0;
+  _.forEach(interaction.operand, function(x) {
+    total += nbrOfFunctions(x);
+  });
+  if (iii.operator.parse(interaction.operator) === "Function") {
+    total++;
+  }
+  return total;
+}
+
+function nbrOfCompositions(interaction) {
+  var total = 0;
+  _.forEach(interaction.operand, function(x) {
+    total += nbrOfCompositions(x);
+  });
+  if (iii.operator.parse(interaction.operator) === "Composition") {
+    total++;
+  }
+  return total;
+}
+
+
+var ____Class3=React.Component;for(var ____Class3____Key in ____Class3){if(____Class3.hasOwnProperty(____Class3____Key)){Analyse[____Class3____Key]=____Class3[____Class3____Key];}}var ____SuperProtoOf____Class3=____Class3===null?null:____Class3.prototype;Analyse.prototype=Object.create(____SuperProtoOf____Class3);Analyse.prototype.constructor=Analyse;Analyse.__superConstructor__=____Class3;
   function Analyse(props) {"use strict";
-    ____Class7.call(this,props);
+    ____Class3.call(this,props);
   }
 
-
-
-
-
             Object.defineProperty(Analyse.prototype,"render",{writable:true,configurable:true,value:function() {"use strict";
+              var interaction=iii.parser.parse(this.props.compiledInteraction,{startRule:"interaction"});
+              var nbrPrevious=nbrOfPrevious(interaction);
+              var nbrIdentifiers=nbrOfIdentifiers(interaction);
+              var nbrFunctions=nbrOfFunctions(interaction);
+              var nbrCompositions=nbrOfCompositions(interaction);
               return (
 
-                React.createElement("div", {className: "analyse", style: {
-                  display: this.props.openedTab === 2
-                    ? 'inline-block'
-                    : 'none',
-                    overflow:"auto",
-                }}, 
-              React.createElement("div", {className: "Tab compiledInteraction", style: {
-                display: this.props.openedTab === 2
-                  ? 'inline-block'
-                  : 'none',
-                  overflow:"auto",
-              }}, this.props.compiledInteraction), 
-              React.createElement("p", {style: {
-                display: this.props.openedTab === 2
-                  ? 'inline-block'
-                  : 'none',
-                  overflow:"auto",
-              }},  "Number of previous :" + this.props.stats.previous, " "), 
-              React.createElement("br", null), 
-              React.createElement("br", null), 
-              React.createElement("p", {style: {
-                display: this.props.openedTab === 2
-                  ? 'inline-block'
-                  : 'none',
-                  overflow:"auto",
-              }}, " ",  "Number of identifiers :" + this.props.stats.identifiers, " "), 
-              React.createElement("br", null), 
-              React.createElement("br", null), 
-              React.createElement("p", {style: {
-                display: this.props.openedTab === 2
-                  ? 'inline-block'
-                  : 'none',
-                  overflow:"auto",
-              }}, " ",  "Number of functions :" + this.props.stats.functions, " "), 
-              React.createElement("br", null), 
-              React.createElement("br", null), 
-              React.createElement("p", {style: {
-                display: this.props.openedTab === 2
-                  ? 'inline-block'
-                  : 'none',
-                  overflow:"auto",
-              }}, " ",  "Number of compositions :" + this.props.stats.compositions, " "), 
-              React.createElement("br", null), 
-              React.createElement("br", null), 
-              React.createElement("p", {style: {
-                display: this.props.openedTab === 2
-                  ? 'inline-block'
-                  : 'none',
-                  overflow:"auto",
-              }}, " ",  "Number of variables :" + (this.props.stats.identifiers+this.props.stats.previous), " "), 
-              React.createElement("br", null), 
-              React.createElement("br", null), 
-              React.createElement("p", {style: {
-                display: this.props.openedTab === 2
-                  ? 'inline-block'
-                  : 'none',
-                  overflow:"auto",
-              }}, " ",  "Total of interactions :" + (this.props.stats.identifiers+this.props.stats.previous+this.props.stats.compositions+ this.props.stats.functions), " "), 
-              React.createElement("br", null), 
-              React.createElement("br", null)
-
-
-                    )
+                React.createElement("div", {className: "analyse"}, 
+              React.createElement("p", null, this.props.compiledInteraction), 
+              React.createElement("p", null,  "Number of previous :" + nbrPrevious, " "), 
+              React.createElement("p", null, " ",  "Number of identifiers :" + nbrIdentifiers, " "), 
+              React.createElement("p", null, " ",  "Number of functions :" + nbrFunctions, " "), 
+              React.createElement("p", null, " ",  "Number of compositions :" + nbrCompositions, " "), 
+              React.createElement("p", null, " ",  "Number of variables :" + (nbrPrevious+nbrIdentifiers), " "), 
+              React.createElement("p", null, " ",  "Total of interactions :" + (nbrCompositions+nbrFunctions+nbrPrevious+nbrIdentifiers), " ")
+                )
                   );
                 }});
                 
 
             Analyse.propTypes = {
-              stats: React.PropTypes.object,
               compiledInteraction:React.PropTypes.string,
-              openedTab: React.PropTypes.number,
+
 
             };
 
             Analyse.defaultProps = {
-              stats: {variables:0,previous:0,identifiers:0,functions:0,compositions:0},
               compiledInteraction:"({x:(previous(#0)),y:(#0),z:(#1)})",
-              openedTab:0
             };
 
             module.exports = Analyse;
 
 }).call(this,require('_process'),typeof global !== "undefined" ? global : typeof self !== "undefined" ? self : typeof window !== "undefined" ? window : {},require("buffer").Buffer,arguments[3],arguments[4],arguments[5],arguments[6],"/src\\analyse.jsx","/src")
 
-},{"_process":7,"buffer":2,"iii":68,"react":250}],252:[function(require,module,exports){
+},{"_process":7,"buffer":2,"iii":68,"lodash":91,"react":250}],252:[function(require,module,exports){
 (function (process,global,Buffer,__argument0,__argument1,__argument2,__argument3,__filename,__dirname){
 var React = require('react');
 var _ = require('lodash');
@@ -53456,9 +53449,9 @@ function draw(ctx, object) {
 
 }
 
-var ____Class3=React.Component;for(var ____Class3____Key in ____Class3){if(____Class3.hasOwnProperty(____Class3____Key)){Canvas[____Class3____Key]=____Class3[____Class3____Key];}}var ____SuperProtoOf____Class3=____Class3===null?null:____Class3.prototype;Canvas.prototype=Object.create(____SuperProtoOf____Class3);Canvas.prototype.constructor=Canvas;Canvas.__superConstructor__=____Class3;
+var ____Class4=React.Component;for(var ____Class4____Key in ____Class4){if(____Class4.hasOwnProperty(____Class4____Key)){Canvas[____Class4____Key]=____Class4[____Class4____Key];}}var ____SuperProtoOf____Class4=____Class4===null?null:____Class4.prototype;Canvas.prototype=Object.create(____SuperProtoOf____Class4);Canvas.prototype.constructor=Canvas;Canvas.__superConstructor__=____Class4;
   function Canvas(props) {"use strict";
-    ____Class3.call(this,props);
+    ____Class4.call(this,props);
     this.state = {
     mainInterfaceState:{dimension:{
         width:500,
@@ -53633,7 +53626,7 @@ var ____Class3=React.Component;for(var ____Class3____Key in ____Class3){if(____C
   Object.defineProperty(Canvas.prototype,"render",{writable:true,configurable:true,value:function() {"use strict";
 
     return (
-        React.createElement("div", null, 
+        React.createElement("div", {className: "canvasEditor"}, 
         React.createElement("canvas", {ref: "iiicanvas", contentEditable: "true", tabIndex: "1", width: window.innerWidth/2, height: window.innerHeight-60})
         )
     );
@@ -53649,130 +53642,6 @@ var ____Class3=React.Component;for(var ____Class3____Key in ____Class3){if(____C
 }).call(this,require('_process'),typeof global !== "undefined" ? global : typeof self !== "undefined" ? self : typeof window !== "undefined" ? window : {},require("buffer").Buffer,arguments[3],arguments[4],arguments[5],arguments[6],"/src\\canvas.jsx","/src")
 
 },{"_process":7,"buffer":2,"lodash":91,"react":250}],253:[function(require,module,exports){
-(function (process,global,Buffer,__argument0,__argument1,__argument2,__argument3,__filename,__dirname){
-var React = require('react');
-var iii = require('iii');
-var ScenarioEditor = require('./scenarioEditor.jsx');
-var InteractionEditor = require('./interactionEditor.jsx');
-var TraceViewer = require('./traceViewer.jsx');
-var Analyse = require('./analyse.jsx');
-
-var ____Class2=React.Component;for(var ____Class2____Key in ____Class2){if(____Class2.hasOwnProperty(____Class2____Key)){CodeEditor[____Class2____Key]=____Class2[____Class2____Key];}}var ____SuperProtoOf____Class2=____Class2===null?null:____Class2.prototype;CodeEditor.prototype=Object.create(____SuperProtoOf____Class2);CodeEditor.prototype.constructor=CodeEditor;CodeEditor.__superConstructor__=____Class2;function CodeEditor(props) {"use strict";
-    ____Class2.call(this,props);
-    this.state = {
-      openedTab: 0,
-    };
-  }
-
-  Object.defineProperty(CodeEditor.prototype,"openTab0",{writable:true,configurable:true,value:function(e) {"use strict";
-    this.setState({
-      openedTab: 0
-    });
-    console.log("openedTab ",this.state.openedTab)
-
-  }});
-
-  Object.defineProperty(CodeEditor.prototype,"openTab1",{writable:true,configurable:true,value:function(e) {"use strict";
-    this.setState({
-      openedTab: 1
-    });
-    console.log("openedTab ",this.state.openedTab)
-  }});
-
-  Object.defineProperty(CodeEditor.prototype,"openTab2",{writable:true,configurable:true,value:function(e) {"use strict";
-    this.setState({
-      openedTab: 2
-    });
-    console.log("openedTab ",this.state.openedTab)
-
-  }});
-
-
-  Object.defineProperty(CodeEditor.prototype,"componentDidMount",{writable:true,configurable:true,value:function() {"use strict";
-    this.props.onScenarioChange(this.props.scenarioText);
-    this.props.onInteractionChange(this.props.Interaction);
-    this.props.onScenarioChange(this.props.scenarioText);
-    this.props.onInteractionChange(this.props.Interaction);
-  }});
-
-
-
-
-
-
-  Object.defineProperty(CodeEditor.prototype,"render",{writable:true,configurable:true,value:function() {"use strict";
-    return (
-      React.createElement("div", {className: "CodeEditor"}, 
-        React.createElement("div", {className: "Tabs"}, 
-          React.createElement("div", {className: this.state.openedTab === 0
-            ? 'Tab active'
-            : 'Tab', onClick: this.openTab0.bind(this)}, 
-            React.createElement("span", null, " Scenario editor ")
-          ), 
-          React.createElement("div", {className: this.state.openedTab === 1
-            ? 'Tab active'
-            : 'Tab', onClick: this.openTab1.bind(this)}, 
-            React.createElement("span", null, "Interaction editor")
-          ), 
-          React.createElement("div", {className: this.state.openedTab === 2
-            ? 'Tab active'
-            : 'Tab', onClick: this.openTab2.bind(this)}, 
-            React.createElement("span", null, "Analyse")
-          )
-        ), 
-        React.createElement("div", {className: "TabContent"}, 
-
-
-            React.createElement(ScenarioEditor, {style: {
-              display: this.state.openedTab === 0
-                ? 'inline-block'
-                : 'none'
-            }, onScenarioChange: this.props.onScenarioChange, scenarioText: this.props.scenarioText, errorScenario: this.props.errorScenario, scenarioInvalid: this.props.scenarioInvalid, openedTab: this.props.openedTab}), 
-
-            React.createElement(InteractionEditor, {style: {
-              display: this.state.openedTab === 1
-                ? 'inline-block'
-                : 'none'
-            }, openedTab: this.props.openedTab, onInteractionChange: this.props.onInteractionChange, errorInteraction: this.props.errorInteraction, Interaction: this.props.Interaction}), 
-
-            React.createElement(Analyse, {style: {
-              display: this.state.openedTab === 2
-                ? 'inline-block'
-                : 'none'
-            }, openedTab: this.props.openedTab, stats: this.props.stats, compiledInteraction: this.props.compiledInteraction})
-        )
-    )
-    );
-  }});
-
-
-CodeEditor.propTypes = {
-  stats: React.PropTypes.object,
-  errorInteraction: React.PropTypes.string,
-  errorScenario: React.PropTypes.string,
-  scenarioText: React.PropTypes.string,
-  scenarioInvalid: React.PropTypes.string,
-  Interaction: React.PropTypes.string,
-  compiledInteraction:React.PropTypes.string,
-
-};
-
-CodeEditor.defaultProps = {
-  stats: {variables:0,previous:0,identifiers:0,functions:0,compositions:0},
-  errorInteraction: "",
-  errorScenario: "",
-  scenarioText: "[]",
-  scenarioInvalid: "",
-  Interaction: "interaction (test):{time:Number in,dimension:{width:Number in, height:Number in}, mouse:{buttons:Number in,position:{x:Number in ,y:Number in},wheel:{x:Number in ,y:Number in,z:Number in}},keyboard:{Enter: Number in, Meta: Number in, Control: Number in, Alt: Number in, Shift: Number in, Left: Number in, Down: Number in, Right: Number in, Up: Number in}} with interaction (a):Number out is (previous(#a)) is ({x:(a),y:(#a),z:(#b)})",
-  compiledInteraction:"({x:(previous(#0)),y:(#0),z:(#1)})",
-
-};
-
-module.exports = CodeEditor;
-
-}).call(this,require('_process'),typeof global !== "undefined" ? global : typeof self !== "undefined" ? self : typeof window !== "undefined" ? window : {},require("buffer").Buffer,arguments[3],arguments[4],arguments[5],arguments[6],"/src\\codeEditor.jsx","/src")
-
-},{"./analyse.jsx":251,"./interactionEditor.jsx":255,"./scenarioEditor.jsx":258,"./traceViewer.jsx":259,"_process":7,"buffer":2,"iii":68,"react":250}],254:[function(require,module,exports){
 (function (process,global,Buffer,__argument0,__argument1,__argument2,__argument3,__filename,__dirname){
 function isInside(x) {
   if(x === null) {
@@ -54048,14 +53917,14 @@ module.exports = {
 
 }).call(this,require('_process'),typeof global !== "undefined" ? global : typeof self !== "undefined" ? self : typeof window !== "undefined" ? window : {},require("buffer").Buffer,arguments[3],arguments[4],arguments[5],arguments[6],"/src\\compExample.js","/src")
 
-},{"_process":7,"buffer":2}],255:[function(require,module,exports){
+},{"_process":7,"buffer":2}],254:[function(require,module,exports){
 (function (process,global,Buffer,__argument0,__argument1,__argument2,__argument3,__filename,__dirname){
 var React = require('react');
 var iii = require('iii');
 
-var ____Class6=React.Component;for(var ____Class6____Key in ____Class6){if(____Class6.hasOwnProperty(____Class6____Key)){InteractionEditor[____Class6____Key]=____Class6[____Class6____Key];}}var ____SuperProtoOf____Class6=____Class6===null?null:____Class6.prototype;InteractionEditor.prototype=Object.create(____SuperProtoOf____Class6);InteractionEditor.prototype.constructor=InteractionEditor;InteractionEditor.__superConstructor__=____Class6;
+var ____Class2=React.Component;for(var ____Class2____Key in ____Class2){if(____Class2.hasOwnProperty(____Class2____Key)){InteractionEditor[____Class2____Key]=____Class2[____Class2____Key];}}var ____SuperProtoOf____Class2=____Class2===null?null:____Class2.prototype;InteractionEditor.prototype=Object.create(____SuperProtoOf____Class2);InteractionEditor.prototype.constructor=InteractionEditor;InteractionEditor.__superConstructor__=____Class2;
   function InteractionEditor(props) {"use strict";
-    ____Class6.call(this,props);
+    ____Class2.call(this,props);
   }
 
   Object.defineProperty(InteractionEditor.prototype,"interactionChanged",{writable:true,configurable:true,value:function(e) {"use strict";
@@ -54066,24 +53935,15 @@ var ____Class6=React.Component;for(var ____Class6____Key in ____Class6){if(____C
     return (
 
       React.createElement("div", {className: "interactionEditor", style: {
-        display: this.props.openedTab === 1
-          ? 'inline-block'
-          : 'none',
           overflow:"auto",
       }}, 
     React.createElement("textarea", {style: {
-      display: this.props.openedTab === 1
-        ? 'inline-block'
-        : 'none',
         overflow:"auto",
     }, className: this.props.errorInteraction !== ""
       ? "error"
       : "", defaultValue: this.props.Interaction, name: "interaction", onChange: this.interactionChanged.bind(this)}), 
 
     React.createElement("div", {className: "errorScenario", style: {
-      display: this.props.openedTab === 1
-        ? 'inline-block'
-        : 'none',
         overflow:"auto",
     }}, this.props.errorInteraction)
           )
@@ -54108,11 +53968,14 @@ var ____Class6=React.Component;for(var ____Class6____Key in ____Class6){if(____C
 
 }).call(this,require('_process'),typeof global !== "undefined" ? global : typeof self !== "undefined" ? self : typeof window !== "undefined" ? window : {},require("buffer").Buffer,arguments[3],arguments[4],arguments[5],arguments[6],"/src\\interactionEditor.jsx","/src")
 
-},{"_process":7,"buffer":2,"iii":68,"react":250}],256:[function(require,module,exports){
+},{"_process":7,"buffer":2,"iii":68,"react":250}],255:[function(require,module,exports){
 (function (process,global,Buffer,__argument0,__argument1,__argument2,__argument3,__filename,__dirname){
 var React = require('react');
-var CodeEditor = require('./codeEditor.jsx');
-var TraceViewer = require('./traceViewer.jsx');
+var ScenarioEditor = require('./scenarioEditor.jsx');
+var InteractionEditor = require('./interactionEditor.jsx');
+var Analyse = require('./analyse.jsx');
+var Canvas= require('./canvas.jsx');
+var VariablesTable= require('./variablesTable.jsx');
 
 var iii = require('iii');
 var scenarioChecker = require('./scenario.js');
@@ -54204,6 +54067,12 @@ var ____Class0=React.Component;for(var ____Class0____Key in ____Class0){if(____C
     };
   }
 
+
+  Object.defineProperty(Main.prototype,"componentDidMount",{writable:true,configurable:true,value:function() {"use strict";
+    this.onScenarioChange(this.state.scenarioText);
+    this.onInteractionChange(this.state.Interaction);
+
+  }});
   Object.defineProperty(Main.prototype,"addToScenario",{writable:true,configurable:true,value:function(mainInterfaceState) {"use strict";
     var theScenario = JSON.parse(this.state.scenarioText);
     var element = {
@@ -54287,7 +54156,7 @@ var ____Class0=React.Component;for(var ____Class0____Key in ____Class0){if(____C
       this.setState({
         errorInteraction: "" + errorMessage
       });
-          
+
     }
 
   }});
@@ -54386,9 +54255,29 @@ var ____Class0=React.Component;for(var ____Class0____Key in ____Class0){if(____C
 
   Object.defineProperty(Main.prototype,"render",{writable:true,configurable:true,value:function() {"use strict";
     return (
-      React.createElement("div", {className: "Main"}, 
-        React.createElement(CodeEditor, {Interaction: this.state.Interaction, compiledInteraction: this.state.compiledInteraction, errorInteraction: this.state.errorInteraction, errorScenario: this.state.errorScenario, onInteractionChange: this.onInteractionChange.bind(this), onScenarioChange: this.onScenarioChange.bind(this), runInteractionOnScenario: this.runInteractionOnScenario.bind(this), scenarioInvalid: this.state.scenarioInvalid, scenarioText: this.state.scenarioText, stats: this.state.stats}), 
-        React.createElement(TraceViewer, {addToScenario: this.addToScenario.bind(this), backward: this.backward.bind(this), fastBackward: this.fastBackward.bind(this), fastForward: this.fastForward.bind(this), forward: this.forward.bind(this), listOfAtoms: this.state.listOfAtoms, scenario: _.map(this.state.trace,"inter"), tableRowNumber: this.state.tableRowNumber, scenarioText: this.state.scenarioText})
+      React.createElement("div", {className: "Main", overflow: "scroll"}, 
+            React.createElement(ScenarioEditor, {style: {
+              display: this.state.openedTab === 0
+                ? 'inline-block'
+                : 'none'
+            }, onScenarioChange: this.onScenarioChange.bind(this), scenarioText: this.state.scenarioText, errorScenario: this.state.errorScenario, scenarioInvalid: this.state.scenarioInvalid}), 
+
+            React.createElement(InteractionEditor, {style: {
+              display: this.state.openedTab === 1
+                ? 'inline-block'
+                : 'none'
+            }, openedTab: this.props.openedTab, onInteractionChange: this.props.onInteractionChange, errorInteraction: this.props.errorInteraction, Interaction: this.props.Interaction}), 
+
+            React.createElement(Analyse, {style: {
+              display: this.state.openedTab === 2
+                ? 'inline-block'
+                : 'none'
+            }, openedTab: this.props.openedTab, stats: this.props.stats, compiledInteraction: this.props.compiledInteraction}), 
+
+            React.createElement(VariablesTable, {backward: this.backward.bind(this), fastBackward: this.fastBackward.bind(this), fastForward: this.fastForward.bind(this), forward: this.forward.bind(this), listOfAtoms: this.state.listOfAtoms, scenario: this.state.scenario, tableRowNumber: this.state.tableRowNumber}), 
+
+          React.createElement(Canvas, {addToScenario: this.addToScenario.bind(this)})
+
       )
     );
   }});
@@ -54399,7 +54288,7 @@ React.render(React.createElement(Main, null), document.getElementById("main"));
 
 }).call(this,require('_process'),typeof global !== "undefined" ? global : typeof self !== "undefined" ? self : typeof window !== "undefined" ? window : {},require("buffer").Buffer,arguments[3],arguments[4],arguments[5],arguments[6],"/src\\main.jsx","/src")
 
-},{"./codeEditor.jsx":253,"./compExample.js":254,"./scenario.js":257,"./traceViewer.jsx":259,"_process":7,"buffer":2,"iii":68,"lodash":91,"react":250}],257:[function(require,module,exports){
+},{"./analyse.jsx":251,"./canvas.jsx":252,"./compExample.js":253,"./interactionEditor.jsx":254,"./scenario.js":256,"./scenarioEditor.jsx":257,"./variablesTable.jsx":258,"_process":7,"buffer":2,"iii":68,"lodash":91,"react":250}],256:[function(require,module,exports){
 (function (process,global,Buffer,__argument0,__argument1,__argument2,__argument3,__filename,__dirname){
 var _ = require('lodash');
 var iii = require('iii');
@@ -54447,14 +54336,14 @@ module.exports.flattenElement = flattenElement;
 
 }).call(this,require('_process'),typeof global !== "undefined" ? global : typeof self !== "undefined" ? self : typeof window !== "undefined" ? window : {},require("buffer").Buffer,arguments[3],arguments[4],arguments[5],arguments[6],"/src\\scenario.js","/src")
 
-},{"_process":7,"buffer":2,"iii":68,"lodash":91}],258:[function(require,module,exports){
+},{"_process":7,"buffer":2,"iii":68,"lodash":91}],257:[function(require,module,exports){
 (function (process,global,Buffer,__argument0,__argument1,__argument2,__argument3,__filename,__dirname){
 var React = require('react');
 var iii = require('iii');
 
-var ____Class5=React.Component;for(var ____Class5____Key in ____Class5){if(____Class5.hasOwnProperty(____Class5____Key)){ScenarioEditor[____Class5____Key]=____Class5[____Class5____Key];}}var ____SuperProtoOf____Class5=____Class5===null?null:____Class5.prototype;ScenarioEditor.prototype=Object.create(____SuperProtoOf____Class5);ScenarioEditor.prototype.constructor=ScenarioEditor;ScenarioEditor.__superConstructor__=____Class5;
+var ____Class1=React.Component;for(var ____Class1____Key in ____Class1){if(____Class1.hasOwnProperty(____Class1____Key)){ScenarioEditor[____Class1____Key]=____Class1[____Class1____Key];}}var ____SuperProtoOf____Class1=____Class1===null?null:____Class1.prototype;ScenarioEditor.prototype=Object.create(____SuperProtoOf____Class1);ScenarioEditor.prototype.constructor=ScenarioEditor;ScenarioEditor.__superConstructor__=____Class1;
   function ScenarioEditor(props) {"use strict";
-    ____Class5.call(this,props);
+    ____Class1.call(this,props);
   }
 
   Object.defineProperty(ScenarioEditor.prototype,"scenarioChanged",{writable:true,configurable:true,value:function(e) {"use strict";
@@ -54467,32 +54356,18 @@ var ____Class5=React.Component;for(var ____Class5____Key in ____Class5){if(____C
     return (
 
       React.createElement("div", {className: "scenarioEditor", style: {
-        display: this.props.openedTab === 0
-          ? 'inline-block'
-          : 'none',
           overflow:"auto",
       }}, 
           React.createElement("textarea", {id: "scenario", style: {
-            display: this.props.openedTab === 0
-              ? 'inline-block'
-              : 'none',
               overflow:"auto",
           }, className: this.props.errorScenario !== ""
             ? "error"
             : "", value: this.props.scenarioText, name: "scenario", onChange: this.scenarioChanged.bind(this)}), 
 
 
-            React.createElement("div", {className: "errorScenario", style: {
-              display: this.props.errorScenario !== "" && this.props.openedTab === 0
-                ? 'inline-block'
-                : 'none'
-            }}, this.props.errorScenario), 
+            React.createElement("div", {className: "errorScenario"}, this.props.errorScenario), 
 
-            React.createElement("div", {className: "errorScenario", style: {
-              display: this.props.scenarioInvalid !== "" && this.props.openedTab === 0 && this.props.errorScenario== ""
-                ? 'inline-block'
-                : 'none'
-            }}, this.props.scenarioInvalid)
+            React.createElement("div", {className: "errorScenario"}, this.props.scenarioInvalid)
 
           )
 
@@ -54520,134 +54395,7 @@ var ____Class5=React.Component;for(var ____Class5____Key in ____Class5){if(____C
 
 }).call(this,require('_process'),typeof global !== "undefined" ? global : typeof self !== "undefined" ? self : typeof window !== "undefined" ? window : {},require("buffer").Buffer,arguments[3],arguments[4],arguments[5],arguments[6],"/src\\scenarioEditor.jsx","/src")
 
-},{"_process":7,"buffer":2,"iii":68,"react":250}],259:[function(require,module,exports){
-(function (process,global,Buffer,__argument0,__argument1,__argument2,__argument3,__filename,__dirname){
-var React = require('react');
-var _ = require('lodash');
-var Canvas= require('./canvas.jsx');
-var VariablesTable= require('./variablesTable.jsx');
-
-
-
-
-var ____Class1=React.Component;for(var ____Class1____Key in ____Class1){if(____Class1.hasOwnProperty(____Class1____Key)){TraceViewer[____Class1____Key]=____Class1[____Class1____Key];}}var ____SuperProtoOf____Class1=____Class1===null?null:____Class1.prototype;TraceViewer.prototype=Object.create(____SuperProtoOf____Class1);TraceViewer.prototype.constructor=TraceViewer;TraceViewer.__superConstructor__=____Class1;
-
-  function TraceViewer(props) {"use strict";
-    ____Class1.call(this,props);
-    this.state = {
-     tableWidth: this.props.tableWidth,
-     tableHeight: this.props.tableHeight,
-     openedTab: 0,
-
-   };
-  }
-
-
-  Object.defineProperty(TraceViewer.prototype,"componentDidMount",{writable:true,configurable:true,value:function() {"use strict";
-    this.$TraceViewer_updateSize();
-    var win = window;
-    if (win.addEventListener) {
-      win.addEventListener('resize', this.$TraceViewer_onResize.bind(this), false);
-    } else if (win.attachEvent) {
-      win.attachEvent('onresize', this.$TraceViewer_onResize.bind(this));
-    } else {
-      win.onresize = this.$TraceViewer_onResize.bind(this);
-    }
-  
-  }});
-
-  Object.defineProperty(TraceViewer.prototype,"$TraceViewer_onResize",{writable:true,configurable:true,value:function() {"use strict";
-    clearTimeout(this.$TraceViewer_updateTimer);
-    this.$TraceViewer_updateTimer = setTimeout(this.$TraceViewer_updateSize.bind(this), 16);
-  }});
-
-  Object.defineProperty(TraceViewer.prototype,"$TraceViewer_updateSize",{writable:true,configurable:true,value:function() {"use strict";
-    var win = window;
-    this.setState({
-      tableWidth: win.innerWidth / 2,
-      tableHeight: win.innerHeight/2,
-    });
-  }});
-
-
-
-  Object.defineProperty(TraceViewer.prototype,"openTab0",{writable:true,configurable:true,value:function(e) {"use strict";
-    this.setState({
-      openedTab: 0
-    });
-
-  }});
-
-  Object.defineProperty(TraceViewer.prototype,"openTab1",{writable:true,configurable:true,value:function(e) {"use strict";
-
-    this.setState({
-      openedTab: 1
-    });
-  }});
-
-
-
-  Object.defineProperty(TraceViewer.prototype,"render",{writable:true,configurable:true,value:function() {"use strict";
-
-    return (
-      React.createElement("div", {className: "TraceViewer"}, 
-        React.createElement("div", {className: "Tabs"}, 
-        React.createElement("div", {className: this.state.openedTab === 0
-          ? 'TabTraceViewer active'
-          : 'TabTraceViewer', onClick: this.openTab0.bind(this)}, 
-          React.createElement("span", null, " Variables Table ")
-        ), 
-        React.createElement("div", {className: this.state.openedTab === 1
-            ? 'TabTraceViewer active'
-            : 'TabTraceViewer', onClick: this.openTab1.bind(this)}, 
-            React.createElement("span", null, "Canvas")
-        )
-        ), 
-
-        React.createElement("div", {className: "TabContentTraceViewer"}, 
-
-        React.createElement(VariablesTable, {style: {
-        display: this.state.openedTab === 0
-          ? 'inline'
-          : 'none'
-      }, backward: this.props.backward, fastBackward: this.props.fastBackward, fastForward: this.props.fastForward, forward: this.props.forward, listOfAtoms: this.props.listOfAtoms, scenario: this.props.scenario, tableRowNumber: this.props.tableRowNumber, tableWidth: this.state.tableWidth, tableHeight: this.state.tableHeight, openedTab: this.state.openedTab}), 
-
-      React.createElement(Canvas, {style: {
-      display: this.state.openedTab === 1
-        ? 'inline'
-        : 'none'
-    }, addToScenario: this.props.addToScenario})
-
-
-
-
-      )
-      )
-
-    );
-  }});
-
-
-TraceViewer.propTypes = {
-  listOfAtoms: React.PropTypes.array,
-  scenario: React.PropTypes.array,
-  left: React.PropTypes.number,
-  top: React.PropTypes.number,
-  tableRowNumber: React.PropTypes.number
-};
-
-TraceViewer.defaultProps = {
-  listOfAtoms: [],
-  scenario: [],
-  tableWidth: 500,
-  tableHeight: 500,
-  tableRowNumber: 5
-};
-module.exports = TraceViewer;
-
-}).call(this,require('_process'),typeof global !== "undefined" ? global : typeof self !== "undefined" ? self : typeof window !== "undefined" ? window : {},require("buffer").Buffer,arguments[3],arguments[4],arguments[5],arguments[6],"/src\\traceViewer.jsx","/src")
-
-},{"./canvas.jsx":252,"./variablesTable.jsx":260,"_process":7,"buffer":2,"lodash":91,"react":250}],260:[function(require,module,exports){
+},{"_process":7,"buffer":2,"iii":68,"react":250}],258:[function(require,module,exports){
 (function (process,global,Buffer,__argument0,__argument1,__argument2,__argument3,__filename,__dirname){
 var React = require('react');
 var FixedDataTable = require('fixed-data-table');
@@ -54658,12 +54406,43 @@ var Table = FixedDataTable.Table;
 var rowNumber=5;
 var scenarioUtils=require('./scenario.js');
 
-var ____Class4=React.Component;for(var ____Class4____Key in ____Class4){if(____Class4.hasOwnProperty(____Class4____Key)){VariablesTable[____Class4____Key]=____Class4[____Class4____Key];}}var ____SuperProtoOf____Class4=____Class4===null?null:____Class4.prototype;VariablesTable.prototype=Object.create(____SuperProtoOf____Class4);VariablesTable.prototype.constructor=VariablesTable;VariablesTable.__superConstructor__=____Class4;
+var ____Class5=React.Component;for(var ____Class5____Key in ____Class5){if(____Class5.hasOwnProperty(____Class5____Key)){VariablesTable[____Class5____Key]=____Class5[____Class5____Key];}}var ____SuperProtoOf____Class5=____Class5===null?null:____Class5.prototype;VariablesTable.prototype=Object.create(____SuperProtoOf____Class5);VariablesTable.prototype.constructor=VariablesTable;VariablesTable.__superConstructor__=____Class5;
 
   function VariablesTable(props) {"use strict";
-    ____Class4.call(this,props);
+    ____Class5.call(this,props);
+    this.state = {
+     tableWidth: 500,
+     tableHeight: 500,
+   };
 
   }
+
+
+  Object.defineProperty(VariablesTable.prototype,"componentDidMount",{writable:true,configurable:true,value:function() {"use strict";
+    this.$VariablesTable_updateSize();
+    var win = window;
+    if (win.addEventListener) {
+      win.addEventListener('resize', this.$VariablesTable_onResize.bind(this), false);
+    } else if (win.attachEvent) {
+      win.attachEvent('onresize', this.$VariablesTable_onResize.bind(this));
+    } else {
+      win.onresize = this.$VariablesTable_onResize.bind(this);
+    }
+
+  }});
+
+  Object.defineProperty(VariablesTable.prototype,"$VariablesTable_onResize",{writable:true,configurable:true,value:function() {"use strict";
+    clearTimeout(this.$VariablesTable_updateTimer);
+    this.$VariablesTable_updateTimer = setTimeout(this.$VariablesTable_updateSize.bind(this), 16);
+  }});
+
+  Object.defineProperty(VariablesTable.prototype,"$VariablesTable_updateSize",{writable:true,configurable:true,value:function() {"use strict";
+    var win = window;
+    this.setState({
+      tableWidth: win.innerWidth / 2,
+      tableHeight: win.innerHeight/2,
+    });
+  }});
 
   Object.defineProperty(VariablesTable.prototype,"$VariablesTable_rowGetter",{writable:true,configurable:true,value:function(index) {"use strict";
     var prefix = "main";
@@ -54678,45 +54457,19 @@ var ____Class4=React.Component;for(var ____Class4____Key in ____Class4){if(____C
     var listOfAtoms = this.props.listOfAtoms;
     var espace="         ";
     return (
-        React.createElement("div", null, 
-        React.createElement("div", {className: "icons", style: {
-        display: this.props.openedTab === 0
-          ? 'inline-block'
-          : 'none'
-      }}, 
+        React.createElement("div", {className: "variablesTable"}, 
+        React.createElement("div", {className: "icons"}, 
 
-          React.createElement("i", {className: "fa fa-fast-backward fa-3x", onClick: this.props.fastBackward, style: {
-          display: this.props.openedTab === 0
-            ? 'inline'
-            : 'none'
-        }}, espace), 
-          React.createElement("i", {className: "fa fa-backward fa-3x", onClick: this.props.backward, style: {
-          display: this.props.openedTab === 0
-            ? 'inline'
-            : 'none'
-        }}, espace), 
-          React.createElement("i", {className: "fa fa-forward fa-3x", onClick: this.props.forward, style: {
-          display: this.props.openedTab === 0
-            ? 'inline'
-            : 'none'
-        }}, espace), 
-          React.createElement("i", {className: "fa fa-fast-forward fa-3x", onClick: this.props.fastForward, style: {
-          display: this.props.openedTab === 0
-            ? 'inline'
-            : 'none'
-        }}, espace)
+          React.createElement("i", {className: "fa fa-fast-backward fa-3x", onClick: this.props.fastBackward}, espace), 
+          React.createElement("i", {className: "fa fa-backward fa-3x", onClick: this.props.backward}, espace), 
+          React.createElement("i", {className: "fa fa-forward fa-3x", onClick: this.props.forward}, espace), 
+          React.createElement("i", {className: "fa fa-fast-forward fa-3x", onClick: this.props.fastForward}, espace)
 
         ), 
 
-        React.createElement("div", {style: {
-        display: this.props.openedTab === 0
-          ? 'inline-block'
-          : 'none',
-          overflow:"auto",
 
-      }}, 
 
-        React.createElement(Table, {groupHeaderHeight: 30, headerHeight: 30, height: 525, width: this.props.tableWidth, overflowX: controlledScrolling ? "hidden" : "auto", overflowY: controlledScrolling ? "hidden" : "auto", rowGetter: this.$VariablesTable_rowGetter.bind(this), rowHeight: 30, rowsCount: this.props.tableRowNumber, scrollLeft: this.props.left, scrollTop: this.props.top}, 
+        React.createElement(Table, {groupHeaderHeight: 30, headerHeight: 30, height: 525, width: this.state.tableWidth, overflowX: controlledScrolling ? "hidden" : "auto", overflowY: controlledScrolling ? "hidden" : "auto", rowGetter: this.$VariablesTable_rowGetter.bind(this), rowHeight: 30, rowsCount: this.props.tableRowNumber, scrollLeft: this.props.left, scrollTop: this.props.top}, 
           listOfAtoms.map(function(x) {
             return (
           React.createElement(ColumnGroup, {key: x.name, fixed: true, label: x.name}, 
@@ -54726,7 +54479,7 @@ var ____Class4=React.Component;for(var ____Class4____Key in ____Class4){if(____C
 
         )
       )
-      )
+      
     );
   }});
 
@@ -54744,15 +54497,13 @@ VariablesTable.propTypes = {
 VariablesTable.defaultProps = {
   listOfAtoms: [],
   scenario: [],
-  tableWidth: 500,
-  tableHeight: 500,
   tableRowNumber: 5
 };
 module.exports = VariablesTable;
 
 }).call(this,require('_process'),typeof global !== "undefined" ? global : typeof self !== "undefined" ? self : typeof window !== "undefined" ? window : {},require("buffer").Buffer,arguments[3],arguments[4],arguments[5],arguments[6],"/src\\variablesTable.jsx","/src")
 
-},{"./scenario.js":257,"_process":7,"buffer":2,"fixed-data-table":58,"lodash":91,"react":250}]},{},[256])
+},{"./scenario.js":256,"_process":7,"buffer":2,"fixed-data-table":58,"lodash":91,"react":250}]},{},[255])
 
 
 //# sourceMappingURL=main.js.map

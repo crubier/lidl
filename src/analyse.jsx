@@ -1,96 +1,89 @@
 var React = require('react');
 var iii = require('iii');
+var _ =require('lodash');
+
+function nbrOfPrevious(interaction) {
+  var total = 0;
+  _.forEach(interaction.operand, function(x) {
+    total += nbrOfPrevious(x);
+  });
+  if (iii.operator.parse(interaction.operator) === "Previous") {
+    total++;
+  }
+  return total;
+}
+
+function nbrOfIdentifiers(interaction) {
+  function listOfIdentifiers(a){
+    var list=[];
+    _.forEach(a.operand, function(x) {
+      list.push(listOfIdentifiers(x));
+    });
+    if (iii.operator.parse(a.operator) === "Identifier") {
+      list.push(a.operator);
+    }
+    return list;
+  }
+  return _.uniq(_.flattenDeep(listOfIdentifiers(interaction))).length;
+}
+
+function nbrOfFunctions(interaction) {
+  var total = 0;
+  _.forEach(interaction.operand, function(x) {
+    total += nbrOfFunctions(x);
+  });
+  if (iii.operator.parse(interaction.operator) === "Function") {
+    total++;
+  }
+  return total;
+}
+
+function nbrOfCompositions(interaction) {
+  var total = 0;
+  _.forEach(interaction.operand, function(x) {
+    total += nbrOfCompositions(x);
+  });
+  if (iii.operator.parse(interaction.operator) === "Composition") {
+    total++;
+  }
+  return total;
+}
+
 
 class Analyse extends React.Component {
   constructor(props) {
     super(props);
   }
 
-
-
-
-
             render() {
+              var interaction=iii.parser.parse(this.props.compiledInteraction,{startRule:"interaction"});
+              var nbrPrevious=nbrOfPrevious(interaction);
+              var nbrIdentifiers=nbrOfIdentifiers(interaction);
+              var nbrFunctions=nbrOfFunctions(interaction);
+              var nbrCompositions=nbrOfCompositions(interaction);
               return (
 
-                <div className="analyse" style={{
-                  display: this.props.openedTab === 2
-                    ? 'inline-block'
-                    : 'none',
-                    overflow:"auto",
-                }}>
-              <div className="Tab compiledInteraction" style={{
-                display: this.props.openedTab === 2
-                  ? 'inline-block'
-                  : 'none',
-                  overflow:"auto",
-              }} >{this.props.compiledInteraction}</div>
-              <p style={{
-                display: this.props.openedTab === 2
-                  ? 'inline-block'
-                  : 'none',
-                  overflow:"auto",
-              }} >{ "Number of previous :" + this.props.stats.previous} </p>
-              <br/>
-              <br/>
-              <p style={{
-                display: this.props.openedTab === 2
-                  ? 'inline-block'
-                  : 'none',
-                  overflow:"auto",
-              }} > { "Number of identifiers :" + this.props.stats.identifiers} </p>
-              <br/>
-              <br/>
-              <p style={{
-                display: this.props.openedTab === 2
-                  ? 'inline-block'
-                  : 'none',
-                  overflow:"auto",
-              }} > { "Number of functions :" + this.props.stats.functions} </p>
-              <br/>
-              <br/>
-              <p style={{
-                display: this.props.openedTab === 2
-                  ? 'inline-block'
-                  : 'none',
-                  overflow:"auto",
-              }} > { "Number of compositions :" + this.props.stats.compositions} </p>
-              <br/>
-              <br/>
-              <p style={{
-                display: this.props.openedTab === 2
-                  ? 'inline-block'
-                  : 'none',
-                  overflow:"auto",
-              }} > { "Number of variables :" + (this.props.stats.identifiers+this.props.stats.previous)} </p>
-              <br/>
-              <br/>
-              <p style={{
-                display: this.props.openedTab === 2
-                  ? 'inline-block'
-                  : 'none',
-                  overflow:"auto",
-              }} > { "Total of interactions :" + (this.props.stats.identifiers+this.props.stats.previous+this.props.stats.compositions+ this.props.stats.functions)} </p>
-              <br/>
-              <br/>
-
-
-                    </div>
+                <div className="analyse">
+              <p >{this.props.compiledInteraction}</p>
+              <p >{ "Number of previous :" + nbrPrevious} </p>
+              <p> { "Number of identifiers :" + nbrIdentifiers} </p>
+              <p> { "Number of functions :" + nbrFunctions} </p>
+              <p> { "Number of compositions :" + nbrCompositions} </p>
+              <p> { "Number of variables :" + (nbrPrevious+nbrIdentifiers)} </p>
+              <p> { "Total of interactions :" + (nbrCompositions+nbrFunctions+nbrPrevious+nbrIdentifiers)} </p>
+                </div>
                   );
                 }
                 }
 
             Analyse.propTypes = {
-              stats: React.PropTypes.object,
               compiledInteraction:React.PropTypes.string,
-              openedTab: React.PropTypes.number,
+
 
             };
 
             Analyse.defaultProps = {
-              stats: {variables:0,previous:0,identifiers:0,functions:0,compositions:0},
               compiledInteraction:"({x:(previous(#0)),y:(#0),z:(#1)})",
-              openedTab:0
             };
 
             module.exports = Analyse;

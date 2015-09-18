@@ -285,7 +285,7 @@ class Canvas extends React.Component {
   render() {
 
     return (
-        <div>
+        <div className="canvasEditor" >
         <canvas ref="iiicanvas" contentEditable="true" tabIndex="1"  width={window.innerWidth/2} height={window.innerHeight-60} ></canvas>
         </div>
     );

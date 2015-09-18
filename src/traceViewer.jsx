@@ -18,7 +18,7 @@ class TraceViewer extends React.Component {
    };
   }
 
-
+/*
   componentDidMount() {
     this._updateSize();
     var win = window;
@@ -29,7 +29,7 @@ class TraceViewer extends React.Component {
     } else {
       win.onresize = this._onResize.bind(this);
     }
-  
+
   }
 
   _onResize() {
@@ -43,7 +43,7 @@ class TraceViewer extends React.Component {
       tableWidth: win.innerWidth / 2,
       tableHeight: win.innerHeight/2,
     });
-  }
+  }*/
 
 
 
@@ -82,17 +82,9 @@ class TraceViewer extends React.Component {
 
         <div className="TabContentTraceViewer">
 
-        <VariablesTable style={{
-        display: this.state.openedTab === 0
-          ? 'inline'
-          : 'none'
-      }} backward={this.props.backward} fastBackward={this.props.fastBackward} fastForward={this.props.fastForward} forward={this.props.forward} listOfAtoms={this.props.listOfAtoms} scenario={this.props.scenario} tableRowNumber={this.props.tableRowNumber} tableWidth={this.state.tableWidth} tableHeight={this.state.tableHeight} openedTab={this.state.openedTab} />
+        <VariablesTable  backward={this.props.backward} fastBackward={this.props.fastBackward} fastForward={this.props.fastForward} forward={this.props.forward} listOfAtoms={this.props.listOfAtoms} scenario={this.props.scenario} tableRowNumber={this.props.tableRowNumber} tableWidth={this.state.tableWidth} tableHeight={this.state.tableHeight} openedTab={this.state.openedTab} />
 
-      <Canvas style={{
-      display: this.state.openedTab === 1
-        ? 'inline'
-        : 'none'
-    }} addToScenario={this.props.addToScenario}    />
+      <Canvas  addToScenario={this.props.addToScenario}    />
 
 
 

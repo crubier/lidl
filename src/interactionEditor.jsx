@@ -14,24 +14,15 @@ class InteractionEditor extends React.Component {
     return (
 
       <div  className="interactionEditor" style={{
-        display: this.props.openedTab === 1
-          ? 'inline-block'
-          : 'none',
           overflow:"auto",
       }} >
     <textarea style={{
-      display: this.props.openedTab === 1
-        ? 'inline-block'
-        : 'none',
         overflow:"auto",
     }} className={this.props.errorInteraction !== ""
       ? "error"
       : ""} defaultValue={this.props.Interaction} name="interaction" onChange={this.interactionChanged.bind(this)} />
 
     <div className="errorScenario" style={{
-      display: this.props.openedTab === 1
-        ? 'inline-block'
-        : 'none',
         overflow:"auto",
     }} >{this.props.errorInteraction}</div>
           </div>

@@ -10,78 +10,43 @@
     overflow:hidden;
  }
 
- div {
-   vertical-align: middle;
-
- }
 
  div.icons {
-
+   vertical-align: middle;
    overflow:auto;
-   background-color:rgb(255, 250, 178);
+
    margin-top:15px;
    margin-bottom:15px;
 
  }
 
-
-.Tab.compiledInteraction{
-  text-align: left;
-  display:inline-block;
-   background-color:rgb(200, 255, 252);
-   height:289px;
-   width: 100%;
-}
-
-
- div.codeEditor {
-
- width:100%;
- height:100%;
-
- }
-
- div.table{
-
- float:left;
-height:calc(100% - 60px);
-overflow-x:scroll;
-
- }
-
- 
-
  textarea {
    width:100%;
-   height:289px;
+   height:200px;
    border:none;
    margin:0;
    resize: none;
    box-sizing: border-box;
+   overflow:auto;
    font-family:"Courier New", Courier, monospace;
-   background-color:rgb(200, 255, 252);
+   background-color:rgba(255,255,255,0.5);
    font-size: 13pt;
- }
-
- textarea.error {
-   background-color:rgb(255, 191, 191);
- }
-
- div.errorScenario {
-   width:100%;
-   height:40px;
-   border:none;
-   resize: none;
-   box-sizing: border-box;
-   font-family:"Courier New", Courier, monospace;
-   background-color:rgb(250, 245, 245);
-   font-size: 13pt;
-   color: rgb(250, 5, 5);
  }
 
  textarea:focus, input:focus{
     outline: 0;
 }
+
+ .error{
+  background-color:rgba(249, 45, 0, 0.42);
+ }
+
+.warning{
+    background-color:rgba(250, 216, 37, 0.49);
+}
+ .valid{
+    background-color:rgba(27, 84, 249, 0.38);
+ }
 
 span {
   display: inline-block;
@@ -90,27 +55,6 @@ span {
   line-height:normal;
 }
 
-.CodeEditor {
-  display:inline-block;
-float:left;
-width:50%;
-height:100%;
-background-color:rgb(116, 244, 255);
-
-}
-
-.TraceViewer {
-  display:inline-block;
-float:left;
-width:50%;
-height:100%;
-background-color:rgb(255, 244, 92);
-vertical-align: middle;
-text-align:center;
-display:table-cell;
-overflow:auto;
-font-size: 9pt;
-}
 
 .Main {
   position:absolute;
@@ -118,85 +62,54 @@ font-size: 9pt;
   right:0px;
 width:100%;
 height:100%;
-background-color:rgb(255, 178, 254);
+background-color:rgb(255, 255, 255);
+overflow-y:scroll;
 }
 
 
 .scenarioEditor {
 float:left;
 width:100%;
-height:calc(100% - 60px);
-background-color:rgb(255, 255, 255);
+height:500px;
+background-color:rgba(250, 5, 5, 0.4);
+display:inline-block;
 }
+
 .interactionEditor {
 float:left;
 width:100%;
-height:calc(100% - 60px);
+height:500px;
+background-color:rgba(42, 214, 20, 0.45);
+display:inline-block;
 }
+
 .analyse {
 float:left;
 width:100%;
-height:calc(100% - 60px);
+height:500px;
+background-color:rgb(200, 255, 252);
+display:inline-block;
 }
 
-.Tabs {
+
+
+.variablesTable {
+float:left;
 width:100%;
-height:60px;
-float: left;
+height:500px;
+background-color:rgba(241, 9, 246, 0.43);
+display:inline-block;
 }
-
-.Tab {
-  display:inline-block;
-width:33.33%;
-height:100%;
-margin:0;
-vertical-align: middle;
-text-align:center;
-line-height:60px;
-}
-
-
-
-
-.Tab.active {
-  background-color:rgb(200, 255, 252);
-}
-
-.Tab:hover {
-  background-color:rgb(135, 171, 255);
-}
-
-.TabTraceViewer {
-  display:inline-block;
-width:50%;
-height:100%;
-margin:0;
-vertical-align: middle;
-text-align:center;
-line-height:60px;
-}
-
-.TabTraceViewer.active {
-  background-color:rgb(255, 250, 178);
-}
-
-.TabTraceViewer:hover {
-  background-color:rgb(247, 193, 99);
-}
-
-
-.TabContent {
-  float:left;
+.canvasEditor {
+float:left;
 width:100%;
-height:calc(100% - 60px);
+height:500px;
+background-color:rgba(230, 249, 11, 0.49);
+display:inline-block;
 }
 
-.TabContentTraceViewer {
-  float:left;
-height:calc(100% - 60px);
-background-color:rgb(255, 250, 178);
 
-}
+
 
 
 canvas{

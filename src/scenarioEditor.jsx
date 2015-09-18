@@ -16,32 +16,18 @@ class ScenarioEditor extends React.Component {
     return (
 
       <div  className="scenarioEditor" style={{
-        display: this.props.openedTab === 0
-          ? 'inline-block'
-          : 'none',
           overflow:"auto",
       }}>
           <textarea id="scenario" style={{
-            display: this.props.openedTab === 0
-              ? 'inline-block'
-              : 'none',
               overflow:"auto",
           }} className={this.props.errorScenario !== ""
             ? "error"
             : ""} value={this.props.scenarioText}  name="scenario" onChange={this.scenarioChanged.bind(this)} />
 
 
-            <div className="errorScenario" style={{
-              display: this.props.errorScenario !== "" && this.props.openedTab === 0
-                ? 'inline-block'
-                : 'none'
-            }} >{this.props.errorScenario}</div>
+            <div className="errorScenario" >{this.props.errorScenario}</div>
 
-            <div className="errorScenario" style={{
-              display: this.props.scenarioInvalid !== "" && this.props.openedTab === 0 && this.props.errorScenario== ""
-                ? 'inline-block'
-                : 'none'
-            }} >{this.props.scenarioInvalid}</div>
+            <div className="errorScenario"  >{this.props.scenarioInvalid}</div>
 
           </div>
 

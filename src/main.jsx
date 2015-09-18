@@ -1,6 +1,9 @@
 var React = require('react');
-var CodeEditor = require('./codeEditor.jsx');
-var TraceViewer = require('./traceViewer.jsx');
+var ScenarioEditor = require('./scenarioEditor.jsx');
+var InteractionEditor = require('./interactionEditor.jsx');
+var Analyse = require('./analyse.jsx');
+var Canvas= require('./canvas.jsx');
+var VariablesTable= require('./variablesTable.jsx');
 
 var iii = require('iii');
 var scenarioChecker = require('./scenario.js');
@@ -92,6 +95,12 @@ class Main extends React.Component {constructor(props) {
     };
   }
 
+
+  componentDidMount() {
+    this.onScenarioChange(this.state.scenarioText);
+    this.onInteractionChange(this.state.Interaction);
+
+  }
   addToScenario(mainInterfaceState) {
     var theScenario = JSON.parse(this.state.scenarioText);
     var element = {
@@ -175,7 +184,7 @@ class Main extends React.Component {constructor(props) {
       this.setState({
         errorInteraction: "" + errorMessage
       });
-          
+
     }
 
   }
@@ -274,9 +283,29 @@ class Main extends React.Component {constructor(props) {
 
   render() {
     return (
-      <div className="Main">
-        <CodeEditor Interaction={this.state.Interaction} compiledInteraction={this.state.compiledInteraction} errorInteraction={this.state.errorInteraction} errorScenario={this.state.errorScenario} onInteractionChange={this.onInteractionChange.bind(this)} onScenarioChange={this.onScenarioChange.bind(this)} runInteractionOnScenario={this.runInteractionOnScenario.bind(this)} scenarioInvalid={this.state.scenarioInvalid} scenarioText={this.state.scenarioText} stats={this.state.stats}/>
-        <TraceViewer addToScenario={this.addToScenario.bind(this)} backward={this.backward.bind(this)} fastBackward={this.fastBackward.bind(this)} fastForward={this.fastForward.bind(this)} forward={this.forward.bind(this)} listOfAtoms={this.state.listOfAtoms} scenario={_.map(this.state.trace,"inter")} tableRowNumber={this.state.tableRowNumber} scenarioText={this.state.scenarioText}/>
+      <div className="Main" overflow={"scroll"}>
+            <ScenarioEditor style={{
+              display: this.state.openedTab === 0
+                ? 'inline-block'
+                : 'none'
+            }} onScenarioChange={this.onScenarioChange.bind(this)} scenarioText={this.state.scenarioText} errorScenario={this.state.errorScenario} scenarioInvalid={this.state.scenarioInvalid}  />
+
+            <InteractionEditor style={{
+              display: this.state.openedTab === 1
+                ? 'inline-block'
+                : 'none'
+            }} openedTab={this.props.openedTab} onInteractionChange={this.props.onInteractionChange} errorInteraction={this.props.errorInteraction} Interaction={this.props.Interaction} />
+
+            <Analyse style={{
+              display: this.state.openedTab === 2
+                ? 'inline-block'
+                : 'none'
+            }} openedTab={this.props.openedTab} stats={this.props.stats} compiledInteraction={this.props.compiledInteraction} />
+
+            <VariablesTable  backward={this.backward.bind(this)} fastBackward={this.fastBackward.bind(this)} fastForward={this.fastForward.bind(this)} forward={this.forward.bind(this)} listOfAtoms={this.state.listOfAtoms} scenario={this.state.scenario} tableRowNumber={this.state.tableRowNumber}  />
+
+          <Canvas  addToScenario={this.addToScenario.bind(this)}    />
+
       </div>
     );
   }

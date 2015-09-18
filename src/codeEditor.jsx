@@ -2,7 +2,7 @@ var React = require('react');
 var iii = require('iii');
 var ScenarioEditor = require('./scenarioEditor.jsx');
 var InteractionEditor = require('./interactionEditor.jsx');
-var TraceViewer = require('./traceViewer.jsx');
+//var TraceViewer = require('./traceViewer.jsx');
 var Analyse = require('./analyse.jsx');
 
 class CodeEditor extends React.Component {constructor(props) {
@@ -35,14 +35,13 @@ class CodeEditor extends React.Component {constructor(props) {
 
   }
 
-
+/*
   componentDidMount() {
     this.props.onScenarioChange(this.props.scenarioText);
     this.props.onInteractionChange(this.props.Interaction);
-    this.props.onScenarioChange(this.props.scenarioText);
-    this.props.onInteractionChange(this.props.Interaction);
-  }
 
+  }
+*/
 
 
 
