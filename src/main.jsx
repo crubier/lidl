@@ -13,36 +13,16 @@ var compExample=require('./compExample.js');
 var rowNumber = 0;
 
 
-function interactionToLowerCase(interaction){
-  interaction=interaction.toLowerCase();
 
-  var indice=interaction.indexOf("number");
-
-  while(indice!=(-1)){
-      var interaction= interaction.replace("number", "Number");
-      indice=interaction.indexOf("number");
-  }
-  return interaction;
-}
 
 class Main extends React.Component {constructor(props) {
     super(props);
     this.state = {
       listOfAtoms: [],
-      errorInteraction: "",
-      errorScenario: "",
-      scenarioInvalid: "",
-      Interaction: "interaction (test):{time:Number in,dimension:{width:Number in, height:Number in}, mouse:{buttons:Number in,position:{x:Number in ,y:Number in},wheel:{x:Number in ,y:Number in,z:Number in}},keyboard:{Enter: Number in, Meta: Number in, Control: Number in, Alt: Number in, Shift: Number in, Left: Number in, Down: Number in, Right: Number in, Up: Number in}} with interaction (a):Number out is (previous(#a)) is ({x:(a),y:(#a),z:(#b)})",
+      Interaction: "interaction (test):{time:Number in,dimension:{width:Number in, height:Number in}, mouse:{buttons:Number in,position:{x:Number in ,y:Number in},wheel:{x:Number in ,y:Number in,z:Number in}},keyboard:{enter: Number in, meta: Number in, control: Number in, alt: Number in, shift: Number in, left: Number in, down: Number in, right: Number in, up: Number in}} with interaction (a):Number out is (previous(#a)) is ({x:(a),y:(#a),z:(#b)})",
       compiledInteraction: "({x:(previous(#0)),y:(#0),z:(#1)})",
       tableRowNumber: 5,
       trace:[],
-      stats: {
-        variables: 0,
-        previous: 0,
-        identifiers: 0,
-        functions: 0,
-        compositions: 0
-      },
       scenarioText:'[{"time" :0}]',
       compilationResult:{
         transitionFunction:function(x){return x;},
@@ -105,8 +85,9 @@ class Main extends React.Component {constructor(props) {
   }
 
   evaluateInteraction(Interaction) {
+    console.log("changeddd")
     try {
-      var newModelDefinitions = iii.parser.parse(interactionToLowerCase(Interaction));
+      var newModelDefinitions = iii.parser.parse(Interaction);
 
       var newModelInterface = newModelDefinitions[0].signature.interface;
 
@@ -115,26 +96,18 @@ class Main extends React.Component {constructor(props) {
         listOfAtoms: listOfAtoms
       });
 
-      this.setState({
-        errorInteraction: "",
-
-      });
-      var compiled = iii.compiler.compileToIii(interactionToLowerCase(Interaction));
+      var compiled = iii.compiler.compileToIii(Interaction);
       this.setState({
         compiledInteraction: compiled
       });
       this.setState({
-        Interaction: interactionToLowerCase(Interaction),
+        Interaction: Interaction,
         compilationResult:compExample
 
       });
       this.runInteractionOnScenario();
 
     } catch (errorMessage) {
-      this.setState({
-        errorInteraction: "" + errorMessage
-      });
-
     }
 
   }
@@ -150,7 +123,6 @@ class Main extends React.Component {constructor(props) {
        }));
     }
     this.setState({trace:trace}) ;
-
   }
 
   evaluateScenario(scenario) {
@@ -205,23 +177,11 @@ class Main extends React.Component {constructor(props) {
   render() {
     return (
       <div className="Main" overflow={"scroll"}>
-            <ScenarioEditor style={{
-              display: this.state.openedTab === 0
-                ? 'inline-block'
-                : 'none'
-            }} onScenarioChange={this.onScenarioChange.bind(this)} scenarioText={this.state.scenarioText}  Interface={iii.parser.parse(interactionToLowerCase(this.state.Interaction))[0].signature.interface}  />
+            <ScenarioEditor onScenarioChange={this.onScenarioChange.bind(this)} scenarioText={this.state.scenarioText}  Interface={iii.parser.parse(this.state.Interaction)[0].signature.interface}  />
 
-            <InteractionEditor style={{
-              display: this.state.openedTab === 1
-                ? 'inline-block'
-                : 'none'
-            }} openedTab={this.props.openedTab} onInteractionChange={this.props.onInteractionChange} errorInteraction={this.props.errorInteraction} Interaction={this.props.Interaction} />
+            <InteractionEditor onInteractionChange={this.onInteractionChange.bind(this)} Interaction={this.state.Interaction} />
 
-            <Analyse style={{
-              display: this.state.openedTab === 2
-                ? 'inline-block'
-                : 'none'
-            }} openedTab={this.props.openedTab} stats={this.props.stats} compiledInteraction={this.props.compiledInteraction} />
+            <Analyse compiledInteraction={this.state.compiledInteraction} />
 
             <VariablesTable  backward={this.backward.bind(this)} fastBackward={this.fastBackward.bind(this)} fastForward={this.fastForward.bind(this)} forward={this.forward.bind(this)} listOfAtoms={this.state.listOfAtoms} scenario={this.state.scenario} tableRowNumber={this.state.tableRowNumber}  />
 

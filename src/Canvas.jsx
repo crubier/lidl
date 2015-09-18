@@ -190,6 +190,7 @@ class Canvas extends React.Component {
       } else if (event.keyCode !== undefined) {
           key = event.keyCode;
       }
+      key=key.toLowerCase();
       if (this.state.mainInterfaceState.keyboard[key] !== true) {
         var theKeyboard=this.state.mainInterfaceState.keyboard;
         theKeyboard[key]=true;
@@ -208,6 +209,7 @@ class Canvas extends React.Component {
       } else if (event.keyCode !== undefined) {
           key = event.keyCode;
       }
+      key=key.toLowerCase();
       if (this.state.mainInterfaceState.keyboard[key] !== false) {
         var theKeyboard=this.state.mainInterfaceState.keyboard;
         theKeyboard[key]=false;

@@ -53531,6 +53531,7 @@ var ____Class4=React.Component;for(var ____Class4____Key in ____Class4){if(____C
       } else if (event.keyCode !== undefined) {
           key = event.keyCode;
       }
+      key=key.toLowerCase();
       if (this.state.mainInterfaceState.keyboard[key] !== true) {
         var theKeyboard=this.state.mainInterfaceState.keyboard;
         theKeyboard[key]=true;
@@ -53549,6 +53550,7 @@ var ____Class4=React.Component;for(var ____Class4____Key in ____Class4){if(____C
       } else if (event.keyCode !== undefined) {
           key = event.keyCode;
       }
+      key=key.toLowerCase();
       if (this.state.mainInterfaceState.keyboard[key] !== false) {
         var theKeyboard=this.state.mainInterfaceState.keyboard;
         theKeyboard[key]=false;
@@ -53922,38 +53924,73 @@ module.exports = {
 var React = require('react');
 var iii = require('iii');
 
+
+function findErrorInteraction(Interaction){
+
+  try{
+    iii.parser.parse(Interaction);
+    console.log("parse",iii.parser.parse(Interaction));
+    throw "eee"
+    iii.compiler.compileToIii(Interaction);
+
+    return  "";
+  }catch(error) {
+    console.log("catch")
+    if(error.message){
+      return error.message;
+    } else{
+      return error
+    }
+  }
+}
+
 var ____Class2=React.Component;for(var ____Class2____Key in ____Class2){if(____Class2.hasOwnProperty(____Class2____Key)){InteractionEditor[____Class2____Key]=____Class2[____Class2____Key];}}var ____SuperProtoOf____Class2=____Class2===null?null:____Class2.prototype;InteractionEditor.prototype=Object.create(____SuperProtoOf____Class2);InteractionEditor.prototype.constructor=InteractionEditor;InteractionEditor.__superConstructor__=____Class2;
   function InteractionEditor(props) {"use strict";
     ____Class2.call(this,props);
   }
 
   Object.defineProperty(InteractionEditor.prototype,"interactionChanged",{writable:true,configurable:true,value:function(e) {"use strict";
+    console.log("changed")
     this.props.onInteractionChange(e.target.value);
+
   }});
 
   Object.defineProperty(InteractionEditor.prototype,"render",{writable:true,configurable:true,value:function() {"use strict";
+    var errorClasse;
+    var errorMessage;
+    console.log("state",this.props.Interaction)
+    var errInteraction=findErrorInteraction(this.props.Interaction);
+    if(errInteraction==""){
+        errorClasse="info";
+        errorMessage="Valid Interaction";
+      }else{
+        console.log("cc")
+        errorClasse="error";
+        errorMessage=errInteraction;
+      }
+
     return (
 
       React.createElement("div", {className: "interactionEditor"}, 
     React.createElement("textarea", {defaultValue: this.props.Interaction, name: "interaction", onChange: this.interactionChanged.bind(this)}), 
 
-    React.createElement("div", {className: "errorScenario"}, this.props.errorInteraction)
+    React.createElement("p", {className: errorClasse }, errorMessage)
           )
     );
   }});
   
 
   InteractionEditor.propTypes = {
-    errorInteraction: React.PropTypes.string,
+
     Interaction: React.PropTypes.string,
-    openedTab: React.PropTypes.number,
+
 
   };
 
   InteractionEditor.defaultProps = {
-    errorInteraction: "",
-    Interaction: "interaction (test):{time:Number in,dimension:{width:Number in, height:Number in}, mouse:{buttons:Number in,position:{x:Number in ,y:Number in},wheel:{x:Number in ,y:Number in,z:Number in}},keyboard:{Enter: Number in, Meta: Number in, Control: Number in, Alt: Number in, Shift: Number in, Left: Number in, Down: Number in, Right: Number in, Up: Number in}} with interaction (a):Number out is (previous(#a)) is ({x:(a),y:(#a),z:(#b)})",
-    openedTab:0
+
+    Interaction: "interaction (test):Number in  is (#0)",
+
   };
 
   module.exports = InteractionEditor;
@@ -53977,36 +54014,16 @@ var compExample=require('./compExample.js');
 var rowNumber = 0;
 
 
-function interactionToLowerCase(interaction){
-  interaction=interaction.toLowerCase();
 
-  var indice=interaction.indexOf("number");
-
-  while(indice!=(-1)){
-      var interaction= interaction.replace("number", "Number");
-      indice=interaction.indexOf("number");
-  }
-  return interaction;
-}
 
 var ____Class0=React.Component;for(var ____Class0____Key in ____Class0){if(____Class0.hasOwnProperty(____Class0____Key)){Main[____Class0____Key]=____Class0[____Class0____Key];}}var ____SuperProtoOf____Class0=____Class0===null?null:____Class0.prototype;Main.prototype=Object.create(____SuperProtoOf____Class0);Main.prototype.constructor=Main;Main.__superConstructor__=____Class0;function Main(props) {"use strict";
     ____Class0.call(this,props);
     this.state = {
       listOfAtoms: [],
-      errorInteraction: "",
-      errorScenario: "",
-      scenarioInvalid: "",
-      Interaction: "interaction (test):{time:Number in,dimension:{width:Number in, height:Number in}, mouse:{buttons:Number in,position:{x:Number in ,y:Number in},wheel:{x:Number in ,y:Number in,z:Number in}},keyboard:{Enter: Number in, Meta: Number in, Control: Number in, Alt: Number in, Shift: Number in, Left: Number in, Down: Number in, Right: Number in, Up: Number in}} with interaction (a):Number out is (previous(#a)) is ({x:(a),y:(#a),z:(#b)})",
+      Interaction: "interaction (test):{time:Number in,dimension:{width:Number in, height:Number in}, mouse:{buttons:Number in,position:{x:Number in ,y:Number in},wheel:{x:Number in ,y:Number in,z:Number in}},keyboard:{enter: Number in, meta: Number in, control: Number in, alt: Number in, shift: Number in, left: Number in, down: Number in, right: Number in, up: Number in}} with interaction (a):Number out is (previous(#a)) is ({x:(a),y:(#a),z:(#b)})",
       compiledInteraction: "({x:(previous(#0)),y:(#0),z:(#1)})",
       tableRowNumber: 5,
       trace:[],
-      stats: {
-        variables: 0,
-        previous: 0,
-        identifiers: 0,
-        functions: 0,
-        compositions: 0
-      },
       scenarioText:'[{"time" :0}]',
       compilationResult:{
         transitionFunction:function(x){return x;},
@@ -54069,8 +54086,9 @@ var ____Class0=React.Component;for(var ____Class0____Key in ____Class0){if(____C
   }});
 
   Object.defineProperty(Main.prototype,"evaluateInteraction",{writable:true,configurable:true,value:function(Interaction) {"use strict";
+    console.log("changeddd")
     try {
-      var newModelDefinitions = iii.parser.parse(interactionToLowerCase(Interaction));
+      var newModelDefinitions = iii.parser.parse(Interaction);
 
       var newModelInterface = newModelDefinitions[0].signature.interface;
 
@@ -54079,33 +54097,18 @@ var ____Class0=React.Component;for(var ____Class0____Key in ____Class0){if(____C
         listOfAtoms: listOfAtoms
       });
 
-      this.setState({
-        errorInteraction: "",
-
-      });
-      var compiled = iii.compiler.compileToIii(interactionToLowerCase(Interaction));
+      var compiled = iii.compiler.compileToIii(Interaction);
       this.setState({
         compiledInteraction: compiled
       });
       this.setState({
-        Interaction: interactionToLowerCase(Interaction),
-        stats: {
-          variables: 0,
-          previous: nbrOfPrevious(iii.identifiers.reduceIdentifiers(iii.interactions.expand(newModelDefinitions[0]).interaction)),
-          identifiers: 0,
-          functions: 0,
-          compositions: 0
-        },
+        Interaction: Interaction,
         compilationResult:compExample
 
       });
       this.runInteractionOnScenario();
 
     } catch (errorMessage) {
-      this.setState({
-        errorInteraction: "" + errorMessage
-      });
-
     }
 
   }});
@@ -54176,23 +54179,11 @@ var ____Class0=React.Component;for(var ____Class0____Key in ____Class0){if(____C
   Object.defineProperty(Main.prototype,"render",{writable:true,configurable:true,value:function() {"use strict";
     return (
       React.createElement("div", {className: "Main", overflow: "scroll"}, 
-            React.createElement(ScenarioEditor, {style: {
-              display: this.state.openedTab === 0
-                ? 'inline-block'
-                : 'none'
-            }, onScenarioChange: this.onScenarioChange.bind(this), scenarioText: this.state.scenarioText, Interface: iii.parser.parse(interactionToLowerCase(this.state.Interaction))[0].signature.interface}), 
+            React.createElement(ScenarioEditor, {onScenarioChange: this.onScenarioChange.bind(this), scenarioText: this.state.scenarioText, Interface: iii.parser.parse(this.state.Interaction)[0].signature.interface}), 
 
-            React.createElement(InteractionEditor, {style: {
-              display: this.state.openedTab === 1
-                ? 'inline-block'
-                : 'none'
-            }, openedTab: this.props.openedTab, onInteractionChange: this.props.onInteractionChange, errorInteraction: this.props.errorInteraction, Interaction: this.props.Interaction}), 
+            React.createElement(InteractionEditor, {onInteractionChange: this.onInteractionChange.bind(this), Interaction: this.state.Interaction}), 
 
-            React.createElement(Analyse, {style: {
-              display: this.state.openedTab === 2
-                ? 'inline-block'
-                : 'none'
-            }, openedTab: this.props.openedTab, stats: this.props.stats, compiledInteraction: this.props.compiledInteraction}), 
+            React.createElement(Analyse, {compiledInteraction: this.state.compiledInteraction}), 
 
             React.createElement(VariablesTable, {backward: this.backward.bind(this), fastBackward: this.fastBackward.bind(this), fastForward: this.fastForward.bind(this), forward: this.forward.bind(this), listOfAtoms: this.state.listOfAtoms, scenario: this.state.scenario, tableRowNumber: this.state.tableRowNumber}), 
 
@@ -54287,13 +54278,10 @@ var ____Class1=React.Component;for(var ____Class1____Key in ____Class1){if(____C
     var errorClasse;
     var errorMessage;
     var errScenario=errorScenario(this.props.scenarioText);
-    console.log("errScenario",errScenario)
     if(errScenario==""){
-      console.log("valid")
       if(_.every(_.flatten(scenarioChecker.check(this.props.Interface, JSON.parse(this.props.scenarioText), "main")))){
         errorClasse="info";
         errorMessage="Valid scenario";
-        console.log("valid")
       }else{
         errorClasse="warning";
         errorMessage="Scenario does not match the definition";
