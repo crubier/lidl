@@ -1,5 +1,18 @@
 var React = require('react');
 var iii = require('iii');
+var scenarioChecker = require('./scenario.js');
+var _ = require ('lodash');
+
+function errorScenario(scenario){
+
+  try{
+    JSON.parse(scenario);
+    return "";
+  }catch(error) {
+    return error.message;
+
+  }
+}
 
 class ScenarioEditor extends React.Component {
   constructor(props) {
@@ -11,23 +24,29 @@ class ScenarioEditor extends React.Component {
   }
 
   render() {
-    console.log("ddddd",this.props.errorScenario)
-    console.log("ffffff",this.props.scenarioInvalid)
+    var errorClasse;
+    var errorMessage;
+    var errScenario=errorScenario(this.props.scenarioText);
+    if(errScenario==""){
+      if(_.every(_.flatten(scenarioChecker.check(this.props.Interface, JSON.parse(this.props.scenarioText), "main")))){
+        errorClasse="info";
+        errorMessage="Valid scenario";
+      }else{
+        errorClasse="warning";
+        errorMessage="Scenario does not match the definition";
+      }
+
+    }else{
+      errorClasse="error";
+      errorMessage=errScenario;
+    }
+
     return (
 
-      <div  className="scenarioEditor" style={{
-          overflow:"auto",
-      }}>
-          <textarea id="scenario" style={{
-              overflow:"auto",
-          }} className={this.props.errorScenario !== ""
-            ? "error"
-            : ""} value={this.props.scenarioText}  name="scenario" onChange={this.scenarioChanged.bind(this)} />
+      <div  className="scenarioEditor">
+          <textarea id="scenario" value={this.props.scenarioText}  name="scenario" onChange={this.scenarioChanged.bind(this)} />
+            <p className ={errorClasse }>{errorMessage}</p>
 
-
-            <div className="errorScenario" >{this.props.errorScenario}</div>
-
-            <div className="errorScenario"  >{this.props.scenarioInvalid}</div>
 
           </div>
 
@@ -37,18 +56,15 @@ class ScenarioEditor extends React.Component {
   }
 
   ScenarioEditor.propTypes = {
-    errorScenario: React.PropTypes.string,
     scenarioText: React.PropTypes.string,
-    scenarioInvalid: React.PropTypes.string,
-    openedTab: React.PropTypes.number,
+    Interface : React.PropTypes.object,
 
   };
 
   ScenarioEditor.defaultProps = {
-    errorScenario: "",
     scenarioText: "[]",
-    scenarioInvalid: "",
-    openedTab:0
+    Interface :[],
+
   };
 
   module.exports = ScenarioEditor;

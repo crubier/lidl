@@ -6,55 +6,12 @@ var Canvas= require('./canvas.jsx');
 var VariablesTable= require('./variablesTable.jsx');
 
 var iii = require('iii');
-var scenarioChecker = require('./scenario.js');
+
 var _ = require('lodash');
 var compExample=require('./compExample.js');
 
 var rowNumber = 0;
 
-function nbrOfPrevious(interaction) {
-  var total = 0;
-  _.forEach(interaction.operand, function(x) {
-    total += nbrOfPrevious(x);
-    if (iii.operator.parse(interaction.operator) === "Previous") {
-      total++;
-    }
-  });
-  return total;
-}
-
-function nbrOfIdentifiers(interaction) {
-  var total = 0;
-  _.forEach(interaction.operand, function(x) {
-    total += nbrOfIdentifiers(x);
-    if (iii.operator.parse(interaction.operator) === "Identifier") {
-      total++;
-    }
-  });
-  return total;
-}
-
-function nbrOfFunctions(interaction) {
-  var total = 0;
-  _.forEach(interaction.operand, function(x) {
-    total += nbrOfFunctions(x);
-    if (iii.operator.parse(interaction.operator) === "Function") {
-      total++;
-    }
-  });
-  return total;
-}
-
-function nbrOfCompositions(interaction) {
-  var total = 0;
-  _.forEach(interaction.operand, function(x) {
-    total += nbrOfCompositions(x);
-    if (iii.operator.parse(interaction.operator) === "Composition") {
-      total++;
-    }
-  });
-  return total;
-}
 
 function interactionToLowerCase(interaction){
   interaction=interaction.toLowerCase();
@@ -168,13 +125,6 @@ class Main extends React.Component {constructor(props) {
       });
       this.setState({
         Interaction: interactionToLowerCase(Interaction),
-        stats: {
-          variables: 0,
-          previous: nbrOfPrevious(iii.identifiers.reduceIdentifiers(iii.interactions.expand(newModelDefinitions[0]).interaction)),
-          identifiers: 0,
-          functions: 0,
-          compositions: 0
-        },
         compilationResult:compExample
 
       });
@@ -208,41 +158,12 @@ class Main extends React.Component {constructor(props) {
 
       this.setState({scenarioText:scenario});
       var newModelScenario = JSON.parse(scenario);
-      var newModelDefinitions = iii.parser.parse(interactionToLowerCase(this.state.Interaction));
-      var newModelInterface = newModelDefinitions[0].signature.interface;
-      var checker = true;
-      var test = scenarioChecker.check(newModelInterface, newModelScenario, "main");
-      _.map(test, function(n) {
-        for (var i = 0; i < n.length; i++) {
-          if (n[i] == false) {
-            checker = false
-          }
-        }
-      });
-      if (checker == false) {
-        this.setState({
-          scenarioInvalid: "scenario does not match the definition"
-        });
-      } else {
-        this.setState({
-          scenarioInvalid: ""
-        });
-      }
-
-      this.setState({
-        errorScenario: ""
-      });
       rowNumber = newModelScenario.length;
       this.setState({
         tableRowNumber: rowNumber
       });
       this.runInteractionOnScenario();
     } catch (errorMessage) {
-
-      this.setState({
-        errorScenario: "" + errorMessage
-
-      });
     }
   }
 
@@ -288,7 +209,7 @@ class Main extends React.Component {constructor(props) {
               display: this.state.openedTab === 0
                 ? 'inline-block'
                 : 'none'
-            }} onScenarioChange={this.onScenarioChange.bind(this)} scenarioText={this.state.scenarioText} errorScenario={this.state.errorScenario} scenarioInvalid={this.state.scenarioInvalid}  />
+            }} onScenarioChange={this.onScenarioChange.bind(this)} scenarioText={this.state.scenarioText}  Interface={iii.parser.parse(interactionToLowerCase(this.state.Interaction))[0].signature.interface}  />
 
             <InteractionEditor style={{
               display: this.state.openedTab === 1

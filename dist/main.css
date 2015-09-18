@@ -183,7 +183,7 @@ input:focus {
 .warning {
   background-color: rgba(250,216,37,0.49);
 }
-.valid {
+.info {
   background-color: rgba(27,84,249,0.38);
 }
 span {

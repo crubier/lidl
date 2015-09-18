@@ -13,18 +13,10 @@ class InteractionEditor extends React.Component {
   render() {
     return (
 
-      <div  className="interactionEditor" style={{
-          overflow:"auto",
-      }} >
-    <textarea style={{
-        overflow:"auto",
-    }} className={this.props.errorInteraction !== ""
-      ? "error"
-      : ""} defaultValue={this.props.Interaction} name="interaction" onChange={this.interactionChanged.bind(this)} />
+      <div  className="interactionEditor" >
+    <textarea defaultValue={this.props.Interaction} name="interaction" onChange={this.interactionChanged.bind(this)} />
 
-    <div className="errorScenario" style={{
-        overflow:"auto",
-    }} >{this.props.errorInteraction}</div>
+    <p className="errorScenario" >{this.props.errorInteraction}</p>
           </div>
     );
   }

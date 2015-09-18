@@ -53934,18 +53934,10 @@ var ____Class2=React.Component;for(var ____Class2____Key in ____Class2){if(____C
   Object.defineProperty(InteractionEditor.prototype,"render",{writable:true,configurable:true,value:function() {"use strict";
     return (
 
-      React.createElement("div", {className: "interactionEditor", style: {
-          overflow:"auto",
-      }}, 
-    React.createElement("textarea", {style: {
-        overflow:"auto",
-    }, className: this.props.errorInteraction !== ""
-      ? "error"
-      : "", defaultValue: this.props.Interaction, name: "interaction", onChange: this.interactionChanged.bind(this)}), 
+      React.createElement("div", {className: "interactionEditor"}, 
+    React.createElement("textarea", {defaultValue: this.props.Interaction, name: "interaction", onChange: this.interactionChanged.bind(this)}), 
 
-    React.createElement("div", {className: "errorScenario", style: {
-        overflow:"auto",
-    }}, this.props.errorInteraction)
+    React.createElement("div", {className: "errorScenario"}, this.props.errorInteraction)
           )
     );
   }});
@@ -53978,55 +53970,12 @@ var Canvas= require('./canvas.jsx');
 var VariablesTable= require('./variablesTable.jsx');
 
 var iii = require('iii');
-var scenarioChecker = require('./scenario.js');
+
 var _ = require('lodash');
 var compExample=require('./compExample.js');
 
 var rowNumber = 0;
 
-function nbrOfPrevious(interaction) {
-  var total = 0;
-  _.forEach(interaction.operand, function(x) {
-    total += nbrOfPrevious(x);
-    if (iii.operator.parse(interaction.operator) === "Previous") {
-      total++;
-    }
-  });
-  return total;
-}
-
-function nbrOfIdentifiers(interaction) {
-  var total = 0;
-  _.forEach(interaction.operand, function(x) {
-    total += nbrOfIdentifiers(x);
-    if (iii.operator.parse(interaction.operator) === "Identifier") {
-      total++;
-    }
-  });
-  return total;
-}
-
-function nbrOfFunctions(interaction) {
-  var total = 0;
-  _.forEach(interaction.operand, function(x) {
-    total += nbrOfFunctions(x);
-    if (iii.operator.parse(interaction.operator) === "Function") {
-      total++;
-    }
-  });
-  return total;
-}
-
-function nbrOfCompositions(interaction) {
-  var total = 0;
-  _.forEach(interaction.operand, function(x) {
-    total += nbrOfCompositions(x);
-    if (iii.operator.parse(interaction.operator) === "Composition") {
-      total++;
-    }
-  });
-  return total;
-}
 
 function interactionToLowerCase(interaction){
   interaction=interaction.toLowerCase();
@@ -54180,41 +54129,12 @@ var ____Class0=React.Component;for(var ____Class0____Key in ____Class0){if(____C
 
       this.setState({scenarioText:scenario});
       var newModelScenario = JSON.parse(scenario);
-      var newModelDefinitions = iii.parser.parse(interactionToLowerCase(this.state.Interaction));
-      var newModelInterface = newModelDefinitions[0].signature.interface;
-      var checker = true;
-      var test = scenarioChecker.check(newModelInterface, newModelScenario, "main");
-      _.map(test, function(n) {
-        for (var i = 0; i < n.length; i++) {
-          if (n[i] == false) {
-            checker = false
-          }
-        }
-      });
-      if (checker == false) {
-        this.setState({
-          scenarioInvalid: "scenario does not match the definition"
-        });
-      } else {
-        this.setState({
-          scenarioInvalid: ""
-        });
-      }
-
-      this.setState({
-        errorScenario: ""
-      });
       rowNumber = newModelScenario.length;
       this.setState({
         tableRowNumber: rowNumber
       });
       this.runInteractionOnScenario();
     } catch (errorMessage) {
-
-      this.setState({
-        errorScenario: "" + errorMessage
-
-      });
     }
   }});
 
@@ -54260,7 +54180,7 @@ var ____Class0=React.Component;for(var ____Class0____Key in ____Class0){if(____C
               display: this.state.openedTab === 0
                 ? 'inline-block'
                 : 'none'
-            }, onScenarioChange: this.onScenarioChange.bind(this), scenarioText: this.state.scenarioText, errorScenario: this.state.errorScenario, scenarioInvalid: this.state.scenarioInvalid}), 
+            }, onScenarioChange: this.onScenarioChange.bind(this), scenarioText: this.state.scenarioText, Interface: iii.parser.parse(interactionToLowerCase(this.state.Interaction))[0].signature.interface}), 
 
             React.createElement(InteractionEditor, {style: {
               display: this.state.openedTab === 1
@@ -54288,7 +54208,7 @@ React.render(React.createElement(Main, null), document.getElementById("main"));
 
 }).call(this,require('_process'),typeof global !== "undefined" ? global : typeof self !== "undefined" ? self : typeof window !== "undefined" ? window : {},require("buffer").Buffer,arguments[3],arguments[4],arguments[5],arguments[6],"/src\\main.jsx","/src")
 
-},{"./analyse.jsx":251,"./canvas.jsx":252,"./compExample.js":253,"./interactionEditor.jsx":254,"./scenario.js":256,"./scenarioEditor.jsx":257,"./variablesTable.jsx":258,"_process":7,"buffer":2,"iii":68,"lodash":91,"react":250}],256:[function(require,module,exports){
+},{"./analyse.jsx":251,"./canvas.jsx":252,"./compExample.js":253,"./interactionEditor.jsx":254,"./scenarioEditor.jsx":257,"./variablesTable.jsx":258,"_process":7,"buffer":2,"iii":68,"lodash":91,"react":250}],256:[function(require,module,exports){
 (function (process,global,Buffer,__argument0,__argument1,__argument2,__argument3,__filename,__dirname){
 var _ = require('lodash');
 var iii = require('iii');
@@ -54340,6 +54260,19 @@ module.exports.flattenElement = flattenElement;
 (function (process,global,Buffer,__argument0,__argument1,__argument2,__argument3,__filename,__dirname){
 var React = require('react');
 var iii = require('iii');
+var scenarioChecker = require('./scenario.js');
+var _ = require ('lodash');
+
+function errorScenario(scenario){
+
+  try{
+    JSON.parse(scenario);
+    return "";
+  }catch(error) {
+    return error.message;
+
+  }
+}
 
 var ____Class1=React.Component;for(var ____Class1____Key in ____Class1){if(____Class1.hasOwnProperty(____Class1____Key)){ScenarioEditor[____Class1____Key]=____Class1[____Class1____Key];}}var ____SuperProtoOf____Class1=____Class1===null?null:____Class1.prototype;ScenarioEditor.prototype=Object.create(____SuperProtoOf____Class1);ScenarioEditor.prototype.constructor=ScenarioEditor;ScenarioEditor.__superConstructor__=____Class1;
   function ScenarioEditor(props) {"use strict";
@@ -54351,23 +54284,32 @@ var ____Class1=React.Component;for(var ____Class1____Key in ____Class1){if(____C
   }});
 
   Object.defineProperty(ScenarioEditor.prototype,"render",{writable:true,configurable:true,value:function() {"use strict";
-    console.log("ddddd",this.props.errorScenario)
-    console.log("ffffff",this.props.scenarioInvalid)
+    var errorClasse;
+    var errorMessage;
+    var errScenario=errorScenario(this.props.scenarioText);
+    console.log("errScenario",errScenario)
+    if(errScenario==""){
+      console.log("valid")
+      if(_.every(_.flatten(scenarioChecker.check(this.props.Interface, JSON.parse(this.props.scenarioText), "main")))){
+        errorClasse="info";
+        errorMessage="Valid scenario";
+        console.log("valid")
+      }else{
+        errorClasse="warning";
+        errorMessage="Scenario does not match the definition";
+      }
+
+    }else{
+      errorClasse="error";
+      errorMessage=errScenario;
+    }
+
     return (
 
-      React.createElement("div", {className: "scenarioEditor", style: {
-          overflow:"auto",
-      }}, 
-          React.createElement("textarea", {id: "scenario", style: {
-              overflow:"auto",
-          }, className: this.props.errorScenario !== ""
-            ? "error"
-            : "", value: this.props.scenarioText, name: "scenario", onChange: this.scenarioChanged.bind(this)}), 
+      React.createElement("div", {className: "scenarioEditor"}, 
+          React.createElement("textarea", {id: "scenario", value: this.props.scenarioText, name: "scenario", onChange: this.scenarioChanged.bind(this)}), 
+            React.createElement("p", {className: errorClasse }, errorMessage)
 
-
-            React.createElement("div", {className: "errorScenario"}, this.props.errorScenario), 
-
-            React.createElement("div", {className: "errorScenario"}, this.props.scenarioInvalid)
 
           )
 
@@ -54377,25 +54319,22 @@ var ____Class1=React.Component;for(var ____Class1____Key in ____Class1){if(____C
   
 
   ScenarioEditor.propTypes = {
-    errorScenario: React.PropTypes.string,
     scenarioText: React.PropTypes.string,
-    scenarioInvalid: React.PropTypes.string,
-    openedTab: React.PropTypes.number,
+    Interface : React.PropTypes.object,
 
   };
 
   ScenarioEditor.defaultProps = {
-    errorScenario: "",
     scenarioText: "[]",
-    scenarioInvalid: "",
-    openedTab:0
+    Interface :[],
+
   };
 
   module.exports = ScenarioEditor;
 
 }).call(this,require('_process'),typeof global !== "undefined" ? global : typeof self !== "undefined" ? self : typeof window !== "undefined" ? window : {},require("buffer").Buffer,arguments[3],arguments[4],arguments[5],arguments[6],"/src\\scenarioEditor.jsx","/src")
 
-},{"_process":7,"buffer":2,"iii":68,"react":250}],258:[function(require,module,exports){
+},{"./scenario.js":256,"_process":7,"buffer":2,"iii":68,"lodash":91,"react":250}],258:[function(require,module,exports){
 (function (process,global,Buffer,__argument0,__argument1,__argument2,__argument3,__filename,__dirname){
 var React = require('react');
 var FixedDataTable = require('fixed-data-table');
