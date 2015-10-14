@@ -1,0 +1,51 @@
+interaction
+  (new(x:<t>out)):<t>ref
+interaction
+  (make(x:<t>out)flow):activation in
+is
+  ((x)=((new(x))default(previous(x))))
+with
+  interaction
+    ((x:<t>in)default(y:<t>in)):<t>out
+  is
+    ((res) with behavior (
+      (apply (f) to ({x:(x),y:(y)}) and send to (res))
+    ))
+  with
+    interaction
+      (res):<t> ref
+    interaction
+      (f):{x:<t>,y:<t>}-><t> out
+    is
+      (`
+      if(in.x.active){
+        out = in.x;
+      } else {
+        out = in.y;
+      }
+      `)
+
+
+
+
+
+
+
+
+
+
+
+typedef struct {
+  number x;
+  number y;
+} f_in;
+
+typedef number f_out;
+
+void f(f_in* in, f_out* out){
+  if(*(in).x.active) {
+    *out = *(in).x;
+  } else {
+    *out = *(in).y;
+  }
+}

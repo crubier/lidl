@@ -1,0 +1,13 @@
+export crubier/io
+
+import iii/base
+import iii/wimp
+
+
+interaction
+  (main)
+is
+  (label(active)with text("ok"))
+with
+  import crubier/wimp/label
+  

@@ -1,0 +1,35 @@
+interaction
+  ((click:Activation in) happened (x:Number out) times):Activation in
+with
+  interaction (1):Number out
+  is ((#1) in (`return1`)(##)=(#1))
+
+  interaction ((a:Number in)+(b:Number in)):Number out
+  is ((#(a)+(b)) in (`sum`)  ({a:(a)b:(b)})  =  (#(a)+(b)))
+
+  interaction (new(x:Number in)):Number out
+  is (#new(x))
+
+  interaction (when(a:Activation in)then(b:Activation out)):Activation in
+  is ((#when(a)then(b)) in (`when`)({a:(#when(a)then(b))b:(a)})=(b))
+
+  interaction ((a:Number in) fallback to (b:Number in)):Number out
+  is ((# (a) fallback to (b)) in (`fallback`)({a:(a)b:(b)})=(# (a) fallback to (b)))
+
+  interaction ((a:Number out)=(b:Number in)):Activation in
+  is ((#(a)=(b)) in (`affect`)({a:(#(a)=(b))b:(b)})=(a))
+
+  interaction (make(x:Number in)flow):Activation in
+  is ( (x) = ((new(x)) fallback to (previous(x))) )
+
+  interaction (all(a:Activation out)(b:Activation out)):Activation in
+  is ((#all(a)(b)) in (`all`)(#all(a)(b))=({a:(a),b:(b)}))
+
+  interaction ((a:Composed in).x):Number out
+  is ((#(a).x)in(`identify`)(a)=({x:(#(a).x)}))
+
+is
+  (all
+    (make(x)flow)
+    (when(click)then((new(x))=((previous(x))+(1))))
+  )

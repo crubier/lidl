@@ -1,0 +1,69 @@
+
+declaring
+  ((a)is a {x,y})
+means that
+  (get(a))is(composition{x:((a).x),y:((a).y)}) //(get(a)) composes a from its subparts
+  (set(a))is(decomposition{x:((a).x),y:((a).y)}) //(set(a)) decomposes a to its subparts
+
+// Use of that
+
+
+interaction
+  (angle of point(a))
+with
+  ((a) is a {x,y})
+is
+  (atan2((a).y)((a).x))
+
+
+
+
+
+
+
+
+interaction
+  (testotest(a:{x:Number,y:Number}in)):Number out
+is
+  ((a).x)
+with
+
+
+  IMPLICITELY we have:
+  interaction ((a).x):Number out
+  interaction ((a).y):Number out
+  interaction
+    (a):{x:Number,y:Number}out
+  is
+    ({x:((a).x),y:((a).y)})
+
+
+
+
+
+
+
+
+
+
+// Other approach ?
+interaction
+  ((a:{x:<t1>,y:<t2>}in).x):<t1>out
+is
+  (local of ((a).x))
+
+
+
+
+interaction
+  ((a:{x:<t1>,y:<t2>}in).y):<t2>out
+is
+  (local of ((a).y))
+
+
+
+
+interaction
+  (a:{x:<t1>,y:<t2>}):out
+is
+  ({x:((a).x),y:((a).y)})

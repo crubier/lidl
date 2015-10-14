@@ -1,0 +1,9 @@
+interaction
+  (http get request (a:adress in)(q:request in)):result out
+is
+  ((r) with behavior (all
+    ((internet.send)=(only changes of({address:(a)request:(q)})))
+    ((r)=(hold (filter(internet.receive)with((internet.receive.adress)==(a)))))
+
+    ((r)=((answer to request (a)(q))default(previous(r))))
+  )

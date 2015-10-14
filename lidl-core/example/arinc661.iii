@@ -1,0 +1,58 @@
+(parameter(i:Number in) of widget (w:Number in)):Number in =
+  let
+    (setWidgetParameterFunction):{layer:Number,widget:Number,parameter:Number,value:Number}->{} = (`
+      arincApi.setWidgetParameter(in.layer,in.widget,in.parameter,in.value);
+    `)
+  in
+    ((x) with behavior(
+      when ((x)!=(previous(x))) :
+        (apply(setWidgetParameterFunction)to({layer:(1),widget:(w),parameter:(i),value:(x)})and send to (nothing))
+    ))
+
+
+
+
+
+
+interaction
+  (main):Button
+with
+
+  interface
+    Button
+  is
+    {
+      graphicalRepresentation:Graphics,
+      userInput: Wimp,
+      layout: Layout
+    }
+
+  data
+    Graphics
+  is
+    {
+      shape:Shape,
+      text:Text,
+      group:Group,
+      raster:Raster
+    }
+
+  data
+    Group
+  is
+    {
+      filter:Filter,
+      mask:Mask,
+      transform:Transform,
+      content:Graphics
+    }
+
+  data
+    Shape
+  is
+    {
+      paths:[Path]
+      stroke:Stroke
+      fill:Fill
+    }
+is

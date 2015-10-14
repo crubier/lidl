@@ -1,0 +1,40 @@
+
+( ( a : <type> in ) default ( b : <type> in ) ) : <type> out =
+  ` js function(self,a,b){
+
+    if(activity[a]){
+      value[self] = value[a];
+      activity[self] = true;
+    } else if (activity[b]) {
+      value[self] = value[b];
+      activity[self] = true;
+    } else {
+      activity[self] = false;
+    }
+
+  } `
+
+
+
+( apply (aFunction : (<domain>→<codomain>) in ) to (anArgument : <domain> out) ) : <codomain> out =
+  ` js function(self,aFunction,anArgument){
+
+    if(activity[a]){
+      value[self] = value[a];
+      activity[self] = true;
+    } else if (activity[b]) {
+      value[self] = value[b];
+      activity[self] = true;
+    } else {
+      activity[self] = false;
+    }
+
+  } `
+
+
+
+( 0 ) : number out =
+  ` js function(self){
+    activity[self] = true;
+    value[self] = 0;
+  } `

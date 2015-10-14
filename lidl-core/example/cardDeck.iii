@@ -1,0 +1,46 @@
+a Suit is a Number
+
+(((Club),(Diamond),(Heart),(Spade))=((0)...(3)))
+
+
+a Value is a Number
+((Two))
+
+a Card is a {suit:Suit,value:Value}
+a Deck is a [Card]
+
+
+
+
+
+
+
+
+
+
+ 
+
+
+
+
+
+
+
+
+
+
+
+
+a (Suit) is a (either (Club) (Diamond) (Heart) (Spade))
+a (Value) is a (either (Two) (Three) (Four) (Five) (Six) (Seven) (Eight) (Nine) (Ten) (Jack) (Queen) (King) (Ace))
+a (Card) is a ({suit:(Suit)value:(Value)})
+
+
+
+
+(card(value:in)of(suit:in)):out is ({value:(value),suit:(suit)})
+(suit of (card:in)):out is ((card).suit)
+(value of (card:in)):out is ((card).value)
+(color of (card:in)):out is (if( (suit of(card)) element of ([(heart),(diamond)])) then (red) else (black))
+
+((color of (card(ace)of(spade))) == (black))

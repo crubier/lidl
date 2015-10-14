@@ -1,0 +1,85 @@
+(main) with
+  (main) is (bob)
+  (bob) is
+
+
+
+
+
+<pattern> is <something> with <defs>
+
+
+
+
+a (Tree (x)) is a
+  (either
+    ({left:(Tree(x)),right:(Tree(x))})
+    (x)
+  )
+
+
+
+interaction
+  (new(a:<interface>))
+is
+  (local(instance identifier))
+
+interaction
+  (make(a:<interface>)flow)
+is
+
+
+interaction
+  (random)
+is
+  (random((instance identifier)*(step identifier)))
+with
+  interaction
+    (random(x:Number))
+  is
+    ((y)with behavior(apply(f)to(x)and send to (y)))
+  with
+    interaction
+      (y):Number
+    is
+      local
+    interaction
+      (f):Number->Number out
+    is
+      (`js: out = random(in);`)
+
+interaction
+  (xxx (a:Number in) yy (b:Number out)):Activation in
+is
+  (
+    ((b)=(d))
+    with behavior
+    (
+      all
+      ((c)=(f(a)))
+      ((d)=(c))
+    )
+  )
+with
+  interaction
+    (c):Number
+  is
+    local
+
+  interaction
+    (d):Number
+  is
+    local
+
+  interaction
+    (f(x:Number in)):Number out
+  is
+    ((y)with behavior(apply(f)to(x)and send to (y)))
+  with
+    interaction
+      (y):Number
+    is
+      local
+
+    interaction
+      (f):Number->

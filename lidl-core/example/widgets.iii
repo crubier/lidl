@@ -1,0 +1,49 @@
+data Dimension is
+  {
+    width:Number,
+    height: Number
+  }
+
+data Position is
+  {
+    x:Number,
+    y:Number
+  }
+
+data Arranging is
+  {
+    dimension : Dimension,
+    position : Position
+  }
+
+data Cursor is
+  {
+    position: Position,
+    button : [Number]
+  }
+
+interface Layout is
+  {
+    desired:Dimension out,
+    min:Dimension out,
+    max:Dimension out,
+    actual:Arranging in
+  }
+
+data Graphics is
+  {
+
+  }
+
+interface Element is
+  {
+    layout:Layout,
+    graphical:Graphics out
+  }
+
+
+
+
+interaction
+  (horizontal group (a:Element) (b:Element) ):Element
+is

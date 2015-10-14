@@ -1,0 +1,129 @@
+interface Mouse is
+{
+  buttons:
+    Number in,
+  position:
+    {
+      x: Number,
+      y: Number
+    } in,
+  wheel:
+    {
+      x: Number,
+      y: Number,
+      z: Number
+    } in
+}
+
+interface Device is
+{
+  time:
+    Number in,
+  size:
+    {
+      width: Number,
+      height:Number
+    } in,
+  orientation:
+    {
+      alpha: Number,
+      beta: Number,
+      gamma: Number
+    } in,
+  light:
+    Number in,
+  proximity:
+    Number in
+}
+
+interface Touch is
+  [ Touch ] in
+
+data Touch is
+  {
+    position:
+      {
+        x:Number,
+        y:Number
+      }
+    force:
+      Number
+  }
+
+interface Keyboard is
+  {
+    Char0041: Boolean,
+    Char0040: Boolean,
+    Char0026: Boolean,
+    Char00E9: Boolean,
+    Char0022: Boolean,
+    Char0027: Boolean,
+    Char0028: Boolean,
+    Char00A7: Boolean,
+    Char00E8: Boolean,
+    Char0021: Boolean,
+    Char00E7: Boolean,
+    Char00E0: Boolean,
+    Char0029: Boolean,
+    Char002D: Boolean,
+    Char0009: Boolean,
+    Char005A: Boolean,
+    Char0045: Boolean,
+    Char0052: Boolean,
+    Char0054: Boolean,
+    Char0059: Boolean,
+    Char0055: Boolean,
+    Char0049: Boolean,
+    Char004F: Boolean,
+    Char0050: Boolean,
+    Unidentified: Boolean,
+    Char0024: Boolean,
+    Enter: Boolean,
+    Meta: Boolean,
+    Control: Boolean,
+    Alt: Boolean,
+    Shift: Boolean,
+    Char0051: Boolean,
+    Char0053: Boolean,
+    Char0044: Boolean,
+    Char0046: Boolean,
+    Char0047: Boolean,
+    Char0048: Boolean,
+    Char004A: Boolean,
+    Char004B: Boolean,
+    Char004C: Boolean,
+    Char004D: Boolean,
+    Char00F9: Boolean,
+    Char0020: Boolean,
+    Char003C: Boolean,
+    Char0057: Boolean,
+    Char0058: Boolean,
+    Char0043: Boolean,
+    Char0056: Boolean,
+    Char0042: Boolean,
+    Char004E: Boolean,
+    Char002C: Boolean,
+    Char003B: Boolean,
+    Char003A: Boolean,
+    Char003D: Boolean,
+    Left: Boolean,
+    Down: Boolean,
+    Right: Boolean,
+    Up: Boolean,
+    Char001B: Boolean,
+    F1: Boolean,
+    F2: Boolean,
+    F3: Boolean,
+    F4: Boolean,
+    F5: Boolean,
+    F6: Boolean,
+    F7: Boolean,
+    F8: Boolean,
+    F9: Boolean,
+    F10: Boolean,
+    F11: Boolean,
+    F12: Boolean
+  } in
+
+
+graphics: {}

@@ -1,0 +1,68 @@
+interface
+  pilotVotingBoolean
+is
+  {
+    opinion:Boolean in,
+    majority:Boolean out,
+    result:Boolean out
+  }
+
+interface
+  twoPilotVotingInterface
+is
+  {
+    pilot:pilotVotingBoolean,
+    copilot:pilotVotingBoolean
+  }
+
+interaction
+  ((a:Boolean in) and (b:Boolean in)):Boolean out
+is
+  ((res) in (`
+    if(i.active && i.value.a.active && i.value.b.active){
+      o = BooleanActive(i.value.a.value && i.value.b.value);
+    } else {
+      o = BooleanInactive();
+    }
+  `) ({a:(a),b:(b)}) = (res))
+
+
+interaction
+  ((a:Boolean out)=(b:Boolean in)):Activation in
+is
+  ((act)in (`
+    if(i.value.act.active && i.value.val.active) {
+      o = BooleanActive(i.value.val.value);
+    } else {
+      o = BooleanInactive();
+    }
+  `)({act:(act),val:(b)})=(a))
+
+interaction
+  (all (a:Boolean out) (b:Boolean out)):Boolean in
+is
+  ((src) in (`
+    o = Struct_a_Boolean_b_Boolean_tcurtSActive({.a=i,.b=i});
+  `) (src) = ({a:(a),b:(b)}))
+
+interaction
+  ((a:conj(twoPilotVotingInterface)) behaviour (b:Activation out)):twoPilotVotingInterface
+is
+  ((a)in(`
+    o = ActivationActive();
+  `)()=(b))
+
+
+interaction
+  (main):twoPilotVotingInterface
+is
+  (
+    (this)
+    behaviour
+    ((all(this.pilot.result)(this.copilot.result)) = ((this.copilot.opinion)and(this.pilot.opinion)))
+  )
+with
+  interaction
+    (this):twoPilotVotingInterface ref
+  is
+    (identifier unique to each instance of this interaction)

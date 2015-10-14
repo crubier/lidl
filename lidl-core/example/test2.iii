@@ -1,0 +1,15 @@
+interaction
+  (main):Number out
+with
+    interaction
+      (b):Number out
+    is
+      ((#b) in (`return5`)()=(#b))
+    interaction
+      ((x:Number in)+(y:Number in)):Number out
+    with
+      interaction (res):Number out is (#+(x)(y))
+    is
+      ((res) in (`sum`) ({x:(x),y:(y)}) = (res))
+is
+  ((b)+(b))

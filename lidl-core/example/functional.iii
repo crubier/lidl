@@ -1,0 +1,14 @@
+interaction (add):{a:Number,b:Number}→Number
+is (fctAddition)
+
+interaction (constant1):{}→Number
+is (return1)
+
+interaction (increment): Number→Number
+is ( (add) ∘ (f{b:(constant1)}) ∘ (f{a:(identity)}))
+
+interaction (map): {a:(Number → Number),b:[Number]} → [Number]
+is (fctmap)
+
+interacion (incrementAll):[Number]→[Number]
+is ((map) ∘ (f{a:(increment),b:(identity)}))

@@ -1,0 +1,13 @@
+interaction
+  (main):Number out
+with
+    interaction
+      (b):Number out
+    is
+      ((#2) in (`return5`)(#1)=(#2))
+    interaction
+      ((x:Number in)+(y:Number in)):Number out
+    is
+      ((#3) in (`sum`) ({x:(x),y:(y)}) = (#3))
+is
+  ((b)+(b))

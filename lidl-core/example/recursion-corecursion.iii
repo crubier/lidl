@@ -1,0 +1,61 @@
+
+
+
+
+
+Usage : these two expressions are equivalent:
+Classic factorial function
+((a)=((5)!))
+Reversed factorial function
+((!(a))=(5))
+
+
+
+
+
+
+interaction
+  ((x:Number in)!):Number out
+is
+  ((y) with behavior
+  (({n:(nothing),v:(y),e:(nothing)})=(f({n:(1),v:(1),e:(x)}))))
+with
+  interaction
+    (f(i:{n:Number,v:Number,e:Number}in)):{n:Number,v:Number,e:Number}out
+  is
+    (
+      (o) with behavior
+      (
+        if((i.e)>0)
+        then((o)=(f({n:((i.n)+1),v:((i.v)*(i.n)),e:((i.e)-1)})))
+        else((o)=({n:(i.n),v:(i.v),e:(i.e)}))
+      )
+    )
+  with
+    interaction
+      (o):{n:Number,v:Number,e:Number}ref
+
+
+
+
+
+interaction
+  (!(y:Number out)):Number in
+is
+  ((x) with behavior
+  ((cof({n:(nothing),v:(y),e:(nothing)}))=({n:(1),v:(1),e:(x)})))
+with
+  interaction
+    (cof(o:{n:Number,v:Number,e:Number}out)):{n:Number,v:Number,e:Number}in
+  is
+    (
+      (i) with behavior
+      (
+        if((i.e)>0)
+        then((cof(o))=({n:((i.n)+1),v:((i.v)*(i.n)),e:((i.e)-1)}))
+        else((o)=({n:(i.n),v:(i.v),e:(i.e)}))
+      )
+    )
+    with
+    interaction
+      (i):{n:Number,v:Number,e:Number}ref

@@ -1,0 +1,8 @@
+$?+$?!
+interaction
+  ((a)?+(b)?)!
+is
+  (select the only active of those inputs
+    (String: append (from (b) as String) to (from (a) as String))
+    (Number: add (from (b) as Number) to (from (a) as Number))
+  )

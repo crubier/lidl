@@ -1,0 +1,50 @@
+
+
+
+interface
+  SmallSystem
+is
+  {
+    user:
+    {
+      increment:Activation in,
+      decrement:Activation in,
+      value:Number out
+    }
+  }
+
+
+
+
+
+
+interaction
+  (main):SmallSystem
+is
+  ((this) with behavior (
+    ((this.user.value)=(
+      (previous(this.user.value))+((increment) as Number)-((decrement) as Number)
+      default(0)
+    ))
+  ))
+with
+  interaction
+    (this):SmallSystem ref
+
+  interaction
+    ((a:Activation in) as Number):Number out
+  is
+    ((x)with behavior(apply(f)to(a)and send to(x)))
+  with
+    interaction
+      (x):Number ref
+    interaction
+      (f):Activation->Number out
+    is
+      (`
+        if(isActive(in)){
+          out=1;
+        } else {
+          out=0;
+        }
+      `)

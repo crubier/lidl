@@ -1,0 +1,48 @@
+interface
+  MyAppHumanInterface
+is
+  {
+    desired:Label
+    actual:Label
+    increment:Button
+    decrement:Button
+    switch:Toggle
+  }
+
+interface
+  MyAppSystemInterface
+is
+  {
+    actual:Number in
+    desired: Number out
+  }
+
+interface
+  MyAppInterface
+is
+  {
+    human:MyAppHumanInterface
+    system:MyAppSystemInterface
+  }
+
+interaction
+  (My App Interaction):MyAppInterface
+is
+  (({
+    human:({
+      desired:(Label (active) displaying (text(theDesired)) )
+      actual:(Label (active) displaying (text(theActual)) )
+      increment:(Button (active) displaying ("+") trigerring ((new(theDesired))=((previous(theDesired))+(1))))
+      decrement:(Button (active) displaying ("-") trigerring ((new(theDesired))=((previous(theDesired))-(1))))
+      })
+    system:({
+      actual:(theActual)
+      desired:(theDesired)
+      })
+    })
+    with behavior
+    ()
+  )
+with
+  interaction (theActual):Number ref
+  interaction (theDesired):Number ref

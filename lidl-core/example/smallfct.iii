@@ -1,0 +1,4 @@
+interaction
+  (b):Number out
+is
+  ((#1) in (`getB`)(#0)=(#1))

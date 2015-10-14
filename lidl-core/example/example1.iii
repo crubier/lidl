@@ -1,0 +1,180 @@
+(do that ( bobie : <type1> in) and this (thing34:number out) while (a:(number ,void) in) is (b:|{x:number,y:number},text| in)) : void out  =
+  `import example/small.iii`
+  `import example/smalljs.iii`
+  `import example/system.iii`
+  (always (lol))
+
+
+(dothemain)
+
+let (theinteraction (anargument:itsinterface) ) : theinterface = ()
+
+
+
+
+
+
+interaction
+  (thesystem):
+  activation in
+is
+  ()
+with
+  interaction (step identifier) implements number out is `native`
+  interaction (instance identifier) implements number out is `native`
+  interaction (class identifier) implements number out is `native`
+  interaction (time) implements number out is (get system time (step identifier))
+
+
+
+
+
+
+
+//////////////////////////////////////////////////////
+Valentines day internet of things example
+
+a month is a number
+a day is a number
+
+(january) : month out is (1)
+(february) : month out is (2)
+...
+(december) : month out is (12)
+
+(current date) : date out is (time(step identifier))
+
+(current month) : month out is ((current date).month)
+
+(current day) : day out is ((current date).month)
+
+(it is valentines day) : boolean out is
+  (((current month) is (february)) and ((current day) is (14)))
+
+a color is a {red:number,green:number,blue:number}
+
+(red) : color out is ({red:(1),green:(0),blue:(0)})
+
+a philippsHueLightMode is a text
+
+a philippsHueLight is a {color:color, mode:philippsHueLightMode}
+
+(turn (theLight:philippsHueLight out) (theColor:color in)) : activation in is
+  ((theLight)=({color:(theColor),mode:("continuous")}))
+
+
+(as soon as (it is valentines day), (turn (the living room light) (red) ) )
+
+
+
+//////////////////////////////////////////////////////
+Arduino example
+
+
+
+a temperature is a number
+
+(outside temperature function) : ( -> number ) out is
+  `return analogRead(17);    // read the input pin`
+
+(outside temperature) : number out is
+  (apply (outside temperature function) to ())
+
+(air conditionner function) : ( number -> ) out is
+  `analogWrite(32,arg[1]);    // write to the output pin`
+
+(air conditionner) : activation in is
+  (call (air conditionner function) with (22))
+
+(as soon as ((outside temperature) > (25)), ((air conditionner) if it has changed) )
+
+
+
+//////////////////////////////////////////////////////
+Common example
+
+((something:<type> in) has changed): boolean out is
+  ((something)!=(previous(something)))
+
+((destination:<type> out) if it has changed ): <type> in is
+  (bind (source),
+    (all
+      ((state) = (
+        if ((source) is active)
+        then (source)
+        else (previous(state))
+      )),
+      ((destination) = (
+        if ((state) has changed)
+        then (state)
+        else (inactive)
+      ))
+    )
+  )
+
+
+
+
+(interaction (xy))
+
+(point2D) is (out({x:(0),y:(0)}))
+
+(cartopol(x:point2D)):(point2D) is ({x:(x.x^2 + x.y^2),y:(atan2(x.y,x.x))})
+
+
+
+
+
+
+
+
+
+
+
+(addition function) is (`out=in[1]+in[2];`)
+
+((a)+(b))
+is
+((result) with behavior (apply (addition function) to ((a),(b)) and send to (result)))
+
+
+((a)+(b)) is ((c) with behavior (apply (`out=in[1]+in[2];`) to ((a),(b)) and send to (c)))
+
+
+//function (in) {
+//  out=in[1]+in[2];
+//  return out;
+//}
+
+
+
+
+
+
+
+
+interaction
+  (current time)
+with
+  interaction
+    (time of step(a))
+  is
+    ((b) with behavior (apply (`out=getTime();`) to (a) and send to (b)))
+is
+  (time of step(time step identifier))
+
+interaction
+  ((a)+(b))
+is
+  ((c) with behavior (apply (`out=in[1]+in[2];`) to ((a),(b)) and send to (c)))
+
+interaction
+  ((a)-(b))
+is
+  ((c) with behavior (apply (`out=in[1]-in[2];`) to ((a),(b)) and send to (c)))
+
+
+
+
+
+((a$1FED-4352-F321-A2C4-BB27-520B).x)
