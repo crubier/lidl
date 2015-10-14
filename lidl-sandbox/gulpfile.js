@@ -24,6 +24,9 @@ gulp.task('js', function(){
 		.require(source.appjs, { entry: true })
 		.bundle()
 		.pipe(vsource('main.js'))
+		// .pipe(buffer())
+		// .pipe(sourcemaps.init({ loadMaps: true }))
+		// .pipe(sourcemaps.write('./'))
 		.pipe(gulp.dest('./dist'));
 });
 
@@ -104,6 +107,6 @@ gulp.task('clean', function (cb) {
   ], cb);
 });
 
-gulp.task('watch', function () {
+gulp.task('watch',['default'], function () {
    gulp.watch(source.js, ['js']);
 });

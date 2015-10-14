@@ -59,8 +59,10 @@ const boxTarget = {
     if (monitor.didDrop()) {
       return
     } else {
+      let oldVal = component.props.val;
+      component.handleDrop(monitor.getItem());
       return {
-        name: props.val.operator
+        val: oldVal
       };
     }
   }
@@ -69,18 +71,18 @@ const boxTarget = {
 const boxSource = {
   beginDrag(props) {
     return {
-      name: props.val.operator
+      val: props.val
     };
   },
 
   endDrag(props, monitor) {
-    const item = monitor.getItem();
-    const dropResult = monitor.getDropResult();
-
-    if (dropResult) {
-      window.alert( // eslint-disable-line no-alert
-      `You dropped ${item.name} into ${dropResult.name}!`);
-    }
+    // const item = monitor.getItem();
+    // const dropResult = monitor.getDropResult();
+    //
+    // if (dropResult) {
+    //   window.alert( // eslint-disable-line no-alert
+    //   `You dropped ${item.interaction.operator} into ${dropResult.interaction.operator}!`);
+    // }
   }
 };
 
@@ -102,17 +104,33 @@ export default class Interaction extends Component {
     isOver: PropTypes.bool.isRequired,
     canDrop: PropTypes.bool.isRequired,
     isDragging: PropTypes.bool.isRequired,
-    val: PropTypes.object.isRequired
+    val: PropTypes.object.isRequired,
+    onChange: PropTypes.func.isRequired,
+    indexInParent: PropTypes.number
   };
+
+  static defaultProps = {
+    indexInParent: 0
+  };
+
+  handleDrop(item) {
+    this.props.onChange(item.val,this.props.indexInParent);
+  }
+
+  handleChangeInChild(valOfChild,indexOfChild) {
+    var newVal = _.cloneDeep(this.props.val);
+    newVal.operand[indexOfChild]=valOfChild;
+    this.props.onChange(newVal,this.props.indexInParent);
+  }
 
   render() {
     const {canDrop, isOver, connectDropTarget} = this.props;
     const isActive = canDrop && isOver;
     const {isDragging, connectDragSource} = this.props;
     const {name} = this.props;
-  const opacity = isDragging
-    ? 0.4
-    : 1;
+    const opacity = isDragging? 0.4: 1;
+
+const that = this;
 
   let backgroundColor = 'hsla(' + Math.abs(hashCode(this.props.val.operator)) % 360 + ', 100%, ' + (isActive
     ? '100%'
@@ -120,6 +138,8 @@ export default class Interaction extends Component {
 
   let listElements = Lidl.interactions
     .toShallowListOfElements(this.props.val);
+
+  let i = 0;
 
   let subs = _
     .map(listElements, function(x, n) {
@@ -132,7 +152,7 @@ export default class Interaction extends Component {
         );
       } else {
         return (
-          <Interaction key={n} val={x}/>
+          <Interaction onChange={that.handleChangeInChild.bind(that)} indexInParent={i++} key={n} val={x}/>
         );
       }
     });

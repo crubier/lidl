@@ -16,12 +16,20 @@ let defaultCode = Lidl.parser
 @DragDropContext(HTML5Backend)
 export default class Container extends Component {
   static propTypes = {
-    code: PropTypes.object.isRequired
+    initialCode: PropTypes.object.isRequired
   };
 
   static defaultProps = {
-    code: defaultCode
+    initialCode: defaultCode
   };
+
+  state = {
+    code: this.props.initialCode
+  };
+
+  handleChange(val) {
+    this.setState({code:val});
+  }
 
   render() {
     return (
@@ -30,7 +38,7 @@ export default class Container extends Component {
         'overflow': 'auto',
         'display': 'inline-block'
       }}>
-        <Interaction val={this.props.code}/>
+        <Interaction onChange={this.handleChange.bind(this)} val={this.state.code}/>
       </div>
     // <div>
     //       <Interaction name='Glass' />
