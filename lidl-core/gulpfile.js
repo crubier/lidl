@@ -75,7 +75,7 @@ gulp.task('parser',['language parser','operator parser']);
 gulp.task('language parser',function() {
   return gulp.src('src/parser.pegjs')
   .pipe(peg({
-    allowedStartRules:["start","interaction","interface","data","interactionDefinition"]
+    allowedStartRules:["start","interaction","interfac","data","interactionDefinition"]
   }))
   .pipe(gulp.dest('dist'));
 });

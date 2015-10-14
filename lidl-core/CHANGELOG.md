@@ -1,6 +1,10 @@
 # LIDL changelog
 
 
+# 0.1.8
+
+- Fixed dependencies
+
 # 0.1.7
 
 - Changed name to LIDL

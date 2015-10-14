@@ -62,7 +62,7 @@ definitions 'a list of definitions'
 
 content 'a definition or an import statement'
 = _ definition:interactionDefinition {return [definition];}
-/ _ 'import' _ package:[^`]* _ {return parse(fs.readFileSync(filename.join(''),{encoding:'utf8'}));}
+/ _ 'import' _ filename:[^`]* _ {return parse(fs.readFileSync(filename.join(''),{encoding:'utf8'}));}
 
 interactionDefinition 'an interaction definition'
 = _ 'interaction' _ signature:interactionSignature  _ definitions:(_ 'with' _ definitions:definitions {return definitions;})? _'is' _ interaction:interaction  _ {
@@ -80,20 +80,26 @@ interactionDefinition 'an interaction definition'
 }
 
 interactionSignature 'an interaction interactionSignature specification'
-= '('  elements:interactionSignatureElement* _ ')' _ ':' _ interface:interface { var temp = mergeSignature(elements);return {type:'Signature',interface:interface,operator:temp.operator,operand:temp.operand};}
+= '('  elements:interactionSignatureElement*  ')' _ ':' _ interfac:interfac { var temp = mergeSignature(elements);return {type:'Signature',interfac:interfac,formating:temp.operator,operator:temp.operator.replace(
+//  /[ \t\r\n]*\$[ \t\r\n]*/g,"$"
+ /[ \t\r\n]*/g,""
+),operand:temp.operand};}
 
 interactionSignatureElement 'a interactionSignature element'
-= _ operator:operatorIdentifier {return {operator:operator};}
-/ _ '(' _ name:variableIdentifier _':'_ interface:interface _ ')' {return {operand:{interface:interface,name:name}};}
+= operator:operatorIdentifier {return {operator:operator};}
+/ '(' _ name:variableIdentifier _':'_ interfac:interfac _ ')' {return {operand:{interfac:interfac,name:name}};}
 
 interaction 'an interaction'
 //= '('lang:language   '`' val:[^`]* '`)'  {return {type:'InteractionNative',language:lang,code:esprima.parse(val.join(''))};}
 /// '(' elements:interactionElement* _ ')' {var temp=  mergeExpression(elements);return {type:'InteractionSimple',operator:temp.operator,operand:temp.operand};}
-= '(' elements:interactionElement* _ ')' {var temp=  mergeExpression(elements);return {type:'InteractionSimple',operator:temp.operator,operand:temp.operand};}
+= '(' elements:interactionElement* _ ')' {var temp=  mergeExpression(elements);return {type:'InteractionSimple',formating:temp.operator,operator:temp.operator.replace(
+//  /[ \t\r\n]*\$[ \t\r\n]*/g,"$"
+ /[ \t\r\n]*/g,""
+),operand:temp.operand};}
 
 interactionElement 'an interaction element'
-= _ operand:interaction {return {operand:operand};}
-/ _ operator:operatorIdentifier {return {operator:operator};}
+= operand:interaction {return {operand:operand};}
+/ operator:operatorIdentifier {return {operator:operator};}
 
 //language 'the name of a supported programming language'
 //= 'js' / 'es6' / 'javascript' / 'c' / 'c++'
@@ -102,20 +108,20 @@ interactionElement 'an interaction element'
 ////////////////////////////////////////////////////////////////////////////////
 // Interface specifications
 
-interface 'the specification of an interface'
+interfac 'the specification of an interfac'
 = interfaceAtomic / interfaceComposite / interfaceOperation
 
-interfaceOperation 'the specification of an interface using operators'
-= operator:interfaceOperator _ '(' _ first:interface rest:(_',' _ content:interface {return content;})* _')' { return {type:"InterfaceOperation",operator:operator,operand:mergeElements(first,rest)}}
+interfaceOperation 'the specification of an interfac using operators'
+= operator:interfaceOperator _ '(' _ first:interfac rest:(_',' _ content:interfac {return content;})* _')' { return {type:"InterfaceOperation",operator:operator,operand:mergeElements(first,rest)}}
 
-interfaceOperator 'an interface operator (conjugation,globalisation,localisation,reception,emission,union,intersection,complement)'
+interfaceOperator 'an interfac operator (conjugation,globalisation,localisation,reception,emission,union,intersection,complement)'
 = 'conjugation' / 'globalisation' / 'localisation' / 'reception' / 'emission' / 'union' / 'intersection' / 'complement'
 
-interfaceAtomic 'the specification of an atomic interface'
+interfaceAtomic 'the specification of an atomic interfac'
 = data:data _ direction:direction {return {type:'InterfaceAtomic',data:data,direction:direction};}
 
-interfaceComposite 'the specification of a composite interface'
-= '{' _ first:(key:keyIdentifier _ ':' _ value:interface {return {type:'InterfaceCompositeElement',key:key,value:value}}) _ rest:(',' _ content:(key:keyIdentifier _ ':' _ value:interface {return {type:'InterfaceCompositeElement',key:key,value:value}}) _ {return content;})* '}' {return {type:'InterfaceComposite',element:mergeElements(first,rest)};}
+interfaceComposite 'the specification of a composite interfac'
+= '{' _ first:(key:keyIdentifier _ ':' _ value:interfac {return {type:'InterfaceCompositeElement',key:key,value:value}}) _ rest:(',' _ content:(key:keyIdentifier _ ':' _ value:interfac {return {type:'InterfaceCompositeElement',key:key,value:value}}) _ {return content;})* '}' {return {type:'InterfaceComposite',element:mergeElements(first,rest)};}
 
 direction 'the direction of a data flow'
 = 'out' / 'in' / 'ref'
@@ -150,9 +156,10 @@ dataFunction 'the specification of a function type'
 // Literals and leaves of the AST
 
 operatorIdentifier 'an operator identifier'
-= val:[^ \t\r\n$\(\)]+ { return val.join(''); }
+/*= val:[^ \t\r\n$\(\)]+ { return val.join(''); }*/
+= val:[^\(\)]+ { return val.join(''); }
 
-interfaceIdentifier 'an interface identifier'
+interfaceIdentifier 'an interfac identifier'
 = first:[A-Z] rest:[a-zA-Z0-9]* { return mergeElements(first,rest).join(''); }
 
 dataIdentifier 'a data identifier'

@@ -85,7 +85,7 @@ describe('interfaces', function() {
   describe('atom list', function() {
     it('simple', function() {
       expect(interfaces.listOfAtoms(
-        parser.parse("Number in", {startRule: "interface"}), "main")).toEqual(
+        parser.parse("Number in", {startRule: "interfac"}), "main")).toEqual(
         [{
           name: "main",
           data: {
@@ -101,7 +101,7 @@ describe('interfaces', function() {
 
     it('composite', function() {
       expect(interfaces.listOfAtoms(
-        parser.parse("{x:Number in,y:Number out}", {startRule: "interface"}), "main")).toEqual(
+        parser.parse("{x:Number in,y:Number out}", {startRule: "interfac"}), "main")).toEqual(
         [{
           name: "main.x",
           data: {

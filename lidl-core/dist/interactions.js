@@ -120,7 +120,7 @@ function instantiate(interaction, interactionDefinition) {
 function findMatchingDefinition(interaction, interactionDefinition) {
 
   // First case : No definition
-  if (interactionDefinition == undefined) {
+  if (interactionDefinition === undefined) {
     throw new Error("could not find definition matching interaction " + serializer.serialize(interaction));
   }
 
@@ -230,6 +230,7 @@ function substituteInInteraction(theInteraction, target, substitute) {
           };
         }
       }
+      break;
     default:
       throw new Error('Trying to substitute in an invalid interaction');
   }
@@ -268,7 +269,12 @@ function isBaseInteraction(interaction) {
       }
     case 'InteractionSimple':
       {
-        var theOperator = operator.parse(interaction.operator);
+        var theOperator;
+        try {
+          theOperator = operator.parse(interaction.operator);
+        } catch (e) {
+          console.log("Error on operator "+interaction.operator + " " + interaction.formating);
+        }
         switch (theOperator) {
           case "Composition":
           case "Previous":
@@ -283,13 +289,56 @@ function isBaseInteraction(interaction) {
             throw new Error('problem parsing interaction operator ' + theOperator);
         }
       }
+      break;
     default:
       throw new Error('invalid interaction type ' + interaction.type);
   }
 }
 
 
+function toListOfElements(interaction) {
+  var i=0;
+  return interaction.operator.replace(/\$/g,"_$_").split("_").filter(function(x){
+    return x !=='';
+  }).map(function(x){
+    var res;
+    if(x==="$"){
+      res= toListOfElements(interaction.operand[i]);
+      i++;
+    }else{
+      res= x;
+    }
+    return res;
+  });
+}
 
+function toShallowListOfElements(interaction) {
+  var i=0;
+  return interaction.formating.replace(/\$/g,"_$_").split("_").filter(function(x){
+    return x !=='';
+  }).map(function(x){
+    var res;
+    if(x==="$"){
+      res= interaction.operand[i];
+      i++;
+    }else{
+      res= x;
+    }
+    return res;
+  });
+}
+
+function removeFormattingInfo(interaction) {
+  return {
+    type:interaction.type,
+    operator:interaction.operator,
+    operand:interaction.operand.map(removeFormattingInfo),
+  };
+}
+
+module.exports.removeFormattingInfo = removeFormattingInfo;
+module.exports.toShallowListOfElements = toShallowListOfElements;
+module.exports.toListOfElements = toListOfElements;
 module.exports.listOfInteractions = listOfInteractions;
 module.exports.isBaseInteraction = isBaseInteraction;
 module.exports.isOnlyMadeOfBaseInteractions = isOnlyMadeOfBaseInteractions;

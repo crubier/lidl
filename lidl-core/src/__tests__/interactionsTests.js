@@ -11,7 +11,62 @@ var interactions = require('../interactions.js');
 var parser = require('../parser.js');
 var _ = require('lodash');
 
+var  removeFormattingInfo = interactions.removeFormattingInfo;
+
 describe('interactions', function() {
+
+  describe('to list of elements', function() {
+
+    it('too simple', function() {
+    expect(interactions.toListOfElements({
+        "type": "InteractionSimple",
+        "operator": "oksss",
+        "operand": []
+      }))
+      .toEqual([
+        "oksss"
+      ]);
+  });
+
+    it('simple', function() {
+      expect(interactions.toListOfElements({
+          "type": "InteractionSimple",
+          "operator": "$ok$",
+          "operand": [{
+            "type": "InteractionSimple",
+            "operator": "bob",
+            "operand": []
+          }, {
+            "type": "InteractionSimple",
+            "operator": "lol",
+            "operand": []
+          }]
+        }))
+        .toEqual([
+          ["bob"], "ok", ["lol"]
+        ]);
+    });
+
+    it('simple2', function() {
+      expect(interactions.toListOfElements({
+          "type": "InteractionSimple",
+          "operator": "oo wow os$ollslk$bobie joe",
+          "operand": [{
+            "type": "InteractionSimple",
+            "operator": "bob",
+            "operand": []
+          }, {
+            "type": "InteractionSimple",
+            "operator": "lol",
+            "operand": []
+          }]
+        }))
+        .toEqual([
+          "oo wow os",["bob"], "ollslk", ["lol"],"bobie joe"
+        ]);
+    });
+
+  });
 
   describe('compare interactions', function() {
 
@@ -101,7 +156,7 @@ describe('interactions', function() {
         parser.parse("({a:(previous(#(#5)))b:((#d).xys)c:((#2)in(#5)(#2)=(#(#5)))})", {
           startRule: "interaction"
         }))).toEqual(
-        true
+        false
       );
     });
 
@@ -275,66 +330,66 @@ describe('interactions', function() {
     it('should preserve interactions not matching', function() {
 
       expect(
-        interactions.instantiate(
+        removeFormattingInfo(interactions.instantiate(
           parser.parse("(test(a)(b))", {
             startRule: "interaction"
           }),
           parser.parse("interaction (x):Number in is (y)", {
             startRule: "interactionDefinition"
           })
-        )
-      ).toEqual(parser.parse("(test(a)(b))", {
+        ))
+      ).toEqual(removeFormattingInfo(parser.parse("(test(a)(b))", {
         startRule: "interaction"
-      }));
+      })));
 
     });
 
     it('should instantiate a simple case with no arguments', function() {
       expect(
-        interactions.instantiate(
+        removeFormattingInfo(interactions.instantiate(
           parser.parse("(test(a)(b))", {
             startRule: "interaction"
           }),
           parser.parse("interaction (a):Number in is (b)", {
             startRule: "interactionDefinition"
           })
-        )
-      ).toEqual(parser.parse("(test(b)(b))", {
+        ))
+      ).toEqual(removeFormattingInfo(parser.parse("(test(b)(b))", {
         startRule: "interaction"
-      }));
+      })));
 
     });
 
     it('should instantiate a case with arguments', function() {
       expect(
-        interactions.instantiate(
+        removeFormattingInfo(interactions.instantiate(
           parser.parse("(test(a(5))(b))", {
             startRule: "interaction"
           }),
           parser.parse("interaction (a(x:Number in)):Number out is (bob(x)test(x))", {
             startRule: "interactionDefinition"
           })
-        )
-      ).toEqual(
+        ))
+      ).toEqual(removeFormattingInfo(
         parser.parse("(test(bob(5)test(5))(b))", {
           startRule: "interaction"
-        }));
+        })));
     });
 
     it('should instantiate a complex case', function() {
       expect(
-        interactions.instantiate(
+        removeFormattingInfo(interactions.instantiate(
           parser.parse("(test(a((5)+(6)))(a(b(F(3)))))", {
             startRule: "interaction"
           }),
           parser.parse("interaction (a(x:Number in)):Number out is (bob(x)test(b))", {
             startRule: "interactionDefinition"
           })
-        )
-      ).toEqual(
+        ))
+      ).toEqual(removeFormattingInfo(
         parser.parse("(test(bob((5)+(6))test(b))(bob(b(F(3)))test(b)))", {
           startRule: "interaction"
-        }));
+        })));
     });
 
 
@@ -428,17 +483,17 @@ describe('interactions', function() {
       var interaction = interactions.expand(
         parser.parse("interaction (joe(x:Number in)):Number in is (x)")[0]
       ).interaction;
-      expect(interaction).toEqual(parser.parse("(x)", {
+      expect(removeFormattingInfo(interaction)).toEqual(removeFormattingInfo(parser.parse("(x)", {
         startRule: "interaction"
-      }));
+      })));
     });
-    it.only('should work on a simple case with a closure', function() {
+    it('should work on a simple case with a closure', function() {
       var interaction = interactions.expand(
         parser.parse("interaction (joe(x:Number in)):Number in with interaction (a):Number in is (x) is (a)")[0]
       ).interaction;
-      expect(interaction).toEqual(parser.parse("(x)", {
+      expect(removeFormattingInfo(interaction)).toEqual(removeFormattingInfo(parser.parse("(x)", {
         startRule: "interaction"
-      }));
+      })));
     });
 
     it('should error on a erroneous case', function() {
@@ -446,7 +501,7 @@ describe('interactions', function() {
         interactions.expand(
           parser.parse("interaction (joe(x:Number in)):Number in with interaction (a):Number in is (2) is (a)")[0]
         );
-      }).toThrow("could not find definition matching interaction (2)");
+      }).toThrow("cannot find definition of interaction 2");
     });
 
     it('should work on a simple case with base interactions', function() {
@@ -454,9 +509,9 @@ describe('interactions', function() {
         parser.parse("interaction (a(x:Number in)(y:Number out)):Number in is ({x:(x),y:(y)})")[0]
       ).interaction;
 
-      expect(interaction).toEqual(parser.parse("({x:(x),y:(y)})", {
+      expect(removeFormattingInfo(interaction)).toEqual(removeFormattingInfo(parser.parse("({x:(x),y:(y)})", {
         startRule: "interaction"
-      }));
+      })));
     });
 
     /*TODO make this test pass*/
@@ -465,9 +520,9 @@ describe('interactions', function() {
         parser.parse("interaction (a(x:Number in)(y:Number out)):Number in with interaction (z):Number in with interaction (k):Number out is (#3) is ((k)in(#1)({})=(k)) is ((x)in(#2)({x:(x),z:(z)})=(y))")[0]
       ).interaction;
 
-      expect(interaction).toEqual(parser.parse("((x)in(#2)({x:(x),z:((#3)in(#1)({})=(#3))})=(y))", {
+      expect(removeFormattingInfo(interaction)).toEqual(removeFormattingInfo(parser.parse("((x)in(#2)({x:(x),z:((#3)in(#1)({})=(#3))})=(y))", {
         startRule: "interaction"
-      }));
+      })));
     });
 
 
@@ -477,9 +532,9 @@ describe('interactions', function() {
         parser.parse("interaction (a(x:Number in)(y:Number out)):Number in with interaction (z):Number in is ((#3)in(#1)({})=(#3)) is ((x)in(#2)({x:(x),z:(z)})=(y))")[0]
       ).interaction;
 
-      expect(interaction).toEqual(parser.parse("((x)in(#2)({x:(x),z:((#3)in(#1)({})=(#3))})=(y))", {
+      expect(removeFormattingInfo(interaction)).toEqual(removeFormattingInfo(parser.parse("((x)in(#2)({x:(x),z:((#3)in(#1)({})=(#3))})=(y))", {
         startRule: "interaction"
-      }));
+      })));
     });
 
 

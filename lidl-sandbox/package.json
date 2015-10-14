@@ -22,21 +22,30 @@
     ]
   },
   "dependencies": {
+    "babelify": "^6.3.0",
     "browserify": "^11.2.0",
     "del": "^2.0.2",
+    "fbjs": "^0.2.1",
     "gulp": "^3.9.0",
     "gulp-sourcemaps": "^1.6.0",
     "gulp-stylus": "^2.1.0",
     "gulp-uglify": "^1.4.2",
     "gulp-util": "^3.0.6",
+    "lidl": "*",
     "lodash": "*",
-    "react": "*",
-    "react-dom": "*",
+    "material-ui": "^0.12.3",
+    "react": "^0.14.0",
+    "react-dnd": "^1.1.8",
+    "react-dom": "^0.14.0",
+    "react-tap-event-plugin": "^0.1.8",
     "reactify": "*",
     "vinyl-buffer": "^1.0.0",
     "vinyl-source-stream": "^1.1.0"
   },
   "jest": {
     "collectCoverage": true
+  },
+  "jshintConfig": {
+    "esnext": true
   }
 }

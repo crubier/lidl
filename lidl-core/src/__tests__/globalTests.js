@@ -7,23 +7,25 @@ var _ = require('lodash');
 
 describe('iii', function() {
 
+  var list = [
+    "small",
+    "small2",
+    "smallfct",
+    "test",
+    "test2",
+    "justFct",
+    "testCase",
+    "testCase2"
+  ];
 
-  it('should work on example files', function() {
 
-    var list = [
-      "small",
-      "small2",
-      "smallfct",
-      "test",
-      "test2",
-      "justFct",
-      "testCase",
-      "testCase2"
-    ];
+
+
 
     _.forEach(list, function(x) {
 
-      console.log(
+it('should work on example file '+x, function() {
+
         iii.serializer.serialize(
           iii.identifiers.reduceIdentifiers(
             iii.interactions.expand(
@@ -34,7 +36,7 @@ describe('iii', function() {
               )[0]
             ).interaction
           )
-        )
+
       );
 
 
