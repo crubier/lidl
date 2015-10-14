@@ -1,4 +1,9 @@
-# iii changelog
+# LIDL changelog
+
+
+# 0.1.7
+
+- Changed name to LIDL
 
 # 0.1.6
 

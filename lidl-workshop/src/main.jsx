@@ -1,4 +1,5 @@
 var React = require('react');
+var ReactDOM = require('react-dom');
 var ScenarioEditor = require('./scenarioEditor.jsx');
 var InteractionEditor = require('./interactionEditor.jsx');
 var Analyse = require('./analyse.jsx');
@@ -26,7 +27,7 @@ class Main extends React.Component {constructor(props) {
       scenarioText:'[{"time" :0}]',
       compilationResult:{
         transitionFunction:function(x){return x;},
-        initializationFunction:function(){return {}}
+        initializationFunction:function(){return {};}
       }
 
     };
@@ -49,15 +50,9 @@ class Main extends React.Component {constructor(props) {
           y: mainInterfaceState.mouse.position.y
         },
         wheel: {
-          x: (mainInterfaceState.mouse.wheel.x !== undefined && mainInterfaceState.mouse.wheel.x !== null)
-            ? mainInterfaceState.mouse.wheel.x
-            : 0,
-          y: (mainInterfaceState.mouse.wheel.y !== undefined && mainInterfaceState.mouse.wheel.y !== null)
-            ? mainInterfaceState.mouse.wheel.y
-            : 0,
-          z: (mainInterfaceState.mouse.wheel.z !== undefined && mainInterfaceState.mouse.wheel.z !== null)
-            ? mainInterfaceState.mouse.wheel.z
-            : 0
+          x: (mainInterfaceState.mouse.wheel.x !== undefined && mainInterfaceState.mouse.wheel.x !== null) ? mainInterfaceState.mouse.wheel.x : 0,
+          y: (mainInterfaceState.mouse.wheel.y !== undefined && mainInterfaceState.mouse.wheel.y !== null) ? mainInterfaceState.mouse.wheel.y : 0,
+          z: (mainInterfaceState.mouse.wheel.z !== undefined && mainInterfaceState.mouse.wheel.z !== null)? mainInterfaceState.mouse.wheel.z : 0
         }
       },
       dimension: {
@@ -67,7 +62,7 @@ class Main extends React.Component {constructor(props) {
 
       keyboard: mainInterfaceState.keyboard,
       touch: mainInterfaceState.touch
-    }
+    };
     theScenario.push(element);
 
     this.setState({
@@ -85,7 +80,7 @@ class Main extends React.Component {constructor(props) {
   }
 
   evaluateInteraction(Interaction) {
-    console.log("changeddd")
+    console.log("changeddd");
     try {
       var newModelDefinitions = iii.parser.parse(Interaction);
 
@@ -171,6 +166,7 @@ class Main extends React.Component {constructor(props) {
     rowNumber = JSON.parse(this.state.scenarioText).length;
     this.setState({
       tableRowNumber: rowNumber
+
     });
   }
 
@@ -192,4 +188,4 @@ class Main extends React.Component {constructor(props) {
   }
 }
 
-React.render(<Main/>, document.getElementById("main"));
+ReactDOM.render(<Main/>, document.getElementById("main"));

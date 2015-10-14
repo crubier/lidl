@@ -64,7 +64,7 @@ class Analyse extends React.Component {
               return (
 
                 <div className="analyse">
-              <p >{this.props.compiledInteraction}</p>
+              <p >{this.props.compiledInteraction} </p>
               <p >{ "Number of previous :" + nbrPrevious} </p>
               <p> { "Number of identifiers :" + nbrIdentifiers} </p>
               <p> { "Number of functions :" + nbrFunctions} </p>

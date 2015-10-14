@@ -70,7 +70,7 @@ class VariablesTable extends React.Component {
 
 
 
-        <Table groupHeaderHeight={30} headerHeight={30} height={525} width={this.state.tableWidth} overflowX={controlledScrolling ? "hidden" : "auto"} overflowY={controlledScrolling ? "hidden" : "auto"} rowGetter={this._rowGetter.bind(this)} rowHeight={30} rowsCount={this.props.tableRowNumber} scrollLeft={this.props.left} scrollTop={this.props.top}>
+        <Table groupHeaderHeight={30} headerHeight={30} height={300} width={this.state.tableWidth} overflowX={controlledScrolling ? "hidden" : "auto"} overflowY={controlledScrolling ? "hidden" : "auto"} rowGetter={this._rowGetter.bind(this)} rowHeight={30} rowsCount={this.props.tableRowNumber} scrollLeft={this.props.left} scrollTop={this.props.top}>
           {listOfAtoms.map(function(x) {
             return (
           <ColumnGroup key={x.name} fixed={true} label={x.name}>
@@ -80,7 +80,7 @@ class VariablesTable extends React.Component {
 
         </Table>
       </div>
-      
+
     );
   }
 

@@ -1,5 +1,6 @@
 var React = require('react');
 var _ = require('lodash');
+var ReactDOM = require('react-dom');
 
 // Generic retained mode rendering
 
@@ -148,7 +149,7 @@ class Canvas extends React.Component {
 
   mouse(e) {
       var target = e.target;
-      var rect = React.findDOMNode(this.refs.iiicanvas).getBoundingClientRect();
+      var rect = ReactDOM.findDOMNode(this.refs.iiicanvas).getBoundingClientRect();
       var offsetX = e.clientX - rect.left;
       var offsetY = e.clientY - rect.top;
       this.setState({mainInterfaceState:{dimension:this.state.mainInterfaceState.dimension,time:e.timeStamp,mouse : {
@@ -168,7 +169,7 @@ class Canvas extends React.Component {
 
   resize(e) {
 
-      var canvas=React.findDOMNode(this.refs.iiicanvas);
+      var canvas=ReactDOM.findDOMNode(this.refs.iiicanvas);
       this.setState({mainInterfaceState:{dimension : {
           width: canvas.offsetWidth,
           height: canvas.offsetHeight
@@ -220,7 +221,7 @@ class Canvas extends React.Component {
 
 
   touch(e) {
-      var rect = React.findDOMNode(this.refs.iiicanvas).getBoundingClientRect();
+      var rect = ReactDOM.findDOMNode(this.refs.iiicanvas).getBoundingClientRect();
       var i;
       var touches = [];
       for (i = 0; i < e.touches.length; i++) {
@@ -251,7 +252,7 @@ class Canvas extends React.Component {
     ///////////////////////////////////////////////////////////
     // DEBUT  CODE iii Canvas
 
-    var iiicanvas = React.findDOMNode(this.refs.iiicanvas);
+    var iiicanvas = ReactDOM.findDOMNode(this.refs.iiicanvas);
     iiicanvas.addEventListener("contextmenu", function(e) {
       if (e.preventDefault !== undefined)
           e.preventDefault();
