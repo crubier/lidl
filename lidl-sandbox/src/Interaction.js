@@ -8,24 +8,8 @@ import {DragSource} from 'react-dnd';
 
 import _ from 'lodash';
 import Lidl from 'lidl';
+import MultiLineFitInput from './MultiLineFitInput'
 
-function prepareString(str) {
-  return str.replace(/\n/g, "$\n$")
-    .split("$")
-    .map(function(x, n) {
-      if (x === "\n") {
-        return <br key={n} style={{
-            'userSelect': 'none'
-          }}/>;
-      } else {
-        return <span key={n} style={{
-            'userSelect': 'none'
-          }}>{x
-  .replace(/ /g, "\u00a0")
-  .replace(/\t/g, "\u00a0\u00a0\u00a0\u00a0")}</span>;
-      }
-    });
-}
 
 function hashCode(str) {
   var hash = 0,
@@ -45,13 +29,13 @@ function hashCode(str) {
 const style = {
   overflow: 'auto',
   display: 'inline-block',
-  border: '0px solid rgba(0, 0, 0, 0.2)',
-  margin: '4px',
-  padding: '4px',
+  border: '0px solid rgba(0, 0, 0, 0.1)',
+  margin: '2px',
+  padding: '2px',
   borderRadius: '4px',
   verticalAlign: 'middle',
   userSelect: 'none',
-  boxShadow: '0px 0px 5px rgba(0, 0, 0, 0.2)'
+  boxShadow: '0px 0px 5px rgba(0, 0, 0, 0.1)'
 };
 
 const boxTarget = {
@@ -123,6 +107,23 @@ export default class Interaction extends Component {
     this.props.onChange(newVal,this.props.indexInParent);
   }
 
+  handleChangeInOperator(valOfChild,indexOfChild) {
+    let listElements = Lidl.interactions.toShallowListOfElements(this.props.val);
+
+    let beg = _.slice(listElements, 0,indexOfChild);
+    let end = _.slice(listElements, indexOfChild+1,listElements.length);
+    let mid = valOfChild.replace(/[\(\)\$]/g,"_$_").split("_").map(function(x){
+      if(x!=="$"){
+        return x;
+      }else {
+        return {type:"InteractionSimple",formating:"",operator:"",operand:[]}
+      }
+    });
+    listElements = _.flatten([beg,mid,end]);
+    let newVal = Lidl.interactions.fromShallowListOfElements(listElements);
+    this.props.onChange(newVal,this.props.indexInParent);
+  }
+
   render() {
     const {canDrop, isOver, connectDropTarget} = this.props;
     const isActive = canDrop && isOver;
@@ -130,30 +131,24 @@ export default class Interaction extends Component {
     const {name} = this.props;
     const opacity = isDragging? 0.4: 1;
 
-const that = this;
+  const that = this;
 
   let backgroundColor = 'hsla(' + Math.abs(hashCode(this.props.val.operator)) % 360 + ', 100%, ' + (isActive
     ? '100%'
-    : '90%') + ', 1)';
+    : '94%') + ',1)';
 
   let listElements = Lidl.interactions
     .toShallowListOfElements(this.props.val);
 
-  let i = 0;
+  let i = -1;
 
   let subs = _
     .map(listElements, function(x, n) {
       if (_.isString(x)) {
-        return (
-          <p key={n} style={{
-            display: 'inline',
-            userSelect: 'none'
-          }}>{prepareString(x)}</p>
-        );
+        return (<MultiLineFitInput onChange={that.handleChangeInOperator.bind(that)} indexInParent={n} key={n} val={x}/>);
       } else {
-        return (
-          <Interaction onChange={that.handleChangeInChild.bind(that)} indexInParent={i++} key={n} val={x}/>
-        );
+        i++;
+        return ( <Interaction onChange={that.handleChangeInChild.bind(that)} indexInParent={i} key={n} val={x}/>);
       }
     });
 

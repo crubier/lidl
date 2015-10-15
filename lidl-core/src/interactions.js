@@ -312,20 +312,33 @@ function toListOfElements(interaction) {
   });
 }
 
+// normalize input value
+function normalize(value) {
+  return ((null === value || undefined === value)? '': value + '');
+}
+
+function concat(x,y) {
+return [x,y];
+}
+
 function toShallowListOfElements(interaction) {
-  var i=0;
-  return interaction.formating.replace(/\$/g,"_$_").split("_").filter(function(x){
-    return x !=='';
-  }).map(function(x){
-    var res;
-    if(x==="$"){
-      res= interaction.operand[i];
-      i++;
+  return _.dropRight(_.flatten(_.zipWith(interaction.formating.split("$").map(normalize), interaction.operand,concat)));
+}
+
+function fromShallowListOfElements(lst) {
+  var formating = lst.map(function(x){
+    if(_.isString(x)){
+      return x;
     }else{
-      res= x;
+      return '$';
     }
-    return res;
-  });
+  }).join('');
+
+  var operator = formating.replace(/[ \t\r\n]*/g,"");
+
+  var operand = lst.filter(function(x){return !_.isString(x);});
+
+  return {type:"InteractionSimple",formating:formating,operator:operator,operand:operand};
 }
 
 function removeFormattingInfo(interaction) {
@@ -336,7 +349,10 @@ function removeFormattingInfo(interaction) {
   };
 }
 
+
+
 module.exports.removeFormattingInfo = removeFormattingInfo;
+module.exports.fromShallowListOfElements = fromShallowListOfElements;
 module.exports.toShallowListOfElements = toShallowListOfElements;
 module.exports.toListOfElements = toListOfElements;
 module.exports.listOfInteractions = listOfInteractions;

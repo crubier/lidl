@@ -8,10 +8,20 @@ import Interaction from './Interaction';
 import _ from 'lodash';
 import Lidl from 'lidl';
 
+let code1="(({\n    actualSpeed:  (theActualSpeed)\n    targetSpeed:  (theTargetSpeed)\n    alarm:        ((theActualSpeed) > (theTargetSpeed))\n    increment:    ((new(theTargetSpeed)) = ((previous(theTargetSpeed)) + (5)))\n    decrement:    ((new(theTargetSpeed)) = ((previous(theTargetSpeed)) - (5)))\n    current:      ((new(theTargetSpeed)) = (round(theActualSpeed) to nearest (5)))\n  })\nwith behaviour\n(((theDesiredSpeed) is a flow initially equal to (0))\n((theActualSpeed) = ((theEngine).ActualSpeed))))";
+let code2 = '(({\n  human:({\n    desired:(Label (active) displaying (text(theDesired)) )\n    actual:(Label (active) displaying (text(theActual)) )\n    increment:(Button (active) displaying ("+") trigerring ((new(theDesired))=((previous(theDesired))+(1))))\n    decrement:(Button (active) displaying ("-") trigerring ((new(theDesired))=((previous(theDesired))-(1))))\n    })\n  system:({\n    actual:(theActual)\n    desired:(theDesired)\n    })\n  })\nwith behavior\n((theDesired)is a flow💪)\n)'
 let defaultCode = Lidl.parser
-  .parse('(({\n  human:({\n    desired:(Label (active) displaying (text(theDesired)) )\n    actual:(Label (active) displaying (text(theActual)) )\n    increment:(Button (active) displaying ("+") trigerring ((new(theDesired))=((previous(theDesired))+(1))))\n    decrement:(Button (active) displaying ("-") trigerring ((new(theDesired))=((previous(theDesired))-(1))))\n    })\n  system:({\n    actual:(theActual)\n    desired:(theDesired)\n    })\n  })\nwith behavior\n((theDesired)is a flow💪)\n)', {
+  .parse(code1, {
     startRule: "interaction"
   });
+
+
+
+
+  // let defaultCode = Lidl.parser
+  //   .parse('(lol(bob)(joe)pan)', {
+  //     startRule: "interaction"
+  //   });
 
 @DragDropContext(HTML5Backend)
 export default class Container extends Component {
@@ -27,8 +37,9 @@ export default class Container extends Component {
     code: this.props.initialCode
   };
 
-  handleChange(val) {
-    this.setState({code:val});
+  handleChange(newVal) {
+// console.log("change Container : " +JSON.stringify(newVal));
+    this.setState({code:newVal});
   }
 
   render() {

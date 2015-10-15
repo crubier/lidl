@@ -15,6 +15,108 @@ var  removeFormattingInfo = interactions.removeFormattingInfo;
 
 describe('interactions', function() {
 
+  describe('shallow list of elements', function() {
+
+    it('simple2', function() {
+
+      var k={
+              "type": "InteractionSimple",
+              "formating": "oo wow os$oll\nslk$bobie joe",
+              "operator": "oowowos$ollslk$bobiejoe",
+              "operand": [{
+                "type": "InteractionSimple",
+                "formating": "  bob  ",
+                "operator": "bob",
+                "operand": []
+              }, {
+                "type": "InteractionSimple",
+                "formating": "lol",
+                "operator": "l o l",
+                "operand": []
+              }]
+            };
+
+          expect(interactions.fromShallowListOfElements(interactions.toShallowListOfElements(k)))
+            .toEqual(k);
+
+
+        });
+
+
+  });
+
+  describe('to shallow list of elements', function() {
+
+    it('too simple', function() {
+    expect(interactions.toShallowListOfElements({
+        "type": "InteractionSimple",
+        "operator": "oksss",
+        "formating": "oksss",
+        "operand": []
+      }))
+      .toEqual([
+        "oksss"
+      ]);
+  });
+
+    it('simple', function() {
+      expect(interactions.toShallowListOfElements({
+          "type": "InteractionSimple",
+          "operator": "$ok$",
+          "formating": "$   ok \n $",
+          "operand": [{
+            "type": "InteractionSimple",
+            "operator": "bob",
+            "operand": []
+          }, {
+            "type": "InteractionSimple",
+            "operator": "lol",
+            "operand": []
+          }]
+        }))
+        .toEqual([
+          "",{
+            "type": "InteractionSimple",
+            "operator": "bob",
+            "operand": []
+          }, "   ok \n ", {
+            "type": "InteractionSimple",
+            "operator": "lol",
+            "operand": []
+          },""
+        ]);
+    });
+
+    it('simple2', function() {
+        expect(interactions.toShallowListOfElements({
+            "type": "InteractionSimple",
+            "operator": "oo wow os$ollslk$bobie joe",
+            "formating": "oo wow \nos$\noll sl k\t$\n\tbobie joe",
+            "operand": [{
+              "type": "InteractionSimple",
+              "operator": "bob",
+              "operand": []
+            }, {
+              "type": "InteractionSimple",
+              "operator": "lol",
+              "operand": []
+            }]
+          }))
+          .toEqual([
+            "oo wow \nos",{
+              "type": "InteractionSimple",
+              "operator": "bob",
+              "operand": []
+            }, "\noll sl k\t", {
+              "type": "InteractionSimple",
+              "operator": "lol",
+              "operand": []
+            },"\n\tbobie joe"
+          ]);
+      });
+
+  });
+
   describe('to list of elements', function() {
 
     it('too simple', function() {

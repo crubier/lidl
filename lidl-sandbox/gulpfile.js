@@ -27,6 +27,7 @@ gulp.task('js', function(){
 		// .pipe(buffer())
 		// .pipe(sourcemaps.init({ loadMaps: true }))
 		// .pipe(sourcemaps.write('./'))
+		.on('error', gutil.log)
 		.pipe(gulp.dest('./dist'));
 });
 
