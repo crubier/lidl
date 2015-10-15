@@ -109,7 +109,6 @@ export default class Interaction extends Component {
 
   handleChangeInOperator(valOfChild,indexOfChild) {
     let listElements = Lidl.interactions.toShallowListOfElements(this.props.val);
-
     let beg = _.slice(listElements, 0,indexOfChild);
     let end = _.slice(listElements, indexOfChild+1,listElements.length);
     let mid = valOfChild.replace(/[\(\)\$]/g,"_$_").split("_").map(function(x){
@@ -131,33 +130,33 @@ export default class Interaction extends Component {
     const {name} = this.props;
     const opacity = isDragging? 0.4: 1;
 
-  const that = this;
+    const that = this;
 
-  let backgroundColor = 'hsla(' + Math.abs(hashCode(this.props.val.operator)) % 360 + ', 100%, ' + (isActive
-    ? '100%'
-    : '94%') + ',1)';
+    let backgroundColor = 'hsla(' + Math.abs(hashCode(this.props.val.operator)) % 360 + ', 100%, ' + (isActive
+      ? '100%'
+      : '94%') + ',1)';
 
-  let listElements = Lidl.interactions
-    .toShallowListOfElements(this.props.val);
+    let listElements = Lidl.interactions
+      .toShallowListOfElements(this.props.val);
 
-  let i = -1;
+    let i = -1;
 
-  let subs = _
-    .map(listElements, function(x, n) {
-      if (_.isString(x)) {
-        return (<MultiLineFitInput onChange={that.handleChangeInOperator.bind(that)} indexInParent={n} key={n} val={x}/>);
-      } else {
-        i++;
-        return ( <Interaction onChange={that.handleChangeInChild.bind(that)} indexInParent={i} key={n} val={x}/>);
-      }
-    });
+    let subs = _
+      .map(listElements, function(x, n) {
+        if (_.isString(x)) {
+          return (<MultiLineFitInput onChange={that.handleChangeInOperator.bind(that)} indexInParent={n} key={n} val={x}/>);
+        } else {
+          i++;
+          return ( <Interaction onChange={that.handleChangeInChild.bind(that)} indexInParent={i} key={n} val={x}/>);
+        }
+      });
 
-  return connectDragSource(connectDropTarget(<div style={{
-      ...style,
-      backgroundColor,
-      opacity
-    }}>
-      {subs}
-    </div>));
-}
+    return connectDragSource(connectDropTarget(<div style={{
+        ...style,
+        backgroundColor,
+        opacity
+      }}>
+        {subs}
+      </div>));
+  }
 }

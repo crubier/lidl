@@ -46,8 +46,9 @@ export default class Container extends Component {
     return (
 
       <div style={{
-        'overflow': 'auto',
-        'display': 'inline-block'
+        overflow: 'auto',
+        display: 'inline-block',
+        verticalAlign: 'top'
       }}>
         <Interaction onChange={this.handleChange.bind(this)} val={this.state.code}/>
       </div>

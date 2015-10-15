@@ -10,7 +10,6 @@ function shadow(element) {
   var node = document.createElement('span');
   var style = window.getComputedStyle(element);
 
-  // set style
   node.style.fontFamily = style.fontFamily;
   node.style.fontSize = style.fontSize;
   node.style.fontStyle = style.fontStyle;
@@ -57,9 +56,7 @@ export default class FitInput extends Component {
   }
 
   componentDidMount() {
-    this.element = this.refs
-      .input
-      .getDOMNode();
+    this.element = this.refs.theInput;
     this.shadow = shadow(this.element);
     this.element.style.width = this.getWidth();
   }
@@ -77,7 +74,7 @@ export default class FitInput extends Component {
 
   render() {
 
-    return <input ref = 'input'
+    return <input ref = 'theInput'
     style = {
       {
         border: 'none',

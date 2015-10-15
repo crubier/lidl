@@ -1,3 +1,6 @@
 export default {
-  Interaction: 'interaction'
+  Interaction: 'interaction',
+  Interface: 'interface',
+  Data: 'data',
+  Definition: 'definition'
 };
