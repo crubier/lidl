@@ -3,7 +3,7 @@ import React, {
   Component
 } from 'react';
 import ReactDOM from 'react-dom';
-import Container from './Container';
+import BlockCodeEditor from './BlockCodeEditor/BlockCodeEditor';
 import Graph from './Graph/Graph';
 
 
@@ -20,6 +20,13 @@ import Graph from './Graph/Graph';
 
 
 export default class Main extends Component {
+
+  state =  {
+    code: {},
+    scenario: {},
+    compiled:{}
+  };
+
   render() {
     return (
       <div style={{
@@ -29,8 +36,8 @@ export default class Main extends Component {
         height: '100%',
         backgroundColor:'rgba(0, 0, 0,0)'
       }}>
-        <Container />
-        <Graph/>
+        <BlockCodeEditor />
+        <Graph />
       </div>
     );
   }

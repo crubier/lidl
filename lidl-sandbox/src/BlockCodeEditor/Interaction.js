@@ -30,12 +30,11 @@ const style = {
   overflow: 'auto',
   display: 'inline-block',
   border: '0px solid rgba(0, 0, 0, 0.1)',
-  margin: '2px',
-  padding: '2px',
+  margin: '1px',
+  padding: '1px',
   borderRadius: '4px',
   verticalAlign: 'middle',
-  userSelect: 'none',
-  boxShadow: '0px 0px 5px rgba(0, 0, 0, 0.1)'
+  userSelect: 'none'
 };
 
 const boxTarget = {

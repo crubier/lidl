@@ -26,6 +26,7 @@
     "browserify": "^11.2.0",
     "del": "^2.0.2",
     "fbjs": "^0.2.1",
+    "gl-matrix": "^2.3.1",
     "gulp": "^3.9.0",
     "gulp-sourcemaps": "^1.6.0",
     "gulp-stylus": "^2.1.0",

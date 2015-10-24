@@ -10,6 +10,9 @@ import _ from 'lodash';
 // import Node from './Node';
 
 
+
+const defNumber = 400;
+const defConnectivity = 1.;
 export default class Graph extends Component {
 
   static PropTypes = {
@@ -18,15 +21,16 @@ export default class Graph extends Component {
 
   static defaultProps = {
     graph:{
-      nodes : _.range(100).map((x)=>({label:"A"+x})),
-      edges:[{from:0,to:1,labelFrom:"x",labelTo:"y",label:"5"}]
+      nodes : _.range(defNumber).map((x)=>({label:"A"+x})),
+      edges: _.range(defConnectivity*defNumber).map((x)=>({from:Math.round(Math.random()*(defNumber-1)),to:Math.round(Math.random()*(defNumber-1)),labelFrom:"x",labelTo:"y",label:"5"}))
     },
+    zoom:0.25,
     dimensions:{width:800,height:800}
   };
 
   state = {
     model: new Model(this.props.graph),
-    view:{position:{x:this.props.dimensions.width/2,y:this.props.dimensions.height/2},zoom:1},
+    view:{position:{x:this.props.dimensions.width/2/(this.props.zoom),y:this.props.dimensions.height/2/(this.props.zoom)},zoom:0.25},
     mouseDown:{clientPosition:{x:0,y:0},viewPosition:{x:0,y:0}},
     dragging:false
   };
@@ -78,44 +82,55 @@ export default class Graph extends Component {
 
   }
 
+
+  componentDidMount(){
+      let that = this;
+      var graphlayoutInterval = setInterval(function(){
+        if(that.state.model.step())clearInterval(graphlayoutInterval);
+        that.setState({model:that.state.model});
+
+      }, (1000.0)/(60.0));
+  }
+
   render() {
-    let nodes = this.state.model.nodes.map((x,n)=>(
-      <circle key={n} cx={x.physics.position.x} cy={x.physics.position.y} r={20} fill={'rgba(0, 0, 0, 0.1)'} />
+
+
+    let nodesPos = this.state.model.physics.state.current.position;
+
+    let nodes = this.state.model.nodes.map((pt,n)=>(
+      <g key={"n"+n}>
+        <circle cx={nodesPos[n][0]} cy={nodesPos[n][1]} r={20} fill={'rgba(230, 230, 230, 1)'} />
+        <text x={nodesPos[n][0]} y={nodesPos[n][1]}  textAnchor={"middle"} style={{
+      fontFamily: 'roboto',
+      fontSize  : '10',
+      stroke     : 'none',
+      fill       : '#000000',
+      alignmentBaseline:'central'
+}}>{this.state.model.nodes[n].label}</text>
+      </g>
     ));
+
+    let edges = this.state.model.edges.map((x,n)=>(
+      <line key={"e"+n} x1={nodesPos[x.from][0]} y1={nodesPos[x.from][1]}
+          x2={nodesPos[x.to][0]} y2={nodesPos[x.to][1]}
+          stroke="rgba(177, 177, 177, 1)"
+          strokeWidth="1"/>
+    ));
+
     return (
-      <svg ref={"theGraph"} width={this.props.dimensions.width} height={this.props.dimensions.height} style={{cursor: 'pointer'}} onWheel={this.onWheel.bind(this)} onMouseDown={this.onMouseDown.bind(this)} onMouseUp={this.onMouseUp.bind(this)} onMouseMove={this.onMouseMove.bind(this)}>
+      <svg ref={"theGraph"} width={this.props.dimensions.width}
+  height={this.props.dimensions.height} style={{cursor: 'pointer'}}
+ onWheel={this.onWheel.bind(this)} onMouseDown={this.onMouseDown.bind(this)}
+ onMouseUp={this.onMouseUp.bind(this)} onMouseMove={this.onMouseMove.bind(this)}>
         <g transform={"scale("+this.state.view.zoom+") translate("+this.state.view.position.x+","+this.state.view.position.y+")"}>
-        {nodes}
+        <g>
+          {edges}
+        </g>
+          <g>
+            {nodes}
+          </g>
         </g>
       </svg>
     );
   }
-}
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-// Mouse position relative to the element
-// not working on IE7 and below
-function mousePositionElement(e) {
-  let target = e.target;
-  let rect = target.getBoundingClientRect();
-  let offsetX = e.clientX - rect.left;
-  let offsetY = e.clientY - rect.top;
-  return {x:offsetX,y:offsetY};
 }

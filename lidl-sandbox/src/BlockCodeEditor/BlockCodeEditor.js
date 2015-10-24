@@ -8,8 +8,8 @@ import Interaction from './Interaction';
 import _ from 'lodash';
 import Lidl from 'lidl';
 
-let code1="(({\n    actualSpeed:  (theActualSpeed)\n    targetSpeed:  (theTargetSpeed)\n    alarm:        ((theActualSpeed) > (theTargetSpeed))\n    increment:    ((new(theTargetSpeed)) = ((previous(theTargetSpeed)) + (5)))\n    decrement:    ((new(theTargetSpeed)) = ((previous(theTargetSpeed)) - (5)))\n    current:      ((new(theTargetSpeed)) = (round(theActualSpeed) to nearest (5)))\n  })\nwith behaviour\n(((theDesiredSpeed) is a flow initially equal to (0))\n((theActualSpeed) = ((theEngine).ActualSpeed))))";
-let code2 = '(({\n  human:({\n    desired:(Label (active) displaying (text(theDesired)) )\n    actual:(Label (active) displaying (text(theActual)) )\n    increment:(Button (active) displaying ("+") trigerring ((new(theDesired))=((previous(theDesired))+(1))))\n    decrement:(Button (active) displaying ("-") trigerring ((new(theDesired))=((previous(theDesired))-(1))))\n    })\n  system:({\n    actual:(theActual)\n    desired:(theDesired)\n    })\n  })\nwith behavior\n((theDesired)is a flow💪)\n)'
+let code1="(({\n    actualSpeed:  (theActualSpeed)\n    targetSpeed:  (theTargetSpeed)\n    alarm:        ((theActualSpeed) > (theTargetSpeed))\n    increment:    ((new(theTargetSpeed)) = ((previous(theTargetSpeed)) + (5)))\n    decrement:    ((new(theTargetSpeed)) = ((previous(theTargetSpeed)) - (5)))\n    current:      ((new(theTargetSpeed)) = (round(theActualSpeed) to nearest (5)))\n  })\nwith behaviour\n(all\n((theTargetSpeed) is a flow initially equal to (0))\n((theActualSpeed) = ((theEngine).ActualSpeed))\n(((theEngine).TargetSpeed) = (theTargetSpeed))))";
+let code2 = '(({\n  human:({\n    desired:(Label (active) displaying (text(theDesired)) )\n    actual:(Label (active) displaying (text(theActual)) )\n    increment:(Button (active) displaying ("+") trigerring ((new(theDesired))=((previous(theDesired))+(1))))\n    decrement:(Button (active) displaying ("-") trigerring ((new(theDesired))=((previous(theDesired))-(1))))\n    })\n  system:({\n    actual:(theActual)\n    target:(theDesired)\n    })\n  })\nwith behavior\n((theDesired)is a flow💪)\n)'
 let defaultCode = Lidl.parser
   .parse(code1, {
     startRule: "interaction"
@@ -24,7 +24,7 @@ let defaultCode = Lidl.parser
   //   });
 
 @DragDropContext(HTML5Backend)
-export default class Container extends Component {
+export default class BlockCodeEditor extends Component {
   static propTypes = {
     initialCode: PropTypes.object.isRequired
   };
