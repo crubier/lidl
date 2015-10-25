@@ -349,8 +349,17 @@ function removeFormattingInfo(interaction) {
   };
 }
 
+function getFormattingInfo(interaction) {
+  if(interaction.formating !== undefined && interaction.formating !== null) {
+    return interaction.formating;
+  } else {
+    return interaction.operator;
+  }
+}
 
 
+
+module.exports.getFormattingInfo = getFormattingInfo;
 module.exports.removeFormattingInfo = removeFormattingInfo;
 module.exports.fromShallowListOfElements = fromShallowListOfElements;
 module.exports.toShallowListOfElements = toShallowListOfElements;

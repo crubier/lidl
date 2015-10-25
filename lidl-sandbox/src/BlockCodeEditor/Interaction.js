@@ -3,13 +3,13 @@ import React, {
   Component
 } from 'react';
 import ItemTypes from './ItemTypes';
-import {DropTarget} from 'react-dnd';
-import {DragSource} from 'react-dnd';
+import {DropTargetnDragSource} from 'react-dnd';
 
 import _ from 'lodash';
 import Lidl from 'lidl';
 import MultiLineFitInput from './MultiLineFitInput'
 
+import ReactCSSTransitionGroup from 'react-addons-css-transition-group';
 
 function hashCode(str) {
   var hash = 0,
@@ -150,12 +150,12 @@ export default class Interaction extends Component {
         }
       });
 
-    return connectDragSource(connectDropTarget(<div style={{
-        ...style,
-        backgroundColor,
-        opacity
-      }}>
-        {subs}
-      </div>));
+    return connectDragSource(connectDropTarget(
+       <div style={{...style, backgroundColor, opacity}}>
+<ReactCSSTransitionGroup transitionName="block" transitionAppear={true} transitionAppearTimeout={300} transitionEnterTimeout={300} transitionLeaveTimeout={300}>
+         {subs}
+</ReactCSSTransitionGroup>
+       </div>
+    ));
   }
 }

@@ -3,9 +3,15 @@ import React, {
   Component
 } from 'react';
 import ReactDOM from 'react-dom';
-import BlockCodeEditor from './BlockCodeEditor/BlockCodeEditor';
-import Graph from './Graph/Graph';
 
+import BlockCodeEditor from './BlockCodeEditor/BlockCodeEditor';
+import CodeEditor from './CodeEditor/CodeEditor';
+import Graph from './Graph/Graph';
+import View from './FlexContainer/FlexContainer';
+import ScenarioEditor from './ScenarioEditor/ScenarioEditor';
+import ErrorDisplay from './ErrorDisplay/ErrorDisplay';
+import Canvas from './Canvas/Canvas';
+import Analysis from './Analysis/Analysis';
 
 // const Card = require('material-ui/lib/card/card');
 // const CardHeader = require('material-ui/lib/card/card-header');
@@ -29,18 +35,24 @@ export default class Main extends Component {
 
   render() {
     return (
-      <div style={{
-        overflow: 'auto',
-        display: 'inline-block',
-        width: '100%',
-        height: '100%',
-        backgroundColor:'rgba(0, 0, 0,0)'
-      }}>
-        <BlockCodeEditor />
-        <Graph />
-      </div>
+      <View row>
+        <View column>
+          <CodeEditor/>
+          <BlockCodeEditor/>
+          <ErrorDisplay/>
+          <Analysis/>
+        </View>
+        <View column>
+          <ScenarioEditor/>
+          <Canvas/>
+          <Graph/>
+        </View>
+      </View>
     );
   }
 }
 
 ReactDOM.render(<Main/>, document.getElementById("main"));
+
+
+// <Canvas />

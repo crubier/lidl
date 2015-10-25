@@ -42,16 +42,19 @@ export default class BlockCodeEditor extends Component {
     this.setState({code:newVal});
   }
 
+  /*style={{
+    overflow: 'auto',
+    display: 'inline-block',
+    verticalAlign: 'top'
+  }}*/
+
   render() {
     return (
-
-      <div style={{
-        overflow: 'auto',
-        display: 'inline-block',
-        verticalAlign: 'top'
-      }}>
+<div>
+<h1> Code </h1>
         <Interaction onChange={this.handleChange.bind(this)} val={this.state.code}/>
-      </div>
+</div>
+
     // <div>
     //       <Interaction name='Glass' />
     //       <Interaction name='Banana' />

@@ -8,6 +8,7 @@ var buffer = require('vinyl-buffer');
 var uglify = require('gulp-uglify');
 var gutil = require('gulp-util');
 var babel = require('babelify');
+var notify = require('gulp-notify');
 
 
 var source = {
@@ -32,7 +33,8 @@ gulp.task('js', function(){
 		// .pipe(buffer())
 		// .pipe(sourcemaps.init({ loadMaps: true }))
 		// .pipe(sourcemaps.write('./'))
-		.pipe(gulp.dest('./dist'));
+		.pipe(gulp.dest('./dist'))
+		.pipe(notify("Wrote file <%= file.relative %>"));
 });
 
 // gulp.task('appcss', function () {

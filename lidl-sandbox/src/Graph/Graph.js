@@ -11,8 +11,9 @@ import _ from 'lodash';
 
 
 
-const defNumber = 400;
+const defNumber = 40;
 const defConnectivity = 1.;
+
 export default class Graph extends Component {
 
   static PropTypes = {
@@ -54,7 +55,8 @@ export default class Graph extends Component {
 
   pageToElement(coord) {
     let rect=this.refs.theGraph.getBoundingClientRect();
-    return {x:coord.x-rect.left,y:coord.y-rect.top};
+console.log();
+    return {x:coord.x-rect.left-window.pageXOffset,y:coord.y-rect.top-window.pageYOffset};
   }
 
   pageToGraph(coord) {
@@ -81,7 +83,6 @@ export default class Graph extends Component {
     }});
 
   }
-
 
   componentDidMount(){
       let that = this;
@@ -117,9 +118,11 @@ export default class Graph extends Component {
           strokeWidth="1"/>
     ));
 
+//
     return (
-      <svg ref={"theGraph"} width={this.props.dimensions.width}
-  height={this.props.dimensions.height} style={{cursor: 'pointer'}}
+      <div>
+      <h1> Graph </h1>
+      <svg ref={"theGraph"} width={this.props.dimensions.width} height={this.props.dimensions.height} style={{cursor: 'pointer',backgroundColor:"#FFFFFF"}} viewBox={"0 0 800 800"}
  onWheel={this.onWheel.bind(this)} onMouseDown={this.onMouseDown.bind(this)}
  onMouseUp={this.onMouseUp.bind(this)} onMouseMove={this.onMouseMove.bind(this)}>
         <g transform={"scale("+this.state.view.zoom+") translate("+this.state.view.position.x+","+this.state.view.position.y+")"}>
@@ -131,6 +134,7 @@ export default class Graph extends Component {
           </g>
         </g>
       </svg>
+</div>
     );
   }
 }
