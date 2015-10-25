@@ -3,7 +3,7 @@ import React, {
   Component
 } from 'react';
 import ItemTypes from './ItemTypes';
-import {DropTargetnDragSource} from 'react-dnd';
+import {DropTarget,DragSource} from 'react-dnd';
 
 import _ from 'lodash';
 import Lidl from 'lidl';

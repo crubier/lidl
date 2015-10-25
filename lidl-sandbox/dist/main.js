@@ -68182,7 +68182,7 @@ var Interaction = (function (_Component) {
   }]);
 
   var _Interaction = Interaction;
-  Interaction = DropTarget(_ItemTypes2['default'].Interaction, boxTarget, function (connect, monitor) {
+  Interaction = (0, _reactDnd.DropTarget)(_ItemTypes2['default'].Interaction, boxTarget, function (connect, monitor) {
     return {
       connectDropTarget: connect.dropTarget(),
       isOver: monitor.isOver({
@@ -68191,7 +68191,7 @@ var Interaction = (function (_Component) {
       canDrop: monitor.canDrop()
     };
   })(Interaction) || Interaction;
-  Interaction = DragSource(_ItemTypes2['default'].Interaction, boxSource, function (connect, monitor) {
+  Interaction = (0, _reactDnd.DragSource)(_ItemTypes2['default'].Interaction, boxSource, function (connect, monitor) {
     return {
       connectDragSource: connect.dragSource(),
       isDragging: monitor.isDragging()
