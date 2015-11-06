@@ -68039,7 +68039,7 @@ function hashCode(str) {
 var style = {
   overflow: 'auto',
   display: 'inline-block',
-  border: '0px solid rgba(0, 0, 0, 0.1)',
+  border: '1px solid rgba(0, 0, 0, 0.1)',
   margin: '1px',
   padding: '1px',
   borderRadius: '4px',

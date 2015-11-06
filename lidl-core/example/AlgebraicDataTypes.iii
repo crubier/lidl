@@ -1,0 +1,57 @@
+Here,
+
+  - [x] denotes the data type called x
+  - <y> denotes the interface called y
+  - (z) denotes the interaction called z
+
+
+
+data [Text]
+  is () | ("") | (" ") | ... | ("hello") | ...
+
+data [Number]
+  is () | (1) | (2) | ...
+
+data [RoverOperation]
+  is () | (no operation) | (remote control rover (nameControlled:[Text]) ) | (display camera of rover (nameDisplayed:[Text]))
+
+data [N-uplet [type]]
+  is () | ((e0:[type])) | ((e0:[type])(e1:[type])) | ...
+
+data [ x:[tx] y:[ty] ]
+  is () | (x:(ex:[tx])) | (y:(ey:[ty])) | (x:(ex:[tx])y:(ey:[ty]))
+
+data [Maybe a [type]]
+  is (inactive) | (a (val:[type]))
+
+data [point2Dreal]
+  is [x:[Number]y:[Number]]
+
+  is () | (x:(ex:[Number])) | (y:(ey:[Number])) | (x:(ex:[Number])y:(ey:[Number]))
+
+  is () | (x:(ex:() | (1) | (2) | ...)) | (y:(ey:() | (1) | (2) | ...)) | (x:(ex:() | (1) | (2) | ...)y:(ey:() | (1) | (2) | ...))
+
+
+
+
+
+data [[type]in]
+  is (input(a:[type]))
+
+
+
+
+
+interface < x:<ix> y:<iy> >
+    is () | (x:(ex:<ix>)) | (y:(ey:<iy>)) | (x:(ex:<ix>)y:(ey:<iy>))
+
+interface < [type] in >
+  [type]
+
+interface < input and output of [type] >
+  is < input:<[type]in> output:<[type]out> >
+
+
+
+interaction
+  ((a)=(b)):<Activation in>

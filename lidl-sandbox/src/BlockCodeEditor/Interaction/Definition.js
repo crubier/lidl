@@ -1,30 +1,12 @@
-import React, {
-  PropTypes,
-  Component
-} from 'react';
-import ItemTypes from './ItemTypes';
+import React, {PropTypes,Component} from 'react';
 import {DropTarget,DragSource} from 'react-dnd';
+import ItemTypes from './ItemTypes';
 
 import _ from 'lodash';
 import Lidl from 'lidl';
 import MultiLineFitInput from './MultiLineFitInput'
 
 import ReactCSSTransitionGroup from 'react-addons-css-transition-group';
-
-function hashCode(str) {
-  var hash = 0,
-    i,
-    chr,
-    len;
-  if (str.length == 0)
-    return hash;
-  for (i = 0, len = str.length; i < len; i++) {
-    chr = str.charCodeAt(i);
-    hash = ((hash << 5) - hash) + chr;
-    hash |= 0; // Convert to 32bit integer
-  }
-  return hash;
-};
 
 const style = {
   overflow: 'auto',
@@ -69,11 +51,11 @@ const boxSource = {
   }
 };
 
-@DragSource(ItemTypes.Interaction.Expression, boxSource, (connect, monitor) => ({
+@DragSource(ItemTypes.Interaction, boxSource, (connect, monitor) => ({
   connectDragSource: connect.dragSource(),
   isDragging: monitor.isDragging()
 }))
-@DropTarget(ItemTypes.Interaction.Expression, boxTarget, (connect, monitor) => ({
+@DropTarget(ItemTypes.Interaction, boxTarget, (connect, monitor) => ({
   connectDropTarget: connect.dropTarget(),
   isOver: monitor.isOver({
     shallow: true
@@ -96,31 +78,31 @@ export default class Interaction extends Component {
     indexInParent: 0
   };
 
-  handleDrop(item) {
-    this.props.onChange(item.val,this.props.indexInParent);
-  }
-
-  handleChangeInChild(valOfChild,indexOfChild) {
-    var newVal = _.cloneDeep(this.props.val);
-    newVal.operand[indexOfChild]=valOfChild;
-    this.props.onChange(newVal,this.props.indexInParent);
-  }
-
-  handleChangeInOperator(valOfChild,indexOfChild) {
-    let listElements = Lidl.interactions.toShallowListOfElements(this.props.val);
-    let beg = _.slice(listElements, 0,indexOfChild);
-    let end = _.slice(listElements, indexOfChild+1,listElements.length);
-    let mid = valOfChild.replace(/[\(\)\$]/g,"_$_").split("_").map(function(x){
-      if(x!=="$"){
-        return x;
-      }else {
-        return {type:"InteractionSimple",formating:"",operator:"",operand:[]}
-      }
-    });
-    listElements = _.flatten([beg,mid,end]);
-    let newVal = Lidl.interactions.fromShallowListOfElements(listElements);
-    this.props.onChange(newVal,this.props.indexInParent);
-  }
+  // handleDrop(item) {
+  //   this.props.onChange(item.val,this.props.indexInParent);
+  // }
+  //
+  // handleChangeInChild(valOfChild,indexOfChild) {
+  //   var newVal = _.cloneDeep(this.props.val);
+  //   newVal.operand[indexOfChild]=valOfChild;
+  //   this.props.onChange(newVal,this.props.indexInParent);
+  // }
+  //
+  // handleChangeInOperator(valOfChild,indexOfChild) {
+  //   let listElements = Lidl.interactions.toShallowListOfElements(this.props.val);
+  //   let beg = _.slice(listElements, 0,indexOfChild);
+  //   let end = _.slice(listElements, indexOfChild+1,listElements.length);
+  //   let mid = valOfChild.replace(/[\(\)\$]/g,"_$_").split("_").map(function(x){
+  //     if(x!=="$"){
+  //       return x;
+  //     }else {
+  //       return {type:"InteractionSimple",formating:"",operator:"",operand:[]}
+  //     }
+  //   });
+  //   listElements = _.flatten([beg,mid,end]);
+  //   let newVal = Lidl.interactions.fromShallowListOfElements(listElements);
+  //   this.props.onChange(newVal,this.props.indexInParent);
+  // }
 
   render() {
     const {canDrop, isOver, connectDropTarget} = this.props;
@@ -151,11 +133,11 @@ export default class Interaction extends Component {
       });
 
     return connectDragSource(connectDropTarget(
-       <div style={{...style, backgroundColor, opacity}}>
-<ReactCSSTransitionGroup transitionName="block" transitionAppear={true} transitionAppearTimeout={300} transitionEnterTimeout={300} transitionLeaveTimeout={300}>
-         {subs}
-</ReactCSSTransitionGroup>
-       </div>
+      <div style={{...style, backgroundColor, opacity}}>
+        <ReactCSSTransitionGroup transitionName="block" transitionAppear={true} transitionAppearTimeout={300} transitionEnterTimeout={300} transitionLeaveTimeout={300}>
+          {subs}
+        </ReactCSSTransitionGroup>
+      </div>
     ));
   }
 }
