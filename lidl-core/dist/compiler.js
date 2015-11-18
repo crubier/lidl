@@ -34,15 +34,23 @@ function compileToIii(source) {
 }
 
 function compileToGraph(source) {
-  return interactionToGraph(
-    identifiers.reduceIdentifiers(
-      interactions.expand(
-        parser.parse(
-          source
-        )[0]
-      ).interaction
-    )
-  );
+
+  var mainDef = parser.parse(source)[0];
+
+  // TODO reduce the amount of processing on the next three lines and transform it into graph operations instead
+  var graphInteraction = interactionToGraph(identifiers.reduceIdentifiers(interactions.expand(mainDef).interaction));
+  var graphInterface = interfaceToGraph(mainDef.signature.interfac);
+  var graph = mergeByRootNode(graphInteraction, graphInterface);
+  // var graph= graphInterface;
+
+  addOperatorTypeAnnotation(graph);
+  referentialTransparency(graph);
+  linkIdentifiers(graph);
+  behaviourSeparation(graph);
+  functionLiteralLinking(graph);
+  functionCallLinking(graph);
+  matchingCompositionReduction(graph);
+  return graph;
 }
 
 // Function to export graph into the dot format to visualise them
@@ -134,22 +142,24 @@ function interfaceToGraph(interfac, prefx) {
         var theNode;
         if (interfac.direction === "in") {
           theNode = {
-            type: 'InterfaceNode',
+            type: 'InteractionNode',
             id: _.uniqueId("node"),
             interaction: {
               type: "InteractionNative",
               content: "<<a0>>=theInterface" + prefix + ";"
             },
+            ports: ["out"],
             finished: false
           };
         } else {
           theNode = {
-            type: 'InterfaceNode',
+            type: 'InteractionNode',
             id: _.uniqueId("node"),
             interaction: {
               type: "InteractionNative",
               content: "theInterface" + prefix + "=<<a0>>;"
             },
+            ports: ["in"],
             finished: false
           };
         }
@@ -162,7 +172,7 @@ function interfaceToGraph(interfac, prefx) {
     case "InterfaceComposite":
       {
         var result = {};
-        var sub = _.map(interfac.component, function(x) {
+        var sub = _.map(interfac.element, function(x) {
           return interfaceToGraph(x.value, prefix + "." + x.key);
         });
         var rootNode = {
@@ -206,44 +216,68 @@ function interfaceToGraph(interfac, prefx) {
 }
 
 
-function graphTransformation(graph) {
-  addRootNode(graph);
-  addOperatorTypeAnnotation(graph);
-  referentialTransparency(graph);
-  linkIdentifiers(graph);
-  behaviourSeparation(graph);
-  functionLiteralLinking(graph);
-  functionCallLinking(graph);
-}
+function mergeByRootNode(graph1, graph2) {
 
 
-function addRootNode(graph) {
-  var rootn = {
-    type: 'RootNode',
-    id: 'root',
-    finished: false
+  var root1 = graph1.root;
+  var root2 = graph2.root;
+  var graph = {
+    nodes: graph1.nodes.concat(graph2.nodes),
+    edges: graph1.edges.concat(graph2.edges),
+    root: graph1.root
   };
-  graph.nodes.push(rootn);
+
   var edge1 = {
     type: 'AstEdge',
     id: _.uniqueId("edge"),
-    from: rootn,
+    from: root1,
     fromIndex: 0,
-    to: graph.root,
+    to: root2,
     toIndex: 0
   };
+
   var edge2 = {
     type: 'AstEdge',
     id: _.uniqueId("edge"),
-    to: rootn,
+    to: root1,
     toIndex: 0,
-    from: graph.root,
+    from: root2,
     fromIndex: 0
   };
+
   graph.edges.push(edge1);
   graph.edges.push(edge2);
-  graph.root = rootn;
+  return graph;
 }
+
+
+// function addRootNode(graph) {
+//   var rootn = {
+//     type: 'RootNode',
+//     id: 'root',
+//     finished: false
+//   };
+//   graph.nodes.push(rootn);
+//   var edge1 = {
+//     type: 'AstEdge',
+//     id: _.uniqueId("edge"),
+//     from: rootn,
+//     fromIndex: 0,
+//     to: graph.root,
+//     toIndex: 0
+//   };
+//   var edge2 = {
+//     type: 'AstEdge',
+//     id: _.uniqueId("edge"),
+//     to: rootn,
+//     toIndex: 0,
+//     from: graph.root,
+//     fromIndex: 0
+//   };
+//   graph.edges.push(edge1);
+//   graph.edges.push(edge2);
+//   graph.root = rootn;
+// }
 
 
 
@@ -268,7 +302,7 @@ function addOperatorTypeAnnotation(graph) {
 function referentialTransparency(graph) {
 
   var matchNode = function(x) {
-    return (x.type === "InteractionNode" && x.interaction !== undefined && x.referentialTransparencySolved !== true && x.finished !== true);
+    return (x.type === "InteractionNode" && x.interaction !== undefined && x.interaction.type === 'InteractionSimple' && x.referentialTransparencySolved !== true && x.finished !== true);
   };
 
   var n = _.find(graph.nodes, matchNode);
@@ -276,7 +310,7 @@ function referentialTransparency(graph) {
   while (n !== undefined) {
 
     var matchNodeSimilarToN = function(x) {
-      return (x.type === "InteractionNode" && x.interaction !== undefined && x.referentialTransparencySolved !== true && x.finished !== true && _.isEqual(x.interaction, n.interaction, function(a, b) {
+      return (x.type === "InteractionNode" && x.interaction !== undefined && x.interaction.type === 'InteractionSimple' && x.referentialTransparencySolved !== true && x.finished !== true && _.isEqual(x.interaction, n.interaction, function(a, b) {
         return interactions.compare(a, b) === 0;
       }));
     };
@@ -386,6 +420,7 @@ function behaviourSeparation(graph) {
       'type': 'InteractionNative',
       'content': '<<a0>> = active;'
     },
+    ports: ["out"],
     'finished': false
   };
   graph.nodes.push(activeSource);
@@ -500,6 +535,7 @@ function functionLiteralLinking(graph) {
         'type': 'InteractionNative',
         'content': '<<a0>> = ' + funcName + ';'
       },
+      ports: ["out"],
       'finished': false
     };
     graph.nodes.push(functionSource);
@@ -559,6 +595,7 @@ function functionCallLinking(graph) {
         'type': 'InteractionNative',
         'content': 'if(<<a0>>==active) {<<a3>> = <<a1>>(<<a2>>);};'
       },
+      ports: ["in", "in", "in", "out"],
       'finished': false
     };
     graph.nodes.push(functionApplicationSource);
@@ -695,12 +732,90 @@ function functionCallLinking(graph) {
   }
 }
 
+// TODO Extend functionality to deal with other nodes between composition interactions
+// TODO Extend functionality to deal with cases where more than 2 compositions are matching (because of identifier elimination)
+function matchingCompositionReduction(graph) {
+
+  var matchEdge = function(x) {
+    if (x.to === undefined) return false;
+    if (x.from === undefined) return false;
+    if (x.from.interaction === undefined) return false;
+    if (x.to.interaction === undefined) return false;
+    if (x.toIndex !== 0) return false;
+    if (x.fromIndex !== 0) return false;
+    return (x.unSuitableForCompositionReduction !== true && x.from.interaction.operatorType === "Composition" && x.from.finished !== true &&
+      x.to.interaction.operatorType === "Composition" && x.to.finished !== true && x.from.interaction.operator === x.to.interaction.operator);
+  };
+  var b = _.find(graph.edges, matchEdge);
+
+  while (b !== undefined) {
+
+    // Get the composition nodes at the extremities of this edge
+    var n1 = b.from;
+    var n2 = b.to;
+
+    var cond = true;
+    var i = 1;
+    while (cond) {
+
+      // Get edge going from the first composition
+      var e1 = _.find(graph.edges, {
+        'type': 'AstEdge',
+        'from': n1,
+        'fromIndex': i,
+        'to': {
+          'finished': false
+        }
+      });
+      // Get edge going from the second composition
+      var e2 = _.find(graph.edges, {
+        'type': 'AstEdge',
+        'from': n2,
+        'fromIndex': i,
+        'to': {
+          'finished': false
+        }
+      });
+
+      if (e1 !== undefined && e2 !== undefined) {
+        var edge1 = {
+          type: 'AstEdge',
+          id: _.uniqueId("edge"),
+          to: e1.to,
+          toIndex: e1.toIndex,
+          from: e2.to,
+          fromIndex: e2.toIndex
+        };
+        var edge2 = {
+          type: 'AstEdge',
+          id: _.uniqueId("edge"),
+          to: e2.to,
+          toIndex: e2.toIndex,
+          from: e1.to,
+          fromIndex: e1.toIndex
+        };
+        graph.edges.push(edge1);
+        graph.edges.push(edge2);
+        // console.log("ok");
+        cond = true;
+      } else {
+        cond = false;
+      }
+
+      i = i + 1;
+    }
+
+    n1.finished = true;
+    n2.finished = true;
+    b.unSuitableForCompositionReduction = true;
+
+    b = _.find(graph.edges, matchEdge);
+
+  }
+}
 
 
-
-
-module.exports.graphTransformation = graphTransformation;
-module.exports.behaviourSeparation = behaviourSeparation;
+// module.exports.behaviourSeparation = behaviourSeparation;
 module.exports.graphToDot = graphToDot;
 module.exports.compileToIii = compileToIii;
 module.exports.compileToJs = compileToJs;

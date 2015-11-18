@@ -154,7 +154,7 @@ function listOfAtoms(theInterface,prefix) {
 function toOperator(theInterface) {
   switch (theInterface.type) {
     case "InterfaceComposite":
-      return '{'+_.reduce(_.map(theInterface.component, 'key'),function(total,value,index){return total+value+':$'},"")+'}'
+      return '{'+_.reduce(_.map(theInterface.element, 'key'),function(total,value,index){return total+value+':$'},"")+'}'
     case "InterfaceAtomic":
     default:
       throw "Trying to get the operator of something which is not a composite interface";

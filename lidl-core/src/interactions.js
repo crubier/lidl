@@ -194,11 +194,11 @@ function compare(a, b) {
     if (a.operator < b.operator) {
       return -1;
     } else {
-      if (!a.operand || !b.operand) {
-        if (!a.operand && !b.operand) {
+      if (a.operand===undefined || a.operand===null || b.operand===undefined || b.operand===null) {
+        if ((a.operand===undefined || a.operand===null) && (b.operand===undefined || b.operand===null)) {
           return 0;
         } else {
-          return 1;
+          return -1;
         }
       } else {
         if ((a.operand.length - b.operand.length) !== 0) {

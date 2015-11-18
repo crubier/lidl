@@ -30,7 +30,7 @@ interaction (bob):{theNumber:Number in,theResult:Number out} is \
     //   return _.includes(_.map(graph.nodes, "id"), x.from.id) && _.includes(_.map(graph.nodes, "id"), x.to.id);
     // })).toBeTruthy();
 
-    compiler.graphTransformation(graph);
+    // compiler.graphTransformation(graph);
 
     fs.writeFileSync('/Users/vincent/Documents/test.dot',compiler.graphToDot(graph), {encoding: 'utf8'});
 
