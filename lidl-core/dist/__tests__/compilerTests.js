@@ -18,21 +18,30 @@ describe('iii', function() {
 
   it('should preserve identity of nodes', function() {
 
-    var graph = compiler.compileToGraph(
-      "\
+
+    var code = "\
 interaction (bob):{theNumber:Number in,theResult:Number out} is \
 ( ({theNumber:(variable theNumber)theResult:(variable theResult)}) with behaviour (apply(function addOne) to (variable theNumber) and send result to (variable theResult)))\
 "
-    );
+
+    console.log(compiler.compileToJs(code,"var addOne=function(x){return x + 1;}")({
+      inter: {
+        theNumber: 50,
+        theResult: 0
+      }
+    }));
 
 
+    var graph = compiler.compileToGraph(code);
     // expect(_.every(graph.edges, function(x) {
     //   return _.includes(_.map(graph.nodes, "id"), x.from.id) && _.includes(_.map(graph.nodes, "id"), x.to.id);
     // })).toBeTruthy();
 
     // compiler.graphTransformation(graph);
 
-    fs.writeFileSync('/Users/vincent/Documents/test.dot',compiler.graphToDot(graph), {encoding: 'utf8'});
+    fs.writeFileSync('/Users/vincent/Documents/test.dot', compiler.graphToDot(graph), {
+      encoding: 'utf8'
+    });
 
   });
 

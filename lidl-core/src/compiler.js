@@ -9,14 +9,14 @@ var compilationResult = require('./compilerExampleResult.js');
 
 // var neo4j = require('neo4j');
 
-function compileToJs(source) {
+function compileToJs(source, header) {
   //TODO Actual compilation
-
 
   // graphTransformation(compileToGraph(source));
 
-  if (source) return source;
-  else return compilationResult;
+  // if (source) return source;
+  // else return compilationResult;
+  return generateJsCode(compileToGraph(source), header);
 }
 
 
@@ -39,9 +39,10 @@ function compileToGraph(source) {
 
   // TODO reduce the amount of processing on the next three lines and transform it into graph operations instead
   var graphInteraction = interactionToGraph(identifiers.reduceIdentifiers(interactions.expand(mainDef).interaction));
+  //TODO Make it possible to compile interactiosn that have arguments and not just a single interface
   var graphInterface = interfaceToGraph(mainDef.signature.interfac);
   var graph = mergeByRootNode(graphInteraction, graphInterface);
-  // var graph= graphInterface;
+
 
   addOperatorTypeAnnotation(graph);
   referentialTransparency(graph);
@@ -49,7 +50,13 @@ function compileToGraph(source) {
   behaviourSeparation(graph);
   functionLiteralLinking(graph);
   functionCallLinking(graph);
+  //TODO Process Previous Next Interactions
   matchingCompositionReduction(graph);
+  createDataFlowDirection(graph);
+  
+
+  orderGraph(graph);
+  instantiateTemplates(graph);
   return graph;
 }
 
@@ -66,12 +73,19 @@ function graphToDot(graph) {
       return;
     }
     if (x.interaction.type === 'InteractionNative') {
-      res += (x.id + ' [shape=box, label="' + x.interaction.content + '"];');
+      res += (x.id + ' [shape=box, label="' + ((x.executionOrder !== undefined) ? (x.executionOrder) : "") + "\n" + x.interaction.content + '"];');
       return;
     }
   });
   _.forEach(graph.edges, function(x) {
-    res += (x.from.id + ' -> ' + x.to.id + ' [headlabel="' + x.toIndex + '", taillabel="' + x.fromIndex + '", dir="forward", arrowHead="normal"];');
+    if (x.type === 'AstEdge') {
+      res += (x.from.id + ' -> ' + x.to.id + ' [headlabel="' + x.toIndex + '", taillabel="' + x.fromIndex + '", dir="forward", arrowHead="normal"];');
+      return;
+    }
+    if (x.type === 'DataFlowEdge') {
+      res += (x.from.id + ' -> ' + x.to.id + ' [headlabel="' + x.toIndex + '", taillabel="' + x.fromIndex + '", dir="forward", arrowHead="normal", arrowsize=2, color="red"];');
+      return;
+    }
   });
   res += ('}');
   return res;
@@ -146,7 +160,7 @@ function interfaceToGraph(interfac, prefx) {
             id: _.uniqueId("node"),
             interaction: {
               type: "InteractionNative",
-              content: "<<a0>>=theInterface" + prefix + ";"
+              content: "<%=a0%>=theInterface" + prefix + ";"
             },
             ports: ["out"],
             finished: false
@@ -157,7 +171,7 @@ function interfaceToGraph(interfac, prefx) {
             id: _.uniqueId("node"),
             interaction: {
               type: "InteractionNative",
-              content: "theInterface" + prefix + "=<<a0>>;"
+              content: "theInterface" + prefix + "=<%=a0%>;"
             },
             ports: ["in"],
             finished: false
@@ -418,7 +432,7 @@ function behaviourSeparation(graph) {
     'id': 'activesource',
     'interaction': {
       'type': 'InteractionNative',
-      'content': '<<a0>> = active;'
+      'content': '<%=a0%> = active;'
     },
     ports: ["out"],
     'finished': false
@@ -533,7 +547,7 @@ function functionLiteralLinking(graph) {
       'id': 'functionsource' + funcName,
       'interaction': {
         'type': 'InteractionNative',
-        'content': '<<a0>> = ' + funcName + ';'
+        'content': '<%=a0%> = ' + funcName + ';'
       },
       ports: ["out"],
       'finished': false
@@ -579,6 +593,7 @@ function functionLiteralLinking(graph) {
 
 
 
+
 function functionCallLinking(graph) {
   var matchNode = function(x) {
     if (x.interaction === undefined) return false;
@@ -593,7 +608,7 @@ function functionCallLinking(graph) {
       'id': _.uniqueId("node"),
       'interaction': {
         'type': 'InteractionNative',
-        'content': 'if(<<a0>>==active) {<<a3>> = <<a1>>(<<a2>>);};'
+        'content': 'if(<%=a0%>==active) {<%=a3%> = <%=a1%>(<%=a2%>);};'
       },
       ports: ["in", "in", "in", "out"],
       'finished': false
@@ -815,7 +830,170 @@ function matchingCompositionReduction(graph) {
 }
 
 
-// module.exports.behaviourSeparation = behaviourSeparation;
+function createDataFlowDirection(graph) {
+  var matchEdge = function(x) {
+    if (x.to.ports === undefined) return false;
+    if (x.from.ports === undefined) return false;
+    if (x.type !== 'AstEdge') return false;
+    return (x.flowManaged !== true && x.to.ports[x.toIndex] === 'in' && x.from.ports[x.fromIndex] === 'out');
+  };
+
+  var b = _.find(graph.edges, matchEdge);
+
+  while (b !== undefined) {
+    var edge1 = {
+      type: 'DataFlowEdge',
+      id: _.uniqueId("flow"),
+      from: b.from,
+      fromIndex: b.fromIndex,
+      to: b.to,
+      toIndex: b.toIndex
+    };
+    graph.edges.push(edge1)
+    b.flowManaged = true;
+    var b = _.find(graph.edges, matchEdge);
+  }
+}
+
+
+// Use tarjan algorithm to order the graph
+function orderGraph(graph) {
+  var matchUnmarkedNode = function(x) {
+    return (x.finished !== true && x.markedDuringGraphOrdering !== true);
+  };
+
+  var orderingList = [];
+
+  var b = _.find(graph.nodes, matchUnmarkedNode);
+  while (b !== undefined) {
+    visit(b);
+    b = _.find(graph.nodes, matchUnmarkedNode);
+  }
+
+
+  function visit(n) {
+    if (n.temporarilyMarkedDuringGraphOrdering === true) {
+      //TODO Add traceback to initial AST (change code everywhere in order to add traceability)
+      throw "Error, the DAG contains cycles !"
+    } else {
+      if (n.markedDuringGraphOrdering !== true) {
+        n.temporarilyMarkedDuringGraphOrdering = true;
+        _.forEach(graph.nodes, function(m) {
+          if (m.finished !== true && _.find(graph.edges, {
+              type: 'DataFlowEdge',
+              from: n,
+              to: m
+            })) {
+            visit(m);
+          }
+        });
+        n.markedDuringGraphOrdering = true;
+        n.temporarilyMarkedDuringGraphOrdering = false;
+        orderingList.unshift(n);
+      }
+    }
+
+  }
+
+
+  // _.forEach(_.filter(graph.nodes,matchUnmarkedNode),function(x){visit(x);});
+
+  // The list is now ordered ! (Hopefully)
+  //  We write the order in the nodes
+  _.forEach(orderingList, function(node, index) {
+    // console.log(index + "     " + node.interaction.content);
+    node.executionOrder = index;
+  });
+}
+
+
+
+function instantiateTemplates(graph) {
+  var matchNode = function(x) {
+    if (x.interaction === undefined) return false;
+    return x.interaction.type === "InteractionNative" && x.finished !== true && x.codeGeneration === undefined;
+  };
+
+  var b = _.find(graph.nodes, matchNode);
+
+  while (b !== undefined) {
+    var i;
+    // TODO extend i in case bigger interactions happen !
+    var edgesNameList = {};
+    for (i = 0; i < 1000; i++)  {
+      var edgeforCurrentI;
+      edgeforCurrentI = _.find(graph.edges, {
+        type: 'DataFlowEdge',
+        to: b,
+        toIndex: i
+      });
+      if (edgeforCurrentI == undefined) {
+        edgeforCurrentI = _.find(graph.edges, {
+          type: 'DataFlowEdge',
+          from: b,
+          fromIndex: i
+        });
+      }
+      if (edgeforCurrentI == undefined) {
+        break;
+      }
+      edgesNameList["a" + i] = edgeforCurrentI.id;
+    }
+
+
+    b.codeGeneration = {
+      'js': _.template(b.interaction.content)(edgesNameList)
+    };
+
+    var b = _.find(graph.nodes, matchNode);
+  }
+}
+
+function generateJsCode(graph, header) {
+  var matchNode = function(x) {
+    return x.codeGeneration !== undefined && x.executionOrder !== undefined;
+  };
+
+  var matchFlows = function(x) {
+    return x.type === 'DataFlowEdge';
+  };
+
+  var template = "\
+<%= standardHeader%>\n\
+<%= customHeader%>\n\
+<%= edgesCode%>\n\
+<%= nodesCode%>\n\
+  return {\n\
+      memo: {},\n\
+      state: {},\n\
+      args: {},\n\
+      inter: theInterface\n\
+    };\n\
+"
+
+  var code = _.template(template)({
+    'edgesCode': _.map(_.filter(graph.edges, matchFlows), function(x) {
+      return "var " + x.id + ";\n"
+    }).join(""),
+    'nodesCode': _.pluck(_.pluck(_.sortBy(_.filter(graph.nodes, matchNode), 'executionOrder'), 'codeGeneration'), 'js').join("\n"),
+    'customHeader': header,
+    'standardHeader': jsStandardHeader
+  });
+
+  return new Function("data", code);
+}
+
+
+
+var jsStandardHeader = '\
+var theInterface = clone(data.inter);\n\
+var previousState = data.state;\n\
+var newState = clone(previousState);\n\
+var active = ">>>>>>>>>>>>active<<<<<<<<<<<<<<"\n\
+function clone(a){if(!a)return a;var c,b=[Number,String,Boolean];if(b.forEach(function(b){a instanceof b&&(c=b(a))}),"undefined"==typeof c)if("[object Array]"===Object.prototype.toString.call(a))c=[],a.forEach(function(a,b,d){c[b]=clone(a)});else if("object"==typeof a)if(a.nodeType&&"function"==typeof a.cloneNode)var c=a.cloneNode(!0);else if(a.prototype)c=a;else if(a instanceof Date)c=new Date(a);else{c={};for(var d in a)c[d]=clone(a[d])}else c=a;return c}';
+
+
+
 module.exports.graphToDot = graphToDot;
 module.exports.compileToIii = compileToIii;
 module.exports.compileToJs = compileToJs;
