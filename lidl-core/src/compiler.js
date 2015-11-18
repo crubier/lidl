@@ -16,7 +16,11 @@ function compileToJs(source, header) {
 
   // if (source) return source;
   // else return compilationResult;
-  return generateJsCode(compileToGraph(source), header);
+  var code = generateJsCode(compileToGraph(source), header);
+  console.log("========================================");
+  console.log(code);
+  console.log("========================================");
+  return new Function("data", code);
 }
 
 
@@ -53,8 +57,10 @@ function compileToGraph(source) {
   //TODO Process Previous Next Interactions
   matchingCompositionReduction(graph);
   createDataFlowDirection(graph);
-  
-
+  nonMatchingCompositionCompilation(graph);
+  createDataFlowDirection(graph);
+  nonMatchingDecompositionCompilation(graph);
+  createDataFlowDirection(graph);
   orderGraph(graph);
   instantiateTemplates(graph);
   return graph;
@@ -73,13 +79,13 @@ function graphToDot(graph) {
       return;
     }
     if (x.interaction.type === 'InteractionNative') {
-      res += (x.id + ' [shape=box, label="' + ((x.executionOrder !== undefined) ? (x.executionOrder) : "") + "\n" + x.interaction.content + '"];');
+      res += (x.id + ' [shape=box, label="' + ((x.executionOrder !== undefined) ? (x.executionOrder) : "") + "\n" + x.interaction.content + '", fillcolor=' + (x.finished ? '"blue"' : '"gray"') + '];');
       return;
     }
   });
   _.forEach(graph.edges, function(x) {
     if (x.type === 'AstEdge') {
-      res += (x.from.id + ' -> ' + x.to.id + ' [headlabel="' + x.toIndex + '", taillabel="' + x.fromIndex + '", dir="forward", arrowHead="normal"];');
+      res += (x.from.id + ' -> ' + x.to.id + ' [label="' + /*x.type+ */ '", headlabel="' + x.toIndex + '", taillabel="' + x.fromIndex + '", dir="forward", arrowHead="normal"];');
       return;
     }
     if (x.type === 'DataFlowEdge') {
@@ -160,7 +166,7 @@ function interfaceToGraph(interfac, prefx) {
             id: _.uniqueId("node"),
             interaction: {
               type: "InteractionNative",
-              content: "<%=a0%>=theInterface" + prefix + ";"
+              content: "<%=a0%>=theInterface" + prefix + ";\n"
             },
             ports: ["out"],
             finished: false
@@ -171,7 +177,7 @@ function interfaceToGraph(interfac, prefx) {
             id: _.uniqueId("node"),
             interaction: {
               type: "InteractionNative",
-              content: "theInterface" + prefix + "=<%=a0%>;"
+              content: "theInterface" + prefix + "=<%=a0%>;\n"
             },
             ports: ["in"],
             finished: false
@@ -432,7 +438,7 @@ function behaviourSeparation(graph) {
     'id': 'activesource',
     'interaction': {
       'type': 'InteractionNative',
-      'content': '<%=a0%> = active;'
+      'content': '<%=a0%> = active;\n'
     },
     ports: ["out"],
     'finished': false
@@ -547,7 +553,7 @@ function functionLiteralLinking(graph) {
       'id': 'functionsource' + funcName,
       'interaction': {
         'type': 'InteractionNative',
-        'content': '<%=a0%> = ' + funcName + ';'
+        'content': '<%=a0%> = ' + funcName + ';\n'
       },
       ports: ["out"],
       'finished': false
@@ -608,7 +614,7 @@ function functionCallLinking(graph) {
       'id': _.uniqueId("node"),
       'interaction': {
         'type': 'InteractionNative',
-        'content': 'if(<%=a0%>==active) {<%=a3%> = <%=a1%>(<%=a2%>);};'
+        'content': 'if(<%=a0%> === active) {<%=a3%> = <%=a1%>(<%=a2%>);}\n'
       },
       ports: ["in", "in", "in", "out"],
       'finished': false
@@ -832,10 +838,27 @@ function matchingCompositionReduction(graph) {
 
 function createDataFlowDirection(graph) {
   var matchEdge = function(x) {
-    if (x.to.ports === undefined) return false;
-    if (x.from.ports === undefined) return false;
     if (x.type !== 'AstEdge') return false;
-    return (x.flowManaged !== true && x.to.ports[x.toIndex] === 'in' && x.from.ports[x.fromIndex] === 'out');
+    if (x.flowManaged === true) return false;
+    if (x.to === undefined || x.toIndex === undefined) return false;
+    if (x.from === undefined || x.fromIndex === undefined) return false;
+    if (x.from.finished || x.to.finished) return false;
+    if (x.to.ports === undefined) {
+      x.to.ports = [];
+      if (x.from.ports === undefined) {
+        x.from.ports = [];
+        return false;
+      } else {
+        return x.from.ports[x.fromIndex] === 'out';
+      }
+    } else {
+      if (x.from.ports === undefined) {
+        x.from.ports = [];
+        return x.to.ports[x.toIndex] === 'in';
+      } else {
+        return x.to.ports[x.toIndex] === 'in' || x.from.ports[x.fromIndex] === 'out';
+      }
+    }
   };
 
   var b = _.find(graph.edges, matchEdge);
@@ -843,17 +866,243 @@ function createDataFlowDirection(graph) {
   while (b !== undefined) {
     var edge1 = {
       type: 'DataFlowEdge',
-      id: _.uniqueId("flow"),
       from: b.from,
       fromIndex: b.fromIndex,
       to: b.to,
       toIndex: b.toIndex
     };
-    graph.edges.push(edge1)
+    if (!_.find(graph.edges, edge1)) {
+      edge1.id = _.uniqueId("flow");
+      // We add the edge only if it does not exist yet
+      edge1.to.ports[edge1.toIndex] = 'in';
+      edge1.from.ports[edge1.fromIndex] = 'out';
+      graph.edges.push(edge1);
+    }
+
     b.flowManaged = true;
     var b = _.find(graph.edges, matchEdge);
   }
 }
+
+
+
+function nonMatchingCompositionCompilation(graph) {
+  var matchEdge = function(x) {
+    if (x.type !== 'DataFlowEdge') return false;
+    if (x.to === undefined) return false;
+    if (x.from === undefined) return false;
+    if (x.from.finished === true) return false;
+    if (x.to.finished === true) return false;
+    if (x.from.interaction === undefined) return false;
+    if (x.to.interaction === undefined) return false;
+    if (x.fromIndex !== 0) return false;
+    if (x.from.interaction.type !== 'InteractionSimple') return false;
+    if (x.unsuitableForNonMatchingCompositionReduction === true) return false;
+    if (x.from.interaction.operatorType !== "Composition") return false;
+    return true;
+  };
+
+  var b = _.find(graph.edges, matchEdge);
+
+  while (b !== undefined) {
+
+
+    // Get the composition nodes at the extremity of this edge
+    var n1 = b.from;
+    // console.log(">>>>>>>>" + n1.interaction.operator);
+
+    var op = _.words(_.trim(n1.interaction.operator, '{}'), /[^:$]+/g);
+
+    // console.log(op);
+
+    var code = "<%=a0%> = {};\n";
+    var ports = ["out"];
+    _.forEach(op, function(x, index) {
+      code = code.concat("<%=a0%>['" + x + "'] = <%=a" + (index + 1) + "%>;\n");
+      ports.push["in"];
+    });
+
+
+    // Create the new node
+    var newNode = {
+      'id': _.uniqueId("node"),
+      'interaction': {
+        'type': 'InteractionNative',
+        'content': code
+      },
+      ports: ports,
+      'finished': false
+    };
+    graph.nodes.push(newNode);
+
+    var edge1 = {
+      type: 'AstEdge',
+      id: _.uniqueId("edge"),
+      to: b.to,
+      toIndex: b.toIndex,
+      from: newNode,
+      fromIndex: 0
+    };
+    var edge2 = {
+      type: 'AstEdge',
+      id: _.uniqueId("edge"),
+      to: newNode,
+      toIndex: 0,
+      from: b.to,
+      fromIndex: b.toIndex
+    };
+    graph.edges.push(edge1);
+    graph.edges.push(edge2);
+
+    var i;
+
+    for(i=1;i<=op.length;i++){
+
+      _.forEach(_.filter(graph.edges,function(x){
+        return (x.type==='AstEdge' && x.to===b.from && x.toIndex===i && x.from.finished !== true);
+      }),function(x){
+        var edge3 = {
+            type: 'AstEdge',
+            id: _.uniqueId("edge"),
+            to: x.from,
+            toIndex: x.fromIndex,
+            from: newNode,
+            fromIndex: i
+          };
+          var edge4 = {
+            type: 'AstEdge',
+            id: _.uniqueId("edge"),
+            to: newNode,
+            toIndex: i,
+            from: x.from,
+            fromIndex: x.fromIndex
+          };
+          graph.edges.push(edge3);
+          graph.edges.push(edge4);
+      });
+
+
+    }
+
+    n1.finished = true;
+    b.unsuitableForNonMatchingCompositionReduction = true;
+    var b = _.find(graph.edges, matchEdge);
+  }
+
+}
+
+
+
+function nonMatchingDecompositionCompilation(graph) {
+  var matchEdge = function(x) {
+    if (x.type !== 'DataFlowEdge') return false;
+    if (x.to === undefined) return false;
+    if (x.from === undefined) return false;
+    if (x.from.finished === true) return false;
+    if (x.to.finished === true) return false;
+    if (x.from.interaction === undefined) return false;
+    if (x.to.interaction === undefined) return false;
+    if (x.toIndex !== 0) return false;
+    if (x.to.interaction.type !== 'InteractionSimple') return false;
+    if (x.unsuitableForNonMatchingDecompositionReduction === true) return false;
+    if (x.to.interaction.operatorType !== "Composition") return false;
+    return true;
+  };
+
+  var b = _.find(graph.edges, matchEdge);
+
+  while (b !== undefined) {
+
+
+    // Get the composition nodes at the extremity of this edge
+    var n1 = b.to;
+    // console.log(">>>>>>>>" + n1.interaction.operator);
+
+    var op = _.words(_.trim(n1.interaction.operator, '{}'), /[^:$]+/g);
+
+    // console.log(op);
+
+    var code = "";
+    var ports = ["in"];
+    _.forEach(op, function(x, index) {
+      code = code.concat("<%=a" + (index + 1) + "%> = <%=a0%>['" + x + "'];\n");
+      ports.push["out"];
+    });
+
+
+    // Create the new node
+    var newNode = {
+      'id': _.uniqueId("node"),
+      'interaction': {
+        'type': 'InteractionNative',
+        'content': code
+      },
+      ports: ports,
+      'finished': false
+    };
+    graph.nodes.push(newNode);
+
+    var edge1 = {
+      type: 'AstEdge',
+      id: _.uniqueId("edge"),
+      to: b.from,
+      toIndex: b.fromIndex,
+      from: newNode,
+      fromIndex: 0
+    };
+    var edge2 = {
+      type: 'AstEdge',
+      id: _.uniqueId("edge"),
+      to: newNode,
+      toIndex: 0,
+      from: b.from,
+      fromIndex: b.fromIndex
+    };
+    graph.edges.push(edge1);
+    graph.edges.push(edge2);
+
+    var i;
+
+    for(i=1;i<=op.length;i++){
+
+      _.forEach(_.filter(graph.edges,function(x){
+        return (x.type==='AstEdge' && x.from===b.to && x.fromIndex===i && x.to.finished !== true);
+      }),function(x){
+        var edge3 = {
+            type: 'AstEdge',
+            id: _.uniqueId("edge"),
+            to: x.to,
+            toIndex: x.toIndex,
+            from: newNode,
+            fromIndex: i
+          };
+          var edge4 = {
+            type: 'AstEdge',
+            id: _.uniqueId("edge"),
+            to: newNode,
+            toIndex: i,
+            from: x.to,
+            fromIndex: x.toIndex
+          };
+          graph.edges.push(edge3);
+          graph.edges.push(edge4);
+      });
+
+
+    }
+
+    n1.finished = true;
+    b.unsuitableForNonMatchingDecompositionReduction = true;
+    var b = _.find(graph.edges, matchEdge);
+  }
+
+}
+
+
+
+
+
+
 
 
 // Use tarjan algorithm to order the graph
@@ -924,12 +1173,14 @@ function instantiateTemplates(graph) {
       var edgeforCurrentI;
       edgeforCurrentI = _.find(graph.edges, {
         type: 'DataFlowEdge',
+        from:{finished:false},
         to: b,
         toIndex: i
       });
       if (edgeforCurrentI == undefined) {
         edgeforCurrentI = _.find(graph.edges, {
           type: 'DataFlowEdge',
+          to:{finished:false},
           from: b,
           fromIndex: i
         });
@@ -951,11 +1202,11 @@ function instantiateTemplates(graph) {
 
 function generateJsCode(graph, header) {
   var matchNode = function(x) {
-    return x.codeGeneration !== undefined && x.executionOrder !== undefined;
+    return x.codeGeneration !== undefined && x.executionOrder !== undefined && x.finished !== true;
   };
 
   var matchFlows = function(x) {
-    return x.type === 'DataFlowEdge';
+    return x.type === 'DataFlowEdge' && x.to.finished !== true && x.from.finished !== true ;
   };
 
   var template = "\
@@ -980,17 +1231,19 @@ function generateJsCode(graph, header) {
     'standardHeader': jsStandardHeader
   });
 
-  return new Function("data", code);
+  return code;
 }
 
 
 
 var jsStandardHeader = '\
+function clone(a){if(!a)return a;var c,b=[Number,String,Boolean];if(b.forEach(function(b){a instanceof b&&(c=b(a))}),"undefined"==typeof c)if("[object Array]"===Object.prototype.toString.call(a))c=[],a.forEach(function(a,b,d){c[b]=clone(a)});else if("object"==typeof a)if(a.nodeType&&"function"==typeof a.cloneNode)var c=a.cloneNode(!0);else if(a.prototype)c=a;else if(a instanceof Date)c=new Date(a);else{c={};for(var d in a)c[d]=clone(a[d])}else c=a;return c}\n\
 var theInterface = clone(data.inter);\n\
 var previousState = data.state;\n\
 var newState = clone(previousState);\n\
-var active = ">>>>>>>>>>>>active<<<<<<<<<<<<<<"\n\
-function clone(a){if(!a)return a;var c,b=[Number,String,Boolean];if(b.forEach(function(b){a instanceof b&&(c=b(a))}),"undefined"==typeof c)if("[object Array]"===Object.prototype.toString.call(a))c=[],a.forEach(function(a,b,d){c[b]=clone(a)});else if("object"==typeof a)if(a.nodeType&&"function"==typeof a.cloneNode)var c=a.cloneNode(!0);else if(a.prototype)c=a;else if(a instanceof Date)c=new Date(a);else{c={};for(var d in a)c[d]=clone(a[d])}else c=a;return c}';
+var active = 1;\n\
+var inactive = null;\n\
+';
 
 
 
