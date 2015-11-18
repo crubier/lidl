@@ -272,11 +272,13 @@ function isBaseInteraction(interaction) {
         var theOperator;
         try {
           theOperator = operator.parse(interaction.operator);
+          // interaction.operatorType = theOperator;
         } catch (e) {
           console.log("Error on operator "+interaction.operator + " " + interaction.formating);
         }
         switch (theOperator) {
           case "Composition":
+          case "Behaviour":
           case "Previous":
           case "FunctionApplication":
           case "Identifier":

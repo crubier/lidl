@@ -175,11 +175,11 @@ describe('interactions', function() {
     it('simple', function() {
       expect(interactions.compare({
           "type": "InteractionSimple",
-          "operator": "#hdhsd",
+          "operator": "variable hdhsd",
           "operand": []
         }, {
           "type": "InteractionSimple",
-          "operator": "#hdhsd",
+          "operator": "variable hdhsd",
           "operand": []
         }))
         .toEqual(0);
@@ -212,7 +212,7 @@ describe('interactions', function() {
 
     it('simple', function() {
       expect(interactions.isBaseInteraction(
-        parser.parse("(previous(q))", {
+        parser.parse("(variable (q))", {
           startRule: "interaction"
         }))).toEqual(
         true
@@ -226,7 +226,7 @@ describe('interactions', function() {
     it('case 1', function() {
 
       expect(interactions.isOnlyMadeOfBaseInteractions(
-        parser.parse("(previous(#))", {
+        parser.parse("(get (variable x) from previous and set (variable x) for next)", {
           startRule: "interaction"
         }))).toEqual(
         true
@@ -236,7 +236,7 @@ describe('interactions', function() {
     it('case 2 with the custom interaction (5)', function() {
 
       expect(interactions.isOnlyMadeOfBaseInteractions(
-        parser.parse("(previous(#(5)))", {
+        parser.parse("(variable(variable(5)))", {
           startRule: "interaction"
         }))).toEqual(
         false
@@ -245,7 +245,7 @@ describe('interactions', function() {
 
     it('case 3', function() {
       expect(interactions.isOnlyMadeOfBaseInteractions(
-        parser.parse("(previous(#(#5)))", {
+        parser.parse("(apply(function bob) to (variable x) and send result to (variable y))", {
           startRule: "interaction"
         }))).toEqual(
         true
@@ -255,7 +255,7 @@ describe('interactions', function() {
 
     it('case 4 with all base interactions', function() {
       expect(interactions.isOnlyMadeOfBaseInteractions(
-        parser.parse("({a:(previous(#(#5)))b:((#d).xys)c:((#2)in(#5)(#2)=(#(#5)))})", {
+        parser.parse("({a:(previous(variable (variable 5)))b:((variable d).xys)c:((variable 2)in(variable 5)(variable 2)=(variable (variable 5)))})", {
           startRule: "interaction"
         }))).toEqual(
         false
@@ -271,40 +271,40 @@ describe('interactions', function() {
 
     it('case 1', function() {
       expect(interactions.compare(
-        parser.parse("(previous(#))", {
+        parser.parse("(previous(variable ))", {
           startRule: "interaction"
         }),
-        parser.parse("(previous(#))", {
+        parser.parse("(previous(variable ))", {
           startRule: "interaction"
         })) === 0).toBeTruthy();
     });
 
     it('case 2', function() {
       expect(interactions.compare(
-        parser.parse("(previous(#))", {
+        parser.parse("(previous(variable ))", {
           startRule: "interaction"
         }),
-        parser.parse("(previous(#lol))", {
+        parser.parse("(previous(variable lol))", {
           startRule: "interaction"
         })) !== 0).toBeTruthy();
     });
 
     it('case 3', function() {
       expect(interactions.compare(
-        parser.parse("(previous(#(5)(6)))", {
+        parser.parse("(previous(variable (5)(6)))", {
           startRule: "interaction"
         }),
-        parser.parse("(previous(#(5)(7)))", {
+        parser.parse("(previous(variable (5)(7)))", {
           startRule: "interaction"
         })) !== 0).toBeTruthy();
     });
 
     it('case 4', function() {
       expect(interactions.compare(
-        parser.parse("(previous(#(5)(6)))", {
+        parser.parse("(previous(variable (5)(6)))", {
           startRule: "interaction"
         }),
-        parser.parse("(precious(#(5)(7)))", {
+        parser.parse("(precious(variable (5)(7)))", {
           startRule: "interaction"
         })) !== 0).toBeTruthy();
     });
@@ -389,17 +389,17 @@ describe('interactions', function() {
       expect(
         interactions.compare(
           interactions.substituteInInteraction(
-            parser.parse("(#4(5))", {
+            parser.parse("(variable 4(5))", {
               startRule: "interaction"
             }),
-            parser.parse("(#4(5))", {
+            parser.parse("(variable 4(5))", {
               startRule: "interaction"
             }),
-            parser.parse("(#4)", {
+            parser.parse("(variable 4)", {
               startRule: "interaction"
             })
           ),
-          parser.parse("(#4)", {
+          parser.parse("(variable 4)", {
             startRule: "interaction"
           })
         ) === 0
@@ -554,7 +554,6 @@ describe('interactions', function() {
 
 
 
-
   describe('list non base interactions', function() {
     it('should work on a simple case', function() {
       var list = interactions.listNonBaseInteractions(parser.parse("({b:(4),y:(cos(sin(previous(x))))})", {
@@ -617,27 +616,27 @@ describe('interactions', function() {
     });
 
     /*TODO make this test pass*/
-    it('should work on a complex case with base interactions', function() {
-      var interaction = interactions.expand(
-        parser.parse("interaction (a(x:Number in)(y:Number out)):Number in with interaction (z):Number in with interaction (k):Number out is (#3) is ((k)in(#1)({})=(k)) is ((x)in(#2)({x:(x),z:(z)})=(y))")[0]
-      ).interaction;
-
-      expect(removeFormattingInfo(interaction)).toEqual(removeFormattingInfo(parser.parse("((x)in(#2)({x:(x),z:((#3)in(#1)({})=(#3))})=(y))", {
-        startRule: "interaction"
-      })));
-    });
-
-
-    it('should work on a case with base interactions', function() {
-
-      var interaction = interactions.expand(
-        parser.parse("interaction (a(x:Number in)(y:Number out)):Number in with interaction (z):Number in is ((#3)in(#1)({})=(#3)) is ((x)in(#2)({x:(x),z:(z)})=(y))")[0]
-      ).interaction;
-
-      expect(removeFormattingInfo(interaction)).toEqual(removeFormattingInfo(parser.parse("((x)in(#2)({x:(x),z:((#3)in(#1)({})=(#3))})=(y))", {
-        startRule: "interaction"
-      })));
-    });
+    // it('should work on a complex case with base interactions', function() {
+    //   var interaction = interactions.expand(
+    //     parser.parse("interaction (a(x:Number in)(y:Number out)):Number in with interaction (z):Number in with interaction (k):Number out is (variable 3) is (apply(k)to(variable 1)and send result to(k)) is (apply (variable f)to(variable 2) and send result to (y))")[0]
+    //   ).interaction;
+    //
+    //   expect(removeFormattingInfo(interaction)).toEqual(removeFormattingInfo(parser.parse("((x)in(variable 2)({x:(x),z:((variable 3)in(variable 1)({})=(variable 3))})=(y))", {
+    //     startRule: "interaction"
+    //   })));
+    // });
+    //
+    //
+    // it('should work on a case with base interactions', function() {
+    //
+    //   var interaction = interactions.expand(
+    //     parser.parse("interaction (a(x:Number in)(y:Number out)):Number in with interaction (z):Number in is ((variable 3)in(variable 1)({})=(variable 3)) is ((x)in(variable 2)({x:(x),z:(z)})=(y))")[0]
+    //   ).interaction;
+    //
+    //   expect(removeFormattingInfo(interaction)).toEqual(removeFormattingInfo(parser.parse("((x)in(variable 2)({x:(x),z:((variable 3)in(variable 1)({})=(variable 3))})=(y))", {
+    //     startRule: "interaction"
+    //   })));
+    // });
 
 
 

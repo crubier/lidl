@@ -31,7 +31,7 @@ function reduceIdentifiers(interaction, identifierSet) {
           (operator.parse(interaction.operator) === "Identifier") ?
           ({
             type: 'InteractionSimple',
-            operator: "#" + JSON.stringify(_.findIndex(ids, function(x) {
+            operator: "variable" + JSON.stringify(_.findIndex(ids, function(x) {
               return interactions.compare(interaction, x) === 0;
             })),
             operand: []

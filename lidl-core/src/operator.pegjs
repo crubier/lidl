@@ -49,25 +49,27 @@
   }
 }
 // High level elements
-//TODO
 
 start
-= composition / previous / identifier / functionApplication / function  / custom / void
+= composition  / behaviour / previous / identifier / functionApplication / function  / custom / void
 
 composition 'a composition interaction'
 = _ '{' _ (key:keyIdentifier _':'_'$'_ (',' _)? )* '}' _ {return "Composition";}
 
-previous 'a previous interaction'
-= _ 'previous' _ '$' _ {return "Previous";}
+behaviour 'a behaviour interaction'
+= _ '$' _ 'with'_ 'behaviour' _ '$' _ {return "Behaviour";}
 
-identifier 'an identifier interaction'
-= _ '#' _ (identifier:operatorIdentifier)? _ ('$' _ (identifier:operatorIdentifier)? )* _ {return "Identifier";}
+previous 'a previous interaction'
+= _ 'get' _ '$' _ 'from' _ 'previous' _ 'and' _ 'set' _ '$' _ 'for' _ 'next' _ {return "Previous";}
 
 functionApplication 'a function application interaction'
-= _ '$' _ 'in' _ '$' _ '$' _ '=' _ '$' _ {return "FunctionApplication";}
+= _ 'apply' _ '$' _ 'to' _ '$' _ 'and' _ 'send' _ 'result' _ 'to' _ '$' _ {return "FunctionApplication";}
+
+identifier 'an identifier interaction'
+= _ 'variable' _ (identifier:operatorIdentifier)? _ ('$' _ (identifier:operatorIdentifier)? _ )* _ {return "Identifier";}
 
 function 'a function'
-= _ '`' _ (identifier:functionIdentifier) _ '`' _ {return "Function";}
+= _ 'function' _ (identifier:functionIdentifier) _ {return "Function";}
 
 void 'the void interaction'
 = _ {return "Void";}

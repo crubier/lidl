@@ -26,7 +26,8 @@
   "dependencies": {
     "escodegen": "^1.7.0",
     "json-stringify-safe": "^5.0.1",
-    "lodash": "^3.10.1"
+    "lodash": "^3.10.1",
+    "neo4j": "^1.1.1"
   },
   "devDependencies": {
     "async": "^1.4.2",

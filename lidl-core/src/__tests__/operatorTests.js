@@ -12,7 +12,7 @@ describe('operator', function() {
   describe('previous', function() {
 
     it('should detect previous', function() {
-      expect(operator.parse("previous$")).toEqual("Previous");
+      expect(operator.parse("get $ from previous and set $ for next")).toEqual("Previous");
     });
 
   });
@@ -40,15 +40,15 @@ describe('operator', function() {
   describe('function', function() {
 
     it('should detect function', function() {
-      expect(operator.parse("`aaa`")).toEqual("Function");
+      expect(operator.parse(" function aaa")).toEqual("Function");
     });
 
     it('should detect function', function() {
-      expect(operator.parse("`bobie_joe5`")).toEqual("Function");
+      expect(operator.parse("function bobie_joe5")).toEqual("Function");
     });
 
     it('should invalidate function with an invalid name', function() {
-      expect(operator.parse("`5jf`")).toEqual("Custom");
+      expect(operator.parse("functio5jf")).toEqual("Custom");
     });
 
   });
@@ -56,19 +56,19 @@ describe('operator', function() {
   describe('identifier', function() {
 
     it('should detect basic singleton identifier', function() {
-      expect(operator.parse("#")).toEqual("Identifier");
+      expect(operator.parse("variable ")).toEqual("Identifier");
     });
 
     it('should detect named singleton identifier', function() {
-      expect(operator.parse("#bobie")).toEqual("Identifier");
+      expect(operator.parse("variable bobie")).toEqual("Identifier");
     });
 
     it('should detect basic dependant identifier', function() {
-      expect(operator.parse("#$$$")).toEqual("Identifier");
+      expect(operator.parse("variable$$$")).toEqual("Identifier");
     });
 
     it('should detect named dependant identifier', function() {
-      expect(operator.parse("#lol$$$")).toEqual("Identifier");
+      expect(operator.parse("variablelol$$$")).toEqual("Identifier");
     });
 
   });
@@ -76,7 +76,7 @@ describe('operator', function() {
   describe('function application', function() {
 
     it('should detect basic function application', function() {
-      expect(operator.parse("$in$$=$")).toEqual("FunctionApplication");
+      expect(operator.parse("apply$to$and send result to$")).toEqual("FunctionApplication");
     });
 
   });

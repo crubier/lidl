@@ -20,29 +20,27 @@ describe('iii', function() {
 
 
 
-
-
-    _.forEach(list, function(x) {
-
-it('should work on example file '+x, function() {
-
-        iii.serializer.serialize(
-          iii.identifiers.reduceIdentifiers(
-            iii.interactions.expand(
-              iii.parser.parse(
-                fs.readFileSync('example/' + x + '.iii', {
-                  encoding: 'utf8'
-                })
-              )[0]
-            ).interaction
-          )
-
-      );
-
-
-    });
-
-
-
-  });
+//     _.forEach(list, function(x) {
+//
+// it('should work on example file '+x, function() {
+//
+//         iii.serializer.serialize(
+//           iii.identifiers.reduceIdentifiers(
+//             iii.interactions.expand(
+//               iii.parser.parse(
+//                 fs.readFileSync('example/' + x + '.iii', {
+//                   encoding: 'utf8'
+//                 })
+//               )[0]
+//             ).interaction
+//           )
+//
+//       );
+//
+//
+//     });
+//
+//
+//
+//   });
 });

@@ -89,9 +89,9 @@ gulp.task('operator parser',function() {
 });
 
 gulp.task('watch',['dist'], function() {
-  gulp.watch('src/**/*.*', ['test']);
-  gulp.watch('test/**/*.*', ['test']);
-  gulp.watch('example/**/*.*', ['test']);
+  gulp.watch('src/**/*.*', ['jest']);
+  gulp.watch('test/**/*.*', ['jest']);
+  gulp.watch('example/**/*.*', ['jest']);
 });
 
 gulp.task('prepublish',['dist']);
