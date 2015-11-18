@@ -20,7 +20,7 @@ describe('iii', function() {
 
     var code = "\
 interaction (bob):{theNumber:Number in,theResult:Number out} is \
-( ({theNumber:(variable theNumber)theResult:(variable theResult)}) with behaviour (apply(function addOne) to (variable theNumber) and send result to (variable theResult)))\
+( ({theNumber:(variable theNumber)theResult:(variable theResult)}) with behaviour (apply(function addOne) to (variable theNumber) and get (variable theResult)))\
 "
     var header = "var addOne=function(x){return x + 1;};"
     console.log(compiler.compileToJs(code, header)({
@@ -49,7 +49,7 @@ interaction (bob):{theNumber:Number in,theResult:Number out} is \
 
     var code = "\
 interaction (bob):{theNumber:Number in,theOther:Number in,theResult:Number out} is \
-( ({theNumber:(variable theNumber)theOther:(variable y)theResult:(variable theResult)}) with behaviour (apply(function addition) to ({0:(variable theNumber)1:(variable y)}) and send result to (variable theResult)))\
+( ({theNumber:(variable theNumber)theOther:(variable y)theResult:(variable theResult)}) with behaviour (apply(function addition) to ({0:(variable theNumber)1:(variable y)}) and get (variable theResult)))\
 "
 
 var graph = compiler.compileToGraph(code);
@@ -78,7 +78,7 @@ var graph = compiler.compileToGraph(code);
 
       var code = "\
   interaction (bob):{theNumber:Number in,theOther:Number in,theResult:Number out,theLast:Number out} is \
-  ( ({theNumber:(variable theNumber)theOther:(variable y)theResult:(variable theResult)theLast:(variable wow)}) with behaviour (apply(function cool) to ({0:(variable theNumber)1:(variable y)}) and send result to ({sum:(variable theResult)diff:(variable wow)}) ))\
+  ( ({theNumber:(variable theNumber)theOther:(variable y)theResult:(variable theResult)theLast:(variable wow)}) with behaviour (apply(function cool) to ({0:(variable theNumber)1:(variable y)}) and get ({sum:(variable theResult)diff:(variable wow)}) ))\
   "
 
   var graph = compiler.compileToGraph(code);

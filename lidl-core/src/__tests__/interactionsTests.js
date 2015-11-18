@@ -245,7 +245,7 @@ describe('interactions', function() {
 
     it('case 3', function() {
       expect(interactions.isOnlyMadeOfBaseInteractions(
-        parser.parse("(apply(function bob) to (variable x) and send result to (variable y))", {
+        parser.parse("(apply(function bob) to (variable x) and get (variable y))", {
           startRule: "interaction"
         }))).toEqual(
         true

@@ -63,7 +63,7 @@ previous 'a previous interaction'
 = _ 'get' _ '$' _ 'from' _ 'previous' _ 'and' _ 'set' _ '$' _ 'for' _ 'next' _ {return "Previous";}
 
 functionApplication 'a function application interaction'
-= _ 'apply' _ '$' _ 'to' _ '$' _ 'and' _ 'send' _ 'result' _ 'to' _ '$' _ {return "FunctionApplication";}
+= _ 'apply' _ '$' _ 'to' _ '$' _ 'and' _ 'get' _ '$' _ {return "FunctionApplication";}
 
 identifier 'an identifier interaction'
 = _ 'variable' _ (identifier:operatorIdentifier)? _ ('$' _ (identifier:operatorIdentifier)? _ )* _ {return "Identifier";}

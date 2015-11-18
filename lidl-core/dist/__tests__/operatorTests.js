@@ -76,7 +76,7 @@ describe('operator', function() {
   describe('function application', function() {
 
     it('should detect basic function application', function() {
-      expect(operator.parse("apply$to$and send result to$")).toEqual("FunctionApplication");
+      expect(operator.parse("apply$to$and get$")).toEqual("FunctionApplication");
     });
 
   });
