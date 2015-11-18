@@ -150,9 +150,21 @@ function listOfAtoms(theInterface,prefix) {
   }
 }
 
+// Transforms the interface into an operator for an interaction
+function toOperator(theInterface) {
+  switch (theInterface.type) {
+    case "InterfaceComposite":
+      return '{'+_.reduce(_.map(theInterface.component, 'key'),function(total,value,index){return total+value+':$'},"")+'}'
+    case "InterfaceAtomic":
+    default:
+      throw "Trying to get the operator of something which is not a composite interface";
+  }
+}
+
 
 
 module.exports = {
+  toOperator:toOperator,
   conjugate:conjugateInterface,
   listOfAtoms:listOfAtoms,
   receptionInterface:receptionInterface,

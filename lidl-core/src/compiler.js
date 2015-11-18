@@ -126,19 +126,83 @@ function interactionToGraph(interaction) {
 }
 
 
-function interfaceToGraph(interfac) {
-  if (obj.type) {
-    switch (obj.type) {
-      case "InterfaceAtomic":
-      case "InterfaceComposite":
-        return true;
-      default:
-        return false;
-    }
-  } else {
-    return false;
-  }
+function interfaceToGraph(interfac, prefx) {
+  var prefix = (prefx === undefined || prefx === null) ? "" : prefx;
+  switch (interfac.type) {
+    case "InterfaceAtomic":
+      {
+        var theNode;
+        if (interfac.direction === "in") {
+          theNode = {
+            type: 'InterfaceNode',
+            id: _.uniqueId("node"),
+            interaction: {
+              type: "InteractionNative",
+              content: "<<a0>>=theInterface" + prefix + ";"
+            },
+            finished: false
+          };
+        } else {
+          theNode = {
+            type: 'InterfaceNode',
+            id: _.uniqueId("node"),
+            interaction: {
+              type: "InteractionNative",
+              content: "theInterface" + prefix + "=<<a0>>;"
+            },
+            finished: false
+          };
+        }
+        return {
+          edges: [],
+          nodes: [theNode],
+          root: theNode
+        };
+      }
+    case "InterfaceComposite":
+      {
+        var result = {};
+        var sub = _.map(interfac.component, function(x) {
+          return interfaceToGraph(x.value, prefix + "." + x.key);
+        });
+        var rootNode = {
+          type: 'InteractionNode',
+          id: _.uniqueId("node"),
+          interaction: {
+            type: "InteractionSimple",
+            operator: interfacs.toOperator(interfac)
+          },
+          finished: false
+        };
+        var newnodes = [rootNode];
+        result.nodes = newnodes.concat(_.flatten(_.map(sub, 'nodes')));
 
+        var newedges = _.flatten(_.map(sub, function(x, index) {
+          // Add the edges to and from the current node
+          return [{
+            type: 'AstEdge',
+            id: _.uniqueId("edge"),
+            from: rootNode,
+            fromIndex: (index + 1),
+            to: x.root,
+            toIndex: 0
+          }, {
+            type: 'AstEdge',
+            id: _.uniqueId("edge"),
+            from: x.root,
+            fromIndex: 0,
+            to: rootNode,
+            toIndex: (index + 1)
+          }];
+        }));
+        result.edges = newedges.concat(_.flatten(_.map(sub, 'edges')));
+
+        result.root = rootNode;
+        return result;
+      }
+    default:
+      throw "Cant transform this interface to a graph. Is it an interface really ?";
+  }
 }
 
 
@@ -151,18 +215,6 @@ function graphTransformation(graph) {
   functionLiteralLinking(graph);
   functionCallLinking(graph);
 }
-
-
-function addOperatorTypeAnnotation(graph) {
-  _.forEach(graph.nodes, function(x) {
-    if (x.interaction) {
-      if (x.interaction.type === "InteractionSimple") {
-        x.interaction.operatorType = operator.parse(x.interaction.operator);
-      }
-    }
-  });
-}
-
 
 
 function addRootNode(graph) {
@@ -192,6 +244,23 @@ function addRootNode(graph) {
   graph.edges.push(edge2);
   graph.root = rootn;
 }
+
+
+
+
+function addOperatorTypeAnnotation(graph) {
+  _.forEach(graph.nodes, function(x) {
+    if (x.interaction) {
+      if (x.interaction.type === "InteractionSimple") {
+        x.interaction.operatorType = operator.parse(x.interaction.operator);
+      }
+    }
+  });
+}
+
+
+
+
 
 // During this phase we add the folowing decoration to nodes:
 // - finished if the node is to be deleted from the graph

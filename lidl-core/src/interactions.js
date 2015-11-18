@@ -48,7 +48,7 @@ function expand(interactionDefinition) {
             };
           }),
         function(y) {
-          return !isDefinitionOfAnArgument(y.definition) && y.interaction.type==="InteractionSimple";
+          return !isDefinitionOfAnArgument(y.definition) && y.interaction.type === "InteractionSimple";
         });
 
     // For each of these interactions to expand, we instatiate them
@@ -157,10 +157,10 @@ function findMatchingDefinition(interaction, interactionDefinition) {
   }
 
   // Fifth case: The interaction is defined in the context of the parent definition (the definition is a sub definition of its parent)
-  if(interactionDefinition.parent !== undefined)
-  return findMatchingDefinition(interaction, interactionDefinition.parent);
+  if (interactionDefinition.parent !== undefined)
+    return findMatchingDefinition(interaction, interactionDefinition.parent);
 
-  throw new Error("cannot find definition of interaction "+interaction.operator);
+  throw new Error("cannot find definition of interaction " + interaction.operator);
 }
 
 
@@ -183,8 +183,8 @@ function interactionMatchesDefinition(interaction, interactiondefinition) {
 // Compare two interactions, returns 0 if they are equal
 function compare(a, b) {
   if (a.type !== 'InteractionSimple' || b.type !== 'InteractionSimple') {
-    if(a.type==="InteractionNative" && b.type === "InteractionNative") {
-      return ((_.isEqual(a.code,b.code))?(0):(1));
+    if (a.type === "InteractionNative" && b.type === "InteractionNative") {
+      return ((_.isEqual(a.code, b.code)) ? (0) : (1));
     }
     return -1;
   }
@@ -194,16 +194,24 @@ function compare(a, b) {
     if (a.operator < b.operator) {
       return -1;
     } else {
-      if ((a.operand.length - b.operand.length) !== 0) {
-        return (a.operand.length - b.operand.length);
-      } else {
-        var x = _.zip(a.operand, b.operand);
-        var f = _.spread(compare);
-        for (var i = 0; i < x.length; i++) {
-          var res = f(x[i]);
-          if (res !== 0) return res;
+      if (!a.operand || !b.operand) {
+        if (!a.operand && !b.operand) {
+          return 0;
+        } else {
+          return 1;
         }
-        return 0;
+      } else {
+        if ((a.operand.length - b.operand.length) !== 0) {
+          return (a.operand.length - b.operand.length);
+        } else {
+          var x = _.zip(a.operand, b.operand);
+          var f = _.spread(compare);
+          for (var i = 0; i < x.length; i++) {
+            var res = f(x[i]);
+            if (res !== 0) return res;
+          }
+          return 0;
+        }
       }
     }
   }
@@ -274,7 +282,7 @@ function isBaseInteraction(interaction) {
           theOperator = operator.parse(interaction.operator);
           // interaction.operatorType = theOperator;
         } catch (e) {
-          console.log("Error on operator "+interaction.operator + " " + interaction.formating);
+          console.log("Error on operator " + interaction.operator + " " + interaction.formating);
         }
         switch (theOperator) {
           case "Composition":
@@ -299,16 +307,16 @@ function isBaseInteraction(interaction) {
 
 
 function toListOfElements(interaction) {
-  var i=0;
-  return interaction.operator.replace(/\$/g,"_$_").split("_").filter(function(x){
-    return x !=='';
-  }).map(function(x){
+  var i = 0;
+  return interaction.operator.replace(/\$/g, "_$_").split("_").filter(function(x) {
+    return x !== '';
+  }).map(function(x) {
     var res;
-    if(x==="$"){
-      res= toListOfElements(interaction.operand[i]);
+    if (x === "$") {
+      res = toListOfElements(interaction.operand[i]);
       i++;
-    }else{
-      res= x;
+    } else {
+      res = x;
     }
     return res;
   });
@@ -316,43 +324,50 @@ function toListOfElements(interaction) {
 
 // normalize input value
 function normalize(value) {
-  return ((null === value || undefined === value)? '': value + '');
+  return ((null === value || undefined === value) ? '' : value + '');
 }
 
-function concat(x,y) {
-return [x,y];
+function concat(x, y) {
+  return [x, y];
 }
 
 function toShallowListOfElements(interaction) {
-  return _.dropRight(_.flatten(_.zipWith(interaction.formating.split("$").map(normalize), interaction.operand,concat)));
+  return _.dropRight(_.flatten(_.zipWith(interaction.formating.split("$").map(normalize), interaction.operand, concat)));
 }
 
 function fromShallowListOfElements(lst) {
-  var formating = lst.map(function(x){
-    if(_.isString(x)){
+  var formating = lst.map(function(x) {
+    if (_.isString(x)) {
       return x;
-    }else{
+    } else {
       return '$';
     }
   }).join('');
 
-  var operator = formating.replace(/[ \t\r\n]*/g,"");
+  var operator = formating.replace(/[ \t\r\n]*/g, "");
 
-  var operand = lst.filter(function(x){return !_.isString(x);});
+  var operand = lst.filter(function(x) {
+    return !_.isString(x);
+  });
 
-  return {type:"InteractionSimple",formating:formating,operator:operator,operand:operand};
+  return {
+    type: "InteractionSimple",
+    formating: formating,
+    operator: operator,
+    operand: operand
+  };
 }
 
 function removeFormattingInfo(interaction) {
   return {
-    type:interaction.type,
-    operator:interaction.operator,
-    operand:interaction.operand.map(removeFormattingInfo),
+    type: interaction.type,
+    operator: interaction.operator,
+    operand: interaction.operand.map(removeFormattingInfo),
   };
 }
 
 function getFormattingInfo(interaction) {
-  if(interaction.formating !== undefined && interaction.formating !== null) {
+  if (interaction.formating !== undefined && interaction.formating !== null) {
     return interaction.formating;
   } else {
     return interaction.operator;
