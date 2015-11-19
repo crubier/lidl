@@ -23,7 +23,7 @@ interaction (bob):{theNumber:Number in,theResult:Number out} is \
 ( ({theNumber:(variable theNumber)theResult:(variable theResult)}) with behaviour (apply(function addOne) to (variable theNumber) and get (variable theResult)))\
 "
     var header = "var addOne=function(x){return x + 1;};"
-    console.log(compiler.compileToJs(code, header)({
+    console.log(compiler.compileToJs(code, header).transitionFunction({
       inter: {
         theNumber: 50,
         theResult: 0
@@ -52,14 +52,14 @@ interaction (bob):{theNumber:Number in,theOther:Number in,theResult:Number out} 
 ( ({theNumber:(variable theNumber)theOther:(variable y)theResult:(variable theResult)}) with behaviour (apply(function addition) to ({0:(variable theNumber)1:(variable y)}) and get (variable theResult)))\
 "
 
-var graph = compiler.compileToGraph(code);
+    var graph = compiler.compileToGraph(code);
     fs.writeFileSync('/Users/vincent/Documents/test.dot', compiler.graphToDot(graph), {
       encoding: 'utf8'
     });
 
 
     var header = "var addition=function(x){return x[0] + x[1];};"
-    console.log(compiler.compileToJs(code, header)({
+    console.log(compiler.compileToJs(code, header).transitionFunction({
       inter: {
         theNumber: 50,
         theOther: 50,
@@ -76,29 +76,67 @@ var graph = compiler.compileToGraph(code);
   it('should preserve identity of nodes 3', function() {
 
 
-      var code = "\
+    var code = "\
   interaction (bob):{theNumber:Number in,theOther:Number in,theResult:Number out,theLast:Number out} is \
   ( ({theNumber:(variable theNumber)theOther:(variable y)theResult:(variable theResult)theLast:(variable wow)}) with behaviour (apply(function cool) to ({0:(variable theNumber)1:(variable y)}) and get ({sum:(variable theResult)diff:(variable wow)}) ))\
   "
 
-  var graph = compiler.compileToGraph(code);
-      fs.writeFileSync('/Users/vincent/Documents/test.dot', compiler.graphToDot(graph), {
-        encoding: 'utf8'
-      });
-
-
-      var header = "var cool=function(x){return {sum:(x[0] + x[1]),diff:(x[0]-x[1])};};"
-      console.log(compiler.compileToJs(code, header)({
-        inter: {
-          theNumber: 50,
-          theOther: 30,
-          theResult: 0
-        }
-      }));
-
-
-
-
+    var graph = compiler.compileToGraph(code);
+    fs.writeFileSync('/Users/vincent/Documents/test.dot', compiler.graphToDot(graph), {
+      encoding: 'utf8'
     });
+
+
+    var header = "var cool=function(x){return {sum:(x[0] + x[1]),diff:(x[0]-x[1])};};"
+    console.log(compiler.compileToJs(code, header).transitionFunction({
+      inter: {
+        theNumber: 50,
+        theOther: 30,
+        theResult: 0
+      }
+    }));
+
+
+
+
+  });
+
+
+
+  it('should preserve identity of nodes 4', function() {
+
+
+    // var code = "\
+    //   interaction (bob):{theNumber:Number in,theOther:Number in,theResult:Number out,theLast:Number out} is \
+    //   ( ({theNumber:(variable theNumber)theOther:(variable y)theResult:(variable theResult)theLast:(variable wow)}) with behaviour (apply(function cool) to ({0:(variable theNumber)1:(variable y)}) and get ({sum:(variable theResult)diff:(variable wow)}) ))\
+    //   "
+
+var code = fs.readFileSync('example/test.lidl', {encoding: 'utf8'});
+var header = fs.readFileSync('example/test.lidl.js', {encoding: 'utf8'});
+
+    var graph = compiler.compileToGraph(code);
+    fs.writeFileSync('/Users/vincent/Documents/test.dot', compiler.graphToDot(graph), {
+      encoding: 'utf8'
+    });
+
+
+
+
+    var res = compiler.compileToJs(code, header);
+    var trans = res.transitionFunction;
+    var init = res.initializationFunction;
+    var cur = init();
+    for (var i=0;i<10;i++){
+      cur.inter = {
+        theNumber: 50-3*i,
+        theOther: 30+i
+      };
+      cur = trans(cur);
+      console.log(cur);
+    }
+
+
+
+  });
 
 });

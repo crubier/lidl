@@ -16,11 +16,8 @@ function compileToJs(source, header) {
 
   // if (source) return source;
   // else return compilationResult;
-  var code = generateJsCode(compileToGraph(source), header);
-  console.log("========================================");
-  console.log(code);
-  console.log("========================================");
-  return new Function("data", code);
+  return generateJsCode(compileToGraph(source), header);
+
 }
 
 
@@ -53,8 +50,8 @@ function compileToGraph(source) {
   linkIdentifiers(graph);
   behaviourSeparation(graph);
   functionLiteralLinking(graph);
-  functionCallLinking(graph);
-  //TODO Process Previous Next Interactions
+  functionAppliationLinking(graph);
+  previousNextLinking(graph);
   matchingCompositionReduction(graph);
   createDataFlowDirection(graph);
   nonMatchingCompositionCompilation(graph);
@@ -600,7 +597,7 @@ function functionLiteralLinking(graph) {
 
 
 
-function functionCallLinking(graph) {
+function functionAppliationLinking(graph) {
   var matchNode = function(x) {
     if (x.interaction === undefined) return false;
     return (x.interaction.operatorType === "FunctionApplication" && x.finished !== true);
@@ -608,7 +605,6 @@ function functionCallLinking(graph) {
   var b = _.find(graph.nodes, matchNode);
 
   while (b !== undefined) {
-
 
     var functionApplicationSource = {
       'id': _.uniqueId("node"),
@@ -752,6 +748,141 @@ function functionCallLinking(graph) {
 
   }
 }
+
+
+
+
+function previousNextLinking(graph) {
+  var matchNode = function(x) {
+    if (x.interaction === undefined) return false;
+    return (x.interaction.operatorType === "Previous" && x.finished !== true);
+  };
+  var b = _.find(graph.nodes, matchNode);
+
+  while (b !== undefined) {
+
+    var newId = _.uniqueId("node")
+    var previousNextSource = {
+      'id': newId,
+      'interaction': {
+        'type': 'InteractionNative',
+        'content': "if(<%=a0%> === active) {\n\
+  <%=a1%> = previousState['" + newId + "'];\n\
+  nextState['" + newId + "'] = <%=a2%>;\n\
+}\n"
+      },
+      containsAState: true,
+      ports: ["in", "out", "in"],
+      'finished': false
+    };
+    graph.nodes.push(previousNextSource);
+
+    var a0 = _.find(graph.edges, {
+      'type': 'AstEdge',
+      'from': b,
+      'fromIndex': 0,
+      'to': {
+        'finished': false
+      }
+    });
+    var a1 = _.find(graph.edges, {
+      'type': 'AstEdge',
+      'from': b,
+      'fromIndex': 1,
+      'to': {
+        'finished': false
+      }
+    });
+    var a2 = _.find(graph.edges, {
+      'type': 'AstEdge',
+      'from': b,
+      'fromIndex': 2,
+      'to': {
+        'finished': false
+      }
+    });
+
+
+    if (a0 === undefined || a1 === undefined || a2 === undefined) {
+      console.log("A Previous next application interaction does not have the right connections for transformation. Consider changing the previous next transformation graph transform (Put lodash _.forEach instead of _.find)");
+      console.log(a0);
+      console.log(a1);
+      console.log(a2);
+    }
+
+    var edge1 = {
+      type: 'AstEdge',
+      id: _.uniqueId("edge"),
+      from: previousNextSource,
+      fromIndex: 0,
+      to: a0.to,
+      toIndex: a0.toIndex
+    };
+
+    var edge2 = {
+      type: 'AstEdge',
+      id: _.uniqueId("edge"),
+      to: previousNextSource,
+      toIndex: 0,
+      from: a0.to,
+      fromIndex: a0.toIndex
+    };
+
+    graph.edges.push(edge1);
+    graph.edges.push(edge2);
+
+    var edge3 = {
+      type: 'AstEdge',
+      id: _.uniqueId("edge"),
+      from: previousNextSource,
+      fromIndex: 1,
+      to: a1.to,
+      toIndex: a1.toIndex
+    };
+
+    var edge4 = {
+      type: 'AstEdge',
+      id: _.uniqueId("edge"),
+      to: previousNextSource,
+      toIndex: 1,
+      from: a1.to,
+      fromIndex: a1.toIndex
+    };
+
+    graph.edges.push(edge3);
+    graph.edges.push(edge4);
+
+    var edge5 = {
+      type: 'AstEdge',
+      id: _.uniqueId("edge"),
+      from: previousNextSource,
+      fromIndex: 2,
+      to: a2.to,
+      toIndex: a2.toIndex
+    };
+
+    var edge6 = {
+      type: 'AstEdge',
+      id: _.uniqueId("edge"),
+      to: previousNextSource,
+      toIndex: 2,
+      from: a2.to,
+      fromIndex: a2.toIndex
+    };
+
+    graph.edges.push(edge5);
+    graph.edges.push(edge6);
+
+    b.finished = true;
+
+    b = _.find(graph.nodes, matchNode);
+
+  }
+}
+
+
+
+
 
 // TODO Extend functionality to deal with other nodes between composition interactions
 // TODO Extend functionality to deal with cases where more than 2 compositions are matching (because of identifier elimination)
@@ -956,29 +1087,29 @@ function nonMatchingCompositionCompilation(graph) {
 
     var i;
 
-    for(i=1;i<=op.length;i++){
+    for (i = 1; i <= op.length; i++) {
 
-      _.forEach(_.filter(graph.edges,function(x){
-        return (x.type==='AstEdge' && x.to===b.from && x.toIndex===i && x.from.finished !== true);
-      }),function(x){
+      _.forEach(_.filter(graph.edges, function(x) {
+        return (x.type === 'AstEdge' && x.to === b.from && x.toIndex === i && x.from.finished !== true);
+      }), function(x) {
         var edge3 = {
-            type: 'AstEdge',
-            id: _.uniqueId("edge"),
-            to: x.from,
-            toIndex: x.fromIndex,
-            from: newNode,
-            fromIndex: i
-          };
-          var edge4 = {
-            type: 'AstEdge',
-            id: _.uniqueId("edge"),
-            to: newNode,
-            toIndex: i,
-            from: x.from,
-            fromIndex: x.fromIndex
-          };
-          graph.edges.push(edge3);
-          graph.edges.push(edge4);
+          type: 'AstEdge',
+          id: _.uniqueId("edge"),
+          to: x.from,
+          toIndex: x.fromIndex,
+          from: newNode,
+          fromIndex: i
+        };
+        var edge4 = {
+          type: 'AstEdge',
+          id: _.uniqueId("edge"),
+          to: newNode,
+          toIndex: i,
+          from: x.from,
+          fromIndex: x.fromIndex
+        };
+        graph.edges.push(edge3);
+        graph.edges.push(edge4);
       });
 
 
@@ -1063,29 +1194,29 @@ function nonMatchingDecompositionCompilation(graph) {
 
     var i;
 
-    for(i=1;i<=op.length;i++){
+    for (i = 1; i <= op.length; i++) {
 
-      _.forEach(_.filter(graph.edges,function(x){
-        return (x.type==='AstEdge' && x.from===b.to && x.fromIndex===i && x.to.finished !== true);
-      }),function(x){
+      _.forEach(_.filter(graph.edges, function(x) {
+        return (x.type === 'AstEdge' && x.from === b.to && x.fromIndex === i && x.to.finished !== true);
+      }), function(x) {
         var edge3 = {
-            type: 'AstEdge',
-            id: _.uniqueId("edge"),
-            to: x.to,
-            toIndex: x.toIndex,
-            from: newNode,
-            fromIndex: i
-          };
-          var edge4 = {
-            type: 'AstEdge',
-            id: _.uniqueId("edge"),
-            to: newNode,
-            toIndex: i,
-            from: x.to,
-            fromIndex: x.toIndex
-          };
-          graph.edges.push(edge3);
-          graph.edges.push(edge4);
+          type: 'AstEdge',
+          id: _.uniqueId("edge"),
+          to: x.to,
+          toIndex: x.toIndex,
+          from: newNode,
+          fromIndex: i
+        };
+        var edge4 = {
+          type: 'AstEdge',
+          id: _.uniqueId("edge"),
+          to: newNode,
+          toIndex: i,
+          from: x.to,
+          fromIndex: x.toIndex
+        };
+        graph.edges.push(edge3);
+        graph.edges.push(edge4);
       });
 
 
@@ -1173,14 +1304,18 @@ function instantiateTemplates(graph) {
       var edgeforCurrentI;
       edgeforCurrentI = _.find(graph.edges, {
         type: 'DataFlowEdge',
-        from:{finished:false},
+        from: {
+          finished: false
+        },
         to: b,
         toIndex: i
       });
       if (edgeforCurrentI == undefined) {
         edgeforCurrentI = _.find(graph.edges, {
           type: 'DataFlowEdge',
-          to:{finished:false},
+          to: {
+            finished: false
+          },
           from: b,
           fromIndex: i
         });
@@ -1206,32 +1341,58 @@ function generateJsCode(graph, header) {
   };
 
   var matchFlows = function(x) {
-    return x.type === 'DataFlowEdge' && x.to.finished !== true && x.from.finished !== true ;
+    return x.type === 'DataFlowEdge' && x.to.finished !== true && x.from.finished !== true;
   };
 
-  var template = "\
+  var matchStateNode = function(x) {
+    return x.containsAState === true && x.finished !== true;
+  };
+
+
+  var conf = {
+    'edgesCode': _.map(_.filter(graph.edges, matchFlows), function(x) {
+      return "var " + x.id + ";\n"
+    }).join(""),
+    'nodesCode': _.pluck(_.pluck(_.sortBy(_.filter(graph.nodes, matchNode), 'executionOrder'), 'codeGeneration'), 'js').join("\n"),
+    'statesCode': _.map(_.pluck(_.filter(graph.nodes, matchStateNode), 'id'), function(x) {
+      return x + ":null"
+    }).join(",\n"),
+    'customHeader': header,
+    'standardHeader': jsStandardHeader
+  };
+
+  var transTemplate = "\
 <%= standardHeader%>\n\
 <%= customHeader%>\n\
 <%= edgesCode%>\n\
 <%= nodesCode%>\n\
   return {\n\
       memo: {},\n\
-      state: {},\n\
+      state: nextState,\n\
       args: {},\n\
       inter: theInterface\n\
-    };\n\
-"
+    };\n";
 
-  var code = _.template(template)({
-    'edgesCode': _.map(_.filter(graph.edges, matchFlows), function(x) {
-      return "var " + x.id + ";\n"
-    }).join(""),
-    'nodesCode': _.pluck(_.pluck(_.sortBy(_.filter(graph.nodes, matchNode), 'executionOrder'), 'codeGeneration'), 'js').join("\n"),
-    'customHeader': header,
-    'standardHeader': jsStandardHeader
-  });
 
-  return code;
+  var initTemplate = "return {\n\
+      memo: {},\n\
+      state: {<%= statesCode%>},\n\
+      args: {},\n\
+      inter: {}\n\
+    };\n";
+
+
+var transCode = _.template(transTemplate)(conf);
+var initCode=_.template(initTemplate)(conf);
+console.log("==================================================================");
+console.log(transCode);
+console.log("==================================================================");
+console.log(initCode);
+console.log("==================================================================");
+  return {
+    transitionFunction: new Function("data", transCode),
+    initializationFunction: new Function(initCode)
+  };
 }
 
 
@@ -1240,7 +1401,7 @@ var jsStandardHeader = '\
 function clone(a){if(!a)return a;var c,b=[Number,String,Boolean];if(b.forEach(function(b){a instanceof b&&(c=b(a))}),"undefined"==typeof c)if("[object Array]"===Object.prototype.toString.call(a))c=[],a.forEach(function(a,b,d){c[b]=clone(a)});else if("object"==typeof a)if(a.nodeType&&"function"==typeof a.cloneNode)var c=a.cloneNode(!0);else if(a.prototype)c=a;else if(a instanceof Date)c=new Date(a);else{c={};for(var d in a)c[d]=clone(a[d])}else c=a;return c}\n\
 var theInterface = clone(data.inter);\n\
 var previousState = data.state;\n\
-var newState = clone(previousState);\n\
+var nextState = clone(previousState);\n\
 var active = 1;\n\
 var inactive = null;\n\
 ';
