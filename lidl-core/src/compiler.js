@@ -12,10 +12,6 @@ var compilationResult = require('./compilerExampleResult.js');
 function compileToJs(source, header) {
   //TODO Actual compilation
 
-  // graphTransformation(compileToGraph(source));
-
-  // if (source) return source;
-  // else return compilationResult;
   return generateJsCode(compileToGraph(source), header);
 
 }
@@ -1041,7 +1037,7 @@ function createDataFlowDirection(graph) {
   var b = _.find(graph.edges, matchEdge);
 
   while (b !== undefined) {
-    console.log("Dataflow edge");
+    // console.log("Dataflow edge");
     var edge1 = {
       type: 'DataFlowEdge',
       from: b.from,
@@ -1331,7 +1327,7 @@ function orderGraph(graph) {
     // console.log(index + "     " + node.interaction.content);
     node.executionOrder = index;
   });
-console.log("There are "+orderingList.length+" nodes");
+// console.log("There are "+orderingList.length+" nodes");
 }
 
 
@@ -1430,11 +1426,11 @@ function generateJsCode(graph, header) {
 
 var transCode = _.template(transTemplate)(conf);
 var initCode=_.template(initTemplate)(conf);
-console.log("==================================================================");
-console.log(transCode);
-console.log("==================================================================");
-console.log(initCode);
-console.log("==================================================================");
+// console.log("==================================================================");
+// console.log(transCode);
+// console.log("==================================================================");
+// console.log(initCode);
+// console.log("==================================================================");
   return {
     transitionFunction: new Function("data", transCode),
     initializationFunction: new Function(initCode)

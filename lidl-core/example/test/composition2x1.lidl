@@ -1,2 +1,8 @@
 interaction (bob):{theNumber:Number in,theOther:Number in,theResult:Number out} is
-( ({theNumber:(variable theNumber)theOther:(variable y)theResult:(variable theResult)}) with behaviour (apply(function addition) to ({0:(variable theNumber)1:(variable y)}) and get (variable theResult)))
+(
+({theNumber:(variable theNumber)theOther:(variable y)theResult:(variable theResult)})
+ with behaviour
+(apply(function addition)
+to ({0:(variable theNumber)
+1:(variable y)})
+ and get (variable theResult)))

@@ -1,4 +1,5 @@
 interaction (bob):{theNumber:Number in,theOther:Number in,theResult:Number out,theLast:Number out} is
 
-  ( ({theNumber:(variable theNumber)theOther:(variable y)theResult:(variable theResult)theLast:(variable wow)}) with behaviour (apply(function cool) to ({0:(variable theNumber)1:(variable y)}) and get ({sum:(variable theResult)diff:(variable wow)}) ))
-  
+  ( ({theNumber:(variable theNumber)theOther:(variable y)theResult:(variable theResult)theLast:(variable wow)})
+with behaviour
+ (apply(function cool) to ({0:(variable theNumber)1:(variable y)}) and get ({sum:(variable theResult)diff:(variable wow)}) ))
