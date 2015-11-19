@@ -30,12 +30,17 @@
   "license": "MIT",
   "jest": {
     "rootDir": "src",
-    "collectCoverage": true
+    "collectCoverage": true,
+    "scriptPreprocessor": "../node_modules/babel-jest",
+    "testFileExtensions": ["es6", "js"],
+    "moduleFileExtensions": ["js", "json", "es6"]
+
   },
   "dependencies": {
     "lodash": "^3.10.1"
   },
   "devDependencies": {
+    "babel-jest": "^6.0.1",
     "jest-cli": "^0.8.0",
     "pegjs": "^0.9.0"
   }

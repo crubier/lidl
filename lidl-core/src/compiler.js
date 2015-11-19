@@ -6,7 +6,7 @@ var parser = require('./parser.js');
 var operator = require('./operator.js');
 var _ = require('lodash');
 var compilationResult = require('./compilerExampleResult.js');
-var g = require('./g.js');
+var Graph = require('./g.js');
 
 // var neo4j = require('neo4j');
 
@@ -35,11 +35,14 @@ function compileToGraph(source) {
 
   var mainDef = parser.parse(source)[0];
 
+  var graph = new Graph();
+
   // TODO reduce the amount of processing on the next three lines and transform it into graph operations instead
-  var graphInteraction = interactionToGraph(identifiers.reduceIdentifiers(interactions.expand(mainDef).interaction));
+  var interaction = addInteractionToGraph(graph, identifiers.reduceIdentifiers(interactions.expand(mainDef).interaction));
   //TODO Make it possible to compile interactiosn that have arguments and not just a single interface
-  var graphInterface = interfaceToGraph(mainDef.signature.interfac);
-  var graph = mergeByRootNode(graphInteraction, graphInterface);
+  var interfac = addInterfaceToGraph(graph, mainDef.signature.interfac, 'theInterface');
+
+  mergeByRootNode(graph,interaction, interfac);
 
 
   addOperatorTypeAnnotation(graph);
@@ -70,12 +73,12 @@ function graphToDot(graph) {
       res += (x.id + ' [shape=circle, label="root", fillcolor=yellow];');
       return;
     }
-    if (x.interaction.type === 'InteractionSimple' && x.finished !== true) {
-      res += (x.id + ' [shape=ellipse, label="' + x.id + '\n' + x.interaction.operator + '", fillcolor=' + (x.finished ? '"blue"' : '"white"') + '];');
+    if (x.content.type === 'InteractionSimple' && x.finished !== true) {
+      res += (x.id + ' [shape=ellipse, label="' + x.id + '\n' + x.content.operator + '", fillcolor=' + (x.finished ? '"blue"' : '"white"') + '];');
       return;
     }
-    if (x.interaction.type === 'InteractionNative' && x.finished !== true) {
-      res += (x.id + ' [shape=box, label="' + x.id + "\n" + ((x.executionOrder !== undefined) ? (x.executionOrder) : "") + "\n" + x.interaction.content + '", fillcolor=' + (x.finished ? '"blue"' : '"gray"') + '];');
+    if (x.content.type === 'InteractionNative' && x.finished !== true) {
+      res += (x.id + ' [shape=box, label="' + x.id + "\n" + ((x.executionOrder !== undefined) ? (x.executionOrder) : "") + "\n" + x.content.content + '", fillcolor=' + (x.finished ? '"blue"' : '"gray"') + '];');
       return;
     }
   });
@@ -93,177 +96,66 @@ function graphToDot(graph) {
   return res;
 }
 
-function interactionToGraph(interaction) {
+function addInteractionToGraph(graph, interaction) {
+  var rootNode;
   switch (interaction.type) {
     case 'InteractionSimple':
-      {
-        var result = {};
-        var sub = _.map(interaction.operand, interactionToGraph);
-        var rootNode = {
-          type: 'InteractionNode',
-          id: _.uniqueId("node"),
-          interaction: interaction,
-          finished: false
-        };
-        var newnodes = [rootNode];
-        result.nodes = newnodes.concat(_.flatten(_.map(sub, 'nodes')));
-
-        var newedges = _.flatten(_.map(sub, function(x, index) {
-          // Add the edges to and from the current node
-          return [{
-            type: 'AstEdge',
-            id: _.uniqueId("edge"),
-            from: rootNode,
-            fromIndex: (index + 1),
-            to: x.root,
-            toIndex: 0
-          }, {
-            type: 'AstEdge',
-            id: _.uniqueId("edge"),
-            from: x.root,
-            fromIndex: 0,
-            to: rootNode,
-            toIndex: (index + 1)
-          }];
-        }));
-        result.edges = newedges.concat(_.flatten(_.map(sub, 'edges')));
-
-        result.root = rootNode;
-        return result;
-      }
+      rootNode = graph.addNode('ast', interaction);
+      var nodeOfOperand = _.map(interaction.operand, function(operand) {
+        return addInteractionToGraph(graph, operand);
+      });
+      _.forEach(nodeOfOperand, function(x, index) {
+        graph.addEdge('ast', interaction, rootNode, x, 0, index);
+      });
+      break;
     case 'InteractionNative':
-      {
-        return {
-          'nodes': {
-            type: 'InteractionNode',
-            id: _.uniqueId("node"),
-            interaction: interaction,
-            finished: false
-          },
-          'edges': []
-        };
-      }
+      rootNode = graph.addNode('ast', interaction);
+      break;
     default:
       throw new Error('trying to transform into a graph invalid interaction');
   }
-
+  return rootNode;
 }
 
 
-function interfaceToGraph(interfac, prefx) {
-  var prefix = (prefx === undefined || prefx === null) ? "" : prefx;
+function addInterfaceToGraph(graph, interfac, prefx) {
+  var rootNode;
   switch (interfac.type) {
     case "InterfaceAtomic":
-      {
-        var theNode;
-        if (interfac.direction === "in") {
-          theNode = {
-            type: 'InteractionNode',
-            id: _.uniqueId("node"),
-            interaction: {
-              type: "InteractionNative",
-              content: "<%=a0%>=theInterface" + prefix + ";\n"
-            },
-            ports: ["out"],
-            finished: false
-          };
-        } else {
-          theNode = {
-            type: 'InteractionNode',
-            id: _.uniqueId("node"),
-            interaction: {
-              type: "InteractionNative",
-              content: "theInterface" + prefix + "=<%=a0%>;\n"
-            },
-            ports: ["in"],
-            finished: false
-          };
-        }
-        return {
-          edges: [],
-          nodes: [theNode],
-          root: theNode
-        };
+      if (interfac.direction === "in") {
+        rootNode = graph.addNode('ast', {
+          type: "InteractionNative",
+          content: "<%=a0%>=" + prefix + ";\n"
+        }, ["out"]);
+      } else {
+        rootNode = graph.addNode('ast', {
+          type: "InteractionNative",
+          content: "" + prefix + "=<%=a0%>;\n"
+        }, ["in"]);
       }
+      break;
     case "InterfaceComposite":
       {
-        var result = {};
-        var sub = _.map(interfac.element, function(x) {
-          return interfaceToGraph(x.value, prefix + "." + x.key);
+        rootNode = graph.addNode('ast', {
+          type: "InteractionSimple",
+          operator: interfacs.toOperator(interfac)
         });
-        var rootNode = {
-          type: 'InteractionNode',
-          id: _.uniqueId("node"),
-          interaction: {
-            type: "InteractionSimple",
-            operator: interfacs.toOperator(interfac)
-          },
-          finished: false
-        };
-        var newnodes = [rootNode];
-        result.nodes = newnodes.concat(_.flatten(_.map(sub, 'nodes')));
-
-        var newedges = _.flatten(_.map(sub, function(x, index) {
-          // Add the edges to and from the current node
-          return [{
-            type: 'AstEdge',
-            id: _.uniqueId("edge"),
-            from: rootNode,
-            fromIndex: (index + 1),
-            to: x.root,
-            toIndex: 0
-          }, {
-            type: 'AstEdge',
-            id: _.uniqueId("edge"),
-            from: x.root,
-            fromIndex: 0,
-            to: rootNode,
-            toIndex: (index + 1)
-          }];
-        }));
-        result.edges = newedges.concat(_.flatten(_.map(sub, 'edges')));
-
-        result.root = rootNode;
-        return result;
+        var nodeOfElement = _.map(interfac.element, function(x) {
+          return addInterfaceToGraph(graph, x.value, prefix + "." + x.key);
+        });
+        _.forEach(nodeOfElement, function(x, index) {
+          graph.addEdge('ast', interfac, rootNode, x, 0, index);
+        });
       }
     default:
       throw "Cant transform this interface to a graph. Is it an interface really ?";
   }
+  return rootNode;
 }
 
 
-function mergeByRootNode(graph1, graph2) {
-
-
-  var root1 = graph1.root;
-  var root2 = graph2.root;
-  var graph = {
-    nodes: graph1.nodes.concat(graph2.nodes),
-    edges: graph1.edges.concat(graph2.edges),
-    root: graph1.root
-  };
-
-  var edge1 = {
-    type: 'AstEdge',
-    id: _.uniqueId("edge"),
-    from: root1,
-    fromIndex: 0,
-    to: root2,
-    toIndex: 0
-  };
-
-  var edge2 = {
-    type: 'AstEdge',
-    id: _.uniqueId("edge"),
-    to: root1,
-    toIndex: 0,
-    from: root2,
-    fromIndex: 0
-  };
-
-  graph.edges.push(edge1);
-  graph.edges.push(edge2);
-  return graph;
+function mergeByRootNode(graph,g1, g2) {
+  return graph.addEdge('ast','root',g1,g2,0,0);
 }
 
 
@@ -271,9 +163,9 @@ function mergeByRootNode(graph1, graph2) {
 
 function addOperatorTypeAnnotation(graph) {
   _.forEach(graph.nodes, function(x) {
-    if (x.interaction) {
-      if (x.interaction.type === "InteractionSimple") {
-        x.interaction.operatorType = operator.parse(x.interaction.operator);
+    if (x.content) {
+      if (x.content.type === "InteractionSimple") {
+        x.content.operatorType = operator.parse(x.content.operator);
       }
     }
   });
@@ -289,7 +181,7 @@ function addOperatorTypeAnnotation(graph) {
 function referentialTransparency(graph) {
 
   var matchNode = function(x) {
-    return (x.type === "InteractionNode" && x.interaction !== undefined && x.interaction.type === 'InteractionSimple' && x.referentialTransparencySolved !== true && x.finished !== true);
+    return (x.type === "InteractionNode" && x.content !== undefined && x.content.type === 'InteractionSimple' && x.referentialTransparencySolved !== true && x.finished !== true);
   };
 
   var n = _.find(graph.nodes, matchNode);
@@ -297,7 +189,7 @@ function referentialTransparency(graph) {
   while (n !== undefined) {
 
     var matchNodeSimilarToN = function(x) {
-      return (x.type === "InteractionNode" && x.interaction !== undefined && x.interaction.type === 'InteractionSimple' && x.referentialTransparencySolved !== true && x.finished !== true && _.isEqual(x.interaction, n.interaction, function(a, b) {
+      return (x.type === "InteractionNode" && x.content !== undefined && x.content.type === 'InteractionSimple' && x.referentialTransparencySolved !== true && x.finished !== true && _.isEqual(x.content, n.content, function(a, b) {
         return interactions.compare(a, b) === 0;
       }));
     };
@@ -307,7 +199,7 @@ function referentialTransparency(graph) {
     var newNode = {
       type: 'InteractionNode',
       id: _.uniqueId("node"),
-      interaction: n.interaction,
+      content: n.content,
       referentialTransparencySolved: true,
       finished: false
     }
@@ -358,8 +250,8 @@ function referentialTransparency(graph) {
 
 function linkIdentifiers(graph) {
   var matchNode = function(x) {
-    if (x.interaction === undefined) return false;
-    return (x.interaction.operatorType === "Identifier" && x.finished !== true);
+    if (x.content === undefined) return false;
+    return (x.content.operatorType === "Identifier" && x.finished !== true);
   };
   var n = _.find(graph.nodes, matchNode);
   while (n !== undefined) {
@@ -404,8 +296,8 @@ function linkIdentifiers(graph) {
 function voidInteractionCreation(graph) {
 
   var matchNode = function(x) {
-    if (x.interaction === undefined) return false;
-    return (x.interaction.operatorType === "Void" && x.finished !== true);
+    if (x.content === undefined) return false;
+    return (x.content.operatorType === "Void" && x.finished !== true);
   };
 
   var n = _.find(graph.nodes, matchNode);
@@ -468,8 +360,8 @@ function behaviourSeparation(graph) {
 
 
   var matchNode = function(x) {
-    if (x.interaction === undefined) return false;
-    return (x.interaction.operatorType === "Behaviour" && x.finished !== true);
+    if (x.content === undefined) return false;
+    return (x.content.operatorType === "Behaviour" && x.finished !== true);
   };
 
   var b = _.find(graph.nodes, matchNode);
@@ -565,14 +457,14 @@ function behaviourSeparation(graph) {
 
 function functionLiteralLinking(graph) {
   var matchNode = function(x) {
-    if (x.interaction === undefined) return false;
-    return (x.interaction.operatorType === "Function" && x.finished !== true);
+    if (x.content === undefined) return false;
+    return (x.content.operatorType === "Function" && x.finished !== true);
   };
   var b = _.find(graph.nodes, matchNode);
 
   while (b !== undefined) {
 
-    var funcName = b.interaction.operator.substring(8);
+    var funcName = b.content.operator.substring(8);
     var functionSource = {
       'id': 'functionsource' + funcName,
       'interaction': {
@@ -626,8 +518,8 @@ function functionLiteralLinking(graph) {
 
 function functionApplicationLinking(graph) {
   var matchNode = function(x) {
-    if (x.interaction === undefined) return false;
-    return (x.interaction.operatorType === "FunctionApplication" && x.finished !== true);
+    if (x.content === undefined) return false;
+    return (x.content.operatorType === "FunctionApplication" && x.finished !== true);
   };
   var b = _.find(graph.nodes, matchNode);
 
@@ -781,8 +673,8 @@ function functionApplicationLinking(graph) {
 
 function previousNextLinking(graph) {
   var matchNode = function(x) {
-    if (x.interaction === undefined) return false;
-    return (x.interaction.operatorType === "Previous" && x.finished !== true);
+    if (x.content === undefined) return false;
+    return (x.content.operatorType === "Previous" && x.finished !== true);
   };
   var b = _.find(graph.nodes, matchNode);
 
@@ -919,12 +811,12 @@ function matchingCompositionReduction(graph) {
   var matchEdge = function(x) {
     if (x.to === undefined) return false;
     if (x.from === undefined) return false;
-    if (x.from.interaction === undefined) return false;
-    if (x.to.interaction === undefined) return false;
+    if (x.from.content === undefined) return false;
+    if (x.to.content === undefined) return false;
     if (x.toIndex !== 0) return false;
     if (x.fromIndex !== 0) return false;
-    return (x.unSuitableForCompositionReduction !== true && x.from.interaction.operatorType === "Composition" && x.from.finished !== true &&
-      x.to.interaction.operatorType === "Composition" && x.to.finished !== true && x.from.interaction.operator === x.to.interaction.operator);
+    return (x.unSuitableForCompositionReduction !== true && x.from.content.operatorType === "Composition" && x.from.finished !== true &&
+      x.to.content.operatorType === "Composition" && x.to.finished !== true && x.from.content.operator === x.to.content.operator);
   };
   var b = _.find(graph.edges, matchEdge);
 
@@ -1127,12 +1019,12 @@ function nonMatchingCompositionCompilation(graph) {
     if (x.from === undefined) return false;
     if (x.from.finished === true) return false;
     if (x.to.finished === true) return false;
-    if (x.from.interaction === undefined) return false;
-    if (x.to.interaction === undefined) return false;
+    if (x.from.content === undefined) return false;
+    if (x.to.content === undefined) return false;
     if (x.fromIndex !== 0) return false;
-    if (x.from.interaction.type !== 'InteractionSimple') return false;
+    if (x.from.content.type !== 'InteractionSimple') return false;
     if (x.unsuitableForNonMatchingCompositionReduction === true) return false;
-    if (x.from.interaction.operatorType !== "Composition") return false;
+    if (x.from.content.operatorType !== "Composition") return false;
     return true;
   };
 
@@ -1143,9 +1035,9 @@ function nonMatchingCompositionCompilation(graph) {
 
     // Get the composition nodes at the extremity of this edge
     var n1 = b.from;
-    // console.log(">>>>>>>>" + n1.interaction.operator);
+    // console.log(">>>>>>>>" + n1.content.operator);
 
-    var op = _.words(_.trim(n1.interaction.operator, '{}'), /[^:$]+/g);
+    var op = _.words(_.trim(n1.content.operator, '{}'), /[^:$]+/g);
 
     // console.log(op);
 
@@ -1235,12 +1127,12 @@ function nonMatchingDecompositionCompilation(graph) {
     if (x.from === undefined) return false;
     if (x.from.finished === true) return false;
     if (x.to.finished === true) return false;
-    if (x.from.interaction === undefined) return false;
-    if (x.to.interaction === undefined) return false;
+    if (x.from.content === undefined) return false;
+    if (x.to.content === undefined) return false;
     if (x.toIndex !== 0) return false;
-    if (x.to.interaction.type !== 'InteractionSimple') return false;
+    if (x.to.content.type !== 'InteractionSimple') return false;
     if (x.unsuitableForNonMatchingDecompositionReduction === true) return false;
-    if (x.to.interaction.operatorType !== "Composition") return false;
+    if (x.to.content.operatorType !== "Composition") return false;
     return true;
   };
 
@@ -1251,9 +1143,9 @@ function nonMatchingDecompositionCompilation(graph) {
 
     // Get the composition nodes at the extremity of this edge
     var n1 = b.to;
-    // console.log(">>>>>>>>" + n1.interaction.operator);
+    // console.log(">>>>>>>>" + n1.content.operator);
 
-    var op = _.words(_.trim(n1.interaction.operator, '{}'), /[^:$]+/g);
+    var op = _.words(_.trim(n1.content.operator, '{}'), /[^:$]+/g);
 
     // console.log(op);
 
@@ -1386,7 +1278,7 @@ function orderGraph(graph) {
   // The list is now ordered ! (Hopefully)
   //  We write the order in the nodes
   _.forEach(orderingList, function(node, index) {
-    // console.log(index + "     " + node.interaction.content);
+    // console.log(index + "     " + node.content.content);
     node.executionOrder = index;
   });
   // console.log("There are "+orderingList.length+" nodes");
@@ -1397,7 +1289,7 @@ function orderGraph(graph) {
 // Here we solve the cases where several signals come or go from the same node with the same port number.
 function resolveMultiplePorts(graph) {
   // var matchNode = function(x) {
-  //   if (x.interaction === undefined) return false;
+  //   if (x.content === undefined) return false;
   //   return x.hasUniquePorts !== true && x.finished !== true;
   // };
   //
@@ -1460,8 +1352,8 @@ function resolveMultiplePorts(graph) {
 // TODO finish tht
 function instantiateTemplates(graph) {
   var matchNode = function(x) {
-    if (x.interaction === undefined) return false;
-    return x.interaction.type === "InteractionNative" && x.finished !== true && x.codeGeneration === undefined;
+    if (x.content === undefined) return false;
+    return x.content.type === "InteractionNative" && x.finished !== true && x.codeGeneration === undefined;
   };
 
   var b = _.find(graph.nodes, matchNode);
@@ -1505,7 +1397,7 @@ function instantiateTemplates(graph) {
 
 
     b.codeGeneration = {
-      'js': _.template(b.interaction.content)(edgesNameList)
+      'js': _.template(b.content.content)(edgesNameList)
     };
 
     var b = _.find(graph.nodes, matchNode);
@@ -1602,4 +1494,3 @@ module.exports.compileToIii = compileToIii;
 module.exports.compileToJs = compileToJs;
 module.exports.generateJsCode = generateJsCode;
 module.exports.compileToGraph = compileToGraph;
-module.exports.interactionToGraph = interactionToGraph;

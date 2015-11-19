@@ -6,7 +6,7 @@ var fs = require('fs');
 var path = require('path');
 
 
-describe('lidl compiler', function() {
+xdescribe('lidl compiler', function() {
 
   var exampleTestPath = 'example/test';
   var commonHeader = path.join(exampleTestPath, 'common.lidl.js');
