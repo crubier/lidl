@@ -1393,7 +1393,7 @@ function generateJsCode(graph, header) {
 
   var conf = {
     'edgesCode': _.map(_.filter(graph.edges, matchFlows), function(x) {
-      return "var " + x.id + ";\n"
+      return "var " + x.id + " = inactive;\n"
     }).join(""),
     'nodesCode': _.pluck(_.pluck(_.sortBy(_.filter(graph.nodes, matchNode), 'executionOrder'), 'codeGeneration'), 'js').join("\n"),
     'statesCode': _.map(_.pluck(_.filter(graph.nodes, matchStateNode), 'id'), function(x) {

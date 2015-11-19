@@ -1,5 +1,5 @@
 interaction
-  ((click:Activation in) happened (x:Number out) times):Activation in
+  (test):{theNumber: Number in, theResult:Number out} in
 with
   interaction (1):Number out
   is ((#1) in (`return1`)(##)=(#1))
