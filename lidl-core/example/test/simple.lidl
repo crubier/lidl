@@ -1,0 +1,10 @@
+
+
+    interaction (main):{theNumber:Number in,theResult:Number out}
+
+    is
+
+        ({
+          theNumber:(variable x)
+          theResult:(variable x)
+        })

@@ -1,4 +1,4 @@
-var escodegen = require('escodegen');
+// var escodegen = require('escodegen');
 
 function serialize(object) {
   switch (object.type) {
@@ -25,7 +25,7 @@ function serializeInteractionSimple(object) {
 }
 
 function serializeInteractionNative(object) {
-  return "("+object.language+"`"+escodegen.generate(object.code,{format:{newline:'',space:'',indent:{style:''}}})+"`)";
+  // return "("+object.language+"`"+escodegen.generate(object.code,{format:{newline:'',space:'',indent:{style:''}}})+"`)";
 }
 
 module.exports.serialize = serialize;

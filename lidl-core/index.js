@@ -1,10 +1,10 @@
 module.exports = {
-  data: require('./dist/data.js'),
-  interactions: require('./dist/interactions.js'),
-  interfaces: require('./dist/interfaces.js'),
-  identifiers: require('./dist/identifiers.js'),
-  parser:require('./dist/parser.js'),
-  serializer:require('./dist/serializer.js'),
-  compiler:require('./dist/compiler.js'),
-  operator:require('./dist/operator.js')
+  data: require('./src/data.js'),
+  interactions: require('./src/interactions.js'),
+  interfaces: require('./src/interfaces.js'),
+  identifiers: require('./src/identifiers.js'),
+  parser:require('./src/parser.js'),
+  serializer:require('./src/serializer.js'),
+  compiler:require('./src/compiler.js'),
+  operator:require('./src/operator.js')
 };

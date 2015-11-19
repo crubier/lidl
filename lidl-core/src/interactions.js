@@ -1,7 +1,6 @@
 var _ = require('lodash');
 var operator = require('./operator.js');
 var serializer = require('./serializer.js');
-var stringify = require('json-stringify-safe');
 
 // get the list of all interaction operators in an interaction expression
 function listOfInteractions(theInteraction) {

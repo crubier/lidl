@@ -72,7 +72,7 @@ function graphToDot(graph) {
       return;
     }
     if (x.interaction.type === 'InteractionSimple') {
-      res += (x.id + ' [shape=ellipse, label="' + x.interaction.operator + '", fillcolor=' + (x.finished ? '"blue"' : '"white"') + '];');
+      res += (x.id + ' [shape=ellipse, label="' + x.id + '\n' +x.interaction.operator + '", fillcolor=' + (x.finished ? '"blue"' : '"white"') + '];');
       return;
     }
     if (x.interaction.type === 'InteractionNative') {
@@ -268,35 +268,6 @@ function mergeByRootNode(graph1, graph2) {
 }
 
 
-// function addRootNode(graph) {
-//   var rootn = {
-//     type: 'RootNode',
-//     id: 'root',
-//     finished: false
-//   };
-//   graph.nodes.push(rootn);
-//   var edge1 = {
-//     type: 'AstEdge',
-//     id: _.uniqueId("edge"),
-//     from: rootn,
-//     fromIndex: 0,
-//     to: graph.root,
-//     toIndex: 0
-//   };
-//   var edge2 = {
-//     type: 'AstEdge',
-//     id: _.uniqueId("edge"),
-//     to: rootn,
-//     toIndex: 0,
-//     from: graph.root,
-//     fromIndex: 0
-//   };
-//   graph.edges.push(edge1);
-//   graph.edges.push(edge2);
-//   graph.root = rootn;
-// }
-
-
 
 
 function addOperatorTypeAnnotation(graph) {
@@ -440,7 +411,7 @@ function behaviourSeparation(graph) {
     ports: ["out"],
     'finished': false
   };
-  graph.nodes.push(activeSource);
+
 
   var matchNode = function(x) {
     if (x.interaction === undefined) return false;
@@ -479,6 +450,8 @@ function behaviourSeparation(graph) {
     if (a0 === undefined || a1 === undefined || a2 === undefined) {
       console.log("A behaviour interaction does not have the right connections for transformation. Consider changing the Behaviour transformation graph transform (Put lodash _.forEach instead of _.find)");
     }
+
+    graph.nodes.push(activeSource);
 
     var edge1 = {
       type: 'AstEdge',
@@ -888,6 +861,7 @@ function previousNextLinking(graph) {
 // TODO Extend functionality to deal with cases where more than 2 compositions are matching (because of identifier elimination)
 function matchingCompositionReduction(graph) {
 
+  // Here we try to match edges that are in the middle of matching and facing compositions
   var matchEdge = function(x) {
     if (x.to === undefined) return false;
     if (x.from === undefined) return false;
@@ -907,10 +881,14 @@ function matchingCompositionReduction(graph) {
     var n2 = b.to;
 
     var cond = true;
+
+    // i is the index of the current component
     var i = 1;
+
+    // For each i
     while (cond) {
 
-      // Get edge going from the first composition
+      // Get i-th edge going from the first composition
       var e1 = _.find(graph.edges, {
         'type': 'AstEdge',
         'from': n1,
@@ -919,7 +897,7 @@ function matchingCompositionReduction(graph) {
           'finished': false
         }
       });
-      // Get edge going from the second composition
+      // Get i-th edge going from the second composition
       var e2 = _.find(graph.edges, {
         'type': 'AstEdge',
         'from': n2,
@@ -929,22 +907,87 @@ function matchingCompositionReduction(graph) {
         }
       });
 
+      // We should have found the two edges that we want to merge
       if (e1 !== undefined && e2 !== undefined) {
+        // Destinations of the edges we are replacing
+        var dest1=e1.to;
+        var i1 = e1.toIndex;
+        var dest2=e2.to;
+        var i2 = e2.toIndex;
+
+        var targetEdge;
+
+        // Special case ! Deal with cases when edges loop onto the very composition interaction that we are destroying !
+
+        if (dest1 === n1) {
+// first edge looping to first composition node
+          targetEdge = _.find(graph.edges, {
+                  'type': 'AstEdge',
+                  'from': n2,
+                  'fromIndex': i1,
+                  'to': {
+                    'finished': false
+                  }
+                });
+          dest1 = targetEdge.to;
+          i1 = targetEdge.toIndex;
+        } else if (dest1 === n2){
+// first edge looping to second composition node
+          targetEdge = _.find(graph.edges, {
+                  'type': 'AstEdge',
+                  'from': n1,
+                  'fromIndex': i1,
+                  'to': {
+                    'finished': false
+                  }
+                });
+          dest1 = targetEdge.to;
+          i1 = targetEdge.toIndex;
+        }
+
+        if (dest2 === n2) {
+// second edge looping to first composition node
+          targetEdge = _.find(graph.edges, {
+                  'type': 'AstEdge',
+                  'from': n1,
+                  'fromIndex': i2,
+                  'to': {
+                    'finished': false
+                  }
+                });
+          dest2 = targetEdge.to;
+          i2 = targetEdge.toIndex;
+        } else if (dest2 === n1){
+// second edge looping to second composition node
+          targetEdge = _.find(graph.edges, {
+                  'type': 'AstEdge',
+                  'from': n2,
+                  'fromIndex': i2,
+                  'to': {
+                    'finished': false
+                  }
+                });
+          dest2 = targetEdge.to;
+          i2 = targetEdge.toIndex;
+        }
+
+// Now that we sorted the correct destination nodes even in corner cases which involve self-loops, we can connect the nodes in question
+// General Case
         var edge1 = {
           type: 'AstEdge',
           id: _.uniqueId("edge"),
-          to: e1.to,
-          toIndex: e1.toIndex,
-          from: e2.to,
-          fromIndex: e2.toIndex
+          to: dest1,
+          toIndex: i1,
+          from: dest2,
+          fromIndex: i2
         };
         var edge2 = {
           type: 'AstEdge',
           id: _.uniqueId("edge"),
-          to: e2.to,
-          toIndex: e2.toIndex,
-          from: e1.to,
-          fromIndex: e1.toIndex
+          to: dest2,
+          toIndex: i2,
+          from: dest1,
+          fromIndex: i1
         };
         graph.edges.push(edge1);
         graph.edges.push(edge2);
@@ -954,13 +997,16 @@ function matchingCompositionReduction(graph) {
         cond = false;
       }
 
+      // Go to next pair of components
       i = i + 1;
     }
 
+// We connected all components, so the two composition nodes are finished
     n1.finished = true;
     n2.finished = true;
+// And the edge is done
     b.unSuitableForCompositionReduction = true;
-
+// Find the next potential edge
     b = _.find(graph.edges, matchEdge);
 
   }
@@ -995,6 +1041,7 @@ function createDataFlowDirection(graph) {
   var b = _.find(graph.edges, matchEdge);
 
   while (b !== undefined) {
+    console.log("Dataflow edge");
     var edge1 = {
       type: 'DataFlowEdge',
       from: b.from,
@@ -1284,6 +1331,7 @@ function orderGraph(graph) {
     // console.log(index + "     " + node.interaction.content);
     node.executionOrder = index;
   });
+console.log("There are "+orderingList.length+" nodes");
 }
 
 
@@ -1295,7 +1343,6 @@ function instantiateTemplates(graph) {
   };
 
   var b = _.find(graph.nodes, matchNode);
-
   while (b !== undefined) {
     var i;
     // TODO extend i in case bigger interactions happen !
@@ -1325,7 +1372,6 @@ function instantiateTemplates(graph) {
       }
       edgesNameList["a" + i] = edgeforCurrentI.id;
     }
-
 
     b.codeGeneration = {
       'js': _.template(b.interaction.content)(edgesNameList)

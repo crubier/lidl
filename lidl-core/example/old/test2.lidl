@@ -1,0 +1,78 @@
+
+
+    interaction (main):{theNumber:Number in,theResult:Number out}
+    with
+
+      interaction ((a:Number in) fallback to (b:Number in)):Number out is
+        (
+            (variable (a)fallbackto(b))
+          with behaviour
+            (
+              apply
+                (function fallback)
+              to
+                ({0:(a)1:(b)})
+              and get
+                (variable (a)fallbackto(b))
+            )
+        )
+
+      interaction (previous(a:Number in)):Number out is
+        (
+            (variable previous(a))
+          with behaviour
+            (
+              (get(variable previous(a)) from previous and set (a) for next)
+            )
+        )
+
+      interaction (0):Number out is
+        (
+            (variable 0)
+              with behaviour
+              (
+              apply
+                (function return0)
+              to
+                (variable bob)
+              and get
+                (variable 0)
+              )
+        )
+
+    is
+
+        ({
+          theNumber(variable x)
+          theResult(previous(variable x))
+        })
+
+
+            interaction (bob):{theNumber:Number in,theResult:Number out} is
+            (
+              ({
+            theNumber:(variable x)
+            theResult:(variable y)
+            })
+            with behaviour
+            (get(variable y) from previous and set (variable x) for next)
+            )
+
+
+
+
+
+            interaction (bob):{theNumber:Number in,theOther:Number in,theResult:Number out,theLast:Number out} is
+              (
+              ({theNumber:(variable theNumber)
+            theOther:(variable y)
+            theResult:(variable theResult)
+            theLast:(variable wow)})
+            with behaviour
+            (apply
+            (function cool)
+            to
+            ({0:(variable theNumber)1:(variable y)})
+            and get
+            ({sum:(variable theResult)diff:(variable wow)})
+            ))

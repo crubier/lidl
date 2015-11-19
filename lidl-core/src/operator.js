@@ -1666,4 +1666,4 @@ module.exports = (function() {
     SyntaxError: peg$SyntaxError,
     parse:       peg$parse
   };
-})();
+})()
