@@ -1,0 +1,12 @@
+interaction (bob):{theNumber:Number in,theResult:Number out}
+with
+  interaction ((a:Number out)=(b:Number in)):Activation in is
+  (apply (function identity) to (b) and get (a))
+is
+  (
+    (
+    {theNumber:(variable theNumber)theResult:(variable theResult)}
+    )
+  with behaviour
+    ((variable theResult)=(variable theNumber))
+  )

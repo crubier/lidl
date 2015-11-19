@@ -1,0 +1,16 @@
+graph lidl{node23 [shape=box, label="node23
+2
+<%=a0%>=theInterface.theNumber;
+", fillcolor="gray"];node24 [shape=box, label="node24
+4
+theInterface.theResult=<%=a0%>;
+", fillcolor="gray"];activesource [shape=box, label="activesource
+1
+<%=a0%> = active;
+", fillcolor="gray"];functionsourceidentity [shape=box, label="functionsourceidentity
+0
+<%=a0%> = identity;
+", fillcolor="gray"];node121 [shape=box, label="node121
+3
+if(<%=a0%> === active) {<%=a3%> = <%=a1%>(<%=a2%>);}
+", fillcolor="gray"];node121 -> activesource [label="edge122", headlabel="0", taillabel="0", dir="forward", arrowHead="normal"];activesource -> node121 [label="edge123", headlabel="0", taillabel="0", dir="forward", arrowHead="normal"];node121 -> functionsourceidentity [label="edge124", headlabel="0", taillabel="1", dir="forward", arrowHead="normal"];functionsourceidentity -> node121 [label="edge125", headlabel="1", taillabel="0", dir="forward", arrowHead="normal"];node121 -> node23 [label="edge130", headlabel="0", taillabel="2", dir="forward", arrowHead="normal"];node23 -> node121 [label="edge131", headlabel="2", taillabel="0", dir="forward", arrowHead="normal"];node121 -> node24 [label="edge132", headlabel="0", taillabel="3", dir="forward", arrowHead="normal"];node24 -> node121 [label="edge133", headlabel="3", taillabel="0", dir="forward", arrowHead="normal"];activesource -> node121 [label="flow134",headlabel="0", taillabel="0", dir="forward", arrowHead="normal", arrowsize=2, color="red"];functionsourceidentity -> node121 [label="flow135",headlabel="1", taillabel="0", dir="forward", arrowHead="normal", arrowsize=2, color="red"];node23 -> node121 [label="flow136",headlabel="2", taillabel="0", dir="forward", arrowHead="normal", arrowsize=2, color="red"];node121 -> node24 [label="flow137",headlabel="0", taillabel="3", dir="forward", arrowHead="normal", arrowsize=2, color="red"];}

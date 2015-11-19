@@ -4,10 +4,9 @@ var compiler = require('../compiler.js');
 var _ = require('lodash');
 var fs = require('fs');
 var path = require('path');
-//
 
-//
-describe('iii', function() {
+
+describe('lidl compiler', function() {
 
   var exampleTestPath = 'example/test';
   var commonHeader = path.join(exampleTestPath, 'common.lidl.js');
@@ -40,7 +39,7 @@ describe('iii', function() {
         encoding: 'utf8'
       });
 
-      var res = compiler.compileToJs(code, header);
+      var res = compiler.generateJsCode(graph, header);
 
       var trans = res.transitionFunction;
       var init = res.initializationFunction;

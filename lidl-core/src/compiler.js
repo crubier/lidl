@@ -6,6 +6,7 @@ var parser = require('./parser.js');
 var operator = require('./operator.js');
 var _ = require('lodash');
 var compilationResult = require('./compilerExampleResult.js');
+var g = require('./g.js');
 
 // var neo4j = require('neo4j');
 
@@ -44,9 +45,10 @@ function compileToGraph(source) {
   addOperatorTypeAnnotation(graph);
   referentialTransparency(graph);
   linkIdentifiers(graph);
+  voidInteractionCreation(graph);
   behaviourSeparation(graph);
   functionLiteralLinking(graph);
-  functionAppliationLinking(graph);
+  functionApplicationLinking(graph);
   previousNextLinking(graph);
   matchingCompositionReduction(graph);
   createDataFlowDirection(graph);
@@ -54,6 +56,7 @@ function compileToGraph(source) {
   createDataFlowDirection(graph);
   nonMatchingDecompositionCompilation(graph);
   createDataFlowDirection(graph);
+  resolveMultiplePorts(graph);
   orderGraph(graph);
   instantiateTemplates(graph);
   return graph;
@@ -67,22 +70,22 @@ function graphToDot(graph) {
       res += (x.id + ' [shape=circle, label="root", fillcolor=yellow];');
       return;
     }
-    if (x.interaction.type === 'InteractionSimple') {
-      res += (x.id + ' [shape=ellipse, label="' + x.id + '\n' +x.interaction.operator + '", fillcolor=' + (x.finished ? '"blue"' : '"white"') + '];');
+    if (x.interaction.type === 'InteractionSimple' && x.finished !== true) {
+      res += (x.id + ' [shape=ellipse, label="' + x.id + '\n' + x.interaction.operator + '", fillcolor=' + (x.finished ? '"blue"' : '"white"') + '];');
       return;
     }
-    if (x.interaction.type === 'InteractionNative') {
-      res += (x.id + ' [shape=box, label="' + ((x.executionOrder !== undefined) ? (x.executionOrder) : "") + "\n" + x.interaction.content + '", fillcolor=' + (x.finished ? '"blue"' : '"gray"') + '];');
+    if (x.interaction.type === 'InteractionNative' && x.finished !== true) {
+      res += (x.id + ' [shape=box, label="' + x.id + "\n" + ((x.executionOrder !== undefined) ? (x.executionOrder) : "") + "\n" + x.interaction.content + '", fillcolor=' + (x.finished ? '"blue"' : '"gray"') + '];');
       return;
     }
   });
   _.forEach(graph.edges, function(x) {
-    if (x.type === 'AstEdge') {
-      res += (x.from.id + ' -> ' + x.to.id + ' [label="' + /*x.type+ */ '", headlabel="' + x.toIndex + '", taillabel="' + x.fromIndex + '", dir="forward", arrowHead="normal"];');
+    if (x.type === 'AstEdge' && x.to.finished !== true && x.from.finished !== true) {
+      res += (x.from.id + ' -> ' + x.to.id + ' [label="' + x.id + '", headlabel="' + x.toIndex + '", taillabel="' + x.fromIndex + '", dir="forward", arrowHead="normal"];');
       return;
     }
-    if (x.type === 'DataFlowEdge') {
-      res += (x.from.id + ' -> ' + x.to.id + ' [headlabel="' + x.toIndex + '", taillabel="' + x.fromIndex + '", dir="forward", arrowHead="normal", arrowsize=2, color="red"];');
+    if (x.type === 'DataFlowEdge' && x.finished !== true && x.to.finished !== true && x.from.finished !== true) {
+      res += (x.from.id + ' -> ' + x.to.id + ' [label="' + x.id + '",headlabel="' + x.toIndex + '", taillabel="' + x.fromIndex + '", dir="forward", arrowHead="normal", arrowsize=2, color="red"];');
       return;
     }
   });
@@ -366,6 +369,11 @@ function linkIdentifiers(graph) {
       return x.to === n && x.toIndex == 0;
     });
 
+
+    // if(edgesGoingToN)
+
+
+    // General case
     _.forEach(edgesGoingToN, function(e1) {
       _.forEach(edgesGoingToN, function(e2) {
         if (e1 !== e2) {
@@ -392,8 +400,58 @@ function linkIdentifiers(graph) {
 
 
 
+// Here we create nodes for interactions that are empty
+function voidInteractionCreation(graph) {
 
+  var matchNode = function(x) {
+    if (x.interaction === undefined) return false;
+    return (x.interaction.operatorType === "Void" && x.finished !== true);
+  };
 
+  var n = _.find(graph.nodes, matchNode);
+
+  while (n !== undefined) {
+
+    var newNode = {
+      'id': _.uniqueId('node'),
+      'interaction': {
+        'type': 'InteractionNative',
+        'content': '/*Nothing, there was a void interaction*/\n'
+      },
+      ports: [],
+      isVoid: true,
+      'finished': false
+    };
+
+    graph.nodes.push(newNode);
+
+    _.forEach(graph.edges, function(x) {
+      if (x.type === 'AstEdge' && x.to === n && x.toIndex === 0 && x.from.finished !== true) {
+        var edge1 = {
+          type: 'AstEdge',
+          to: newNode,
+          toIndex: x.toIndex,
+          from: x.from,
+          fromIndex: x.fromIndex
+        };
+        var edge2 = {
+          type: 'AstEdge',
+          from: newNode,
+          fromIndex: x.toIndex,
+          to: x.from,
+          toIndex: x.fromIndex
+        };
+        graph.edges.push(edge1);
+        graph.edges.push(edge2);
+      }
+    });
+
+    n.finished = true;
+
+    n = _.find(graph.nodes, matchNode);
+
+  }
+}
 
 
 
@@ -566,7 +624,7 @@ function functionLiteralLinking(graph) {
 
 
 
-function functionAppliationLinking(graph) {
+function functionApplicationLinking(graph) {
   var matchNode = function(x) {
     if (x.interaction === undefined) return false;
     return (x.interaction.operatorType === "FunctionApplication" && x.finished !== true);
@@ -906,9 +964,9 @@ function matchingCompositionReduction(graph) {
       // We should have found the two edges that we want to merge
       if (e1 !== undefined && e2 !== undefined) {
         // Destinations of the edges we are replacing
-        var dest1=e1.to;
+        var dest1 = e1.to;
         var i1 = e1.toIndex;
-        var dest2=e2.to;
+        var dest2 = e2.to;
         var i2 = e2.toIndex;
 
         var targetEdge;
@@ -916,59 +974,59 @@ function matchingCompositionReduction(graph) {
         // Special case ! Deal with cases when edges loop onto the very composition interaction that we are destroying !
 
         if (dest1 === n1) {
-// first edge looping to first composition node
+          // first edge looping to first composition node
           targetEdge = _.find(graph.edges, {
-                  'type': 'AstEdge',
-                  'from': n2,
-                  'fromIndex': i1,
-                  'to': {
-                    'finished': false
-                  }
-                });
+            'type': 'AstEdge',
+            'from': n2,
+            'fromIndex': i1,
+            'to': {
+              'finished': false
+            }
+          });
           dest1 = targetEdge.to;
           i1 = targetEdge.toIndex;
-        } else if (dest1 === n2){
-// first edge looping to second composition node
+        } else if (dest1 === n2) {
+          // first edge looping to second composition node
           targetEdge = _.find(graph.edges, {
-                  'type': 'AstEdge',
-                  'from': n1,
-                  'fromIndex': i1,
-                  'to': {
-                    'finished': false
-                  }
-                });
+            'type': 'AstEdge',
+            'from': n1,
+            'fromIndex': i1,
+            'to': {
+              'finished': false
+            }
+          });
           dest1 = targetEdge.to;
           i1 = targetEdge.toIndex;
         }
 
         if (dest2 === n2) {
-// second edge looping to first composition node
+          // second edge looping to first composition node
           targetEdge = _.find(graph.edges, {
-                  'type': 'AstEdge',
-                  'from': n1,
-                  'fromIndex': i2,
-                  'to': {
-                    'finished': false
-                  }
-                });
+            'type': 'AstEdge',
+            'from': n1,
+            'fromIndex': i2,
+            'to': {
+              'finished': false
+            }
+          });
           dest2 = targetEdge.to;
           i2 = targetEdge.toIndex;
-        } else if (dest2 === n1){
-// second edge looping to second composition node
+        } else if (dest2 === n1) {
+          // second edge looping to second composition node
           targetEdge = _.find(graph.edges, {
-                  'type': 'AstEdge',
-                  'from': n2,
-                  'fromIndex': i2,
-                  'to': {
-                    'finished': false
-                  }
-                });
+            'type': 'AstEdge',
+            'from': n2,
+            'fromIndex': i2,
+            'to': {
+              'finished': false
+            }
+          });
           dest2 = targetEdge.to;
           i2 = targetEdge.toIndex;
         }
 
-// Now that we sorted the correct destination nodes even in corner cases which involve self-loops, we can connect the nodes in question
-// General Case
+        // Now that we sorted the correct destination nodes even in corner cases which involve self-loops, we can connect the nodes in question
+        // General Case
         var edge1 = {
           type: 'AstEdge',
           id: _.uniqueId("edge"),
@@ -997,12 +1055,12 @@ function matchingCompositionReduction(graph) {
       i = i + 1;
     }
 
-// We connected all components, so the two composition nodes are finished
+    // We connected all components, so the two composition nodes are finished
     n1.finished = true;
     n2.finished = true;
-// And the edge is done
+    // And the edge is done
     b.unSuitableForCompositionReduction = true;
-// Find the next potential edge
+    // Find the next potential edge
     b = _.find(graph.edges, matchEdge);
 
   }
@@ -1043,7 +1101,8 @@ function createDataFlowDirection(graph) {
       from: b.from,
       fromIndex: b.fromIndex,
       to: b.to,
-      toIndex: b.toIndex
+      toIndex: b.toIndex,
+      finished: false
     };
     if (!_.find(graph.edges, edge1)) {
       edge1.id = _.uniqueId("flow");
@@ -1063,6 +1122,7 @@ function createDataFlowDirection(graph) {
 function nonMatchingCompositionCompilation(graph) {
   var matchEdge = function(x) {
     if (x.type !== 'DataFlowEdge') return false;
+    if (x.finished === true) return false;
     if (x.to === undefined) return false;
     if (x.from === undefined) return false;
     if (x.from.finished === true) return false;
@@ -1170,6 +1230,7 @@ function nonMatchingCompositionCompilation(graph) {
 function nonMatchingDecompositionCompilation(graph) {
   var matchEdge = function(x) {
     if (x.type !== 'DataFlowEdge') return false;
+    if (x.finished === true) return false;
     if (x.to === undefined) return false;
     if (x.from === undefined) return false;
     if (x.from.finished === true) return false;
@@ -1305,7 +1366,8 @@ function orderGraph(graph) {
           if (m.finished !== true && _.find(graph.edges, {
               type: 'DataFlowEdge',
               from: n,
-              to: m
+              to: m,
+              finished: false
             })) {
             visit(m);
           }
@@ -1327,11 +1389,75 @@ function orderGraph(graph) {
     // console.log(index + "     " + node.interaction.content);
     node.executionOrder = index;
   });
-// console.log("There are "+orderingList.length+" nodes");
+  // console.log("There are "+orderingList.length+" nodes");
+}
+
+
+// TODO
+// Here we solve the cases where several signals come or go from the same node with the same port number.
+function resolveMultiplePorts(graph) {
+  // var matchNode = function(x) {
+  //   if (x.interaction === undefined) return false;
+  //   return x.hasUniquePorts !== true && x.finished !== true;
+  // };
+  //
+  // var b = _.find(graph.nodes, matchNode);
+  // while (b !== undefined) {
+  //   var i;
+  //   // TODO extend i in case bigger interactions happen !
+  //   var edgesNameList = {};
+  //   for (i = 0; i < 1000; i++)  {
+  //
+  //     var incomingEdgesforCurrentI = _.filter(graph.edges, {
+  //       type: 'DataFlowEdge',
+  //       from: {
+  //         finished: false
+  //       },
+  //       to: b,
+  //       toIndex: i,
+  //       finished: false
+  //     });
+  //     var outgoingEdgesforCurrentI = _.filter(graph.edges, {
+  //       type: 'DataFlowEdge',
+  //       to: {
+  //         finished: false
+  //       },
+  //       from: b,
+  //       fromIndex: i,
+  //       finished: false
+  //     });
+  //   }
+  //   if (_.isEmpty(incomingEdgesforCurrentI) && _.isEmpty(outgoingEdgesforCurrentI)) {
+  //     //TODO We sequentially did the arguments of the node until we found a i for which there is no argument.
+  //     // We are probably finished but are we sure ??....
+  //     break;
+  //   } else if ((incomingEdgesforCurrentI.length === 1 && outgoingEdgesforCurrentI.length === 0) || (incomingEdgesforCurrentI.length === 0 && outgoingEdgesforCurrentI.length === 1)) {
+  //     // Nothing to do here, this port has no problem :-)
+  //   } else if (incomingEdgesforCurrentI.length > 1 && outgoingEdgesforCurrentI.length === 0) {
+  //     // Here we have a problem: several signals on the same port
+  //     var inputPortCodeTemplate = "";
+  //     var inputPortPorts = ['out'];
+  //     _.forEach(incomingEdgesforCurrentI, function(x) {
+  //       inputPortCodeTemplate = inputPortCodeTemplate + '';
+  //       inputPortPorts.push('in');
+  //     });
+  //
+  //   } else if (incomingEdgesforCurrentI.length === 0 && outgoingEdgesforCurrentI.length > 1) {} else {
+  //     // TODO Same port used as multiple input and output...
+  //   }
+  //
+  // }
+  //
+  // b.hasUniquePorts = true;
+  //
+  // var b = _.find(graph.nodes, matchNode);
 }
 
 
 
+
+
+// TODO finish tht
 function instantiateTemplates(graph) {
   var matchNode = function(x) {
     if (x.interaction === undefined) return false;
@@ -1344,30 +1470,39 @@ function instantiateTemplates(graph) {
     // TODO extend i in case bigger interactions happen !
     var edgesNameList = {};
     for (i = 0; i < 1000; i++)  {
-      var edgeforCurrentI;
-      edgeforCurrentI = _.find(graph.edges, {
+
+      var incomingEdgesforCurrentI = _.filter(graph.edges, {
         type: 'DataFlowEdge',
         from: {
           finished: false
         },
         to: b,
-        toIndex: i
+        toIndex: i,
+        finished: false
       });
-      if (edgeforCurrentI == undefined) {
-        edgeforCurrentI = _.find(graph.edges, {
-          type: 'DataFlowEdge',
-          to: {
-            finished: false
-          },
-          from: b,
-          fromIndex: i
-        });
-      }
-      if (edgeforCurrentI == undefined) {
+      var outgoingEdgesforCurrentI = _.filter(graph.edges, {
+        type: 'DataFlowEdge',
+        to: {
+          finished: false
+        },
+        from: b,
+        fromIndex: i,
+        finished: false
+      });
+
+      if (_.isEmpty(incomingEdgesforCurrentI) && _.isEmpty(outgoingEdgesforCurrentI)) {
+        //TODO We sequentially did the arguments of the node until we found a i for which there is no argument.
+        // We are probably finished but are we sure ??....
         break;
+      } else if (incomingEdgesforCurrentI.length === 1 && outgoingEdgesforCurrentI.length === 0) {
+        edgesNameList["a" + i] = incomingEdgesforCurrentI[0].id;
+      } else if (incomingEdgesforCurrentI.length === 0 && outgoingEdgesforCurrentI.length === 1) {
+        edgesNameList["a" + i] = outgoingEdgesforCurrentI[0].id;
+      } else {
+        throw 'Error: a node has several edges going on the same port'
       }
-      edgesNameList["a" + i] = edgeforCurrentI.id;
     }
+
 
     b.codeGeneration = {
       'js': _.template(b.interaction.content)(edgesNameList)
@@ -1377,13 +1512,14 @@ function instantiateTemplates(graph) {
   }
 }
 
+
 function generateJsCode(graph, header) {
   var matchNode = function(x) {
     return x.codeGeneration !== undefined && x.executionOrder !== undefined && x.finished !== true;
   };
 
   var matchFlows = function(x) {
-    return x.type === 'DataFlowEdge' && x.to.finished !== true && x.from.finished !== true;
+    return x.type === 'DataFlowEdge' && x.finished !== true && x.to.finished !== true && x.from.finished !== true;
   };
 
   var matchStateNode = function(x) {
@@ -1404,10 +1540,20 @@ function generateJsCode(graph, header) {
   };
 
   var transTemplate = "\
+///////////////////////////////////////////////////////////////////////\n\
+//Standard LIDL Header\n\n\
 <%= standardHeader%>\n\
+///////////////////////////////////////////////////////////////////////\n\
+//Custom LIDL Header\n\n\
 <%= customHeader%>\n\
+///////////////////////////////////////////////////////////////////////\n\
+//Declaration of variables\n\n\
 <%= edgesCode%>\n\
+///////////////////////////////////////////////////////////////////////\n\
+//Code of the DAG\n\n\
 <%= nodesCode%>\n\
+///////////////////////////////////////////////////////////////////////\n\
+//Return statement\n\n\
   return {\n\
       memo: {},\n\
       state: nextState,\n\
@@ -1424,13 +1570,13 @@ function generateJsCode(graph, header) {
     };\n";
 
 
-var transCode = _.template(transTemplate)(conf);
-var initCode=_.template(initTemplate)(conf);
-// console.log("==================================================================");
-// console.log(transCode);
-// console.log("==================================================================");
-// console.log(initCode);
-// console.log("==================================================================");
+  var transCode = _.template(transTemplate)(conf);
+  var initCode = _.template(initTemplate)(conf);
+  console.log("==================================================================");
+  console.log(transCode);
+  console.log("==================================================================");
+  // console.log(initCode);
+  // console.log("==================================================================");
   return {
     transitionFunction: new Function("data", transCode),
     initializationFunction: new Function(initCode)
@@ -1441,6 +1587,7 @@ var initCode=_.template(initTemplate)(conf);
 
 var jsStandardHeader = '\
 function clone(a){if(!a)return a;var c,b=[Number,String,Boolean];if(b.forEach(function(b){a instanceof b&&(c=b(a))}),"undefined"==typeof c)if("[object Array]"===Object.prototype.toString.call(a))c=[],a.forEach(function(a,b,d){c[b]=clone(a)});else if("object"==typeof a)if(a.nodeType&&"function"==typeof a.cloneNode)var c=a.cloneNode(!0);else if(a.prototype)c=a;else if(a instanceof Date)c=new Date(a);else{c={};for(var d in a)c[d]=clone(a[d])}else c=a;return c}\n\
+\n\
 var theInterface = clone(data.inter);\n\
 var previousState = data.state;\n\
 var nextState = clone(previousState);\n\
@@ -1453,5 +1600,6 @@ var inactive = null;\n\
 module.exports.graphToDot = graphToDot;
 module.exports.compileToIii = compileToIii;
 module.exports.compileToJs = compileToJs;
+module.exports.generateJsCode = generateJsCode;
 module.exports.compileToGraph = compileToGraph;
 module.exports.interactionToGraph = interactionToGraph;
