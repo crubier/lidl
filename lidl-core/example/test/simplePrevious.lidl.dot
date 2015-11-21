@@ -1,16 +1,32 @@
-graph lidl{node806 [shape=box, label="node806
-1
+digraph g{node_334 [shape=ellipse, style=filled, color="0.0 0.1 1.0", label="node_334
+Composition
+{theNumber:$theResult:$}" ]
+node_348 [shape=ellipse, style=filled, color="0.0 0.1 1.0", label="node_348
+Composition
+{theNumber:$theResult:$}" ]
+node_325 [shape=box, style=filled, color="0.66 0.1 1.0", fontname="Courier", label="node_325
+
 <%=a0%>=theInterface.theNumber;
-", fillcolor="gray"];node807 [shape=box, label="node807
-3
+" ]
+node_326 [shape=box, style=filled, color="0.66 0.1 1.0", fontname="Courier", label="node_326
+
 theInterface.theResult=<%=a0%>;
-", fillcolor="gray"];activesource [shape=box, label="activesource
-0
+" ]
+node_354 [shape=box, style=filled, color="0.66 0.1 1.0", fontname="Courier", label="node_354
+
 <%=a0%> = active;
-", fillcolor="gray"];node895 [shape=box, label="node895
-2
+" ]
+node_358 [shape=box, style=filled, color="0.66 0.1 1.0", fontname="Courier", label="node_358
+
 if(<%=a0%> === active) {
-  <%=a1%> = previousState['node895'];
-  nextState['node895'] = <%=a2%>;
+<%=a1%> = previousState['state_357'];
+nextState['state_357'] = <%=a2%>;
 }
-", fillcolor="gray"];node895 -> activesource [label="edge896", headlabel="0", taillabel="0", dir="forward", arrowHead="normal"];activesource -> node895 [label="edge897", headlabel="0", taillabel="0", dir="forward", arrowHead="normal"];node895 -> node806 [label="edge902", headlabel="0", taillabel="2", dir="forward", arrowHead="normal"];node806 -> node895 [label="edge903", headlabel="2", taillabel="0", dir="forward", arrowHead="normal"];node895 -> node807 [label="edge904", headlabel="0", taillabel="1", dir="forward", arrowHead="normal"];node807 -> node895 [label="edge905", headlabel="1", taillabel="0", dir="forward", arrowHead="normal"];activesource -> node895 [label="flow906",headlabel="0", taillabel="0", dir="forward", arrowHead="normal", arrowsize=2, color="red"];node806 -> node895 [label="flow907",headlabel="2", taillabel="0", dir="forward", arrowHead="normal", arrowsize=2, color="red"];node895 -> node807 [label="flow908",headlabel="0", taillabel="1", dir="forward", arrowHead="normal", arrowsize=2, color="red"];}
+" ]
+node_325 -> node_348 [dir=none, arrowHead=none, fontname="Times-Italic", label="edge_349", headlabel="1", taillabel="0" ]
+node_326 -> node_348 [dir=none, arrowHead=none, fontname="Times-Italic", label="edge_350", headlabel="2", taillabel="0" ]
+node_348 -> node_334 [dir=none, arrowHead=none, fontname="Times-Italic", label="edge_356", headlabel="0", taillabel="0" ]
+node_358 -> node_354 [dir=none, arrowHead=none, fontname="Times-Italic", label="edge_359", headlabel="0", taillabel="0" ]
+node_358 -> node_334 [dir=none, arrowHead=none, fontname="Times-Italic", label="edge_360", headlabel="2", taillabel="1" ]
+node_358 -> node_334 [dir=none, arrowHead=none, fontname="Times-Italic", label="edge_361", headlabel="1", taillabel="2" ]
+}

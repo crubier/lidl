@@ -1,16 +1,34 @@
-graph lidl{node23 [shape=box, label="node23
-2
+digraph g{node_26 [shape=ellipse, style=filled, color="0.0 0.1 1.0", label="node_26
+Composition
+{theNumber:$theResult:$}" ]
+node_43 [shape=ellipse, style=filled, color="0.0 0.1 1.0", label="node_43
+Composition
+{theNumber:$theResult:$}" ]
+node_17 [shape=box, style=filled, color="0.66 0.1 1.0", fontname="Courier", label="node_17
+
 <%=a0%>=theInterface.theNumber;
-", fillcolor="gray"];node24 [shape=box, label="node24
-4
+" ]
+node_18 [shape=box, style=filled, color="0.66 0.1 1.0", fontname="Courier", label="node_18
+
 theInterface.theResult=<%=a0%>;
-", fillcolor="gray"];activesource [shape=box, label="activesource
-1
+" ]
+node_49 [shape=box, style=filled, color="0.66 0.1 1.0", fontname="Courier", label="node_49
+
 <%=a0%> = active;
-", fillcolor="gray"];functionsourceidentity [shape=box, label="functionsourceidentity
-0
+" ]
+node_52 [shape=box, style=filled, color="0.66 0.1 1.0", fontname="Courier", label="node_52
+
 <%=a0%> = identity;
-", fillcolor="gray"];node121 [shape=box, label="node121
-3
+" ]
+node_54 [shape=box, style=filled, color="0.66 0.1 1.0", fontname="Courier", label="node_54
+
 if(<%=a0%> === active) {<%=a3%> = <%=a1%>(<%=a2%>);}
-", fillcolor="gray"];node121 -> activesource [label="edge122", headlabel="0", taillabel="0", dir="forward", arrowHead="normal"];activesource -> node121 [label="edge123", headlabel="0", taillabel="0", dir="forward", arrowHead="normal"];node121 -> functionsourceidentity [label="edge124", headlabel="0", taillabel="1", dir="forward", arrowHead="normal"];functionsourceidentity -> node121 [label="edge125", headlabel="1", taillabel="0", dir="forward", arrowHead="normal"];node121 -> node23 [label="edge130", headlabel="0", taillabel="2", dir="forward", arrowHead="normal"];node23 -> node121 [label="edge131", headlabel="2", taillabel="0", dir="forward", arrowHead="normal"];node121 -> node24 [label="edge132", headlabel="0", taillabel="3", dir="forward", arrowHead="normal"];node24 -> node121 [label="edge133", headlabel="3", taillabel="0", dir="forward", arrowHead="normal"];activesource -> node121 [label="flow134",headlabel="0", taillabel="0", dir="forward", arrowHead="normal", arrowsize=2, color="red"];functionsourceidentity -> node121 [label="flow135",headlabel="1", taillabel="0", dir="forward", arrowHead="normal", arrowsize=2, color="red"];node23 -> node121 [label="flow136",headlabel="2", taillabel="0", dir="forward", arrowHead="normal", arrowsize=2, color="red"];node121 -> node24 [label="flow137",headlabel="0", taillabel="3", dir="forward", arrowHead="normal", arrowsize=2, color="red"];}
+" ]
+node_17 -> node_43 [dir=none, arrowHead=none, fontname="Times-Italic", label="edge_44", headlabel="1", taillabel="0" ]
+node_18 -> node_43 [dir=none, arrowHead=none, fontname="Times-Italic", label="edge_45", headlabel="2", taillabel="0" ]
+node_43 -> node_26 [dir=none, arrowHead=none, fontname="Times-Italic", label="edge_51", headlabel="0", taillabel="0" ]
+node_54 -> node_49 [dir=none, arrowHead=none, fontname="Times-Italic", label="edge_55", headlabel="0", taillabel="0" ]
+node_54 -> node_52 [dir=none, arrowHead=none, fontname="Times-Italic", label="edge_56", headlabel="0", taillabel="1" ]
+node_54 -> node_26 [dir=none, arrowHead=none, fontname="Times-Italic", label="edge_57", headlabel="1", taillabel="2" ]
+node_54 -> node_26 [dir=none, arrowHead=none, fontname="Times-Italic", label="edge_58", headlabel="2", taillabel="3" ]
+}

@@ -1,24 +1,44 @@
-graph lidl{node169 [shape=box, label="node169
-3
+digraph g{node_92 [shape=ellipse, style=filled, color="0.0 0.1 1.0", label="node_92
+Composition
+{theNumber:$theOther:$theResult:$}" ]
+node_113 [shape=ellipse, style=filled, color="0.0 0.1 1.0", label="node_113
+Composition
+{0:$1:$}" ]
+node_117 [shape=ellipse, style=filled, color="0.0 0.1 1.0", label="node_117
+Composition
+{theNumber:$theOther:$theResult:$}" ]
+node_81 [shape=box, style=filled, color="0.66 0.1 1.0", fontname="Courier", label="node_81
+
 <%=a0%>=theInterface.theNumber;
-", fillcolor="gray"];node170 [shape=box, label="node170
-2
+" ]
+node_82 [shape=box, style=filled, color="0.66 0.1 1.0", fontname="Courier", label="node_82
+
 <%=a0%>=theInterface.theOther;
-", fillcolor="gray"];node171 [shape=box, label="node171
-6
+" ]
+node_83 [shape=box, style=filled, color="0.66 0.1 1.0", fontname="Courier", label="node_83
+
 theInterface.theResult=<%=a0%>;
-", fillcolor="gray"];activesource [shape=box, label="activesource
-1
+" ]
+node_125 [shape=box, style=filled, color="0.66 0.1 1.0", fontname="Courier", label="node_125
+
 <%=a0%> = active;
-", fillcolor="gray"];functionsourceaddition [shape=box, label="functionsourceaddition
-0
+" ]
+node_128 [shape=box, style=filled, color="0.66 0.1 1.0", fontname="Courier", label="node_128
+
 <%=a0%> = addition;
-", fillcolor="gray"];node304 [shape=box, label="node304
-5
+" ]
+node_130 [shape=box, style=filled, color="0.66 0.1 1.0", fontname="Courier", label="node_130
+
 if(<%=a0%> === active) {<%=a3%> = <%=a1%>(<%=a2%>);}
-", fillcolor="gray"];node325 [shape=box, label="node325
-4
-<%=a0%> = {};
-<%=a0%>['0'] = <%=a1%>;
-<%=a0%>['1'] = <%=a2%>;
-", fillcolor="gray"];node304 -> activesource [label="edge305", headlabel="0", taillabel="0", dir="forward", arrowHead="normal"];activesource -> node304 [label="edge306", headlabel="0", taillabel="0", dir="forward", arrowHead="normal"];node304 -> functionsourceaddition [label="edge307", headlabel="0", taillabel="1", dir="forward", arrowHead="normal"];functionsourceaddition -> node304 [label="edge308", headlabel="1", taillabel="0", dir="forward", arrowHead="normal"];node304 -> node171 [label="edge317", headlabel="0", taillabel="3", dir="forward", arrowHead="normal"];node171 -> node304 [label="edge318", headlabel="3", taillabel="0", dir="forward", arrowHead="normal"];activesource -> node304 [label="flow319",headlabel="0", taillabel="0", dir="forward", arrowHead="normal", arrowsize=2, color="red"];functionsourceaddition -> node304 [label="flow320",headlabel="1", taillabel="0", dir="forward", arrowHead="normal", arrowsize=2, color="red"];node304 -> node171 [label="flow324",headlabel="0", taillabel="3", dir="forward", arrowHead="normal", arrowsize=2, color="red"];node325 -> node304 [label="edge326", headlabel="2", taillabel="0", dir="forward", arrowHead="normal"];node304 -> node325 [label="edge327", headlabel="0", taillabel="2", dir="forward", arrowHead="normal"];node325 -> node169 [label="edge328", headlabel="0", taillabel="1", dir="forward", arrowHead="normal"];node169 -> node325 [label="edge329", headlabel="1", taillabel="0", dir="forward", arrowHead="normal"];node325 -> node170 [label="edge330", headlabel="0", taillabel="2", dir="forward", arrowHead="normal"];node170 -> node325 [label="edge331", headlabel="2", taillabel="0", dir="forward", arrowHead="normal"];node325 -> node304 [label="flow332",headlabel="2", taillabel="0", dir="forward", arrowHead="normal", arrowsize=2, color="red"];node169 -> node325 [label="flow333",headlabel="1", taillabel="0", dir="forward", arrowHead="normal", arrowsize=2, color="red"];node170 -> node325 [label="flow334",headlabel="2", taillabel="0", dir="forward", arrowHead="normal", arrowsize=2, color="red"];}
+" ]
+node_81 -> node_117 [dir=none, arrowHead=none, fontname="Times-Italic", label="edge_118", headlabel="1", taillabel="0" ]
+node_82 -> node_117 [dir=none, arrowHead=none, fontname="Times-Italic", label="edge_119", headlabel="2", taillabel="0" ]
+node_83 -> node_117 [dir=none, arrowHead=none, fontname="Times-Italic", label="edge_120", headlabel="3", taillabel="0" ]
+node_113 -> node_92 [dir=none, arrowHead=none, fontname="Times-Italic", label="edge_122", headlabel="1", taillabel="1" ]
+node_92 -> node_113 [dir=none, arrowHead=none, fontname="Times-Italic", label="edge_123", headlabel="2", taillabel="2" ]
+node_117 -> node_92 [dir=none, arrowHead=none, fontname="Times-Italic", label="edge_127", headlabel="0", taillabel="0" ]
+node_130 -> node_125 [dir=none, arrowHead=none, fontname="Times-Italic", label="edge_131", headlabel="0", taillabel="0" ]
+node_130 -> node_128 [dir=none, arrowHead=none, fontname="Times-Italic", label="edge_132", headlabel="0", taillabel="1" ]
+node_130 -> node_113 [dir=none, arrowHead=none, fontname="Times-Italic", label="edge_133", headlabel="0", taillabel="2" ]
+node_130 -> node_92 [dir=none, arrowHead=none, fontname="Times-Italic", label="edge_134", headlabel="3", taillabel="3" ]
+}

@@ -1,0 +1,35 @@
+interface Label is {text: Text out}
+
+interface Button is {text: Text out, pushed: Activation in}
+
+interface WarningCell is {label:Label,button:Button}
+
+interaction
+  (warning cell displaying (message:text in) triggering (close:activation out)): WarningCell
+is
+  ({
+    label : (label (active) displaying (message))
+    button: (button (active) displaying (“close”) triggering (close))
+  })
+
+interaction
+  (warning table displaying (message:text in)): [WarningCell]
+is
+  (
+    ([
+      (warning cell displaying (] (variable the messages) [) triggering (] (variable close) [))
+    ])
+  with behaviour
+    ( all
+      ((variable the messages) is a flow initially equal to ([]) modified by (variable new list))
+      ((variable new list) = (append(message) to ([  ((]variable the messages[) deleted when (]variable close[)) ])))
+    )
+  )
+
+
+
+
+interaction
+  ((a:text in) deleted when (b:activation in)):text out
+is
+  (if (b) then (inactive) else (a))

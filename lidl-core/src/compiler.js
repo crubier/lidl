@@ -1,3 +1,4 @@
+"use strict"
 var serializer = require('./serializer.js');
 var identifiers = require('./identifiers.js');
 var interactions = require('./interactions.js');
@@ -32,17 +33,17 @@ function compileToIii(source) {
 }
 
 function compileToGraph(source) {
-
+  var graph = new Graph();
   var mainDef = parser.parse(source)[0];
 
-  var graph = new Graph();
+
 
   // TODO reduce the amount of processing on the next three lines and transform it into graph operations instead
   var interaction = addInteractionToGraph(graph, identifiers.reduceIdentifiers(interactions.expand(mainDef).interaction));
   //TODO Make it possible to compile interactiosn that have arguments and not just a single interface
   var interfac = addInterfaceToGraph(graph, mainDef.signature.interfac, 'theInterface');
 
-  mergeByRootNode(graph,interaction, interfac);
+  mergeByRootNode(graph, interaction, interfac);
 
 
   addOperatorTypeAnnotation(graph);
@@ -53,63 +54,42 @@ function compileToGraph(source) {
   functionLiteralLinking(graph);
   functionApplicationLinking(graph);
   previousNextLinking(graph);
-  matchingCompositionReduction(graph);
-  createDataFlowDirection(graph);
-  nonMatchingCompositionCompilation(graph);
-  createDataFlowDirection(graph);
-  nonMatchingDecompositionCompilation(graph);
-  createDataFlowDirection(graph);
-  resolveMultiplePorts(graph);
-  orderGraph(graph);
-  instantiateTemplates(graph);
+
+// TODO Reorder compositions so they match
+// reorderComposition(graph);
+
+  tagCompositionElementEdges(graph);
+
+  // matchingCompositionReduction(graph);
+
+  // createDataFlowDirection(graph);
+  // nonMatchingCompositionCompilation(graph);
+  // createDataFlowDirection(graph);
+  // nonMatchingDecompositionCompilation(graph);
+  // createDataFlowDirection(graph);
+  // resolveMultiplePorts(graph);
+  // orderGraph(graph);
+  // instantiateTemplates(graph);
   return graph;
 }
 
-// Function to export graph into the dot format to visualise them
-function graphToDot(graph) {
-  var res = "graph lidl{";
-  _.forEach(graph.nodes, function(x) {
-    if (x.id === 'root') {
-      res += (x.id + ' [shape=circle, label="root", fillcolor=yellow];');
-      return;
-    }
-    if (x.content.type === 'InteractionSimple' && x.finished !== true) {
-      res += (x.id + ' [shape=ellipse, label="' + x.id + '\n' + x.content.operator + '", fillcolor=' + (x.finished ? '"blue"' : '"white"') + '];');
-      return;
-    }
-    if (x.content.type === 'InteractionNative' && x.finished !== true) {
-      res += (x.id + ' [shape=box, label="' + x.id + "\n" + ((x.executionOrder !== undefined) ? (x.executionOrder) : "") + "\n" + x.content.content + '", fillcolor=' + (x.finished ? '"blue"' : '"gray"') + '];');
-      return;
-    }
-  });
-  _.forEach(graph.edges, function(x) {
-    if (x.type === 'AstEdge' && x.to.finished !== true && x.from.finished !== true) {
-      res += (x.from.id + ' -> ' + x.to.id + ' [label="' + x.id + '", headlabel="' + x.toIndex + '", taillabel="' + x.fromIndex + '", dir="forward", arrowHead="normal"];');
-      return;
-    }
-    if (x.type === 'DataFlowEdge' && x.finished !== true && x.to.finished !== true && x.from.finished !== true) {
-      res += (x.from.id + ' -> ' + x.to.id + ' [label="' + x.id + '",headlabel="' + x.toIndex + '", taillabel="' + x.fromIndex + '", dir="forward", arrowHead="normal", arrowsize=2, color="red"];');
-      return;
-    }
-  });
-  res += ('}');
-  return res;
-}
+
 
 function addInteractionToGraph(graph, interaction) {
   var rootNode;
   switch (interaction.type) {
     case 'InteractionSimple':
-      rootNode = graph.addNode('ast', interaction);
-      var nodeOfOperand = _.map(interaction.operand, function(operand) {
-        return addInteractionToGraph(graph, operand);
-      });
-      _.forEach(nodeOfOperand, function(x, index) {
-        graph.addEdge('ast', interaction, rootNode, x, 0, index);
-      });
+      rootNode = graph.addNode({type:'ast',content: interaction});
+      let nodeOfOperand = _.map(interaction.operand, operand=> addInteractionToGraph(graph, operand));
+      _(nodeOfOperand)
+      .forEach((x, index) => {
+        graph
+        .addEdge({type:'ast',content:interaction,from:{node:rootNode,index:index+1},to:{node:x,index:0}})
+      })
+      .commit()
       break;
     case 'InteractionNative':
-      rootNode = graph.addNode('ast', interaction);
+      rootNode = graph.addNode({type:'ast',content: interaction});
       break;
     default:
       throw new Error('trying to transform into a graph invalid interaction');
@@ -118,35 +98,36 @@ function addInteractionToGraph(graph, interaction) {
 }
 
 
-function addInterfaceToGraph(graph, interfac, prefx) {
+function addInterfaceToGraph(graph, interfac, prefix) {
   var rootNode;
   switch (interfac.type) {
     case "InterfaceAtomic":
       if (interfac.direction === "in") {
-        rootNode = graph.addNode('ast', {
+        rootNode =
+        graph
+        .addNode({type:'ast', content:{
           type: "InteractionNative",
           content: "<%=a0%>=" + prefix + ";\n"
-        }, ["out"]);
+        }, ports:["out"]});
       } else {
-        rootNode = graph.addNode('ast', {
+        rootNode =
+        graph
+        .addNode({type:'ast',content: {
           type: "InteractionNative",
           content: "" + prefix + "=<%=a0%>;\n"
-        }, ["in"]);
+        }, ports:["in"]});
       }
       break;
     case "InterfaceComposite":
-      {
-        rootNode = graph.addNode('ast', {
-          type: "InteractionSimple",
-          operator: interfacs.toOperator(interfac)
-        });
-        var nodeOfElement = _.map(interfac.element, function(x) {
-          return addInterfaceToGraph(graph, x.value, prefix + "." + x.key);
-        });
-        _.forEach(nodeOfElement, function(x, index) {
-          graph.addEdge('ast', interfac, rootNode, x, 0, index);
-        });
-      }
+      rootNode =
+      graph
+      .addNode({type:'ast', content:{
+        type: "InteractionSimple",
+        operator: interfacs.toOperator(interfac)
+      }});
+      let nodeOfElement = _.map(interfac.element, x => addInterfaceToGraph(graph, x.value, prefix + "." + x.key));
+      _.forEach(nodeOfElement, (x, index) => graph.addEdge({type:'ast',content:interfac, from:{node: rootNode,index:index+1}, to:{node:x,index:0}}));
+      break;
     default:
       throw "Cant transform this interface to a graph. Is it an interface really ?";
   }
@@ -154,21 +135,17 @@ function addInterfaceToGraph(graph, interfac, prefx) {
 }
 
 
-function mergeByRootNode(graph,g1, g2) {
-  return graph.addEdge('ast','root',g1,g2,0,0);
+function mergeByRootNode(graph, g1, g2) {
+  graph
+  .addEdge({type:'ast',content: 'root',from:{node:g1,index:0},to:{node:g2,index:0}});
 }
 
 
-
-
 function addOperatorTypeAnnotation(graph) {
-  _.forEach(graph.nodes, function(x) {
-    if (x.content) {
-      if (x.content.type === "InteractionSimple") {
-        x.content.operatorType = operator.parse(x.content.operator);
-      }
-    }
-  });
+    graph
+    .matchNodes({type:'ast',content: {type: "InteractionSimple"}})
+    .forEach(x => (x.content.operatorType = operator.parse(x.content.operator)))
+    .commit();
 }
 
 
@@ -179,792 +156,452 @@ function addOperatorTypeAnnotation(graph) {
 // - finished if the node is to be deleted from the graph
 // - referentialTransparencySolved if the node is the result of the merger of other nodes.
 function referentialTransparency(graph) {
-
-  var matchNode = function(x) {
-    return (x.type === "InteractionNode" && x.content !== undefined && x.content.type === 'InteractionSimple' && x.referentialTransparencySolved !== true && x.finished !== true);
-  };
-
-  var n = _.find(graph.nodes, matchNode);
-
-  while (n !== undefined) {
-
-    var matchNodeSimilarToN = function(x) {
-      return (x.type === "InteractionNode" && x.content !== undefined && x.content.type === 'InteractionSimple' && x.referentialTransparencySolved !== true && x.finished !== true && _.isEqual(x.content, n.content, function(a, b) {
-        return interactions.compare(a, b) === 0;
-      }));
-    };
-
-    var nodesSimilarToN = _.filter(graph.nodes, matchNodeSimilarToN); //That should includes n itself
-
-    var newNode = {
-      type: 'InteractionNode',
-      id: _.uniqueId("node"),
-      content: n.content,
-      referentialTransparencySolved: true,
-      finished: false
-    }
-
-    graph.nodes.push(newNode);
-
-    var edgesGoingToNodesSimilarToN = _.filter(graph.edges, function(x) {
-      return _.includes(nodesSimilarToN, x.to);
+  // First we mark all nodes as not referentialTransparencySolved
+  graph
+  .matchNodes({type: 'ast',content: {type: 'InteractionSimple'}})
+  .forEach( (theNode) => {theNode.referentialTransparencySolved=false;})
+  .commit();
+  // Then iteratively
+  graph
+  .reduceNodes({type: 'ast',content: {type: 'InteractionSimple'},referentialTransparencySolved: false},
+    (theResult,theNode)=>{
+    let newNode =
+      graph
+      .addNode({type: 'ast',content: theNode.content,referentialTransparencySolved: true});
+    let nodesSimilarToTheNode =
+      graph
+      .matchNodes({type:'ast',content: {type: 'InteractionSimple'},referentialTransparencySolved: false})
+      .filter(x=>_.isEqual(x.content, theNode.content,(a, b)=>(interactions.compare(a, b) === 0)))
+      .forEach(x=>
+        graph
+        .matchUndirectedEdges({type:'ast',to:{node:x}})
+        .forEach(y=>
+          graph
+          .addEdge({type:'ast',from:y.from,to:{node:newNode,index:y.to.index}}))
+        .commit())
+      .forEach(x=>graph.finish(x))
+      .tap(x=>(theNode.referentialTransparencySolved=true))
+      .commit();
     });
-
-    _.forEach(edgesGoingToNodesSimilarToN, function(e1) {
-      var edge1 = {
-        type: 'AstEdge',
-        id: _.uniqueId("edge"),
-        from: e1.from,
-        fromIndex: e1.fromIndex,
-        to: newNode,
-        toIndex: e1.toIndex
-      };
-      graph.edges.push(edge1);
-    });
-
-    var edgesGoingFromNodesSimilarToN = _.filter(graph.edges, function(x) {
-      return _.includes(nodesSimilarToN, x.from);
-    });
-
-    _.forEach(edgesGoingFromNodesSimilarToN, function(e1) {
-      var edge1 = {
-        type: 'AstEdge',
-        id: _.uniqueId("edge"),
-        from: newNode,
-        fromIndex: e1.fromIndex,
-        to: e1.to,
-        toIndex: e1.toIndex
-      };
-      graph.edges.push(edge1);
-    });
-
-    _.forEach(nodesSimilarToN, function(n1) {
-      n1.finished = true;
-    });
-
-    n = _.find(graph.nodes, matchNode)
-  }
-
-
 }
+
+
+
+
 
 function linkIdentifiers(graph) {
-  var matchNode = function(x) {
-    if (x.content === undefined) return false;
-    return (x.content.operatorType === "Identifier" && x.finished !== true);
-  };
-  var n = _.find(graph.nodes, matchNode);
-  while (n !== undefined) {
-
-
-    var edgesGoingToN = _.filter(graph.edges, function(x) {
-      return x.to === n && x.toIndex == 0;
+  graph
+  .reduceNodes({type:'ast',content:{operatorType:'Identifier'}},
+    (theResut,theNode)=>{
+    graph
+    .matchUndirectedEdges({type:'ast',to:{node:theNode,index:0}})
+    .map(e1=>
+      graph
+      .matchUndirectedEdges({type:'ast',to:{node:theNode,index:0}})
+      .filter(x=>(x.id > e1.id)) // Only one way
+      .map(e2=>
+        graph
+        .addEdge({type:'ast',from:e1.from,to:e2.from}))
+      .commit())
+    .commit();
+    graph
+    .finish(theNode);
     });
-
-
-    // if(edgesGoingToN)
-
-
-    // General case
-    _.forEach(edgesGoingToN, function(e1) {
-      _.forEach(edgesGoingToN, function(e2) {
-        if (e1 !== e2) {
-          var edge1 = {
-            type: 'AstEdge',
-            id: _.uniqueId("edge"),
-            from: e1.from,
-            fromIndex: e1.fromIndex,
-            to: e2.from,
-            toIndex: e2.fromIndex
-          };
-          graph.edges.push(edge1);
-        }
-      });
-    });
-
-    n.finished = true;
-
-    n = _.find(graph.nodes, matchNode);
-
-  }
 }
-
 
 
 
 // Here we create nodes for interactions that are empty
 function voidInteractionCreation(graph) {
 
-  var matchNode = function(x) {
-    if (x.content === undefined) return false;
-    return (x.content.operatorType === "Void" && x.finished !== true);
-  };
+  graph
+  .reduceNodes({content:{operatorType:"Void"}},
+  (theResut,theNode)=>{
+    let newNode = graph
+      .addNode({content: {'type': 'InteractionNative', 'content': '/*Nothing, there was a void interaction*/\n'},ports: [],isVoid: true});
+    graph
+    .matchUndirectedEdges({type:'ast',to:{node:theNode,index:0}})
+    .forEach(x=>graph
+      .addEdge({type:'ast',from:x,to:{node:newNode,index:x.to.index}}))
+    .commit();
+    graph
+    .finish(theNode);
 
-  var n = _.find(graph.nodes, matchNode);
-
-  while (n !== undefined) {
-
-    var newNode = {
-      'id': _.uniqueId('node'),
-      'interaction': {
-        'type': 'InteractionNative',
-        'content': '/*Nothing, there was a void interaction*/\n'
-      },
-      ports: [],
-      isVoid: true,
-      'finished': false
-    };
-
-    graph.nodes.push(newNode);
-
-    _.forEach(graph.edges, function(x) {
-      if (x.type === 'AstEdge' && x.to === n && x.toIndex === 0 && x.from.finished !== true) {
-        var edge1 = {
-          type: 'AstEdge',
-          to: newNode,
-          toIndex: x.toIndex,
-          from: x.from,
-          fromIndex: x.fromIndex
-        };
-        var edge2 = {
-          type: 'AstEdge',
-          from: newNode,
-          fromIndex: x.toIndex,
-          to: x.from,
-          toIndex: x.fromIndex
-        };
-        graph.edges.push(edge1);
-        graph.edges.push(edge2);
-      }
-    });
-
-    n.finished = true;
-
-    n = _.find(graph.nodes, matchNode);
-
-  }
+  });
 }
-
 
 
 function behaviourSeparation(graph) {
-  var activeSource = {
-    'id': 'activesource',
-    'interaction': {
-      'type': 'InteractionNative',
-      'content': '<%=a0%> = active;\n'
-    },
-    ports: ["out"],
-    'finished': false
-  };
+  let activeSource =
+    graph
+    .addNode({type:'ast',content: {type: 'InteractionNative',content: '<%=a0%> = active;\n'},ports: ["out"]});
 
-
-  var matchNode = function(x) {
-    if (x.content === undefined) return false;
-    return (x.content.operatorType === "Behaviour" && x.finished !== true);
-  };
-
-  var b = _.find(graph.nodes, matchNode);
-
-  while (b !== undefined) {
-
-    var a0 = _.find(graph.edges, {
-      'from': b,
-      'type': 'AstEdge',
-      'fromIndex': 0,
-      'to': {
-        'finished': false
-      }
-    });
-    var a1 = _.find(graph.edges, {
-      'from': b,
-      'type': 'AstEdge',
-      'fromIndex': 1,
-      'to': {
-        'finished': false
-      }
-    });
-    var a2 = _.find(graph.edges, {
-      'from': b,
-      'type': 'AstEdge',
-      'fromIndex': 2,
-      'to': {
-        'finished': false
-      }
-    });
-
-    if (a0 === undefined || a1 === undefined || a2 === undefined) {
-      console.log("A behaviour interaction does not have the right connections for transformation. Consider changing the Behaviour transformation graph transform (Put lodash _.forEach instead of _.find)");
-    }
-
-    graph.nodes.push(activeSource);
-
-    var edge1 = {
-      type: 'AstEdge',
-      id: _.uniqueId("edge"),
-      from: activeSource,
-      fromIndex: 0,
-      to: a2.to,
-      toIndex: 0
-    };
-    var edge2 = {
-      type: 'AstEdge',
-      id: _.uniqueId("edge"),
-      to: activeSource,
-      toIndex: 0,
-      from: a2.to,
-      fromIndex: 0
-    };
-
-    graph.edges.push(edge1);
-    graph.edges.push(edge2);
-
-
-
-
-    var edge3 = {
-      type: 'AstEdge',
-      id: _.uniqueId("edge"),
-      from: a0.to,
-      fromIndex: a0.toIndex,
-      to: a1.to,
-      toIndex: a1.toIndex
-    };
-
-    var edge4 = {
-      type: 'AstEdge',
-      id: _.uniqueId("edge"),
-      to: a0.to,
-      toIndex: a0.toIndex,
-      from: a1.to,
-      fromIndex: a1.toIndex
-    };
-
-    graph.edges.push(edge3);
-    graph.edges.push(edge4);
-
-    b.finished = true;
-
-    b = _.find(graph.nodes, matchNode);
-
-  }
-
-
+  graph
+  .reduceNodes({type:'ast',content:{operatorType:"Behaviour"}},
+  (theResut,theNode)=>{
+    graph
+    .matchUndirectedEdges({type:'ast',from:{node:theNode,index:2}})
+    .forEach(x=>
+      graph
+      .addEdge({type:'ast',from:{node:activeSource,index:0},to:x.to}))
+    .commit();
+    graph
+    .matchUndirectedEdges({type:'ast',from:{node:theNode,index:0}})
+    .forEach(x=>
+      graph
+      .matchUndirectedEdges({type:'ast',from:{node:theNode,index:1}})
+      .forEach(y=>
+        graph
+        .addEdge({type:'ast',from:x.to,to:y.to}))
+      .commit())
+    .commit();
+    graph
+    .finish(theNode);
+  });
 }
-
 
 
 
 function functionLiteralLinking(graph) {
-  var matchNode = function(x) {
-    if (x.content === undefined) return false;
-    return (x.content.operatorType === "Function" && x.finished !== true);
-  };
-  var b = _.find(graph.nodes, matchNode);
+  graph
+  .reduceNodes({type:'ast',content:{operatorType:'Function'}},
+  (theResult,theNode)=>{
+    let funcName = theNode.content.operator.substring(8);
+    let source =
+      graph
+      .addNode({type:'ast',content:{type: 'InteractionNative','content': '<%=a0%> = ' + funcName + ';\n'},ports: ["out"]});
+    graph
+    .matchUndirectedEdges({type:'ast',from:{node:theNode,index:0}})
+    .forEach(x=>
+      graph
+      .addEdge({type:'ast',from:{node:source,index:0},to:x.to}))
+    .commit();
+    graph
+    .finish(theNode);
+  });
 
-  while (b !== undefined) {
-
-    var funcName = b.content.operator.substring(8);
-    var functionSource = {
-      'id': 'functionsource' + funcName,
-      'interaction': {
-        'type': 'InteractionNative',
-        'content': '<%=a0%> = ' + funcName + ';\n'
-      },
-      ports: ["out"],
-      'finished': false
-    };
-    graph.nodes.push(functionSource);
-
-    var a0 = _.find(graph.edges, {
-      'from': b,
-      type: 'AstEdge',
-      'fromIndex': 0,
-      'to': {
-        'finished': false
-      }
-    });
-
-    var edge1 = {
-      type: 'AstEdge',
-      id: _.uniqueId("edge"),
-      from: functionSource,
-      fromIndex: 0,
-      to: a0.to,
-      toIndex: a0.toIndex
-    };
-
-    var edge2 = {
-      type: 'AstEdge',
-      id: _.uniqueId("edge"),
-      to: functionSource,
-      toIndex: 0,
-      from: a0.to,
-      fromIndex: a0.toIndex
-    };
-
-    graph.edges.push(edge1);
-    graph.edges.push(edge2);
-
-    b.finished = true;
-
-    b = _.find(graph.nodes, matchNode);
-
-  }
 }
-
 
 
 
 function functionApplicationLinking(graph) {
-  var matchNode = function(x) {
-    if (x.content === undefined) return false;
-    return (x.content.operatorType === "FunctionApplication" && x.finished !== true);
-  };
-  var b = _.find(graph.nodes, matchNode);
-
-  while (b !== undefined) {
-
-    var functionApplicationSource = {
-      'id': _.uniqueId("node"),
-      'interaction': {
-        'type': 'InteractionNative',
-        'content': 'if(<%=a0%> === active) {<%=a3%> = <%=a1%>(<%=a2%>);}\n'
-      },
-      ports: ["in", "in", "in", "out"],
-      'finished': false
-    };
-    graph.nodes.push(functionApplicationSource);
-
-    var a0 = _.find(graph.edges, {
-      'type': 'AstEdge',
-      'from': b,
-      'fromIndex': 0,
-      'to': {
-        'finished': false
-      }
-    });
-    var a1 = _.find(graph.edges, {
-      'type': 'AstEdge',
-      'from': b,
-      'fromIndex': 1,
-      'to': {
-        'finished': false
-      }
-    });
-    var a2 = _.find(graph.edges, {
-      'type': 'AstEdge',
-      'from': b,
-      'fromIndex': 2,
-      'to': {
-        'finished': false
-      }
-    });
-    var a3 = _.find(graph.edges, {
-      'type': 'AstEdge',
-      'from': b,
-      'fromIndex': 3,
-      'to': {
-        'finished': false
-      }
-    });
-
-    if (a0 === undefined || a1 === undefined || a2 === undefined || a3 === undefined) {
-      console.log("A Function application interaction does not have the right connections for transformation. Consider changing the Behaviour transformation graph transform (Put lodash _.forEach instead of _.find)");
-      console.log(a0);
-      console.log(a1);
-      console.log(a2);
-      console.log(a3);
-    }
-
-    var edge1 = {
-      type: 'AstEdge',
-      id: _.uniqueId("edge"),
-      from: functionApplicationSource,
-      fromIndex: 0,
-      to: a0.to,
-      toIndex: a0.toIndex
-    };
-
-    var edge2 = {
-      type: 'AstEdge',
-      id: _.uniqueId("edge"),
-      to: functionApplicationSource,
-      toIndex: 0,
-      from: a0.to,
-      fromIndex: a0.toIndex
-    };
-
-    graph.edges.push(edge1);
-    graph.edges.push(edge2);
-
-    var edge3 = {
-      type: 'AstEdge',
-      id: _.uniqueId("edge"),
-      from: functionApplicationSource,
-      fromIndex: 1,
-      to: a1.to,
-      toIndex: a1.toIndex
-    };
-
-    var edge4 = {
-      type: 'AstEdge',
-      id: _.uniqueId("edge"),
-      to: functionApplicationSource,
-      toIndex: 1,
-      from: a1.to,
-      fromIndex: a1.toIndex
-    };
-
-    graph.edges.push(edge3);
-    graph.edges.push(edge4);
-
-    var edge5 = {
-      type: 'AstEdge',
-      id: _.uniqueId("edge"),
-      from: functionApplicationSource,
-      fromIndex: 2,
-      to: a2.to,
-      toIndex: a2.toIndex
-    };
-
-    var edge6 = {
-      type: 'AstEdge',
-      id: _.uniqueId("edge"),
-      to: functionApplicationSource,
-      toIndex: 2,
-      from: a2.to,
-      fromIndex: a2.toIndex
-    };
-
-    graph.edges.push(edge5);
-    graph.edges.push(edge6);
-
-    var edge7 = {
-      type: 'AstEdge',
-      id: _.uniqueId("edge"),
-      from: functionApplicationSource,
-      fromIndex: 3,
-      to: a3.to,
-      toIndex: a3.toIndex
-    };
-
-    var edge8 = {
-      type: 'AstEdge',
-      id: _.uniqueId("edge"),
-      to: functionApplicationSource,
-      toIndex: 3,
-      from: a3.to,
-      fromIndex: a3.toIndex
-    };
-
-    graph.edges.push(edge7);
-    graph.edges.push(edge8);
-
-    b.finished = true;
-
-    b = _.find(graph.nodes, matchNode);
-
-  }
+  graph
+  .reduceNodes({type:'ast',content:{operatorType:'FunctionApplication'}},
+  (theResult,theNode)=>{
+    let source =
+      graph
+      .addNode({type:'ast',content:{type: 'InteractionNative',content: 'if(<%=a0%> === active) {<%=a3%> = <%=a1%>(<%=a2%>);}\n'},ports: ["in", "in", "in", "out"]});
+    _(_.range(4))
+    .forEach(i=>
+      graph
+      .matchUndirectedEdges({type:'ast',from:{node:theNode,index:i}})
+      .forEach(x=>
+        graph
+        .addEdge({type:'ast',from:{node:source,index:i},to:x.to}))
+      .commit())
+    .commit();
+    graph
+    .finish(theNode);
+  });
 }
-
-
 
 
 function previousNextLinking(graph) {
-  var matchNode = function(x) {
-    if (x.content === undefined) return false;
-    return (x.content.operatorType === "Previous" && x.finished !== true);
-  };
-  var b = _.find(graph.nodes, matchNode);
+  graph
+  .reduceNodes({type:'ast',content:{operatorType:'Previous'}},
+  (theResult,theNode)=>{
+    let stateId = _.uniqueId('state_');
+    let source =
+      graph
+      .addNode({type:'ast',content:{'type': 'InteractionNative','content': "if(<%=a0%> === active) {\n<%=a1%> = previousState['" + stateId + "'];\nnextState['" + stateId + "'] = <%=a2%>;\n}\n"},ports: ["in", "in", "in", "out"]});
+    _(_.range(3))
+    .forEach(i=>
+      graph
+      .matchUndirectedEdges({type:'ast',from:{node:theNode,index:i}})
+      .forEach(x=>
+        graph
+        .addEdge({type:'ast',from:{node:source,index:i},to:x.to}))
+      .commit())
+    .commit();
+    graph
+    .finish(theNode);
+  });
 
-  while (b !== undefined) {
-
-    var newId = _.uniqueId("node")
-    var previousNextSource = {
-      'id': newId,
-      'interaction': {
-        'type': 'InteractionNative',
-        'content': "if(<%=a0%> === active) {\n\
-  <%=a1%> = previousState['" + newId + "'];\n\
-  nextState['" + newId + "'] = <%=a2%>;\n\
-}\n"
-      },
-      containsAState: true,
-      ports: ["in", "out", "in"],
-      'finished': false
-    };
-    graph.nodes.push(previousNextSource);
-
-    var a0 = _.find(graph.edges, {
-      'type': 'AstEdge',
-      'from': b,
-      'fromIndex': 0,
-      'to': {
-        'finished': false
-      }
-    });
-    var a1 = _.find(graph.edges, {
-      'type': 'AstEdge',
-      'from': b,
-      'fromIndex': 1,
-      'to': {
-        'finished': false
-      }
-    });
-    var a2 = _.find(graph.edges, {
-      'type': 'AstEdge',
-      'from': b,
-      'fromIndex': 2,
-      'to': {
-        'finished': false
-      }
-    });
-
-
-    if (a0 === undefined || a1 === undefined || a2 === undefined) {
-      console.log("A Previous next application interaction does not have the right connections for transformation. Consider changing the previous next transformation graph transform (Put lodash _.forEach instead of _.find)");
-      console.log(a0);
-      console.log(a1);
-      console.log(a2);
-    }
-
-    var edge1 = {
-      type: 'AstEdge',
-      id: _.uniqueId("edge"),
-      from: previousNextSource,
-      fromIndex: 0,
-      to: a0.to,
-      toIndex: a0.toIndex
-    };
-
-    var edge2 = {
-      type: 'AstEdge',
-      id: _.uniqueId("edge"),
-      to: previousNextSource,
-      toIndex: 0,
-      from: a0.to,
-      fromIndex: a0.toIndex
-    };
-
-    graph.edges.push(edge1);
-    graph.edges.push(edge2);
-
-    var edge3 = {
-      type: 'AstEdge',
-      id: _.uniqueId("edge"),
-      from: previousNextSource,
-      fromIndex: 1,
-      to: a1.to,
-      toIndex: a1.toIndex
-    };
-
-    var edge4 = {
-      type: 'AstEdge',
-      id: _.uniqueId("edge"),
-      to: previousNextSource,
-      toIndex: 1,
-      from: a1.to,
-      fromIndex: a1.toIndex
-    };
-
-    graph.edges.push(edge3);
-    graph.edges.push(edge4);
-
-    var edge5 = {
-      type: 'AstEdge',
-      id: _.uniqueId("edge"),
-      from: previousNextSource,
-      fromIndex: 2,
-      to: a2.to,
-      toIndex: a2.toIndex
-    };
-
-    var edge6 = {
-      type: 'AstEdge',
-      id: _.uniqueId("edge"),
-      to: previousNextSource,
-      toIndex: 2,
-      from: a2.to,
-      fromIndex: a2.toIndex
-    };
-
-    graph.edges.push(edge5);
-    graph.edges.push(edge6);
-
-    b.finished = true;
-
-    b = _.find(graph.nodes, matchNode);
-
-  }
 }
 
 
 
 
+function tagCompositionElementEdges(graph){
 
-// TODO Extend functionality to deal with other nodes between composition interactions
-// TODO Extend functionality to deal with cases where more than 2 compositions are matching (because of identifier elimination)
+  graph
+  .matchUndirectedEdges({type:'ast',from:{node:{type: 'ast',content: {type: 'InteractionSimple',operatorType:'Composition'}}}})
+  .forEach( theEdge => {
+    if(theEdge.from.index>0)
+    theEdge.from.compositionElementName =
+      _(theEdge.from.node.content.operator)
+      .words( /[^,:\{\}\$]+/g)[theEdge.from.index-1];
+  })
+  .commit();
+
+
+}
+
+
+//
 function matchingCompositionReduction(graph) {
+// // Mark all
+//   graph
+//   .matchUndirectedEdges({type:'ast',unSuitableForCompositionReduction:false,from:{index:0,node:{type: 'ast',content: {type: 'InteractionSimple',operatorType:'Composition'}}},to:{index:0,node:{type: 'ast',content: {type: 'InteractionSimple',operatorType:'Composition'}}}})
+//   .forEach( theEdge => (theEdge.unSuitableForCompositionReduction=false))
+//   .commit();
 
-  // Here we try to match edges that are in the middle of matching and facing compositions
-  var matchEdge = function(x) {
-    if (x.to === undefined) return false;
-    if (x.from === undefined) return false;
-    if (x.from.content === undefined) return false;
-    if (x.to.content === undefined) return false;
-    if (x.toIndex !== 0) return false;
-    if (x.fromIndex !== 0) return false;
-    return (x.unSuitableForCompositionReduction !== true && x.from.content.operatorType === "Composition" && x.from.finished !== true &&
-      x.to.content.operatorType === "Composition" && x.to.finished !== true && x.from.content.operator === x.to.content.operator);
-  };
-  var b = _.find(graph.edges, matchEdge);
+// // Mark all
+  graph
+  .matchNodes({type: 'ast',content: {type: 'InteractionSimple',operatorType:'Composition'}})
+  .forEach( theNode => (theNode.unSuitableForCompositionReduction=false))
+  .commit();
 
-  while (b !== undefined) {
+  // Now that's tricky !
+  graph
+  .reduceNodes({type: 'ast',unSuitableForCompositionReduction:false,content: {type: 'InteractionSimple',operatorType:'Composition'}},
+  (theResult,n1)=>{
+    graph
+    .matchUndirectedEdges({type: 'ast',from:{node:n1},to:{node:{type: 'ast',unSuitableForCompositionReduction:false,content: {type: 'InteractionSimple',operatorType:'Composition'}}}})
+    .forEach(middleEdge=>{
+      let n2= middleEdge.to.node;
+      graph
+      .matchUndirectedEdges({type: 'ast',from:{node:n1}})
+      .reject(e=>_.isUndefined(e.from.compositionElementName))
+      .forEach(e1=>{
+        let dest1 = [e1.to];
+        // while(dest1.node ===n1 || dest1.node === n2 ) {
+        //   if(dest1.node ===n1) {
+        //
+        //   }
+        // }
+        graph
+        .matchUndirectedEdges({type: 'ast',from:{node:n2,compositionElementName:e1.from.compositionElementName}})
+        .forEach(e2=>{
+          let dest2 = [e2.to];
+          graph
+          .addEdge({type:'ast',from:dest1,to:dest2});})
+        .commit();
+        })
+      .commit();})
+    .commit();
+    n1.unSuitableForCompositionReduction=true;
+  });
 
-    // Get the composition nodes at the extremities of this edge
-    var n1 = b.from;
-    var n2 = b.to;
+  //
+  // graph
+  // .reduceUndirectedEdges({type:'ast',unSuitableForCompositionReduction:false,from:{index:0,node:{type: 'ast',content: {type: 'InteractionSimple',operatorType:'Composition'}}},to:{index:0,node:{type: 'ast',content: {type: 'InteractionSimple',operatorType:'Composition'}}}},
+  // (theResult,theEdge)=>{
+  //
+  //     let n1 = theEdge.from.node;
+  //     let n2 = theEdge.to.node;
+  //
+  //     if(n1 === n2) {
+  //       throw "Bizarre configuration";
+  //     } else {
+  //       graph
+  //       .matchUndirectedEdges({type:'ast',from:{node:n1}})
+  //       .forEach(e1=>
+  //         graph
+  //         .matchUndirectedEdges({type:'ast',from:{node:n2,compositionElementName:e1.compositionElementName}})
+  //         .forEach(e2=>{
+  //           let end1 = e1.to;
+  //           let end2 = e2.to;
+  //           if(end1.node === n1) {
+  //
+  //           } else if (end1.node === n2){
+  //
+  //           }
+  //
+  //         })
+  //         .commit())
+  //       .commit();
+  //     }
+  //     graph
+  //     .finish(n1);
+  //     graph
+  //     .finish(n2);
+  //   // };
+  //   theEdge.unSuitableForCompositionReduction = true;
+  // });
 
-    var cond = true;
-
-    // i is the index of the current component
-    var i = 1;
-
-    // For each i
-    while (cond) {
-
-      // Get i-th edge going from the first composition
-      var e1 = _.find(graph.edges, {
-        'type': 'AstEdge',
-        'from': n1,
-        'fromIndex': i,
-        'to': {
-          'finished': false
-        }
-      });
-      // Get i-th edge going from the second composition
-      var e2 = _.find(graph.edges, {
-        'type': 'AstEdge',
-        'from': n2,
-        'fromIndex': i,
-        'to': {
-          'finished': false
-        }
-      });
-
-      // We should have found the two edges that we want to merge
-      if (e1 !== undefined && e2 !== undefined) {
-        // Destinations of the edges we are replacing
-        var dest1 = e1.to;
-        var i1 = e1.toIndex;
-        var dest2 = e2.to;
-        var i2 = e2.toIndex;
-
-        var targetEdge;
-
-        // Special case ! Deal with cases when edges loop onto the very composition interaction that we are destroying !
-
-        if (dest1 === n1) {
-          // first edge looping to first composition node
-          targetEdge = _.find(graph.edges, {
-            'type': 'AstEdge',
-            'from': n2,
-            'fromIndex': i1,
-            'to': {
-              'finished': false
-            }
-          });
-          dest1 = targetEdge.to;
-          i1 = targetEdge.toIndex;
-        } else if (dest1 === n2) {
-          // first edge looping to second composition node
-          targetEdge = _.find(graph.edges, {
-            'type': 'AstEdge',
-            'from': n1,
-            'fromIndex': i1,
-            'to': {
-              'finished': false
-            }
-          });
-          dest1 = targetEdge.to;
-          i1 = targetEdge.toIndex;
-        }
-
-        if (dest2 === n2) {
-          // second edge looping to first composition node
-          targetEdge = _.find(graph.edges, {
-            'type': 'AstEdge',
-            'from': n1,
-            'fromIndex': i2,
-            'to': {
-              'finished': false
-            }
-          });
-          dest2 = targetEdge.to;
-          i2 = targetEdge.toIndex;
-        } else if (dest2 === n1) {
-          // second edge looping to second composition node
-          targetEdge = _.find(graph.edges, {
-            'type': 'AstEdge',
-            'from': n2,
-            'fromIndex': i2,
-            'to': {
-              'finished': false
-            }
-          });
-          dest2 = targetEdge.to;
-          i2 = targetEdge.toIndex;
-        }
-
-        // Now that we sorted the correct destination nodes even in corner cases which involve self-loops, we can connect the nodes in question
-        // General Case
-        var edge1 = {
-          type: 'AstEdge',
-          id: _.uniqueId("edge"),
-          to: dest1,
-          toIndex: i1,
-          from: dest2,
-          fromIndex: i2
-        };
-        var edge2 = {
-          type: 'AstEdge',
-          id: _.uniqueId("edge"),
-          to: dest2,
-          toIndex: i2,
-          from: dest1,
-          fromIndex: i1
-        };
-        graph.edges.push(edge1);
-        graph.edges.push(edge2);
-        // console.log("ok");
-        cond = true;
-      } else {
-        cond = false;
-      }
-
-      // Go to next pair of components
-      i = i + 1;
-    }
-
-    // We connected all components, so the two composition nodes are finished
-    n1.finished = true;
-    n2.finished = true;
-    // And the edge is done
-    b.unSuitableForCompositionReduction = true;
-    // Find the next potential edge
-    b = _.find(graph.edges, matchEdge);
-
-  }
 }
+
+
+
+
+
+
+
+
+//
+// // TODO Extend functionality to deal with other nodes between composition interactions
+// // TODO Extend functionality to deal with cases where more than 2 compositions are matching (because of identifier elimination)
+// function matchingCompositionReduction(graph) {
+//
+//   // Here we try to match edges that are in the middle of matching and facing compositions
+//   var matchEdge = function(x) {
+//     if (x.to === undefined) return false;
+//     if (x.from === undefined) return false;
+//     if (x.from.content === undefined) return false;
+//     if (x.to.content === undefined) return false;
+//     if (x.to.index !== 0) return false;
+//     if (x.from.index !== 0) return false;
+//     return (x.unSuitableForCompositionReduction !== true && x.from.content.operatorType === "Composition" && x.from.finished !== true &&
+//       x.to.content.operatorType === "Composition" && x.to.finished !== true && x.from.content.operator === x.to.content.operator);
+//   };
+//   var b = _.find(graph.edges, matchEdge);
+//
+//   while (b !== undefined) {
+//
+//     // Get the composition nodes at the extremities of this edge
+//     var n1 = b.from;
+//     var n2 = b.to;
+//
+//     var cond = true;
+//
+//     // i is the index of the current component
+//     var i = 1;
+//
+//     // For each i
+//     while (cond) {
+//
+//       // Get i-th edge going from the first composition
+//       var e1 = _.find(graph.edges, {
+//         'type': 'ast',
+//         'from': n1,
+//         'fromIndex': i,
+//         'to': {
+//           'finished': false
+//         }
+//       });
+//       // Get i-th edge going from the second composition
+//       var e2 = _.find(graph.edges, {
+//         'type': 'ast',
+//         'from': n2,
+//         'fromIndex': i,
+//         'to': {
+//           'finished': false
+//         }
+//       });
+//
+//       // We should have found the two edges that we want to merge
+//       if (e1 !== undefined && e2 !== undefined) {
+//         // Destinations of the edges we are replacing
+//         var dest1 = e1.to;
+//         var i1 = e1.to.index;
+//         var dest2 = e2.to;
+//         var i2 = e2.to.index;
+//
+//         var targetEdge;
+//
+//         // Special case ! Deal with cases when edges loop onto the very composition interaction that we are destroying !
+//
+//         if (dest1 === n1) {
+//           // first edge looping to first composition node
+//           targetEdge = _.find(graph.edges, {
+//             'type': 'ast',
+//             'from': n2,
+//             'fromIndex': i1,
+//             'to': {
+//               'finished': false
+//             }
+//           });
+//           dest1 = targetEdge.to;
+//           i1 = targetEdge.to.index;
+//         } else if (dest1 === n2) {
+//           // first edge looping to second composition node
+//           targetEdge = _.find(graph.edges, {
+//             'type': 'ast',
+//             'from': n1,
+//             'fromIndex': i1,
+//             'to': {
+//               'finished': false
+//             }
+//           });
+//           dest1 = targetEdge.to;
+//           i1 = targetEdge.to.index;
+//         }
+//
+//         if (dest2 === n2) {
+//           // second edge looping to first composition node
+//           targetEdge = _.find(graph.edges, {
+//             'type': 'ast',
+//             'from': n1,
+//             'fromIndex': i2,
+//             'to': {
+//               'finished': false
+//             }
+//           });
+//           dest2 = targetEdge.to;
+//           i2 = targetEdge.to.index;
+//         } else if (dest2 === n1) {
+//           // second edge looping to second composition node
+//           targetEdge = _.find(graph.edges, {
+//             'type': 'ast',
+//             'from': n2,
+//             'fromIndex': i2,
+//             'to': {
+//               'finished': false
+//             }
+//           });
+//           dest2 = targetEdge.to;
+//           i2 = targetEdge.to.index;
+//         }
+//
+//         // Now that we sorted the correct destination nodes even in corner cases which involve self-loops, we can connect the nodes in question
+//         // General Case
+//         var edge1 = {
+//           type: 'ast',
+//           id: _.uniqueId("edge"),
+//           to: dest1,
+//           toIndex: i1,
+//           from: dest2,
+//           fromIndex: i2
+//         };
+//         var edge2 = {
+//           type: 'ast',
+//           id: _.uniqueId("edge"),
+//           to: dest2,
+//           toIndex: i2,
+//           from: dest1,
+//           fromIndex: i1
+//         };
+//         graph.edges.push(edge1);
+//         graph.edges.push(edge2);
+//         // console.log("ok");
+//         cond = true;
+//       } else {
+//         cond = false;
+//       }
+//
+//       // Go to next pair of components
+//       i = i + 1;
+//     }
+//
+//     // We connected all components, so the two composition nodes are finished
+//     n1.finished = true;
+//     n2.finished = true;
+//     // And the edge is done
+//     b.unSuitableForCompositionReduction = true;
+//     // Find the next potential edge
+//     b = _.find(graph.edges, matchEdge);
+//
+//   }
+// }
 
 
 function createDataFlowDirection(graph) {
   var matchEdge = function(x) {
-    if (x.type !== 'AstEdge') return false;
+    if (x.type !== 'ast') return false;
     if (x.flowManaged === true) return false;
-    if (x.to === undefined || x.toIndex === undefined) return false;
-    if (x.from === undefined || x.fromIndex === undefined) return false;
+    if (x.to === undefined || x.to.index === undefined) return false;
+    if (x.from === undefined || x.from.index === undefined) return false;
     if (x.from.finished || x.to.finished) return false;
     if (x.to.ports === undefined) {
       x.to.ports = [];
@@ -972,14 +609,14 @@ function createDataFlowDirection(graph) {
         x.from.ports = [];
         return false;
       } else {
-        return x.from.ports[x.fromIndex] === 'out';
+        return x.from.ports[x.from.index] === 'out';
       }
     } else {
       if (x.from.ports === undefined) {
         x.from.ports = [];
-        return x.to.ports[x.toIndex] === 'in';
+        return x.to.ports[x.to.index] === 'in';
       } else {
-        return x.to.ports[x.toIndex] === 'in' || x.from.ports[x.fromIndex] === 'out';
+        return x.to.ports[x.to.index] === 'in' || x.from.ports[x.from.index] === 'out';
       }
     }
   };
@@ -991,16 +628,16 @@ function createDataFlowDirection(graph) {
     var edge1 = {
       type: 'DataFlowEdge',
       from: b.from,
-      fromIndex: b.fromIndex,
+      fromIndex: b.from.index,
       to: b.to,
-      toIndex: b.toIndex,
+      toIndex: b.to.index,
       finished: false
     };
     if (!_.find(graph.edges, edge1)) {
       edge1.id = _.uniqueId("flow");
       // We add the edge only if it does not exist yet
-      edge1.to.ports[edge1.toIndex] = 'in';
-      edge1.from.ports[edge1.fromIndex] = 'out';
+      edge1.to.ports[edge1.to.index] = 'in';
+      edge1.from.ports[edge1.from.index] = 'out';
       graph.edges.push(edge1);
     }
 
@@ -1021,7 +658,7 @@ function nonMatchingCompositionCompilation(graph) {
     if (x.to.finished === true) return false;
     if (x.from.content === undefined) return false;
     if (x.to.content === undefined) return false;
-    if (x.fromIndex !== 0) return false;
+    if (x.from.index !== 0) return false;
     if (x.from.content.type !== 'InteractionSimple') return false;
     if (x.unsuitableForNonMatchingCompositionReduction === true) return false;
     if (x.from.content.operatorType !== "Composition") return false;
@@ -1062,20 +699,20 @@ function nonMatchingCompositionCompilation(graph) {
     graph.nodes.push(newNode);
 
     var edge1 = {
-      type: 'AstEdge',
+      type: 'ast',
       id: _.uniqueId("edge"),
       to: b.to,
-      toIndex: b.toIndex,
+      toIndex: b.to.index,
       from: newNode,
       fromIndex: 0
     };
     var edge2 = {
-      type: 'AstEdge',
+      type: 'ast',
       id: _.uniqueId("edge"),
       to: newNode,
       toIndex: 0,
       from: b.to,
-      fromIndex: b.toIndex
+      fromIndex: b.to.index
     };
     graph.edges.push(edge1);
     graph.edges.push(edge2);
@@ -1085,23 +722,23 @@ function nonMatchingCompositionCompilation(graph) {
     for (i = 1; i <= op.length; i++) {
 
       _.forEach(_.filter(graph.edges, function(x) {
-        return (x.type === 'AstEdge' && x.to === b.from && x.toIndex === i && x.from.finished !== true);
+        return (x.type === 'ast' && x.to === b.from && x.to.index === i && x.from.finished !== true);
       }), function(x) {
         var edge3 = {
-          type: 'AstEdge',
+          type: 'ast',
           id: _.uniqueId("edge"),
           to: x.from,
-          toIndex: x.fromIndex,
+          toIndex: x.from.index,
           from: newNode,
           fromIndex: i
         };
         var edge4 = {
-          type: 'AstEdge',
+          type: 'ast',
           id: _.uniqueId("edge"),
           to: newNode,
           toIndex: i,
           from: x.from,
-          fromIndex: x.fromIndex
+          fromIndex: x.from.index
         };
         graph.edges.push(edge3);
         graph.edges.push(edge4);
@@ -1129,7 +766,7 @@ function nonMatchingDecompositionCompilation(graph) {
     if (x.to.finished === true) return false;
     if (x.from.content === undefined) return false;
     if (x.to.content === undefined) return false;
-    if (x.toIndex !== 0) return false;
+    if (x.to.index !== 0) return false;
     if (x.to.content.type !== 'InteractionSimple') return false;
     if (x.unsuitableForNonMatchingDecompositionReduction === true) return false;
     if (x.to.content.operatorType !== "Composition") return false;
@@ -1170,20 +807,20 @@ function nonMatchingDecompositionCompilation(graph) {
     graph.nodes.push(newNode);
 
     var edge1 = {
-      type: 'AstEdge',
+      type: 'ast',
       id: _.uniqueId("edge"),
       to: b.from,
-      toIndex: b.fromIndex,
+      toIndex: b.from.index,
       from: newNode,
       fromIndex: 0
     };
     var edge2 = {
-      type: 'AstEdge',
+      type: 'ast',
       id: _.uniqueId("edge"),
       to: newNode,
       toIndex: 0,
       from: b.from,
-      fromIndex: b.fromIndex
+      fromIndex: b.from.index
     };
     graph.edges.push(edge1);
     graph.edges.push(edge2);
@@ -1193,23 +830,23 @@ function nonMatchingDecompositionCompilation(graph) {
     for (i = 1; i <= op.length; i++) {
 
       _.forEach(_.filter(graph.edges, function(x) {
-        return (x.type === 'AstEdge' && x.from === b.to && x.fromIndex === i && x.to.finished !== true);
+        return (x.type === 'ast' && x.from === b.to && x.from.index === i && x.to.finished !== true);
       }), function(x) {
         var edge3 = {
-          type: 'AstEdge',
+          type: 'ast',
           id: _.uniqueId("edge"),
           to: x.to,
-          toIndex: x.toIndex,
+          toIndex: x.to.index,
           from: newNode,
           fromIndex: i
         };
         var edge4 = {
-          type: 'AstEdge',
+          type: 'ast',
           id: _.uniqueId("edge"),
           to: newNode,
           toIndex: i,
           from: x.to,
-          fromIndex: x.toIndex
+          fromIndex: x.to.index
         };
         graph.edges.push(edge3);
         graph.edges.push(edge4);
@@ -1464,9 +1101,9 @@ function generateJsCode(graph, header) {
 
   var transCode = _.template(transTemplate)(conf);
   var initCode = _.template(initTemplate)(conf);
-  console.log("==================================================================");
-  console.log(transCode);
-  console.log("==================================================================");
+  // console.log("==================================================================");
+  // console.log(transCode);
+  // console.log("==================================================================");
   // console.log(initCode);
   // console.log("==================================================================");
   return {
@@ -1489,7 +1126,6 @@ var inactive = null;\n\
 
 
 
-module.exports.graphToDot = graphToDot;
 module.exports.compileToIii = compileToIii;
 module.exports.compileToJs = compileToJs;
 module.exports.generateJsCode = generateJsCode;

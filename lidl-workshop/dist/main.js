@@ -13759,7 +13759,7 @@ DepGraph.prototype = {
    * Add a node to the dependency graph. If a node with the specified
    * name already exists, this method will do nothing.
    */
-  addNode:function (name) {
+  oldAddNode:function (name) {
     if (!this.hasNode(name)) {
       this.nodes[name] = name;
       this.outgoingEdges[name] = [];

@@ -1,16 +1,34 @@
-graph lidl{node614 [shape=box, label="node614
-2
+digraph g{node_254 [shape=ellipse, style=filled, color="0.0 0.1 1.0", label="node_254
+Composition
+{theNumber:$theResult:$}" ]
+node_271 [shape=ellipse, style=filled, color="0.0 0.1 1.0", label="node_271
+Composition
+{theNumber:$theResult:$}" ]
+node_245 [shape=box, style=filled, color="0.66 0.1 1.0", fontname="Courier", label="node_245
+
 <%=a0%>=theInterface.theNumber;
-", fillcolor="gray"];node615 [shape=box, label="node615
-4
+" ]
+node_246 [shape=box, style=filled, color="0.66 0.1 1.0", fontname="Courier", label="node_246
+
 theInterface.theResult=<%=a0%>;
-", fillcolor="gray"];activesource [shape=box, label="activesource
-1
+" ]
+node_277 [shape=box, style=filled, color="0.66 0.1 1.0", fontname="Courier", label="node_277
+
 <%=a0%> = active;
-", fillcolor="gray"];functionsourceaddOne [shape=box, label="functionsourceaddOne
-0
+" ]
+node_280 [shape=box, style=filled, color="0.66 0.1 1.0", fontname="Courier", label="node_280
+
 <%=a0%> = addOne;
-", fillcolor="gray"];node712 [shape=box, label="node712
-3
+" ]
+node_282 [shape=box, style=filled, color="0.66 0.1 1.0", fontname="Courier", label="node_282
+
 if(<%=a0%> === active) {<%=a3%> = <%=a1%>(<%=a2%>);}
-", fillcolor="gray"];node712 -> activesource [label="edge713", headlabel="0", taillabel="0", dir="forward", arrowHead="normal"];activesource -> node712 [label="edge714", headlabel="0", taillabel="0", dir="forward", arrowHead="normal"];node712 -> functionsourceaddOne [label="edge715", headlabel="0", taillabel="1", dir="forward", arrowHead="normal"];functionsourceaddOne -> node712 [label="edge716", headlabel="1", taillabel="0", dir="forward", arrowHead="normal"];node712 -> node614 [label="edge721", headlabel="0", taillabel="2", dir="forward", arrowHead="normal"];node614 -> node712 [label="edge722", headlabel="2", taillabel="0", dir="forward", arrowHead="normal"];node712 -> node615 [label="edge723", headlabel="0", taillabel="3", dir="forward", arrowHead="normal"];node615 -> node712 [label="edge724", headlabel="3", taillabel="0", dir="forward", arrowHead="normal"];activesource -> node712 [label="flow725",headlabel="0", taillabel="0", dir="forward", arrowHead="normal", arrowsize=2, color="red"];functionsourceaddOne -> node712 [label="flow726",headlabel="1", taillabel="0", dir="forward", arrowHead="normal", arrowsize=2, color="red"];node614 -> node712 [label="flow727",headlabel="2", taillabel="0", dir="forward", arrowHead="normal", arrowsize=2, color="red"];node712 -> node615 [label="flow728",headlabel="0", taillabel="3", dir="forward", arrowHead="normal", arrowsize=2, color="red"];}
+" ]
+node_245 -> node_271 [dir=none, arrowHead=none, fontname="Times-Italic", label="edge_272", headlabel="1", taillabel="0" ]
+node_246 -> node_271 [dir=none, arrowHead=none, fontname="Times-Italic", label="edge_273", headlabel="2", taillabel="0" ]
+node_271 -> node_254 [dir=none, arrowHead=none, fontname="Times-Italic", label="edge_279", headlabel="0", taillabel="0" ]
+node_282 -> node_277 [dir=none, arrowHead=none, fontname="Times-Italic", label="edge_283", headlabel="0", taillabel="0" ]
+node_282 -> node_280 [dir=none, arrowHead=none, fontname="Times-Italic", label="edge_284", headlabel="0", taillabel="1" ]
+node_282 -> node_254 [dir=none, arrowHead=none, fontname="Times-Italic", label="edge_285", headlabel="1", taillabel="2" ]
+node_282 -> node_254 [dir=none, arrowHead=none, fontname="Times-Italic", label="edge_286", headlabel="2", taillabel="3" ]
+}
