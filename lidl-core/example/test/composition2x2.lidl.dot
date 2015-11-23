@@ -1,43 +1,48 @@
-digraph g{node_235 [shape=ellipse, style=filled, color="0.0 0.1 1.0", label="node_235
-Composition
-{0:$1:$}" ]
-node_239 [shape=ellipse, style=filled, color="0.0 0.1 1.0", label="node_239
-Composition
-{sum:$diff:$}" ]
-node_197 [shape=box, style=filled, color="0.66 0.1 1.0", fontname="Courier", label="node_197
-
+digraph g{node_200 [shape=box, style=filled, color="0.66 0.1 1.0", fontname="Courier", label="node_200
+3
 <%=a0%>=theInterface.theNumber;
 " ]
-node_198 [shape=box, style=filled, color="0.66 0.1 1.0", fontname="Courier", label="node_198
-
+node_201 [shape=box, style=filled, color="0.66 0.1 1.0", fontname="Courier", label="node_201
+2
 <%=a0%>=theInterface.theOther;
 " ]
-node_199 [shape=box, style=filled, color="0.66 0.1 1.0", fontname="Courier", label="node_199
-
+node_202 [shape=box, style=filled, color="0.66 0.1 1.0", fontname="Courier", label="node_202
+8
 theInterface.theResult=<%=a0%>;
 " ]
-node_200 [shape=box, style=filled, color="0.66 0.1 1.0", fontname="Courier", label="node_200
-
+node_203 [shape=box, style=filled, color="0.66 0.1 1.0", fontname="Courier", label="node_203
+7
 theInterface.theLast=<%=a0%>;
 " ]
-node_253 [shape=box, style=filled, color="0.66 0.1 1.0", fontname="Courier", label="node_253
-
+node_257 [shape=box, style=filled, color="0.66 0.1 1.0", fontname="Courier", label="node_257
+1
 <%=a0%> = active;
 " ]
-node_256 [shape=box, style=filled, color="0.66 0.1 1.0", fontname="Courier", label="node_256
-
+node_260 [shape=box, style=filled, color="0.66 0.1 1.0", fontname="Courier", label="node_260
+0
 <%=a0%> = cool;
 " ]
-node_258 [shape=box, style=filled, color="0.66 0.1 1.0", fontname="Courier", label="node_258
-
+node_262 [shape=box, style=filled, color="0.66 0.1 1.0", fontname="Courier", label="node_262
+5
 if(<%=a0%> === active) {<%=a3%> = <%=a1%>(<%=a2%>);}
 " ]
-node_258 -> node_253 [dir=none, arrowHead=none, fontname="Times-Italic", label="edge_259",  headlabel="0", taillabel="0" ]
-node_258 -> node_256 [dir=none, arrowHead=none, fontname="Times-Italic", label="edge_260",  headlabel="0", taillabel="1" ]
-node_258 -> node_235 [dir=none, arrowHead=none, fontname="Times-Italic", label="edge_261",  headlabel="0", taillabel="2" ]
-node_258 -> node_239 [dir=none, arrowHead=none, fontname="Times-Italic", label="edge_262",  headlabel="0", taillabel="3" ]
-node_200 -> node_239 [dir=none, arrowHead=none, fontname="Times-Italic", label="edge_280",  headlabel="2", taillabel="0" ]
-node_197 -> node_235 [dir=none, arrowHead=none, fontname="Times-Italic", label="edge_281",  headlabel="1", taillabel="0" ]
-node_198 -> node_235 [dir=none, arrowHead=none, fontname="Times-Italic", label="edge_282",  headlabel="2", taillabel="0" ]
-node_199 -> node_239 [dir=none, arrowHead=none, fontname="Times-Italic", label="edge_283",  headlabel="1", taillabel="0" ]
+node_293 [shape=box, style=filled, color="0.66 0.1 1.0", fontname="Courier", label="node_293
+4
+<%=a0%> = {};
+<%=a0%>['0'] = <%=a1%>;
+<%=a0%>['1'] = <%=a2%>;
+" ]
+node_297 [shape=box, style=filled, color="0.66 0.1 1.0", fontname="Courier", label="node_297
+6
+<%=a1%> = <%=a0%>['sum'];
+<%=a2%> = <%=a0%>['diff'];
+" ]
+node_262 -> node_257 [dir=none, arrowHead=none, fontname="Times-Italic", label="edge_263",  headlabel="0", taillabel="0" ]
+node_262 -> node_260 [dir=none, arrowHead=none, fontname="Times-Italic", label="edge_264",  headlabel="0", taillabel="1" ]
+node_293 -> node_262 [dir=none, arrowHead=none, fontname="Times-Italic", label="edge_294",  headlabel="2", taillabel="0" ]
+node_293 -> node_200 [dir=none, arrowHead=none, fontname="Times-Italic", label="edge_295",  headlabel="0", taillabel="1" ]
+node_293 -> node_201 [dir=none, arrowHead=none, fontname="Times-Italic", label="edge_296",  headlabel="0", taillabel="2" ]
+node_297 -> node_262 [dir=none, arrowHead=none, fontname="Times-Italic", label="edge_298",  headlabel="3", taillabel="0" ]
+node_297 -> node_203 [dir=none, arrowHead=none, fontname="Times-Italic", label="edge_299",  headlabel="0", taillabel="2" ]
+node_297 -> node_202 [dir=none, arrowHead=none, fontname="Times-Italic", label="edge_300",  headlabel="0", taillabel="1" ]
 }

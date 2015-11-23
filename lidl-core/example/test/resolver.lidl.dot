@@ -1,0 +1,63 @@
+digraph g{node_382 [shape=box, style=filled, color="0.66 0.1 1.0", fontname="Courier", label="node_382
+3
+<%=a0%>=theInterface.theNumber;
+" ]
+node_383 [shape=box, style=filled, color="0.66 0.1 1.0", fontname="Courier", label="node_383
+1
+<%=a0%>=theInterface.theOther;
+" ]
+node_384 [shape=box, style=filled, color="0.66 0.1 1.0", fontname="Courier", label="node_384
+6
+theInterface.theResult=<%=a0%>;
+" ]
+node_385 [shape=box, style=filled, color="0.66 0.1 1.0", fontname="Courier", label="node_385
+8
+theInterface.theLast=<%=a0%>;
+" ]
+node_415 [shape=box, style=filled, color="0.66 0.1 1.0", fontname="Courier", label="node_415
+0
+<%=a0%> = active;
+" ]
+node_486 [shape=box, style=filled, color="0.66 0.1 1.0", fontname="Courier", label="node_486
+4
+<%=a1%> = <%=a0%>;
+<%=a2%> = <%=a0%>;
+" ]
+node_490 [shape=box, style=filled, color="0.66 0.1 1.0", fontname="Courier", label="node_490
+7
+<%=a0%>=null;
+if(<%=a0%>===null ){
+  <%=a0%> = <%=a1%>;
+} else if (<%=a1%> !== null){
+  throw('error:multiple active assignment to the same interaction');
+}if(<%=a0%>===null ){
+  <%=a0%> = <%=a2%>;
+} else if (<%=a2%> !== null){
+  throw('error:multiple active assignment to the same interaction');
+}" ]
+node_494 [shape=box, style=filled, color="0.66 0.1 1.0", fontname="Courier", label="node_494
+2
+<%=a1%> = <%=a0%>;
+<%=a2%> = <%=a0%>;
+" ]
+node_498 [shape=box, style=filled, color="0.66 0.1 1.0", fontname="Courier", label="node_498
+5
+<%=a0%>=null;
+if(<%=a0%>===null ){
+  <%=a0%> = <%=a1%>;
+} else if (<%=a1%> !== null){
+  throw('error:multiple active assignment to the same interaction');
+}if(<%=a0%>===null ){
+  <%=a0%> = <%=a2%>;
+} else if (<%=a2%> !== null){
+  throw('error:multiple active assignment to the same interaction');
+}" ]
+node_382 -> node_486 [dir=none, arrowHead=none, fontname="Times-Italic", label="edge_487",  headlabel="0", taillabel="0" ]
+node_490 -> node_385 [dir=none, arrowHead=none, fontname="Times-Italic", label="edge_491",  headlabel="0", taillabel="0" ]
+node_486 -> node_490 [dir=none, arrowHead=none, fontname="Times-Italic", label="edge_493",  headlabel="2", taillabel="1" ]
+node_383 -> node_494 [dir=none, arrowHead=none, fontname="Times-Italic", label="edge_495",  headlabel="0", taillabel="0" ]
+node_494 -> node_490 [dir=none, arrowHead=none, fontname="Times-Italic", label="edge_496",  headlabel="1", taillabel="1" ]
+node_498 -> node_384 [dir=none, arrowHead=none, fontname="Times-Italic", label="edge_499",  headlabel="0", taillabel="0" ]
+node_486 -> node_498 [dir=none, arrowHead=none, fontname="Times-Italic", label="edge_500",  headlabel="1", taillabel="2" ]
+node_494 -> node_498 [dir=none, arrowHead=none, fontname="Times-Italic", label="edge_501",  headlabel="2", taillabel="2" ]
+}

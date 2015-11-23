@@ -33,7 +33,7 @@ function compileToIii(source) {
 }
 
 function compileToGraph(source) {
-    console.log("===========================================")
+    // console.log("===========================================")
   var graph = new Graph();
   var mainDef = parser.parse(source)[0];
 
@@ -41,7 +41,7 @@ function compileToGraph(source) {
 
   // TODO reduce the amount of processing on the next three lines and transform it into graph operations instead
   var interaction = addInteractionToGraph(graph, identifiers.reduceIdentifiers(interactions.expand(mainDef).interaction));
-  //TODO Make it possible to compile interactiosn that have arguments and not just a single interface
+  //TODO Make it possible to compile interactions that have arguments and not just a single interface
   var interfac = addInterfaceToGraph(graph, mainDef.signature.interfac, 'theInterface');
 
   mergeByRootNode(graph, interaction, interfac);
@@ -56,15 +56,27 @@ function compileToGraph(source) {
   functionApplicationLinking(graph);
   previousNextLinking(graph);
   tagCompositionElementEdges(graph);
+
+  //TODO Should loop that, either in the method or here
   matchingCompositionReduction(graph);
+  matchingCompositionReduction(graph);
+  matchingCompositionReduction(graph);
+  // ... until fixed point
+
+//TODO Should loop that too
   createDataFlowDirection(graph);
-  // nonMatchingCompositionCompilation(graph);
-  // createDataFlowDirection(graph);
-  // nonMatchingDecompositionCompilation(graph);
-  // createDataFlowDirection(graph);
-  // resolveMultiplePorts(graph);
-  // orderGraph(graph);
-  // instantiateTemplates(graph);
+  nonMatchingCompositionCompilation(graph);
+  createDataFlowDirection(graph);
+  nonMatchingCompositionCompilation(graph);
+  createDataFlowDirection(graph);
+  nonMatchingCompositionCompilation(graph);
+  // ... until fixed point ... but always end with another:
+  createDataFlowDirection(graph);
+
+  //TODO
+  resolveMultiplePorts(graph);
+  orderGraph(graph);
+  instantiateTemplates(graph);
   return graph;
 }
 
@@ -179,51 +191,6 @@ function referentialTransparency(graph) {
       .tap(x=>(theNode.referentialTransparencySolved=true))
       .commit();
     });
-}
-
-//TODO Interfaces instead of ports
-function mergePortList(x,y){
-
-    if(_.isArray(x)){
-      if(_.isArray(y)){
-        let i = 0;
-        let res = [];
-        for(i=0;i<Math.max(x.length,y.length);i++){
-          res[i] = mergePortList(x[i],y[i]);
-        }
-        return res;
-      }else if (_.isString(y)){
-          throw "error : trying to merge incompatible ports";
-      }else if(_.isUndefined(y)) {
-        return x;
-      } else {
-        throw "error : portLists should be arrays of strings";
-      }
-    }else if (_.isString(x)){
-      if(_.isArray(y)){
-    throw "error : trying to merge incompatible ports";
-      }else if (_.isString(y)){
-      if(x===y)return x else throw "error : trying to merge incompatible ports";
-  }else if(_.isUndefined(y)) {
-    return x;
-  } else {
-    throw "error : portLists should be arrays of strings";
-  }
-}else if(_.isUndefined(x)) {
-  if(_.isArray(y)){
-    return y;
-      }else if (_.isString(y)){
-      throw "error : trying to merge incompatible ports";
-  }else if(_.isUndefined(y)) {
-    return;
-  } else {
-    throw "error : portLists should be arrays of strings";
-  }
-} else {
-  throw "error : portLists should be arrays of strings";
-}
-
-
 }
 
 
@@ -351,7 +318,7 @@ function previousNextLinking(graph) {
     let stateId = _.uniqueId('state_');
     let source =
       graph
-      .addNode({type:'ast',content:{'type': 'InteractionNative','content': "if(<%=a0%> === active) {\n<%=a1%> = previousState['" + stateId + "'];\nnextState['" + stateId + "'] = <%=a2%>;\n}\n"},ports: ["in", "in", "in", "out"]});
+      .addNode({type:'ast',containsAState:true,stateVariableName:stateId,content:{'type': 'InteractionNative','content': "if(<%=a0%> === active) {\n<%=a1%> = previousState['" + stateId + "'];\nnextState['" + stateId + "'] = <%=a2%>;\n}\n"},ports: ["in", "out", "in"]});
     _(_.range(3))
     .forEach(i=>
       graph
@@ -395,6 +362,8 @@ function tagCompositionElementEdges(graph){
 // This is an important graph transform. It deals with the mess of having several linked composition interaction
 function matchingCompositionReduction(graph) {
 
+
+
 // // Mark all
   graph
   .matchNodes({type: 'ast',content: {type: 'InteractionSimple',operatorType:'Composition'}})
@@ -436,8 +405,8 @@ function matchingCompositionReduction(graph) {
   graph
   .matchNodes({type: 'ast',didCompositionReduction:true})
   .forEach(n1=>{
-      console.log("-----------------------------------------------");
-      console.log(n1.id);
+      // console.log("-----------------------------------------------");
+      // console.log(n1.id);
 
       // Lets build a graph of the situation inside the Composition Node. Wiring between ports and co ports
       // Each Node of the internal graph represents a port of the Composition node
@@ -514,7 +483,7 @@ function matchingCompositionReduction(graph) {
       internalGraph
       .reduceNodes({closed:false},
         (theResult,theNode)=>{
-          console.log("  > "+theNode.id);
+          // console.log("  > "+theNode.id);
           internalGraph
           .matchUndirectedEdges({from:{node:theNode}})
           .forEach(e1=>{
@@ -533,14 +502,14 @@ function matchingCompositionReduction(graph) {
       .matchUndirectedEdges({from:{node:{port:{}}},to:{node:{port:{}}}})
       .filter(x=>(x.to.node.port.isCoPort!==true && x.from.node.port.isCoPort===true))
       .forEach(internalEdge=>{
-        console.log("xxxx")
+        // console.log("xxxx")
         graph
         .matchUndirectedEdges({from:{node:n1,coCompositionElementName:internalEdge.from.node.port.coCompositionElementName}})
         .forEach(coEdge=>{
           graph
           .matchUndirectedEdges({from:{node:n1,compositionElementName:internalEdge.to.node.port.compositionElementName}})
           .forEach(edge=>{
-            console.log("ADD  "+coEdge.to.node.id+" "+edge.to.node.id);
+            // console.log("ADD  "+coEdge.to.node.id+" "+edge.to.node.id);
             graph
             .addEdge({type:'ast',from:coEdge.to,to:edge.to});})
           .commit();})
@@ -554,6 +523,10 @@ function matchingCompositionReduction(graph) {
   .forEach( theNode => {graph.finish(theNode);})
   .commit();
 
+
+// TODO LOOP all this until fixed point (no new composition matches)
+
+
 }
 
 
@@ -564,339 +537,258 @@ function matchingCompositionReduction(graph) {
 
 function createDataFlowDirection(graph) {
 
-  graph.reduceUndirectedEdges({},
-(theResult,theEdge)=>{
-
-});
-
-  var matchEdge = function(x) {
-    if (x.type !== 'ast') return false;
-    if (x.flowManaged === true) return false;
-    if (x.to === undefined || x.to.index === undefined) return false;
-    if (x.from === undefined || x.from.index === undefined) return false;
-    if (x.from.finished || x.to.finished) return false;
-    if (x.to.ports === undefined) {
-      x.to.ports = [];
-      if (x.from.ports === undefined) {
-        x.from.ports = [];
-        return false;
-      } else {
-        return x.from.ports[x.from.index] === 'out';
-      }
-    } else {
-      if (x.from.ports === undefined) {
-        x.from.ports = [];
-        return x.to.ports[x.to.index] === 'in';
-      } else {
-        return x.to.ports[x.to.index] === 'in' || x.from.ports[x.from.index] === 'out';
-      }
-    }
-  };
-
-  var b = _.find(graph.edges, matchEdge);
-
-  while (b !== undefined) {
-    // console.log("Dataflow edge");
-    var edge1 = {
-      type: 'DataFlowEdge',
-      from: b.from,
-      fromIndex: b.from.index,
-      to: b.to,
-      toIndex: b.to.index,
-      finished: false
-    };
-    if (!_.find(graph.edges, edge1)) {
-      edge1.id = _.uniqueId("flow");
-      // We add the edge only if it does not exist yet
-      edge1.to.ports[edge1.to.index] = 'in';
-      edge1.from.ports[edge1.from.index] = 'out';
-      graph.edges.push(edge1);
-    }
-
-    b.flowManaged = true;
-    var b = _.find(graph.edges, matchEdge);
-  }
+// First we infer type of ports on edges from types of ports of nodes they lead to
+  graph
+  .matchUndirectedEdges({type:'ast'})
+  .forEach((theEdge)=>{
+    let portOnOrigin =
+    _.cloneDeep(theEdge.from.node.ports[theEdge.from.index]);
+    let portOnDestination =
+    _.cloneDeep(theEdge.to.node.ports[theEdge.to.index]);
+// Here we infer that port on one end are conjugated with ports on other end
+// console.log("EDGE0 "+theEdge.id +" "+ theEdge.from.index+" "+ portOnOrigin+" "+ theEdge.to.index + " " + portOnDestination);
+    try{
+theEdge.from.ports = mergePortList(portOnOrigin,conjugatePort(portOnDestination));
+// console.log("EDGE1 "+theEdge.id +" "+ theEdge.from.index+" "+ portOnOrigin+" "+ theEdge.to.index + " " + portOnDestination);
+}catch(e){
+console.log("X EDGE1 "+e+" "+theEdge.id +" "+ theEdge.from.index+" "+ portOnOrigin+" "+ theEdge.to.index + " " + portOnDestination);
 }
+try{
+    theEdge.to.ports = mergePortList(portOnDestination,conjugatePort(portOnOrigin));
+// console.log("EDGE2 "+theEdge.id +" "+ theEdge.from.index+" "+ portOnOrigin+" "+ theEdge.to.index + " " + portOnDestination);
+}catch(e){
+console.log("X EDGE2 "+e+" "+theEdge.id +" "+ theEdge.from.index+" "+ portOnOrigin+" "+ theEdge.to.index + " " + portOnDestination);
+}
+  if(portIsOnlyMadeOf(theEdge.from.ports,"in") && portIsOnlyMadeOf(theEdge.to.ports,"in")){
+    console.log("in to in situation on edge " +theEdge.id );
+    graph.finish(theEdge);
+  }
+  if(portIsOnlyMadeOf(theEdge.from.ports,"out") && portIsOnlyMadeOf(theEdge.to.ports,"out")){
+      console.log("out to out situation on edge " +theEdge.id + " from "+ theEdge.from.node.id+" to "+theEdge.to.node.id );
+      graph.finish(theEdge);
+    }
+})
+  .commit();
+
+// Then we infer types of ports on Nodes from types of ports on edges that lead to them
+  graph
+  .matchNodes({type:'ast'})
+  .forEach((theNode)=>{
+
+// console.log("NODE0 "+theNode.id +" "+ JSON.stringify(theNode.ports));
+    graph
+    .matchUndirectedEdges({type:'ast',from:{node:theNode}})
+    .forEach((theEdge)=>{
+// try{
+      theNode.ports[theEdge.from.index] = mergePortList(theNode.ports[theEdge.from.index], theEdge.from.ports);
+// }catch(e){console.log("X NODE1 " +theNode.id + " " +theEdge.from.index +" "+JSON.stringify(theNode.ports[theEdge.from.index]) + " "+JSON.stringify(theEdge.from.ports));}
+})
+    .filter({type:'ast',to:{node:theNode}})
+    .forEach((theEdge)=>{
+// try{
+      theNode.ports[theEdge.to.index] = mergePortList(theNode.ports[theEdge.to.index], theEdge.to.ports);
+// }catch(e){console.log("X NODE2 " +theNode.id + " "  +theEdge.from.index +" "+JSON.stringify(theNode.ports[theEdge.to.index]) + " "+JSON.stringify(theEdge.to.ports));}
+})
+    .commit();
+
+
+})
+  .commit();
+
+}
+
+
 
 
 
 function nonMatchingCompositionCompilation(graph) {
-  var matchEdge = function(x) {
-    if (x.type !== 'DataFlowEdge') return false;
-    if (x.finished === true) return false;
-    if (x.to === undefined) return false;
-    if (x.from === undefined) return false;
-    if (x.from.finished === true) return false;
-    if (x.to.finished === true) return false;
-    if (x.from.content === undefined) return false;
-    if (x.to.content === undefined) return false;
-    if (x.from.index !== 0) return false;
-    if (x.from.content.type !== 'InteractionSimple') return false;
-    if (x.unsuitableForNonMatchingCompositionReduction === true) return false;
-    if (x.from.content.operatorType !== "Composition") return false;
-    return true;
-  };
+  // Then we find composition nodes and reduce them
+  graph
+  .matchNodes({type:'ast',content: {type: 'InteractionSimple',operatorType:'Composition'}})
+  .filter(x=>(x.ports[0]==='out'||x.ports[0]==='in'))
+  .forEach(theNode=>{
 
-  var b = _.find(graph.edges, matchEdge);
+        let isCompo = theNode.ports[0]==='out';
 
-  while (b !== undefined) {
+        // console.log("NODE ! "+theNode.id +" "+ JSON.stringify(theNode.ports));
 
+        let code = isCompo?"<%=a0%> = {};\n":"";
+        let ports = [isCompo?'out':'in'];
 
-    // Get the composition nodes at the extremity of this edge
-    var n1 = b.from;
-    // console.log(">>>>>>>>" + n1.content.operator);
+        let compositionElementNameWithTheirIndex =
+        graph
+        .matchUndirectedEdges({type:'ast',from:{node:theNode}})
+        .reject(theEdge=>_.isUndefined(theEdge.from.compositionElementName))
+        .forEach(theEdge=>{if(theEdge.to.node===theNode)throw('Error:Loop on a composition interaction');})
+        .map(theEdge=>({compositionElementName:theEdge.from.compositionElementName, index:theEdge.from.index}))
+        .groupBy('index')
+        .map(theElement=>
+          _(theElement)
+          .tap(x=>{if(_.size(_.unique(x,y=>y.compositionElementName))>1)throw ('Error: there are different edges with the same index but different compositionElementName');})
+          .unique(z=>(z.compositionElementName))
+          .first())
+        .value();
 
-    var op = _.words(_.trim(n1.content.operator, '{}'), /[^:$]+/g);
+// console.log("  "+JSON.stringify(compositionElementNameWithTheirIndex));
 
-    // console.log(op);
+        _(compositionElementNameWithTheirIndex)
+        .forEach((el)=>{
+          if(isCompo){
+            code = code.concat("<%=a0%>['" + el.compositionElementName + "'] = <%=a" + el.index + "%>;\n");
+            ports[el.index] = 'in';
+          }else {
+            code = code.concat("<%=a" + el.index + "%> = <%=a0%>['" + el.compositionElementName + "'];\n");
+            ports[el.index] = 'out';
+          }})
+        .commit();
 
-    var code = "<%=a0%> = {};\n";
-    var ports = ["out"];
-    _.forEach(op, function(x, index) {
-      code = code.concat("<%=a0%>['" + x + "'] = <%=a" + (index + 1) + "%>;\n");
-      ports.push["in"];
-    });
+        // console.log("  "+code);
+// console.log("  "+JSON.stringify(ports));
 
+        let newNode = graph
+        .addNode({type:'ast',content:{
+            'type': 'InteractionNative',
+            'content': code
+          },ports:ports});
 
-    // Create the new node
-    var newNode = {
-      'id': _.uniqueId("node"),
-      'interaction': {
-        'type': 'InteractionNative',
-        'content': code
-      },
-      ports: ports,
-      'finished': false
-    };
-    graph.nodes.push(newNode);
+      graph
+      .matchUndirectedEdges({type:'ast',from:{node:theNode}})
+      // .reject(theEdge=>_.isUndefined(theEdge.from.compositionElementName))
+      .forEach(theEdge=>{
+        graph.addEdge({type:'ast',from:{node:newNode,index:theEdge.from.index},to:theEdge.to});})
+      .commit();
 
-    var edge1 = {
-      type: 'ast',
-      id: _.uniqueId("edge"),
-      to: b.to,
-      toIndex: b.to.index,
-      from: newNode,
-      fromIndex: 0
-    };
-    var edge2 = {
-      type: 'ast',
-      id: _.uniqueId("edge"),
-      to: newNode,
-      toIndex: 0,
-      from: b.to,
-      fromIndex: b.to.index
-    };
-    graph.edges.push(edge1);
-    graph.edges.push(edge2);
+      graph
+      .finish(theNode);
+  })
+  .commit();
 
-    var i;
+  // Then we find decomposition nodes and reduce them
 
-    for (i = 1; i <= op.length; i++) {
+  //TODO loop
 
-      _.forEach(_.filter(graph.edges, function(x) {
-        return (x.type === 'ast' && x.to === b.from && x.to.index === i && x.from.finished !== true);
-      }), function(x) {
-        var edge3 = {
-          type: 'ast',
-          id: _.uniqueId("edge"),
-          to: x.from,
-          toIndex: x.from.index,
-          from: newNode,
-          fromIndex: i
-        };
-        var edge4 = {
-          type: 'ast',
-          id: _.uniqueId("edge"),
-          to: newNode,
-          toIndex: i,
-          from: x.from,
-          fromIndex: x.from.index
-        };
-        graph.edges.push(edge3);
-        graph.edges.push(edge4);
-      });
-
-
-    }
-
-    n1.finished = true;
-    b.unsuitableForNonMatchingCompositionReduction = true;
-    var b = _.find(graph.edges, matchEdge);
-  }
-
-}
-
-
-
-function nonMatchingDecompositionCompilation(graph) {
-  var matchEdge = function(x) {
-    if (x.type !== 'DataFlowEdge') return false;
-    if (x.finished === true) return false;
-    if (x.to === undefined) return false;
-    if (x.from === undefined) return false;
-    if (x.from.finished === true) return false;
-    if (x.to.finished === true) return false;
-    if (x.from.content === undefined) return false;
-    if (x.to.content === undefined) return false;
-    if (x.to.index !== 0) return false;
-    if (x.to.content.type !== 'InteractionSimple') return false;
-    if (x.unsuitableForNonMatchingDecompositionReduction === true) return false;
-    if (x.to.content.operatorType !== "Composition") return false;
-    return true;
-  };
-
-  var b = _.find(graph.edges, matchEdge);
-
-  while (b !== undefined) {
-
-
-    // Get the composition nodes at the extremity of this edge
-    var n1 = b.to;
-    // console.log(">>>>>>>>" + n1.content.operator);
-
-    var op = _.words(_.trim(n1.content.operator, '{}'), /[^:$]+/g);
-
-    // console.log(op);
-
-    var code = "";
-    var ports = ["in"];
-    _.forEach(op, function(x, index) {
-      code = code.concat("<%=a" + (index + 1) + "%> = <%=a0%>['" + x + "'];\n");
-      ports.push["out"];
-    });
-
-
-    // Create the new node
-    var newNode = {
-      'id': _.uniqueId("node"),
-      'interaction': {
-        'type': 'InteractionNative',
-        'content': code
-      },
-      ports: ports,
-      'finished': false
-    };
-    graph.nodes.push(newNode);
-
-    var edge1 = {
-      type: 'ast',
-      id: _.uniqueId("edge"),
-      to: b.from,
-      toIndex: b.from.index,
-      from: newNode,
-      fromIndex: 0
-    };
-    var edge2 = {
-      type: 'ast',
-      id: _.uniqueId("edge"),
-      to: newNode,
-      toIndex: 0,
-      from: b.from,
-      fromIndex: b.from.index
-    };
-    graph.edges.push(edge1);
-    graph.edges.push(edge2);
-
-    var i;
-
-    for (i = 1; i <= op.length; i++) {
-
-      _.forEach(_.filter(graph.edges, function(x) {
-        return (x.type === 'ast' && x.from === b.to && x.from.index === i && x.to.finished !== true);
-      }), function(x) {
-        var edge3 = {
-          type: 'ast',
-          id: _.uniqueId("edge"),
-          to: x.to,
-          toIndex: x.to.index,
-          from: newNode,
-          fromIndex: i
-        };
-        var edge4 = {
-          type: 'ast',
-          id: _.uniqueId("edge"),
-          to: newNode,
-          toIndex: i,
-          from: x.to,
-          fromIndex: x.to.index
-        };
-        graph.edges.push(edge3);
-        graph.edges.push(edge4);
-      });
-
-
-    }
-
-    n1.finished = true;
-    b.unsuitableForNonMatchingDecompositionReduction = true;
-    var b = _.find(graph.edges, matchEdge);
-  }
-
-}
-
-
-
-
-
-
-
-
-// Use tarjan algorithm to order the graph
-function orderGraph(graph) {
-  var matchUnmarkedNode = function(x) {
-    return (x.finished !== true && x.markedDuringGraphOrdering !== true);
-  };
-
-  var orderingList = [];
-
-  var b = _.find(graph.nodes, matchUnmarkedNode);
-  while (b !== undefined) {
-    visit(b);
-    b = _.find(graph.nodes, matchUnmarkedNode);
-  }
-
-
-  function visit(n) {
-    if (n.temporarilyMarkedDuringGraphOrdering === true) {
-      //TODO Add traceback to initial AST (change code everywhere in order to add traceability)
-      throw "Error, the DAG contains cycles !"
-    } else {
-      if (n.markedDuringGraphOrdering !== true) {
-        n.temporarilyMarkedDuringGraphOrdering = true;
-        _.forEach(graph.nodes, function(m) {
-          if (m.finished !== true && _.find(graph.edges, {
-              type: 'DataFlowEdge',
-              from: n,
-              to: m,
-              finished: false
-            })) {
-            visit(m);
-          }
-        });
-        n.markedDuringGraphOrdering = true;
-        n.temporarilyMarkedDuringGraphOrdering = false;
-        orderingList.unshift(n);
-      }
-    }
-
-  }
-
-
-  // _.forEach(_.filter(graph.nodes,matchUnmarkedNode),function(x){visit(x);});
-
-  // The list is now ordered ! (Hopefully)
-  //  We write the order in the nodes
-  _.forEach(orderingList, function(node, index) {
-    // console.log(index + "     " + node.content.content);
-    node.executionOrder = index;
-  });
-  // console.log("There are "+orderingList.length+" nodes");
 }
 
 
 // TODO
 // Here we solve the cases where several signals come or go from the same node with the same port number.
 function resolveMultiplePorts(graph) {
+
+  graph
+  .matchUndirectedEdges({type:'ast'})
+  .forEach(theEdge=>{theEdge.from.multiResolved=false;theEdge.to.multiResolved=false;})
+  .commit();
+
+
+  // Resolve multiple output
+  graph
+  .reduceUndirectedEdges({type:'ast',from:{multiResolved:false}},
+    (theResult,theEdge)=>{
+    let direct = portIsOnlyMadeOf( theEdge.from.ports,'out');
+    let indirect = portIsOnlyMadeOf( theEdge.to.ports,'out');
+    if(direct === indirect){
+      console.log('Useless edge '+theEdge.id);
+      graph.finish(theEdge);
+      return;
+    };
+    let theRightEdge = direct?_.clone(theEdge):graph.inverse(theEdge);
+
+  // Now we have theRightEdge, with data that goes from its "from" to its "to"
+  // theRightEdge is in the direction fo the data flow
+    // Resolve multiple output on this edge origin
+    let similarOutputEdges =
+    graph
+    .matchUndirectedEdges({type:'ast',from:{node:theRightEdge.from.node,index:theRightEdge.from.index}})
+    .forEach(theOtherEdge=>{
+      theEdge.from.multiResolved=true;
+    })
+    .value();
+    if(_(similarOutputEdges).size()>1) {
+      // We have a multiple output condition
+      let code = "";
+      let ports = ["in"];
+      _(similarOutputEdges)
+      .forEach((similarEdge,index)=>{
+        code = code + "<%=a"+(index+1)+"%> = <%=a0%>;\n";
+        ports.push("out");
+      })
+      .commit();
+
+      let newNode =
+      graph
+      .addNode({type:'ast',content:{type:'InteractionNative',content:code},ports : ports});
+
+      graph
+      .addEdge({type:'ast',from:{multiResolved:true,node:theRightEdge.from.node,index:theRightEdge.from.index},to:{multiResolved:true,node:newNode,index:0}});
+
+      _(similarOutputEdges)
+      .forEach((similarEdge,index)=>{
+        graph
+        .addEdge({type:'ast',from:{multiResolved:true,node:newNode,index:index+1},to:similarEdge.to});
+  // TODO I Should be able to do that
+  // graph.finish(similarEdge);
+  // But i have to do the following instead because the graph.matchUndirectedEdges returns copies of the edges and not the edges themselves
+  graph.finish(graph.findDirectedEdge({id:similarEdge.id}));
+      })
+      .commit();
+    }else if(_(similarOutputEdges).size()<1) {
+      throw ('what ? that should be impossible');
+    }
+
+    // Resolve multiple input on this edge destination
+    let similarInputEdges =
+    graph
+    .matchUndirectedEdges({type:'ast',to:{node:theRightEdge.to.node,index:theRightEdge.to.index}})
+    .forEach(theOtherEdge=>{
+      //TODO SCANDAL REMOVE THE NEXT LINE
+      theEdge.from.multiResolved=true;
+
+      theEdge.to.multiResolved=true;})
+    .value();
+    if(_(similarInputEdges).size()>1) {
+      // We have a multiple input condition
+        let code = "<%=a0%>=null;\n";
+        let ports = ["out"];
+        _(similarInputEdges)
+        .forEach((similarEdge,index)=>{
+          code = code + "if(<%=a0%>===null ){\n  <%=a0%> = <%=a"+(index+1)+"%>;\n} else if (<%=a"+(index+1)+"%> !== null){\n  throw('error:multiple active assignment to the same interaction');\n}";
+          ports.push("in");
+        })
+        .commit();
+
+        let newNode =
+        graph
+        .addNode({type:'ast',content:{type:'InteractionNative',content:code},ports : ports});
+
+        graph
+        .addEdge({type:'ast',to:{multiResolved:true,node:theRightEdge.to.node,index:theRightEdge.to.index},from:{multiResolved:true,node:newNode,index:0}});
+
+        _(similarInputEdges)
+        .forEach((similarEdge,index)=>{
+          graph
+          .addEdge({type:'ast',to:{multiResolved:true,node:newNode,index:index+1},from:similarEdge.from});
+          console.log("finishing edge "+similarEdge.id);
+          // TODO I Should be able to do that
+          // graph.finish(similarEdge);
+          // But i have to do the following instead because the graph.matchUndirectedEdges returns copies of the edges and not the edges themselves
+          graph.finish(graph.findDirectedEdge({id:similarEdge.id}));
+        })
+        .commit();
+
+
+
+      }else if(_(similarInputEdges).size()<1) {
+        throw ('what ? that should be impossible');
+      }
+
+      createDataFlowDirection(graph);
+
+
+
+  });
+
+
+
   // var matchNode = function(x) {
   //   if (x.content === undefined) return false;
   //   return x.hasUniquePorts !== true && x.finished !== true;
@@ -956,61 +848,153 @@ function resolveMultiplePorts(graph) {
 
 
 
+// Use tarjan algorithm to order the graph
+function orderGraph(graph) {
+
+  let orderingList = [];
+
+  graph
+  .matchNodes({type:'ast'})
+  .forEach(x=>{x.markedDuringGraphOrdering=false;})
+  .commit();
+
+  graph
+  .reduceNodes({markedDuringGraphOrdering:false},
+  (theResult,theNode)=>{
+    visit(theNode);
+  });
+
+  function visit(n) {
+
+    if (n.temporarilyMarkedDuringGraphOrdering === true) {
+      //TODO Add traceback to initial AST (change code everywhere in order to add traceability)
+      throw "Error, the DAG contains cycles !"
+    } else {
+      if (n.markedDuringGraphOrdering !== true) {
+        n.temporarilyMarkedDuringGraphOrdering = true;
+        graph
+        .matchNodes(m=>
+          graph
+          .matchUndirectedEdges({type: 'ast',from: {node:n},to: {node:m}})
+          .filter(edge => portIsOnlyMadeOf(edge.from.ports,'out') && portIsOnlyMadeOf(edge.to.ports,'in') )
+          .size() > 0)
+        .forEach(visit)
+        .commit();
+
+        n.markedDuringGraphOrdering = true;
+        n.temporarilyMarkedDuringGraphOrdering = false;
+        orderingList.unshift(n);
+      }
+    }
+
+  }
+
+
+  // The list is now ordered ! (Hopefully)
+  //  We write the order in the nodes
+  _(orderingList)
+  .forEach((node, index) =>{node.executionOrder = index;})
+  .commit();
+
+
+}
+
+
+
 
 
 // TODO finish tht
 function instantiateTemplates(graph) {
-  var matchNode = function(x) {
-    if (x.content === undefined) return false;
-    return x.content.type === "InteractionNative" && x.finished !== true && x.codeGeneration === undefined;
-  };
 
-  var b = _.find(graph.nodes, matchNode);
-  while (b !== undefined) {
-    var i;
-    // TODO extend i in case bigger interactions happen !
-    var edgesNameList = {};
-    for (i = 0; i < 1000; i++)  {
+  graph
+  .matchNodes({type:'ast'})
+  .forEach(n=>{n.shouldDoCodeGeneration=true;n.codeGeneration=false;})
+  .commit();
 
-      var incomingEdgesforCurrentI = _.filter(graph.edges, {
-        type: 'DataFlowEdge',
-        from: {
-          finished: false
-        },
-        to: b,
-        toIndex: i,
-        finished: false
-      });
-      var outgoingEdgesforCurrentI = _.filter(graph.edges, {
-        type: 'DataFlowEdge',
-        to: {
-          finished: false
-        },
-        from: b,
-        fromIndex: i,
-        finished: false
-      });
+  graph
+  .reduceNodes({type:'ast',content:{type:"InteractionNative"},shouldDoCodeGeneration:true},
+  (theResult,theNode)=>{
 
-      if (_.isEmpty(incomingEdgesforCurrentI) && _.isEmpty(outgoingEdgesforCurrentI)) {
-        //TODO We sequentially did the arguments of the node until we found a i for which there is no argument.
-        // We are probably finished but are we sure ??....
-        break;
-      } else if (incomingEdgesforCurrentI.length === 1 && outgoingEdgesforCurrentI.length === 0) {
-        edgesNameList["a" + i] = incomingEdgesforCurrentI[0].id;
-      } else if (incomingEdgesforCurrentI.length === 0 && outgoingEdgesforCurrentI.length === 1) {
-        edgesNameList["a" + i] = outgoingEdgesforCurrentI[0].id;
+    let theArgs = {};
+    let shouldGenerate = true;
+
+    _(theNode.ports)
+    .forEach((port,index)=>{
+      // Normally there should be no duplicated edges, we assume there arent any, and use graph.find to find the only one:
+      let edge =
+      graph
+      .findUndirectedEdge({type:'ast',from:{node:theNode,index:index}});
+      if(edge === undefined) {
+        // This node is missing some links
+        console.log("Missing links on node "+theNode.id);
+        shouldGenerate = false;
       } else {
-        throw 'Error: a node has several edges going on the same port'
+        theArgs["a"+index]=edge.id;
       }
+    })
+    .commit();
+
+    if(shouldGenerate){
+      // console.log(theArgs)
+      theNode.codeGeneration = {'js': _.template(theNode.content.content)(theArgs)};
     }
 
+    theNode.shouldDoCodeGeneration = false;
 
-    b.codeGeneration = {
-      'js': _.template(b.content.content)(edgesNameList)
-    };
+  });
 
-    var b = _.find(graph.nodes, matchNode);
-  }
+  //
+  // var matchNode = function(x) {
+  //   if (x.content === undefined) return false;
+  //   return x.content.type === "InteractionNative" && x.finished !== true && x.codeGeneration === undefined;
+  // };
+  //
+  // var b = _.find(graph.nodes, matchNode);
+  // while (b !== undefined) {
+  //   var i;
+  //   // TODO extend i in case bigger interactions happen !
+  //   var edgesNameList = {};
+  //   for (i = 0; i < 1000; i++)  {
+  //
+  //     var incomingEdgesforCurrentI = _.filter(graph.edges, {
+  //       type: 'DataFlowEdge',
+  //       from: {
+  //         finished: false
+  //       },
+  //       to: b,
+  //       toIndex: i,
+  //       finished: false
+  //     });
+  //     var outgoingEdgesforCurrentI = _.filter(graph.edges, {
+  //       type: 'DataFlowEdge',
+  //       to: {
+  //         finished: false
+  //       },
+  //       from: b,
+  //       fromIndex: i,
+  //       finished: false
+  //     });
+  //
+  //     if (_.isEmpty(incomingEdgesforCurrentI) && _.isEmpty(outgoingEdgesforCurrentI)) {
+  //       //TODO We sequentially did the arguments of the node until we found a i for which there is no argument.
+  //       // We are probably finished but are we sure ??....
+  //       break;
+  //     } else if (incomingEdgesforCurrentI.length === 1 && outgoingEdgesforCurrentI.length === 0) {
+  //       edgesNameList["a" + i] = incomingEdgesforCurrentI[0].id;
+  //     } else if (incomingEdgesforCurrentI.length === 0 && outgoingEdgesforCurrentI.length === 1) {
+  //       edgesNameList["a" + i] = outgoingEdgesforCurrentI[0].id;
+  //     } else {
+  //       throw 'Error: a node has several edges going on the same port'
+  //     }
+  //   }
+  //
+  //
+  //   b.codeGeneration = {
+  //     'js': _.template(b.content.content)(edgesNameList)
+  //   };
+  //
+  //   var b = _.find(graph.nodes, matchNode);
+  // }
 }
 
 
@@ -1033,7 +1017,7 @@ function generateJsCode(graph, header) {
       return "var " + x.id + " = inactive;\n"
     }).join(""),
     'nodesCode': _.pluck(_.pluck(_.sortBy(_.filter(graph.nodes, matchNode), 'executionOrder'), 'codeGeneration'), 'js').join("\n"),
-    'statesCode': _.map(_.pluck(_.filter(graph.nodes, matchStateNode), 'id'), function(x) {
+    'statesCode': _.map(_.pluck(_.filter(graph.nodes, matchStateNode), 'stateVariableName'), function(x) {
       return x + ":null"
     }).join(",\n"),
     'customHeader': header,
@@ -1079,8 +1063,14 @@ function generateJsCode(graph, header) {
   // console.log(initCode);
   // console.log("==================================================================");
   return {
-    transitionFunction: new Function("data", transCode),
-    initializationFunction: new Function(initCode)
+    source:_.template(jsSourceTemplate)({
+      transitionFunction:  transCode ,
+      initializationFunction: initCode
+    }),
+    executable:{
+      transitionFunction: new Function("data", transCode),
+      initializationFunction: new Function(initCode)
+    }
   };
 }
 
@@ -1095,6 +1085,121 @@ var nextState = clone(previousState);\n\
 var active = 1;\n\
 var inactive = null;\n\
 ';
+
+var jsSourceTemplate =
+'function transitionFunction(data){\n<%=transitionFunction%>\n}\n\nfunction initializationFunction(data){\n<%=initializationFunction%>\n}\n\nmodule.export={transitionFunction:  transitionFunction ,initializationFunction: initializationFunction};';
+
+
+
+
+
+
+
+
+
+
+
+//TODO Interfaces instead of ports
+function mergePortList(x, y) {
+  if (_.isArray(x)) {
+    if (_.isArray(y)) {
+      let i = 0;
+      let res = [];
+      for (i = 0; i < Math.max(x.length, y.length); i++) {
+        res[i] = mergePortList(x[i], y[i]);
+      }
+      return res;
+    } else if (_.isString(y)) {
+      // reduce interface to data type
+      if(portIsOnlyMadeOf(x,y))return y;
+    } else if (_.isUndefined(y)) {
+      return _.clone(x);
+    } else {
+      throw "error : portLists should be strings or arrays of strings";
+    }
+  } else if (_.isString(x)) {
+    if (_.isArray(y)) {
+      // reduce interface to data type
+      if(portIsOnlyMadeOf(y,x))return x;
+    } else if (_.isString(y)) {
+      if (x === y) return x
+      else throw "error : trying to merge incompatible ports "+ x + " and "+ y;
+    } else if (_.isUndefined(y)) {
+      return x;
+    } else {
+      throw "error : portLists should be strings or arrays of strings";
+    }
+  } else if (_.isUndefined(x)) {
+    if (_.isArray(y)) {
+      return _.clone(y);
+    } else if (_.isString(y)) {
+      return y;
+      throw "error : trying to merge incompatible ports "+ x + " and "+ y;
+    } else if (_.isUndefined(y)) {
+      return;
+    } else {
+      throw "error : portLists should be strings or arrays of strings";
+    }
+  } else {
+    throw "error : portLists should be strings or arrays of strings";
+  }
+}
+
+// Check if ports like ['in','in'] are compatible with 'in'
+function portIsOnlyMadeOf(x,s){
+  if (_.isArray(x)) {
+    let i = 0;
+    let res = true;
+    for (i = 0; i < x.length; i++) {
+      res = res && portIsOnlyMadeOf(x[i],s) ;
+    }
+    return res;
+  } else if (_.isString(x)) {
+    if(x===s){
+      return true;
+    }else {
+      return false;
+    }
+  } else if (_.isUndefined(x)) {
+    return false;
+  } else {
+    throw "error : port should be arrays of strings or strings";
+  }
+}
+
+// ['in','out','out'] -> ['out','in','in']
+function conjugatePort(x) {
+  if (_.isArray(x)) {
+    let i = 0;
+    let res = [];
+    for (i = 0; i < x.length; i++) {
+      res[i] = conjugatePort(x[i]);
+    }
+    return res;
+  } else if (_.isString(x)) {
+    if(x==='in'){
+      return'out'
+    }else if (x==='out'){
+      return 'in';
+    }else {
+      throw "error : port should be in our out or arrays of in and out";
+    }
+  } else if (_.isUndefined(x)) {
+    return undefined;
+  } else {
+    throw "error : port should be arrays of strings or strings";
+  }
+}
+
+
+
+
+
+
+
+
+
+
 
 
 

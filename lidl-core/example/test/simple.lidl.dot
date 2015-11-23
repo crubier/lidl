@@ -1,14 +1,14 @@
-digraph g{node_367 [shape=box, style=filled, color="0.66 0.1 1.0", fontname="Courier", label="node_367
-
+digraph g{node_507 [shape=box, style=filled, color="0.66 0.1 1.0", fontname="Courier", label="node_507
+1
 <%=a0%>=theInterface.theNumber;
 " ]
-node_368 [shape=box, style=filled, color="0.66 0.1 1.0", fontname="Courier", label="node_368
-
+node_508 [shape=box, style=filled, color="0.66 0.1 1.0", fontname="Courier", label="node_508
+2
 theInterface.theResult=<%=a0%>;
 " ]
-node_384 [shape=box, style=filled, color="0.66 0.1 1.0", fontname="Courier", label="node_384
-
+node_525 [shape=box, style=filled, color="0.66 0.1 1.0", fontname="Courier", label="node_525
+0
 <%=a0%> = active;
 " ]
-node_368 -> node_367 [dir=none, arrowHead=none, fontname="Times-Italic", label="edge_399",  headlabel="0", taillabel="0" ]
+node_508 -> node_507 [dir=none, arrowHead=none, fontname="Times-Italic", label="edge_540",  headlabel="0", taillabel="0" ]
 }

@@ -34,7 +34,9 @@
     "scriptPreprocessor": "../node_modules/babel-jest",
     "testFileExtensions": ["es6", "js"],
     "moduleFileExtensions": ["js", "json", "es6"]
-
+  },
+  "babel": {
+    "retainLines": true
   },
   "dependencies": {
     "lodash": "^3.10.1"

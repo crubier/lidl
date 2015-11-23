@@ -200,7 +200,7 @@ class Graph {
     }).forEach((x) => (res += nodeTemplate1(x))).commit();
 
 
-    var nodeTemplate2 = _.template('<%=id%> [shape=box, style=filled, color="0.66 0.1 1.0", fontname="Courier", label="<%=id%>\n<% ""/*executionOrder?executionOrder:""*/ %>\n<%=content.content%>" ]\n');
+    var nodeTemplate2 = _.template('<%=id%> [shape=box, style=filled, color="0.66 0.1 1.0", fontname="Courier", label="<%=id%>\n<%=executionOrder%>\n<%=content.content%>" ]\n');
 
     this.matchNodes({
       type: 'ast',
