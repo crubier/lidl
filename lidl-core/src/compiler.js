@@ -33,6 +33,7 @@ function compileToIii(source) {
 }
 
 function compileToGraph(source) {
+    console.log("===========================================")
   var graph = new Graph();
   var mainDef = parser.parse(source)[0];
 
@@ -54,15 +55,9 @@ function compileToGraph(source) {
   functionLiteralLinking(graph);
   functionApplicationLinking(graph);
   previousNextLinking(graph);
-
-// TODO Reorder compositions so they match
-// reorderComposition(graph);
-
   tagCompositionElementEdges(graph);
-
-  // matchingCompositionReduction(graph);
-
-  // createDataFlowDirection(graph);
+  matchingCompositionReduction(graph);
+  createDataFlowDirection(graph);
   // nonMatchingCompositionCompilation(graph);
   // createDataFlowDirection(graph);
   // nonMatchingDecompositionCompilation(graph);
@@ -79,7 +74,7 @@ function addInteractionToGraph(graph, interaction) {
   var rootNode;
   switch (interaction.type) {
     case 'InteractionSimple':
-      rootNode = graph.addNode({type:'ast',content: interaction});
+      rootNode = graph.addNode({type:'ast',content: interaction,ports:[]});
       let nodeOfOperand = _.map(interaction.operand, operand=> addInteractionToGraph(graph, operand));
       _(nodeOfOperand)
       .forEach((x, index) => {
@@ -89,7 +84,7 @@ function addInteractionToGraph(graph, interaction) {
       .commit()
       break;
     case 'InteractionNative':
-      rootNode = graph.addNode({type:'ast',content: interaction});
+      rootNode = graph.addNode({type:'ast',content: interaction,ports:[]});
       break;
     default:
       throw new Error('trying to transform into a graph invalid interaction');
@@ -119,13 +114,13 @@ function addInterfaceToGraph(graph, interfac, prefix) {
       }
       break;
     case "InterfaceComposite":
+      let nodeOfElement = _.map(interfac.element, x => addInterfaceToGraph(graph, x.value, prefix + "." + x.key));
       rootNode =
       graph
       .addNode({type:'ast', content:{
         type: "InteractionSimple",
         operator: interfacs.toOperator(interfac)
-      }});
-      let nodeOfElement = _.map(interfac.element, x => addInterfaceToGraph(graph, x.value, prefix + "." + x.key));
+      },ports:_.map(nodeOfElement,'ports')});
       _.forEach(nodeOfElement, (x, index) => graph.addEdge({type:'ast',content:interfac, from:{node: rootNode,index:index+1}, to:{node:x,index:0}}));
       break;
     default:
@@ -167,26 +162,69 @@ function referentialTransparency(graph) {
     (theResult,theNode)=>{
     let newNode =
       graph
-      .addNode({type: 'ast',content: theNode.content,referentialTransparencySolved: true});
+      .addNode({type: 'ast',content: theNode.content,referentialTransparencySolved: true,ports:theNode.ports});
     let nodesSimilarToTheNode =
       graph
       .matchNodes({type:'ast',content: {type: 'InteractionSimple'},referentialTransparencySolved: false})
       .filter(x=>_.isEqual(x.content, theNode.content,(a, b)=>(interactions.compare(a, b) === 0)))
-      .forEach(x=>
+      .forEach(x=>{
+        newNode.ports=mergePortList(newNode.ports,x.ports);
         graph
         .matchUndirectedEdges({type:'ast',to:{node:x}})
         .forEach(y=>
           graph
           .addEdge({type:'ast',from:y.from,to:{node:newNode,index:y.to.index}}))
-        .commit())
+        .commit();})
       .forEach(x=>graph.finish(x))
       .tap(x=>(theNode.referentialTransparencySolved=true))
       .commit();
     });
 }
 
+//TODO Interfaces instead of ports
+function mergePortList(x,y){
+
+    if(_.isArray(x)){
+      if(_.isArray(y)){
+        let i = 0;
+        let res = [];
+        for(i=0;i<Math.max(x.length,y.length);i++){
+          res[i] = mergePortList(x[i],y[i]);
+        }
+        return res;
+      }else if (_.isString(y)){
+          throw "error : trying to merge incompatible ports";
+      }else if(_.isUndefined(y)) {
+        return x;
+      } else {
+        throw "error : portLists should be arrays of strings";
+      }
+    }else if (_.isString(x)){
+      if(_.isArray(y)){
+    throw "error : trying to merge incompatible ports";
+      }else if (_.isString(y)){
+      if(x===y)return x else throw "error : trying to merge incompatible ports";
+  }else if(_.isUndefined(y)) {
+    return x;
+  } else {
+    throw "error : portLists should be arrays of strings";
+  }
+}else if(_.isUndefined(x)) {
+  if(_.isArray(y)){
+    return y;
+      }else if (_.isString(y)){
+      throw "error : trying to merge incompatible ports";
+  }else if(_.isUndefined(y)) {
+    return;
+  } else {
+    throw "error : portLists should be arrays of strings";
+  }
+} else {
+  throw "error : portLists should be arrays of strings";
+}
 
 
+}
 
 
 function linkIdentifiers(graph) {
@@ -342,93 +380,179 @@ function tagCompositionElementEdges(graph){
       _(theEdge.from.node.content.operator)
       .words( /[^,:\{\}\$]+/g)[theEdge.from.index-1];
   })
+  .filter({to:{node:{type: 'ast',content: {type: 'InteractionSimple',operatorType:'Composition'}}}})
+  .forEach( theEdge => {
+    if(theEdge.to.index>0)
+    theEdge.to.compositionElementName =
+      _(theEdge.to.node.content.operator)
+      .words( /[^,:\{\}\$]+/g)[theEdge.to.index-1];
+    })
   .commit();
 
 
 }
 
-
-//
+// This is an important graph transform. It deals with the mess of having several linked composition interaction
 function matchingCompositionReduction(graph) {
-// // Mark all
-//   graph
-//   .matchUndirectedEdges({type:'ast',unSuitableForCompositionReduction:false,from:{index:0,node:{type: 'ast',content: {type: 'InteractionSimple',operatorType:'Composition'}}},to:{index:0,node:{type: 'ast',content: {type: 'InteractionSimple',operatorType:'Composition'}}}})
-//   .forEach( theEdge => (theEdge.unSuitableForCompositionReduction=false))
-//   .commit();
 
 // // Mark all
   graph
   .matchNodes({type: 'ast',content: {type: 'InteractionSimple',operatorType:'Composition'}})
-  .forEach( theNode => (theNode.unSuitableForCompositionReduction=false))
+  .forEach( theNode => {theNode.unSuitableForCompositionReduction=false;theNode.didCompositionReduction=false;})
   .commit();
 
   // Now that's tricky !
+  // First we find composition nodes that arent treated yet
   graph
   .reduceNodes({type: 'ast',unSuitableForCompositionReduction:false,content: {type: 'InteractionSimple',operatorType:'Composition'}},
   (theResult,n1)=>{
+    // We find the edges that could lead to composition nodes that match the current node AND that arent treated yet
     graph
-    .matchUndirectedEdges({type: 'ast',from:{node:n1},to:{node:{type: 'ast',unSuitableForCompositionReduction:false,content: {type: 'InteractionSimple',operatorType:'Composition'}}}})
+    .matchUndirectedEdges({type: 'ast',from:{node:n1,index:0},to:{index:0,node:{type: 'ast',unSuitableForCompositionReduction:false,content: {type: 'InteractionSimple',operatorType:'Composition'}}}})
     .forEach(middleEdge=>{
+      // We have the edge so now we know the matching composition node
       let n2= middleEdge.to.node;
+
+      // For each edge going to the matching node, we add an edge that goes to the current node with a special label on the port so we dont confuse with edges that already go to it
       graph
-      .matchUndirectedEdges({type: 'ast',from:{node:n1}})
-      .reject(e=>_.isUndefined(e.from.compositionElementName))
-      .forEach(e1=>{
-        let dest1 = [e1.to];
-        // while(dest1.node ===n1 || dest1.node === n2 ) {
-        //   if(dest1.node ===n1) {
-        //
-        //   }
-        // }
+      .matchUndirectedEdges({type: 'ast',from:{node:n2}})
+      .reject(e2=>_.isUndefined(e2.from.compositionElementName))
+      .forEach(e2=>{
+        let d2 = e2.to;
+        if(d2.node === n2)d2={node:n1,coCompositionElementName:e2.to.compositionElementName,isCoPort:true};
         graph
-        .matchUndirectedEdges({type: 'ast',from:{node:n2,compositionElementName:e1.from.compositionElementName}})
-        .forEach(e2=>{
-          let dest2 = [e2.to];
-          graph
-          .addEdge({type:'ast',from:dest1,to:dest2});})
-        .commit();
-        })
-      .commit();})
+        .addEdge({type:'ast',from:{node:n1,coCompositionElementName:e2.from.compositionElementName,isCoPort:true},to:d2});})
+      .commit();
+
+      // We can mark this node as done
+      n1.didCompositionReduction=true;
+      n2.didCompositionReduction=true;})
     .commit();
     n1.unSuitableForCompositionReduction=true;
+
   });
 
-  //
-  // graph
-  // .reduceUndirectedEdges({type:'ast',unSuitableForCompositionReduction:false,from:{index:0,node:{type: 'ast',content: {type: 'InteractionSimple',operatorType:'Composition'}}},to:{index:0,node:{type: 'ast',content: {type: 'InteractionSimple',operatorType:'Composition'}}}},
-  // (theResult,theEdge)=>{
-  //
-  //     let n1 = theEdge.from.node;
-  //     let n2 = theEdge.to.node;
-  //
-  //     if(n1 === n2) {
-  //       throw "Bizarre configuration";
-  //     } else {
-  //       graph
-  //       .matchUndirectedEdges({type:'ast',from:{node:n1}})
-  //       .forEach(e1=>
-  //         graph
-  //         .matchUndirectedEdges({type:'ast',from:{node:n2,compositionElementName:e1.compositionElementName}})
-  //         .forEach(e2=>{
-  //           let end1 = e1.to;
-  //           let end2 = e2.to;
-  //           if(end1.node === n1) {
-  //
-  //           } else if (end1.node === n2){
-  //
-  //           }
-  //
-  //         })
-  //         .commit())
-  //       .commit();
-  //     }
-  //     graph
-  //     .finish(n1);
-  //     graph
-  //     .finish(n2);
-  //   // };
-  //   theEdge.unSuitableForCompositionReduction = true;
-  // });
+  // Now its time to reduce all this mess !
+  graph
+  .matchNodes({type: 'ast',didCompositionReduction:true})
+  .forEach(n1=>{
+      console.log("-----------------------------------------------");
+      console.log(n1.id);
+
+      // Lets build a graph of the situation inside the Composition Node. Wiring between ports and co ports
+      // Each Node of the internal graph represents a port of the Composition node
+      let internalGraph = new Graph();
+
+      let coPortsFrom =
+      graph
+      .matchDirectedEdges({type: 'ast',from:{node:n1}})
+      .filter(x=>(x.from.isCoPort===true))
+      .map(x=>({port:x.from,closed:false}))
+      .value();
+
+      let coPortsTo =
+      graph
+      .matchDirectedEdges({type: 'ast',to:{node:n1}})
+      .filter(x=>(x.to.isCoPort===true))
+      .map(x=>({port:x.from,closed:false}))
+      .value();
+
+      let coPortNodes = {};
+      _([coPortsFrom,coPortsTo])
+      .flatten()
+      .sortBy("port.coCompositionElementName")
+      .unique(true,"port.coCompositionElementName")
+      .forEach(x=>{coPortNodes[x.port.coCompositionElementName]=internalGraph.addNode(x);})
+      .commit();
+
+      let portsFrom =
+      graph
+      .matchDirectedEdges({type: 'ast',from:{node:n1}})
+      .filter(x=>(x.from.isCoPort!==true))
+      .map(x=>({port:x.from,closed:false}))
+      .value();
+
+      let portsTo =
+      graph
+      .matchDirectedEdges({type: 'ast',to:{node:n1}})
+      .filter(x=>(x.to.isCoPort!==true))
+      .map(x=>({port:x.to,closed:false}))
+      .value();
+
+      let portNodes = {};
+      _([portsFrom,portsTo])
+      .flatten()
+      .sortBy("port.compositionElementName")
+      .unique(true,"port.compositionElementName")
+      .forEach(x=>{portNodes[x.port.compositionElementName]=internalGraph.addNode(x);})
+      .commit();
+
+      // Connect Ports with their respective coPorts in the internal graph
+      internalGraph
+      .matchNodes({port:{isCoPort:true}})
+      .forEach(n1=>{
+        internalGraph
+        .matchNodes({port:{compositionElementName:n1.port.coCompositionElementName}})
+        .filter(x=>(x.port.isCoPort!==true))
+        .forEach(n2=>
+          internalGraph.addEdge({type:'normal',from:{node:n1},to:{node:n2}}))
+        .commit();})
+      .commit();
+
+      // Add loops between ports of the composition node to the internal graph
+      graph
+      .matchUndirectedEdges({type: 'ast',from:{node:n1},to:{node:n1}})
+      .reject(e=>(_.isUndefined((e.from.compositionElementName)&&_.isUndefined(e.from.coCompositionElementName))||(_.isUndefined(e.to.compositionElementName)&&_.isUndefined(e.to.coCompositionElementName))))
+      .forEach(e=>{
+        let origin = (e.from.isCoPort===true) ? coPortNodes[e.from.coCompositionElementName] : portNodes[e.from.compositionElementName];
+        let dest = (e.to.isCoPort===true) ? coPortNodes[e.to.coCompositionElementName] : portNodes[e.to.compositionElementName];
+        internalGraph.addEdge({type:'loop',from:{node:origin},to:{node:dest}});
+      })
+      .commit();
+
+      // Transitively close the internal graph
+      internalGraph
+      .reduceNodes({closed:false},
+        (theResult,theNode)=>{
+          console.log("  > "+theNode.id);
+          internalGraph
+          .matchUndirectedEdges({from:{node:theNode}})
+          .forEach(e1=>{
+            internalGraph
+            .matchUndirectedEdges({from:{node:theNode}})
+            .filter(e2=>(e2.id>e1.id))
+            .forEach(e2=>{
+              internalGraph
+              .addEdge({type:'closure',from:{node:e1.to},to:{node:e2.to}});})
+            .commit();})
+          .commit();
+          theNode.closed = true;});
+
+      // Ok ! Now the internal graph is complete, we can start wiring edges in the main graph
+      internalGraph
+      .matchUndirectedEdges({from:{node:{port:{}}},to:{node:{port:{}}}})
+      .filter(x=>(x.to.node.port.isCoPort!==true && x.from.node.port.isCoPort===true))
+      .forEach(internalEdge=>{
+        console.log("xxxx")
+        graph
+        .matchUndirectedEdges({from:{node:n1,coCompositionElementName:internalEdge.from.node.port.coCompositionElementName}})
+        .forEach(coEdge=>{
+          graph
+          .matchUndirectedEdges({from:{node:n1,compositionElementName:internalEdge.to.node.port.compositionElementName}})
+          .forEach(edge=>{
+            console.log("ADD  "+coEdge.to.node.id+" "+edge.to.node.id);
+            graph
+            .addEdge({type:'ast',from:coEdge.to,to:edge.to});})
+          .commit();})
+        .commit();})
+      .commit();})
+    .commit();
+
+  // Finally we finish the treated composition nodes
+  graph
+  .matchNodes({type: 'ast',didCompositionReduction:true,content: {type: 'InteractionSimple',operatorType:'Composition'}})
+  .forEach( theNode => {graph.finish(theNode);})
+  .commit();
 
 }
 
@@ -438,165 +562,13 @@ function matchingCompositionReduction(graph) {
 
 
 
-
-//
-// // TODO Extend functionality to deal with other nodes between composition interactions
-// // TODO Extend functionality to deal with cases where more than 2 compositions are matching (because of identifier elimination)
-// function matchingCompositionReduction(graph) {
-//
-//   // Here we try to match edges that are in the middle of matching and facing compositions
-//   var matchEdge = function(x) {
-//     if (x.to === undefined) return false;
-//     if (x.from === undefined) return false;
-//     if (x.from.content === undefined) return false;
-//     if (x.to.content === undefined) return false;
-//     if (x.to.index !== 0) return false;
-//     if (x.from.index !== 0) return false;
-//     return (x.unSuitableForCompositionReduction !== true && x.from.content.operatorType === "Composition" && x.from.finished !== true &&
-//       x.to.content.operatorType === "Composition" && x.to.finished !== true && x.from.content.operator === x.to.content.operator);
-//   };
-//   var b = _.find(graph.edges, matchEdge);
-//
-//   while (b !== undefined) {
-//
-//     // Get the composition nodes at the extremities of this edge
-//     var n1 = b.from;
-//     var n2 = b.to;
-//
-//     var cond = true;
-//
-//     // i is the index of the current component
-//     var i = 1;
-//
-//     // For each i
-//     while (cond) {
-//
-//       // Get i-th edge going from the first composition
-//       var e1 = _.find(graph.edges, {
-//         'type': 'ast',
-//         'from': n1,
-//         'fromIndex': i,
-//         'to': {
-//           'finished': false
-//         }
-//       });
-//       // Get i-th edge going from the second composition
-//       var e2 = _.find(graph.edges, {
-//         'type': 'ast',
-//         'from': n2,
-//         'fromIndex': i,
-//         'to': {
-//           'finished': false
-//         }
-//       });
-//
-//       // We should have found the two edges that we want to merge
-//       if (e1 !== undefined && e2 !== undefined) {
-//         // Destinations of the edges we are replacing
-//         var dest1 = e1.to;
-//         var i1 = e1.to.index;
-//         var dest2 = e2.to;
-//         var i2 = e2.to.index;
-//
-//         var targetEdge;
-//
-//         // Special case ! Deal with cases when edges loop onto the very composition interaction that we are destroying !
-//
-//         if (dest1 === n1) {
-//           // first edge looping to first composition node
-//           targetEdge = _.find(graph.edges, {
-//             'type': 'ast',
-//             'from': n2,
-//             'fromIndex': i1,
-//             'to': {
-//               'finished': false
-//             }
-//           });
-//           dest1 = targetEdge.to;
-//           i1 = targetEdge.to.index;
-//         } else if (dest1 === n2) {
-//           // first edge looping to second composition node
-//           targetEdge = _.find(graph.edges, {
-//             'type': 'ast',
-//             'from': n1,
-//             'fromIndex': i1,
-//             'to': {
-//               'finished': false
-//             }
-//           });
-//           dest1 = targetEdge.to;
-//           i1 = targetEdge.to.index;
-//         }
-//
-//         if (dest2 === n2) {
-//           // second edge looping to first composition node
-//           targetEdge = _.find(graph.edges, {
-//             'type': 'ast',
-//             'from': n1,
-//             'fromIndex': i2,
-//             'to': {
-//               'finished': false
-//             }
-//           });
-//           dest2 = targetEdge.to;
-//           i2 = targetEdge.to.index;
-//         } else if (dest2 === n1) {
-//           // second edge looping to second composition node
-//           targetEdge = _.find(graph.edges, {
-//             'type': 'ast',
-//             'from': n2,
-//             'fromIndex': i2,
-//             'to': {
-//               'finished': false
-//             }
-//           });
-//           dest2 = targetEdge.to;
-//           i2 = targetEdge.to.index;
-//         }
-//
-//         // Now that we sorted the correct destination nodes even in corner cases which involve self-loops, we can connect the nodes in question
-//         // General Case
-//         var edge1 = {
-//           type: 'ast',
-//           id: _.uniqueId("edge"),
-//           to: dest1,
-//           toIndex: i1,
-//           from: dest2,
-//           fromIndex: i2
-//         };
-//         var edge2 = {
-//           type: 'ast',
-//           id: _.uniqueId("edge"),
-//           to: dest2,
-//           toIndex: i2,
-//           from: dest1,
-//           fromIndex: i1
-//         };
-//         graph.edges.push(edge1);
-//         graph.edges.push(edge2);
-//         // console.log("ok");
-//         cond = true;
-//       } else {
-//         cond = false;
-//       }
-//
-//       // Go to next pair of components
-//       i = i + 1;
-//     }
-//
-//     // We connected all components, so the two composition nodes are finished
-//     n1.finished = true;
-//     n2.finished = true;
-//     // And the edge is done
-//     b.unSuitableForCompositionReduction = true;
-//     // Find the next potential edge
-//     b = _.find(graph.edges, matchEdge);
-//
-//   }
-// }
-
-
 function createDataFlowDirection(graph) {
+
+  graph.reduceUndirectedEdges({},
+(theResult,theEdge)=>{
+
+});
+
   var matchEdge = function(x) {
     if (x.type !== 'ast') return false;
     if (x.flowManaged === true) return false;

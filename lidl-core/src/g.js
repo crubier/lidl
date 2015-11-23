@@ -210,11 +210,13 @@ class Graph {
     }).forEach((x) => (res += nodeTemplate2(x))).commit();
 
 
-    var edgeTemplate1 = _.template('<%=from.node.id%> -> <%=to.node.id%> [dir=none, arrowHead=none, fontname="Times-Italic", label="<%=id%>", headlabel="<%=to.index%>", taillabel="<%=from.index%>" ]\n');
+    var edgeTemplate1 = _.template('<%=from.node.id%> -> <%=to.node.id%> [dir=none, arrowHead=none, fontname="Times-Italic", label="<%=id%>",  headlabel="<%=to.index%>", taillabel="<%=from.index%>" ]\n');
 
     this.matchUndirectedEdges({
       type: 'ast'
-    }).forEach((x) => (res += edgeTemplate1(x))).commit();
+    })
+    // .map((x) => _.assign(x,{flabel:(x.from.compositionElementName )? (x.from.index + " " + x.from.compositionElementName) :  ("no"+x.from.index) ,tlabel:(x.to.compositionElementName) ? (x.to.index + " " + x.to.compositionElementName) : ("no"+x.to.index)}))
+    .forEach((x) => (res += edgeTemplate1(x))).commit();
 
 
     var edgeTemplate2 = _.template('<%=from.node.id%> -> <%=to.node.id%> [dir=forward, arrowHead=normal, fontname="Times-Italic", arrowsize=2, color="0.83 1.0 1.0", label="<%=id%>", headlabel="<%=to.index%>", taillabel="<%=from.index%>" ]\n');

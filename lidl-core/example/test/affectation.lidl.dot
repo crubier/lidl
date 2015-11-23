@@ -1,10 +1,4 @@
-digraph g{node_26 [shape=ellipse, style=filled, color="0.0 0.1 1.0", label="node_26
-Composition
-{theNumber:$theResult:$}" ]
-node_43 [shape=ellipse, style=filled, color="0.0 0.1 1.0", label="node_43
-Composition
-{theNumber:$theResult:$}" ]
-node_17 [shape=box, style=filled, color="0.66 0.1 1.0", fontname="Courier", label="node_17
+digraph g{node_17 [shape=box, style=filled, color="0.66 0.1 1.0", fontname="Courier", label="node_17
 
 <%=a0%>=theInterface.theNumber;
 " ]
@@ -24,11 +18,8 @@ node_54 [shape=box, style=filled, color="0.66 0.1 1.0", fontname="Courier", labe
 
 if(<%=a0%> === active) {<%=a3%> = <%=a1%>(<%=a2%>);}
 " ]
-node_17 -> node_43 [dir=none, arrowHead=none, fontname="Times-Italic", label="edge_44", headlabel="1", taillabel="0" ]
-node_18 -> node_43 [dir=none, arrowHead=none, fontname="Times-Italic", label="edge_45", headlabel="2", taillabel="0" ]
-node_43 -> node_26 [dir=none, arrowHead=none, fontname="Times-Italic", label="edge_51", headlabel="0", taillabel="0" ]
-node_54 -> node_49 [dir=none, arrowHead=none, fontname="Times-Italic", label="edge_55", headlabel="0", taillabel="0" ]
-node_54 -> node_52 [dir=none, arrowHead=none, fontname="Times-Italic", label="edge_56", headlabel="0", taillabel="1" ]
-node_54 -> node_26 [dir=none, arrowHead=none, fontname="Times-Italic", label="edge_57", headlabel="1", taillabel="2" ]
-node_54 -> node_26 [dir=none, arrowHead=none, fontname="Times-Italic", label="edge_58", headlabel="2", taillabel="3" ]
+node_54 -> node_49 [dir=none, arrowHead=none, fontname="Times-Italic", label="edge_55",  headlabel="0", taillabel="0" ]
+node_54 -> node_52 [dir=none, arrowHead=none, fontname="Times-Italic", label="edge_56",  headlabel="0", taillabel="1" ]
+node_17 -> node_54 [dir=none, arrowHead=none, fontname="Times-Italic", label="edge_68",  headlabel="2", taillabel="0" ]
+node_18 -> node_54 [dir=none, arrowHead=none, fontname="Times-Italic", label="edge_69",  headlabel="3", taillabel="0" ]
 }

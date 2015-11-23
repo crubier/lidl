@@ -1,32 +1,23 @@
-digraph g{node_334 [shape=ellipse, style=filled, color="0.0 0.1 1.0", label="node_334
-Composition
-{theNumber:$theResult:$}" ]
-node_348 [shape=ellipse, style=filled, color="0.0 0.1 1.0", label="node_348
-Composition
-{theNumber:$theResult:$}" ]
-node_325 [shape=box, style=filled, color="0.66 0.1 1.0", fontname="Courier", label="node_325
+digraph g{node_417 [shape=box, style=filled, color="0.66 0.1 1.0", fontname="Courier", label="node_417
 
 <%=a0%>=theInterface.theNumber;
 " ]
-node_326 [shape=box, style=filled, color="0.66 0.1 1.0", fontname="Courier", label="node_326
+node_418 [shape=box, style=filled, color="0.66 0.1 1.0", fontname="Courier", label="node_418
 
 theInterface.theResult=<%=a0%>;
 " ]
-node_354 [shape=box, style=filled, color="0.66 0.1 1.0", fontname="Courier", label="node_354
+node_446 [shape=box, style=filled, color="0.66 0.1 1.0", fontname="Courier", label="node_446
 
 <%=a0%> = active;
 " ]
-node_358 [shape=box, style=filled, color="0.66 0.1 1.0", fontname="Courier", label="node_358
+node_450 [shape=box, style=filled, color="0.66 0.1 1.0", fontname="Courier", label="node_450
 
 if(<%=a0%> === active) {
-<%=a1%> = previousState['state_357'];
-nextState['state_357'] = <%=a2%>;
+<%=a1%> = previousState['state_449'];
+nextState['state_449'] = <%=a2%>;
 }
 " ]
-node_325 -> node_348 [dir=none, arrowHead=none, fontname="Times-Italic", label="edge_349", headlabel="1", taillabel="0" ]
-node_326 -> node_348 [dir=none, arrowHead=none, fontname="Times-Italic", label="edge_350", headlabel="2", taillabel="0" ]
-node_348 -> node_334 [dir=none, arrowHead=none, fontname="Times-Italic", label="edge_356", headlabel="0", taillabel="0" ]
-node_358 -> node_354 [dir=none, arrowHead=none, fontname="Times-Italic", label="edge_359", headlabel="0", taillabel="0" ]
-node_358 -> node_334 [dir=none, arrowHead=none, fontname="Times-Italic", label="edge_360", headlabel="2", taillabel="1" ]
-node_358 -> node_334 [dir=none, arrowHead=none, fontname="Times-Italic", label="edge_361", headlabel="1", taillabel="2" ]
+node_450 -> node_446 [dir=none, arrowHead=none, fontname="Times-Italic", label="edge_451",  headlabel="0", taillabel="0" ]
+node_417 -> node_450 [dir=none, arrowHead=none, fontname="Times-Italic", label="edge_463",  headlabel="2", taillabel="0" ]
+node_418 -> node_450 [dir=none, arrowHead=none, fontname="Times-Italic", label="edge_464",  headlabel="1", taillabel="0" ]
 }
