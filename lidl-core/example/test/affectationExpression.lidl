@@ -4,7 +4,7 @@ with
   (apply (function identity) to (b) and get (a))
 
   interaction (1):Number out is
-  ((variable result1) with behaviour (apply (function return1) to () and get (variable result1)   ))
+  ((variable result1) with behaviour (apply (function return1) to (variable ok) and get (variable result1)   ))
 
   interaction ((a:Number in)+(b:Number in)):Number out is
   ((variable result of (a)+(b))with behaviour

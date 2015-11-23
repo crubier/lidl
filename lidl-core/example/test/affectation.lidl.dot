@@ -16,7 +16,7 @@ node_52 [shape=box, style=filled, color="0.66 0.1 1.0", fontname="Courier", labe
 " ]
 node_54 [shape=box, style=filled, color="0.66 0.1 1.0", fontname="Courier", label="node_54
 3
-if(<%=a0%> === active) {<%=a3%> = <%=a1%>(<%=a2%>);}
+if(<%=a0%> === active && <%=a1%>!==null && <%=a1%>!==undefined) {<%=a3%> = <%=a1%>(<%=a2%>);}
 " ]
 node_54 -> node_49 [dir=none, arrowHead=none, fontname="Times-Italic", label="edge_55",  headlabel="0", taillabel="0" ]
 node_54 -> node_52 [dir=none, arrowHead=none, fontname="Times-Italic", label="edge_56",  headlabel="0", taillabel="1" ]

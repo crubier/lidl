@@ -69,43 +69,33 @@ var identity = function(x){return x};
 ///////////////////////////////////////////////////////////////////////
 //Code of the DAG
 
-edge_663 = active;
+edge_232 = inactive; //Fake sender node
 
-// We dont care about edge_663, this is a fake receiver node
+edge_206 = return1;
 
-edge_655=theInterface.theOther;
+edge_201 = addition;
 
-edge_656 = edge_655;
-edge_661 = edge_655;
+edge_196 = identity;
 
-edge_647=theInterface.theNumber;
+edge_227 = active;
 
-edge_653 = edge_647;
-edge_660 = edge_647;
+edge_228 = edge_227;
+edge_229 = edge_227;
+edge_230 = edge_227;
 
-edge_659=null;
-if(edge_659===null ){
-  edge_659 = edge_660;
-} else if (edge_660 !== null){
-  throw('error:multiple active assignment to the same interaction');
-}if(edge_659===null ){
-  edge_659 = edge_661;
-} else if (edge_661 !== null){
-  throw('error:multiple active assignment to the same interaction');
-}
-theInterface.theResult=edge_659;
+if(edge_230 === active && edge_206!==null && edge_206!==undefined) {edge_224 = edge_206(edge_232);}
 
-edge_651=null;
-if(edge_651===null ){
-  edge_651 = edge_656;
-} else if (edge_656 !== null){
-  throw('error:multiple active assignment to the same interaction');
-}if(edge_651===null ){
-  edge_651 = edge_653;
-} else if (edge_653 !== null){
-  throw('error:multiple active assignment to the same interaction');
-}
-theInterface.theLast=edge_651;
+edge_225=theInterface.theNumber;
+
+edge_223 = {};
+edge_223['0'] = edge_224;
+edge_223['1'] = edge_225;
+
+if(edge_229 === active && edge_201!==null && edge_201!==undefined) {edge_203 = edge_201(edge_223);}
+
+if(edge_228 === active && edge_196!==null && edge_196!==undefined) {edge_218 = edge_196(edge_203);}
+
+theInterface.theResult=edge_218;
 
 ///////////////////////////////////////////////////////////////////////
 //Return statement

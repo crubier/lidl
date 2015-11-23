@@ -75,7 +75,7 @@ edge_55 = active;
 
 edge_68=theInterface.theNumber;
 
-if(edge_55 === active) {edge_69 = edge_56(edge_68);}
+if(edge_55 === active && edge_56!==null && edge_56!==undefined) {edge_69 = edge_56(edge_68);}
 
 theInterface.theResult=edge_69;
 

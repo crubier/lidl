@@ -69,26 +69,26 @@ var identity = function(x){return x};
 ///////////////////////////////////////////////////////////////////////
 //Code of the DAG
 
-edge_264 = cool;
+edge_424 = cool;
 
-edge_263 = active;
+edge_423 = active;
 
-edge_296=theInterface.theOther;
+edge_456=theInterface.theOther;
 
-edge_295=theInterface.theNumber;
+edge_455=theInterface.theNumber;
 
-edge_294 = {};
-edge_294['0'] = edge_295;
-edge_294['1'] = edge_296;
+edge_454 = {};
+edge_454['0'] = edge_455;
+edge_454['1'] = edge_456;
 
-if(edge_263 === active) {edge_298 = edge_264(edge_294);}
+if(edge_423 === active && edge_424!==null && edge_424!==undefined) {edge_458 = edge_424(edge_454);}
 
-edge_300 = edge_298['sum'];
-edge_299 = edge_298['diff'];
+edge_460 = edge_458['sum'];
+edge_459 = edge_458['diff'];
 
-theInterface.theLast=edge_299;
+theInterface.theLast=edge_459;
 
-theInterface.theResult=edge_300;
+theInterface.theResult=edge_460;
 
 ///////////////////////////////////////////////////////////////////////
 //Return statement

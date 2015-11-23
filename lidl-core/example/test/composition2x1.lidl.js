@@ -69,21 +69,21 @@ var identity = function(x){return x};
 ///////////////////////////////////////////////////////////////////////
 //Code of the DAG
 
-edge_146 = addition;
+edge_306 = addition;
 
-edge_145 = active;
+edge_305 = active;
 
-edge_172=theInterface.theOther;
+edge_332=theInterface.theOther;
 
-edge_171=theInterface.theNumber;
+edge_331=theInterface.theNumber;
 
-edge_170 = {};
-edge_170['0'] = edge_171;
-edge_170['1'] = edge_172;
+edge_330 = {};
+edge_330['0'] = edge_331;
+edge_330['1'] = edge_332;
 
-if(edge_145 === active) {edge_164 = edge_146(edge_170);}
+if(edge_305 === active && edge_306!==null && edge_306!==undefined) {edge_324 = edge_306(edge_330);}
 
-theInterface.theResult=edge_164;
+theInterface.theResult=edge_324;
 
 ///////////////////////////////////////////////////////////////////////
 //Return statement

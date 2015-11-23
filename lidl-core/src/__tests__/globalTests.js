@@ -35,18 +35,24 @@ describe('lidl compiler', function() {
 
     describe('Compilation of file ' + file, function() {
       console.log("====================================================");
-      console.log("Now doing "+file);
+      console.log("Now doing " + file);
       var graph = compiler.compileToGraph(code);
 
       fs.writeFileSync(file + '.dot', graph.toDot(), {
         encoding: 'utf8'
       });
 
-      exec("dot "+file+".dot -o"+file+".pdf -Tpdf" , null);
+      exec("dot " + file + ".dot -o" + file + ".pdf -Tpdf", null);
 
       var compres = compiler.generateJsCode(graph, header);
-      var sourceres =compres.source;
+      var sourceres = compres.source;
       var res = compres.executable;
+
+
+      // Write executable to file
+      fs.writeFileSync(file + '.js', sourceres, {
+        encoding: 'utf8'
+      });
 
       var trans = res.transitionFunction;
       var init = res.initializationFunction;
@@ -88,10 +94,6 @@ describe('lidl compiler', function() {
         encoding: 'utf8'
       });
 
-      // Write executable to file
-      fs.writeFileSync(file + '.js', sourceres, {
-        encoding: 'utf8'
-      });
 
     });
   };

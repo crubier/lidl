@@ -69,16 +69,16 @@ var identity = function(x){return x};
 ///////////////////////////////////////////////////////////////////////
 //Code of the DAG
 
-edge_592 = active;
+edge_756 = active;
 
-edge_604=theInterface.theNumber;
+edge_768=theInterface.theNumber;
 
-if(edge_592 === active) {
-edge_605 = previousState['state_590'];
-nextState['state_590'] = edge_604;
+if(edge_756 === active) {
+edge_769 = previousState['state_754'];
+nextState['state_754'] = edge_768;
 }
 
-theInterface.theResult=edge_605;
+theInterface.theResult=edge_769;
 
 ///////////////////////////////////////////////////////////////////////
 //Return statement
@@ -95,7 +95,7 @@ theInterface.theResult=edge_605;
 function initializationFunction(data){
 return {
       memo: {},
-      state: {state_590:null},
+      state: {state_754:null},
       args: {},
       inter: {}
     };

@@ -75,8 +75,9 @@ function compileToGraph(source) {
 
   //TODO
   resolveMultiplePorts(graph);
-  orderGraph(graph);
-  instantiateTemplates(graph);
+instantiateTemplates(graph);
+orderGraph(graph);
+
   return graph;
 }
 
@@ -295,7 +296,7 @@ function functionApplicationLinking(graph) {
   (theResult,theNode)=>{
     let source =
       graph
-      .addNode({type:'ast',content:{type: 'InteractionNative',content: 'if(<%=a0%> === active) {<%=a3%> = <%=a1%>(<%=a2%>);}\n'},ports: ["in", "in", "in", "out"]});
+      .addNode({type:'ast',content:{type: 'InteractionNative',content: 'if(<%=a0%> === active && <%=a1%>!==null && <%=a1%>!==undefined) {<%=a3%> = <%=a1%>(<%=a2%>);}\n'},ports: ["in", "in", "in", "out"]});
     _(_.range(4))
     .forEach(i=>
       graph
@@ -551,20 +552,20 @@ function createDataFlowDirection(graph) {
 theEdge.from.ports = mergePortList(portOnOrigin,conjugatePort(portOnDestination));
 // console.log("EDGE1 "+theEdge.id +" "+ theEdge.from.index+" "+ portOnOrigin+" "+ theEdge.to.index + " " + portOnDestination);
 }catch(e){
-console.log("X EDGE1 "+e+" "+theEdge.id +" "+ theEdge.from.index+" "+ portOnOrigin+" "+ theEdge.to.index + " " + portOnDestination);
+// console.log("X EDGE1 "+e+" "+theEdge.id +" "+ theEdge.from.index+" "+ portOnOrigin+" "+ theEdge.to.index + " " + portOnDestination);
 }
 try{
     theEdge.to.ports = mergePortList(portOnDestination,conjugatePort(portOnOrigin));
 // console.log("EDGE2 "+theEdge.id +" "+ theEdge.from.index+" "+ portOnOrigin+" "+ theEdge.to.index + " " + portOnDestination);
 }catch(e){
-console.log("X EDGE2 "+e+" "+theEdge.id +" "+ theEdge.from.index+" "+ portOnOrigin+" "+ theEdge.to.index + " " + portOnDestination);
+// console.log("X EDGE2 "+e+" "+theEdge.id +" "+ theEdge.from.index+" "+ portOnOrigin+" "+ theEdge.to.index + " " + portOnDestination);
 }
   if(portIsOnlyMadeOf(theEdge.from.ports,"in") && portIsOnlyMadeOf(theEdge.to.ports,"in")){
-    console.log("in to in situation on edge " +theEdge.id );
+    // console.log("in to in situation on edge " +theEdge.id );
     graph.finish(theEdge);
   }
   if(portIsOnlyMadeOf(theEdge.from.ports,"out") && portIsOnlyMadeOf(theEdge.to.ports,"out")){
-      console.log("out to out situation on edge " +theEdge.id + " from "+ theEdge.from.node.id+" to "+theEdge.to.node.id );
+      // console.log("out to out situation on edge " +theEdge.id + " from "+ theEdge.from.node.id+" to "+theEdge.to.node.id );
       graph.finish(theEdge);
     }
 })
@@ -687,7 +688,7 @@ function resolveMultiplePorts(graph) {
     let direct = portIsOnlyMadeOf( theEdge.from.ports,'out');
     let indirect = portIsOnlyMadeOf( theEdge.to.ports,'out');
     if(direct === indirect){
-      console.log('Useless edge '+theEdge.id);
+      // console.log('Useless edge '+theEdge.id);
       graph.finish(theEdge);
       return;
     };
@@ -767,7 +768,7 @@ function resolveMultiplePorts(graph) {
         .forEach((similarEdge,index)=>{
           graph
           .addEdge({type:'ast',to:{multiResolved:true,node:newNode,index:index+1},from:similarEdge.from});
-          console.log("finishing edge "+similarEdge.id);
+          // console.log("finishing edge "+similarEdge.id);
           // TODO I Should be able to do that
           // graph.finish(similarEdge);
           // But i have to do the following instead because the graph.matchUndirectedEdges returns copies of the edges and not the edges themselves
@@ -925,12 +926,31 @@ function instantiateTemplates(graph) {
       graph
       .findUndirectedEdge({type:'ast',from:{node:theNode,index:index}});
       if(edge === undefined) {
-        // This node is missing some links
-        console.log("Missing links on node "+theNode.id);
-        shouldGenerate = false;
-      } else {
-        theArgs["a"+index]=edge.id;
+        //TODO This node is missing some links and we are going to create them like it's nothing : lol
+        // console.log("Missing links on node but whatever, I am creating fake nodes for them "+theNode.id);
+        if(portIsOnlyMadeOf(port,'in')) {
+          // console.log("IN");
+          // Create a node that keep sending inactive values
+          let newNode =
+          graph
+          .addNode({type:'ast',content:{type:"InteractionNative",content:"<%=a0%> = inactive; //Fake sender node\n"},shouldDoCodeGeneration:true,ports:['out']});
+          edge =
+          graph
+          .addEdge({type:'ast',from:{node:newNode,index:0,ports:'out'},to:{node:theNode,index:index,ports:port}});
+        } else if (portIsOnlyMadeOf(port,'out')) {
+          // console.log("OUT");
+          // Create a node that receives the value
+          let newNode =
+          graph
+          .addNode({type:'ast',content:{type:"InteractionNative",content:"// We dont care about <%=a0%>, this is a fake receiver node\n"},shouldDoCodeGeneration:true,ports:['in']});
+          edge =
+          graph
+          .addEdge({type:'ast',to:{node:newNode,index:0,ports:'in'},from:{node:theNode,index:index,ports:port}});
+        } else {
+          // console.log("Man this is too much for me, I am just a compiler");
+        }
       }
+      theArgs["a"+index]=edge.id;
     })
     .commit();
 

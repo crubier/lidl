@@ -69,10 +69,13 @@ var identity = function(x){return x};
 ///////////////////////////////////////////////////////////////////////
 //Code of the DAG
 
+edge_707 = active;
 
-edge_540=theInterface.theNumber;
+// We dont care about edge_707, this is a fake receiver node
 
-theInterface.theResult=edge_540;
+edge_702=theInterface.theNumber;
+
+theInterface.theResult=edge_702;
 
 ///////////////////////////////////////////////////////////////////////
 //Return statement

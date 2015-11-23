@@ -69,15 +69,15 @@ var identity = function(x){return x};
 ///////////////////////////////////////////////////////////////////////
 //Code of the DAG
 
-edge_356 = addOne;
+edge_516 = addOne;
 
-edge_355 = active;
+edge_515 = active;
 
-edge_368=theInterface.theNumber;
+edge_528=theInterface.theNumber;
 
-if(edge_355 === active) {edge_369 = edge_356(edge_368);}
+if(edge_515 === active && edge_516!==null && edge_516!==undefined) {edge_529 = edge_516(edge_528);}
 
-theInterface.theResult=edge_369;
+theInterface.theResult=edge_529;
 
 ///////////////////////////////////////////////////////////////////////
 //Return statement
