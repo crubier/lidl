@@ -317,6 +317,7 @@ function previousNextLinking(graph) {
   .reduceNodes({type:'ast',content:{operatorType:'Previous'}},
   (theResult,theNode)=>{
     let stateId = _.uniqueId('state_');
+
     let source =
       graph
       .addNode({type:'ast',containsAState:true,stateVariableName:stateId,content:{'type': 'InteractionNative','content': "if(<%=a0%> === active) {\n<%=a1%> = previousState['" + stateId + "'];\nnextState['" + stateId + "'] = <%=a2%>;\n}\n"},ports: ["in", "out", "in"]});
@@ -329,6 +330,10 @@ function previousNextLinking(graph) {
         .addEdge({type:'ast',from:{node:source,index:i},to:x.to}))
       .commit())
     .commit();
+
+    
+
+
     graph
     .finish(theNode);
   });
@@ -862,14 +867,14 @@ function orderGraph(graph) {
   graph
   .reduceNodes({markedDuringGraphOrdering:false},
   (theResult,theNode)=>{
-    visit(theNode);
+    visit(theNode,[theNode]);
   });
 
-  function visit(n) {
+  function visit(n,stack) {
 
     if (n.temporarilyMarkedDuringGraphOrdering === true) {
       //TODO Add traceback to initial AST (change code everywhere in order to add traceability)
-      throw "Error, the DAG contains cycles !"
+      throw "Error, the DAG contains cycles : "+_(stack).concat([n]).map('id').join(" -> ");
     } else {
       if (n.markedDuringGraphOrdering !== true) {
         n.temporarilyMarkedDuringGraphOrdering = true;
@@ -879,7 +884,7 @@ function orderGraph(graph) {
           .matchUndirectedEdges({type: 'ast',from: {node:n},to: {node:m}})
           .filter(edge => portIsOnlyMadeOf(edge.from.ports,'out') && portIsOnlyMadeOf(edge.to.ports,'in') )
           .size() > 0)
-        .forEach(visit)
+        .forEach(m=>visit(m,_(stack).concat([m]).value()))
         .commit();
 
         n.markedDuringGraphOrdering = true;

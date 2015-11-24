@@ -1,3 +1,18 @@
+function transitionFunction(data){
+///////////////////////////////////////////////////////////////////////
+//Standard LIDL Header
+
+function clone(a){if(!a)return a;var c,b=[Number,String,Boolean];if(b.forEach(function(b){a instanceof b&&(c=b(a))}),"undefined"==typeof c)if("[object Array]"===Object.prototype.toString.call(a))c=[],a.forEach(function(a,b,d){c[b]=clone(a)});else if("object"==typeof a)if(a.nodeType&&"function"==typeof a.cloneNode)var c=a.cloneNode(!0);else if(a.prototype)c=a;else if(a instanceof Date)c=new Date(a);else{c={};for(var d in a)c[d]=clone(a[d])}else c=a;return c}
+
+var theInterface = clone(data.inter);
+var previousState = data.state;
+var nextState = clone(previousState);
+var active = 1;
+var inactive = null;
+
+///////////////////////////////////////////////////////////////////////
+//Custom LIDL Header
+
 var isActive = function(x) {
   return (x !== null && x !== undefined);
 };
@@ -107,3 +122,44 @@ var whenThenElse = function(x) {
 var all = function(x) {
   return {a:x,b:x,c:x,d:x,e:x,f:x,g:x,h:x,i:x,j:x,k:x,l:x,l:x,n:x,o:x,p:x}
 };
+
+///////////////////////////////////////////////////////////////////////
+//Declaration of variables
+
+
+///////////////////////////////////////////////////////////////////////
+//Code of the DAG
+
+edge_1307 = addOne;
+
+edge_1306 = active;
+
+edge_1319=theInterface.theNumber;
+
+if(edge_1306 === active && edge_1307!==null && edge_1307!==undefined) {edge_1320 = edge_1307(edge_1319);}
+
+theInterface.theResult=edge_1320;
+
+///////////////////////////////////////////////////////////////////////
+//Return statement
+
+  return {
+      memo: {},
+      state: nextState,
+      args: {},
+      inter: theInterface
+    };
+
+}
+
+function initializationFunction(data){
+return {
+      memo: {},
+      state: {},
+      args: {},
+      inter: {}
+    };
+
+}
+
+module.export={transitionFunction:  transitionFunction ,initializationFunction: initializationFunction};

@@ -1,0 +1,23 @@
+interaction
+  (bob):{theNumber:Number in,theResult:Number out}
+with
+
+  interaction
+    ((a:Number out)=(b:Number in)):Activation in
+  is
+    (apply (function identity) to (b) and get (a))
+
+  interaction
+    (previous (x:Number in)):Number out
+  is
+    (
+      (variable previous(x))
+      with behaviour
+      (get(variable previous(x))from previous and set (x) for next)
+    )
+
+is
+  ({
+    theNumber:(variable theNumber)
+    theResult:(previous(variable theNumber))
+  })

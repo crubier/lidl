@@ -1,0 +1,1 @@
+({theNumber:(variable0)theResult:((variable1)withbehaviour(apply(functionboolNot)to((variable2)withbehaviour(apply(functionisActive)to((variable3)withbehaviour(get(variable3)frompreviousandset((variable4)withbehaviour(apply(functionreturn1)to(variable5)andget(variable4)))fornext))andget(variable2)))andget(variable1)))})

@@ -1,0 +1,22 @@
+[
+  {
+    "args":  {},
+    "inter":  { "theNumber": 50,  "theResult": true }
+  },
+  {
+    "args":  {},
+    "inter":  { "theNumber": 78,  "theResult": false }
+  },
+  {
+    "args":  {},
+    "inter":  { "theNumber": null,  "theResult": false }
+  },
+  {
+    "args":  {},
+    "inter":  { "theNumber": 42,  "theResult": false }
+  },
+  {
+    "args":  {},
+    "inter":  { "theNumber": 67,  "theResult": false }
+  }
+]
