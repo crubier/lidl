@@ -76,7 +76,8 @@ function compileToGraph(source,upto) {
   // ... until fixed point ... but always end with another:
   createDataFlowDirection(graph);
 
-  //TODO
+
+  removeDuplicateEdge(graph);
   resolveMultiplePorts(graph);
   instantiateTemplates(graph);
   orderGraph(graph);
@@ -783,7 +784,35 @@ function nonMatchingCompositionCompilation(graph) {
 }
 
 
-// TODO
+//TODO Why do we even have to do that ? Investigate
+function removeDuplicateEdge(graph) {
+
+  graph
+  .matchUndirectedEdges({type:'ast'})
+  .forEach(edge=>{edge.maybeDuplicate=true;})
+  .commit();
+
+  graph
+  .reduceUndirectedEdges({type:'ast',maybeDuplicate:true},
+  (theResult,theEdge)=>{
+    let identicalEdges =
+    graph
+    .matchUndirectedEdges({type:'ast',maybeDuplicate:true,from:{node:theEdge.from.node,index:theEdge.from.index},to:{node:theEdge.to.node,index:theEdge.to.index}})
+    .value();
+
+    _(identicalEdges)
+    .rest()
+    .forEach(identicalEdge=>{
+      graph
+      .finish(identicalEdge);})
+    .commit();
+
+    theEdge.maybeDuplicate = false;});
+}
+
+
+
+
 // Here we solve the cases where several signals come or go from the same node with the same port number.
 function resolveMultiplePorts(graph) {
 

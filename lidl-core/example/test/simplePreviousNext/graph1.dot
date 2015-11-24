@@ -1,36 +1,36 @@
-digraph g{node_2335 [shape=ellipse, style=filled, color="0.0 0.1 1.0", label="node_2335
+digraph g{node_2330 [shape=ellipse, style=filled, color="0.0 0.1 1.0", label="node_2330
 Identifier
 variable0" ]
-node_2338 [shape=ellipse, style=filled, color="0.0 0.1 1.0", label="node_2338
+node_2333 [shape=ellipse, style=filled, color="0.0 0.1 1.0", label="node_2333
 Composition
 {theNumber:$theResult:$}" ]
-node_2342 [shape=ellipse, style=filled, color="0.0 0.1 1.0", label="node_2342
+node_2337 [shape=ellipse, style=filled, color="0.0 0.1 1.0", label="node_2337
 Behaviour
 $withbehaviour$" ]
-node_2346 [shape=ellipse, style=filled, color="0.0 0.1 1.0", label="node_2346
+node_2341 [shape=ellipse, style=filled, color="0.0 0.1 1.0", label="node_2341
 Identifier
 variable1" ]
-node_2349 [shape=ellipse, style=filled, color="0.0 0.1 1.0", label="node_2349
+node_2344 [shape=ellipse, style=filled, color="0.0 0.1 1.0", label="node_2344
 Previous
 get$frompreviousandset$fornext" ]
-node_2353 [shape=ellipse, style=filled, color="0.0 0.1 1.0", label="node_2353
+node_2348 [shape=ellipse, style=filled, color="0.0 0.1 1.0", label="node_2348
 Composition
 {theNumber:$theResult:$}" ]
-node_2329 [shape=box, style=filled, color="0.66 0.1 1.0", fontname="Courier", label="node_2329
+node_2324 [shape=box, style=filled, color="0.66 0.1 1.0", fontname="Courier", label="node_2324
 0
 <%=a0%>=theInterface.theNumber;
 " ]
-node_2330 [shape=box, style=filled, color="0.66 0.1 1.0", fontname="Courier", label="node_2330
+node_2325 [shape=box, style=filled, color="0.66 0.1 1.0", fontname="Courier", label="node_2325
 0
 theInterface.theResult=<%=a0%>;
 " ]
-node_2338 -> node_2335 [dir=none, arrowHead=none, fontname="Times-Italic", label="edge_2340",  headlabel="0", taillabel="1" ]
-node_2342 -> node_2338 [dir=none, arrowHead=none, fontname="Times-Italic", label="edge_2344",  headlabel="0", taillabel="1" ]
-node_2346 -> node_2338 [dir=none, arrowHead=none, fontname="Times-Italic", label="edge_2347",  headlabel="2", taillabel="0" ]
-node_2349 -> node_2335 [dir=none, arrowHead=none, fontname="Times-Italic", label="edge_2350",  headlabel="0", taillabel="2" ]
-node_2349 -> node_2346 [dir=none, arrowHead=none, fontname="Times-Italic", label="edge_2351",  headlabel="0", taillabel="1" ]
-node_2349 -> node_2342 [dir=none, arrowHead=none, fontname="Times-Italic", label="edge_2352",  headlabel="2", taillabel="0" ]
-node_2353 -> node_2329 [dir=none, arrowHead=none, fontname="Times-Italic", label="edge_2354",  headlabel="0", taillabel="1" ]
-node_2353 -> node_2330 [dir=none, arrowHead=none, fontname="Times-Italic", label="edge_2355",  headlabel="0", taillabel="2" ]
-node_2353 -> node_2342 [dir=none, arrowHead=none, fontname="Times-Italic", label="edge_2356",  headlabel="0", taillabel="0" ]
+node_2333 -> node_2330 [dir=none, arrowHead=none, fontname="Times-Italic", label="edge_2335",  headlabel="0", taillabel="1" ]
+node_2337 -> node_2333 [dir=none, arrowHead=none, fontname="Times-Italic", label="edge_2339",  headlabel="0", taillabel="1" ]
+node_2341 -> node_2333 [dir=none, arrowHead=none, fontname="Times-Italic", label="edge_2342",  headlabel="2", taillabel="0" ]
+node_2344 -> node_2330 [dir=none, arrowHead=none, fontname="Times-Italic", label="edge_2345",  headlabel="0", taillabel="2" ]
+node_2344 -> node_2341 [dir=none, arrowHead=none, fontname="Times-Italic", label="edge_2346",  headlabel="0", taillabel="1" ]
+node_2344 -> node_2337 [dir=none, arrowHead=none, fontname="Times-Italic", label="edge_2347",  headlabel="2", taillabel="0" ]
+node_2348 -> node_2324 [dir=none, arrowHead=none, fontname="Times-Italic", label="edge_2349",  headlabel="0", taillabel="1" ]
+node_2348 -> node_2325 [dir=none, arrowHead=none, fontname="Times-Italic", label="edge_2350",  headlabel="0", taillabel="2" ]
+node_2348 -> node_2337 [dir=none, arrowHead=none, fontname="Times-Italic", label="edge_2351",  headlabel="0", taillabel="0" ]
 }

@@ -126,49 +126,49 @@ var all = function(x) {
 ///////////////////////////////////////////////////////////////////////
 //Declaration of variables
 
-var edge_346 = inactive;
-var edge_351 = inactive;
-var edge_353 = inactive;
-var edge_356 = inactive;
-var edge_368 = inactive;
-var edge_373 = inactive;
-var edge_374 = inactive;
-var edge_375 = inactive;
-var edge_377 = inactive;
-var edge_378 = inactive;
-var edge_379 = inactive;
-var edge_380 = inactive;
-var edge_382 = inactive;
+var edge_196 = inactive;
+var edge_201 = inactive;
+var edge_203 = inactive;
+var edge_206 = inactive;
+var edge_218 = inactive;
+var edge_223 = inactive;
+var edge_224 = inactive;
+var edge_225 = inactive;
+var edge_227 = inactive;
+var edge_228 = inactive;
+var edge_229 = inactive;
+var edge_230 = inactive;
+var edge_232 = inactive;
 ///////////////////////////////////////////////////////////////////////
 //Code of the DAG
 
-edge_382 = inactive; //Fake sender node
+edge_232 = inactive; //Fake sender node
 
-edge_356 = return1;
+edge_206 = return1;
 
-edge_351 = addition;
+edge_201 = addition;
 
-edge_346 = identity;
+edge_196 = identity;
 
-edge_377 = active;
+edge_227 = active;
 
-edge_378 = edge_377;
-edge_379 = edge_377;
-edge_380 = edge_377;
+edge_228 = edge_227;
+edge_229 = edge_227;
+edge_230 = edge_227;
 
-if(edge_380 === active && edge_356!==null && edge_356!==undefined) {edge_374 = edge_356(edge_382);}
+if(edge_230 === active && edge_206!==null && edge_206!==undefined) {edge_224 = edge_206(edge_232);}
 
-edge_375=theInterface.theNumber;
+edge_225=theInterface.theNumber;
 
-edge_373 = {};
-edge_373['0'] = edge_374;
-edge_373['1'] = edge_375;
+edge_223 = {};
+edge_223['0'] = edge_224;
+edge_223['1'] = edge_225;
 
-if(edge_379 === active && edge_351!==null && edge_351!==undefined) {edge_353 = edge_351(edge_373);}
+if(edge_229 === active && edge_201!==null && edge_201!==undefined) {edge_203 = edge_201(edge_223);}
 
-if(edge_378 === active && edge_346!==null && edge_346!==undefined) {edge_368 = edge_346(edge_353);}
+if(edge_228 === active && edge_196!==null && edge_196!==undefined) {edge_218 = edge_196(edge_203);}
 
-theInterface.theResult=edge_368;
+theInterface.theResult=edge_218;
 
 ///////////////////////////////////////////////////////////////////////
 //Return statement

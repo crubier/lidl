@@ -126,59 +126,59 @@ var all = function(x) {
 ///////////////////////////////////////////////////////////////////////
 //Declaration of variables
 
-var edge_1003 = inactive;
-var edge_1008 = inactive;
-var edge_1010 = inactive;
-var edge_1013 = inactive;
-var edge_1018 = inactive;
-var edge_1021 = inactive;
-var edge_1029 = inactive;
-var edge_1034 = inactive;
-var edge_1035 = inactive;
-var edge_1036 = inactive;
-var edge_1037 = inactive;
-var edge_1038 = inactive;
-var edge_1039 = inactive;
-var edge_1041 = inactive;
-var edge_1043 = inactive;
+var edge_596 = inactive;
+var edge_601 = inactive;
+var edge_603 = inactive;
+var edge_606 = inactive;
+var edge_611 = inactive;
+var edge_614 = inactive;
+var edge_622 = inactive;
+var edge_627 = inactive;
+var edge_628 = inactive;
+var edge_629 = inactive;
+var edge_630 = inactive;
+var edge_631 = inactive;
+var edge_632 = inactive;
+var edge_634 = inactive;
+var edge_636 = inactive;
 ///////////////////////////////////////////////////////////////////////
 //Code of the DAG
 
-edge_1043 = inactive; //Fake sender node
+edge_636 = inactive; //Fake sender node
 
-edge_1013 = return1;
+edge_606 = return1;
 
-edge_1008 = isActive;
+edge_601 = isActive;
 
-edge_1003 = boolNot;
+edge_596 = boolNot;
 
-edge_1034 = active;
+edge_627 = active;
 
-edge_1035 = edge_1034;
-edge_1036 = edge_1034;
-edge_1037 = edge_1034;
-edge_1038 = edge_1034;
-edge_1039 = edge_1034;
+edge_628 = edge_627;
+edge_629 = edge_627;
+edge_630 = edge_627;
+edge_631 = edge_627;
+edge_632 = edge_627;
 
-if(edge_1038 === active) {
-edge_1018 = previousState['state_1015'];
+if(edge_631 === active) {
+edge_611 = previousState['state_608'];
 }
 
-if(edge_1037 === active && edge_1013!==null && edge_1013!==undefined) {edge_1021 = edge_1013(edge_1043);}
+if(edge_630 === active && edge_606!==null && edge_606!==undefined) {edge_614 = edge_606(edge_636);}
 
-if(edge_1039 === active) {
-nextState['state_1015'] = edge_1021;
+if(edge_632 === active) {
+nextState['state_608'] = edge_614;
 }
 
-if(edge_1036 === active && edge_1008!==null && edge_1008!==undefined) {edge_1010 = edge_1008(edge_1018);}
+if(edge_629 === active && edge_601!==null && edge_601!==undefined) {edge_603 = edge_601(edge_611);}
 
-if(edge_1035 === active && edge_1003!==null && edge_1003!==undefined) {edge_1029 = edge_1003(edge_1010);}
+if(edge_628 === active && edge_596!==null && edge_596!==undefined) {edge_622 = edge_596(edge_603);}
 
-theInterface.theResult=edge_1029;
+theInterface.theResult=edge_622;
 
-edge_1041=theInterface.theNumber;
+edge_634=theInterface.theNumber;
 
-// We dont care about edge_1041, this is a fake receiver node
+// We dont care about edge_634, this is a fake receiver node
 
 ///////////////////////////////////////////////////////////////////////
 //Return statement
@@ -195,7 +195,7 @@ edge_1041=theInterface.theNumber;
 function initializationFunction(data){
 return {
       memo: {},
-      state: {state_1015:null},
+      state: {state_608:null},
       args: {},
       inter: {}
     };

@@ -1,19 +1,19 @@
-digraph g{node_2044 [shape=box, style=filled, color="0.66 0.1 1.0", fontname="Courier", label="node_2044
+digraph g{node_1247 [shape=box, style=filled, color="0.66 0.1 1.0", fontname="Courier", label="node_1247
 0
 <%=a0%>=theInterface.theNumber;
 " ]
-node_2045 [shape=box, style=filled, color="0.66 0.1 1.0", fontname="Courier", label="node_2045
+node_1248 [shape=box, style=filled, color="0.66 0.1 1.0", fontname="Courier", label="node_1248
 0
 theInterface.theResult=<%=a0%>;
 " ]
-node_2062 [shape=box, style=filled, color="0.66 0.1 1.0", fontname="Courier", label="node_2062
+node_1265 [shape=box, style=filled, color="0.66 0.1 1.0", fontname="Courier", label="node_1265
 0
 <%=a0%> = active;
 " ]
-node_2081 [shape=box, style=filled, color="0.66 0.1 1.0", fontname="Courier", label="node_2081
+node_1284 [shape=box, style=filled, color="0.66 0.1 1.0", fontname="Courier", label="node_1284
 0
 // We dont care about <%=a0%>, this is a fake receiver node
 " ]
-node_2045 -> node_2044 [dir=none, arrowHead=none, fontname="Times-Italic", label="edge_2077",  headlabel="0", taillabel="0" ]
-node_2062 -> node_2081 [dir=none, arrowHead=none, fontname="Times-Italic", label="edge_2082",  headlabel="0", taillabel="0" ]
+node_1248 -> node_1247 [dir=none, arrowHead=none, fontname="Times-Italic", label="edge_1280",  headlabel="0", taillabel="0" ]
+node_1265 -> node_1284 [dir=none, arrowHead=none, fontname="Times-Italic", label="edge_1285",  headlabel="0", taillabel="0" ]
 }
