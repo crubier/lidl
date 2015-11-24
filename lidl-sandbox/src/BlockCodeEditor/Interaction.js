@@ -6,7 +6,7 @@ import ItemTypes from './ItemTypes';
 import {DropTarget,DragSource} from 'react-dnd';
 
 import _ from 'lodash';
-import Lidl from 'lidl';
+import Lidl from 'lidl-core';
 import MultiLineFitInput from './MultiLineFitInput'
 
 import ReactCSSTransitionGroup from 'react-addons-css-transition-group';
@@ -69,18 +69,25 @@ const boxSource = {
   }
 };
 
-@DragSource(ItemTypes.Interaction.Expression, boxSource, (connect, monitor) => ({
-  connectDragSource: connect.dragSource(),
-  isDragging: monitor.isDragging()
-}))
-@DropTarget(ItemTypes.Interaction.Expression, boxTarget, (connect, monitor) => ({
-  connectDropTarget: connect.dropTarget(),
-  isOver: monitor.isOver({
-    shallow: true
-  }),
-  canDrop: monitor.canDrop()
-}))
-export default class Interaction extends Component {
+// TODO Use decoration when babel is fixed
+// @DragSource(ItemTypes.Interaction.Expression, boxSource, (connect, monitor) => ({
+//   connectDragSource: connect.dragSource(),
+//   isDragging: monitor.isDragging()
+// }))
+// @DropTarget(ItemTypes.Interaction.Expression, boxTarget, (connect, monitor) => ({
+//   connectDropTarget: connect.dropTarget(),
+//   isOver: monitor.isOver({
+//     shallow: true
+//   }),
+//   canDrop: monitor.canDrop()
+// }))
+// export default class Interaction extends Component {
+class Interaction extends Component {
+
+  constructor(props){
+    super(props);
+  }
+
   static propTypes = {
     connectDropTarget: PropTypes.func.isRequired,
     connectDragSource: PropTypes.func.isRequired,
@@ -150,12 +157,33 @@ export default class Interaction extends Component {
         }
       });
 
-    return connectDragSource(connectDropTarget(
-       <div style={{...style, backgroundColor, opacity}}>
-<ReactCSSTransitionGroup transitionName="block" transitionAppear={true} transitionAppearTimeout={300} transitionEnterTimeout={300} transitionLeaveTimeout={300}>
-         {subs}
-</ReactCSSTransitionGroup>
-       </div>
-    ));
+    return (/*connectDragSource(connectDropTarget(*/
+      <div style={{...style, backgroundColor, opacity}}>
+        <ReactCSSTransitionGroup transitionName="block" transitionAppear={true} transitionAppearTimeout={300} transitionEnterTimeout={300} transitionLeaveTimeout={300}>
+        {subs}
+        </ReactCSSTransitionGroup>
+      </div>
+    // ));
+);
   }
 }
+
+
+
+export default Interaction
+// export default DragSource(
+//   ItemTypes.Interaction.Expression,
+//   boxSource,
+//   (connect, monitor) => ({
+//     connectDragSource: connect.dragSource(),
+//     isDragging: monitor.isDragging()
+//   }))
+//   (DropTarget(
+//     ItemTypes.Interaction.Expression,
+//     boxTarget,
+//     (connect, monitor) => ({
+//       connectDropTarget: connect.dropTarget(),
+//       isOver: monitor.isOver({shallow: true}),
+//       canDrop: monitor.canDrop()
+//     }))
+//     (Interaction));

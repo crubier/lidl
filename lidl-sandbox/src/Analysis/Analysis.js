@@ -3,7 +3,7 @@ import React, {
   Component
 }
 from 'react';
-import lidl from 'lidl';
+import lidl from 'lidl-core';
 import _ from 'lodash';
 
 
@@ -55,13 +55,18 @@ function nbrOfCompositions(interaction) {
 }
 
 export default class Analysis extends Component {
-   static propTypes = {
-     compiledInteraction: React.PropTypes.string,
-   };
 
-   static defaultProps = {
-     compiledInteraction: "({x:(previous(#0)),y:(#0),z:(#1)})",
-   };
+  constructor(props) {
+    super(props);
+  }
+
+  static propTypes = {
+    compiledInteraction: React.PropTypes.string,
+  };
+
+  static defaultProps = {
+    compiledInteraction: "({x:(previous(#0)),y:(#0),z:(#1)})",
+  };
 
   render() {
     var interaction = lidl.parser.parse(this.props.compiledInteraction, {
@@ -73,16 +78,22 @@ export default class Analysis extends Component {
     var nbrCompositions = nbrOfCompositions(interaction);
     return (
 
-      <div>
-        <h1> Analysis </h1>
-        <p> {this.props.compiledInteraction} </p>
-        <p> {"Number of previous :" + nbrPrevious} </p>
-        <p> {"Number of identifiers :" + nbrIdentifiers} </p>
-        <p> {"Number of functions :" + nbrFunctions} </p>
-        <p> {"Number of compositions :" + nbrCompositions} </p>
-        <p> {"Number of variables :" + (nbrPrevious + nbrIdentifiers)} </p>
-        <p> {"Total of interactions :" + (nbrCompositions + nbrFunctions + nbrPrevious + nbrIdentifiers)} </p>
-      </div>
+      < div >
+      < h1 > Analysis < /h1> < p > {
+        this.props.compiledInteraction
+      } < /p> < p > {
+        "Number of previous :" + nbrPrevious
+      } < /p> < p > {
+        "Number of identifiers :" + nbrIdentifiers
+      } < /p> < p > {
+        "Number of functions :" + nbrFunctions
+      } < /p> < p > {
+        "Number of compositions :" + nbrCompositions
+      } < /p> < p > {
+        "Number of variables :" + (nbrPrevious + nbrIdentifiers)
+      } < /p> < p > {
+        "Total of interactions :" + (nbrCompositions + nbrFunctions + nbrPrevious + nbrIdentifiers)
+      } < /p> < /div>
     );
   }
 }

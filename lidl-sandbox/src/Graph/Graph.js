@@ -16,6 +16,10 @@ const defConnectivity = 1.;
 
 export default class Graph extends Component {
 
+  constructor(props){
+    super(props);
+  }
+
   static PropTypes = {
     graph:PropTypes.object.isRequired
   };

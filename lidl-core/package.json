@@ -1,6 +1,6 @@
 {
-  "name": "lidl",
-  "version": "0.1.9",
+  "name": "lidl-core",
+  "version": "0.2.0",
   "description": "The LIDL Interaction Desccription Language",
   "main": "index.js",
   "scripts": {
@@ -32,17 +32,32 @@
     "rootDir": "src",
     "collectCoverage": true,
     "scriptPreprocessor": "../node_modules/babel-jest",
-    "testFileExtensions": ["es6", "js"],
-    "moduleFileExtensions": ["js", "json", "es6"]
+    "testFileExtensions": [
+      "es6",
+      "js"
+    ],
+    "moduleFileExtensions": [
+      "js",
+      "json",
+      "es6"
+    ]
   },
   "babel": {
-    "retainLines": true
+    "retainLines": true,
+    "presets": [
+      "es2015",
+      "react",
+      "stage-0"
+    ]
   },
   "dependencies": {
     "lodash": "^3.10.1"
   },
   "devDependencies": {
     "babel-jest": "^6.0.1",
+    "babel-preset-es2015": "^6.1.18",
+    "babel-preset-react": "^6.1.18",
+    "babel-preset-stage-0": "^6.1.18",
     "jest-cli": "^0.8.0",
     "pegjs": "^0.9.0"
   }

@@ -113,6 +113,10 @@ function draw(ctx, object) {
 
 export default class Canvas extends Component {
 
+  constructor(props){
+    super(props);
+  }
+
   state = {
     mainInterfaceState: {
       dimension: {

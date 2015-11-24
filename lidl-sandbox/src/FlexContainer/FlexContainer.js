@@ -44,6 +44,10 @@ const mixProps = (style, props) => {
 
 export default class View extends Component {
 
+  constructor(props){
+    super(props);
+  }
+
   static propTypes = {
     row: PropTypes.bool,
     column: PropTypes.bool,

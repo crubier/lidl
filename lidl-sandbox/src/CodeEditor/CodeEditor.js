@@ -10,6 +10,10 @@ import ReactCSSTransitionGroup from 'react-addons-css-transition-group';
 
 export default class CodeEditor extends Component {
 
+  constructor(props){
+    super(props);
+  }
+
   render() {
 return (<div style={{width:"100%"}}>
 <ReactCSSTransitionGroup transitionName="block" transitionAppear={true} transitionAppearTimeout={300} transitionEnterTimeout={300} transitionLeaveTimeout={300}>

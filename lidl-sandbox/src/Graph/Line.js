@@ -5,6 +5,10 @@ import React, {
 
 export default class Line extends Component {
 
+  constructor(props){
+    super(props);
+  }
+
 static propTypes = {
       points: PropTypes.array.isRequired,
       name: PropTypes.string.isRequired,
@@ -28,5 +32,3 @@ static propTypes = {
   }
 
 });
-
-module.exports = Line;

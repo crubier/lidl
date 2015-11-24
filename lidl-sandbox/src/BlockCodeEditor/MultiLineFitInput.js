@@ -9,6 +9,11 @@ import FitInput from './FitInput'
 
 
 export default class MultiLineFitInput extends Component {
+
+  constructor(props){
+    super(props);
+  }
+
   static propTypes = {
     val: PropTypes.string.isRequired,
     onChange: PropTypes.func.isRequired,

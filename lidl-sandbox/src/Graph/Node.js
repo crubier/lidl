@@ -12,6 +12,11 @@ const Transform = Art.Transform;
 
 
 export default class Node extends Component {
+
+  constructor(props){
+    super(props);
+  }
+
   static propTypes = {
       position: PropTypes.object.isRequired,
       name: PropTypes.string.isRequired,
