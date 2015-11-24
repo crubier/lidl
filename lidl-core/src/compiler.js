@@ -1205,6 +1205,10 @@ function generateJsCode(graph, header) {
       transitionFunction:  transCode ,
       initializationFunction: initCode
     }),
+    partialSource:{
+      transitionFunction:  transCode ,
+      initializationFunction: initCode
+    },
     executable:{
       transitionFunction: new Function("data", transCode),
       initializationFunction: new Function(initCode)
