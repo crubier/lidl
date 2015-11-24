@@ -170,9 +170,89 @@ function referentialTransparency(graph) {
   // First we mark all nodes as not referentialTransparencySolved
   graph
   .matchNodes({type: 'ast',content: {type: 'InteractionSimple'}})
+  .forEach( (theNode) => {
+    theNode.referentialTransparencySolved=false;
+    theNode.referentialTransparencySolvable = // Only leaves are solvable intially
+      graph
+      .matchUndirectedEdges({type:'ast',from:{node:theNode}})
+      .filter(e=>e.from.index>0)
+      .size() == 0;})
+  .commit();
+
+
+  graph
+  .reduceNodes({type: 'ast',content: {type: 'InteractionSimple'},referentialTransparencySolved: false,referentialTransparencySolvable:true},
+  (theResult,theNode)=>{
+
+    let theChildrenEdges =
+    graph
+    .matchUndirectedEdges({type:'ast',from:{node:theNode}})
+    .filter(e=>e.from.index>0) // Only children, not the parent which has index 0
+    .value();
+
+      let similarNodes =
+      graph
+      .matchNodes({type:'ast',content:{operator:theNode.content.operator}}) // Same operator
+      .filter(n=> // All chidren of similarNode are children of theNode
+        graph
+        .matchUndirectedEdges({type:'ast',from:{node:n}})
+        .filter(e=>e.from.index>0) // We check for similarity of children only, not parents !
+        .every(e=>
+          _(theChildrenEdges)
+          .filter({from:{index:e.from.index},to:{index:e.to.index,node:e.to.node}})
+          .size()===1))
+      .filter(n=> // All children of theNode are children of the similarNode
+        _(theChildrenEdges)
+        .every(ce=>
+          graph
+          .matchUndirectedEdges({type:'ast',from:{node:n}})
+          .filter(e=>e.from.index>0)
+          .filter({from:{index:ce.from.index},to:{index:ce.to.index,node:ce.to.node}})
+          .size()===1))
+      .value();
+
+
+          // We create a node to merge all the similar nodes
+          // TODO Merge nodes differently than tjust picking the first
+          // for example put all syntactic locations of nodes to improve traceback
+          let newNode =
+          graph
+          .addNode(_.omit(_.omit(theNode,'finished'),'id'));
+
+          _(theChildrenEdges)
+          .forEach(ce=>{
+            graph
+            .addEdge({type:'ast',from:{node:newNode,index:ce.from.index,ports:ce.from.ports},to:ce.to});})
+          .commit();
+
+          newNode.referentialTransparencySolved = true;
+
+          // We link them together
+          _(similarNodes)
+          .forEach(similarNode=>{
+            graph
+            .matchUndirectedEdges({type:'ast',from:{node:similarNode,index:0}})
+            .forEach(edgeFromSimilarNode=>{
+              // console.log()
+              graph
+              .addEdge({type:'ast',from:{node:newNode,index:edgeFromSimilarNode.from.index,ports:edgeFromSimilarNode.from.ports},to:edgeFromSimilarNode.to});
+              edgeFromSimilarNode.to.node.referentialTransparencySolvable = true;})
+            .commit();
+            graph
+            .finish(similarNode);})
+          .commit();
+  });
+}
+
+
+function OLDreferentialTransparency(graph) {
+
+  // First we mark all nodes as not referentialTransparencySolved
+  graph
+  .matchNodes({type: 'ast',content: {type: 'InteractionSimple'}})
   .forEach( (theNode) => {theNode.referentialTransparencySolved=false;})
   .commit();
-  // Then iteratively
+
   graph
   .reduceNodes({type: 'ast',content: {type: 'InteractionSimple'},referentialTransparencySolved: false},
     (theResult,theNode)=>{

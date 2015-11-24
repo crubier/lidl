@@ -1,36 +1,36 @@
-digraph g{node_1850 [shape=ellipse, style=filled, color="0.0 0.1 1.0", label="node_1850
-Composition
-{theNumber:$theResult:$}" ]
-node_1854 [shape=ellipse, style=filled, color="0.0 0.1 1.0", label="node_1854
+digraph g{node_1806 [shape=ellipse, style=filled, color="0.0 0.1 1.0", label="node_1806
 Identifier
 variable0" ]
-node_1857 [shape=ellipse, style=filled, color="0.0 0.1 1.0", label="node_1857
-Behaviour
-$withbehaviour$" ]
-node_1861 [shape=ellipse, style=filled, color="0.0 0.1 1.0", label="node_1861
-Identifier
-variable1" ]
-node_1864 [shape=ellipse, style=filled, color="0.0 0.1 1.0", label="node_1864
-Previous
-get$frompreviousandset$fornext" ]
-node_1868 [shape=ellipse, style=filled, color="0.0 0.1 1.0", label="node_1868
+node_1809 [shape=ellipse, style=filled, color="0.0 0.1 1.0", label="node_1809
 Composition
 {theNumber:$theResult:$}" ]
-node_1844 [shape=box, style=filled, color="0.66 0.1 1.0", fontname="Courier", label="node_1844
+node_1813 [shape=ellipse, style=filled, color="0.0 0.1 1.0", label="node_1813
+Identifier
+variable1" ]
+node_1816 [shape=ellipse, style=filled, color="0.0 0.1 1.0", label="node_1816
+Behaviour
+$withbehaviour$" ]
+node_1820 [shape=ellipse, style=filled, color="0.0 0.1 1.0", label="node_1820
+Previous
+get$frompreviousandset$fornext" ]
+node_1824 [shape=ellipse, style=filled, color="0.0 0.1 1.0", label="node_1824
+Composition
+{theNumber:$theResult:$}" ]
+node_1800 [shape=box, style=filled, color="0.66 0.1 1.0", fontname="Courier", label="node_1800
 0
 <%=a0%>=theInterface.theNumber;
 " ]
-node_1845 [shape=box, style=filled, color="0.66 0.1 1.0", fontname="Courier", label="node_1845
+node_1801 [shape=box, style=filled, color="0.66 0.1 1.0", fontname="Courier", label="node_1801
 0
 theInterface.theResult=<%=a0%>;
 " ]
-node_1850 -> node_1854 [dir=none, arrowHead=none, fontname="Times-Italic", label="edge_1855",  headlabel="0", taillabel="1" ]
-node_1850 -> node_1857 [dir=none, arrowHead=none, fontname="Times-Italic", label="edge_1860",  headlabel="0", taillabel="2" ]
-node_1857 -> node_1861 [dir=none, arrowHead=none, fontname="Times-Italic", label="edge_1862",  headlabel="0", taillabel="1" ]
-node_1854 -> node_1864 [dir=none, arrowHead=none, fontname="Times-Italic", label="edge_1865",  headlabel="2", taillabel="0" ]
-node_1857 -> node_1864 [dir=none, arrowHead=none, fontname="Times-Italic", label="edge_1866",  headlabel="0", taillabel="2" ]
-node_1861 -> node_1864 [dir=none, arrowHead=none, fontname="Times-Italic", label="edge_1867",  headlabel="1", taillabel="0" ]
-node_1844 -> node_1868 [dir=none, arrowHead=none, fontname="Times-Italic", label="edge_1869",  headlabel="1", taillabel="0" ]
-node_1845 -> node_1868 [dir=none, arrowHead=none, fontname="Times-Italic", label="edge_1870",  headlabel="2", taillabel="0" ]
-node_1850 -> node_1868 [dir=none, arrowHead=none, fontname="Times-Italic", label="edge_1871",  headlabel="0", taillabel="0" ]
+node_1809 -> node_1806 [dir=none, arrowHead=none, fontname="Times-Italic", label="edge_1811",  headlabel="0", taillabel="1" ]
+node_1816 -> node_1813 [dir=none, arrowHead=none, fontname="Times-Italic", label="edge_1818",  headlabel="0", taillabel="1" ]
+node_1816 -> node_1809 [dir=none, arrowHead=none, fontname="Times-Italic", label="edge_1819",  headlabel="2", taillabel="0" ]
+node_1820 -> node_1806 [dir=none, arrowHead=none, fontname="Times-Italic", label="edge_1821",  headlabel="0", taillabel="2" ]
+node_1820 -> node_1813 [dir=none, arrowHead=none, fontname="Times-Italic", label="edge_1822",  headlabel="0", taillabel="1" ]
+node_1820 -> node_1816 [dir=none, arrowHead=none, fontname="Times-Italic", label="edge_1823",  headlabel="2", taillabel="0" ]
+node_1824 -> node_1800 [dir=none, arrowHead=none, fontname="Times-Italic", label="edge_1825",  headlabel="0", taillabel="1" ]
+node_1824 -> node_1801 [dir=none, arrowHead=none, fontname="Times-Italic", label="edge_1826",  headlabel="0", taillabel="2" ]
+node_1824 -> node_1809 [dir=none, arrowHead=none, fontname="Times-Italic", label="edge_1827",  headlabel="0", taillabel="0" ]
 }

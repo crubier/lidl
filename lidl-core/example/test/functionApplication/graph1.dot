@@ -1,40 +1,40 @@
-digraph g{node_1964 [shape=ellipse, style=filled, color="0.0 0.1 1.0", label="node_1964
-Behaviour
-$withbehaviour$" ]
-node_1968 [shape=ellipse, style=filled, color="0.0 0.1 1.0", label="node_1968
-Composition
-{theNumber:$theResult:$}" ]
-node_1972 [shape=ellipse, style=filled, color="0.0 0.1 1.0", label="node_1972
+digraph g{node_1920 [shape=ellipse, style=filled, color="0.0 0.1 1.0", label="node_1920
 Identifier
 variable0" ]
-node_1975 [shape=ellipse, style=filled, color="0.0 0.1 1.0", label="node_1975
-Identifier
-variable1" ]
-node_1978 [shape=ellipse, style=filled, color="0.0 0.1 1.0", label="node_1978
-FunctionApplication
-apply$to$andget$" ]
-node_1983 [shape=ellipse, style=filled, color="0.0 0.1 1.0", label="node_1983
-Function
-functionaddOne" ]
-node_1985 [shape=ellipse, style=filled, color="0.0 0.1 1.0", label="node_1985
+node_1923 [shape=ellipse, style=filled, color="0.0 0.1 1.0", label="node_1923
 Composition
 {theNumber:$theResult:$}" ]
-node_1958 [shape=box, style=filled, color="0.66 0.1 1.0", fontname="Courier", label="node_1958
+node_1927 [shape=ellipse, style=filled, color="0.0 0.1 1.0", label="node_1927
+Behaviour
+$withbehaviour$" ]
+node_1931 [shape=ellipse, style=filled, color="0.0 0.1 1.0", label="node_1931
+Identifier
+variable1" ]
+node_1934 [shape=ellipse, style=filled, color="0.0 0.1 1.0", label="node_1934
+FunctionApplication
+apply$to$andget$" ]
+node_1939 [shape=ellipse, style=filled, color="0.0 0.1 1.0", label="node_1939
+Function
+functionaddOne" ]
+node_1941 [shape=ellipse, style=filled, color="0.0 0.1 1.0", label="node_1941
+Composition
+{theNumber:$theResult:$}" ]
+node_1914 [shape=box, style=filled, color="0.66 0.1 1.0", fontname="Courier", label="node_1914
 0
 <%=a0%>=theInterface.theNumber;
 " ]
-node_1959 [shape=box, style=filled, color="0.66 0.1 1.0", fontname="Courier", label="node_1959
+node_1915 [shape=box, style=filled, color="0.66 0.1 1.0", fontname="Courier", label="node_1915
 0
 theInterface.theResult=<%=a0%>;
 " ]
-node_1964 -> node_1968 [dir=none, arrowHead=none, fontname="Times-Italic", label="edge_1971",  headlabel="0", taillabel="1" ]
-node_1968 -> node_1972 [dir=none, arrowHead=none, fontname="Times-Italic", label="edge_1973",  headlabel="0", taillabel="1" ]
-node_1968 -> node_1975 [dir=none, arrowHead=none, fontname="Times-Italic", label="edge_1976",  headlabel="0", taillabel="2" ]
-node_1964 -> node_1978 [dir=none, arrowHead=none, fontname="Times-Italic", label="edge_1980",  headlabel="0", taillabel="2" ]
-node_1972 -> node_1978 [dir=none, arrowHead=none, fontname="Times-Italic", label="edge_1981",  headlabel="2", taillabel="0" ]
-node_1975 -> node_1978 [dir=none, arrowHead=none, fontname="Times-Italic", label="edge_1982",  headlabel="3", taillabel="0" ]
-node_1978 -> node_1983 [dir=none, arrowHead=none, fontname="Times-Italic", label="edge_1984",  headlabel="0", taillabel="1" ]
-node_1958 -> node_1985 [dir=none, arrowHead=none, fontname="Times-Italic", label="edge_1986",  headlabel="1", taillabel="0" ]
-node_1959 -> node_1985 [dir=none, arrowHead=none, fontname="Times-Italic", label="edge_1987",  headlabel="2", taillabel="0" ]
-node_1964 -> node_1985 [dir=none, arrowHead=none, fontname="Times-Italic", label="edge_1988",  headlabel="0", taillabel="0" ]
+node_1923 -> node_1920 [dir=none, arrowHead=none, fontname="Times-Italic", label="edge_1925",  headlabel="0", taillabel="1" ]
+node_1927 -> node_1923 [dir=none, arrowHead=none, fontname="Times-Italic", label="edge_1929",  headlabel="0", taillabel="1" ]
+node_1931 -> node_1923 [dir=none, arrowHead=none, fontname="Times-Italic", label="edge_1932",  headlabel="2", taillabel="0" ]
+node_1934 -> node_1920 [dir=none, arrowHead=none, fontname="Times-Italic", label="edge_1936",  headlabel="0", taillabel="2" ]
+node_1934 -> node_1931 [dir=none, arrowHead=none, fontname="Times-Italic", label="edge_1937",  headlabel="0", taillabel="3" ]
+node_1934 -> node_1927 [dir=none, arrowHead=none, fontname="Times-Italic", label="edge_1938",  headlabel="2", taillabel="0" ]
+node_1939 -> node_1934 [dir=none, arrowHead=none, fontname="Times-Italic", label="edge_1940",  headlabel="1", taillabel="0" ]
+node_1941 -> node_1914 [dir=none, arrowHead=none, fontname="Times-Italic", label="edge_1942",  headlabel="0", taillabel="1" ]
+node_1941 -> node_1915 [dir=none, arrowHead=none, fontname="Times-Italic", label="edge_1943",  headlabel="0", taillabel="2" ]
+node_1941 -> node_1927 [dir=none, arrowHead=none, fontname="Times-Italic", label="edge_1944",  headlabel="0", taillabel="0" ]
 }

@@ -184,6 +184,29 @@ class Graph {
     return !(this.edgeIsFinished(e));
   }
 
+
+  ///////////////////////////////////////////////////////////////////////////////
+    // Export graph into the dot format to visualise them
+    toDotGeneric() {
+      var res = "digraph g{";
+
+      var nodeTemplate2 = _.template('<%=id%> [shape=box, style=filled, color="0.66 0.1 1.0", fontname="Courier", label="<%=label%>" ]\n');
+
+      this
+      .matchNodes({type: 'ast'})
+      .map(x=>({id:x.id,label:JSON.stringify(_.assign(x,{content:{operator:x.content.operator}})).replace(/\"/g,' ')}))
+      .forEach((x) => (res += nodeTemplate2(x)))
+      .commit();
+
+      var edgeTemplate2 = _.template('<%=from.node.id%> -> <%=to.node.id%> [dir=forward, arrowHead=normal, fontname="Times-Italic", arrowsize=2, color="0.83 1.0 1.0", label="<%=id%>", headlabel="<%=to.index%>", taillabel="<%=from.index%>" ]\n');
+
+      this.matchDirectedEdges({type: 'ast' }).forEach((x) => (res += edgeTemplate2(x))).commit();
+
+
+      res += ('}');
+      return res;
+    }
+
   ///////////////////////////////////////////////////////////////////////////////
   // Export graph into the dot format to visualise them
   toDot() {

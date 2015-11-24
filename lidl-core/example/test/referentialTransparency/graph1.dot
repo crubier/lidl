@@ -1,0 +1,23 @@
+digraph g{node_2028 [shape=ellipse, style=filled, color="0.0 0.1 1.0", label="node_2028
+Identifier
+variable0" ]
+node_2031 [shape=ellipse, style=filled, color="0.0 0.1 1.0", label="node_2031
+Composition
+{theNumber:$theResult:$}" ]
+node_2035 [shape=ellipse, style=filled, color="0.0 0.1 1.0", label="node_2035
+Composition
+{theNumber:$theResult:$}" ]
+node_2022 [shape=box, style=filled, color="0.66 0.1 1.0", fontname="Courier", label="node_2022
+0
+<%=a0%>=theInterface.theNumber;
+" ]
+node_2023 [shape=box, style=filled, color="0.66 0.1 1.0", fontname="Courier", label="node_2023
+0
+theInterface.theResult=<%=a0%>;
+" ]
+node_2031 -> node_2028 [dir=none, arrowHead=none, fontname="Times-Italic", label="edge_2032",  headlabel="0", taillabel="1" ]
+node_2031 -> node_2028 [dir=none, arrowHead=none, fontname="Times-Italic", label="edge_2033",  headlabel="0", taillabel="2" ]
+node_2035 -> node_2022 [dir=none, arrowHead=none, fontname="Times-Italic", label="edge_2036",  headlabel="0", taillabel="1" ]
+node_2035 -> node_2023 [dir=none, arrowHead=none, fontname="Times-Italic", label="edge_2037",  headlabel="0", taillabel="2" ]
+node_2035 -> node_2031 [dir=none, arrowHead=none, fontname="Times-Italic", label="edge_2038",  headlabel="0", taillabel="0" ]
+}

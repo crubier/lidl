@@ -1,36 +1,36 @@
-digraph g{node_2313 [shape=ellipse, style=filled, color="0.0 0.1 1.0", label="node_2313
-Behaviour
-$withbehaviour$" ]
-node_2317 [shape=ellipse, style=filled, color="0.0 0.1 1.0", label="node_2317
-Composition
-{theNumber:$theResult:$}" ]
-node_2321 [shape=ellipse, style=filled, color="0.0 0.1 1.0", label="node_2321
+digraph g{node_2335 [shape=ellipse, style=filled, color="0.0 0.1 1.0", label="node_2335
 Identifier
 variable0" ]
-node_2324 [shape=ellipse, style=filled, color="0.0 0.1 1.0", label="node_2324
-Identifier
-variable1" ]
-node_2327 [shape=ellipse, style=filled, color="0.0 0.1 1.0", label="node_2327
-Previous
-get$frompreviousandset$fornext" ]
-node_2331 [shape=ellipse, style=filled, color="0.0 0.1 1.0", label="node_2331
+node_2338 [shape=ellipse, style=filled, color="0.0 0.1 1.0", label="node_2338
 Composition
 {theNumber:$theResult:$}" ]
-node_2307 [shape=box, style=filled, color="0.66 0.1 1.0", fontname="Courier", label="node_2307
+node_2342 [shape=ellipse, style=filled, color="0.0 0.1 1.0", label="node_2342
+Behaviour
+$withbehaviour$" ]
+node_2346 [shape=ellipse, style=filled, color="0.0 0.1 1.0", label="node_2346
+Identifier
+variable1" ]
+node_2349 [shape=ellipse, style=filled, color="0.0 0.1 1.0", label="node_2349
+Previous
+get$frompreviousandset$fornext" ]
+node_2353 [shape=ellipse, style=filled, color="0.0 0.1 1.0", label="node_2353
+Composition
+{theNumber:$theResult:$}" ]
+node_2329 [shape=box, style=filled, color="0.66 0.1 1.0", fontname="Courier", label="node_2329
 0
 <%=a0%>=theInterface.theNumber;
 " ]
-node_2308 [shape=box, style=filled, color="0.66 0.1 1.0", fontname="Courier", label="node_2308
+node_2330 [shape=box, style=filled, color="0.66 0.1 1.0", fontname="Courier", label="node_2330
 0
 theInterface.theResult=<%=a0%>;
 " ]
-node_2313 -> node_2317 [dir=none, arrowHead=none, fontname="Times-Italic", label="edge_2320",  headlabel="0", taillabel="1" ]
-node_2317 -> node_2321 [dir=none, arrowHead=none, fontname="Times-Italic", label="edge_2322",  headlabel="0", taillabel="1" ]
-node_2317 -> node_2324 [dir=none, arrowHead=none, fontname="Times-Italic", label="edge_2325",  headlabel="0", taillabel="2" ]
-node_2313 -> node_2327 [dir=none, arrowHead=none, fontname="Times-Italic", label="edge_2328",  headlabel="0", taillabel="2" ]
-node_2321 -> node_2327 [dir=none, arrowHead=none, fontname="Times-Italic", label="edge_2329",  headlabel="2", taillabel="0" ]
-node_2324 -> node_2327 [dir=none, arrowHead=none, fontname="Times-Italic", label="edge_2330",  headlabel="1", taillabel="0" ]
-node_2307 -> node_2331 [dir=none, arrowHead=none, fontname="Times-Italic", label="edge_2332",  headlabel="1", taillabel="0" ]
-node_2308 -> node_2331 [dir=none, arrowHead=none, fontname="Times-Italic", label="edge_2333",  headlabel="2", taillabel="0" ]
-node_2313 -> node_2331 [dir=none, arrowHead=none, fontname="Times-Italic", label="edge_2334",  headlabel="0", taillabel="0" ]
+node_2338 -> node_2335 [dir=none, arrowHead=none, fontname="Times-Italic", label="edge_2340",  headlabel="0", taillabel="1" ]
+node_2342 -> node_2338 [dir=none, arrowHead=none, fontname="Times-Italic", label="edge_2344",  headlabel="0", taillabel="1" ]
+node_2346 -> node_2338 [dir=none, arrowHead=none, fontname="Times-Italic", label="edge_2347",  headlabel="2", taillabel="0" ]
+node_2349 -> node_2335 [dir=none, arrowHead=none, fontname="Times-Italic", label="edge_2350",  headlabel="0", taillabel="2" ]
+node_2349 -> node_2346 [dir=none, arrowHead=none, fontname="Times-Italic", label="edge_2351",  headlabel="0", taillabel="1" ]
+node_2349 -> node_2342 [dir=none, arrowHead=none, fontname="Times-Italic", label="edge_2352",  headlabel="2", taillabel="0" ]
+node_2353 -> node_2329 [dir=none, arrowHead=none, fontname="Times-Italic", label="edge_2354",  headlabel="0", taillabel="1" ]
+node_2353 -> node_2330 [dir=none, arrowHead=none, fontname="Times-Italic", label="edge_2355",  headlabel="0", taillabel="2" ]
+node_2353 -> node_2342 [dir=none, arrowHead=none, fontname="Times-Italic", label="edge_2356",  headlabel="0", taillabel="0" ]
 }
