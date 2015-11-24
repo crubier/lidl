@@ -1,0 +1,40 @@
+digraph g{node_1964 [shape=ellipse, style=filled, color="0.0 0.1 1.0", label="node_1964
+Behaviour
+$withbehaviour$" ]
+node_1968 [shape=ellipse, style=filled, color="0.0 0.1 1.0", label="node_1968
+Composition
+{theNumber:$theResult:$}" ]
+node_1972 [shape=ellipse, style=filled, color="0.0 0.1 1.0", label="node_1972
+Identifier
+variable0" ]
+node_1975 [shape=ellipse, style=filled, color="0.0 0.1 1.0", label="node_1975
+Identifier
+variable1" ]
+node_1978 [shape=ellipse, style=filled, color="0.0 0.1 1.0", label="node_1978
+FunctionApplication
+apply$to$andget$" ]
+node_1983 [shape=ellipse, style=filled, color="0.0 0.1 1.0", label="node_1983
+Function
+functionaddOne" ]
+node_1985 [shape=ellipse, style=filled, color="0.0 0.1 1.0", label="node_1985
+Composition
+{theNumber:$theResult:$}" ]
+node_1958 [shape=box, style=filled, color="0.66 0.1 1.0", fontname="Courier", label="node_1958
+0
+<%=a0%>=theInterface.theNumber;
+" ]
+node_1959 [shape=box, style=filled, color="0.66 0.1 1.0", fontname="Courier", label="node_1959
+0
+theInterface.theResult=<%=a0%>;
+" ]
+node_1964 -> node_1968 [dir=none, arrowHead=none, fontname="Times-Italic", label="edge_1971",  headlabel="0", taillabel="1" ]
+node_1968 -> node_1972 [dir=none, arrowHead=none, fontname="Times-Italic", label="edge_1973",  headlabel="0", taillabel="1" ]
+node_1968 -> node_1975 [dir=none, arrowHead=none, fontname="Times-Italic", label="edge_1976",  headlabel="0", taillabel="2" ]
+node_1964 -> node_1978 [dir=none, arrowHead=none, fontname="Times-Italic", label="edge_1980",  headlabel="0", taillabel="2" ]
+node_1972 -> node_1978 [dir=none, arrowHead=none, fontname="Times-Italic", label="edge_1981",  headlabel="2", taillabel="0" ]
+node_1975 -> node_1978 [dir=none, arrowHead=none, fontname="Times-Italic", label="edge_1982",  headlabel="3", taillabel="0" ]
+node_1978 -> node_1983 [dir=none, arrowHead=none, fontname="Times-Italic", label="edge_1984",  headlabel="0", taillabel="1" ]
+node_1958 -> node_1985 [dir=none, arrowHead=none, fontname="Times-Italic", label="edge_1986",  headlabel="1", taillabel="0" ]
+node_1959 -> node_1985 [dir=none, arrowHead=none, fontname="Times-Italic", label="edge_1987",  headlabel="2", taillabel="0" ]
+node_1964 -> node_1985 [dir=none, arrowHead=none, fontname="Times-Italic", label="edge_1988",  headlabel="0", taillabel="0" ]
+}

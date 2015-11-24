@@ -1,0 +1,36 @@
+digraph g{node_1850 [shape=ellipse, style=filled, color="0.0 0.1 1.0", label="node_1850
+Composition
+{theNumber:$theResult:$}" ]
+node_1854 [shape=ellipse, style=filled, color="0.0 0.1 1.0", label="node_1854
+Identifier
+variable0" ]
+node_1857 [shape=ellipse, style=filled, color="0.0 0.1 1.0", label="node_1857
+Behaviour
+$withbehaviour$" ]
+node_1861 [shape=ellipse, style=filled, color="0.0 0.1 1.0", label="node_1861
+Identifier
+variable1" ]
+node_1864 [shape=ellipse, style=filled, color="0.0 0.1 1.0", label="node_1864
+Previous
+get$frompreviousandset$fornext" ]
+node_1868 [shape=ellipse, style=filled, color="0.0 0.1 1.0", label="node_1868
+Composition
+{theNumber:$theResult:$}" ]
+node_1844 [shape=box, style=filled, color="0.66 0.1 1.0", fontname="Courier", label="node_1844
+0
+<%=a0%>=theInterface.theNumber;
+" ]
+node_1845 [shape=box, style=filled, color="0.66 0.1 1.0", fontname="Courier", label="node_1845
+0
+theInterface.theResult=<%=a0%>;
+" ]
+node_1850 -> node_1854 [dir=none, arrowHead=none, fontname="Times-Italic", label="edge_1855",  headlabel="0", taillabel="1" ]
+node_1850 -> node_1857 [dir=none, arrowHead=none, fontname="Times-Italic", label="edge_1860",  headlabel="0", taillabel="2" ]
+node_1857 -> node_1861 [dir=none, arrowHead=none, fontname="Times-Italic", label="edge_1862",  headlabel="0", taillabel="1" ]
+node_1854 -> node_1864 [dir=none, arrowHead=none, fontname="Times-Italic", label="edge_1865",  headlabel="2", taillabel="0" ]
+node_1857 -> node_1864 [dir=none, arrowHead=none, fontname="Times-Italic", label="edge_1866",  headlabel="0", taillabel="2" ]
+node_1861 -> node_1864 [dir=none, arrowHead=none, fontname="Times-Italic", label="edge_1867",  headlabel="1", taillabel="0" ]
+node_1844 -> node_1868 [dir=none, arrowHead=none, fontname="Times-Italic", label="edge_1869",  headlabel="1", taillabel="0" ]
+node_1845 -> node_1868 [dir=none, arrowHead=none, fontname="Times-Italic", label="edge_1870",  headlabel="2", taillabel="0" ]
+node_1850 -> node_1868 [dir=none, arrowHead=none, fontname="Times-Italic", label="edge_1871",  headlabel="0", taillabel="0" ]
+}

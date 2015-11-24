@@ -207,7 +207,7 @@ class Graph {
       content: {
         type: 'InteractionNative'
       }
-    }).forEach(x=>{x.executionOrder = 0;}).forEach((x) => (res += nodeTemplate2(x))).commit();
+    }).map(x=>_.assign(_.clone(x),{executionOrder : 0})).forEach((x) => (res += nodeTemplate2(x))).commit();
 
 
     var edgeTemplate1 = _.template('<%=from.node.id%> -> <%=to.node.id%> [dir=none, arrowHead=none, fontname="Times-Italic", label="<%=id%>",  headlabel="<%=to.index%>", taillabel="<%=from.index%>" ]\n');

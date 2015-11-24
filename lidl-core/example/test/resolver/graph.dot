@@ -1,68 +1,68 @@
-digraph g{node_1333 [shape=box, style=filled, color="0.66 0.1 1.0", fontname="Courier", label="node_1333
+digraph g{node_2106 [shape=box, style=filled, color="0.66 0.1 1.0", fontname="Courier", label="node_2106
 0
 <%=a0%>=theInterface.theNumber;
 " ]
-node_1334 [shape=box, style=filled, color="0.66 0.1 1.0", fontname="Courier", label="node_1334
+node_2107 [shape=box, style=filled, color="0.66 0.1 1.0", fontname="Courier", label="node_2107
 0
 <%=a0%>=theInterface.theOther;
 " ]
-node_1335 [shape=box, style=filled, color="0.66 0.1 1.0", fontname="Courier", label="node_1335
+node_2108 [shape=box, style=filled, color="0.66 0.1 1.0", fontname="Courier", label="node_2108
 0
 theInterface.theResult=<%=a0%>;
 " ]
-node_1336 [shape=box, style=filled, color="0.66 0.1 1.0", fontname="Courier", label="node_1336
+node_2109 [shape=box, style=filled, color="0.66 0.1 1.0", fontname="Courier", label="node_2109
 0
 theInterface.theLast=<%=a0%>;
 " ]
-node_1366 [shape=box, style=filled, color="0.66 0.1 1.0", fontname="Courier", label="node_1366
+node_2139 [shape=box, style=filled, color="0.66 0.1 1.0", fontname="Courier", label="node_2139
 0
 <%=a0%> = active;
 " ]
-node_1437 [shape=box, style=filled, color="0.66 0.1 1.0", fontname="Courier", label="node_1437
+node_2210 [shape=box, style=filled, color="0.66 0.1 1.0", fontname="Courier", label="node_2210
 0
 <%=a1%> = <%=a0%>;
 <%=a2%> = <%=a0%>;
 " ]
-node_1441 [shape=box, style=filled, color="0.66 0.1 1.0", fontname="Courier", label="node_1441
+node_2214 [shape=box, style=filled, color="0.66 0.1 1.0", fontname="Courier", label="node_2214
 0
 <%=a0%>=null;
 if(<%=a0%>===null ){
   <%=a0%> = <%=a1%>;
 } else if (<%=a1%> !== null){
-  throw('error:multiple active assignment to the same interaction');
+  throw('error:multiple active assignments to the same signal <%=a0%> : '+<%=a0%> + ' and ' + <%=a1%>);
 }if(<%=a0%>===null ){
   <%=a0%> = <%=a2%>;
 } else if (<%=a2%> !== null){
-  throw('error:multiple active assignment to the same interaction');
+  throw('error:multiple active assignments to the same signal <%=a0%> : '+<%=a0%> + ' and ' + <%=a2%>);
 }" ]
-node_1445 [shape=box, style=filled, color="0.66 0.1 1.0", fontname="Courier", label="node_1445
+node_2218 [shape=box, style=filled, color="0.66 0.1 1.0", fontname="Courier", label="node_2218
 0
 <%=a1%> = <%=a0%>;
 <%=a2%> = <%=a0%>;
 " ]
-node_1449 [shape=box, style=filled, color="0.66 0.1 1.0", fontname="Courier", label="node_1449
+node_2222 [shape=box, style=filled, color="0.66 0.1 1.0", fontname="Courier", label="node_2222
 0
 <%=a0%>=null;
 if(<%=a0%>===null ){
   <%=a0%> = <%=a1%>;
 } else if (<%=a1%> !== null){
-  throw('error:multiple active assignment to the same interaction');
+  throw('error:multiple active assignments to the same signal <%=a0%> : '+<%=a0%> + ' and ' + <%=a1%>);
 }if(<%=a0%>===null ){
   <%=a0%> = <%=a2%>;
 } else if (<%=a2%> !== null){
-  throw('error:multiple active assignment to the same interaction');
+  throw('error:multiple active assignments to the same signal <%=a0%> : '+<%=a0%> + ' and ' + <%=a2%>);
 }" ]
-node_1453 [shape=box, style=filled, color="0.66 0.1 1.0", fontname="Courier", label="node_1453
+node_2226 [shape=box, style=filled, color="0.66 0.1 1.0", fontname="Courier", label="node_2226
 0
 // We dont care about <%=a0%>, this is a fake receiver node
 " ]
-node_1333 -> node_1437 [dir=none, arrowHead=none, fontname="Times-Italic", label="edge_1438",  headlabel="0", taillabel="0" ]
-node_1441 -> node_1336 [dir=none, arrowHead=none, fontname="Times-Italic", label="edge_1442",  headlabel="0", taillabel="0" ]
-node_1437 -> node_1441 [dir=none, arrowHead=none, fontname="Times-Italic", label="edge_1444",  headlabel="2", taillabel="1" ]
-node_1334 -> node_1445 [dir=none, arrowHead=none, fontname="Times-Italic", label="edge_1446",  headlabel="0", taillabel="0" ]
-node_1445 -> node_1441 [dir=none, arrowHead=none, fontname="Times-Italic", label="edge_1447",  headlabel="1", taillabel="1" ]
-node_1449 -> node_1335 [dir=none, arrowHead=none, fontname="Times-Italic", label="edge_1450",  headlabel="0", taillabel="0" ]
-node_1437 -> node_1449 [dir=none, arrowHead=none, fontname="Times-Italic", label="edge_1451",  headlabel="1", taillabel="2" ]
-node_1445 -> node_1449 [dir=none, arrowHead=none, fontname="Times-Italic", label="edge_1452",  headlabel="2", taillabel="2" ]
-node_1366 -> node_1453 [dir=none, arrowHead=none, fontname="Times-Italic", label="edge_1454",  headlabel="0", taillabel="0" ]
+node_2106 -> node_2210 [dir=none, arrowHead=none, fontname="Times-Italic", label="edge_2211",  headlabel="0", taillabel="0" ]
+node_2214 -> node_2109 [dir=none, arrowHead=none, fontname="Times-Italic", label="edge_2215",  headlabel="0", taillabel="0" ]
+node_2210 -> node_2214 [dir=none, arrowHead=none, fontname="Times-Italic", label="edge_2217",  headlabel="2", taillabel="1" ]
+node_2107 -> node_2218 [dir=none, arrowHead=none, fontname="Times-Italic", label="edge_2219",  headlabel="0", taillabel="0" ]
+node_2218 -> node_2214 [dir=none, arrowHead=none, fontname="Times-Italic", label="edge_2220",  headlabel="1", taillabel="1" ]
+node_2222 -> node_2108 [dir=none, arrowHead=none, fontname="Times-Italic", label="edge_2223",  headlabel="0", taillabel="0" ]
+node_2210 -> node_2222 [dir=none, arrowHead=none, fontname="Times-Italic", label="edge_2224",  headlabel="1", taillabel="2" ]
+node_2218 -> node_2222 [dir=none, arrowHead=none, fontname="Times-Italic", label="edge_2225",  headlabel="2", taillabel="2" ]
+node_2139 -> node_2226 [dir=none, arrowHead=none, fontname="Times-Italic", label="edge_2227",  headlabel="0", taillabel="0" ]
 }

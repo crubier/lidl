@@ -1,0 +1,40 @@
+digraph g{node_22 [shape=ellipse, style=filled, color="0.0 0.1 1.0", label="node_22
+Behaviour
+$withbehaviour$" ]
+node_26 [shape=ellipse, style=filled, color="0.0 0.1 1.0", label="node_26
+Composition
+{theNumber:$theResult:$}" ]
+node_30 [shape=ellipse, style=filled, color="0.0 0.1 1.0", label="node_30
+Identifier
+variable0" ]
+node_33 [shape=ellipse, style=filled, color="0.0 0.1 1.0", label="node_33
+Identifier
+variable1" ]
+node_36 [shape=ellipse, style=filled, color="0.0 0.1 1.0", label="node_36
+FunctionApplication
+apply$to$andget$" ]
+node_41 [shape=ellipse, style=filled, color="0.0 0.1 1.0", label="node_41
+Function
+functionidentity" ]
+node_43 [shape=ellipse, style=filled, color="0.0 0.1 1.0", label="node_43
+Composition
+{theNumber:$theResult:$}" ]
+node_16 [shape=box, style=filled, color="0.66 0.1 1.0", fontname="Courier", label="node_16
+0
+<%=a0%>=theInterface.theNumber;
+" ]
+node_17 [shape=box, style=filled, color="0.66 0.1 1.0", fontname="Courier", label="node_17
+0
+theInterface.theResult=<%=a0%>;
+" ]
+node_22 -> node_26 [dir=none, arrowHead=none, fontname="Times-Italic", label="edge_29",  headlabel="0", taillabel="1" ]
+node_26 -> node_30 [dir=none, arrowHead=none, fontname="Times-Italic", label="edge_31",  headlabel="0", taillabel="1" ]
+node_26 -> node_33 [dir=none, arrowHead=none, fontname="Times-Italic", label="edge_34",  headlabel="0", taillabel="2" ]
+node_22 -> node_36 [dir=none, arrowHead=none, fontname="Times-Italic", label="edge_38",  headlabel="0", taillabel="2" ]
+node_30 -> node_36 [dir=none, arrowHead=none, fontname="Times-Italic", label="edge_39",  headlabel="2", taillabel="0" ]
+node_33 -> node_36 [dir=none, arrowHead=none, fontname="Times-Italic", label="edge_40",  headlabel="3", taillabel="0" ]
+node_36 -> node_41 [dir=none, arrowHead=none, fontname="Times-Italic", label="edge_42",  headlabel="0", taillabel="1" ]
+node_16 -> node_43 [dir=none, arrowHead=none, fontname="Times-Italic", label="edge_44",  headlabel="1", taillabel="0" ]
+node_17 -> node_43 [dir=none, arrowHead=none, fontname="Times-Italic", label="edge_45",  headlabel="2", taillabel="0" ]
+node_22 -> node_43 [dir=none, arrowHead=none, fontname="Times-Italic", label="edge_46",  headlabel="0", taillabel="0" ]
+}

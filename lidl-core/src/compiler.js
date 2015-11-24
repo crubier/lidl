@@ -32,7 +32,7 @@ function compileToIii(source) {
   );
 }
 
-function compileToGraph(source) {
+function compileToGraph(source,upto) {
     // console.log("===========================================")
   var graph = new Graph();
   var mainDef = parser.parse(source)[0];
@@ -49,6 +49,9 @@ function compileToGraph(source) {
 
   addOperatorTypeAnnotation(graph);
   referentialTransparency(graph);
+
+  if(upto == 'referentialTransparency') return graph;
+
   linkIdentifiers(graph);
   voidInteractionCreation(graph);
   behaviourSeparation(graph);
@@ -75,8 +78,8 @@ function compileToGraph(source) {
 
   //TODO
   resolveMultiplePorts(graph);
-instantiateTemplates(graph);
-orderGraph(graph);
+  instantiateTemplates(graph);
+  orderGraph(graph);
 
   return graph;
 }
@@ -318,20 +321,44 @@ function previousNextLinking(graph) {
   (theResult,theNode)=>{
     let stateId = _.uniqueId('state_');
 
+    // Add a first node to get from state variable
     let source =
       graph
-      .addNode({type:'ast',containsAState:true,stateVariableName:stateId,content:{'type': 'InteractionNative','content': "if(<%=a0%> === active) {\n<%=a1%> = previousState['" + stateId + "'];\nnextState['" + stateId + "'] = <%=a2%>;\n}\n"},ports: ["in", "out", "in"]});
-    _(_.range(3))
-    .forEach(i=>
+      .addNode({type:'ast',containsAState:true,stateVariableName:stateId,content:{'type': 'InteractionNative','content': "if(<%=a0%> === active) {\n<%=a1%> = previousState['" + stateId + "'];\n}\n"},ports: ["in", "out"]});
+    // Add edge to first port
+    graph
+    .matchUndirectedEdges({type:'ast',from:{node:theNode,index:0}})
+    .forEach(x=>
       graph
-      .matchUndirectedEdges({type:'ast',from:{node:theNode,index:i}})
-      .forEach(x=>
-        graph
-        .addEdge({type:'ast',from:{node:source,index:i},to:x.to}))
-      .commit())
+      .addEdge({type:'ast',from:{node:source,index:0},to:x.to}))
+    .commit();
+    // Add edge to second port
+    graph
+    .matchUndirectedEdges({type:'ast',from:{node:theNode,index:1}})
+    .forEach(x=>
+      graph
+      .addEdge({type:'ast',from:{node:source,index:1},to:x.to}))
     .commit();
 
-    
+
+    // Add a second node to set state variable
+    let source2 =
+      graph
+      .addNode({type:'ast',containsAState:true,stateVariableName:stateId,content:{'type': 'InteractionNative','content': "if(<%=a0%> === active) {\nnextState['" + stateId + "'] = <%=a1%>;\n}\n"},ports: ["in", "in"]});
+      // Add edge to first port
+    graph
+    .matchUndirectedEdges({type:'ast',from:{node:theNode,index:0}})
+    .forEach(x=>
+      graph
+      .addEdge({type:'ast',from:{node:source2,index:0},to:x.to}))
+    .commit();
+      // Add edge to second port
+    graph
+    .matchUndirectedEdges({type:'ast',from:{node:theNode,index:2}})
+    .forEach(x=>
+      graph
+      .addEdge({type:'ast',from:{node:source2,index:1},to:x.to}))
+    .commit();
 
 
     graph
@@ -757,7 +784,7 @@ function resolveMultiplePorts(graph) {
         let ports = ["out"];
         _(similarInputEdges)
         .forEach((similarEdge,index)=>{
-          code = code + "if(<%=a0%>===null ){\n  <%=a0%> = <%=a"+(index+1)+"%>;\n} else if (<%=a"+(index+1)+"%> !== null){\n  throw('error:multiple active assignment to the same interaction');\n}";
+          code = code + "if(<%=a0%>===null ){\n  <%=a0%> = <%=a"+(index+1)+"%>;\n} else if (<%=a"+(index+1)+"%> !== null){\n  throw('error:multiple active assignments to the same signal <%=a0%> : '+<%=a0%> + ' and ' + <%=a"+(index+1)+"%>);\n}";
           ports.push("in");
         })
         .commit();
@@ -854,58 +881,6 @@ function resolveMultiplePorts(graph) {
 
 
 
-// Use tarjan algorithm to order the graph
-function orderGraph(graph) {
-
-  let orderingList = [];
-
-  graph
-  .matchNodes({type:'ast'})
-  .forEach(x=>{x.markedDuringGraphOrdering=false;})
-  .commit();
-
-  graph
-  .reduceNodes({markedDuringGraphOrdering:false},
-  (theResult,theNode)=>{
-    visit(theNode,[theNode]);
-  });
-
-  function visit(n,stack) {
-
-    if (n.temporarilyMarkedDuringGraphOrdering === true) {
-      //TODO Add traceback to initial AST (change code everywhere in order to add traceability)
-      throw "Error, the DAG contains cycles : "+_(stack).concat([n]).map('id').join(" -> ");
-    } else {
-      if (n.markedDuringGraphOrdering !== true) {
-        n.temporarilyMarkedDuringGraphOrdering = true;
-        graph
-        .matchNodes(m=>
-          graph
-          .matchUndirectedEdges({type: 'ast',from: {node:n},to: {node:m}})
-          .filter(edge => portIsOnlyMadeOf(edge.from.ports,'out') && portIsOnlyMadeOf(edge.to.ports,'in') )
-          .size() > 0)
-        .forEach(m=>visit(m,_(stack).concat([m]).value()))
-        .commit();
-
-        n.markedDuringGraphOrdering = true;
-        n.temporarilyMarkedDuringGraphOrdering = false;
-        orderingList.unshift(n);
-      }
-    }
-
-  }
-
-
-  // The list is now ordered ! (Hopefully)
-  //  We write the order in the nodes
-  _(orderingList)
-  .forEach((node, index) =>{node.executionOrder = index;})
-  .commit();
-
-
-}
-
-
 
 
 
@@ -962,89 +937,118 @@ function instantiateTemplates(graph) {
     if(shouldGenerate){
       // console.log(theArgs)
       theNode.codeGeneration = {'js': _.template(theNode.content.content)(theArgs)};
+      theNode.codeGenerated = true;
     }
 
     theNode.shouldDoCodeGeneration = false;
 
   });
 
-  //
-  // var matchNode = function(x) {
-  //   if (x.content === undefined) return false;
-  //   return x.content.type === "InteractionNative" && x.finished !== true && x.codeGeneration === undefined;
-  // };
-  //
-  // var b = _.find(graph.nodes, matchNode);
-  // while (b !== undefined) {
-  //   var i;
-  //   // TODO extend i in case bigger interactions happen !
-  //   var edgesNameList = {};
-  //   for (i = 0; i < 1000; i++)  {
-  //
-  //     var incomingEdgesforCurrentI = _.filter(graph.edges, {
-  //       type: 'DataFlowEdge',
-  //       from: {
-  //         finished: false
-  //       },
-  //       to: b,
-  //       toIndex: i,
-  //       finished: false
-  //     });
-  //     var outgoingEdgesforCurrentI = _.filter(graph.edges, {
-  //       type: 'DataFlowEdge',
-  //       to: {
-  //         finished: false
-  //       },
-  //       from: b,
-  //       fromIndex: i,
-  //       finished: false
-  //     });
-  //
-  //     if (_.isEmpty(incomingEdgesforCurrentI) && _.isEmpty(outgoingEdgesforCurrentI)) {
-  //       //TODO We sequentially did the arguments of the node until we found a i for which there is no argument.
-  //       // We are probably finished but are we sure ??....
-  //       break;
-  //     } else if (incomingEdgesforCurrentI.length === 1 && outgoingEdgesforCurrentI.length === 0) {
-  //       edgesNameList["a" + i] = incomingEdgesforCurrentI[0].id;
-  //     } else if (incomingEdgesforCurrentI.length === 0 && outgoingEdgesforCurrentI.length === 1) {
-  //       edgesNameList["a" + i] = outgoingEdgesforCurrentI[0].id;
-  //     } else {
-  //       throw 'Error: a node has several edges going on the same port'
-  //     }
-  //   }
-  //
-  //
-  //   b.codeGeneration = {
-  //     'js': _.template(b.content.content)(edgesNameList)
-  //   };
-  //
-  //   var b = _.find(graph.nodes, matchNode);
-  // }
 }
 
 
+
+
+
+// Use tarjan algorithm to order the graph
+function orderGraph(graph) {
+
+  let orderingList = [];
+
+  graph
+  .matchNodes({type:'ast'})
+  .forEach(x=>{x.markedDuringGraphOrdering=false;})
+  .commit();
+
+  graph
+  .reduceNodes({markedDuringGraphOrdering:false},
+  (theResult,theNode)=>{
+    visit(theNode);
+  });
+
+  function visit(n) {
+
+    if (n.temporarilyMarkedDuringGraphOrdering === true) {
+      //TODO Add traceback to initial AST (change code everywhere in order to add traceability)
+      throw "Error, the DAG contains cycles : ";//+_(stack).concat([n]).map('id').join(" -> ");
+    } else {
+      if (n.markedDuringGraphOrdering !== true) {
+        n.temporarilyMarkedDuringGraphOrdering = true;
+        graph
+        .matchNodes(m=>
+          graph
+          .matchUndirectedEdges({type: 'ast',from: {node:n},to: {node:m}})
+          .filter(edge => portIsOnlyMadeOf(edge.from.ports,'out') && portIsOnlyMadeOf(edge.to.ports,'in') )
+          .size() > 0)
+        .forEach(visit)
+        .commit();
+
+        n.markedDuringGraphOrdering = true;
+        n.temporarilyMarkedDuringGraphOrdering = false;
+        orderingList.unshift(n);
+      }
+    }
+
+  }
+
+  // The list is now ordered ! (Hopefully)
+  //  We write the order in the nodes
+  _(orderingList)
+  .forEach((node, ii) => {node.hasExecutionOrder=true;node.executionOrder = ii;})
+  .commit();
+  // .forEach(function(node, ii) {console.log("iii "+ii);node.hasExecutionOrder=true;node.executionOrder = ii;})
+  // .forEach((node, index) =>{console.log(node.executionOrder);})
+  // .commit();
+
+
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 function generateJsCode(graph, header) {
-  var matchNode = function(x) {
-    return x.codeGeneration !== undefined && x.executionOrder !== undefined && x.finished !== true;
-  };
 
-  var matchFlows = function(x) {
-    return x.type === 'DataFlowEdge' && x.finished !== true && x.to.finished !== true && x.from.finished !== true;
-  };
 
-  var matchStateNode = function(x) {
-    return x.containsAState === true && x.finished !== true;
-  };
+  var nodesCode =
+  graph
+  .matchNodes({type:'ast',codeGenerated:true,hasExecutionOrder:true})
+  .sortBy('executionOrder')
+  .pluck('codeGeneration')
+  .pluck('js')
+  .join('\n');
 
+  var edgeTemplate = _.template("var <%=id%> = inactive;");
+  var edgesCode =
+  graph
+  .matchDirectedEdges({type:'ast'})
+  .map(edgeTemplate)
+  .join('\n');
+
+  var stateTemplate = _.template("<%=stateVariableName%>:null");
+  var statesCode =
+  graph
+  .matchNodes({type:'ast',containsAState:true})
+  .unique('stateVariableName')
+  .map(stateTemplate)
+  .join(",\n");
+
+  // console.log(edgesCode);
 
   var conf = {
-    'edgesCode': _.map(_.filter(graph.edges, matchFlows), function(x) {
-      return "var " + x.id + " = inactive;\n"
-    }).join(""),
-    'nodesCode': _.pluck(_.pluck(_.sortBy(_.filter(graph.nodes, matchNode), 'executionOrder'), 'codeGeneration'), 'js').join("\n"),
-    'statesCode': _.map(_.pluck(_.filter(graph.nodes, matchStateNode), 'stateVariableName'), function(x) {
-      return x + ":null"
-    }).join(",\n"),
+    'edgesCode': edgesCode,
+    'nodesCode': nodesCode,
+    'statesCode': statesCode,
     'customHeader': header,
     'standardHeader': jsStandardHeader
   };

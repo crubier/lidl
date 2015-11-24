@@ -126,47 +126,55 @@ var all = function(x) {
 ///////////////////////////////////////////////////////////////////////
 //Declaration of variables
 
-
+var edge_2211 = inactive;
+var edge_2215 = inactive;
+var edge_2217 = inactive;
+var edge_2219 = inactive;
+var edge_2220 = inactive;
+var edge_2223 = inactive;
+var edge_2224 = inactive;
+var edge_2225 = inactive;
+var edge_2227 = inactive;
 ///////////////////////////////////////////////////////////////////////
 //Code of the DAG
 
-edge_1454 = active;
+edge_2227 = active;
 
-// We dont care about edge_1454, this is a fake receiver node
+// We dont care about edge_2227, this is a fake receiver node
 
-edge_1446=theInterface.theOther;
+edge_2219=theInterface.theOther;
 
-edge_1447 = edge_1446;
-edge_1452 = edge_1446;
+edge_2220 = edge_2219;
+edge_2225 = edge_2219;
 
-edge_1438=theInterface.theNumber;
+edge_2211=theInterface.theNumber;
 
-edge_1444 = edge_1438;
-edge_1451 = edge_1438;
+edge_2217 = edge_2211;
+edge_2224 = edge_2211;
 
-edge_1450=null;
-if(edge_1450===null ){
-  edge_1450 = edge_1451;
-} else if (edge_1451 !== null){
-  throw('error:multiple active assignment to the same interaction');
-}if(edge_1450===null ){
-  edge_1450 = edge_1452;
-} else if (edge_1452 !== null){
-  throw('error:multiple active assignment to the same interaction');
+edge_2223=null;
+if(edge_2223===null ){
+  edge_2223 = edge_2224;
+} else if (edge_2224 !== null){
+  throw('error:multiple active assignments to the same signal edge_2223 : '+edge_2223 + ' and ' + edge_2224);
+}if(edge_2223===null ){
+  edge_2223 = edge_2225;
+} else if (edge_2225 !== null){
+  throw('error:multiple active assignments to the same signal edge_2223 : '+edge_2223 + ' and ' + edge_2225);
 }
-theInterface.theResult=edge_1450;
+theInterface.theResult=edge_2223;
 
-edge_1442=null;
-if(edge_1442===null ){
-  edge_1442 = edge_1447;
-} else if (edge_1447 !== null){
-  throw('error:multiple active assignment to the same interaction');
-}if(edge_1442===null ){
-  edge_1442 = edge_1444;
-} else if (edge_1444 !== null){
-  throw('error:multiple active assignment to the same interaction');
+edge_2215=null;
+if(edge_2215===null ){
+  edge_2215 = edge_2220;
+} else if (edge_2220 !== null){
+  throw('error:multiple active assignments to the same signal edge_2215 : '+edge_2215 + ' and ' + edge_2220);
+}if(edge_2215===null ){
+  edge_2215 = edge_2217;
+} else if (edge_2217 !== null){
+  throw('error:multiple active assignments to the same signal edge_2215 : '+edge_2215 + ' and ' + edge_2217);
 }
-theInterface.theLast=edge_1442;
+theInterface.theLast=edge_2215;
 
 ///////////////////////////////////////////////////////////////////////
 //Return statement

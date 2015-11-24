@@ -1,0 +1,35 @@
+digraph g{node_2080 [shape=ellipse, style=filled, color="0.0 0.1 1.0", label="node_2080
+Composition
+{theNumber:$theOther:$theResult:$theLast:$}" ]
+node_2086 [shape=ellipse, style=filled, color="0.0 0.1 1.0", label="node_2086
+Identifier
+variable0" ]
+node_2091 [shape=ellipse, style=filled, color="0.0 0.1 1.0", label="node_2091
+Composition
+{theNumber:$theOther:$theResult:$theLast:$}" ]
+node_2070 [shape=box, style=filled, color="0.66 0.1 1.0", fontname="Courier", label="node_2070
+0
+<%=a0%>=theInterface.theNumber;
+" ]
+node_2071 [shape=box, style=filled, color="0.66 0.1 1.0", fontname="Courier", label="node_2071
+0
+<%=a0%>=theInterface.theOther;
+" ]
+node_2072 [shape=box, style=filled, color="0.66 0.1 1.0", fontname="Courier", label="node_2072
+0
+theInterface.theResult=<%=a0%>;
+" ]
+node_2073 [shape=box, style=filled, color="0.66 0.1 1.0", fontname="Courier", label="node_2073
+0
+theInterface.theLast=<%=a0%>;
+" ]
+node_2080 -> node_2086 [dir=none, arrowHead=none, fontname="Times-Italic", label="edge_2087",  headlabel="0", taillabel="1" ]
+node_2080 -> node_2086 [dir=none, arrowHead=none, fontname="Times-Italic", label="edge_2088",  headlabel="0", taillabel="2" ]
+node_2080 -> node_2086 [dir=none, arrowHead=none, fontname="Times-Italic", label="edge_2089",  headlabel="0", taillabel="3" ]
+node_2080 -> node_2086 [dir=none, arrowHead=none, fontname="Times-Italic", label="edge_2090",  headlabel="0", taillabel="4" ]
+node_2070 -> node_2091 [dir=none, arrowHead=none, fontname="Times-Italic", label="edge_2092",  headlabel="1", taillabel="0" ]
+node_2071 -> node_2091 [dir=none, arrowHead=none, fontname="Times-Italic", label="edge_2093",  headlabel="2", taillabel="0" ]
+node_2072 -> node_2091 [dir=none, arrowHead=none, fontname="Times-Italic", label="edge_2094",  headlabel="3", taillabel="0" ]
+node_2073 -> node_2091 [dir=none, arrowHead=none, fontname="Times-Italic", label="edge_2095",  headlabel="4", taillabel="0" ]
+node_2080 -> node_2091 [dir=none, arrowHead=none, fontname="Times-Italic", label="edge_2096",  headlabel="0", taillabel="0" ]
+}

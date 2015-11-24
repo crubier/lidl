@@ -1,7 +1,7 @@
 [
   {
     "args":  {},
-    "inter":  { "theNumber": 50,  "theResult": 1 }
+    "inter":  { "theNumber": null,  "theResult": 1 }
   },
   {
     "args":  {},
