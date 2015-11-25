@@ -29,6 +29,7 @@
     "fbjs": "^0.4.0",
     "flux": "^2.1.1",
     "gl-matrix": "^2.3.1",
+    "js-beautify": "^1.5.10",
     "lodash": "^3.10.1",
     "react": "^0.14.3",
     "react-ace": "^2.6.0",
@@ -49,7 +50,7 @@
     ]
   },
   "browserify": {
-    "debug":true,
+    "debug": true,
     "transform": [
       [
         "babelify"

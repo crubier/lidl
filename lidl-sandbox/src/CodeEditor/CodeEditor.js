@@ -13,29 +13,31 @@ var AceEditor  = require('react-ace');
 require('brace/mode/text');
 require('brace/theme/chrome');
 
-function onChange(newValue) {
-  console.log('change',newValue)
-}
-
 export default class CodeEditor extends Component {
 
   constructor(props){
     super(props);
   }
 
+    static PropTypes = {
+      onChange:PropTypes.func.isRequired
+    };
+
+
   render() {
-return (<div style={{width:"100%"}}>
-<AceEditor
-    mode="text"
-    theme="chrome"
-    width="100%"
-    onChange={onChange}
-    name="codeEditorAce"
-    showPrintMargin={false}
-    showGutter={true}
-    editorProps={{$blockScrolling: true}}
-  />
-</div>);
+    return (<div style={{width:"100%"}}>
+      <AceEditor
+          mode="text"
+          theme="chrome"
+          width="100%"
+          value={this.props.value}
+          onChange={this.props.onChange}
+          name="codeEditorAce"
+          showPrintMargin={false}
+          showGutter={true}
+          editorProps={{$blockScrolling: true}}
+        />
+    </div>);
 
   }
 }

@@ -4,6 +4,8 @@ import React, {
 }
 from 'react';
 
+import _ from 'lodash';
+
 export default class ErrorDisplay extends Component {
 
   constructor(props){
@@ -12,7 +14,7 @@ export default class ErrorDisplay extends Component {
 
   render() {
 return (<div style={{width:"100%"}}>
- <p> no problem </p>
+ <p> {_.isNull(this.props.lidlCodeError)?"No error":this.props.lidlCodeError.message} </p>
 </div>);
 
   }

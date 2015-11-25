@@ -78,22 +78,22 @@ export default class Analysis extends Component {
     var nbrCompositions = nbrOfCompositions(interaction);
     return (
 
-      < div >
-      < p > {
+      <div>
+      <p> {
         this.props.compiledInteraction
-      } < /p> < p > {
+      } </p> <p> {
         "Number of previous :" + nbrPrevious
-      } < /p> < p > {
+      } </p> <p> {
         "Number of identifiers :" + nbrIdentifiers
-      } < /p> < p > {
+      } </p> <p> {
         "Number of functions :" + nbrFunctions
-      } < /p> < p > {
+      } </p> <p> {
         "Number of compositions :" + nbrCompositions
-      } < /p> < p > {
+      } </p> <p> {
         "Number of variables :" + (nbrPrevious + nbrIdentifiers)
-      } < /p> < p > {
+      } </p> <p> {
         "Total of interactions :" + (nbrCompositions + nbrFunctions + nbrPrevious + nbrIdentifiers)
-      } < /p> < /div>
+      } </p> </div>
     );
   }
 }
