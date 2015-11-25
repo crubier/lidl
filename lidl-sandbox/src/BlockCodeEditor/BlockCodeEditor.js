@@ -63,7 +63,6 @@ class BlockCodeEditor extends Component {
   render() {
     return (
       <div>
-        <h1> Code </h1>
         <Interaction onChange = {this.handleChange.bind(this)} val = {this.state.code}/>
       </div>
     );

@@ -8,8 +8,8 @@ from 'react';
 var brace  = require('brace');
 var AceEditor  = require('react-ace');
 
-require('brace/mode/json')
-require('brace/theme/chrome')
+require('brace/mode/json');
+require('brace/theme/chrome');
 
 function onChange(newValue) {
   console.log('change',newValue)
@@ -24,7 +24,6 @@ export default class ScenarioEditor extends Component {
 
   render() {
     return (<div style={{width:"100%"}}>
-    <h1> Scenario </h1>
     <AceEditor
       mode="json"
       theme="chrome"

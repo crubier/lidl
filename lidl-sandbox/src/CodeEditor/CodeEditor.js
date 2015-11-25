@@ -7,6 +7,15 @@ from 'react';
 import ReactCSSTransitionGroup from 'react-addons-css-transition-group';
 
 
+var brace  = require('brace');
+var AceEditor  = require('react-ace');
+
+require('brace/mode/text');
+require('brace/theme/chrome');
+
+function onChange(newValue) {
+  console.log('change',newValue)
+}
 
 export default class CodeEditor extends Component {
 
@@ -16,10 +25,16 @@ export default class CodeEditor extends Component {
 
   render() {
 return (<div style={{width:"100%"}}>
-<ReactCSSTransitionGroup transitionName="block" transitionAppear={true} transitionAppearTimeout={300} transitionEnterTimeout={300} transitionLeaveTimeout={300}>
-<h1> Code </h1>
-</ReactCSSTransitionGroup>
-<textarea id="code" value = {"Bobie"} name="code" style={{width:"100%"}}/>
+<AceEditor
+    mode="text"
+    theme="chrome"
+    width="100%"
+    onChange={onChange}
+    name="codeEditorAce"
+    showPrintMargin={false}
+    showGutter={true}
+    editorProps={{$blockScrolling: true}}
+  />
 </div>);
 
   }

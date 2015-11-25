@@ -79,7 +79,7 @@ export default class Analysis extends Component {
     return (
 
       < div >
-      < h1 > Analysis < /h1> < p > {
+      < p > {
         this.props.compiledInteraction
       } < /p> < p > {
         "Number of previous :" + nbrPrevious

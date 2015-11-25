@@ -125,7 +125,6 @@ console.log();
 //
     return (
       <div>
-      <h1> Graph </h1>
       <svg ref={"theGraph"} width={this.props.dimensions.width} height={this.props.dimensions.height} style={{cursor: 'pointer',backgroundColor:"#FFFFFF"}} viewBox={"0 0 800 800"}
  onWheel={this.onWheel.bind(this)} onMouseDown={this.onMouseDown.bind(this)}
  onMouseUp={this.onMouseUp.bind(this)} onMouseMove={this.onMouseMove.bind(this)}>

@@ -7,12 +7,16 @@ import ReactDOM from 'react-dom';
 import BlockCodeEditor from './BlockCodeEditor/BlockCodeEditor';
 import CodeEditor from './CodeEditor/CodeEditor';
 import Graph from './Graph/Graph';
-import View from './FlexContainer/FlexContainer';
+// import View from './FlexContainer/FlexContainer';
 import ScenarioEditor from './ScenarioEditor/ScenarioEditor';
+import HeaderEditor from './HeaderEditor/HeaderEditor';
 import ErrorDisplay from './ErrorDisplay/ErrorDisplay';
 import Canvas from './Canvas/Canvas';
 import Analysis from './Analysis/Analysis';
 
+
+
+import {Accordion,AccordionItem} from 'react-sanfona';
 
 
 export default class Main extends Component {
@@ -30,17 +34,34 @@ export default class Main extends Component {
   render() {
     return (
 
-        <View column>
-          <CodeEditor/>
-          <BlockCodeEditor/>
-          <ErrorDisplay/>
-          <Analysis/>
-          <ScenarioEditor/>
-          <Canvas/>
-          <Graph/>
-        </View>
+      <Accordion allowMultiple={true}>
+        {[
+          <AccordionItem title={"Lidl Code editor"} key={1}><CodeEditor/></AccordionItem>,
+          <AccordionItem title={"Lidl Block Code editor"} key={2}><BlockCodeEditor/></AccordionItem>,
+          <AccordionItem title={"Scenario editor"} key={3}><ScenarioEditor/></AccordionItem>,
+          <AccordionItem title={"Header editor"} key={4}><HeaderEditor/></AccordionItem>,
+          <AccordionItem title={"Errors"} key={5}><ErrorDisplay/></AccordionItem>,
+          <AccordionItem title={"Analysis"} key={6}><Analysis/></AccordionItem>,
+          <AccordionItem title={"Graph"} key={7}><Graph/></AccordionItem>,
+          <AccordionItem title={"Canvas"} key={8}><Canvas/></AccordionItem>
+      ]}
+      </Accordion>
 
-    );
+
+        );
+    // return (
+    //
+    //     <View column>
+    //
+    //
+    //       <ErrorDisplay/>
+    //       <Analysis/>
+    //       <ScenarioEditor/>
+    //       <Canvas/>
+    //       <Graph/>
+    //     </View>
+    //
+    // );
   }
 }
 
