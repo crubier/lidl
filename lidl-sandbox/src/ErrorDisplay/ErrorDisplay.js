@@ -14,7 +14,7 @@ export default class ErrorDisplay extends Component {
 
   render() {
 return (<div style={{width:"100%"}}>
- <p> {_.isNull(this.props.lidlCodeError)?"No error":this.props.lidlCodeError.message} </p>
+ <p> {_.isNull(this.props.value)?"No error":this.props.value.message} </p>
 </div>);
 
   }

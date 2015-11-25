@@ -11,11 +11,6 @@ var AceEditor  = require('react-ace');
 require('brace/mode/json');
 require('brace/theme/chrome');
 
-function onChange(newValue) {
-  console.log('change',newValue)
-}
-
-
 export default class ScenarioEditor extends Component {
 
   constructor(props){
@@ -28,7 +23,8 @@ export default class ScenarioEditor extends Component {
       mode="json"
       theme="chrome"
       width="100%"
-      onChange={onChange}
+      onChange={this.props.onChange}
+      value={this.props.value}
       name="scenarioEditorAce"
       showPrintMargin={false}
       showGutter={true}

@@ -27,7 +27,7 @@ export default class GeneratedCodeViewer extends Component {
       value = {this.props.value}
       width="100%"
       readOnly={true}
-      name="generatedEditorAce"
+      name="generatedCodeViewerAce"
       showPrintMargin={false}
       showGutter={true}
       editorProps={{$blockScrolling: true}}

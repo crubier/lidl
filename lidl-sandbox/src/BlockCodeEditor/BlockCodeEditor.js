@@ -19,8 +19,6 @@ let defaultCode = lidl.parser
   });
 
 
-
-
 // let defaultCode = lidl.parser
 //   .parse('(lol(bob)(joe)pan)', {
 //     startRule: "interaction"
@@ -36,23 +34,24 @@ class BlockCodeEditor extends Component {
   }
 
   static propTypes = {
-    initialCode: PropTypes.object.isRequired
+    value: PropTypes.object.isRequired,
+    onChange: PropTypes.func.isRequired
   };
 
   static defaultProps = {
-    initialCode: defaultCode
+    value: defaultCode
   };
 
   state = {
-    code: this.props.initialCode
+    code: this.props.value
   };
 
-  handleChange(newVal) {
-    // console.log("change Container : " +JSON.stringify(newVal));
-    this.setState({
-      code: newVal
-    });
-  }
+  // handleChange(newVal) {
+  //   // console.log("change Container : " +JSON.stringify(newVal));
+  //   this.setState({
+  //     code: newVal
+  //   });
+  // }
 
   /*style={{
     overflow: 'auto',
@@ -61,9 +60,11 @@ class BlockCodeEditor extends Component {
   }}*/
 
   render() {
+    // console.log(this.props.value[0])
+    // TODO here we render only the first interaction : this.state.code[0]
     return (
       <div>
-        <Interaction onChange = {this.handleChange.bind(this)} val = {this.state.code}/>
+        <Interaction onChange = {this.props.onChange} val={this.props.value[0].interaction}/>
       </div>
     );
   }

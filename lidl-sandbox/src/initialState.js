@@ -1,14 +1,29 @@
-import defaultHeader from './defaultHeader'
+import defaultHeader from './Defaults/header'
+import defaultCode from './Defaults/lidlcode'
+import defaultScenario from './Defaults/scenario'
+import Lidl from 'lidl-core'
 
 export default {
-  lidlCode: "interaction\n  (bob):{theNumber:Number in,theOther:Number in, theResult:Number out, theLast:Number out}\nis\n  ({theNumber:(variable theNumber)theOther:(variable theNumber)theResult:(variable theNumber)theLast:(variable theNumber)})",
-  lidlCodeError:null,
-  lidlAst: {},
+  lidlCode: defaultCode,
+  error:null,
+
+  lidlAst: Lidl.parser.parse(defaultCode) ,
+
   lidlExpandedAst:{},
+
   lidlGraph:{},
+
+  headerCode: defaultHeader,
+
   lidlCompiled:{},
-  scenarioCode: {},
-  scenarioModel: {},
+
+  scenarioCode: defaultScenario,
+
+  scenario: JSON.parse(defaultScenario),
+
   generatedCode: "",
-  headerCode: defaultHeader
+
+  trace:[]
+
+
 }

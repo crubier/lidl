@@ -14,6 +14,7 @@ import ErrorDisplay from './ErrorDisplay/ErrorDisplay';
 import Canvas from './Canvas/Canvas';
 import Analysis from './Analysis/Analysis';
 import GeneratedCodeViewer from './GeneratedCodeViewer/GeneratedCodeViewer';
+import TraceViewer from'./TraceViewer/TraceViewer';
 
 import _ from 'lodash';
 
@@ -36,19 +37,27 @@ export default class Main extends Component {
     // Listen to the web worker events
     w.addEventListener('message', function (ev) {
       switch(ev.data.type) {
-            case 'compilationError':
-              that.setState({lidlCodeError:ev.data.message});
+            case 'error':
+              that.setState({error:ev.data.message});
               break;
             case 'compilationResult':
-              that.setState({lidlCodeError:null,generatedCode:ev.data.source});
+              that.setState({lidlCodeError:null,generatedCode:ev.data.source,lidlCompiled:ev.data.partialSource});
               // console.log(ev.data.partialSource.transitionFunction);
+              break;
+            case 'parserResult':
+              that.setState({lidlAst:ev.data.ast});
+              break;
+            case 'runResult':
+              that.setState({trace:ev.data.trace});
               break;
           }
     });
 
     // Debounce the change methods in order to speed up text editing
-    this.lidlCodeChanged = _.debounce(this.lidlCodeChanged,1000);
-    this.headerCodeChanged = _.debounce(this.headerCodeChanged,1000);
+    this.lidlCodeChanged = _.debounce(this.lidlCodeChanged,300);
+    this.headerCodeChanged = _.debounce(this.headerCodeChanged,300);
+    this.lidlAstChanged = _.debounce(this.lidlAstChanged,300);
+    this.scenarioCodeChanged = _.debounce(this.scenarioCodeChanged,300);
 
   }
 
@@ -56,13 +65,22 @@ export default class Main extends Component {
 
   lidlCodeChanged(newCode) {
     this.setState({lidlCode:newCode});
-    w.postMessage({type:'compile',code:newCode,header:this.state.headerCode})
+    w.postMessage({type:'compile',code:newCode,header:this.state.headerCode});
+    w.postMessage({type:'parse',code:newCode});
   }
 
+  lidlAstChanged(newAst) {
+    console.log("don't care ! lol");
+  }
 
   headerCodeChanged(newCode) {
     this.setState({headerCode:newCode});
     w.postMessage({type:'compile',code:this.state.lidlCode,header:newCode});
+  }
+
+  scenarioCodeChanged(newCode) {
+    this.setState({scenarioCode:newCode,scenario:JSON.parse(newCode)});
+    w.postMessage({type:'run',scenario:this.state.scenario,lidlCompiled:this.state.lidlCompiled});
   }
 
   render() {
@@ -71,14 +89,15 @@ export default class Main extends Component {
       <Accordion allowMultiple={true}>
         {[
           <AccordionItem title={"Lidl code editor"} key={1}><CodeEditor value={this.state.lidlCode} onChange={this.lidlCodeChanged.bind(this)}/></AccordionItem>,
-          <AccordionItem title={"Lidl block code editor"} key={2}><BlockCodeEditor/></AccordionItem>,
-          <AccordionItem title={"Scenario editor"} key={3}><ScenarioEditor/></AccordionItem>,
+          <AccordionItem title={"Lidl block code editor"} key={2}><BlockCodeEditor value={this.state.lidlAst} onChange={this.lidlAstChanged.bind(this)}/></AccordionItem>,
+          <AccordionItem title={"Scenario editor"} key={3}><ScenarioEditor value={this.state.scenarioCode} onChange={this.scenarioCodeChanged.bind(this)}/></AccordionItem>,
           <AccordionItem title={"Header editor"} key={4}><HeaderEditor value={this.state.headerCode} onChange={this.headerCodeChanged.bind(this)}/></AccordionItem>,
-          <AccordionItem title={"Errors"} key={5}><ErrorDisplay lidlCodeError={this.state.lidlCodeError}/></AccordionItem>,
+          <AccordionItem title={"Errors"} key={5}><ErrorDisplay value={this.state.error}/></AccordionItem>,
           <AccordionItem title={"Analysis"} key={6}><Analysis/></AccordionItem>,
           <AccordionItem title={"Graph"} key={7}><Graph/></AccordionItem>,
-          <AccordionItem title={"Generated code"} key={8}><GeneratedCodeViewer value={this.state.generatedCode}/></AccordionItem>,
-          <AccordionItem title={"Canvas"} key={9}><Canvas/></AccordionItem>
+          <AccordionItem title={"Generated code viewer"} key={8}><GeneratedCodeViewer value={this.state.generatedCode}/></AccordionItem>,
+          <AccordionItem title={"Trace viewer"} key={9}><TraceViewer value={this.state.trace}/></AccordionItem>,
+          <AccordionItem title={"Canvas"} key={10}><Canvas/></AccordionItem>
       ]}
       </Accordion>
 //       <Accordion allowMultiple={true}>
