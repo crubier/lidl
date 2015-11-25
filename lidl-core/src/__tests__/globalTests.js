@@ -69,7 +69,7 @@ describe('lidl compiler', function() {
 
       var compres = compiler.generateJsCode(graph, header);
       var sourceres = compres.source;
-      var res = compres.executable;
+      var res = compres.partialSource;
 
 
       // Write executable to file
@@ -77,8 +77,8 @@ describe('lidl compiler', function() {
         encoding: 'utf8'
       });
 
-      var trans = res.transitionFunction;
-      var init = res.initializationFunction;
+      var trans = new Function("data",res.transitionFunction);
+      var init = new Function("data",res.initializationFunction);
       var scenario = JSON.parse(scenarioText);
       var trace = [init()];
 

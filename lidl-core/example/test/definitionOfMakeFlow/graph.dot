@@ -131,11 +131,11 @@ node_1071 [shape=box, style=filled, color="0.66 0.1 1.0", fontname="Courier", la
 if(<%=a0%>===null ){
   <%=a0%> = <%=a1%>;
 } else if (<%=a1%> !== null){
-  throw('error:multiple active assignments to the same signal <%=a0%> : '+<%=a0%> + ' and ' + <%=a1%>);
+  throw ('error:multiple active assignments to the same signal <%=a0%> : '+<%=a0%> + ' and ' + <%=a1%>);
 }if(<%=a0%>===null ){
   <%=a0%> = <%=a2%>;
 } else if (<%=a2%> !== null){
-  throw('error:multiple active assignments to the same signal <%=a0%> : '+<%=a0%> + ' and ' + <%=a2%>);
+  throw ('error:multiple active assignments to the same signal <%=a0%> : '+<%=a0%> + ' and ' + <%=a2%>);
 }" ]
 node_1075 [shape=box, style=filled, color="0.66 0.1 1.0", fontname="Courier", label="node_1075
 0
@@ -148,11 +148,11 @@ node_1079 [shape=box, style=filled, color="0.66 0.1 1.0", fontname="Courier", la
 if(<%=a0%>===null ){
   <%=a0%> = <%=a1%>;
 } else if (<%=a1%> !== null){
-  throw('error:multiple active assignments to the same signal <%=a0%> : '+<%=a0%> + ' and ' + <%=a1%>);
+  throw ('error:multiple active assignments to the same signal <%=a0%> : '+<%=a0%> + ' and ' + <%=a1%>);
 }if(<%=a0%>===null ){
   <%=a0%> = <%=a2%>;
 } else if (<%=a2%> !== null){
-  throw('error:multiple active assignments to the same signal <%=a0%> : '+<%=a0%> + ' and ' + <%=a2%>);
+  throw ('error:multiple active assignments to the same signal <%=a0%> : '+<%=a0%> + ' and ' + <%=a2%>);
 }" ]
 node_1083 [shape=box, style=filled, color="0.66 0.1 1.0", fontname="Courier", label="node_1083
 0
@@ -165,11 +165,11 @@ node_1087 [shape=box, style=filled, color="0.66 0.1 1.0", fontname="Courier", la
 if(<%=a0%>===null ){
   <%=a0%> = <%=a1%>;
 } else if (<%=a1%> !== null){
-  throw('error:multiple active assignments to the same signal <%=a0%> : '+<%=a0%> + ' and ' + <%=a1%>);
+  throw ('error:multiple active assignments to the same signal <%=a0%> : '+<%=a0%> + ' and ' + <%=a1%>);
 }if(<%=a0%>===null ){
   <%=a0%> = <%=a2%>;
 } else if (<%=a2%> !== null){
-  throw('error:multiple active assignments to the same signal <%=a0%> : '+<%=a0%> + ' and ' + <%=a2%>);
+  throw ('error:multiple active assignments to the same signal <%=a0%> : '+<%=a0%> + ' and ' + <%=a2%>);
 }" ]
 node_1091 [shape=box, style=filled, color="0.66 0.1 1.0", fontname="Courier", label="node_1091
 0

@@ -35,9 +35,21 @@ export default class Model {
     state: {}
   };
 
-  constructor(options) {
+  constructor(opts) {
+    var options = opts;
+    if (options===null || options===undefined) {
+    options={nodes:null,edges:null};
+    }
+    if (options.nodes===null || options.nodes===undefined) {
+      this.nodes=[{label:"No nodes !"}];
+    } else {
     this.nodes = options.nodes;
+    }
+    if (options.edges===null || options.edges===undefined) {
+      this.edges=[];
+    }else {
     this.edges = options.edges;
+    }
     this.init();
   }
 

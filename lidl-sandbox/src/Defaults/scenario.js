@@ -1,45 +1,44 @@
 export default
-`
-[
+`[
   {
     "args":  {},
-    "inter":  { "theNumber": null,  "theResult": 1 }
+    "inter":  { "theNumber": null }
   },
   {
     "args":  {},
-    "inter":  { "theNumber": null,  "theResult": 1 }
+    "inter":  { "theNumber": null }
   },
   {
     "args":  {},
-    "inter":  { "theNumber": 78,  "theResult": 78 }
+    "inter":  { "theNumber": 78 }
   },
   {
     "args":  {},
-    "inter":  { "theNumber": null,  "theResult": 78 }
+    "inter":  { "theNumber": null }
   },
   {
     "args":  {},
-    "inter":  { "theNumber": 67,  "theResult": 67 }
+    "inter":  { "theNumber": 67}
   },
   {
     "args":  {},
-    "inter":  { "theNumber": -4,  "theResult": -4 }
+    "inter":  { "theNumber": -4}
   },
   {
     "args":  {},
-    "inter":  { "theNumber": null,  "theResult": -4 }
+    "inter":  { "theNumber": null}
   },
   {
     "args":  {},
-    "inter":  { "theNumber": null,  "theResult": -4 }
+    "inter":  { "theNumber": null}
   },
   {
     "args":  {},
-    "inter":  { "theNumber": null,  "theResult": -4 }
+    "inter":  { "theNumber": null }
   },
   {
     "args":  {},
-    "inter":  { "theNumber": 42,  "theResult": 42 }
+    "inter":  { "theNumber": 42 }
   }
 ]
 `

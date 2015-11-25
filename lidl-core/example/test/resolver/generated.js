@@ -156,11 +156,11 @@ edge_1412=null;
 if(edge_1412===null ){
   edge_1412 = edge_1413;
 } else if (edge_1413 !== null){
-  throw('error:multiple active assignments to the same signal edge_1412 : '+edge_1412 + ' and ' + edge_1413);
+  throw ('error:multiple active assignments to the same signal edge_1412 : '+edge_1412 + ' and ' + edge_1413);
 }if(edge_1412===null ){
   edge_1412 = edge_1414;
 } else if (edge_1414 !== null){
-  throw('error:multiple active assignments to the same signal edge_1412 : '+edge_1412 + ' and ' + edge_1414);
+  throw ('error:multiple active assignments to the same signal edge_1412 : '+edge_1412 + ' and ' + edge_1414);
 }
 theInterface.theResult=edge_1412;
 
@@ -168,11 +168,11 @@ edge_1404=null;
 if(edge_1404===null ){
   edge_1404 = edge_1409;
 } else if (edge_1409 !== null){
-  throw('error:multiple active assignments to the same signal edge_1404 : '+edge_1404 + ' and ' + edge_1409);
+  throw ('error:multiple active assignments to the same signal edge_1404 : '+edge_1404 + ' and ' + edge_1409);
 }if(edge_1404===null ){
   edge_1404 = edge_1406;
 } else if (edge_1406 !== null){
-  throw('error:multiple active assignments to the same signal edge_1404 : '+edge_1404 + ' and ' + edge_1406);
+  throw ('error:multiple active assignments to the same signal edge_1404 : '+edge_1404 + ' and ' + edge_1406);
 }
 theInterface.theLast=edge_1404;
 

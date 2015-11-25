@@ -34,53 +34,100 @@ export default class Main extends Component {
 
     let that = this;
 
-    // Listen to the web worker events
-    w.addEventListener('message', function (ev) {
-      switch(ev.data.type) {
-            case 'error':
-              that.setState({error:ev.data.message});
-              break;
-            case 'compilationResult':
-              that.setState({lidlCodeError:null,generatedCode:ev.data.source,lidlCompiled:ev.data.partialSource});
-              // console.log(ev.data.partialSource.transitionFunction);
-              break;
-            case 'parserResult':
-              that.setState({lidlAst:ev.data.ast});
-              break;
-            case 'runResult':
-              that.setState({trace:ev.data.trace});
-              break;
-          }
+    w.addEventListener('error', function (ev) {
+      that.setState({error:ev});
     });
 
+    // Listen to the web worker events
+    w.addEventListener('message', function (ev) {
+        var m = ev.data;
+
+
+        switch(m.type) {
+              case 'Ping':
+                console.log(m.message);
+                break;
+              case 'Lidl2LidlAst':
+                console.log("Lidl2LidlAst");
+                that.setState({lidlAst:m.lidlAst});
+                w.postMessage({type:'LidlAst2ExpandedLidlAst',lidlAst:m.lidlAst});
+                break;
+              case 'LidlAst2ExpandedLidlAst':
+                that.setState({expandedLidlAst:m.expandedLidlAst});
+                w.postMessage({type:'ExpandedLidlAst2ExpandedLidl',expandedLidlAst:m.expandedLidlAst});
+                w.postMessage({type:'ExpandedLidlAst2Graph',expandedLidlAst:m.expandedLidlAst});
+                break;
+              case 'ExpandedLidlAst2ExpandedLidl':
+              console.log("ExpandedLidlAst2ExpandedLidl");
+                that.setState({expandedLidl:m.expandedLidl});
+                break;
+              case 'ExpandedLidlAst2Graph':
+              console.log("ExpandedLidlAst2Graph");
+                that.setState({graph:m.graph});
+                w.postMessage({type:'Graph2Js',graph:m.graph,header:that.state.header});
+                w.postMessage({type:'Graph2DisplayGraph',graph:m.graph});
+                break;
+              case 'Graph2DisplayGraph':
+                console.log("Graph2DisplayGraph");
+                that.setState({displayGraph:m.displayGraph});
+                break;
+              case 'Graph2Js':
+              console.log("Graph2Js");
+                that.setState({js:m.js});
+                w.postMessage({type:'Js2CleanJs',js:m.js});
+                w.postMessage({type:'Js2TraceAst',js:m.js,scenarioAst:that.state.scenarioAst});
+                break;
+              case 'Js2CleanJs':
+              console.log("Js2CleanJs");
+                that.setState({cleanJs:m.cleanJs});
+                break;
+              case 'Scenario2ScenarioAst':
+              console.log("Scenario2ScenarioAst");
+                that.setState({scenarioAst:m.scenarioAst});
+                w.postMessage({type:'Js2TraceAst',js:that.state.js,scenarioAst:m.scenarioAst});
+                break;
+              case 'Js2TraceAst':
+              console.log("Js2TraceAst");
+                that.setState({traceAst:m.traceAst});
+                w.postMessage({type:'TraceAst2Trace',traceAst:m.traceAst});
+                break;
+              case 'TraceAst2Trace':
+              console.log("TraceAst2Trace");
+                that.setState({trace:m.trace});
+                break;
+            }
+      }
+
+    );
+
     // Debounce the change methods in order to speed up text editing
-    this.lidlCodeChanged = _.debounce(this.lidlCodeChanged,300);
-    this.headerCodeChanged = _.debounce(this.headerCodeChanged,300);
+    this.lidlChanged = _.debounce(this.lidlChanged,300);
     this.lidlAstChanged = _.debounce(this.lidlAstChanged,300);
-    this.scenarioCodeChanged = _.debounce(this.scenarioCodeChanged,300);
+    this.scenarioChanged = _.debounce(this.scenarioChanged,300);
+    this.headerChanged = _.debounce(this.headerChanged,300);
 
   }
 
   state = initialState;
 
-  lidlCodeChanged(newCode) {
-    this.setState({lidlCode:newCode});
-    w.postMessage({type:'compile',code:newCode,header:this.state.headerCode});
-    w.postMessage({type:'parse',code:newCode});
+  lidlChanged(newCode) {
+    this.setState({lidl:newCode});
+    w.postMessage({type:'Lidl2LidlAst',lidl:newCode});
   }
 
   lidlAstChanged(newAst) {
-    console.log("don't care ! lol");
+    // console.log("don't care ! lol");
+    // w.postMessage({type:'Lidl2LidlAst',lidl:newCode});
   }
 
-  headerCodeChanged(newCode) {
-    this.setState({headerCode:newCode});
-    w.postMessage({type:'compile',code:this.state.lidlCode,header:newCode});
+  scenarioChanged(newCode) {
+    this.setState({scenario:newCode});
+    w.postMessage({type:'Scenario2ScenarioAst',scenario:newCode});
   }
 
-  scenarioCodeChanged(newCode) {
-    this.setState({scenarioCode:newCode,scenario:JSON.parse(newCode)});
-    w.postMessage({type:'run',scenario:this.state.scenario,lidlCompiled:this.state.lidlCompiled});
+  headerChanged(newCode) {
+    this.setState({header:newCode});
+    w.postMessage({type:'Graph2Js',graph:this.state.graph,header:newCode});
   }
 
   render() {
@@ -88,14 +135,14 @@ export default class Main extends Component {
 // <View layout={'row'}>
       <Accordion allowMultiple={true}>
         {[
-          <AccordionItem title={"Lidl code editor"} key={1}><CodeEditor value={this.state.lidlCode} onChange={this.lidlCodeChanged.bind(this)}/></AccordionItem>,
-          <AccordionItem title={"Lidl block code editor"} key={2}><BlockCodeEditor value={this.state.lidlAst} onChange={this.lidlAstChanged.bind(this)}/></AccordionItem>,
-          <AccordionItem title={"Scenario editor"} key={3}><ScenarioEditor value={this.state.scenarioCode} onChange={this.scenarioCodeChanged.bind(this)}/></AccordionItem>,
-          <AccordionItem title={"Header editor"} key={4}><HeaderEditor value={this.state.headerCode} onChange={this.headerCodeChanged.bind(this)}/></AccordionItem>,
+          <AccordionItem title={"Lidl code editor"} key={1}><CodeEditor value={this.state.lidl} onChange={this.lidlChanged.bind(this)}/></AccordionItem>,
+          <AccordionItem title={"Lidl block code editor"} key={2}><BlockCodeEditor lidlAst={this.state.lidlAst} onChange={this.lidlAstChanged.bind(this)}/></AccordionItem>,
+          <AccordionItem title={"Scenario editor"} key={3}><ScenarioEditor value={this.state.scenario} onChange={this.scenarioChanged.bind(this)}/></AccordionItem>,
+          <AccordionItem title={"Header editor"} key={4}><HeaderEditor value={this.state.header} onChange={this.headerChanged.bind(this)}/></AccordionItem>,
           <AccordionItem title={"Errors"} key={5}><ErrorDisplay value={this.state.error}/></AccordionItem>,
-          <AccordionItem title={"Analysis"} key={6}><Analysis/></AccordionItem>,
-          <AccordionItem title={"Graph"} key={7}><Graph/></AccordionItem>,
-          <AccordionItem title={"Generated code viewer"} key={8}><GeneratedCodeViewer value={this.state.generatedCode}/></AccordionItem>,
+          <AccordionItem title={"Analysis"} key={6}><Analysis expandedLidlAst={this.state.expandedLidlAst} expandedLidl={this.state.expandedLidl}/></AccordionItem>,
+          <AccordionItem title={"Graph"} key={7}><Graph graph={this.state.displayGraph}/></AccordionItem>,
+          <AccordionItem title={"Generated code viewer"} key={8}><GeneratedCodeViewer value={this.state.cleanJs}/></AccordionItem>,
           <AccordionItem title={"Trace viewer"} key={9}><TraceViewer value={this.state.trace}/></AccordionItem>,
           <AccordionItem title={"Canvas"} key={10}><Canvas/></AccordionItem>
       ]}
@@ -124,16 +171,4 @@ export default class Main extends Component {
 ReactDOM.render(<Main/>, document.getElementById("main"));
 
 
-
-
-// Compiler worker
-
-
-//
-// function compile(source,header) {
-//   w.postMessage({type:'compile',code:source,header:header}); // send the worker a message
-// }
-//
-// var header = "var isActive = function(x) {  return (x !== null && x !== undefined);};var cool = function(x) {  if (isActive(x[0]) && isActive(x[1])) {    return {      sum: (x[0] + x[1]),      diff: (x[0] - x[1])    };  } else {    return {      sum: inactive,      diff: inactive    };  }};var fallback = function(x) {  return (isActive(x[0]) ? x[0] : x[1]);};var return0 = function(x) {  return 0;};var return1 = function(x) {  return 1;};var addition = function(x) {  if (isActive(x[0]) && isActive(x[1])) {    return x[0] + x[1];  } else {    return inactive;  }};var addOne = function(x) {  if (isActive(x))    return x + 1;  else {    return inactive;  }};var identity = function(x) {  return x};var isEqual = function(x) {  if (isActive(x.a) && isActive(x.b)) {    return (x.a===x.b)?true:false;  } else {    return inactive;  }};var boolNot = function(x) {  if (isActive(x) ) {    return !x;  } else {    return inactive;  }};var ifThenElse = function(x) {  if (isActive(x) ) {    if (isActive(x.cond) ) {      if(x.cond ===true) {        return x.a;      } else if(x.cond ===false) {        return x.b;      } else {        return inactive;      }    } else {      return inactive;    }  } else {    return inactive;  }};var whenThenElse = function(x) {  if (isActive(x) ) {    if (isActive(x.cond) ) {      if(x.cond === true) {        return {a:active,b:inactive};      } else if(x.cond ===false) {        return {a:inactive,b:active};      } else {        return inactive;      }    } else {      return inactive;    }  } else {    return inactive;  }};var all = function(x) {  return {a:x,b:x,c:x,d:x,e:x,f:x,g:x,h:x,i:x,j:x,k:x,l:x,l:x,n:x,o:x,p:x}};";
-
-// compile("interaction (bob):{theNumber:Number in,theOther:Number in, theResult:Number out, theLast:Number out}is({theNumber:(variable theNumber)theOther:(variable theNumber)theResult:(variable theNumber)theLast:(variable theNumber)})",header);
+w.postMessage({type:'Ping',message:"pong"});

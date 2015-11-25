@@ -18,6 +18,9 @@ export default class ScenarioEditor extends Component {
   }
 
   render() {
+    if(this.props.value === null) {
+            return <div><p>Nothing yet</p></div>;
+          } else {
     return (<div style={{width:"100%"}}>
     <AceEditor
       mode="json"
@@ -30,6 +33,6 @@ export default class ScenarioEditor extends Component {
       showGutter={true}
       editorProps={{$blockScrolling: true}}
     />
-    </div>);
+    </div>);}
   }
 }

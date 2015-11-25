@@ -230,11 +230,11 @@ edge_1072=null;
 if(edge_1072===null ){
   edge_1072 = edge_1094;
 } else if (edge_1094 !== null){
-  throw('error:multiple active assignments to the same signal edge_1072 : '+edge_1072 + ' and ' + edge_1094);
+  throw ('error:multiple active assignments to the same signal edge_1072 : '+edge_1072 + ' and ' + edge_1094);
 }if(edge_1072===null ){
   edge_1072 = edge_1074;
 } else if (edge_1074 !== null){
-  throw('error:multiple active assignments to the same signal edge_1072 : '+edge_1072 + ' and ' + edge_1074);
+  throw ('error:multiple active assignments to the same signal edge_1072 : '+edge_1072 + ' and ' + edge_1074);
 }
 if(edge_1056 === active) {
 nextState['state_1002'] = edge_1072;
@@ -260,11 +260,11 @@ edge_1088=null;
 if(edge_1088===null ){
   edge_1088 = edge_1098;
 } else if (edge_1098 !== null){
-  throw('error:multiple active assignments to the same signal edge_1088 : '+edge_1088 + ' and ' + edge_1098);
+  throw ('error:multiple active assignments to the same signal edge_1088 : '+edge_1088 + ' and ' + edge_1098);
 }if(edge_1088===null ){
   edge_1088 = edge_1090;
 } else if (edge_1090 !== null){
-  throw('error:multiple active assignments to the same signal edge_1088 : '+edge_1088 + ' and ' + edge_1090);
+  throw ('error:multiple active assignments to the same signal edge_1088 : '+edge_1088 + ' and ' + edge_1090);
 }
 if(edge_1050 === active && edge_1065!==null && edge_1065!==undefined) {edge_1037 = edge_1065(edge_1088);}
 
@@ -284,11 +284,11 @@ edge_1080=null;
 if(edge_1080===null ){
   edge_1080 = edge_1096;
 } else if (edge_1096 !== null){
-  throw('error:multiple active assignments to the same signal edge_1080 : '+edge_1080 + ' and ' + edge_1096);
+  throw ('error:multiple active assignments to the same signal edge_1080 : '+edge_1080 + ' and ' + edge_1096);
 }if(edge_1080===null ){
   edge_1080 = edge_1082;
 } else if (edge_1082 !== null){
-  throw('error:multiple active assignments to the same signal edge_1080 : '+edge_1080 + ' and ' + edge_1082);
+  throw ('error:multiple active assignments to the same signal edge_1080 : '+edge_1080 + ' and ' + edge_1082);
 }
 if(edge_1058 === active) {
 nextState['state_1010'] = edge_1080;

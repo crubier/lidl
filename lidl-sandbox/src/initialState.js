@@ -4,26 +4,34 @@ import defaultScenario from './Defaults/scenario'
 import Lidl from 'lidl-core'
 
 export default {
-  lidlCode: defaultCode,
+
   error:null,
 
-  lidlAst: Lidl.parser.parse(defaultCode) ,
+  lidl: defaultCode,
 
-  lidlExpandedAst:{},
+  lidlAst: null ,
 
-  lidlGraph:{},
+  expandedLidlAst:null,
 
-  headerCode: defaultHeader,
+  expandedLidl:null,
 
-  lidlCompiled:{},
+  graph:null,
 
-  scenarioCode: defaultScenario,
+  displayGraph:null,
 
-  scenario: JSON.parse(defaultScenario),
+  header: defaultHeader,
 
-  generatedCode: "",
+  js : null,
 
-  trace:[]
+  cleanJs :null,
+
+  scenario: defaultScenario,
+
+  scenarioAst: null,
+
+  traceAst :null,
+
+  trace:null
 
 
 }

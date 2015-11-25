@@ -5,88 +5,140 @@ var interactions = require('./interactions.js');
 var interfacs = require('./interfaces.js');
 var parser = require('./parser.js');
 var operator = require('./operator.js');
+var definitions = require('./definitions.js');
 var _ = require('lodash');
 var compilationResult = require('./compilerExampleResult.js');
 var Graph = require('./g.js');
 
-// var neo4j = require('neo4j');
 
-function compileToJs(source, header) {
-  //TODO Actual compilation
 
-  return generateJsCode(compileToGraph(source), header);
+// Atomic Operations
 
+function Lidl2LidlAst(x) {
+  return parser.parse(x);
+}
+
+function LidlAst2Lidl(x) {
+  return serializer.serialize(x);
+}
+
+function LidlAst2ExpandedLidlAst(x) {
+  return definitions.expand(x)[0];
+}
+
+function ExpandedLidlAst2Graph(x,upto) {
+  return toGraph(x,upto);
+}
+
+function Graph2Js(x,header) {
+  return generateJsCode(x,header);
+}
+
+// Composed
+
+function Lidl2ExpandedLidlAst(x) {
+  return LidlAst2ExpandedLidlAst(Lidl2LidlAst(x));
+}
+
+function Lidl2ExpandedLidl (x) {
+  return LidlAst2Lidl(Lidl2ExpandedLidlAst(x));
+}
+
+function Lidl2Graph(x,upto) {
+  return ExpandedLidlAst2Graph(Lidl2ExpandedLidlAst(x),upto);
+}
+
+function Lidl2Js(x,header) {
+  return Graph2Js(Lidl2Graph(x));
 }
 
 
 
 
-function compileToIii(source) {
-  return serializer.serialize(
-    identifiers.reduceIdentifiers(
-      interactions.expand(
-        parser.parse(
-          source
-        )[0]
-      ).interaction
-    )
-  );
-}
 
-function compileToGraph(source,upto) {
-    // console.log("===========================================")
+function toGraph(expandedAst,upto) {
+
   var graph = new Graph();
-  var mainDef = parser.parse(source)[0];
 
+    // TODO reduce the amount of processing on the next three lines and transform it into graph operations instead
+    var interaction = addInteractionToGraph(graph, expandedAst.interaction);
+    //TODO Make it possible to compile interactions that have arguments and not just a single interface
+    var interfac = addInterfaceToGraph(graph, expandedAst.signature.interfac, 'theInterface');
 
+    mergeByRootNode(graph, interaction, interfac);
 
-  // TODO reduce the amount of processing on the next three lines and transform it into graph operations instead
-  var interaction = addInteractionToGraph(graph, identifiers.reduceIdentifiers(interactions.expand(mainDef).interaction));
-  //TODO Make it possible to compile interactions that have arguments and not just a single interface
-  var interfac = addInterfaceToGraph(graph, mainDef.signature.interfac, 'theInterface');
+    if(upto === 'Merge By Root Node') return graph;
 
-  mergeByRootNode(graph, interaction, interfac);
+    addOperatorTypeAnnotation(graph);
+    referentialTransparency(graph);
 
+    if(upto === 'Referential Transparency') return graph;
 
-  addOperatorTypeAnnotation(graph);
-  referentialTransparency(graph);
+    linkIdentifiers(graph);
 
-  if(upto == 'referentialTransparency') return graph;
+    if(upto === 'Link Identifiers') return graph;
 
-  linkIdentifiers(graph);
-  voidInteractionCreation(graph);
-  behaviourSeparation(graph);
-  functionLiteralLinking(graph);
-  functionApplicationLinking(graph);
-  previousNextLinking(graph);
-  tagCompositionElementEdges(graph);
+    voidInteractionCreation(graph);
 
-  //TODO Should loop that, either in the method or here
-  matchingCompositionReduction(graph);
-  matchingCompositionReduction(graph);
-  matchingCompositionReduction(graph);
-  // ... until fixed point
+    if(upto === 'Void Interaction Creation') return graph;
 
-//TODO Should loop that too
-  createDataFlowDirection(graph);
-  nonMatchingCompositionCompilation(graph);
-  createDataFlowDirection(graph);
-  nonMatchingCompositionCompilation(graph);
-  createDataFlowDirection(graph);
-  nonMatchingCompositionCompilation(graph);
-  // ... until fixed point ... but always end with another:
-  createDataFlowDirection(graph);
+    behaviourSeparation(graph);
 
+    if(upto === 'Behaviour Separation') return graph;
 
-  removeDuplicateEdge(graph);
-  resolveMultiplePorts(graph);
-  instantiateTemplates(graph);
-  orderGraph(graph);
+    functionLiteralLinking(graph);
 
-  return graph;
+    if(upto === 'Function Literal Linking') return graph;
+
+    functionApplicationLinking(graph);
+
+    if(upto === 'Function Application Linking') return graph;
+
+    previousNextLinking(graph);
+
+    if(upto === 'Previous Next Linking') return graph;
+
+    tagCompositionElementEdges(graph);
+
+    //TODO Should loop that, either in the method or here
+    matchingCompositionReduction(graph);
+    matchingCompositionReduction(graph);
+    matchingCompositionReduction(graph);
+    // ... until fixed point
+
+    if(upto === 'Matching Composition Reduction') return graph;
+
+  //TODO Should loop that too
+    createDataFlowDirection(graph);
+    nonMatchingCompositionCompilation(graph);
+    createDataFlowDirection(graph);
+    nonMatchingCompositionCompilation(graph);
+    createDataFlowDirection(graph);
+    nonMatchingCompositionCompilation(graph);
+    // ... until fixed point ... but always end with another:
+    createDataFlowDirection(graph);
+
+    if(upto === 'Non Matching Composition Reduction') return graph;
+    if(upto === 'Create Data Flow Direction') return graph;
+
+    removeDuplicateEdge(graph);
+
+    if(upto === 'Remove Duplicate Edge') return graph;
+
+    resolveMultiplePorts(graph);
+
+    if(upto === 'Resolve Multiple Port') return graph;
+
+    instantiateTemplates(graph);
+
+    if(upto === 'Instantiate Template') return graph;
+
+    orderGraph(graph);
+
+    if(upto === 'Order Graph') return graph;
+
+    return graph;
 }
-
-
 
 function addInteractionToGraph(graph, interaction) {
   var rootNode;
@@ -142,7 +194,7 @@ function addInterfaceToGraph(graph, interfac, prefix) {
       _.forEach(nodeOfElement, (x, index) => graph.addEdge({type:'ast',content:interfac, from:{node: rootNode,index:index+1}, to:{node:x,index:0}}));
       break;
     default:
-      throw "Cant transform this interface to a graph. Is it an interface really ?";
+      throw new Error("Cant transform this interface to a graph. Is it an interface really ?");
   }
   return rootNode;
 }
@@ -734,12 +786,12 @@ function nonMatchingCompositionCompilation(graph) {
         graph
         .matchUndirectedEdges({type:'ast',from:{node:theNode}})
         .reject(theEdge=>_.isUndefined(theEdge.from.compositionElementName))
-        .forEach(theEdge=>{if(theEdge.to.node===theNode)throw('Error:Loop on a composition interaction');})
+        .forEach(theEdge=>{if(theEdge.to.node===theNode){throw new Error('Error:Loop on a composition interaction');}})
         .map(theEdge=>({compositionElementName:theEdge.from.compositionElementName, index:theEdge.from.index}))
         .groupBy('index')
         .map(theElement=>
           _(theElement)
-          .tap(x=>{if(_.size(_.unique(x,y=>y.compositionElementName))>1)throw ('Error: there are different edges with the same index but different compositionElementName');})
+          .tap(x=>{if(_.size(_.unique(x,y=>y.compositionElementName))>1){throw new Error('Error: there are different edges with the same index but different compositionElementName');}})
           .unique(z=>(z.compositionElementName))
           .first())
         .value();
@@ -875,7 +927,7 @@ function resolveMultiplePorts(graph) {
       })
       .commit();
     }else if(_(similarOutputEdges).size()<1) {
-      throw ('what ? that should be impossible');
+      throw new Error ('what ? that should be impossible');
     }
 
     // Resolve multiple input on this edge destination
@@ -894,7 +946,7 @@ function resolveMultiplePorts(graph) {
         let ports = ["out"];
         _(similarInputEdges)
         .forEach((similarEdge,index)=>{
-          code = code + "if(<%=a0%>===null ){\n  <%=a0%> = <%=a"+(index+1)+"%>;\n} else if (<%=a"+(index+1)+"%> !== null){\n  throw('error:multiple active assignments to the same signal <%=a0%> : '+<%=a0%> + ' and ' + <%=a"+(index+1)+"%>);\n}";
+          code = code + "if(<%=a0%>===null ){\n  <%=a0%> = <%=a"+(index+1)+"%>;\n} else if (<%=a"+(index+1)+"%> !== null){\n  throw ('error:multiple active assignments to the same signal <%=a0%> : '+<%=a0%> + ' and ' + <%=a"+(index+1)+"%>);\n}";
           ports.push("in");
         })
         .commit();
@@ -921,7 +973,7 @@ function resolveMultiplePorts(graph) {
 
 
       }else if(_(similarInputEdges).size()<1) {
-        throw ('what ? that should be impossible');
+        throw new Error ('what ? that should be impossible');
       }
 
       createDataFlowDirection(graph);
@@ -931,62 +983,6 @@ function resolveMultiplePorts(graph) {
   });
 
 
-
-  // var matchNode = function(x) {
-  //   if (x.content === undefined) return false;
-  //   return x.hasUniquePorts !== true && x.finished !== true;
-  // };
-  //
-  // var b = _.find(graph.nodes, matchNode);
-  // while (b !== undefined) {
-  //   var i;
-  //   // TODO extend i in case bigger interactions happen !
-  //   var edgesNameList = {};
-  //   for (i = 0; i < 1000; i++)  {
-  //
-  //     var incomingEdgesforCurrentI = _.filter(graph.edges, {
-  //       type: 'DataFlowEdge',
-  //       from: {
-  //         finished: false
-  //       },
-  //       to: b,
-  //       toIndex: i,
-  //       finished: false
-  //     });
-  //     var outgoingEdgesforCurrentI = _.filter(graph.edges, {
-  //       type: 'DataFlowEdge',
-  //       to: {
-  //         finished: false
-  //       },
-  //       from: b,
-  //       fromIndex: i,
-  //       finished: false
-  //     });
-  //   }
-  //   if (_.isEmpty(incomingEdgesforCurrentI) && _.isEmpty(outgoingEdgesforCurrentI)) {
-  //     //TODO We sequentially did the arguments of the node until we found a i for which there is no argument.
-  //     // We are probably finished but are we sure ??....
-  //     break;
-  //   } else if ((incomingEdgesforCurrentI.length === 1 && outgoingEdgesforCurrentI.length === 0) || (incomingEdgesforCurrentI.length === 0 && outgoingEdgesforCurrentI.length === 1)) {
-  //     // Nothing to do here, this port has no problem :-)
-  //   } else if (incomingEdgesforCurrentI.length > 1 && outgoingEdgesforCurrentI.length === 0) {
-  //     // Here we have a problem: several signals on the same port
-  //     var inputPortCodeTemplate = "";
-  //     var inputPortPorts = ['out'];
-  //     _.forEach(incomingEdgesforCurrentI, function(x) {
-  //       inputPortCodeTemplate = inputPortCodeTemplate + '';
-  //       inputPortPorts.push('in');
-  //     });
-  //
-  //   } else if (incomingEdgesforCurrentI.length === 0 && outgoingEdgesforCurrentI.length > 1) {} else {
-  //     // TODO Same port used as multiple input and output...
-  //   }
-  //
-  // }
-  //
-  // b.hasUniquePorts = true;
-  //
-  // var b = _.find(graph.nodes, matchNode);
 }
 
 
@@ -1080,7 +1076,7 @@ function orderGraph(graph) {
 
     if (n.temporarilyMarkedDuringGraphOrdering === true) {
       //TODO Add traceback to initial AST (change code everywhere in order to add traceability)
-      throw "Error, the DAG contains cycles : ";//+_(stack).concat([n]).map('id').join(" -> ");
+      throw new Error ("the DAG contains cycles ");//+_(stack).concat([n]).map('id').join(" -> ");
     } else {
       if (n.markedDuringGraphOrdering !== true) {
         n.temporarilyMarkedDuringGraphOrdering = true;
@@ -1209,10 +1205,6 @@ function generateJsCode(graph, header) {
     partialSource:{
       transitionFunction:  transCode ,
       initializationFunction: initCode
-    },
-    executable:{
-      transitionFunction: new Function("data", transCode),
-      initializationFunction: new Function(initCode)
     }
   };
 }
@@ -1258,7 +1250,7 @@ function mergePortList(x, y) {
     } else if (_.isUndefined(y)) {
       return _.clone(x);
     } else {
-      throw "error : portLists should be strings or arrays of strings";
+      throw new Error ("portLists should be strings or arrays of strings");
     }
   } else if (_.isString(x)) {
     if (_.isArray(y)) {
@@ -1266,25 +1258,25 @@ function mergePortList(x, y) {
       if(portIsOnlyMadeOf(y,x))return x;
     } else if (_.isString(y)) {
       if (x === y) return x
-      else throw "error : trying to merge incompatible ports "+ x + " and "+ y;
+      else throw new Error ("trying to merge incompatible ports "+ x + " and "+ y);
     } else if (_.isUndefined(y)) {
       return x;
     } else {
-      throw "error : portLists should be strings or arrays of strings";
+      throw new Error ("portLists should be strings or arrays of strings");
     }
   } else if (_.isUndefined(x)) {
     if (_.isArray(y)) {
       return _.clone(y);
     } else if (_.isString(y)) {
       return y;
-      throw "error : trying to merge incompatible ports "+ x + " and "+ y;
+      throw new Error (" trying to merge incompatible ports "+ x + " and "+ y);
     } else if (_.isUndefined(y)) {
       return;
     } else {
-      throw "error : portLists should be strings or arrays of strings";
+      throw new Error (" portLists should be strings or arrays of strings");
     }
   } else {
-    throw "error : portLists should be strings or arrays of strings";
+    throw new Error (" portLists should be strings or arrays of strings");
   }
 }
 
@@ -1306,7 +1298,7 @@ function portIsOnlyMadeOf(x,s){
   } else if (_.isUndefined(x)) {
     return false;
   } else {
-    throw "error : port should be arrays of strings or strings";
+    throw new Error (" port should be arrays of strings or strings");
   }
 }
 
@@ -1325,12 +1317,12 @@ function conjugatePort(x) {
     }else if (x==='out'){
       return 'in';
     }else {
-      throw "error : port should be in our out or arrays of in and out";
+      throw new Error (" port should be in our out or arrays of in and out");
     }
   } else if (_.isUndefined(x)) {
     return undefined;
   } else {
-    throw "error : port should be arrays of strings or strings";
+    throw new Error (" port should be arrays of strings or strings");
   }
 }
 
@@ -1345,8 +1337,31 @@ function conjugatePort(x) {
 
 
 
+module.exports.toGraph=ExpandedLidlAst2Graph;
+module.exports.compileToIii = Lidl2ExpandedLidl;
+module.exports.compileToJs = Lidl2Js;
+module.exports.generateJsCode = Graph2Js;
+module.exports.compileToGraph = Lidl2Graph;
 
-module.exports.compileToIii = compileToIii;
-module.exports.compileToJs = compileToJs;
-module.exports.generateJsCode = generateJsCode;
-module.exports.compileToGraph = compileToGraph;
+
+
+
+
+
+
+
+
+
+
+
+
+module.exports. Lidl2LidlAst    = Lidl2LidlAst   ;
+module.exports.  LidlAst2Lidl   = LidlAst2Lidl   ;
+module.exports.   LidlAst2ExpandedLidlAst  =  LidlAst2ExpandedLidlAst  ;
+module.exports.  ExpandedLidlAst2Graph   = ExpandedLidlAst2Graph   ;
+module.exports. Graph2Js    =  Graph2Js  ;
+module.exports. Lidl2ExpandedLidlAst    = Lidl2ExpandedLidlAst   ;
+module.exports.  Lidl2ExpandedLidl   = Lidl2ExpandedLidl   ;
+module.exports.  Lidl2Graph   =  Lidl2Graph  ;
+module.exports.   Lidl2Js  =  Lidl2Js  ;
+// module.exports.     =    ;

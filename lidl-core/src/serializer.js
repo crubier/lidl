@@ -6,6 +6,9 @@ function serialize(object) {
       return serializeInteractionSimple(object);
     case 'InteractionNative':
       return serializeInteractionNative(object);
+    case 'Definition':
+      //TODO Proper
+      return serialize(object.interaction);
     default:
       throw new Error('Cannot serialize '+object.type);
   }

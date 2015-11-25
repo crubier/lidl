@@ -7,11 +7,18 @@ import lidl from 'lidl-core';
 import _ from 'lodash';
 
 
+var brace  = require('brace');
+var AceEditor  = require('react-ace');
+
+require('brace/mode/text');
+require('brace/theme/chrome');
+
 function nbrOfPrevious(interaction) {
   var total = 0;
   _.forEach(interaction.operand, function(x) {
     total += nbrOfPrevious(x);
   });
+
   if (lidl.operator.parse(interaction.operator) === "Previous") {
     total++;
   }
@@ -61,39 +68,51 @@ export default class Analysis extends Component {
   }
 
   static propTypes = {
-    compiledInteraction: React.PropTypes.string,
-  };
-
-  static defaultProps = {
-    compiledInteraction: "({x:(previous(#0)),y:(#0),z:(#1)})",
+    expandedLidlAst: React.PropTypes.object,
+    expandedLidl:React.PropTypes.string
   };
 
   render() {
-    var interaction = lidl.parser.parse(this.props.compiledInteraction, {
-      startRule: "interaction"
-    });
-    var nbrPrevious = nbrOfPrevious(interaction);
-    var nbrIdentifiers = nbrOfIdentifiers(interaction);
-    var nbrFunctions = nbrOfFunctions(interaction);
-    var nbrCompositions = nbrOfCompositions(interaction);
-    return (
+    if(this.props.expandedLidlAst === null) {
+      return <div><p>Nothing yet</p></div>;
+    } else {
+      // console.log(this.props.expandedLidl);
+      let interaction = this.props.expandedLidlAst.interaction
+      var nbrPrevious = nbrOfPrevious(interaction);
+      var nbrIdentifiers = nbrOfIdentifiers(interaction);
+      var nbrFunctions = nbrOfFunctions(interaction);
+      var nbrCompositions = nbrOfCompositions(interaction);
+      return (
+        <div>
 
-      <div>
-      <p> {
-        this.props.compiledInteraction
-      } </p> <p> {
-        "Number of previous :" + nbrPrevious
-      } </p> <p> {
-        "Number of identifiers :" + nbrIdentifiers
-      } </p> <p> {
-        "Number of functions :" + nbrFunctions
-      } </p> <p> {
-        "Number of compositions :" + nbrCompositions
-      } </p> <p> {
-        "Number of variables :" + (nbrPrevious + nbrIdentifiers)
-      } </p> <p> {
-        "Total of interactions :" + (nbrCompositions + nbrFunctions + nbrPrevious + nbrIdentifiers)
-      } </p> </div>
-    );
+        <AceEditor
+                mode="text"
+                theme="chrome"
+                width="100%"
+                value={(this.props.expandedLidl===null)?"":this.props.expandedLidl}
+                readOnly={true}
+                name="analysisAce"
+                showPrintMargin={false}
+                showGutter={true}
+                editorProps={{$blockScrolling: true,useWrapMode:true}}
+              />
+
+<p> {
+          "Number of previous :" + nbrPrevious
+        } </p> <p> {
+          "Number of identifiers :" + nbrIdentifiers
+        } </p> <p> {
+          "Number of functions :" + nbrFunctions
+        } </p> <p> {
+          "Number of compositions :" + nbrCompositions
+        } </p> <p> {
+          "Number of variables :" + (nbrPrevious + nbrIdentifiers)
+        } </p> <p> {
+          "Total of interactions :" + (nbrCompositions + nbrFunctions + nbrPrevious + nbrIdentifiers)
+        } </p> </div>
+      );
+    }
+
+
   }
 }

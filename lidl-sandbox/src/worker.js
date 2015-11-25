@@ -1,64 +1,51 @@
-var Lidl = require('lidl-core');
+var l = require('lidl-core')
+var Lidl= l.compiler;
+var Graph = l.graph;
 
 var beautify = require('js-beautify').js_beautify;
+
 
 module.exports = function(self) {
   self.addEventListener('message', function(ev) {
 
+    var m = ev.data;
 
-
-
-
-
-
-
-
-
-
-    switch (ev.data.type) {
-
-      case 'compile':
-        try {
-          var comp = Lidl.compiler.compileToJs(ev.data.code, ev.data.header);
-          self.postMessage({
-            type: 'compilationResult',
-            source: beautify(comp.source, {
-              indent_size: 2
-            }),
-            partialSource: comp.partialSource
-          });
-        } catch (e) {
-          self.postMessage({
-            type: 'error',
-            message: e
-          });
-        }
+    switch (m.type) {
+      case 'Ping':
+        self.postMessage({type: 'Ping',message:m.message});
         break;
-
-      case 'parse':
-        try {
-          var ast = Lidl.parser.parse(ev.data.code);
-          self.postMessage({
-            type: 'parserResult',
-            ast:ast
-          });
-        } catch (e) {
-          self.postMessage({
-            type: 'error',
-            message: e
-          });
-        }
+      case 'Lidl2LidlAst':
+        self.postMessage({type: 'Lidl2LidlAst',lidlAst:Lidl.Lidl2LidlAst (m.lidl)});
         break;
-      case 'run':
+      case 'ExpandedLidlAst2ExpandedLidl':
+          self.postMessage({type: 'ExpandedLidlAst2ExpandedLidl',expandedLidl:Lidl.LidlAst2Lidl (m.expandedLidlAst)});
+          break;
+      case 'LidlAst2ExpandedLidlAst':
+        self.postMessage({type: 'LidlAst2ExpandedLidlAst', expandedLidlAst:Lidl.LidlAst2ExpandedLidlAst(m.lidlAst) });
+        break;
+      case 'ExpandedLidlAst2Graph':
+        self.postMessage({type: 'ExpandedLidlAst2Graph', graph:Lidl.ExpandedLidlAst2Graph(m.expandedLidlAst,m.upto) });
+        break;
+      case 'Graph2Js':
+        self.postMessage({type: 'Graph2Js', js:Lidl.Graph2Js(new Graph(m.graph.nodes,m.graph.edges),m.header) });
+        break;
+      case 'Graph2DisplayGraph':
+        self.postMessage({type: 'Graph2DisplayGraph', displayGraph:{nodes:[{label:"A"},{label:"B"}],edges:[{from:0,to:1}]} });
+        break;
+      case 'Js2CleanJs':
+        self.postMessage({type: 'Js2CleanJs', cleanJs:beautify(m.js.source,{indent_size: 2}) });
+        break;
+      case 'Scenario2ScenarioAst':
+        self.postMessage({type: 'Scenario2ScenarioAst',scenarioAst:JSON.parse(m.scenario)});
+        break;
+      case 'Js2TraceAst':
+if(m.js!==null && m.js!==undefined && m.scenarioAst!==null && m.scenarioAst!==undefined ) {
+        var trans = new Function("data",m.js.partialSource.transitionFunction);
+        var init = new Function("data",m.js.partialSource.initializationFunction);
 
-          try {
-
-            var trans = new Function("data",ev.data.lidlCompiled.transitionFunction);
-                var init = new Function("data",ev.data.lidlCompiled.initializationFunction);
-                var scenario = ev.data.scenario;
-                var trace = [init()];
-
-                // Execute LIDL system step by step
+        var scenario = m.scenarioAst;
+        var trace = [init()];
+        // Execute LIDL system step by step
                 var i;
                 for (i = 0; i < scenario.length; i++) {
                   trace[i].inter = scenario[i].inter;
@@ -70,19 +57,26 @@ module.exports = function(self) {
                     trace[i + 1].memo = trace[i].memo;
                   }
                 }
-                self.postMessage({
-                  type: 'runResult',
-                  trace:trace
-                });
-
-          } catch (e) {
-            self.postMessage({
-            type: 'error',
-            message: e
-          });
-          }
+                self.postMessage({type: 'Js2TraceAst',traceAst:trace});
+}else {
+  throw new Error('Missing Scenario or Generated code');
+}
           break;
+      case 'TraceAst2Trace':
+        self.postMessage({type: 'TraceAst2Trace',trace:JSON.stringify(m.traceAst,null,2)});
+        break;
+
     }
 
   });
 };
+
+
+
+
+//
+//
+//
+//
+//
+//

@@ -99,6 +99,10 @@ console.log();
 
   render() {
 
+    if(this.state.model.physics === null) {
+        return <div><p>Nothing yet</p></div>;
+      } else
+{
 
     let nodesPos = this.state.model.physics.state.current.position;
 
@@ -122,7 +126,6 @@ console.log();
           strokeWidth="1"/>
     ));
 
-//
     return (
       <div>
       <svg ref={"theGraph"} width={this.props.dimensions.width} height={this.props.dimensions.height} style={{cursor: 'pointer',backgroundColor:"#FFFFFF"}} viewBox={"0 0 800 800"}
@@ -138,6 +141,6 @@ console.log();
         </g>
       </svg>
 </div>
-    );
+    );}
   }
 }

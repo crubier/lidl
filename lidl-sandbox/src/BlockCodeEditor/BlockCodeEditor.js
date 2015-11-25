@@ -34,16 +34,16 @@ class BlockCodeEditor extends Component {
   }
 
   static propTypes = {
-    value: PropTypes.object.isRequired,
+    lidlAst: PropTypes.object.isRequired,
     onChange: PropTypes.func.isRequired
   };
 
   static defaultProps = {
-    value: defaultCode
+    lidlAst: defaultCode
   };
 
   state = {
-    code: this.props.value
+    code: this.props.lidlAst
   };
 
   // handleChange(newVal) {
@@ -62,11 +62,15 @@ class BlockCodeEditor extends Component {
   render() {
     // console.log(this.props.value[0])
     // TODO here we render only the first interaction : this.state.code[0]
-    return (
+    if(this.props.lidlAst===null) {
+return <div><p>Nothing yet</p></div>;
+    }else
+{
+return (
       <div>
-        <Interaction onChange = {this.props.onChange} val={this.props.value[0].interaction}/>
+        <Interaction onChange = {this.props.onChange} val={this.props.lidlAst[0].interaction}/>
       </div>
-    );
+    );}
   }
 }
 

@@ -1,6 +1,5 @@
 export default
-`
-interaction
+`interaction
   (bob):{theNumber:Number in,theResult:Number out}
 with
 

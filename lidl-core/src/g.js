@@ -6,9 +6,9 @@ class Graph {
 
 
   ///////////////////////////////////////////////////////////////////////////////
-  constructor() {
-    this.nodes = [];
-    this.edges = [];
+  constructor(nodes,edges) {
+    this.nodes = nodes===undefined?[]:nodes;
+    this.edges = edges===undefined?[]:edges;
   }
 
 
