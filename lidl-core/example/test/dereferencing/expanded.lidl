@@ -2,19 +2,8 @@
   (variable0)
   withbehaviour
   (
-    apply
-    (functionidentity)
-    to
-    (
-      (variable1)
-      withbehaviour
-      (apply(functionidentity)to(variable0)andget({theNumber:(variable1)}))
-    )
-    andget
-    (
-      (variable2)
-      withbehaviour
-      (apply(functionidentity)to({theResult:(variable2)})andget(variable0))
-    )
+    ((variable1)withbehaviour((variable0)<=>({theResult:(variable1)})))
+    <=>
+    ((variable2)withbehaviour(({theNumber:(variable2)})<=>(variable0)))
   )
 )

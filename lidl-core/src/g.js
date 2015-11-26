@@ -213,7 +213,7 @@ class Graph {
     let nodeTemplate = _.template('');
     var res = "digraph g{";
 
-    var nodeTemplate1 = _.template('<%=id%> [shape=ellipse, style=filled, color="0.0 0.1 1.0", label="<%=id%>\n<%=content.operatorType%>\n<%=content.operator%>" ]\n');
+    var nodeTemplate1 = _.template('<%=id%> [shape=ellipse, style=filled, color="#ffd1d1", label="<%=id%>\n<%=content.operatorType%>\n<%=content.operator%>" ]\n');
 
     this.matchNodes({
       type: 'ast',
@@ -223,7 +223,7 @@ class Graph {
     }).forEach((x) => (res += nodeTemplate1(x))).commit();
 
 
-    var nodeTemplate2 = _.template('<%=id%> [shape=box, style=filled, color="0.66 0.1 1.0", fontname="Courier", label="<%=id%>\n<%=executionOrder%>\n<%=content.content%>" ]\n');
+    var nodeTemplate2 = _.template('<%=id%> [shape=box, style=filled, color="#d1f1ff", fontname="Courier", label="<%=id%>\n<%=executionOrder%>\n<%=content.content%>" ]\n');
 
     this.matchNodes({
       type: 'ast',
@@ -242,7 +242,7 @@ class Graph {
     .forEach((x) => (res += edgeTemplate1(x))).commit();
 
 
-    var edgeTemplate2 = _.template('<%=from.node.id%> -> <%=to.node.id%> [dir=forward, arrowHead=normal, fontname="Times-Italic", arrowsize=2, color="0.83 1.0 1.0", label="<%=id%>", headlabel="<%=to.index%>", taillabel="<%=from.index%>" ]\n');
+    var edgeTemplate2 = _.template('<%=from.node.id%> -> <%=to.node.id%> [dir=forward, arrowHead=normal, fontname="Times-Italic", arrowsize=2, color="#ff0000", label="<%=id%>", headlabel="<%=to.index%>", taillabel="<%=from.index%>" ]\n');
 
     this.matchDirectedEdges({
       type: 'dataflow'

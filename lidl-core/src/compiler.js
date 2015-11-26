@@ -8,6 +8,7 @@ var operator = require('./operator.js');
 var definitions = require('./definitions.js');
 var _ = require('lodash');
 var compilationResult = require('./compilerExampleResult.js');
+var sat = require('./satSolver.js');
 var Graph = require('./g.js');
 
 
@@ -99,6 +100,8 @@ function toGraph(expandedAst,upto) {
     if(upto === 'Previous Next Linking') return graph;
 
     tagCompositionElementEdges(graph);
+
+    if(upto === 'Tag Composition Element Edges') return graph;
 
     //TODO Should loop that, either in the method or here
     matchingCompositionReduction(graph);
@@ -526,6 +529,84 @@ function tagCompositionElementEdges(graph){
 
 }
 
+
+
+
+
+// For a given composition Node, find all the Composition Nodes that match it, Along with the condition to match them, determined by the affectations between the two composition Nodes
+// If there is no affectation between them, the condition is always true
+// If there is one affectation between them, the condition is this affectation activation
+// If there are  more than on affectation between them, it is more complicated
+function findAllMatchingCompositionNodesAndTheirAffectationCondition(graph,node) {
+// TODO use
+// sat.solvePath()
+
+
+  // function visitTheAffectation(n) {
+  //
+  //     n.temporarilyMarkedDuringCompositionTraversal = true;
+  //
+  //         let compos =
+  //         graph
+  //         .matchUndirectedEdges({type: 'ast',from:{node:n},to:{index:0,node:{type: 'ast',temporarilyMarkedDuringCompositionTraversal:false,unSuitableForCompositionReduction:false,content: {type: 'InteractionSimple',operatorType:'Composition'}}}})
+  //         .filter(e=>((e.from.index===1 || e.from.index===2)&& e.to.node.temporarilyMarkedDuringCompositionTraversal!==true ) )
+  //         .map(e=>({compositionNode:e.to.node,condition:[n]}))
+  //         .value();
+  //
+  //
+  //
+  //         let otheraffects =
+  //         graph
+  //         .matchUndirectedEdges({type: 'ast',from:{node:n},to:{node:{type: 'ast',temporarilyMarkedDuringCompositionTraversal:false,content: {type: 'InteractionSimple',operatorType:'Affectation'}}}})
+  //         .filter(e=>(e.from.index===1 || e.from.index===2 )&& (e.to.index===1 || e.to.index===2 )&& e.to.node.temporarilyMarkedDuringCompositionTraversal!==true )
+  //         .map(e=> visitTheAffectation(e.to.node))
+  //         .flatten()
+  //         .map(x=>({compositionNode:x.compositionNode,condition:x.condition.concat([n])}))
+  //         .value();
+  //
+  //     n.temporarilyMarkedDuringCompositionTraversal = false;
+  //
+  //   return compos.concat(otheraffects);
+  //
+  // }
+  //
+  //
+  //
+  //
+  // node.temporarilyMarkedDuringCompositionTraversal = true;
+  //
+  let compos =
+          graph
+          .matchUndirectedEdges({type: 'ast',from:{node:node,index:0},to:{index:0,node:{type: 'ast',unSuitableForCompositionReduction:false,content: {type: 'InteractionSimple',operatorType:'Composition'}}}})
+          .map(e=>({compositionNode:e.to.node,condition:[]}))
+          .value();
+  //
+  //
+  //     let otheraffects =
+  //         graph
+  //         .matchUndirectedEdges({type: 'ast',from:{node:node,index:0},to:{node:{type: 'ast',content: {type: 'InteractionSimple',operatorType:'Affectation'}}}})
+  //         .filter(e=>(e.to.index===1 || e.to.index===2 ) )
+  //         .map(e=> visitTheAffectation(e.to.node))
+  //         .flatten()
+  //         .value();
+  //
+  //     node.temporarilyMarkedDuringCompositionTraversal = false;
+  //
+  //   return compos.concat(otheraffects);
+
+
+
+return compos;
+
+}
+
+
+
+
+
+
+
+
 // This is an important graph transform. It deals with the mess of having several linked composition interaction
 function matchingCompositionReduction(graph) {
 
@@ -533,7 +614,7 @@ function matchingCompositionReduction(graph) {
 
 // // Mark all
   graph
-  .matchNodes({type: 'ast',content: {type: 'InteractionSimple',operatorType:'Composition'}})
+  .matchNodes({type: 'ast',content: {type: 'InteractionSimple'}})
   .forEach( theNode => {theNode.unSuitableForCompositionReduction=false;theNode.didCompositionReduction=false;})
   .commit();
 
@@ -542,28 +623,30 @@ function matchingCompositionReduction(graph) {
   graph
   .reduceNodes({type: 'ast',unSuitableForCompositionReduction:false,content: {type: 'InteractionSimple',operatorType:'Composition'}},
   (theResult,n1)=>{
-    // We find the edges that could lead to composition nodes that match the current node AND that arent treated yet
-    graph
-    .matchUndirectedEdges({type: 'ast',from:{node:n1,index:0},to:{index:0,node:{type: 'ast',unSuitableForCompositionReduction:false,content: {type: 'InteractionSimple',operatorType:'Composition'}}}})
-    .forEach(middleEdge=>{
-      // We have the edge so now we know the matching composition node
-      let n2= middleEdge.to.node;
 
-      // For each edge going to the matching node, we add an edge that goes to the current node with a special label on the port so we dont confuse with edges that already go to it
-      graph
-      .matchUndirectedEdges({type: 'ast',from:{node:n2}})
-      .reject(e2=>_.isUndefined(e2.from.compositionElementName))
-      .forEach(e2=>{
-        let d2 = e2.to;
-        if(d2.node === n2)d2={node:n1,coCompositionElementName:e2.to.compositionElementName,isCoPort:true};
-        graph
-        .addEdge({type:'ast',from:{node:n1,coCompositionElementName:e2.from.compositionElementName,isCoPort:true},to:d2});})
-      .commit();
+    let matchingCompoNodes = findAllMatchingCompositionNodesAndTheirAffectationCondition(graph,n1);
 
-      // We can mark this node as done
-      n1.didCompositionReduction=true;
-      n2.didCompositionReduction=true;})
-    .commit();
+    _(matchingCompoNodes)
+    .forEach(x=>{
+      let n2 = x.compositionNode;
+
+          // For each edge going to the matching node, we add an edge that goes to the current node with a special label on the port so we dont confuse with edges that already go to it
+          graph
+          .matchUndirectedEdges({type: 'ast',from:{node:n2}})
+          .reject(e2=>_.isUndefined(e2.from.compositionElementName))
+          .forEach(e2=>{
+            let d2 = e2.to;
+            if(d2.node === n2)d2={node:n1,coCompositionElementName:e2.to.compositionElementName,isCoPort:true};
+            graph
+            .addEdge({type:'ast',from:{node:n1,coCompositionElementName:e2.from.compositionElementName,isCoPort:true},to:d2});})
+          .commit();
+
+          // We can mark this node as done
+          n1.didCompositionReduction=true;
+          n2.didCompositionReduction=true;})
+        .commit();
+
+
     n1.unSuitableForCompositionReduction=true;
 
   });

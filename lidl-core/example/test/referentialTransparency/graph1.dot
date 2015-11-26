@@ -1,23 +1,23 @@
-digraph g{node_2023 [shape=ellipse, style=filled, color="0.0 0.1 1.0", label="node_2023
-Identifier
-variable0" ]
-node_2026 [shape=ellipse, style=filled, color="0.0 0.1 1.0", label="node_2026
+digraph g{node_2458 [shape=ellipse, style=filled, color="#ffd1d1", label="node_2458
 Composition
 {theNumber:$theResult:$}" ]
-node_2030 [shape=ellipse, style=filled, color="0.0 0.1 1.0", label="node_2030
+node_2462 [shape=ellipse, style=filled, color="#ffd1d1", label="node_2462
 Composition
 {theNumber:$theResult:$}" ]
-node_2017 [shape=box, style=filled, color="0.66 0.1 1.0", fontname="Courier", label="node_2017
+node_2449 [shape=box, style=filled, color="#d1f1ff", fontname="Courier", label="node_2449
 0
 <%=a0%>=theInterface.theNumber;
 " ]
-node_2018 [shape=box, style=filled, color="0.66 0.1 1.0", fontname="Courier", label="node_2018
+node_2450 [shape=box, style=filled, color="#d1f1ff", fontname="Courier", label="node_2450
 0
 theInterface.theResult=<%=a0%>;
 " ]
-node_2026 -> node_2023 [dir=none, arrowHead=none, fontname="Times-Italic", label="edge_2027",  headlabel="0", taillabel="1" ]
-node_2026 -> node_2023 [dir=none, arrowHead=none, fontname="Times-Italic", label="edge_2028",  headlabel="0", taillabel="2" ]
-node_2030 -> node_2017 [dir=none, arrowHead=none, fontname="Times-Italic", label="edge_2031",  headlabel="0", taillabel="1" ]
-node_2030 -> node_2018 [dir=none, arrowHead=none, fontname="Times-Italic", label="edge_2032",  headlabel="0", taillabel="2" ]
-node_2030 -> node_2026 [dir=none, arrowHead=none, fontname="Times-Italic", label="edge_2033",  headlabel="0", taillabel="0" ]
+node_2467 [shape=box, style=filled, color="#d1f1ff", fontname="Courier", label="node_2467
+0
+<%=a0%> = active;
+" ]
+node_2462 -> node_2449 [dir=none, arrowHead=none, fontname="Times-Italic", label="edge_2463",  headlabel="0", taillabel="1" ]
+node_2462 -> node_2450 [dir=none, arrowHead=none, fontname="Times-Italic", label="edge_2464",  headlabel="0", taillabel="2" ]
+node_2462 -> node_2458 [dir=none, arrowHead=none, fontname="Times-Italic", label="edge_2465",  headlabel="0", taillabel="0" ]
+node_2458 -> node_2458 [dir=none, arrowHead=none, fontname="Times-Italic", label="edge_2466",  headlabel="2", taillabel="1" ]
 }

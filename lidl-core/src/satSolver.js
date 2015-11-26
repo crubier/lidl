@@ -1,3 +1,7 @@
+"use strict";
+
+import _ from 'lodash'
+
 /*
  * State constructor.
  */
@@ -375,4 +379,41 @@ function satBacktrack(state, reason)
     return nogood;
 }
 
-module.exports = satSolve;
+module.exports.satSolve = satSolve;
+
+
+
+function solvePath(nodes,paths) {
+  var varNumber = nodes.length;
+  var clauses =
+  _(paths)
+  .map(thePath=>
+    _(thePath)
+    .map(theElement=>
+      -1*(_.indexOf(nodes,theElement) + 1))
+    .value())
+  .value();
+
+  var negClauses = [];
+
+  var solved = satSolve(varNumber,clauses);
+  var res =[];
+
+  while(solved!==null) {
+    res.push(solved);
+    // We add the negation ofthe solution to the clauses in order to find the next solution
+    var newClause = _.map(solved,(value,index)=>((index+1)*(value?(-1):1)));
+    negClauses.push(newClause);
+    solved = satSolve(varNumber,clauses.concat(negClauses));
+  }
+
+  return _(res)
+  .map(theSolution=>
+    _(theSolution)
+    .map(x=> !x)
+    .value())
+  .value();
+
+}
+
+module.exports.solvePath = solvePath;

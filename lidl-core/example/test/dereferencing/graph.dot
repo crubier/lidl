@@ -1,0 +1,51 @@
+digraph g{node_2263 [shape=ellipse, style=filled, color="#ffd1d1", label="node_2263
+Affectation
+$<=>$" ]
+node_2267 [shape=ellipse, style=filled, color="#ffd1d1", label="node_2267
+Affectation
+$<=>$" ]
+node_2271 [shape=ellipse, style=filled, color="#ffd1d1", label="node_2271
+Composition
+{theResult:$}" ]
+node_2281 [shape=ellipse, style=filled, color="#ffd1d1", label="node_2281
+Affectation
+$<=>$" ]
+node_2285 [shape=ellipse, style=filled, color="#ffd1d1", label="node_2285
+Composition
+{theNumber:$}" ]
+node_2288 [shape=ellipse, style=filled, color="#ffd1d1", label="node_2288
+Composition
+{theNumber:$theResult:$}" ]
+node_2242 [shape=box, style=filled, color="#d1f1ff", fontname="Courier", label="node_2242
+0
+<%=a0%>=theInterface.theNumber;
+" ]
+node_2243 [shape=box, style=filled, color="#d1f1ff", fontname="Courier", label="node_2243
+0
+theInterface.theResult=<%=a0%>;
+" ]
+node_2297 [shape=box, style=filled, color="#d1f1ff", fontname="Courier", label="node_2297
+0
+<%=a0%> = active;
+" ]
+node_2305 [shape=box, style=filled, color="#d1f1ff", fontname="Courier", label="node_2305
+0
+<%=a1%> = <%=a0%>;
+<%=a2%> = <%=a0%>;
+<%=a3%> = <%=a0%>;
+" ]
+node_2310 [shape=box, style=filled, color="#d1f1ff", fontname="Courier", label="node_2310
+0
+<%=a1%> = <%=a0%>;
+<%=a2%> = <%=a0%>;
+" ]
+node_2288 -> node_2242 [dir=none, arrowHead=none, fontname="Times-Italic", label="edge_2289",  headlabel="0", taillabel="1" ]
+node_2288 -> node_2243 [dir=none, arrowHead=none, fontname="Times-Italic", label="edge_2290",  headlabel="0", taillabel="2" ]
+node_2297 -> node_2305 [dir=none, arrowHead=none, fontname="Times-Italic", label="edge_2306",  headlabel="0", taillabel="0" ]
+node_2305 -> node_2263 [dir=none, arrowHead=none, fontname="Times-Italic", label="edge_2307",  headlabel="0", taillabel="1" ]
+node_2305 -> node_2267 [dir=none, arrowHead=none, fontname="Times-Italic", label="edge_2308",  headlabel="0", taillabel="2" ]
+node_2305 -> node_2281 [dir=none, arrowHead=none, fontname="Times-Italic", label="edge_2309",  headlabel="0", taillabel="3" ]
+node_2288 -> node_2310 [dir=none, arrowHead=none, fontname="Times-Italic", label="edge_2311",  headlabel="0", taillabel="0" ]
+node_2310 -> node_2267 [dir=none, arrowHead=none, fontname="Times-Italic", label="edge_2312",  headlabel="1", taillabel="1" ]
+node_2310 -> node_2281 [dir=none, arrowHead=none, fontname="Times-Italic", label="edge_2313",  headlabel="2", taillabel="2" ]
+}

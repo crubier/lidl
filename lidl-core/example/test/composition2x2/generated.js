@@ -126,37 +126,37 @@ var all = function(x) {
 ///////////////////////////////////////////////////////////////////////
 //Declaration of variables
 
-var edge_423 = inactive;
-var edge_424 = inactive;
-var edge_454 = inactive;
-var edge_455 = inactive;
-var edge_456 = inactive;
-var edge_458 = inactive;
-var edge_459 = inactive;
-var edge_460 = inactive;
+var edge_786 = inactive;
+var edge_787 = inactive;
+var edge_817 = inactive;
+var edge_818 = inactive;
+var edge_819 = inactive;
+var edge_821 = inactive;
+var edge_822 = inactive;
+var edge_823 = inactive;
 ///////////////////////////////////////////////////////////////////////
 //Code of the DAG
 
-edge_424 = cool;
+edge_787 = cool;
 
-edge_423 = active;
+edge_786 = active;
 
-edge_456=theInterface.theOther;
+edge_819=theInterface.theOther;
 
-edge_455=theInterface.theNumber;
+edge_818=theInterface.theNumber;
 
-edge_454 = {};
-edge_454['0'] = edge_455;
-edge_454['1'] = edge_456;
+edge_817 = {};
+edge_817['0'] = edge_818;
+edge_817['1'] = edge_819;
 
-if(edge_423 === active && edge_424!==null && edge_424!==undefined) {edge_458 = edge_424(edge_454);}
+if(edge_786 === active && edge_787!==null && edge_787!==undefined) {edge_821 = edge_787(edge_817);}
 
-edge_460 = edge_458['sum'];
-edge_459 = edge_458['diff'];
+edge_823 = edge_821['sum'];
+edge_822 = edge_821['diff'];
 
-theInterface.theLast=edge_459;
+theInterface.theLast=edge_822;
 
-theInterface.theResult=edge_460;
+theInterface.theResult=edge_823;
 
 ///////////////////////////////////////////////////////////////////////
 //Return statement

@@ -1,40 +1,34 @@
-digraph g{node_22 [shape=ellipse, style=filled, color="0.0 0.1 1.0", label="node_22
-Identifier
-variable0" ]
-node_25 [shape=ellipse, style=filled, color="0.0 0.1 1.0", label="node_25
+digraph g{node_25 [shape=ellipse, style=filled, color="#ffd1d1", label="node_25
 Composition
 {theNumber:$theResult:$}" ]
-node_29 [shape=ellipse, style=filled, color="0.0 0.1 1.0", label="node_29
-Behaviour
-$withbehaviour$" ]
-node_33 [shape=ellipse, style=filled, color="0.0 0.1 1.0", label="node_33
-Identifier
-variable1" ]
-node_36 [shape=ellipse, style=filled, color="0.0 0.1 1.0", label="node_36
-FunctionApplication
-apply$to$andget$" ]
-node_41 [shape=ellipse, style=filled, color="0.0 0.1 1.0", label="node_41
-Function
-functionidentity" ]
-node_43 [shape=ellipse, style=filled, color="0.0 0.1 1.0", label="node_43
+node_43 [shape=ellipse, style=filled, color="#ffd1d1", label="node_43
 Composition
 {theNumber:$theResult:$}" ]
-node_16 [shape=box, style=filled, color="0.66 0.1 1.0", fontname="Courier", label="node_16
+node_16 [shape=box, style=filled, color="#d1f1ff", fontname="Courier", label="node_16
 0
 <%=a0%>=theInterface.theNumber;
 " ]
-node_17 [shape=box, style=filled, color="0.66 0.1 1.0", fontname="Courier", label="node_17
+node_17 [shape=box, style=filled, color="#d1f1ff", fontname="Courier", label="node_17
 0
 theInterface.theResult=<%=a0%>;
 " ]
-node_25 -> node_22 [dir=none, arrowHead=none, fontname="Times-Italic", label="edge_27",  headlabel="0", taillabel="1" ]
-node_29 -> node_25 [dir=none, arrowHead=none, fontname="Times-Italic", label="edge_31",  headlabel="0", taillabel="1" ]
-node_33 -> node_25 [dir=none, arrowHead=none, fontname="Times-Italic", label="edge_34",  headlabel="2", taillabel="0" ]
-node_36 -> node_22 [dir=none, arrowHead=none, fontname="Times-Italic", label="edge_38",  headlabel="0", taillabel="2" ]
-node_36 -> node_33 [dir=none, arrowHead=none, fontname="Times-Italic", label="edge_39",  headlabel="0", taillabel="3" ]
-node_36 -> node_29 [dir=none, arrowHead=none, fontname="Times-Italic", label="edge_40",  headlabel="2", taillabel="0" ]
-node_41 -> node_36 [dir=none, arrowHead=none, fontname="Times-Italic", label="edge_42",  headlabel="1", taillabel="0" ]
+node_49 [shape=box, style=filled, color="#d1f1ff", fontname="Courier", label="node_49
+0
+<%=a0%> = active;
+" ]
+node_52 [shape=box, style=filled, color="#d1f1ff", fontname="Courier", label="node_52
+0
+<%=a0%> = identity;
+" ]
+node_54 [shape=box, style=filled, color="#d1f1ff", fontname="Courier", label="node_54
+0
+if(<%=a0%> === active && <%=a1%>!==null && <%=a1%>!==undefined) {<%=a3%> = <%=a1%>(<%=a2%>);}
+" ]
 node_43 -> node_16 [dir=none, arrowHead=none, fontname="Times-Italic", label="edge_44",  headlabel="0", taillabel="1" ]
 node_43 -> node_17 [dir=none, arrowHead=none, fontname="Times-Italic", label="edge_45",  headlabel="0", taillabel="2" ]
-node_43 -> node_29 [dir=none, arrowHead=none, fontname="Times-Italic", label="edge_46",  headlabel="0", taillabel="0" ]
+node_43 -> node_25 [dir=none, arrowHead=none, fontname="Times-Italic", label="edge_51",  headlabel="0", taillabel="0" ]
+node_54 -> node_49 [dir=none, arrowHead=none, fontname="Times-Italic", label="edge_55",  headlabel="0", taillabel="0" ]
+node_54 -> node_52 [dir=none, arrowHead=none, fontname="Times-Italic", label="edge_56",  headlabel="0", taillabel="1" ]
+node_54 -> node_25 [dir=none, arrowHead=none, fontname="Times-Italic", label="edge_57",  headlabel="1", taillabel="2" ]
+node_54 -> node_25 [dir=none, arrowHead=none, fontname="Times-Italic", label="edge_58",  headlabel="2", taillabel="3" ]
 }

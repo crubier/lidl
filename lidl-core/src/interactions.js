@@ -284,18 +284,23 @@ function isBaseInteraction(interaction) {
           console.log("Error on operator " + interaction.operator + " " + interaction.formating);
         }
         switch (theOperator) {
-          case "Composition":
-          case "Behaviour":
-          case "Previous":
-          case "FunctionApplication":
-          case "Identifier":
-          case "Function":
-          case "Void":
-            return true;
+          // case "Composition":
+          // case "Behaviour":
+          // case "Previous":
+          // case "FunctionApplication":
+          // case "Identifier":
+          // case "Function":
+          // case "Void":
+          //   return true;
+          // case "Affectation":
+          //   console.log("============================found it !")
+          //   break;
           case "Custom":
             return false;
           default:
-            throw new Error('problem parsing interaction operator ' + theOperator);
+            // console.log(interaction.operator + " is not custom");
+            return true;
+            // throw new Error('problem parsing interaction operator ' + theOperator);
         }
       }
       break;
