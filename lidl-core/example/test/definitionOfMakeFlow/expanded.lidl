@@ -2,9 +2,8 @@
   ({theNumber:(variable0)theResult:(variable1)})
   withbehaviour
   (
-    apply
-    (functionidentity)
-    to
+    (variable1)
+    <=>
     (
       (variable2)
       withbehaviour
@@ -88,7 +87,5 @@
         (variable2)
       )
     )
-    andget
-    (variable1)
   )
 )

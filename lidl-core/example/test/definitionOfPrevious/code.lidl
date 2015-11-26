@@ -3,11 +3,6 @@ interaction
 with
 
   interaction
-    ((a:Number out)=(b:Number in)):Activation in
-  is
-    (apply (function identity) to (b) and get (a))
-
-  interaction
     (previous (x:Number in)):Number out
   is
     (

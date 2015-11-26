@@ -126,49 +126,46 @@ var all = function(x) {
 ///////////////////////////////////////////////////////////////////////
 //Declaration of variables
 
-var edge_421 = inactive;
-var edge_426 = inactive;
-var edge_428 = inactive;
-var edge_431 = inactive;
-var edge_443 = inactive;
-var edge_448 = inactive;
-var edge_449 = inactive;
-var edge_450 = inactive;
-var edge_452 = inactive;
-var edge_453 = inactive;
-var edge_454 = inactive;
-var edge_455 = inactive;
-var edge_457 = inactive;
+var edge_262 = inactive;
+var edge_267 = inactive;
+var edge_284 = inactive;
+var edge_285 = inactive;
+var edge_286 = inactive;
+var edge_289 = inactive;
+var edge_290 = inactive;
+var edge_292 = inactive;
+var edge_293 = inactive;
+var edge_294 = inactive;
+var edge_295 = inactive;
+var edge_297 = inactive;
 ///////////////////////////////////////////////////////////////////////
 //Code of the DAG
 
-edge_457 = inactive; //Fake sender node
+edge_297 = inactive; //Fake sender node
 
-edge_431 = return1;
+edge_267 = return1;
 
-edge_426 = addition;
+edge_262 = addition;
 
-edge_421 = identity;
+edge_292 = active;
 
-edge_452 = active;
+edge_293 = edge_292;
+edge_294 = edge_292;
+edge_295 = edge_292;
 
-edge_453 = edge_452;
-edge_454 = edge_452;
-edge_455 = edge_452;
+if(edge_294 === active && edge_267!==null && edge_267!==undefined) {edge_285 = edge_267(edge_297);}
 
-if(edge_455 === active && edge_431!==null && edge_431!==undefined) {edge_449 = edge_431(edge_457);}
+edge_286=theInterface.theNumber;
 
-edge_450=theInterface.theNumber;
+edge_284 = {};
+edge_284['0'] = edge_285;
+edge_284['1'] = edge_286;
 
-edge_448 = {};
-edge_448['0'] = edge_449;
-edge_448['1'] = edge_450;
+if(edge_293 === active && edge_262!==null && edge_262!==undefined) {edge_290 = edge_262(edge_284);}
 
-if(edge_454 === active && edge_426!==null && edge_426!==undefined) {edge_428 = edge_426(edge_448);}
+if(edge_295 === active) {edge_289 = edge_290;}
 
-if(edge_453 === active && edge_421!==null && edge_421!==undefined) {edge_443 = edge_421(edge_428);}
-
-theInterface.theResult=edge_443;
+theInterface.theResult=edge_289;
 
 ///////////////////////////////////////////////////////////////////////
 //Return statement
