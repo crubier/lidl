@@ -1,7 +1,7 @@
 var l = require('lidl-core')
 var Lidl= l.compiler;
 var Graph = l.graph;
-
+var _ = require('lodash');
 var beautify = require('js-beautify').js_beautify;
 
 

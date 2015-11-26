@@ -106,6 +106,10 @@ export default class Main extends Component {
     this.scenarioChanged = _.debounce(this.scenarioChanged,300);
     this.headerChanged = _.debounce(this.headerChanged,300);
 
+    this.lidlChanged(this.state.lidl);
+    this.scenarioChanged(this.state.scenario);
+    this.headerChanged(this.state.header);
+
   }
 
   state = initialState;

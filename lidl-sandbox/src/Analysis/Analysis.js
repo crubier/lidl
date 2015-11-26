@@ -93,8 +93,9 @@ export default class Analysis extends Component {
                 readOnly={true}
                 name="analysisAce"
                 showPrintMargin={false}
+                wrapEnabled={true}
                 showGutter={true}
-                editorProps={{$blockScrolling: true,useWrapMode:true}}
+                editorProps={{$blockScrolling: true,$useWrapMode:true}}
               />
 
 <p> {
@@ -108,7 +109,7 @@ export default class Analysis extends Component {
         } </p> <p> {
           "Number of variables :" + (nbrPrevious + nbrIdentifiers)
         } </p> <p> {
-          "Total of interactions :" + (nbrCompositions + nbrFunctions + nbrPrevious + nbrIdentifiers)
+          "Total interactions :" + (nbrCompositions + nbrFunctions + nbrPrevious + nbrIdentifiers)
         } </p> </div>
       );
     }
