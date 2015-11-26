@@ -1,1 +1,5 @@
-(({theNumber:(variable0)theResult:(variable1)})withbehaviour(apply(functionaddOne)to(variable0)andget(variable1)))
+(
+  ({theNumber:(variable0)theResult:(variable1)})
+  withbehaviour
+  (apply(functionaddOne)to(variable0)andget(variable1))
+)

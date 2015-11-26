@@ -1,1 +1,22 @@
-(({theNumber:(variable0)theOther:(variable1)theResult:(variable2)theLast:(variable3)})withbehaviour(apply(functioncool)to({0:(variable0)1:(variable1)})andget({sum:(variable2)diff:(variable3)})))
+(
+  (
+    {theNumber:
+    (variable0)
+    theOther:
+    (variable1)
+    theResult:
+    (variable2)
+    theLast:
+    (variable3)
+    }
+  )
+  withbehaviour
+  (
+    apply
+    (functioncool)
+    to
+    ({0:(variable0)1:(variable1)})
+    andget
+    ({sum:(variable2)diff:(variable3)})
+  )
+)

@@ -11,7 +11,7 @@ describe('serializer', function() {
 
     it('simple case', function() {
 
-      expect(serializer.serialize(parser.parse("(cos((4)*((5)lol(bob)joe))+(5))",{startRule:"interaction"}))).toEqual("(cos((4)*((5)lol(bob)joe))+(5))");
+      expect(serializer.serialize(parser.parse("(cos((4)*((5)lol(bob)joe))+(5))",{startRule:"interaction"})).replace(/\s/g,"")).toEqual("(cos((4)*((5)lol(bob)joe))+(5))");
 
     });
   });

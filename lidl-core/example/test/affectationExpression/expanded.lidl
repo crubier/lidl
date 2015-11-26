@@ -1,1 +1,29 @@
-(({theNumber:(variable0)theResult:(variable1)})withbehaviour(apply(functionidentity)to((variable2)withbehaviour(apply(functionaddition)to({0:((variable3)withbehaviour(apply(functionreturn1)to(variable4)andget(variable3)))1:(variable0)})andget(variable2)))andget(variable1)))
+(
+  ({theNumber:(variable0)theResult:(variable1)})
+  withbehaviour
+  (
+    apply
+    (functionidentity)
+    to
+    (
+      (variable2)
+      withbehaviour
+      (
+        apply
+        (functionaddition)
+        to
+        (
+          {0:
+          ((variable3)withbehaviour(apply(functionreturn1)to(variable4)andget(variable3)))
+          1:
+          (variable0)
+          }
+        )
+        andget
+        (variable2)
+      )
+    )
+    andget
+    (variable1)
+  )
+)
