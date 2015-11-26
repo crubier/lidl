@@ -84,7 +84,9 @@ export default class Analysis extends Component {
       var nbrCompositions = nbrOfCompositions(interaction);
       return (
         <div>
-
+        <p> {
+                  "Expanded LIDL Code :"
+                } </p>
         <AceEditor
                 mode="text"
                 theme="chrome"
