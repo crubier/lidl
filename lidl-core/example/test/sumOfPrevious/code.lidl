@@ -1,0 +1,10 @@
+interaction (integrate (a:Number in)):Number out
+with
+
+interaction ((a:Number in) + (b:Number in)):Number out
+is ((# (a)+(b)) with behaviour ((function addition)({0:(a)1:(b)})=(#(a)+(b))))
+
+interaction (previous(a:Number in)):Number out
+is ((# previous (a)) with behaviour ((# previous (a)) = previous (a)))
+is
+    ((previous(a))+(previous(a)))

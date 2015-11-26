@@ -1,0 +1,40 @@
+digraph g{node_2001 [shape=ellipse, style=filled, color="#ffd1d1", label="node_2001
+Identifier
+variable0" ]
+node_2004 [shape=ellipse, style=filled, color="#ffd1d1", label="node_2004
+Composition
+{theNumber:$theResult:$}" ]
+node_2008 [shape=ellipse, style=filled, color="#ffd1d1", label="node_2008
+Behaviour
+$withbehaviour$" ]
+node_2012 [shape=ellipse, style=filled, color="#ffd1d1", label="node_2012
+Identifier
+variable1" ]
+node_2015 [shape=ellipse, style=filled, color="#ffd1d1", label="node_2015
+FunctionApplication
+apply$to$andget$" ]
+node_2020 [shape=ellipse, style=filled, color="#ffd1d1", label="node_2020
+Function
+functionidentity" ]
+node_2022 [shape=ellipse, style=filled, color="#ffd1d1", label="node_2022
+Composition
+{theNumber:$theResult:$}" ]
+node_1995 [shape=box, style=filled, color="#d1f1ff", fontname="Courier", label="node_1995
+0
+<%=a0%>=theInterface.theNumber;
+" ]
+node_1996 [shape=box, style=filled, color="#d1f1ff", fontname="Courier", label="node_1996
+0
+theInterface.theResult=<%=a0%>;
+" ]
+node_2004 -> node_2001 [dir=none, arrowHead=none, fontname="Times-Italic", label="edge_2006",  headlabel="0", taillabel="1" ]
+node_2008 -> node_2004 [dir=none, arrowHead=none, fontname="Times-Italic", label="edge_2010",  headlabel="0", taillabel="1" ]
+node_2012 -> node_2004 [dir=none, arrowHead=none, fontname="Times-Italic", label="edge_2013",  headlabel="2", taillabel="0" ]
+node_2015 -> node_2001 [dir=none, arrowHead=none, fontname="Times-Italic", label="edge_2017",  headlabel="0", taillabel="2" ]
+node_2015 -> node_2012 [dir=none, arrowHead=none, fontname="Times-Italic", label="edge_2018",  headlabel="0", taillabel="3" ]
+node_2015 -> node_2008 [dir=none, arrowHead=none, fontname="Times-Italic", label="edge_2019",  headlabel="2", taillabel="0" ]
+node_2020 -> node_2015 [dir=none, arrowHead=none, fontname="Times-Italic", label="edge_2021",  headlabel="1", taillabel="0" ]
+node_2022 -> node_1995 [dir=none, arrowHead=none, fontname="Times-Italic", label="edge_2023",  headlabel="0", taillabel="1" ]
+node_2022 -> node_1996 [dir=none, arrowHead=none, fontname="Times-Italic", label="edge_2024",  headlabel="0", taillabel="2" ]
+node_2022 -> node_2008 [dir=none, arrowHead=none, fontname="Times-Italic", label="edge_2025",  headlabel="0", taillabel="0" ]
+}

@@ -1,0 +1,16 @@
+(
+  (variable0)
+  withbehaviour
+  (
+    (functionaddition)
+    (
+      {0:
+      ((variable1)withbehaviour((variable1)=previous(a)))
+      1:
+      ((variable1)withbehaviour((variable1)=previous(a)))
+      }
+    )
+    =
+    (variable0)
+  )
+)

@@ -1,0 +1,35 @@
+digraph g{node_2552 [shape=ellipse, style=filled, color="#ffd1d1", label="node_2552
+Identifier
+variable0" ]
+node_2557 [shape=ellipse, style=filled, color="#ffd1d1", label="node_2557
+Composition
+{theNumber:$theOther:$theResult:$theLast:$}" ]
+node_2563 [shape=ellipse, style=filled, color="#ffd1d1", label="node_2563
+Composition
+{theNumber:$theOther:$theResult:$theLast:$}" ]
+node_2542 [shape=box, style=filled, color="#d1f1ff", fontname="Courier", label="node_2542
+0
+<%=a0%>=theInterface.theNumber;
+" ]
+node_2543 [shape=box, style=filled, color="#d1f1ff", fontname="Courier", label="node_2543
+0
+<%=a0%>=theInterface.theOther;
+" ]
+node_2544 [shape=box, style=filled, color="#d1f1ff", fontname="Courier", label="node_2544
+0
+theInterface.theResult=<%=a0%>;
+" ]
+node_2545 [shape=box, style=filled, color="#d1f1ff", fontname="Courier", label="node_2545
+0
+theInterface.theLast=<%=a0%>;
+" ]
+node_2557 -> node_2552 [dir=none, arrowHead=none, fontname="Times-Italic", label="edge_2558",  headlabel="0", taillabel="1" ]
+node_2557 -> node_2552 [dir=none, arrowHead=none, fontname="Times-Italic", label="edge_2559",  headlabel="0", taillabel="2" ]
+node_2557 -> node_2552 [dir=none, arrowHead=none, fontname="Times-Italic", label="edge_2560",  headlabel="0", taillabel="3" ]
+node_2557 -> node_2552 [dir=none, arrowHead=none, fontname="Times-Italic", label="edge_2561",  headlabel="0", taillabel="4" ]
+node_2563 -> node_2542 [dir=none, arrowHead=none, fontname="Times-Italic", label="edge_2564",  headlabel="0", taillabel="1" ]
+node_2563 -> node_2543 [dir=none, arrowHead=none, fontname="Times-Italic", label="edge_2565",  headlabel="0", taillabel="2" ]
+node_2563 -> node_2544 [dir=none, arrowHead=none, fontname="Times-Italic", label="edge_2566",  headlabel="0", taillabel="3" ]
+node_2563 -> node_2545 [dir=none, arrowHead=none, fontname="Times-Italic", label="edge_2567",  headlabel="0", taillabel="4" ]
+node_2563 -> node_2557 [dir=none, arrowHead=none, fontname="Times-Italic", label="edge_2568",  headlabel="0", taillabel="0" ]
+}

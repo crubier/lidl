@@ -1,0 +1,19 @@
+digraph g{node_259 [shape=box, style=filled, color="#d1f1ff", fontname="Courier", label="node_259
+0
+theInterface=<%=a0%>;
+" ]
+node_260 [shape=box, style=filled, color="#d1f1ff", fontname="Courier", label="node_260
+0
+<%=a0%>=theArgs.a;
+" ]
+node_265 [shape=box, style=filled, color="#d1f1ff", fontname="Courier", label="node_265
+0
+<%=a0%> = active;
+" ]
+node_266 [shape=box, style=filled, color="#d1f1ff", fontname="Courier", label="node_266
+0
+// We dont care about <%=a0%>, this is a fake receiver node
+" ]
+node_260 -> node_259 [dir=none, arrowHead=none, fontname="Times-Italic", label="edge_264",  headlabel="0", taillabel="0" ]
+node_265 -> node_266 [dir=none, arrowHead=none, fontname="Times-Italic", label="edge_267",  headlabel="0", taillabel="0" ]
+}

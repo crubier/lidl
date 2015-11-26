@@ -44,7 +44,7 @@ describe('lidl compiler', function() {
 
 
 // Print the graph at an intermediary step for debugging
-      var graph1 = compiler.compileToGraph(code,'Merge By Root Node');
+      var graph1 = compiler.compileToGraph(code,'Referential Transparency');
 
       fs.writeFileSync(path.join(file, 'graph1.dot'), graph1.toDot(), {encoding: 'utf8'});
       exec("dot " + path.join(file, 'graph1.dot') + " -o" +path.join(file, 'graph1.pdf')+ " -Tpdf", null);
