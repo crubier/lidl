@@ -126,18 +126,46 @@ var all = function(x) {
 ///////////////////////////////////////////////////////////////////////
 //Declaration of variables
 
-var edge_3392 = inactive;
-var edge_3397 = inactive;
+var edge_2946 = inactive;
+var edge_2951 = inactive;
+var edge_2968 = inactive;
+var edge_2969 = inactive;
+var edge_2970 = inactive;
+var edge_2973 = inactive;
+var edge_2974 = inactive;
+var edge_2976 = inactive;
+var edge_2977 = inactive;
+var edge_2978 = inactive;
+var edge_2979 = inactive;
+var edge_2981 = inactive;
 ///////////////////////////////////////////////////////////////////////
 //Code of the DAG
 
-edge_3397 = active;
+edge_2981 = inactive; //Fake sender node
 
-// We dont care about edge_3397, this is a fake receiver node
+edge_2951 = return1;
 
-edge_3392=theInterface.theNumber;
+edge_2946 = addition;
 
-theInterface.theResult=edge_3392;
+edge_2976 = active;
+
+edge_2977 = edge_2976;
+edge_2978 = edge_2976;
+edge_2979 = edge_2976;
+
+if(edge_2978 === active && edge_2951!==null && edge_2951!==undefined) {edge_2969 = edge_2951(edge_2981);}
+
+edge_2970=theInterface.theNumber;
+
+edge_2968 = {};
+edge_2968['0'] = edge_2969;
+edge_2968['1'] = edge_2970;
+
+if(edge_2977 === active && edge_2946!==null && edge_2946!==undefined) {edge_2974 = edge_2946(edge_2968);}
+
+if(edge_2979 === active) {edge_2973 = edge_2974;}
+
+theInterface.theResult=edge_2973;
 
 ///////////////////////////////////////////////////////////////////////
 //Return statement

@@ -1,0 +1,26 @@
+(
+  ({theNumber:(variable0)theResult:(variable1)})
+  withbehaviour
+  (
+    (variable1)
+    <=>
+    (
+      (variable2)
+      withbehaviour
+      (
+        apply
+        (functionaddition)
+        to
+        (
+          {0:
+          ((variable3)withbehaviour(apply(functionreturn1)to(variable4)andget(variable3)))
+          1:
+          (variable0)
+          }
+        )
+        andget
+        (variable2)
+      )
+    )
+  )
+)

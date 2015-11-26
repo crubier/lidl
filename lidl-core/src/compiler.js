@@ -809,9 +809,6 @@ function matchingCompositionReduction(graph) {
     .commit();
 
 
-
-
-
     n1.unSuitableForCompositionReduction=true;
 
   });
