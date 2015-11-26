@@ -1,43 +1,32 @@
-digraph g{node_2286 [shape=ellipse, style=filled, color="#ffd1d1", label="node_2286
-Affectation
-$<=>$" ]
-node_2290 [shape=ellipse, style=filled, color="#ffd1d1", label="node_2290
-Affectation
-$<=>$" ]
-node_2294 [shape=ellipse, style=filled, color="#ffd1d1", label="node_2294
-Composition
-{theResult:$}" ]
-node_2304 [shape=ellipse, style=filled, color="#ffd1d1", label="node_2304
-Affectation
-$<=>$" ]
-node_2308 [shape=ellipse, style=filled, color="#ffd1d1", label="node_2308
-Composition
-{theNumber:$}" ]
-node_2311 [shape=ellipse, style=filled, color="#ffd1d1", label="node_2311
-Composition
-{theNumber:$theResult:$}" ]
-node_2265 [shape=box, style=filled, color="#d1f1ff", fontname="Courier", label="node_2265
+digraph g{node_2293 [shape=box, style=filled, color="#d1f1ff", fontname="Courier", label="node_2293
 0
 <%=a0%>=theInterface.theNumber;
 " ]
-node_2266 [shape=box, style=filled, color="#d1f1ff", fontname="Courier", label="node_2266
+node_2294 [shape=box, style=filled, color="#d1f1ff", fontname="Courier", label="node_2294
 0
 theInterface.theResult=<%=a0%>;
 " ]
-node_2320 [shape=box, style=filled, color="#d1f1ff", fontname="Courier", label="node_2320
+node_2348 [shape=box, style=filled, color="#d1f1ff", fontname="Courier", label="node_2348
 0
 <%=a0%> = active;
 " ]
-node_2294 -> node_2290 [dir=none, arrowHead=none, fontname="Times-Italic", label="edge_2296",  headlabel="2", taillabel="0" ]
-node_2308 -> node_2304 [dir=none, arrowHead=none, fontname="Times-Italic", label="edge_2310",  headlabel="1", taillabel="0" ]
-node_2311 -> node_2265 [dir=none, arrowHead=none, fontname="Times-Italic", label="edge_2312",  headlabel="0", taillabel="1" ]
-node_2311 -> node_2266 [dir=none, arrowHead=none, fontname="Times-Italic", label="edge_2313",  headlabel="0", taillabel="2" ]
-node_2290 -> node_2304 [dir=none, arrowHead=none, fontname="Times-Italic", label="edge_2317",  headlabel="2", taillabel="1" ]
-node_2320 -> node_2286 [dir=none, arrowHead=none, fontname="Times-Italic", label="edge_2321",  headlabel="0", taillabel="0" ]
-node_2311 -> node_2290 [dir=none, arrowHead=none, fontname="Times-Italic", label="edge_2322",  headlabel="1", taillabel="0" ]
-node_2311 -> node_2304 [dir=none, arrowHead=none, fontname="Times-Italic", label="edge_2323",  headlabel="2", taillabel="0" ]
-node_2320 -> node_2290 [dir=none, arrowHead=none, fontname="Times-Italic", label="edge_2324",  headlabel="0", taillabel="0" ]
-node_2286 -> node_2294 [dir=none, arrowHead=none, fontname="Times-Italic", label="edge_2325",  headlabel="1", taillabel="1" ]
-node_2320 -> node_2304 [dir=none, arrowHead=none, fontname="Times-Italic", label="edge_2326",  headlabel="0", taillabel="0" ]
-node_2286 -> node_2308 [dir=none, arrowHead=none, fontname="Times-Italic", label="edge_2327",  headlabel="1", taillabel="2" ]
+node_2388 [shape=box, style=filled, color="#d1f1ff", fontname="Courier", label="node_2388
+0
+if(<%=a0%> === active) {<%=a2%> = <%=a1%>;}
+" ]
+node_2392 [shape=box, style=filled, color="#d1f1ff", fontname="Courier", label="node_2392
+0
+if(<%=a0%> === active) {<%=a1%> = <%=a2%>;}
+" ]
+node_2396 [shape=box, style=filled, color="#d1f1ff", fontname="Courier", label="node_2396
+0
+if(<%=a0%> === active) {<%=a1%> = <%=a2%>;}
+" ]
+node_2388 -> node_2348 [dir=none, arrowHead=none, fontname="Times-Italic", label="edge_2389",  headlabel="0", taillabel="0" ]
+node_2388 -> node_2294 [dir=none, arrowHead=none, fontname="Times-Italic", label="edge_2391",  headlabel="0", taillabel="2" ]
+node_2392 -> node_2348 [dir=none, arrowHead=none, fontname="Times-Italic", label="edge_2393",  headlabel="0", taillabel="0" ]
+node_2392 -> node_2293 [dir=none, arrowHead=none, fontname="Times-Italic", label="edge_2395",  headlabel="0", taillabel="2" ]
+node_2396 -> node_2348 [dir=none, arrowHead=none, fontname="Times-Italic", label="edge_2397",  headlabel="0", taillabel="0" ]
+node_2396 -> node_2388 [dir=none, arrowHead=none, fontname="Times-Italic", label="edge_2398",  headlabel="1", taillabel="1" ]
+node_2396 -> node_2392 [dir=none, arrowHead=none, fontname="Times-Italic", label="edge_2399",  headlabel="1", taillabel="2" ]
 }

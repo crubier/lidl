@@ -111,13 +111,23 @@ function toGraph(expandedAst,upto) {
 
     if(upto === 'Matching Composition Reduction') return graph;
 
+    removeOneSidedAffectation(graph);
+
+    if(upto === 'Remove One Sided Affectation') return graph;
+
   //TODO Should loop that too
     createDataFlowDirection(graph);
     nonMatchingCompositionCompilation(graph);
+    affectationLinking(graph);
+
     createDataFlowDirection(graph);
     nonMatchingCompositionCompilation(graph);
+    affectationLinking(graph);
+
     createDataFlowDirection(graph);
     nonMatchingCompositionCompilation(graph);
+    affectationLinking(graph);
+
     // ... until fixed point ... but always end with another:
     createDataFlowDirection(graph);
 
@@ -539,8 +549,6 @@ function tagCompositionElementEdges(graph){
 // If there are  more than on affectation between them, it is more complicated
 function findAllMatchingCompositionNodesAndTheirAffectationCondition(graph,node) {
 // TODO use
-// sat.solvePath()
-
 
   function visitTheAffectation(n) {
 
@@ -549,19 +557,19 @@ function findAllMatchingCompositionNodesAndTheirAffectationCondition(graph,node)
           let conditionForCurrentAffectation =
           graph
           .matchUndirectedEdges({type: 'ast',from:{node:n,index:0},to:{node:{type: 'ast'}}})
-          .map(e=>e.to.node)
+          .map(e=>e.to)
           .value();
 
           let compos =
           graph
-          .matchUndirectedEdges({type: 'ast',from:{node:n},to:{index:0,node:{type: 'ast',temporarilyMarkedDuringCompositionTraversal:false,unSuitableForCompositionReduction:false,content: {type: 'InteractionSimple',operatorType:'Composition'}}}})
+          .matchUndirectedEdges({type: 'ast',from:{node:n},to:{index:0,node:{type: 'ast',unSuitableForCompositionReduction:false,content: {type: 'InteractionSimple',operatorType:'Composition'}}}})
           .filter(e=>((e.from.index===1 || e.from.index===2)&& e.to.node.temporarilyMarkedDuringCompositionTraversal!==true ) )
           .map(e=>({compositionNode:e.to.node,condition:conditionForCurrentAffectation}))
           .value();
 
           let otheraffects =
           graph
-          .matchUndirectedEdges({type: 'ast',from:{node:n},to:{node:{type: 'ast',temporarilyMarkedDuringCompositionTraversal:false,content: {type: 'InteractionSimple',operatorType:'Affectation'}}}})
+          .matchUndirectedEdges({type: 'ast',from:{node:n},to:{node:{type: 'ast',content: {type: 'InteractionSimple',operatorType:'Affectation'}}}})
           .filter(e=>(e.from.index===1 || e.from.index===2 )&& (e.to.index===1 || e.to.index===2 )&& e.to.node.temporarilyMarkedDuringCompositionTraversal!==true )
           .map(e=> visitTheAffectation(e.to.node))
           .flatten()
@@ -574,22 +582,21 @@ function findAllMatchingCompositionNodesAndTheirAffectationCondition(graph,node)
 
   }
 
-
-
-
   node.temporarilyMarkedDuringCompositionTraversal = true;
   //
   let compos =
           graph
           .matchUndirectedEdges({type: 'ast',from:{node:node,index:0},to:{index:0,node:{type: 'ast',unSuitableForCompositionReduction:false,content: {type: 'InteractionSimple',operatorType:'Composition'}}}})
-          .map(e=>({compositionNode:e.to.node,condition:[]}))
+          .map(e=>{
+  graph.finish(e);
+return{compositionNode:e.to.node,condition:[]};})
           .value();
 
       let otheraffects =
           graph
           .matchUndirectedEdges({type: 'ast',from:{node:node,index:0},to:{node:{type: 'ast',content: {type: 'InteractionSimple',operatorType:'Affectation'}}}})
           .filter(e=>(e.to.index===1 || e.to.index===2 ) )
-          .map(e=> visitTheAffectation(e.to.node))
+          .map(e=> {graph.finish(e);return visitTheAffectation(e.to.node);})
           .flatten()
           .value();
 
@@ -597,9 +604,6 @@ function findAllMatchingCompositionNodesAndTheirAffectationCondition(graph,node)
       node.temporarilyMarkedDuringCompositionTraversal = false;
 
     let res =  compos.concat(otheraffects);
-
-
-
 
 
 return res;
@@ -613,25 +617,96 @@ return res;
 
 // TODO This Might eventually be the source of Bugs and has not been tested on edges cases
 // Here we take several paths that go to composition interactions and simplfy them based on their conditions
-function simplifyPathExpression(p) {
+function simplifyPathExpression(graph,p) {
 
       let reduced =
       _(p)
       .groupBy('compositionNode.id') // We group path that go to the same target
       .map(x=> // For each of these groups
         ({
-          compositionNode:x[0].compositionNode,
-          condition:_(x).pluck('condition').flatten().unique().value()
+          compositionNode:x[0].compositionNode, // Merge target interactions by taking the first
+          condition:_(x).pluck('condition').map(y=>_.unique(y,z=>(z.node.id + " " + z.index) )).value() // Merge conditions, and remove duplicates conditions from paths
         })
       )
       .flatten()
+// Now the condition for each target is an array (disjunction) of paths (conjunction)
+      .forEach(x=>{
+
+
+          let allConds =
+          _(x.condition)
+          .flatten()
+          .map(c=>({cond:c,stringRep:(c.node.id + " " + c.index)}))
+          .unique('stringRep')
+          .value();
+
+          if(allConds.length==0) {
+            x.simplifiedCond =  null;
+          } else {
+          if(allConds.length ==1) { // We do not have to create a new Synthetic node in this case
+            x.simplifiedCond =  x.condition[0][0];
+          } else {
+
+          let satProblem =
+          _(x.condition)
+          .map(y=>(
+            _(y)
+            .map(c=>(c.node.id + " " + c.index))
+            .value()))
+          .value();
+
+
+//           console.log("hhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhh");
+//           console.log(_.pluck(allConds,'stringRep'));
+// console.log(satProblem);
+//           console.log("iiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiii");
+          let solution = sat.solvePath(_.pluck(allConds,'stringRep'),satProblem);
+          // console.log(solution);
+          // console.log("jjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjj");
+
+          let newNode =
+          graph
+          .addNode({type:'ast',content:{type:'InteractionNative',content:"TBD"}});
+
+          let allEdgesToConds =
+          _(allConds)
+          .map((c,index)=>({cond:c.cond,stringRep:c.stringRep,edge:graph.addEdge({type:'ast',from:{index:(index+1),node:newNode,ports:'in'},to:c.cond})}))
+          .value();
+
+          let code = _(solution)
+          .map(s=>{
+            let solcode = "if( ";
+            solcode = solcode +
+              _(s)
+              .map((value,index)=>('( <%=a'+ (index + 1) +'%>' + ' === ' + (value?'active':'inactive') + ' )'))
+              .join(' && ');
+            solcode = solcode + ") {\n  <%=a0%> = active;\n} else {\n  <%=a0%> = inactive;\n}";
+            return solcode;
+          })
+          .join("\n");
+
+          // console.log(code);
+          newNode.content.content = code;
+          newNode.ports = ['out'].concat(_.map(allConds,'in'));
+
+// console.log('ffffffffffffffffffffffffffffffffffffffffffffffffff');
+
+          x.simplifiedCond={index:0,node:newNode,ports:'out'};
+
+          }
+        }
+
+
+
+      })
       .value();
+
+  // compositionNode
+
+// returns something which contains a key "simplified cond" which is a graph node that regroupd all conditions
 
   return reduced;
 }
-
-
-
 
 
 
@@ -654,36 +729,33 @@ function matchingCompositionReduction(graph) {
   .reduceNodes({type: 'ast',unSuitableForCompositionReduction:false,content: {type: 'InteractionSimple',operatorType:'Composition'}},
   (theResult,n1)=>{
 
-    let matchingCompoNodes = findAllMatchingCompositionNodesAndTheirAffectationCondition(graph,n1);
+    let matchingCompoNodes = simplifyPathExpression(graph,findAllMatchingCompositionNodesAndTheirAffectationCondition(graph,n1));
 
-    console.log("       ");
-    console.log("       ");
-    console.log("       ");
-    console.log("       ");
-    console.log("WWOWOUOUOOUUOOUOUOU");
-    console.log("       ");
-    console.log(matchingCompoNodes);
-    console.log("       ");
-    console.log("       ");
-    console.log("       ");
-    console.log("       ");
-    console.log("       ");
-    console.log(simplifyPathExpression(matchingCompoNodes));
-      console.log("       ");
-      console.log("       ");
-      console.log("       ");
-      console.log("       ");
-      console.log("       ");
-
+    // console.log("       ");
+    // console.log("       ");
+    // console.log("       ");
+    // console.log("       ");
+    // console.log("WWOWOUOUOOUUOOUOUOU");
+    // console.log(n1);
+    // console.log("       ");
+    // console.log(matchingCompoNodes.map(x=>({id:(x.compositionNode.id ),cc:(x.simplifiedCond===null)?"":x.simplifiedCond.node.id, condition:JSON.stringify(x.condition.map(y=>y.map(z=>z.node.id)))})));
+    // console.log("       ");
+    // console.log("       ");
+    // console.log("       ");
 
 
 
     _(matchingCompoNodes)
     .forEach(x=>{
       let n2 = x.compositionNode;
-
-      if(_.isEmpty(x.condition))
+// console.log("NULLLLSIMPLEONDDDDDDDD");
+// console.log(x.simplifiedCond);
+      if(_.isNull(x.simplifiedCond))
       {
+
+
+
+          // No simplified condition because the two composition are linked directly
           // For each edge going to the matching node, we add an edge that goes to the current node with a special label on the port so we dont confuse with edges that already go to it
           graph
           .matchUndirectedEdges({type: 'ast',from:{node:n2}})
@@ -699,9 +771,37 @@ function matchingCompositionReduction(graph) {
           n1.didCompositionReduction=true;
           n2.didCompositionReduction=true;
         } else {
-          // TODO
-          // We have to add custom affectation
+          // There are affectation nodes between the two composition but
+          // We have a simplified condition available at x.simplifiedCond
 
+
+          graph
+          .matchUndirectedEdges({type: 'ast',from:{node:n2}})
+          .reject(e2=>_.isUndefined(e2.from.compositionElementName))
+          .forEach(e2=>{
+
+            let d2 = e2.to;
+            if(d2.node === n2)d2={node:n1,coCompositionElementName:e2.to.compositionElementName,isCoPort:true};
+
+            let intermedAffectation =
+            graph
+            .addNode({type:'ast',content:{type:'InteractionSimple',operator:'<=>',operatorType:'Affectation'},ports:['in']})
+
+            graph
+            .addEdge({type:'ast',from:{node:n1,coCompositionElementName:e2.from.compositionElementName,isCoPort:true},to:{node:intermedAffectation,index:1}});
+
+            graph
+            .addEdge({type:'ast',from:{node:intermedAffectation,index:2},to:d2});
+
+            graph
+            .addEdge({type:'ast',from:{node:intermedAffectation,index:0},to:x.simplifiedCond});
+          })
+          .commit();
+          // We can mark this node as done
+          n1.didCompositionReduction=true;
+          n2.didCompositionReduction=true;
+                    // We have to add custom affectation and use the sat solver
+          // throw new Error ("The condition of a multiple assignement between compositions failed to be simplified");
         }
 
 
@@ -847,6 +947,111 @@ function matchingCompositionReduction(graph) {
 
 
 
+function removeOneSidedAffectation(graph){
+  let didMatch = true;
+  do {
+    // console.log("HHHHHEHEHEHEHEHEHEHEHEHEHHEHEHEHEHEHEHEHEHEHEHHEHE");
+    didMatch = (!graph
+    .matchNodes({type:'ast',content:{type:'InteractionSimple',operatorType:'Affectation'}})
+    .filter(theNode=>(
+      graph
+      .matchUndirectedEdges({type:'ast',from:{node:theNode,index:1}})
+      .isEmpty()
+      ||
+      graph
+      .matchUndirectedEdges({type:'ast',from:{node:theNode,index:2}})
+      .isEmpty()))
+    .forEach(theNode=>graph.finish(theNode))
+    .isEmpty());
+  } while (didMatch)
+}
+
+
+function affectationLinking(graph) {
+// Mark all as linkable
+  graph
+  .matchNodes({type:'ast',content:{type:'InteractionSimple',operatorType:'Affectation'}})
+  .forEach(theNode=>{theNode.potentiallyAffectationLinkable = true;})
+  .commit();
+
+
+// reduce
+  graph
+    .reduceNodes({type:'ast',potentiallyAffectationLinkable:true,content:{type:'InteractionSimple',operatorType:'Affectation'}},
+    (theResult,theNode)=>{
+  theNode.ports[0]='in';
+if(portIsDefined(theNode.ports[1]) && portIsDefined(theNode.ports[2])) {
+  if(portIsOnlyMadeOf(theNode.ports[1],'out') && portIsOnlyMadeOf(theNode.ports[2],'in'))
+      {
+      let source =
+        graph
+        .addNode({type:'ast',content:{type: 'InteractionNative',content: 'if(<%=a0%> === active) {<%=a1%> = <%=a2%>;}\n'},ports: ["in", "out", "in"]});
+
+      _(_.range(3))
+      .forEach(i=>
+        graph
+        .matchUndirectedEdges({type:'ast',from:{node:theNode,index:i}})
+        .forEach(x=>
+          graph
+          .addEdge({type:'ast',from:{node:source,index:i},to:x.to}))
+        .commit())
+      .commit();
+
+      graph
+      .finish(theNode);
+} else if(portIsOnlyMadeOf(theNode.ports[1],'in') && portIsOnlyMadeOf(theNode.ports[2],'out'))
+      {
+      let source =
+        graph
+        .addNode({type:'ast',content:{type: 'InteractionNative',content: 'if(<%=a0%> === active) {<%=a2%> = <%=a1%>;}\n'},ports: ["in", "in", "out"]});
+
+      _(_.range(3))
+      .forEach(i=>
+        graph
+        .matchUndirectedEdges({type:'ast',from:{node:theNode,index:i}})
+        .forEach(x=>
+          graph
+          .addEdge({type:'ast',from:{node:source,index:i},to:x.to}))
+        .commit())
+      .commit();
+
+      graph
+      .finish(theNode);
+}else if(portIsOnlyMadeOf(theNode.ports[1],'in') && portIsOnlyMadeOf(theNode.ports[2],'in')) {
+
+      graph
+      .finish(theNode);
+} else if(portIsOnlyMadeOf(theNode.ports[1],'out') && portIsOnlyMadeOf(theNode.ports[2],'out')) {
+
+      graph
+      .finish(theNode);
+}else {
+        theNode.potentiallyAffectationLinkable = false;
+      }
+} else {
+if(portIsDefined(theNode.ports[1])) {
+  if(portIsOnlyMadeOf(theNode.ports[1],'out')) {
+    theNode.ports[2]='in';
+  }
+  if(portIsOnlyMadeOf(theNode.ports[1],'in')) {
+      theNode.ports[2]='out';
+    }
+} else if(portIsDefined(theNode.ports[2])) {
+  if(portIsOnlyMadeOf(theNode.ports[2],'out')) {
+    theNode.ports[1]='in';
+  }
+  if(portIsOnlyMadeOf(theNode.ports[2],'in')) {
+      theNode.ports[1]='out';
+    }
+} else {
+theNode.potentiallyAffectationLinkable = false;
+}
+}
+    });
+
+
+
+}
 
 
 
@@ -1428,7 +1633,7 @@ function mergePortList(x, y) {
   }
 }
 
-// Check if ports like ['in','in'] are compatible with 'in'
+// Check if ports like x = ['in','in'] are compatible with s ='in'
 function portIsOnlyMadeOf(x,s){
   if (_.isArray(x)) {
     let i = 0;
@@ -1474,6 +1679,9 @@ function conjugatePort(x) {
   }
 }
 
+function portIsDefined (x) {
+  if(_.isNull(x) || _.isUndefined(x)){ return false} else {return true};
+}
 
 
 

@@ -126,29 +126,29 @@ var all = function(x) {
 ///////////////////////////////////////////////////////////////////////
 //Declaration of variables
 
-var edge_3118 = inactive;
-var edge_3119 = inactive;
-var edge_3124 = inactive;
-var edge_3125 = inactive;
-var edge_3126 = inactive;
+var edge_3230 = inactive;
+var edge_3231 = inactive;
+var edge_3236 = inactive;
+var edge_3237 = inactive;
+var edge_3238 = inactive;
 ///////////////////////////////////////////////////////////////////////
 //Code of the DAG
 
-edge_3124 = active;
+edge_3236 = active;
 
-edge_3125 = edge_3124;
-edge_3126 = edge_3124;
+edge_3237 = edge_3236;
+edge_3238 = edge_3236;
 
-if(edge_3125 === active) {
-edge_3119 = previousState['state_3102'];
+if(edge_3237 === active) {
+edge_3231 = previousState['state_3214'];
 }
 
-theInterface.theResult=edge_3119;
+theInterface.theResult=edge_3231;
 
-edge_3118=theInterface.theNumber;
+edge_3230=theInterface.theNumber;
 
-if(edge_3126 === active) {
-nextState['state_3102'] = edge_3118;
+if(edge_3238 === active) {
+nextState['state_3214'] = edge_3230;
 }
 
 ///////////////////////////////////////////////////////////////////////
@@ -166,7 +166,7 @@ nextState['state_3102'] = edge_3118;
 function initializationFunction(data){
 return {
       memo: {},
-      state: {state_3102:null},
+      state: {state_3214:null},
       args: {},
       inter: {}
     };

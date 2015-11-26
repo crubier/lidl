@@ -44,7 +44,7 @@ describe('lidl compiler', function() {
 
 
 // Print the graph at an intermediary step for debugging
-      var graph1 = compiler.compileToGraph(code,'Matching Composition Reduction');
+      var graph1 = compiler.compileToGraph(code,'Non Matching Composition Reduction');
 
       fs.writeFileSync(path.join(file, 'graph1.dot'), graph1.toDot(), {encoding: 'utf8'});
       exec("dot " + path.join(file, 'graph1.dot') + " -o" +path.join(file, 'graph1.pdf')+ " -Tpdf", null);
