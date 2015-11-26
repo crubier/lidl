@@ -7,6 +7,7 @@ function clone(a){if(!a)return a;var c,b=[Number,String,Boolean];if(b.forEach(fu
 var theInterface = clone(data.inter);
 var previousState = data.state;
 var nextState = clone(previousState);
+var theArgs = clone(data.args);
 var active = 1;
 var inactive = null;
 
@@ -126,29 +127,29 @@ var all = function(x) {
 ///////////////////////////////////////////////////////////////////////
 //Declaration of variables
 
-var edge_3633 = inactive;
-var edge_3634 = inactive;
-var edge_3639 = inactive;
-var edge_3640 = inactive;
-var edge_3641 = inactive;
+var edge_2375 = inactive;
+var edge_2376 = inactive;
+var edge_2381 = inactive;
+var edge_2382 = inactive;
+var edge_2383 = inactive;
 ///////////////////////////////////////////////////////////////////////
 //Code of the DAG
 
-edge_3639 = active;
+edge_2381 = active;
 
-edge_3640 = edge_3639;
-edge_3641 = edge_3639;
+edge_2382 = edge_2381;
+edge_2383 = edge_2381;
 
-if(edge_3640 === active) {
-edge_3634 = previousState['state_3617'];
+if(edge_2382 === active) {
+edge_2376 = previousState['state_2359'];
 }
 
-theInterface.theResult=edge_3634;
+theInterface.theResult=edge_2376;
 
-edge_3633=theInterface.theNumber;
+edge_2375=theInterface.theNumber;
 
-if(edge_3641 === active) {
-nextState['state_3617'] = edge_3633;
+if(edge_2383 === active) {
+nextState['state_2359'] = edge_2375;
 }
 
 ///////////////////////////////////////////////////////////////////////
@@ -157,7 +158,7 @@ nextState['state_3617'] = edge_3633;
   return {
       memo: {},
       state: nextState,
-      args: {},
+      args: theArgs,
       inter: theInterface
     };
 
@@ -166,7 +167,7 @@ nextState['state_3617'] = edge_3633;
 function initializationFunction(data){
 return {
       memo: {},
-      state: {state_3617:null},
+      state: {state_2359:null},
       args: {},
       inter: {}
     };

@@ -7,6 +7,7 @@ function clone(a){if(!a)return a;var c,b=[Number,String,Boolean];if(b.forEach(fu
 var theInterface = clone(data.inter);
 var previousState = data.state;
 var nextState = clone(previousState);
+var theArgs = clone(data.args);
 var active = 1;
 var inactive = null;
 
@@ -126,46 +127,46 @@ var all = function(x) {
 ///////////////////////////////////////////////////////////////////////
 //Declaration of variables
 
-var edge_262 = inactive;
-var edge_267 = inactive;
-var edge_284 = inactive;
-var edge_285 = inactive;
-var edge_286 = inactive;
-var edge_289 = inactive;
-var edge_290 = inactive;
-var edge_292 = inactive;
-var edge_293 = inactive;
-var edge_294 = inactive;
-var edge_295 = inactive;
-var edge_297 = inactive;
+var edge_160 = inactive;
+var edge_165 = inactive;
+var edge_182 = inactive;
+var edge_183 = inactive;
+var edge_184 = inactive;
+var edge_187 = inactive;
+var edge_188 = inactive;
+var edge_190 = inactive;
+var edge_191 = inactive;
+var edge_192 = inactive;
+var edge_193 = inactive;
+var edge_195 = inactive;
 ///////////////////////////////////////////////////////////////////////
 //Code of the DAG
 
-edge_297 = inactive; //Fake sender node
+edge_195 = inactive; //Fake sender node
 
-edge_267 = return1;
+edge_165 = return1;
 
-edge_262 = addition;
+edge_160 = addition;
 
-edge_292 = active;
+edge_190 = active;
 
-edge_293 = edge_292;
-edge_294 = edge_292;
-edge_295 = edge_292;
+edge_191 = edge_190;
+edge_192 = edge_190;
+edge_193 = edge_190;
 
-if(edge_294 === active && edge_267!==null && edge_267!==undefined) {edge_285 = edge_267(edge_297);}
+if(edge_192 === active && edge_165!==null && edge_165!==undefined) {edge_183 = edge_165(edge_195);}
 
-edge_286=theInterface.theNumber;
+edge_184=theInterface.theNumber;
 
-edge_284 = {};
-edge_284['0'] = edge_285;
-edge_284['1'] = edge_286;
+edge_182 = {};
+edge_182['0'] = edge_183;
+edge_182['1'] = edge_184;
 
-if(edge_293 === active && edge_262!==null && edge_262!==undefined) {edge_290 = edge_262(edge_284);}
+if(edge_191 === active && edge_160!==null && edge_160!==undefined) {edge_188 = edge_160(edge_182);}
 
-if(edge_295 === active) {edge_289 = edge_290;}
+if(edge_193 === active) {edge_187 = edge_188;}
 
-theInterface.theResult=edge_289;
+theInterface.theResult=edge_187;
 
 ///////////////////////////////////////////////////////////////////////
 //Return statement
@@ -173,7 +174,7 @@ theInterface.theResult=edge_289;
   return {
       memo: {},
       state: nextState,
-      args: {},
+      args: theArgs,
       inter: theInterface
     };
 

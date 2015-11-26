@@ -7,6 +7,7 @@ function clone(a){if(!a)return a;var c,b=[Number,String,Boolean];if(b.forEach(fu
 var theInterface = clone(data.inter);
 var previousState = data.state;
 var nextState = clone(previousState);
+var theArgs = clone(data.args);
 var active = 1;
 var inactive = null;
 
@@ -126,37 +127,37 @@ var all = function(x) {
 ///////////////////////////////////////////////////////////////////////
 //Declaration of variables
 
-var edge_716 = inactive;
-var edge_717 = inactive;
-var edge_747 = inactive;
-var edge_748 = inactive;
-var edge_749 = inactive;
-var edge_751 = inactive;
-var edge_752 = inactive;
-var edge_753 = inactive;
+var edge_466 = inactive;
+var edge_467 = inactive;
+var edge_497 = inactive;
+var edge_498 = inactive;
+var edge_499 = inactive;
+var edge_501 = inactive;
+var edge_502 = inactive;
+var edge_503 = inactive;
 ///////////////////////////////////////////////////////////////////////
 //Code of the DAG
 
-edge_717 = cool;
+edge_467 = cool;
 
-edge_716 = active;
+edge_466 = active;
 
-edge_749=theInterface.theOther;
+edge_499=theInterface.theOther;
 
-edge_748=theInterface.theNumber;
+edge_498=theInterface.theNumber;
 
-edge_747 = {};
-edge_747['0'] = edge_748;
-edge_747['1'] = edge_749;
+edge_497 = {};
+edge_497['0'] = edge_498;
+edge_497['1'] = edge_499;
 
-if(edge_716 === active && edge_717!==null && edge_717!==undefined) {edge_751 = edge_717(edge_747);}
+if(edge_466 === active && edge_467!==null && edge_467!==undefined) {edge_501 = edge_467(edge_497);}
 
-edge_753 = edge_751['sum'];
-edge_752 = edge_751['diff'];
+edge_503 = edge_501['sum'];
+edge_502 = edge_501['diff'];
 
-theInterface.theLast=edge_752;
+theInterface.theLast=edge_502;
 
-theInterface.theResult=edge_753;
+theInterface.theResult=edge_503;
 
 ///////////////////////////////////////////////////////////////////////
 //Return statement
@@ -164,7 +165,7 @@ theInterface.theResult=edge_753;
   return {
       memo: {},
       state: nextState,
-      args: {},
+      args: theArgs,
       inter: theInterface
     };
 

@@ -7,6 +7,7 @@ function clone(a){if(!a)return a;var c,b=[Number,String,Boolean];if(b.forEach(fu
 var theInterface = clone(data.inter);
 var previousState = data.state;
 var nextState = clone(previousState);
+var theArgs = clone(data.args);
 var active = 1;
 var inactive = null;
 
@@ -126,158 +127,158 @@ var all = function(x) {
 ///////////////////////////////////////////////////////////////////////
 //Declaration of variables
 
-var edge_1834 = inactive;
-var edge_1841 = inactive;
-var edge_1845 = inactive;
-var edge_1851 = inactive;
-var edge_1881 = inactive;
-var edge_1883 = inactive;
-var edge_1884 = inactive;
-var edge_1887 = inactive;
-var edge_1888 = inactive;
-var edge_1891 = inactive;
-var edge_1896 = inactive;
-var edge_1898 = inactive;
-var edge_1899 = inactive;
-var edge_1900 = inactive;
-var edge_1901 = inactive;
-var edge_1902 = inactive;
-var edge_1903 = inactive;
-var edge_1904 = inactive;
-var edge_1905 = inactive;
-var edge_1906 = inactive;
-var edge_1907 = inactive;
-var edge_1908 = inactive;
-var edge_1909 = inactive;
-var edge_1911 = inactive;
-var edge_1912 = inactive;
-var edge_1913 = inactive;
-var edge_1915 = inactive;
-var edge_1916 = inactive;
-var edge_1917 = inactive;
-var edge_1919 = inactive;
-var edge_1921 = inactive;
-var edge_1923 = inactive;
-var edge_1925 = inactive;
-var edge_1927 = inactive;
-var edge_1929 = inactive;
-var edge_1931 = inactive;
-var edge_1933 = inactive;
-var edge_1935 = inactive;
-var edge_1936 = inactive;
-var edge_1937 = inactive;
-var edge_1939 = inactive;
-var edge_1941 = inactive;
-var edge_1943 = inactive;
+var edge_1184 = inactive;
+var edge_1191 = inactive;
+var edge_1195 = inactive;
+var edge_1201 = inactive;
+var edge_1231 = inactive;
+var edge_1233 = inactive;
+var edge_1234 = inactive;
+var edge_1237 = inactive;
+var edge_1238 = inactive;
+var edge_1241 = inactive;
+var edge_1246 = inactive;
+var edge_1248 = inactive;
+var edge_1249 = inactive;
+var edge_1250 = inactive;
+var edge_1251 = inactive;
+var edge_1252 = inactive;
+var edge_1253 = inactive;
+var edge_1254 = inactive;
+var edge_1255 = inactive;
+var edge_1256 = inactive;
+var edge_1257 = inactive;
+var edge_1258 = inactive;
+var edge_1259 = inactive;
+var edge_1261 = inactive;
+var edge_1262 = inactive;
+var edge_1263 = inactive;
+var edge_1265 = inactive;
+var edge_1266 = inactive;
+var edge_1267 = inactive;
+var edge_1269 = inactive;
+var edge_1271 = inactive;
+var edge_1273 = inactive;
+var edge_1275 = inactive;
+var edge_1277 = inactive;
+var edge_1279 = inactive;
+var edge_1281 = inactive;
+var edge_1283 = inactive;
+var edge_1285 = inactive;
+var edge_1286 = inactive;
+var edge_1287 = inactive;
+var edge_1289 = inactive;
+var edge_1291 = inactive;
+var edge_1293 = inactive;
 ///////////////////////////////////////////////////////////////////////
 //Code of the DAG
 
-edge_1943 = inactive; //Fake sender node
+edge_1293 = inactive; //Fake sender node
 
-edge_1941 = inactive; //Fake sender node
+edge_1291 = inactive; //Fake sender node
 
-edge_1939 = inactive; //Fake sender node
+edge_1289 = inactive; //Fake sender node
 
-edge_1845 = return1;
+edge_1195 = return1;
 
-edge_1834 = boolNot;
+edge_1184 = boolNot;
 
-edge_1915 = isActive;
+edge_1265 = isActive;
 
-edge_1916 = edge_1915;
-edge_1917 = edge_1915;
+edge_1266 = edge_1265;
+edge_1267 = edge_1265;
 
-edge_1911 = ifThenElse;
+edge_1261 = ifThenElse;
 
-edge_1912 = edge_1911;
-edge_1913 = edge_1911;
+edge_1262 = edge_1261;
+edge_1263 = edge_1261;
 
-edge_1898 = active;
+edge_1248 = active;
 
-edge_1899 = edge_1898;
-edge_1900 = edge_1898;
-edge_1901 = edge_1898;
-edge_1902 = edge_1898;
-edge_1903 = edge_1898;
-edge_1904 = edge_1898;
-edge_1905 = edge_1898;
-edge_1906 = edge_1898;
-edge_1907 = edge_1898;
-edge_1908 = edge_1898;
-edge_1909 = edge_1898;
+edge_1249 = edge_1248;
+edge_1250 = edge_1248;
+edge_1251 = edge_1248;
+edge_1252 = edge_1248;
+edge_1253 = edge_1248;
+edge_1254 = edge_1248;
+edge_1255 = edge_1248;
+edge_1256 = edge_1248;
+edge_1257 = edge_1248;
+edge_1258 = edge_1248;
+edge_1259 = edge_1248;
 
-if(edge_1907 === active) {
-edge_1891 = previousState['state_1856'];
+if(edge_1257 === active) {
+edge_1241 = previousState['state_1206'];
 }
 
-if(edge_1905 === active) {
-edge_1851 = previousState['state_1848'];
+if(edge_1255 === active) {
+edge_1201 = previousState['state_1198'];
 }
 
-if(edge_1904 === active && edge_1845!==null && edge_1845!==undefined) {edge_1919 = edge_1845(edge_1939);}
+if(edge_1254 === active && edge_1195!==null && edge_1195!==undefined) {edge_1269 = edge_1195(edge_1289);}
 
-edge_1925 = edge_1919;
-edge_1921 = edge_1919;
+edge_1275 = edge_1269;
+edge_1271 = edge_1269;
 
-edge_1923=null;
-if(edge_1923===null ){
-  edge_1923 = edge_1941;
-} else if (edge_1941 !== null){
-  throw ('error:multiple active assignments to the same signal edge_1923 : '+edge_1923 + ' and ' + edge_1941);
-}if(edge_1923===null ){
-  edge_1923 = edge_1925;
-} else if (edge_1925 !== null){
-  throw ('error:multiple active assignments to the same signal edge_1923 : '+edge_1923 + ' and ' + edge_1925);
+edge_1273=null;
+if(edge_1273===null ){
+  edge_1273 = edge_1291;
+} else if (edge_1291 !== null){
+  throw ('error:multiple active assignments to the same signal edge_1273 : '+edge_1273 + ' and ' + edge_1291);
+}if(edge_1273===null ){
+  edge_1273 = edge_1275;
+} else if (edge_1275 !== null){
+  throw ('error:multiple active assignments to the same signal edge_1273 : '+edge_1273 + ' and ' + edge_1275);
 }
-if(edge_1906 === active) {
-nextState['state_1848'] = edge_1923;
-}
-
-if(edge_1903 === active && edge_1917!==null && edge_1917!==undefined) {edge_1841 = edge_1917(edge_1851);}
-
-if(edge_1902 === active && edge_1834!==null && edge_1834!==undefined) {edge_1888 = edge_1834(edge_1841);}
-
-edge_1887 = {};
-edge_1887['cond'] = edge_1888;
-edge_1887['a'] = edge_1921;
-edge_1887['b'] = edge_1891;
-
-if(edge_1901 === active && edge_1913!==null && edge_1913!==undefined) {edge_1884 = edge_1913(edge_1887);}
-
-edge_1927=theInterface.theNumber;
-
-edge_1933 = edge_1927;
-edge_1929 = edge_1927;
-
-edge_1931=null;
-if(edge_1931===null ){
-  edge_1931 = edge_1943;
-} else if (edge_1943 !== null){
-  throw ('error:multiple active assignments to the same signal edge_1931 : '+edge_1931 + ' and ' + edge_1943);
-}if(edge_1931===null ){
-  edge_1931 = edge_1933;
-} else if (edge_1933 !== null){
-  throw ('error:multiple active assignments to the same signal edge_1931 : '+edge_1931 + ' and ' + edge_1933);
-}
-if(edge_1900 === active && edge_1916!==null && edge_1916!==undefined) {edge_1883 = edge_1916(edge_1931);}
-
-edge_1881 = {};
-edge_1881['cond'] = edge_1883;
-edge_1881['a'] = edge_1929;
-edge_1881['b'] = edge_1884;
-
-if(edge_1899 === active && edge_1912!==null && edge_1912!==undefined) {edge_1896 = edge_1912(edge_1881);}
-
-if(edge_1909 === active) {edge_1935 = edge_1896;}
-
-edge_1936 = edge_1935;
-edge_1937 = edge_1935;
-
-if(edge_1908 === active) {
-nextState['state_1856'] = edge_1936;
+if(edge_1256 === active) {
+nextState['state_1198'] = edge_1273;
 }
 
-theInterface.theResult=edge_1937;
+if(edge_1253 === active && edge_1267!==null && edge_1267!==undefined) {edge_1191 = edge_1267(edge_1201);}
+
+if(edge_1252 === active && edge_1184!==null && edge_1184!==undefined) {edge_1238 = edge_1184(edge_1191);}
+
+edge_1237 = {};
+edge_1237['cond'] = edge_1238;
+edge_1237['a'] = edge_1271;
+edge_1237['b'] = edge_1241;
+
+if(edge_1251 === active && edge_1263!==null && edge_1263!==undefined) {edge_1234 = edge_1263(edge_1237);}
+
+edge_1277=theInterface.theNumber;
+
+edge_1283 = edge_1277;
+edge_1279 = edge_1277;
+
+edge_1281=null;
+if(edge_1281===null ){
+  edge_1281 = edge_1293;
+} else if (edge_1293 !== null){
+  throw ('error:multiple active assignments to the same signal edge_1281 : '+edge_1281 + ' and ' + edge_1293);
+}if(edge_1281===null ){
+  edge_1281 = edge_1283;
+} else if (edge_1283 !== null){
+  throw ('error:multiple active assignments to the same signal edge_1281 : '+edge_1281 + ' and ' + edge_1283);
+}
+if(edge_1250 === active && edge_1266!==null && edge_1266!==undefined) {edge_1233 = edge_1266(edge_1281);}
+
+edge_1231 = {};
+edge_1231['cond'] = edge_1233;
+edge_1231['a'] = edge_1279;
+edge_1231['b'] = edge_1234;
+
+if(edge_1249 === active && edge_1262!==null && edge_1262!==undefined) {edge_1246 = edge_1262(edge_1231);}
+
+if(edge_1259 === active) {edge_1285 = edge_1246;}
+
+edge_1286 = edge_1285;
+edge_1287 = edge_1285;
+
+if(edge_1258 === active) {
+nextState['state_1206'] = edge_1286;
+}
+
+theInterface.theResult=edge_1287;
 
 ///////////////////////////////////////////////////////////////////////
 //Return statement
@@ -285,7 +286,7 @@ theInterface.theResult=edge_1937;
   return {
       memo: {},
       state: nextState,
-      args: {},
+      args: theArgs,
       inter: theInterface
     };
 
@@ -294,8 +295,8 @@ theInterface.theResult=edge_1937;
 function initializationFunction(data){
 return {
       memo: {},
-      state: {state_1848:null,
-state_1856:null},
+      state: {state_1198:null,
+state_1206:null},
       args: {},
       inter: {}
     };

@@ -7,6 +7,7 @@ function clone(a){if(!a)return a;var c,b=[Number,String,Boolean];if(b.forEach(fu
 var theInterface = clone(data.inter);
 var previousState = data.state;
 var nextState = clone(previousState);
+var theArgs = clone(data.args);
 var active = 1;
 var inactive = null;
 
@@ -126,32 +127,32 @@ var all = function(x) {
 ///////////////////////////////////////////////////////////////////////
 //Declaration of variables
 
-var edge_2345 = inactive;
-var edge_2349 = inactive;
-var edge_2352 = inactive;
-var edge_2353 = inactive;
-var edge_2355 = inactive;
-var edge_2356 = inactive;
-var edge_2357 = inactive;
-var edge_2358 = inactive;
+var edge_1546 = inactive;
+var edge_1550 = inactive;
+var edge_1553 = inactive;
+var edge_1554 = inactive;
+var edge_1556 = inactive;
+var edge_1557 = inactive;
+var edge_1558 = inactive;
+var edge_1559 = inactive;
 ///////////////////////////////////////////////////////////////////////
 //Code of the DAG
 
-edge_2355 = active;
+edge_1556 = active;
 
-edge_2356 = edge_2355;
-edge_2357 = edge_2355;
-edge_2358 = edge_2355;
+edge_1557 = edge_1556;
+edge_1558 = edge_1556;
+edge_1559 = edge_1556;
 
-edge_2349=theInterface.theNumber;
+edge_1550=theInterface.theNumber;
 
-if(edge_2357 === active) {edge_2353 = edge_2349;}
+if(edge_1558 === active) {edge_1554 = edge_1550;}
 
-if(edge_2358 === active) {edge_2352 = edge_2353;}
+if(edge_1559 === active) {edge_1553 = edge_1554;}
 
-if(edge_2356 === active) {edge_2345 = edge_2352;}
+if(edge_1557 === active) {edge_1546 = edge_1553;}
 
-theInterface.theResult=edge_2345;
+theInterface.theResult=edge_1546;
 
 ///////////////////////////////////////////////////////////////////////
 //Return statement
@@ -159,7 +160,7 @@ theInterface.theResult=edge_2345;
   return {
       memo: {},
       state: nextState,
-      args: {},
+      args: theArgs,
       inter: theInterface
     };
 

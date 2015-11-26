@@ -7,6 +7,7 @@ function clone(a){if(!a)return a;var c,b=[Number,String,Boolean];if(b.forEach(fu
 var theInterface = clone(data.inter);
 var previousState = data.state;
 var nextState = clone(previousState);
+var theArgs = clone(data.args);
 var active = 1;
 var inactive = null;
 
@@ -126,18 +127,18 @@ var all = function(x) {
 ///////////////////////////////////////////////////////////////////////
 //Declaration of variables
 
-var edge_3024 = inactive;
-var edge_3029 = inactive;
+var edge_1990 = inactive;
+var edge_1995 = inactive;
 ///////////////////////////////////////////////////////////////////////
 //Code of the DAG
 
-edge_3029 = active;
+edge_1995 = active;
 
-// We dont care about edge_3029, this is a fake receiver node
+// We dont care about edge_1995, this is a fake receiver node
 
-edge_3024=theInterface.theNumber;
+edge_1990=theInterface.theNumber;
 
-theInterface.theResult=edge_3024;
+theInterface.theResult=edge_1990;
 
 ///////////////////////////////////////////////////////////////////////
 //Return statement
@@ -145,7 +146,7 @@ theInterface.theResult=edge_3024;
   return {
       memo: {},
       state: nextState,
-      args: {},
+      args: theArgs,
       inter: theInterface
     };
 

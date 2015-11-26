@@ -7,6 +7,7 @@ function clone(a){if(!a)return a;var c,b=[Number,String,Boolean];if(b.forEach(fu
 var theInterface = clone(data.inter);
 var previousState = data.state;
 var nextState = clone(previousState);
+var theArgs = clone(data.args);
 var active = 1;
 var inactive = null;
 
@@ -126,55 +127,55 @@ var all = function(x) {
 ///////////////////////////////////////////////////////////////////////
 //Declaration of variables
 
-var edge_3257 = inactive;
-var edge_3261 = inactive;
-var edge_3263 = inactive;
-var edge_3265 = inactive;
-var edge_3266 = inactive;
-var edge_3269 = inactive;
-var edge_3270 = inactive;
-var edge_3271 = inactive;
-var edge_3273 = inactive;
+var edge_2129 = inactive;
+var edge_2133 = inactive;
+var edge_2135 = inactive;
+var edge_2137 = inactive;
+var edge_2138 = inactive;
+var edge_2141 = inactive;
+var edge_2142 = inactive;
+var edge_2143 = inactive;
+var edge_2145 = inactive;
 ///////////////////////////////////////////////////////////////////////
 //Code of the DAG
 
-edge_3273 = active;
+edge_2145 = active;
 
-// We dont care about edge_3273, this is a fake receiver node
+// We dont care about edge_2145, this is a fake receiver node
 
-edge_3265=theInterface.theOther;
+edge_2137=theInterface.theOther;
 
-edge_3266 = edge_3265;
-edge_3271 = edge_3265;
+edge_2138 = edge_2137;
+edge_2143 = edge_2137;
 
-edge_3257=theInterface.theNumber;
+edge_2129=theInterface.theNumber;
 
-edge_3263 = edge_3257;
-edge_3270 = edge_3257;
+edge_2135 = edge_2129;
+edge_2142 = edge_2129;
 
-edge_3269=null;
-if(edge_3269===null ){
-  edge_3269 = edge_3270;
-} else if (edge_3270 !== null){
-  throw ('error:multiple active assignments to the same signal edge_3269 : '+edge_3269 + ' and ' + edge_3270);
-}if(edge_3269===null ){
-  edge_3269 = edge_3271;
-} else if (edge_3271 !== null){
-  throw ('error:multiple active assignments to the same signal edge_3269 : '+edge_3269 + ' and ' + edge_3271);
+edge_2141=null;
+if(edge_2141===null ){
+  edge_2141 = edge_2142;
+} else if (edge_2142 !== null){
+  throw ('error:multiple active assignments to the same signal edge_2141 : '+edge_2141 + ' and ' + edge_2142);
+}if(edge_2141===null ){
+  edge_2141 = edge_2143;
+} else if (edge_2143 !== null){
+  throw ('error:multiple active assignments to the same signal edge_2141 : '+edge_2141 + ' and ' + edge_2143);
 }
-theInterface.theResult=edge_3269;
+theInterface.theResult=edge_2141;
 
-edge_3261=null;
-if(edge_3261===null ){
-  edge_3261 = edge_3266;
-} else if (edge_3266 !== null){
-  throw ('error:multiple active assignments to the same signal edge_3261 : '+edge_3261 + ' and ' + edge_3266);
-}if(edge_3261===null ){
-  edge_3261 = edge_3263;
-} else if (edge_3263 !== null){
-  throw ('error:multiple active assignments to the same signal edge_3261 : '+edge_3261 + ' and ' + edge_3263);
+edge_2133=null;
+if(edge_2133===null ){
+  edge_2133 = edge_2138;
+} else if (edge_2138 !== null){
+  throw ('error:multiple active assignments to the same signal edge_2133 : '+edge_2133 + ' and ' + edge_2138);
+}if(edge_2133===null ){
+  edge_2133 = edge_2135;
+} else if (edge_2135 !== null){
+  throw ('error:multiple active assignments to the same signal edge_2133 : '+edge_2133 + ' and ' + edge_2135);
 }
-theInterface.theLast=edge_3261;
+theInterface.theLast=edge_2133;
 
 ///////////////////////////////////////////////////////////////////////
 //Return statement
@@ -182,7 +183,7 @@ theInterface.theLast=edge_3261;
   return {
       memo: {},
       state: nextState,
-      args: {},
+      args: theArgs,
       inter: theInterface
     };
 

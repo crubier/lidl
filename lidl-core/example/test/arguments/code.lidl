@@ -1,0 +1,4 @@
+interaction
+  (bob(a:Number in)):Number out
+is
+  (a)

@@ -66,6 +66,13 @@ function toGraph(expandedAst,upto) {
     //TODO Make it possible to compile interactions that have arguments and not just a single interface
     var interfac = addInterfaceToGraph(graph, expandedAst.signature.interfac, 'theInterface');
 
+    var operands =
+    _(expandedAst.signature.operand)
+    .map(operand => [operand.name,addInterfaceToGraph(graph, operand.interfac,'theArgs.'+ operand.name)])
+    .zipObject()
+    .value();
+
+
     mergeByRootNode(graph, interaction, interfac);
 
     if(upto === 'Merge By Root Node') return graph;
@@ -74,6 +81,10 @@ function toGraph(expandedAst,upto) {
     referentialTransparency(graph);
 
     if(upto === 'Referential Transparency') return graph;
+
+    linkArgument(graph,operands);
+
+    if(upto === 'Link Arguments') return graph;
 
     linkIdentifiers(graph);
 
@@ -310,6 +321,36 @@ function referentialTransparency(graph) {
           .commit();
   });
 }
+
+
+
+function linkArgument(graph,operands) {
+  graph
+  .matchNodes({type:'ast',content:{type:'InteractionSimple',operatorType:'Custom'}})
+  .forEach(n=>{n.isArgument=true;})
+  .commit();
+
+  graph
+    .reduceNodes({type:'ast',isArgument:true},
+    (theResult,theNode)=>{
+    graph
+    .matchUndirectedEdges({type:'ast',from:{index:0,node:theNode}})
+    .forEach(theEdge=>{
+      graph
+      .addEdge({type:'ast',from:{index:0,node:operands[theNode.content.operator]},to:theEdge.to})
+    })
+    .commit();
+    graph.
+    finish(theNode);
+  });
+
+}
+
+
+
+
+
+
 
 
 function OLDreferentialTransparency(graph) {
@@ -1527,7 +1568,7 @@ function generateJsCode(graph, header) {
   return {\n\
       memo: {},\n\
       state: nextState,\n\
-      args: {},\n\
+      args: theArgs,\n\
       inter: theInterface\n\
     };\n";
 
@@ -1567,6 +1608,7 @@ function clone(a){if(!a)return a;var c,b=[Number,String,Boolean];if(b.forEach(fu
 var theInterface = clone(data.inter);\n\
 var previousState = data.state;\n\
 var nextState = clone(previousState);\n\
+var theArgs = clone(data.args);\n\
 var active = 1;\n\
 var inactive = null;\n\
 ';

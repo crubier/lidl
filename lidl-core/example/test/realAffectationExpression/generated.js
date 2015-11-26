@@ -7,6 +7,7 @@ function clone(a){if(!a)return a;var c,b=[Number,String,Boolean];if(b.forEach(fu
 var theInterface = clone(data.inter);
 var previousState = data.state;
 var nextState = clone(previousState);
+var theArgs = clone(data.args);
 var active = 1;
 var inactive = null;
 
@@ -126,46 +127,46 @@ var all = function(x) {
 ///////////////////////////////////////////////////////////////////////
 //Declaration of variables
 
-var edge_2908 = inactive;
-var edge_2913 = inactive;
-var edge_2930 = inactive;
-var edge_2931 = inactive;
-var edge_2932 = inactive;
-var edge_2935 = inactive;
-var edge_2936 = inactive;
-var edge_2938 = inactive;
-var edge_2939 = inactive;
-var edge_2940 = inactive;
-var edge_2941 = inactive;
-var edge_2943 = inactive;
+var edge_1905 = inactive;
+var edge_1910 = inactive;
+var edge_1927 = inactive;
+var edge_1928 = inactive;
+var edge_1929 = inactive;
+var edge_1932 = inactive;
+var edge_1933 = inactive;
+var edge_1935 = inactive;
+var edge_1936 = inactive;
+var edge_1937 = inactive;
+var edge_1938 = inactive;
+var edge_1940 = inactive;
 ///////////////////////////////////////////////////////////////////////
 //Code of the DAG
 
-edge_2943 = inactive; //Fake sender node
+edge_1940 = inactive; //Fake sender node
 
-edge_2913 = return1;
+edge_1910 = return1;
 
-edge_2908 = addition;
+edge_1905 = addition;
 
-edge_2938 = active;
+edge_1935 = active;
 
-edge_2939 = edge_2938;
-edge_2940 = edge_2938;
-edge_2941 = edge_2938;
+edge_1936 = edge_1935;
+edge_1937 = edge_1935;
+edge_1938 = edge_1935;
 
-if(edge_2940 === active && edge_2913!==null && edge_2913!==undefined) {edge_2931 = edge_2913(edge_2943);}
+if(edge_1937 === active && edge_1910!==null && edge_1910!==undefined) {edge_1928 = edge_1910(edge_1940);}
 
-edge_2932=theInterface.theNumber;
+edge_1929=theInterface.theNumber;
 
-edge_2930 = {};
-edge_2930['0'] = edge_2931;
-edge_2930['1'] = edge_2932;
+edge_1927 = {};
+edge_1927['0'] = edge_1928;
+edge_1927['1'] = edge_1929;
 
-if(edge_2939 === active && edge_2908!==null && edge_2908!==undefined) {edge_2936 = edge_2908(edge_2930);}
+if(edge_1936 === active && edge_1905!==null && edge_1905!==undefined) {edge_1933 = edge_1905(edge_1927);}
 
-if(edge_2941 === active) {edge_2935 = edge_2936;}
+if(edge_1938 === active) {edge_1932 = edge_1933;}
 
-theInterface.theResult=edge_2935;
+theInterface.theResult=edge_1932;
 
 ///////////////////////////////////////////////////////////////////////
 //Return statement
@@ -173,7 +174,7 @@ theInterface.theResult=edge_2935;
   return {
       memo: {},
       state: nextState,
-      args: {},
+      args: theArgs,
       inter: theInterface
     };
 
