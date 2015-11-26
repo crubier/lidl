@@ -1,0 +1,7 @@
+(
+  {theNumber:
+  (variable0)
+  ,theResult:
+  ((variable1)withbehaviour((functionaddOne)(variable0)=(variable1)))
+  }
+)

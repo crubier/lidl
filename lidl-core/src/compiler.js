@@ -785,7 +785,7 @@ function matchingCompositionReduction(graph) {
 
             let intermedAffectation =
             graph
-            .addNode({type:'ast',content:{type:'InteractionSimple',operator:'<=>',operatorType:'Affectation'},ports:['in']})
+            .addNode({type:'ast',content:{type:'InteractionSimple',operator:'=',operatorType:'Affectation'},ports:['in']})
 
             graph
             .addEdge({type:'ast',from:{node:n1,coCompositionElementName:e2.from.compositionElementName,isCoPort:true},to:{node:intermedAffectation,index:1}});

@@ -19,5 +19,5 @@ is
     {theNumber:(variable theNumber)theResult:(variable theResult)}
     )
   with behaviour
-    ((variable theResult)<=>((1)+(variable theNumber)))
+    ((variable theResult)=((1)+(variable theNumber)))
   )

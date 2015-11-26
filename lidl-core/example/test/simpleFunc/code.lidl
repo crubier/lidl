@@ -1,0 +1,9 @@
+interaction
+  (bob):{theNumber:Number in,theResult:Number out}
+with
+  interaction
+    (bob(x:Number in)):Number out
+  is
+    ((# bob (x)) with behaviour ((function addOne)(x)=(# bob (x))))
+is
+  ({theNumber:(#a),theResult:(bob(#a))})

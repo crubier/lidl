@@ -130,7 +130,7 @@ with
   interaction
     (make (x:Number out) flow initially from (y:Number in)):Activation in
   is
-    ( (x)  <=>   (  (new (x)) fallback to  (if (init) then (y) else (previous (x)) ) ) )
+    ( (x)  =   (  (new (x)) fallback to  (if (init) then (y) else (previous (x)) ) ) )
 
 
 

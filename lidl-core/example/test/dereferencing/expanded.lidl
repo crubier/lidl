@@ -2,8 +2,8 @@
   (variable0)
   withbehaviour
   (
-    ((variable1)withbehaviour((variable0)<=>({theResult:(variable1)})))
-    <=>
-    ((variable2)withbehaviour(({theNumber:(variable2)})<=>(variable0)))
+    ((variable1)withbehaviour((variable0)=({theResult:(variable1)})))
+    =
+    ((variable2)withbehaviour(({theNumber:(variable2)})=(variable0)))
   )
 )
