@@ -1,38 +1,29 @@
-digraph g{node_2019 [shape=ellipse, style=filled, color="#ffd1d1", label="node_2019
-Composition
-{theNumber:$theResult:$}" ]
-node_2034 [shape=ellipse, style=filled, color="#ffd1d1", label="node_2034
-Composition
-{theNumber:$theResult:$}" ]
-node_2010 [shape=box, style=filled, color="#d1f1ff", fontname="Courier", label="node_2010
+digraph g{node_2111 [shape=box, style=filled, color="#d1f1ff", fontname="Courier", label="node_2111
 0
 <%=a0%>=theInterface.theNumber;
 " ]
-node_2011 [shape=box, style=filled, color="#d1f1ff", fontname="Courier", label="node_2011
+node_2112 [shape=box, style=filled, color="#d1f1ff", fontname="Courier", label="node_2112
 0
 theInterface.theResult=<%=a0%>;
 " ]
-node_2040 [shape=box, style=filled, color="#d1f1ff", fontname="Courier", label="node_2040
+node_2141 [shape=box, style=filled, color="#d1f1ff", fontname="Courier", label="node_2141
 0
 <%=a0%> = active;
 " ]
-node_2044 [shape=box, style=filled, color="#d1f1ff", fontname="Courier", label="node_2044
+node_2145 [shape=box, style=filled, color="#d1f1ff", fontname="Courier", label="node_2145
 0
 if(<%=a0%> === active) {
-<%=a1%> = previousState['state_2043'];
+<%=a1%> = previousState['state_2144'];
 }
 " ]
-node_2047 [shape=box, style=filled, color="#d1f1ff", fontname="Courier", label="node_2047
+node_2148 [shape=box, style=filled, color="#d1f1ff", fontname="Courier", label="node_2148
 0
 if(<%=a0%> === active) {
-nextState['state_2043'] = <%=a1%>;
+nextState['state_2144'] = <%=a1%>;
 }
 " ]
-node_2034 -> node_2010 [dir=none, arrowHead=none, fontname="Times-Italic", label="edge_2035",  headlabel="0", taillabel="1" ]
-node_2034 -> node_2011 [dir=none, arrowHead=none, fontname="Times-Italic", label="edge_2036",  headlabel="0", taillabel="2" ]
-node_2034 -> node_2019 [dir=none, arrowHead=none, fontname="Times-Italic", label="edge_2037",  headlabel="0", taillabel="0" ]
-node_2044 -> node_2040 [dir=none, arrowHead=none, fontname="Times-Italic", label="edge_2045",  headlabel="0", taillabel="0" ]
-node_2044 -> node_2019 [dir=none, arrowHead=none, fontname="Times-Italic", label="edge_2046",  headlabel="2", taillabel="1" ]
-node_2047 -> node_2040 [dir=none, arrowHead=none, fontname="Times-Italic", label="edge_2048",  headlabel="0", taillabel="0" ]
-node_2047 -> node_2019 [dir=none, arrowHead=none, fontname="Times-Italic", label="edge_2049",  headlabel="1", taillabel="1" ]
+node_2145 -> node_2141 [dir=none, arrowHead=none, fontname="Times-Italic", label="edge_2146",  headlabel="0", taillabel="0" ]
+node_2148 -> node_2141 [dir=none, arrowHead=none, fontname="Times-Italic", label="edge_2149",  headlabel="0", taillabel="0" ]
+node_2111 -> node_2148 [dir=none, arrowHead=none, fontname="Times-Italic", label="edge_2160",  headlabel="1", taillabel="0" ]
+node_2112 -> node_2145 [dir=none, arrowHead=none, fontname="Times-Italic", label="edge_2161",  headlabel="1", taillabel="0" ]
 }
