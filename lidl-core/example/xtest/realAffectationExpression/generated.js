@@ -127,46 +127,46 @@ var all = function(x) {
 ///////////////////////////////////////////////////////////////////////
 //Declaration of variables
 
-var edge_2431 = inactive;
-var edge_2436 = inactive;
-var edge_2453 = inactive;
-var edge_2454 = inactive;
-var edge_2455 = inactive;
-var edge_2458 = inactive;
-var edge_2459 = inactive;
-var edge_2461 = inactive;
-var edge_2462 = inactive;
-var edge_2463 = inactive;
-var edge_2464 = inactive;
-var edge_2466 = inactive;
+var edge_2706 = inactive;
+var edge_2710 = inactive;
+var edge_2726 = inactive;
+var edge_2727 = inactive;
+var edge_2728 = inactive;
+var edge_2731 = inactive;
+var edge_2732 = inactive;
+var edge_2734 = inactive;
+var edge_2735 = inactive;
+var edge_2736 = inactive;
+var edge_2737 = inactive;
+var edge_2739 = inactive;
 ///////////////////////////////////////////////////////////////////////
 //Code of the DAG
 
-edge_2466 = inactive; //Fake sender node
+edge_2739 = inactive; //Fake sender node
 
-edge_2436 = return1;
+edge_2706 = return1;
 
-edge_2431 = addition;
+edge_2710 = addition;
 
-edge_2461 = active;
+edge_2734 = active;
 
-edge_2462 = edge_2461;
-edge_2463 = edge_2461;
-edge_2464 = edge_2461;
+edge_2735 = edge_2734;
+edge_2736 = edge_2734;
+edge_2737 = edge_2734;
 
-if(edge_2463 === active && edge_2436!==null && edge_2436!==undefined) {edge_2454 = edge_2436(edge_2466);}
+if(edge_2735 === active && edge_2706!==null && edge_2706!==undefined) {edge_2727 = edge_2706(edge_2739);}
 
-edge_2455=theInterface.theNumber;
+edge_2726=theInterface.theNumber;
 
-edge_2453 = {};
-edge_2453['0'] = edge_2454;
-edge_2453['1'] = edge_2455;
+edge_2728 = {};
+edge_2728['0'] = edge_2727;
+edge_2728['1'] = edge_2726;
 
-if(edge_2462 === active && edge_2431!==null && edge_2431!==undefined) {edge_2459 = edge_2431(edge_2453);}
+if(edge_2736 === active && edge_2710!==null && edge_2710!==undefined) {edge_2732 = edge_2710(edge_2728);}
 
-if(edge_2464 === active) {edge_2458 = edge_2459;}
+if(edge_2737 === active) {edge_2731 = edge_2732;}
 
-theInterface.theResult=edge_2458;
+theInterface.theResult=edge_2731;
 
 ///////////////////////////////////////////////////////////////////////
 //Return statement

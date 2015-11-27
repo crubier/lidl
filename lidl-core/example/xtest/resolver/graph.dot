@@ -1,29 +1,24 @@
-digraph g{node_2578 [shape=box, style=filled, color="#d1f1ff", fontname="Courier", label="node_2578
+digraph g{node_2906 [shape=box, style=filled, color="#d1f1ff", fontname="Courier", label="node_2906
 0
 <%=a0%>=theInterface.theNumber;
 " ]
-node_2579 [shape=box, style=filled, color="#d1f1ff", fontname="Courier", label="node_2579
+node_2907 [shape=box, style=filled, color="#d1f1ff", fontname="Courier", label="node_2907
 0
 <%=a0%>=theInterface.theOther;
 " ]
-node_2580 [shape=box, style=filled, color="#d1f1ff", fontname="Courier", label="node_2580
+node_2908 [shape=box, style=filled, color="#d1f1ff", fontname="Courier", label="node_2908
 0
 theInterface.theResult=<%=a0%>;
 " ]
-node_2581 [shape=box, style=filled, color="#d1f1ff", fontname="Courier", label="node_2581
+node_2909 [shape=box, style=filled, color="#d1f1ff", fontname="Courier", label="node_2909
 0
 theInterface.theLast=<%=a0%>;
 " ]
-node_2611 [shape=box, style=filled, color="#d1f1ff", fontname="Courier", label="node_2611
+node_2933 [shape=box, style=filled, color="#d1f1ff", fontname="Courier", label="node_2933
 0
 <%=a0%> = active;
 " ]
-node_2682 [shape=box, style=filled, color="#d1f1ff", fontname="Courier", label="node_2682
-0
-<%=a1%> = <%=a0%>;
-<%=a2%> = <%=a0%>;
-" ]
-node_2686 [shape=box, style=filled, color="#d1f1ff", fontname="Courier", label="node_2686
+node_2986 [shape=box, style=filled, color="#d1f1ff", fontname="Courier", label="node_2986
 0
 <%=a0%>=null;
 if(<%=a0%>===null ){
@@ -35,34 +30,17 @@ if(<%=a0%>===null ){
 } else if (<%=a2%> !== null){
   throw ('error:multiple active assignments to the same signal <%=a0%> : '+<%=a0%> + ' and ' + <%=a2%>);
 }" ]
-node_2690 [shape=box, style=filled, color="#d1f1ff", fontname="Courier", label="node_2690
+node_2990 [shape=box, style=filled, color="#d1f1ff", fontname="Courier", label="node_2990
 0
-<%=a1%> = <%=a0%>;
-<%=a2%> = <%=a0%>;
+<%=a0%> = inactive; //Fake sender node
 " ]
-node_2694 [shape=box, style=filled, color="#d1f1ff", fontname="Courier", label="node_2694
-0
-<%=a0%>=null;
-if(<%=a0%>===null ){
-  <%=a0%> = <%=a1%>;
-} else if (<%=a1%> !== null){
-  throw ('error:multiple active assignments to the same signal <%=a0%> : '+<%=a0%> + ' and ' + <%=a1%>);
-}if(<%=a0%>===null ){
-  <%=a0%> = <%=a2%>;
-} else if (<%=a2%> !== null){
-  throw ('error:multiple active assignments to the same signal <%=a0%> : '+<%=a0%> + ' and ' + <%=a2%>);
-}" ]
-node_2698 [shape=box, style=filled, color="#d1f1ff", fontname="Courier", label="node_2698
+node_2992 [shape=box, style=filled, color="#d1f1ff", fontname="Courier", label="node_2992
 0
 // We dont care about <%=a0%>, this is a fake receiver node
 " ]
-node_2578 -> node_2682 [dir=none, arrowHead=none, fontname="Times-Italic", label="edge_2683",  headlabel="0", taillabel="0" ]
-node_2686 -> node_2581 [dir=none, arrowHead=none, fontname="Times-Italic", label="edge_2687",  headlabel="0", taillabel="0" ]
-node_2682 -> node_2686 [dir=none, arrowHead=none, fontname="Times-Italic", label="edge_2689",  headlabel="2", taillabel="1" ]
-node_2579 -> node_2690 [dir=none, arrowHead=none, fontname="Times-Italic", label="edge_2691",  headlabel="0", taillabel="0" ]
-node_2690 -> node_2686 [dir=none, arrowHead=none, fontname="Times-Italic", label="edge_2692",  headlabel="1", taillabel="1" ]
-node_2694 -> node_2580 [dir=none, arrowHead=none, fontname="Times-Italic", label="edge_2695",  headlabel="0", taillabel="0" ]
-node_2682 -> node_2694 [dir=none, arrowHead=none, fontname="Times-Italic", label="edge_2696",  headlabel="1", taillabel="2" ]
-node_2690 -> node_2694 [dir=none, arrowHead=none, fontname="Times-Italic", label="edge_2697",  headlabel="2", taillabel="2" ]
-node_2611 -> node_2698 [dir=none, arrowHead=none, fontname="Times-Italic", label="edge_2699",  headlabel="0", taillabel="0" ]
+node_2986 -> node_2908 [dir=none, arrowHead=none, fontname="Times-Italic", label="edge_2987",  headlabel="0", taillabel="0" ]
+node_2906 -> node_2986 [dir=none, arrowHead=none, fontname="Times-Italic", label="edge_2988",  headlabel="1", taillabel="0" ]
+node_2907 -> node_2986 [dir=none, arrowHead=none, fontname="Times-Italic", label="edge_2989",  headlabel="2", taillabel="0" ]
+node_2990 -> node_2909 [dir=none, arrowHead=none, fontname="Times-Italic", label="edge_2991",  headlabel="0", taillabel="0" ]
+node_2933 -> node_2992 [dir=none, arrowHead=none, fontname="Times-Italic", label="edge_2993",  headlabel="0", taillabel="0" ]
 }

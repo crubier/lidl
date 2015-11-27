@@ -127,32 +127,32 @@ var all = function(x) {
 ///////////////////////////////////////////////////////////////////////
 //Declaration of variables
 
-var edge_1966 = inactive;
-var edge_1970 = inactive;
-var edge_1973 = inactive;
-var edge_1974 = inactive;
-var edge_1976 = inactive;
-var edge_1977 = inactive;
-var edge_1978 = inactive;
-var edge_1979 = inactive;
+var edge_2184 = inactive;
+var edge_2188 = inactive;
+var edge_2192 = inactive;
+var edge_2193 = inactive;
+var edge_2195 = inactive;
+var edge_2196 = inactive;
+var edge_2197 = inactive;
+var edge_2198 = inactive;
 ///////////////////////////////////////////////////////////////////////
 //Code of the DAG
 
-edge_1976 = active;
+edge_2195 = active;
 
-edge_1977 = edge_1976;
-edge_1978 = edge_1976;
-edge_1979 = edge_1976;
+edge_2196 = edge_2195;
+edge_2197 = edge_2195;
+edge_2198 = edge_2195;
 
-edge_1970=theInterface.theNumber;
+edge_2188=theInterface.theNumber;
 
-if(edge_1978 === active) {edge_1974 = edge_1970;}
+if(edge_2197 === active) {edge_2193 = edge_2188;}
 
-if(edge_1979 === active) {edge_1973 = edge_1974;}
+if(edge_2198 === active) {edge_2192 = edge_2193;}
 
-if(edge_1977 === active) {edge_1966 = edge_1973;}
+if(edge_2196 === active) {edge_2184 = edge_2192;}
 
-theInterface.theResult=edge_1966;
+theInterface.theResult=edge_2184;
 
 ///////////////////////////////////////////////////////////////////////
 //Return statement

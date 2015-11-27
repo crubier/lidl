@@ -1,0 +1,5 @@
+digraph g{node_32 [shape=ellipse, style=filled, color="#ffd1d1", label="di-theNumber" ]
+node_33 [shape=ellipse, style=filled, color="#ffd1d1", label="di-theResult" ]
+node_34 [shape=ellipse, style=filled, color="#ffd1d1", label="0" ]
+node_32 -> node_33 [dir=none, arrowHead=none, fontname="Times-Italic", label="edge_35" ]
+}

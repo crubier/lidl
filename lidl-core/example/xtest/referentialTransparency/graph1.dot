@@ -1,23 +1,13 @@
-digraph g{node_2478 [shape=ellipse, style=filled, color="#ffd1d1", label="node_2478
-Identifier
-variable0" ]
-node_2481 [shape=ellipse, style=filled, color="#ffd1d1", label="node_2481
-Composition
-{theNumber:$theResult:$}" ]
-node_2485 [shape=ellipse, style=filled, color="#ffd1d1", label="node_2485
-Composition
-{theNumber:$theResult:$}" ]
-node_2472 [shape=box, style=filled, color="#d1f1ff", fontname="Courier", label="node_2472
+digraph g{node_2745 [shape=box, style=filled, color="#d1f1ff", fontname="Courier", label="node_2745
 0
 <%=a0%>=theInterface.theNumber;
 " ]
-node_2473 [shape=box, style=filled, color="#d1f1ff", fontname="Courier", label="node_2473
+node_2746 [shape=box, style=filled, color="#d1f1ff", fontname="Courier", label="node_2746
 0
 theInterface.theResult=<%=a0%>;
 " ]
-node_2481 -> node_2478 [dir=none, arrowHead=none, fontname="Times-Italic", label="edge_2482",  headlabel="0", taillabel="1" ]
-node_2481 -> node_2478 [dir=none, arrowHead=none, fontname="Times-Italic", label="edge_2483",  headlabel="0", taillabel="2" ]
-node_2485 -> node_2472 [dir=none, arrowHead=none, fontname="Times-Italic", label="edge_2486",  headlabel="0", taillabel="1" ]
-node_2485 -> node_2473 [dir=none, arrowHead=none, fontname="Times-Italic", label="edge_2487",  headlabel="0", taillabel="2" ]
-node_2485 -> node_2481 [dir=none, arrowHead=none, fontname="Times-Italic", label="edge_2488",  headlabel="0", taillabel="0" ]
+node_2759 [shape=box, style=filled, color="#d1f1ff", fontname="Courier", label="node_2759
+0
+<%=a0%> = active;
+" ]
 }

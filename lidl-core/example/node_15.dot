@@ -1,0 +1,27 @@
+digraph g{node_8 [shape=ellipse, style=filled, color="#ffd1d1", label="node_8
+Composition
+{theNumber:$theResult:$}" ]
+node_15 [shape=ellipse, style=filled, color="#ffd1d1", label="node_15
+Composition
+{theNumber:$theResult:$}" ]
+node_6 [shape=box, style=filled, color="#d1f1ff", fontname="Courier", label="node_6
+0
+<%=a0%>=theInterface.theNumber;
+" ]
+node_7 [shape=box, style=filled, color="#d1f1ff", fontname="Courier", label="node_7
+0
+theInterface.theResult=<%=a0%>;
+" ]
+node_20 [shape=box, style=filled, color="#d1f1ff", fontname="Courier", label="node_20
+0
+<%=a0%> = active;
+" ]
+node_8 -> node_6 [dir=none, arrowHead=none, fontname="Times-Italic", label="edge_9",  headlabel="0", taillabel="di-theNumber" ]
+node_8 -> node_7 [dir=none, arrowHead=none, fontname="Times-Italic", label="edge_10",  headlabel="0", taillabel="di-theResult" ]
+node_15 -> node_8 [dir=none, arrowHead=none, fontname="Times-Italic", label="edge_18",  headlabel="0", taillabel="0" ]
+node_15 -> node_15 [dir=none, arrowHead=none, fontname="Times-Italic", label="edge_19",  headlabel="di-theResult", taillabel="di-theNumber" ]
+node_8 -> node_8 [dir=none, arrowHead=none, fontname="Times-Italic", label="edge_21",  headlabel="co-theResult", taillabel="co-theNumber" ]
+node_8 -> node_6 [dir=none, arrowHead=none, fontname="Times-Italic", label="edge_29",  headlabel="0", taillabel="co-theResult" ]
+node_6 -> node_7 [dir=none, arrowHead=none, fontname="Times-Italic", label="edge_30",  headlabel="0", taillabel="0" ]
+node_8 -> node_7 [dir=none, arrowHead=none, fontname="Times-Italic", label="edge_31",  headlabel="0", taillabel="co-theNumber" ]
+}

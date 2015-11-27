@@ -11,6 +11,7 @@ var compilationResult = require('./compilerExampleResult.js');
 var sat = require('./satSolver.js');
 var Graph = require('./g.js');
 
+var gexport = require('./gExport.js');
 
 
 // Atomic Operations
@@ -116,8 +117,8 @@ function toGraph(expandedAst,upto) {
 
     //TODO Should loop that, either in the method or here
     matchingCompositionReduction(graph);
-    matchingCompositionReduction(graph);
-    matchingCompositionReduction(graph);
+    // matchingCompositionReduction(graph);
+    // matchingCompositionReduction(graph);
     // ... until fixed point
 
     if(upto === 'Matching Composition Reduction') return graph;
@@ -261,64 +262,79 @@ function referentialTransparency(graph) {
   graph
   .reduceNodes({type: 'ast',content: {type: 'InteractionSimple'},referentialTransparencySolved: false,referentialTransparencySolvable:true},
   (theResult,theNode)=>{
-
+    // console.log("========------------------------------------===");
+    // console.log(theNode.id+ " "+theNode.content.operator);
+    // console.log("==+++++++++++++++++++++===");
     let theChildrenEdges =
     graph
     .matchUndirectedEdges({type:'ast',from:{node:theNode}})
     .filter(e=>e.from.index>0) // Only children, not the parent which has index 0
     .value();
 
-      let similarNodes =
+    let similarNodes =
+    graph
+    .matchNodes({type:'ast',content:{operator:theNode.content.operator}}) // Same operator
+    .filter(n=> // All chidren of similarNode are children of theNode
       graph
-      .matchNodes({type:'ast',content:{operator:theNode.content.operator}}) // Same operator
-      .filter(n=> // All chidren of similarNode are children of theNode
+      .matchUndirectedEdges({type:'ast',from:{node:n}})
+      .filter(e=>e.from.index>0) // We check for similarity of children only, not parents !
+      .every(e=>
+        _(theChildrenEdges)
+        .filter({from:{index:e.from.index},to:{index:e.to.index,node:e.to.node}})
+        .size()===1))
+    .filter(n=> // All children of theNode are children of the similarNode
+      _(theChildrenEdges)
+      .every(ce=>
         graph
         .matchUndirectedEdges({type:'ast',from:{node:n}})
-        .filter(e=>e.from.index>0) // We check for similarity of children only, not parents !
-        .every(e=>
-          _(theChildrenEdges)
-          .filter({from:{index:e.from.index},to:{index:e.to.index,node:e.to.node}})
-          .size()===1))
-      .filter(n=> // All children of theNode are children of the similarNode
-        _(theChildrenEdges)
-        .every(ce=>
-          graph
-          .matchUndirectedEdges({type:'ast',from:{node:n}})
-          .filter(e=>e.from.index>0)
-          .filter({from:{index:ce.from.index},to:{index:ce.to.index,node:ce.to.node}})
-          .size()===1))
-      .value();
+        .filter(e=>e.from.index>0)
+        .filter({from:{index:ce.from.index},to:{index:ce.to.index,node:ce.to.node}})
+        .size()===1))
+    .value();
 
 
-          // We create a node to merge all the similar nodes
-          // TODO Merge nodes differently than tjust picking the first
-          // for example put all syntactic locations of nodes to improve traceback
-          let newNode =
-          graph
-          .addNode(_.omit(_.omit(theNode,'finished'),'id'));
+    // We create a node to merge all the similar nodes
+    // TODO Merge nodes differently than tjust picking the first
+    // for example put all syntactic locations of nodes to improve traceback
+    let newNode =
+    graph
+    .addNode(_.omit(_.omit(theNode,'finished'),'id'));
 
-          _(theChildrenEdges)
-          .forEach(ce=>{
-            graph
-            .addEdge({type:'ast',from:{node:newNode,index:ce.from.index,ports:ce.from.ports},to:ce.to});})
-          .commit();
+    _(theChildrenEdges)
+    .forEach(ce=>{
+      graph
+      .addEdge({type:'ast',from:{node:newNode,index:ce.from.index,ports:ce.from.ports},to:ce.to});})
+    .commit();
 
-          newNode.referentialTransparencySolved = true;
+    newNode.referentialTransparencySolved = true;
+    newNode.referentialTransparencySolvable = false;
 
-          // We link them together
-          _(similarNodes)
-          .forEach(similarNode=>{
-            graph
-            .matchUndirectedEdges({type:'ast',from:{node:similarNode,index:0}})
-            .forEach(edgeFromSimilarNode=>{
-              // console.log()
-              graph
-              .addEdge({type:'ast',from:{node:newNode,index:edgeFromSimilarNode.from.index,ports:edgeFromSimilarNode.from.ports},to:edgeFromSimilarNode.to});
-              edgeFromSimilarNode.to.node.referentialTransparencySolvable = true;})
-            .commit();
-            graph
-            .finish(similarNode);})
-          .commit();
+    // We link them together
+    _(similarNodes)
+    .forEach(similarNode=>{
+      graph
+      .matchUndirectedEdges({type:'ast',from:{node:similarNode,index:0}})
+      .forEach(edgeFromSimilarNode=>{
+        // console.log()
+        graph
+        .addEdge({type:'ast',from:{node:newNode,index:edgeFromSimilarNode.from.index,ports:edgeFromSimilarNode.from.ports},to:edgeFromSimilarNode.to});})
+      .commit();
+      graph
+      .finish(similarNode);})
+    .commit();
+
+      // We find new potential solvable nodes
+    graph
+    .matchNodes({type: 'ast',content: {type: 'InteractionSimple'},referentialTransparencySolved: false,referentialTransparencySolvable:false})
+    .filter(n=>{
+      return graph
+      .matchUndirectedEdges({type:'ast',from:{node:n}})
+      .filter(x=>(x.from.index>0))
+      // .tap(x=>{console.log("xxxx");console.log(_.map(x,y=>(y.from.index+ " " +y.to.node.id +" "+y.to.node.content.operator+ " "+y.to.node.referentialTransparencySolved)))})
+      .every(x=>{return x.to.node.referentialTransparencySolved ===true;});})
+    .forEach(n=>{n.referentialTransparencySolvable=true;})
+    .commit();
+
   });
 }
 
@@ -350,40 +366,40 @@ function linkArgument(graph,operands) {
 
 
 
-
-
-
-function OLDreferentialTransparency(graph) {
-
-  // First we mark all nodes as not referentialTransparencySolved
-  graph
-  .matchNodes({type: 'ast',content: {type: 'InteractionSimple'}})
-  .forEach( (theNode) => {theNode.referentialTransparencySolved=false;})
-  .commit();
-
-  graph
-  .reduceNodes({type: 'ast',content: {type: 'InteractionSimple'},referentialTransparencySolved: false},
-    (theResult,theNode)=>{
-    let newNode =
-      graph
-      .addNode({type: 'ast',content: theNode.content,referentialTransparencySolved: true,ports:theNode.ports});
-    let nodesSimilarToTheNode =
-      graph
-      .matchNodes({type:'ast',content: {type: 'InteractionSimple'},referentialTransparencySolved: false})
-      .filter(x=>_.isEqual(x.content, theNode.content,(a, b)=>(interactions.compare(a, b) === 0)))
-      .forEach(x=>{
-        newNode.ports=mergePortList(newNode.ports,x.ports);
-        graph
-        .matchUndirectedEdges({type:'ast',to:{node:x}})
-        .forEach(y=>
-          graph
-          .addEdge({type:'ast',from:y.from,to:{node:newNode,index:y.to.index}}))
-        .commit();})
-      .forEach(x=>graph.finish(x))
-      .tap(x=>(theNode.referentialTransparencySolved=true))
-      .commit();
-    });
-}
+//
+//
+//
+// function OLDreferentialTransparency(graph) {
+//
+//   // First we mark all nodes as not referentialTransparencySolved
+//   graph
+//   .matchNodes({type: 'ast',content: {type: 'InteractionSimple'}})
+//   .forEach( (theNode) => {theNode.referentialTransparencySolved=false;})
+//   .commit();
+//
+//   graph
+//   .reduceNodes({type: 'ast',content: {type: 'InteractionSimple'},referentialTransparencySolved: false},
+//     (theResult,theNode)=>{
+//     let newNode =
+//       graph
+//       .addNode({type: 'ast',content: theNode.content,referentialTransparencySolved: true,ports:theNode.ports});
+//     let nodesSimilarToTheNode =
+//       graph
+//       .matchNodes({type:'ast',content: {type: 'InteractionSimple'},referentialTransparencySolved: false})
+//       .filter(x=>_.isEqual(x.content, theNode.content,(a, b)=>(interactions.compare(a, b) === 0)))
+//       .forEach(x=>{
+//         newNode.ports=mergePortList(newNode.ports,x.ports);
+//         graph
+//         .matchUndirectedEdges({type:'ast',to:{node:x}})
+//         .forEach(y=>
+//           graph
+//           .addEdge({type:'ast',from:y.from,to:{node:newNode,index:y.to.index}}))
+//         .commit();})
+//       .forEach(x=>graph.finish(x))
+//       .tap(x=>(theNode.referentialTransparencySolved=true))
+//       .commit();
+//     });
+// }
 
 
 function linkIdentifiers(graph) {
@@ -783,7 +799,7 @@ function matchingCompositionReduction(graph) {
     // console.log("       ");
     // console.log("       ");
     // console.log("       ");
-
+    //
 
 
     _(matchingCompoNodes)
@@ -794,7 +810,7 @@ function matchingCompositionReduction(graph) {
       if(_.isNull(x.simplifiedCond))
       {
 
-
+// console.log("ok");
 
           // No simplified condition because the two composition are linked directly
           // For each edge going to the matching node, we add an edge that goes to the current node with a special label on the port so we dont confuse with edges that already go to it
@@ -802,8 +818,11 @@ function matchingCompositionReduction(graph) {
           .matchUndirectedEdges({type: 'ast',from:{node:n2}})
           .reject(e2=>_.isUndefined(e2.from.compositionElementName))
           .forEach(e2=>{
+// console.log(d2.id);
             let d2 = e2.to;
+// console.log(d2.node.id);
             if(d2.node === n2)d2={node:n1,coCompositionElementName:e2.to.compositionElementName,isCoPort:true};
+// console.log(d2.node.id);
             graph
             .addEdge({type:'ast',from:{node:n1,coCompositionElementName:e2.from.compositionElementName,isCoPort:true},to:d2});})
           .commit();
@@ -815,11 +834,13 @@ function matchingCompositionReduction(graph) {
           // There are affectation nodes between the two composition but
           // We have a simplified condition available at x.simplifiedCond
 
-
+// console.log("pb");
           graph
           .matchUndirectedEdges({type: 'ast',from:{node:n2}})
           .reject(e2=>_.isUndefined(e2.from.compositionElementName))
           .forEach(e2=>{
+
+
 
             let d2 = e2.to;
             if(d2.node === n2)d2={node:n1,coCompositionElementName:e2.to.compositionElementName,isCoPort:true};
@@ -854,16 +875,21 @@ function matchingCompositionReduction(graph) {
 
   });
 
+
+gexport(graph,"bob");
+
   // Now its time to reduce all this mess !
   graph
   .matchNodes({type: 'ast',didCompositionReduction:true})
   .forEach(n1=>{
-      // console.log("-----------------------------------------------");
-      // console.log(n1.id);
+      console.log("-----------------------------------------------");
+      console.log(n1.id);
+      gexport(graph,n1.id);
 
       // Lets build a graph of the situation inside the Composition Node. Wiring between ports and co ports
       // Each Node of the internal graph represents a port of the Composition node
       let internalGraph = new Graph();
+      internalGraph.type='internal';
 
       let coPortsFrom =
       graph
@@ -876,7 +902,7 @@ function matchingCompositionReduction(graph) {
       graph
       .matchDirectedEdges({type: 'ast',to:{node:n1}})
       .filter(x=>(x.to.isCoPort===true))
-      .map(x=>({port:x.from,closed:false}))
+      .map(x=>({port:x.to,closed:false}))
       .value();
 
       let coPortNodes = {};
@@ -909,7 +935,11 @@ function matchingCompositionReduction(graph) {
       .forEach(x=>{portNodes[x.port.compositionElementName]=internalGraph.addNode(x);})
       .commit();
 
-      // Connect Ports with their respective coPorts in the internal graph
+
+      console.log('-----------------------------------');
+      gexport(internalGraph,n1.id+"internal-1");
+
+      // Connect Ports with their respective coPorts in the internal graph, this is semantics of the composition
       internalGraph
       .matchNodes({port:{isCoPort:true}})
       .forEach(n1=>{
@@ -950,12 +980,16 @@ function matchingCompositionReduction(graph) {
           .commit();
           theNode.closed = true;});
 
+          console.log('-----------------------------------');
+          gexport(internalGraph,n1.id+"internal");
+
       // Ok ! Now the internal graph is complete, we can start wiring edges in the main graph
       internalGraph
       .matchUndirectedEdges({from:{node:{port:{}}},to:{node:{port:{}}}})
+      .tap(x=>{console.log("internal ");console.log(x);})
       .filter(x=>(x.to.node.port.isCoPort!==true && x.from.node.port.isCoPort===true))
       .forEach(internalEdge=>{
-        // console.log("xxxx")
+        console.log("xxxx")
         graph
         .matchUndirectedEdges({from:{node:n1,coCompositionElementName:internalEdge.from.node.port.coCompositionElementName}})
         .forEach(coEdge=>{
@@ -973,7 +1007,7 @@ function matchingCompositionReduction(graph) {
   // Finally we finish the treated composition nodes
   graph
   .matchNodes({type: 'ast',didCompositionReduction:true,content: {type: 'InteractionSimple',operatorType:'Composition'}})
-  .forEach( theNode => {graph.finish(theNode);})
+  .forEach( theNode => {console.log('finish');console.log(theNode);graph.finish(theNode);})
   .commit();
 
 

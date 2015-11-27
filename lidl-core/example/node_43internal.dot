@@ -1,0 +1,8 @@
+digraph g{node_57 [shape=ellipse, style=filled, color="#ffd1d1", label="co-theNumber" ]
+node_58 [shape=ellipse, style=filled, color="#ffd1d1", label="co-theResult" ]
+node_59 [shape=ellipse, style=filled, color="#ffd1d1", label="di-theNumber" ]
+node_60 [shape=ellipse, style=filled, color="#ffd1d1", label="di-theResult" ]
+node_61 [shape=ellipse, style=filled, color="#ffd1d1", label="0" ]
+node_57 -> node_59 [dir=none, arrowHead=none, fontname="Times-Italic", label="edge_62" ]
+node_58 -> node_60 [dir=none, arrowHead=none, fontname="Times-Italic", label="edge_63" ]
+}

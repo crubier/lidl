@@ -233,12 +233,38 @@ class Graph {
     }).map(x=>_.assign(_.clone(x),{executionOrder : 0})).forEach((x) => (res += nodeTemplate2(x))).commit();
 
 
-    var edgeTemplate1 = _.template('<%=from.node.id%> -> <%=to.node.id%> [dir=none, arrowHead=none, fontname="Times-Italic", label="<%=id%>",  headlabel="<%=to.index%>", taillabel="<%=from.index%>" ]\n');
+    var edgeTemplate1 = _.template('<%=from.node.id%> -> <%=to.node.id%> [dir=none, arrowHead=none, fontname="Times-Italic", label="<%=id%>",  headlabel="<%=to.label%>", taillabel="<%=from.label%>" ]\n');
 
     this.matchUndirectedEdges({
       type: 'ast'
     })
     // .map((x) => _.assign(x,{flabel:(x.from.compositionElementName )? (x.from.index + " " + x.from.compositionElementName) :  ("no"+x.from.index) ,tlabel:(x.to.compositionElementName) ? (x.to.index + " " + x.to.compositionElementName) : ("no"+x.to.index)}))
+    .map(x=>{
+      let res = _.clone(x);
+      res.to = _.clone(res.to);
+      // console.log(JSON.stringify(res.to.compositionElementName));
+      if(_.isUndefined(res.to.compositionElementName)){
+        if(_.isUndefined(res.to.coCompositionElementName)){
+          res.to.label = ""+res.to.index;
+        } else {
+          res.to.label = "co-"+res.to.coCompositionElementName;
+        }
+      } else {
+          res.to.label = "di-"+res.to.compositionElementName;
+      }
+      res.from = _.clone(res.from);
+      if(_.isUndefined(res.from.compositionElementName)){
+        if(_.isUndefined(res.from.coCompositionElementName)){
+          res.from.label = ""+res.from.index;
+        } else {
+          res.from.label = "co-"+res.from.coCompositionElementName;
+        }
+      } else {
+        res.from.label = "di-"+res.from.compositionElementName;
+      }
+      // console.log(res.from.label + "  "+res.to.label);
+      return res;
+    })
     .forEach((x) => (res += edgeTemplate1(x))).commit();
 
 
@@ -247,6 +273,45 @@ class Graph {
     this.matchDirectedEdges({
       type: 'dataflow'
     }).forEach((x) => (res += edgeTemplate2(x))).commit();
+
+
+    res += ('}');
+    return res;
+  }
+
+toInternalDot() {
+    let nodeTemplate = _.template('');
+    var res = "digraph g{";
+
+    var nodeTemplate1 = _.template('<%=id%> [shape=ellipse, style=filled, color="#ffd1d1", label="<%=label%>" ]\n');
+
+    this
+    .matchNodes()
+    .map(x=>{
+        let res = _.clone(x);
+console.log('-----*****--------------');
+console.log(x.port);
+        // x.port = _.clone(x.port);
+        // console.log(JSON.stringify(res.to.compositionElementName));
+        if(_.isUndefined(x.port.compositionElementName)){
+          if(_.isUndefined(x.port.coCompositionElementName)){
+            res.label = ""+x.port.index;
+          } else {
+            res.label = "co-"+x.port.coCompositionElementName;
+          }
+        } else {
+            res.label = "di-"+x.port.compositionElementName;
+        }
+        return res;
+      })
+.forEach((x) => (res += nodeTemplate1(x))).commit();
+
+
+    var edgeTemplate1 = _.template('<%=from.node.id%> -> <%=to.node.id%> [dir=none, arrowHead=none, fontname="Times-Italic", label="<%=id%>" ]\n');
+
+    this.matchUndirectedEdges()
+
+    .forEach((x) => (res += edgeTemplate1(x))).commit();
 
 
     res += ('}');

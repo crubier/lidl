@@ -127,55 +127,37 @@ var all = function(x) {
 ///////////////////////////////////////////////////////////////////////
 //Declaration of variables
 
-var edge_2683 = inactive;
-var edge_2687 = inactive;
-var edge_2689 = inactive;
-var edge_2691 = inactive;
-var edge_2692 = inactive;
-var edge_2695 = inactive;
-var edge_2696 = inactive;
-var edge_2697 = inactive;
-var edge_2699 = inactive;
+var edge_2987 = inactive;
+var edge_2988 = inactive;
+var edge_2989 = inactive;
+var edge_2991 = inactive;
+var edge_2993 = inactive;
 ///////////////////////////////////////////////////////////////////////
 //Code of the DAG
 
-edge_2699 = active;
+edge_2991 = inactive; //Fake sender node
 
-// We dont care about edge_2699, this is a fake receiver node
+edge_2993 = active;
 
-edge_2691=theInterface.theOther;
+// We dont care about edge_2993, this is a fake receiver node
 
-edge_2692 = edge_2691;
-edge_2697 = edge_2691;
+theInterface.theLast=edge_2991;
 
-edge_2683=theInterface.theNumber;
+edge_2989=theInterface.theOther;
 
-edge_2689 = edge_2683;
-edge_2696 = edge_2683;
+edge_2988=theInterface.theNumber;
 
-edge_2695=null;
-if(edge_2695===null ){
-  edge_2695 = edge_2696;
-} else if (edge_2696 !== null){
-  throw ('error:multiple active assignments to the same signal edge_2695 : '+edge_2695 + ' and ' + edge_2696);
-}if(edge_2695===null ){
-  edge_2695 = edge_2697;
-} else if (edge_2697 !== null){
-  throw ('error:multiple active assignments to the same signal edge_2695 : '+edge_2695 + ' and ' + edge_2697);
+edge_2987=null;
+if(edge_2987===null ){
+  edge_2987 = edge_2988;
+} else if (edge_2988 !== null){
+  throw ('error:multiple active assignments to the same signal edge_2987 : '+edge_2987 + ' and ' + edge_2988);
+}if(edge_2987===null ){
+  edge_2987 = edge_2989;
+} else if (edge_2989 !== null){
+  throw ('error:multiple active assignments to the same signal edge_2987 : '+edge_2987 + ' and ' + edge_2989);
 }
-theInterface.theResult=edge_2695;
-
-edge_2687=null;
-if(edge_2687===null ){
-  edge_2687 = edge_2692;
-} else if (edge_2692 !== null){
-  throw ('error:multiple active assignments to the same signal edge_2687 : '+edge_2687 + ' and ' + edge_2692);
-}if(edge_2687===null ){
-  edge_2687 = edge_2689;
-} else if (edge_2689 !== null){
-  throw ('error:multiple active assignments to the same signal edge_2687 : '+edge_2687 + ' and ' + edge_2689);
-}
-theInterface.theLast=edge_2687;
+theInterface.theResult=edge_2987;
 
 ///////////////////////////////////////////////////////////////////////
 //Return statement

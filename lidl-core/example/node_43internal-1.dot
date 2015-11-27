@@ -1,0 +1,6 @@
+digraph g{node_57 [shape=ellipse, style=filled, color="#ffd1d1", label="co-theNumber" ]
+node_58 [shape=ellipse, style=filled, color="#ffd1d1", label="co-theResult" ]
+node_59 [shape=ellipse, style=filled, color="#ffd1d1", label="di-theNumber" ]
+node_60 [shape=ellipse, style=filled, color="#ffd1d1", label="di-theResult" ]
+node_61 [shape=ellipse, style=filled, color="#ffd1d1", label="0" ]
+}
