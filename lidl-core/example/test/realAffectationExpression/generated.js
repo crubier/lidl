@@ -127,46 +127,38 @@ var all = function(x) {
 ///////////////////////////////////////////////////////////////////////
 //Declaration of variables
 
-var edge_3855 = inactive;
-var edge_3859 = inactive;
-var edge_3875 = inactive;
-var edge_3876 = inactive;
-var edge_3877 = inactive;
-var edge_3880 = inactive;
-var edge_3881 = inactive;
-var edge_3883 = inactive;
-var edge_3884 = inactive;
-var edge_3885 = inactive;
-var edge_3886 = inactive;
-var edge_3888 = inactive;
+var edge_3594 = inactive;
+var edge_3610 = inactive;
+var edge_3611 = inactive;
+var edge_3612 = inactive;
+var edge_3615 = inactive;
+var edge_3616 = inactive;
+var edge_3618 = inactive;
+var edge_3619 = inactive;
+var edge_3620 = inactive;
 ///////////////////////////////////////////////////////////////////////
 //Code of the DAG
 
-edge_3888 = inactive; //Fake sender node
+edge_3611 = 1;
 
-edge_3855 = return1;
+edge_3594 = addition;
 
-edge_3859 = addition;
+edge_3618 = active;
 
-edge_3883 = active;
+edge_3619 = edge_3618;
+edge_3620 = edge_3618;
 
-edge_3884 = edge_3883;
-edge_3885 = edge_3883;
-edge_3886 = edge_3883;
+edge_3610=theInterface.theNumber;
 
-if(edge_3884 === active && edge_3855!==null && edge_3855!==undefined) {edge_3876 = edge_3855(edge_3888);}
+edge_3612 = {};
+edge_3612['0'] = edge_3611;
+edge_3612['1'] = edge_3610;
 
-edge_3875=theInterface.theNumber;
+if(edge_3619 === active && edge_3594!==null && edge_3594!==undefined) {edge_3616 = edge_3594(edge_3612);}
 
-edge_3877 = {};
-edge_3877['0'] = edge_3876;
-edge_3877['1'] = edge_3875;
+if(edge_3620 === active) {edge_3615 = edge_3616;}
 
-if(edge_3885 === active && edge_3859!==null && edge_3859!==undefined) {edge_3881 = edge_3859(edge_3877);}
-
-if(edge_3886 === active) {edge_3880 = edge_3881;}
-
-theInterface.theResult=edge_3880;
+theInterface.theResult=edge_3615;
 
 ///////////////////////////////////////////////////////////////////////
 //Return statement

@@ -103,6 +103,10 @@ function toGraph(expandedAst,upto) {
 
     if(upto === 'Function Literal Linking') return graph;
 
+    dataLiteralLinking(graph);
+
+    if(upto === 'Data Literal Linking') return graph;
+
     functionApplicationLinking(graph);
 
     if(upto === 'Function Application Linking') return graph;
@@ -494,6 +498,80 @@ function functionLiteralLinking(graph) {
   });
 
 }
+
+
+function dataLiteralLinking(graph) {
+  graph
+  .reduceNodes({type:'ast',content:{operatorType:'Activation'}},
+  (theResult,theNode)=>{
+    let literal = theNode.content.operator;
+    let source =
+      graph
+      .addNode({type:'ast',content:{type: 'InteractionNative','content': '<%=a0%> = ' + literal + ';\n'},ports: ["out"]});
+    graph
+    .matchUndirectedEdges({type:'ast',from:{node:theNode,index:0}})
+    .forEach(x=>
+      graph
+      .addEdge({type:'ast',from:{node:source,index:0},to:x.to}))
+    .commit();
+    graph
+    .finish(theNode);
+  });
+
+  graph
+  .reduceNodes({type:'ast',content:{operatorType:'Boolean'}},
+  (theResult,theNode)=>{
+    let literal = theNode.content.operator;
+    let source =
+      graph
+      .addNode({type:'ast',content:{type: 'InteractionNative','content': '<%=a0%> = ' + literal + ';\n'},ports: ["out"]});
+    graph
+    .matchUndirectedEdges({type:'ast',from:{node:theNode,index:0}})
+    .forEach(x=>
+      graph
+      .addEdge({type:'ast',from:{node:source,index:0},to:x.to}))
+    .commit();
+    graph
+    .finish(theNode);
+  });
+
+  graph
+  .reduceNodes({type:'ast',content:{operatorType:'Number'}},
+  (theResult,theNode)=>{
+    let literal = theNode.content.operator;
+    let source =
+      graph
+      .addNode({type:'ast',content:{type: 'InteractionNative','content': '<%=a0%> = ' + literal + ';\n'},ports: ["out"]});
+    graph
+    .matchUndirectedEdges({type:'ast',from:{node:theNode,index:0}})
+    .forEach(x=>
+      graph
+      .addEdge({type:'ast',from:{node:source,index:0},to:x.to}))
+    .commit();
+    graph
+    .finish(theNode);
+  });
+
+  graph
+  .reduceNodes({type:'ast',content:{operatorType:'Text'}},
+  (theResult,theNode)=>{
+    let literal = theNode.content.operator;
+    let source =
+      graph
+      .addNode({type:'ast',content:{type: 'InteractionNative','content': '<%=a0%> = ' + literal + ';\n'},ports: ["out"]});
+    graph
+    .matchUndirectedEdges({type:'ast',from:{node:theNode,index:0}})
+    .forEach(x=>
+      graph
+      .addEdge({type:'ast',from:{node:source,index:0},to:x.to}))
+    .commit();
+    graph
+    .finish(theNode);
+  });
+
+}
+
+
 
 
 

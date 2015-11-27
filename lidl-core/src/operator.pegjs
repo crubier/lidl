@@ -51,7 +51,7 @@
 // High level elements
 
 start
-= composition  /  behaviour / affectation/ previous / identifier / functionApplication / function  / custom / void
+= composition  /  behaviour / affectation/ previous / identifier / functionApplication / function  / activation / boolean / number / text / custom / void
 
 composition 'a composition interaction'
 = _ '{' _ (key:keyIdentifier _':'_'$'_ (',' _)? )* '}' _ {return "Composition";}
@@ -77,6 +77,21 @@ identifier 'an identifier interaction'
 
 function 'a function'
 = _ 'function' _ (identifier:functionIdentifier) _ {return "Function";}
+
+
+activation 'an activation'
+= _ ('active'/'inactive') _ {return "Activation";}
+
+boolean 'a boolean'
+= _ ('true'/'false') _ {return "Boolean";}
+
+number 'a number'
+/*= _ [0-9]*('.'[0-9]*)?  _ {return "Number";}*/
+= _ [0-9] _ {return "Number";}
+
+text 'a text'
+= _ '"' [^\"]* '"'  _  {return "Text";}
+
 
 void 'the void interaction'
 = _ {return "Void";}

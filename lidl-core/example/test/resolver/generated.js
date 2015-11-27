@@ -127,55 +127,55 @@ var all = function(x) {
 ///////////////////////////////////////////////////////////////////////
 //Declaration of variables
 
-var edge_4231 = inactive;
-var edge_4235 = inactive;
-var edge_4236 = inactive;
-var edge_4239 = inactive;
-var edge_4241 = inactive;
-var edge_4243 = inactive;
-var edge_4244 = inactive;
-var edge_4245 = inactive;
-var edge_4247 = inactive;
+var edge_3963 = inactive;
+var edge_3967 = inactive;
+var edge_3968 = inactive;
+var edge_3971 = inactive;
+var edge_3973 = inactive;
+var edge_3975 = inactive;
+var edge_3976 = inactive;
+var edge_3977 = inactive;
+var edge_3979 = inactive;
 ///////////////////////////////////////////////////////////////////////
 //Code of the DAG
 
-edge_4247 = active;
+edge_3979 = active;
 
-// We dont care about edge_4247, this is a fake receiver node
+// We dont care about edge_3979, this is a fake receiver node
 
-edge_4239=theInterface.theOther;
+edge_3971=theInterface.theOther;
 
-edge_4245 = edge_4239;
-edge_4241 = edge_4239;
+edge_3977 = edge_3971;
+edge_3973 = edge_3971;
 
-edge_4231=theInterface.theNumber;
+edge_3963=theInterface.theNumber;
 
-edge_4244 = edge_4231;
-edge_4236 = edge_4231;
+edge_3976 = edge_3963;
+edge_3968 = edge_3963;
 
-edge_4243=null;
-if(edge_4243===null ){
-  edge_4243 = edge_4244;
-} else if (edge_4244 !== null){
-  throw ('error:multiple active assignments to the same signal edge_4243 : '+edge_4243 + ' and ' + edge_4244);
-}if(edge_4243===null ){
-  edge_4243 = edge_4245;
-} else if (edge_4245 !== null){
-  throw ('error:multiple active assignments to the same signal edge_4243 : '+edge_4243 + ' and ' + edge_4245);
+edge_3975=null;
+if(edge_3975===null ){
+  edge_3975 = edge_3976;
+} else if (edge_3976 !== null){
+  throw ('error:multiple active assignments to the same signal edge_3975 : '+edge_3975 + ' and ' + edge_3976);
+}if(edge_3975===null ){
+  edge_3975 = edge_3977;
+} else if (edge_3977 !== null){
+  throw ('error:multiple active assignments to the same signal edge_3975 : '+edge_3975 + ' and ' + edge_3977);
 }
-theInterface.theResult=edge_4243;
+theInterface.theResult=edge_3975;
 
-edge_4235=null;
-if(edge_4235===null ){
-  edge_4235 = edge_4236;
-} else if (edge_4236 !== null){
-  throw ('error:multiple active assignments to the same signal edge_4235 : '+edge_4235 + ' and ' + edge_4236);
-}if(edge_4235===null ){
-  edge_4235 = edge_4241;
-} else if (edge_4241 !== null){
-  throw ('error:multiple active assignments to the same signal edge_4235 : '+edge_4235 + ' and ' + edge_4241);
+edge_3967=null;
+if(edge_3967===null ){
+  edge_3967 = edge_3968;
+} else if (edge_3968 !== null){
+  throw ('error:multiple active assignments to the same signal edge_3967 : '+edge_3967 + ' and ' + edge_3968);
+}if(edge_3967===null ){
+  edge_3967 = edge_3973;
+} else if (edge_3973 !== null){
+  throw ('error:multiple active assignments to the same signal edge_3967 : '+edge_3967 + ' and ' + edge_3973);
 }
-theInterface.theLast=edge_4235;
+theInterface.theLast=edge_3967;
 
 ///////////////////////////////////////////////////////////////////////
 //Return statement

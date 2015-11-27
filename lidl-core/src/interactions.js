@@ -277,12 +277,13 @@ function isBaseInteraction(interaction) {
     case 'InteractionSimple':
       {
         var theOperator;
-        try {
+        // try {
           theOperator = operator.parse(interaction.operator);
+// console.log(interaction.operator + " is      "+theOperator);
           // interaction.operatorType = theOperator;
-        } catch (e) {
-          console.log("Error on operator " + interaction.operator + " " + interaction.formating);
-        }
+        // } catch (e) {
+        //   console.log("Error on operator " + interaction.operator + " " + interaction.formating);
+        // }
         switch (theOperator) {
           // case "Composition":
           // case "Behaviour":
@@ -296,9 +297,11 @@ function isBaseInteraction(interaction) {
           //   console.log("============================found it !")
           //   break;
           case "Custom":
+            // console.log(interaction.operator + " is custom");
             return false;
           default:
             // console.log(interaction.operator + " is not custom");
+            // console.log(theOperator)
             return true;
             // throw new Error('problem parsing interaction operator ' + theOperator);
         }

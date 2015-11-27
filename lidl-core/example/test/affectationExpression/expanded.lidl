@@ -7,20 +7,7 @@
     (
       (variable2)
       withbehaviour
-      (
-        apply
-        (functionaddition)
-        to
-        (
-          {0:
-          ((variable3)withbehaviour(apply(functionreturn1)to(variable4)andget(variable3)))
-          1:
-          (variable0)
-          }
-        )
-        andget
-        (variable2)
-      )
+      (apply(functionaddition)to({0:(1)1:(variable0)})andget(variable2))
     )
   )
 )

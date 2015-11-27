@@ -1,23 +1,23 @@
-digraph g{node_3896 [shape=ellipse, style=filled, color="#ffd1d1", label="node_3896
+digraph g{node_3628 [shape=ellipse, style=filled, color="#ffd1d1", label="node_3628
 Composition
 {theNumber:$theResult:$}" ]
-node_3903 [shape=ellipse, style=filled, color="#ffd1d1", label="node_3903
+node_3635 [shape=ellipse, style=filled, color="#ffd1d1", label="node_3635
 Composition
 {theNumber:$theResult:$}" ]
-node_3894 [shape=box, style=filled, color="#d1f1ff", fontname="Courier", label="node_3894
+node_3626 [shape=box, style=filled, color="#d1f1ff", fontname="Courier", label="node_3626
 0
 <%=a0%>=theInterface.theNumber;
 " ]
-node_3895 [shape=box, style=filled, color="#d1f1ff", fontname="Courier", label="node_3895
+node_3627 [shape=box, style=filled, color="#d1f1ff", fontname="Courier", label="node_3627
 0
 theInterface.theResult=<%=a0%>;
 " ]
-node_3908 [shape=box, style=filled, color="#d1f1ff", fontname="Courier", label="node_3908
+node_3640 [shape=box, style=filled, color="#d1f1ff", fontname="Courier", label="node_3640
 0
 <%=a0%> = active;
 " ]
-node_3896 -> node_3894 [dir=none, arrowHead=none, fontname="Times-Italic", label="edge_3897",  headlabel="0", taillabel="di-theNumber" ]
-node_3896 -> node_3895 [dir=none, arrowHead=none, fontname="Times-Italic", label="edge_3898",  headlabel="0", taillabel="di-theResult" ]
-node_3903 -> node_3896 [dir=none, arrowHead=none, fontname="Times-Italic", label="edge_3906",  headlabel="0", taillabel="0" ]
-node_3903 -> node_3903 [dir=none, arrowHead=none, fontname="Times-Italic", label="edge_3907",  headlabel="di-theResult", taillabel="di-theNumber" ]
+node_3628 -> node_3626 [dir=none, arrowHead=none, fontname="Times-Italic", label="edge_3629",  headlabel="0", taillabel="di-theNumber" ]
+node_3628 -> node_3627 [dir=none, arrowHead=none, fontname="Times-Italic", label="edge_3630",  headlabel="0", taillabel="di-theResult" ]
+node_3635 -> node_3628 [dir=none, arrowHead=none, fontname="Times-Italic", label="edge_3638",  headlabel="0", taillabel="0" ]
+node_3635 -> node_3635 [dir=none, arrowHead=none, fontname="Times-Italic", label="edge_3639",  headlabel="di-theResult", taillabel="di-theNumber" ]
 }

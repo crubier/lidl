@@ -1,0 +1,8 @@
+interaction (ok literal):Number out
+with
+
+interaction ((a:Number in) + (b:Number in)):Number out
+is ((# (a)+(b)) with behaviour ((function addition)({0:(a)1:(b)})=(#(a)+(b))))
+
+is
+    ((9)+(9))

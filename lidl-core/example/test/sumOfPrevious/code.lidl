@@ -1,4 +1,4 @@
-interaction (integrate (a:Number in)):Number out
+interaction (wow (a:Number in)):Number out
 with
 
 interaction ((a:Number in) + (b:Number in)):Number out

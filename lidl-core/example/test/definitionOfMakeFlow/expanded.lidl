@@ -44,21 +44,7 @@
                         apply
                         (functionisActive)
                         to
-                        (
-                          (variable7)
-                          withbehaviour
-                          (
-                            get
-                            (variable7)
-                            frompreviousandset
-                            (
-                              (variable9)
-                              withbehaviour
-                              (apply(functionreturn1)to(variable10)andget(variable9))
-                            )
-                            fornext
-                          )
-                        )
+                        ((variable7)withbehaviour(get(variable7)frompreviousandset(1)fornext))
                         andget
                         (variable6)
                       )
@@ -68,13 +54,9 @@
                   )
                 )
                 a:
-                (
-                  (variable9)
-                  withbehaviour
-                  (apply(functionreturn1)to(variable10)andget(variable9))
-                )
+                (1)
                 b:
-                ((variable13)withbehaviour(get(variable13)frompreviousandset(variable1)fornext))
+                ((variable10)withbehaviour(get(variable10)frompreviousandset(variable1)fornext))
                 }
               )
               andget
