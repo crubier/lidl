@@ -86,8 +86,8 @@ boolean 'a boolean'
 = _ ('true'/'false') _ {return "Boolean";}
 
 number 'a number'
-/*= _ [0-9]*('.'[0-9]*)?  _ {return "Number";}*/
-= _ [0-9] _ {return "Number";}
+= _ [0-9]+('.'[0-9]+)?  _ {return "Number";}
+/*= _ [0-9] _ {return "Number";}*/
 
 text 'a text'
 = _ '"' [^\"]* '"'  _  {return "Text";}
