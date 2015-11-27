@@ -840,8 +840,6 @@ function matchingCompositionReduction(graph) {
           .reject(e2=>_.isUndefined(e2.from.compositionElementName))
           .forEach(e2=>{
 
-
-
             let d2 = e2.to;
             if(d2.node === n2)d2={node:n1,coCompositionElementName:e2.to.compositionElementName,isCoPort:true};
 
@@ -876,15 +874,15 @@ function matchingCompositionReduction(graph) {
   });
 
 
-gexport(graph,"bob");
+// gexport(graph,"bob");
 
   // Now its time to reduce all this mess !
   graph
   .matchNodes({type: 'ast',didCompositionReduction:true})
   .forEach(n1=>{
-      console.log("-----------------------------------------------");
-      console.log(n1.id);
-      gexport(graph,n1.id);
+      // console.log("-----------------------------------------------");
+      // console.log(n1.id);
+      // gexport(graph,n1.id);
 
       // Lets build a graph of the situation inside the Composition Node. Wiring between ports and co ports
       // Each Node of the internal graph represents a port of the Composition node
@@ -935,9 +933,9 @@ gexport(graph,"bob");
       .forEach(x=>{portNodes[x.port.compositionElementName]=internalGraph.addNode(x);})
       .commit();
 
-
-      console.log('-----------------------------------');
-      gexport(internalGraph,n1.id+"internal-1");
+      //
+      // console.log('-----------------------------------');
+      // gexport(internalGraph,n1.id+"internal-1");
 
       // Connect Ports with their respective coPorts in the internal graph, this is semantics of the composition
       internalGraph
@@ -947,20 +945,27 @@ gexport(graph,"bob");
         .matchNodes({port:{compositionElementName:n1.port.coCompositionElementName}})
         .filter(x=>(x.port.isCoPort!==true))
         .forEach(n2=>
-          internalGraph.addEdge({type:'normal',from:{node:n1},to:{node:n2}}))
+          internalGraph.addEdge({type:'normal',mul:true,from:{node:n1},to:{node:n2}}))
         .commit();})
       .commit();
 
       // Add loops between ports of the composition node to the internal graph
       graph
       .matchUndirectedEdges({type: 'ast',from:{node:n1},to:{node:n1}})
-      .reject(e=>(_.isUndefined((e.from.compositionElementName)&&_.isUndefined(e.from.coCompositionElementName))||(_.isUndefined(e.to.compositionElementName)&&_.isUndefined(e.to.coCompositionElementName))))
+      // .forEach(e=>{
+      //         console.log('aaaaa '+e.id+ " "+e.from.compositionElementName+ " "+e.from.coCompositionElementName+ " "+e.to.compositionElementName+ " "+e.to.coCompositionElementName);
+      // })
+      .reject(e=>((_.isUndefined(e.from.compositionElementName)&&_.isUndefined(e.from.coCompositionElementName))||(_.isUndefined(e.to.compositionElementName)&&_.isUndefined(e.to.coCompositionElementName))))
       .forEach(e=>{
+        // console.log('iiii '+e.id);
         let origin = (e.from.isCoPort===true) ? coPortNodes[e.from.coCompositionElementName] : portNodes[e.from.compositionElementName];
         let dest = (e.to.isCoPort===true) ? coPortNodes[e.to.coCompositionElementName] : portNodes[e.to.compositionElementName];
-        internalGraph.addEdge({type:'loop',from:{node:origin},to:{node:dest}});
+        internalGraph.addEdge({type:'loop',mul:true,from:{node:origin},to:{node:dest}});
       })
       .commit();
+
+      // console.log('-----------------------------------');
+      // gexport(internalGraph,n1.id+"internal-2");
 
       // Transitively close the internal graph
       internalGraph
@@ -968,28 +973,51 @@ gexport(graph,"bob");
         (theResult,theNode)=>{
           // console.log("  > "+theNode.id);
           internalGraph
-          .matchUndirectedEdges({from:{node:theNode}})
+          .matchUndirectedEdges({from:{node:theNode},to:{node:{closed:false}}})
           .forEach(e1=>{
             internalGraph
-            .matchUndirectedEdges({from:{node:theNode}})
+            .matchUndirectedEdges({from:{node:theNode},to:{node:{closed:false}}})
             .filter(e2=>(e2.id>e1.id))
             .forEach(e2=>{
-              internalGraph
-              .addEdge({type:'closure',from:{node:e1.to},to:{node:e2.to}});})
+              // console.log("close "+e1.to.node.id+" "+e2.to.node.id);
+              // gexport(internalGraph,n1.id+"close "+e1.id);
+              if(_.isEmpty(internalGraph.findUndirectedEdge({from:{node:e1.to.node},to:{node:e2.to.node}}))){
+                internalGraph
+                .addEdge({type:'closure',mul:true,from:{node:e1.to.node},to:{node:e2.to.node}});}})
             .commit();})
           .commit();
           theNode.closed = true;});
 
-          console.log('-----------------------------------');
-          gexport(internalGraph,n1.id+"internal");
+          // console.log('-----------------------------------');
+          //           gexport(internalGraph,n1.id+"internal-3");
+
+      // // Remove multiple edges on the internal graph
+      // internalGraph
+      // .reduceDirectedEdges({mul:true},
+      // (theResult,theEdge)=>{
+      //   internalGraph
+      //   .matchDirectedEdges({from:{node:theEdge.from.node},to:{node:theEdge.to.node}})
+      //   .union(
+      //     internalGraph
+      //     .matchDirectedEdges({to:{node:theEdge.from.node},from:{node:theEdge.to.node}})
+      //     .value())
+      //   .reject(e=>(e===theEdge))
+      //   .forEach(e=>internalGraph.finish(e))
+      //   .commit();
+      //   theEdge.mul=false;
+      //   theEdge.type='single';
+      // });
+
+          // console.log('-----------------------------------');
+          // gexport(internalGraph,n1.id+"internal-4");
 
       // Ok ! Now the internal graph is complete, we can start wiring edges in the main graph
       internalGraph
       .matchUndirectedEdges({from:{node:{port:{}}},to:{node:{port:{}}}})
-      .tap(x=>{console.log("internal ");console.log(x);})
+      // .tap(x=>{console.log("internal ");console.log(x);})
       .filter(x=>(x.to.node.port.isCoPort!==true && x.from.node.port.isCoPort===true))
       .forEach(internalEdge=>{
-        console.log("xxxx")
+        // console.log("xxxx")
         graph
         .matchUndirectedEdges({from:{node:n1,coCompositionElementName:internalEdge.from.node.port.coCompositionElementName}})
         .forEach(coEdge=>{
@@ -1007,7 +1035,10 @@ gexport(graph,"bob");
   // Finally we finish the treated composition nodes
   graph
   .matchNodes({type: 'ast',didCompositionReduction:true,content: {type: 'InteractionSimple',operatorType:'Composition'}})
-  .forEach( theNode => {console.log('finish');console.log(theNode);graph.finish(theNode);})
+  .forEach( theNode => {
+    // console.log('finish');
+    // console.log(theNode);
+    graph.finish(theNode);})
   .commit();
 
 

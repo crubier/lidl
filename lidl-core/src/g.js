@@ -283,14 +283,14 @@ toInternalDot() {
     let nodeTemplate = _.template('');
     var res = "digraph g{";
 
-    var nodeTemplate1 = _.template('<%=id%> [shape=ellipse, style=filled, color="#ffd1d1", label="<%=label%>" ]\n');
+    var nodeTemplate1 = _.template('<%=id%> [shape=ellipse, style=filled, color="#ffd1d1", label="<%=id%>\n<%=label%>" ]\n');
 
     this
     .matchNodes()
     .map(x=>{
         let res = _.clone(x);
-console.log('-----*****--------------');
-console.log(x.port);
+// console.log('-----*****--------------');
+// console.log(x.port);
         // x.port = _.clone(x.port);
         // console.log(JSON.stringify(res.to.compositionElementName));
         if(_.isUndefined(x.port.compositionElementName)){
@@ -304,10 +304,10 @@ console.log(x.port);
         }
         return res;
       })
-.forEach((x) => (res += nodeTemplate1(x))).commit();
+    .forEach((x) => (res += nodeTemplate1(x))).commit();
 
 
-    var edgeTemplate1 = _.template('<%=from.node.id%> -> <%=to.node.id%> [dir=none, arrowHead=none, fontname="Times-Italic", label="<%=id%>" ]\n');
+    var edgeTemplate1 = _.template('<%=from.node.id%> -> <%=to.node.id%> [dir=none, arrowHead=none, fontname="Times-Italic", label="<%=type%>" ]\n');
 
     this.matchUndirectedEdges()
 

@@ -1,0 +1,38 @@
+digraph g{node_4551 [shape=ellipse, style=filled, color="#ffd1d1", label="node_4551
+Composition
+{theNumber:$theResult:$}" ]
+node_4561 [shape=ellipse, style=filled, color="#ffd1d1", label="node_4561
+Composition
+{theNumber:$theResult:$}" ]
+node_4549 [shape=box, style=filled, color="#d1f1ff", fontname="Courier", label="node_4549
+0
+<%=a0%>=theInterface.theNumber;
+" ]
+node_4550 [shape=box, style=filled, color="#d1f1ff", fontname="Courier", label="node_4550
+0
+theInterface.theResult=<%=a0%>;
+" ]
+node_4575 [shape=box, style=filled, color="#d1f1ff", fontname="Courier", label="node_4575
+0
+<%=a0%> = active;
+" ]
+node_4579 [shape=box, style=filled, color="#d1f1ff", fontname="Courier", label="node_4579
+0
+if(<%=a0%> === active) {
+<%=a1%> = previousState['state_4578'];
+}
+" ]
+node_4582 [shape=box, style=filled, color="#d1f1ff", fontname="Courier", label="node_4582
+0
+if(<%=a0%> === active) {
+nextState['state_4578'] = <%=a1%>;
+}
+" ]
+node_4551 -> node_4549 [dir=none, arrowHead=none, fontname="Times-Italic", label="edge_4552",  headlabel="0", taillabel="di-theNumber" ]
+node_4551 -> node_4550 [dir=none, arrowHead=none, fontname="Times-Italic", label="edge_4553",  headlabel="0", taillabel="di-theResult" ]
+node_4551 -> node_4561 [dir=none, arrowHead=none, fontname="Times-Italic", label="edge_4577",  headlabel="0", taillabel="0" ]
+node_4579 -> node_4575 [dir=none, arrowHead=none, fontname="Times-Italic", label="edge_4580",  headlabel="0", taillabel="0" ]
+node_4579 -> node_4561 [dir=none, arrowHead=none, fontname="Times-Italic", label="edge_4581",  headlabel="di-theResult", taillabel="1" ]
+node_4582 -> node_4575 [dir=none, arrowHead=none, fontname="Times-Italic", label="edge_4583",  headlabel="0", taillabel="0" ]
+node_4582 -> node_4561 [dir=none, arrowHead=none, fontname="Times-Italic", label="edge_4584",  headlabel="di-theNumber", taillabel="1" ]
+}

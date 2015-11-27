@@ -1,4 +1,0 @@
-digraph g{node_67 [shape=ellipse, style=filled, color="#ffd1d1", label="di-theNumber" ]
-node_68 [shape=ellipse, style=filled, color="#ffd1d1", label="di-theResult" ]
-node_69 [shape=ellipse, style=filled, color="#ffd1d1", label="0" ]
-}

@@ -1,0 +1,38 @@
+digraph g{node_4000 [shape=ellipse, style=filled, color="#ffd1d1", label="node_4000
+Composition
+{theNumber:$theOther:$theResult:$theLast:$}" ]
+node_4011 [shape=ellipse, style=filled, color="#ffd1d1", label="node_4011
+Composition
+{theNumber:$theOther:$theResult:$theLast:$}" ]
+node_3996 [shape=box, style=filled, color="#d1f1ff", fontname="Courier", label="node_3996
+0
+<%=a0%>=theInterface.theNumber;
+" ]
+node_3997 [shape=box, style=filled, color="#d1f1ff", fontname="Courier", label="node_3997
+0
+<%=a0%>=theInterface.theOther;
+" ]
+node_3998 [shape=box, style=filled, color="#d1f1ff", fontname="Courier", label="node_3998
+0
+theInterface.theResult=<%=a0%>;
+" ]
+node_3999 [shape=box, style=filled, color="#d1f1ff", fontname="Courier", label="node_3999
+0
+theInterface.theLast=<%=a0%>;
+" ]
+node_4023 [shape=box, style=filled, color="#d1f1ff", fontname="Courier", label="node_4023
+0
+<%=a0%> = active;
+" ]
+node_4000 -> node_3996 [dir=none, arrowHead=none, fontname="Times-Italic", label="edge_4001",  headlabel="0", taillabel="di-theNumber" ]
+node_4000 -> node_3997 [dir=none, arrowHead=none, fontname="Times-Italic", label="edge_4002",  headlabel="0", taillabel="di-theOther" ]
+node_4000 -> node_3998 [dir=none, arrowHead=none, fontname="Times-Italic", label="edge_4003",  headlabel="0", taillabel="di-theResult" ]
+node_4000 -> node_3999 [dir=none, arrowHead=none, fontname="Times-Italic", label="edge_4004",  headlabel="0", taillabel="di-theLast" ]
+node_4011 -> node_4000 [dir=none, arrowHead=none, fontname="Times-Italic", label="edge_4016",  headlabel="0", taillabel="0" ]
+node_4011 -> node_4011 [dir=none, arrowHead=none, fontname="Times-Italic", label="edge_4017",  headlabel="di-theOther", taillabel="di-theNumber" ]
+node_4011 -> node_4011 [dir=none, arrowHead=none, fontname="Times-Italic", label="edge_4018",  headlabel="di-theResult", taillabel="di-theNumber" ]
+node_4011 -> node_4011 [dir=none, arrowHead=none, fontname="Times-Italic", label="edge_4019",  headlabel="di-theLast", taillabel="di-theNumber" ]
+node_4011 -> node_4011 [dir=none, arrowHead=none, fontname="Times-Italic", label="edge_4020",  headlabel="di-theResult", taillabel="di-theOther" ]
+node_4011 -> node_4011 [dir=none, arrowHead=none, fontname="Times-Italic", label="edge_4021",  headlabel="di-theLast", taillabel="di-theOther" ]
+node_4011 -> node_4011 [dir=none, arrowHead=none, fontname="Times-Italic", label="edge_4022",  headlabel="di-theLast", taillabel="di-theResult" ]
+}
