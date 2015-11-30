@@ -34,7 +34,7 @@ class BlockCodeEditor extends Component {
   }
 
   static propTypes = {
-    lidlAst: PropTypes.object.isRequired,
+    lidlAst: PropTypes.array.isRequired,
     onChange: PropTypes.func.isRequired
   };
 

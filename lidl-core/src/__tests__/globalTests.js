@@ -44,16 +44,15 @@ describe('lidl compiler', function() {
 
 
 // Print the graph at an intermediary step for debugging
-      var graph1 = compiler.compileToGraph(code,'Tag Composition Element Edges');
+      var graph1 = compiler.compileToGraph(code,'Merge By Root Node');
 
 
       fs.writeFileSync(path.join(file, 'graph1.dot'), graph1.toDot(), {encoding: 'utf8'});
       exec("dot " + path.join(file, 'graph1.dot') + " -o" +path.join(file, 'graph1.pdf')+ " -Tpdf", null);
 
-var graph2= compiler.compileToGraph(code,'Matching Composition Reduction');
+var graph2= compiler.compileToGraph(code,'Link Identifiers');
 
-
-      fs.writeFileSync(path.join(file, 'graph2.dot'), graph1.toDot(), {encoding: 'utf8'});
+      fs.writeFileSync(path.join(file, 'graph2.dot'), graph2.toDot(), {encoding: 'utf8'});
       exec("dot " + path.join(file, 'graph2.dot') + " -o" +path.join(file, 'graph2.pdf')+ " -Tpdf", null);
 
 

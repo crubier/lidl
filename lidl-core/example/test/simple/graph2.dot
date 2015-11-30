@@ -1,23 +1,19 @@
-digraph g{node_3987 [shape=ellipse, style=filled, color="#ffd1d1", label="node_3987
+digraph g{node_3207 [shape=ellipse, style=filled, color="#ffd1d1", label="node_3207
 Composition
 {theNumber:$theResult:$}" ]
-node_3994 [shape=ellipse, style=filled, color="#ffd1d1", label="node_3994
+node_3214 [shape=ellipse, style=filled, color="#ffd1d1", label="node_3214
 Composition
 {theNumber:$theResult:$}" ]
-node_3985 [shape=box, style=filled, color="#d1f1ff", fontname="Courier", label="node_3985
+node_3205 [shape=box, style=filled, color="#d1f1ff", fontname="Courier", label="node_3205
 0
 <%=a0%>=theInterface.theNumber;
 " ]
-node_3986 [shape=box, style=filled, color="#d1f1ff", fontname="Courier", label="node_3986
+node_3206 [shape=box, style=filled, color="#d1f1ff", fontname="Courier", label="node_3206
 0
 theInterface.theResult=<%=a0%>;
 " ]
-node_3999 [shape=box, style=filled, color="#d1f1ff", fontname="Courier", label="node_3999
-0
-<%=a0%> = active;
-" ]
-node_3987 -> node_3985 [dir=none, arrowHead=none, fontname="Times-Italic", label="edge_3988",  headlabel="0", taillabel="di-theNumber" ]
-node_3987 -> node_3986 [dir=none, arrowHead=none, fontname="Times-Italic", label="edge_3989",  headlabel="0", taillabel="di-theResult" ]
-node_3994 -> node_3987 [dir=none, arrowHead=none, fontname="Times-Italic", label="edge_3997",  headlabel="0", taillabel="0" ]
-node_3994 -> node_3994 [dir=none, arrowHead=none, fontname="Times-Italic", label="edge_3998",  headlabel="di-theResult", taillabel="di-theNumber" ]
+node_3207 -> node_3205 [dir=none, arrowHead=none, fontname="Times-Italic", label="edge_3208",  headlabel="0", taillabel="1" ]
+node_3207 -> node_3206 [dir=none, arrowHead=none, fontname="Times-Italic", label="edge_3209",  headlabel="0", taillabel="2" ]
+node_3214 -> node_3207 [dir=none, arrowHead=none, fontname="Times-Italic", label="edge_3217",  headlabel="0", taillabel="0" ]
+node_3214 -> node_3214 [dir=none, arrowHead=none, fontname="Times-Italic", label="edge_3218",  headlabel="2", taillabel="1" ]
 }

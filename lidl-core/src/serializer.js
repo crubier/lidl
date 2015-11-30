@@ -36,13 +36,12 @@ function serializeInteractionSimpleRow(object) {
       var res = '(';
       res = res +list[0];
       for(var i = 1;i<list.length;i++) {
-          res = res + serialize(object.operand[i-1]);
+          res = res + serializeInteractionSimpleRow(object.operand[i-1]);
           res = res +list[i];
       }
       res = res +')';
       return res;
     }
-
 }
 
 function serializeInteractionSimpleNeat(object,indentation) {
@@ -77,7 +76,7 @@ function serializeInteractionNative(object) {
 }
 
 module.exports.serialize = serialize;
-
+module.exports.serializeInteractionSimpleRow=serializeInteractionSimpleRow;
 
 
 // default escodegen options

@@ -9,7 +9,7 @@ function getIdentifierSetOfInteraction(interaction) {
     case "InteractionSimple":
       return ((operator.parse(interaction.operator) === "Identifier") ?
         ([interaction]) :
-        (_.uniq(_.flatten(_.map(interaction.operand, getIdentifierSetOfInteraction)), false, serializer.serialize)));
+        (_.uniq(_.flatten(_.map(interaction.operand, getIdentifierSetOfInteraction)),false,serializer.serializeInteractionSimpleRow)));
     case "InteractionNative":
       return [];
     default:
@@ -19,8 +19,10 @@ function getIdentifierSetOfInteraction(interaction) {
 
 function reduceIdentifiers(interaction, identifierSet) {
   var ids;
-  if (identifierSet == undefined) {
+  if (identifierSet === undefined) {
     ids = getIdentifierSetOfInteraction(interaction);
+    // console.log("===============ids");
+    // console.log(ids);
   } else {
     ids = identifierSet;
   }
@@ -31,9 +33,8 @@ function reduceIdentifiers(interaction, identifierSet) {
           (operator.parse(interaction.operator) === "Identifier") ?
           ({
             type: 'InteractionSimple',
-            operator: "variable" + JSON.stringify(_.findIndex(ids, function(x) {
-              return interactions.compare(interaction, x) === 0;
-            })),
+            operator: "variable" + _.findIndex(ids, (x)=>
+              (serializer.serializeInteractionSimpleRow(interaction) === serializer.serializeInteractionSimpleRow(x))),
             operand: []
           }) :
           ({

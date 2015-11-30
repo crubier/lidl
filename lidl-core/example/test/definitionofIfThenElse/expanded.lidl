@@ -1,0 +1,26 @@
+(
+  (variable0)
+  withbehaviour
+  (
+    (variable1)
+    withbehaviour
+    (
+      apply
+      (functionwhenThenElse)
+      to
+      (
+        {cond:
+        (
+          (variable2)
+          withbehaviour
+          (apply(functionisEqual)to({a:(t),b:(1)})andget(variable2))
+        )
+        source:
+        (variable1)
+        }
+      )
+      andget
+      ({a:((variable0)=(3))b:((variable0)=(4))})
+    )
+  )
+)

@@ -127,48 +127,48 @@ var all = function(x) {
 ///////////////////////////////////////////////////////////////////////
 //Declaration of variables
 
-var edge_4714 = inactive;
-var edge_4716 = inactive;
-var edge_4724 = inactive;
-var edge_4726 = inactive;
-var edge_4730 = inactive;
-var edge_4731 = inactive;
-var edge_4732 = inactive;
-var edge_4733 = inactive;
-var edge_4735 = inactive;
-var edge_4736 = inactive;
-var edge_4737 = inactive;
+var edge_3705 = inactive;
+var edge_3707 = inactive;
+var edge_3715 = inactive;
+var edge_3717 = inactive;
+var edge_3721 = inactive;
+var edge_3722 = inactive;
+var edge_3723 = inactive;
+var edge_3724 = inactive;
+var edge_3726 = inactive;
+var edge_3727 = inactive;
+var edge_3728 = inactive;
 ///////////////////////////////////////////////////////////////////////
 //Code of the DAG
 
-edge_4714 = addition;
+edge_3705 = addition;
 
-edge_4730 = active;
+edge_3721 = active;
 
-edge_4731 = edge_4730;
-edge_4732 = edge_4730;
-edge_4733 = edge_4730;
+edge_3722 = edge_3721;
+edge_3723 = edge_3721;
+edge_3724 = edge_3721;
 
-if(edge_4732 === active) {
-edge_4735 = previousState['state_4717'];
+if(edge_3723 === active) {
+edge_3726 = previousState['state_3708'];
 }
 
-edge_4736 = edge_4735;
-edge_4737 = edge_4735;
+edge_3727 = edge_3726;
+edge_3728 = edge_3726;
 
-edge_4726 = {};
-edge_4726['0'] = edge_4736;
-edge_4726['1'] = edge_4737;
+edge_3717 = {};
+edge_3717['0'] = edge_3727;
+edge_3717['1'] = edge_3728;
 
-if(edge_4731 === active && edge_4714!==null && edge_4714!==undefined) {edge_4716 = edge_4714(edge_4726);}
+if(edge_3722 === active && edge_3705!==null && edge_3705!==undefined) {edge_3707 = edge_3705(edge_3717);}
 
-edge_4724=theArgs.a;
+edge_3715=theArgs.a;
 
-if(edge_4733 === active) {
-nextState['state_4717'] = edge_4724;
+if(edge_3724 === active) {
+nextState['state_3708'] = edge_3715;
 }
 
-theInterface=edge_4716;
+theInterface=edge_3707;
 
 ///////////////////////////////////////////////////////////////////////
 //Return statement
@@ -185,7 +185,7 @@ theInterface=edge_4716;
 function initializationFunction(data){
 return {
       memo: {},
-      state: {state_4717:null},
+      state: {state_3708:null},
       args: {},
       inter: {}
     };

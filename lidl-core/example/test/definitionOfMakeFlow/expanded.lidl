@@ -56,7 +56,7 @@
                 a:
                 (1)
                 b:
-                ((variable10)withbehaviour(get(variable10)frompreviousandset(variable1)fornext))
+                ((variable8)withbehaviour(get(variable8)frompreviousandset(variable1)fornext))
                 }
               )
               andget

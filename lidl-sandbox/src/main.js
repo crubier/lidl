@@ -147,7 +147,7 @@ export default class Main extends Component {
           <AccordionItem title={"Analysis"} key={6}><Analysis expandedLidlAst={this.state.expandedLidlAst} expandedLidl={this.state.expandedLidl}/></AccordionItem>,
           <AccordionItem title={"Graph"} key={7}><Graph graph={this.state.displayGraph}/></AccordionItem>,
           <AccordionItem title={"Generated code viewer"} key={8}><GeneratedCodeViewer value={this.state.cleanJs}/></AccordionItem>,
-          <AccordionItem title={"Trace viewer"} key={9}><TraceViewer value={this.state.trace}/></AccordionItem>,
+          <AccordionItem title={"Trace viewer"} key={9}><TraceViewer traceAst={this.state.traceAst} value={this.state.trace}/></AccordionItem>,
           <AccordionItem title={"Canvas"} key={10}><Canvas/></AccordionItem>
       ]}
       </Accordion>

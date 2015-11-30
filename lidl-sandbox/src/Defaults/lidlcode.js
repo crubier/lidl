@@ -1,12 +1,7 @@
 export default
 `interaction
-  (bob):{theNumber:Number in,theResult:Number out}
+  (button):{theNumber:Number in,theResult:Number out}
 with
-
-  interaction
-    ((a:Number out)=(b:Number in)):Activation in
-  is
-    (apply (function identity) to (b) and get (a))
 
   interaction
     (previous (x:Number in)):Number out
@@ -63,21 +58,7 @@ with
   is
     ( not ( (previous(1) ) is active ) )
 
-  interaction
-    (if (cond:Boolean in) then (a:Number in) else (b:Number in)):Number out
-  is
-  (
-    (variable result of if (cond) then (a) else (b))
-    with behaviour
-    (
-      apply
-      (function ifThenElse)
-      to
-      ({  cond:(cond)  a:(a)  b:(b)  })
-      and get
-      (variable result of if (cond) then (a) else (b))
-    )
-  )
+
 
   interaction
     (when (cond:Boolean in) then (a:Activation out) else (b:Activation out)):Activation in
@@ -94,6 +75,23 @@ with
         ({a:(a) b:(b)})
       )
     )
+
+    interaction
+      (if (cond:Boolean in) then (a:Number in) else (b:Number in)):Number out
+    is
+    (
+      (# result of if (cond) then (a) else (b))
+      with behaviour
+      (
+        when
+        (cond)
+        then
+        ((# result of if (cond) then (a) else (b)) = (a))
+        else
+        ((# result of if (cond) then (a) else (b)) = (b))
+      )
+    )
+
 
   interaction
     (all (a:Activation out) else (b:Activation out)):Activation in
