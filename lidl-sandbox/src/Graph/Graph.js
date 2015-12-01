@@ -16,6 +16,9 @@ export default class Graph extends Component {
 
   constructor(props){
     super(props);
+    let debounceDelay = 500;
+    this.resize = _.debounce(this.resize,debounceDelay);
+
   }
 
   static PropTypes = {
@@ -28,7 +31,7 @@ export default class Graph extends Component {
       edges: _.range(defConnectivity*defNumber).map((x)=>({from:Math.round(Math.random()*(defNumber-1)),to:Math.round(Math.random()*(defNumber-1)),labelFrom:"x",labelTo:"y",label:"5"}))
     },
     zoom:0.25,
-    dimensions:{width:800,height:800}
+    dimensions:{width:640,height:480}
   };
 
   state = {
@@ -97,13 +100,19 @@ export default class Graph extends Component {
     this.resize();
   }
 
+componentWillUnmount(){
+window.removeEventListener("resize", this.resize);
+}
+
   resize(){
-    this.setState({dimensions:{width:this.refs.theGraphDiv.offsetWidth,height:800}});
+    this.setState({dimensions:{width:this.refs.theGraphDiv.offsetWidth,height:this.state.dimensions.height}});
   }
 
   componentWillReceiveProps(nexProps) {
     let that = this;
-      that.setState({model: new Model(nexProps.graph)});
+      that.setState({model: new Model(nexProps.graph),view:{position:{x:this.props.dimensions.width/2/(this.props.zoom),y:this.props.dimensions.height/2/(this.props.zoom)},zoom:0.25},
+    mouseDown:{clientPosition:{x:0,y:0},viewPosition:{x:0,y:0}},
+    dragging:false});
         var graphlayoutInterval = setInterval(function(){
           if(that.state.model.step())clearInterval(graphlayoutInterval);
           that.setState({model:that.state.model});

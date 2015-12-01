@@ -172,7 +172,7 @@ let that= this;
           <AccordionItem title={"Lidl code analysis"} key={5}><Analysis expandedLidlAst={this.state.expandedLidlAst} expandedLidl={this.state.expandedLidl}/></AccordionItem>
           <AccordionItem title={"Graph"} key={6}><Graph graph={this.state.displayGraph}/></AccordionItem>
           <AccordionItem title={"Generated code viewer"} key={7}><GeneratedCodeViewer value={this.state.cleanJs}/></AccordionItem>
-          <AccordionItem title={"Trace viewer"} key={8}><TraceViewer traceAst={this.state.traceAst} /></AccordionItem>
+          <AccordionItem title={"Trace viewer"} key={8}><TraceViewer lidlAst={this.state.lidlAst} traceAst={this.state.traceAst} /></AccordionItem>
           <AccordionItem title={"Advanced Trace viewer"} key={9}><AdvancedTraceViewer value={this.state.trace}/></AccordionItem>
           <AccordionItem title={"Canvas"} key={10}><Canvas/></AccordionItem>
 
