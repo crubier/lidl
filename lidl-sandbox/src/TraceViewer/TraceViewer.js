@@ -5,7 +5,9 @@ import React, {
 from 'react';
 
 import Table from '../Table/Table';
+import _ from 'lodash';
 
+import CircularProgress  from 'material-ui/lib/circular-progress'
 
 export default class TraceViewer extends Component {
 
@@ -14,9 +16,15 @@ export default class TraceViewer extends Component {
   }
 
   render() {
-    if ( this.props.traceAst ===null) {
-      return  <div><p>Nothing yet</p></div>;
+    if ( this.props.traceAst ===null || this.props.traceAst.length <1 ) {
+      return  <div style={{textAlign:'center'}}><CircularProgress style={{margin:"20px"}} mode="indeterminate"  /></div>;
     } else  {
+
+
+
+
+
+
     return (<div style={{width:"100%"}}>
 
     <Table style={{width:"100%"}} columns={[

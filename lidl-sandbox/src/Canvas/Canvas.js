@@ -290,7 +290,7 @@ export default class Canvas extends Component {
 
   render() {
     return (
-        <div>
+        <div style={{textAlign:"center"}}>
           <canvas ref="iiicanvas" style={{'backgroundColor':'rgb(217, 217, 217)'}} contentEditable="true" tabIndex="1"  width={640} height={480} ></canvas>
         </div>
     );

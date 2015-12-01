@@ -142,17 +142,25 @@ export default class Main extends Component {
     w.postMessage({type:'Graph2Js',graph:this.state.graph,header:newCode});
   }
 
+  recompileAll() {
+    console.log("OKKK");
+    let newState = initialState;
+    newState.lidl = this.state.lidl;
+    newState.header = this.state.header;
+    newState.scenario = this.state.scenario;
+    this.setState(newState);
+    w.postMessage({type:'Lidl2LidlAst',lidl:this.state.lidl});
+    w.postMessage({type:'Scenario2ScenarioAst',scenario:this.state.scenario});
+  }
+
   render() {
-    this.snackbar =   <Snackbar
-        message={_.isNull(this.state.error)?"No error":this.state.error.message}
-        autoHideDuration={1000}
-        onActionTouchTap={this._handleAction}/>;
+let that= this;
     return (
 // <View layout={'row'}>
 <div>
 <AppBar
   title="Lidl Sandbox"
-  iconElementRight={<FlatButton label="Recompile All" />} />
+  iconElementRight={<FlatButton label="Recompile All" onClick={that.recompileAll.bind(that)} />} />
 
       <Accordion >
 

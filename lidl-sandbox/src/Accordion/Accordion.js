@@ -66,8 +66,8 @@ export class AccordionItem extends Component {
 
 
 
-      <Paper zDepth={this.state.expanded?4:0} style={{margin:(this.state.expanded?"10px":"0px")}}>
-      <h2 style={{color:this.state.muiTheme.appBar.textColor,backgroundColor:this.state.muiTheme.appBar.color,fontWeight:300,textAlign:"center",padding:"10px",cursor:"pointer"}} onClick={this.toggleExpanded.bind(this)}> {this.props.title} </h2>
+      <Paper zDepth={this.state.expanded?4:0} style={{backgroundColor:(this.state.expanded?"rgba(255, 255, 255, 1)":"rgba(255, 255, 255,0)"),margin:(this.state.expanded?"16px":"0px")}}>
+      <h2 style={{color:(this.state.expanded?this.state.muiTheme.appBar.textColor:"rgb(91, 91, 91)"),backgroundColor:(this.state.expanded?this.state.muiTheme.appBar.color:"rgba(255, 255, 255, 0)"),fontWeight:300,textAlign:"center",padding:"10px",cursor:"pointer"}} onClick={this.toggleExpanded.bind(this)}> {this.props.title} </h2>
       {this.state.expanded?this.props.children:""}
       </Paper>
 

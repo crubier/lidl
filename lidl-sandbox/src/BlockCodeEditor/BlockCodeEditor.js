@@ -8,6 +8,8 @@ import {DragDropContext}from 'react-dnd';
 import HTML5Backend from 'react-dnd-html5-backend';
 import Interaction from './Interaction';
 
+import CircularProgress  from 'material-ui/lib/circular-progress'
+
 import _ from 'lodash';
 import lidl from 'lidl-core';
 
@@ -63,7 +65,7 @@ class BlockCodeEditor extends Component {
     // console.log(this.props.value[0])
     // TODO here we render only the first interaction : this.state.code[0]
     if(this.props.lidlAst===null) {
-return <div><p>Nothing yet</p></div>;
+return  <div style={{textAlign:'center'}}><CircularProgress style={{margin:"20px"}} mode="indeterminate"  /></div>;
     }else
 {
 return (

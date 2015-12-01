@@ -7,9 +7,7 @@ import Model from './Model';
 
 import _ from 'lodash';
 
-// import Node from './Node';
-
-
+import CircularProgress  from 'material-ui/lib/circular-progress'
 
 const defNumber = 40;
 const defConnectivity = 1.;
@@ -35,6 +33,7 @@ export default class Graph extends Component {
 
   state = {
     model: new Model(this.props.graph),
+    dimensions:this.props.dimensions,
     view:{position:{x:this.props.dimensions.width/2/(this.props.zoom),y:this.props.dimensions.height/2/(this.props.zoom)},zoom:0.25},
     mouseDown:{clientPosition:{x:0,y:0},viewPosition:{x:0,y:0}},
     dragging:false
@@ -94,6 +93,12 @@ export default class Graph extends Component {
         that.setState({model:that.state.model});
 
       }, (1000.0)/(30.0));
+    window.addEventListener("resize", this.resize.bind(this), false);
+    this.resize();
+  }
+
+  resize(){
+    this.setState({dimensions:{width:this.refs.theGraphDiv.offsetWidth,height:800}});
   }
 
   componentWillReceiveProps(nexProps) {
@@ -104,14 +109,14 @@ export default class Graph extends Component {
           that.setState({model:that.state.model});
 
         }, (1000.0)/(30.0));
+    this.resize();
   }
 
   render() {
 
     if(this.state.model.physics === null) {
-        return <div><p>Nothing yet</p></div>;
-      } else
-{
+        return  <div ref={"theGraphDiv"} style={{textAlign:'center'}}><CircularProgress style={{margin:"20px"}} mode="indeterminate"  /></div>;
+      } else {
 
     let nodesPos = this.state.model.physics.state.current.position;
 
@@ -136,8 +141,8 @@ export default class Graph extends Component {
     ));
 
     return (
-      <div>
-      <svg ref={"theGraph"} width={this.props.dimensions.width} height={this.props.dimensions.height} style={{cursor: 'pointer',backgroundColor:"rgba(249, 249, 249, 1)"}} viewBox={"0 0 800 800"}
+      <div ref={"theGraphDiv"}>
+      <svg ref={"theGraph"} width={this.state.dimensions.width} height={this.state.dimensions.height} style={{cursor: 'pointer',backgroundColor:"rgba(249, 249, 249, 1)"}} viewBox={"0 0 "+this.state.dimensions.width+ " "+ this.state.dimensions.height}
  onWheel={this.onWheel.bind(this)} onMouseDown={this.onMouseDown.bind(this)}
  onMouseUp={this.onMouseUp.bind(this)} onMouseMove={this.onMouseMove.bind(this)}>
         <g transform={"scale("+this.state.view.zoom+") translate("+this.state.view.position.x+","+this.state.view.position.y+")"}>

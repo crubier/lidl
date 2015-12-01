@@ -7,6 +7,8 @@ from 'react';
 var brace  = require('brace');
 var AceEditor  = require('react-ace');
 
+import CircularProgress  from 'material-ui/lib/circular-progress'
+
 require('brace/mode/json');
 require('brace/theme/chrome');
 
@@ -18,7 +20,7 @@ export default class AdvancedTraceViewer extends Component {
 
   render() {
     if (this.props.value === null ) {
-      return  <div><p>Nothing yet</p></div>;
+      return  <div style={{textAlign:'center'}}><CircularProgress style={{margin:"20px"}} mode="indeterminate"  /></div>;
     } else  {
     return (<div style={{width:"100%"}}>
 

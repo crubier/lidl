@@ -5,6 +5,7 @@ import React, {
 from 'react';
 import lidl from 'lidl-core';
 import _ from 'lodash';
+import CircularProgress  from 'material-ui/lib/circular-progress'
 
 
 var brace  = require('brace');
@@ -74,7 +75,7 @@ export default class Analysis extends Component {
 
   render() {
     if(this.props.expandedLidlAst === null) {
-      return <div><p>Nothing yet</p></div>;
+      return  <div style={{textAlign:'center'}}><CircularProgress style={{margin:"20px"}} mode="indeterminate"  /></div>;
     } else {
       // console.log(this.props.expandedLidl);
       let interaction = this.props.expandedLidlAst.interaction

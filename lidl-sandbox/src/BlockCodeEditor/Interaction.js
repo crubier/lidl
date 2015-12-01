@@ -32,7 +32,7 @@ const style = {
   border: '0px solid rgba(0, 0, 0, 0.1)',
   margin: '1px',
   padding: '1px',
-  borderRadius: 'àpx',
+  borderRadius: '0px',
   verticalAlign: 'middle',
   userSelect: 'none'
 };

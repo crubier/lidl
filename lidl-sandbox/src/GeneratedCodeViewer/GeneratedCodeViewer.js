@@ -3,7 +3,7 @@ import React, {
   Component
 }
 from 'react';
-
+import CircularProgress  from 'material-ui/lib/circular-progress'
 
 var brace  = require('brace');
 var AceEditor  = require('react-ace');
@@ -21,7 +21,7 @@ export default class GeneratedCodeViewer extends Component {
 
   render() {
     if(this.props.value === null) {
-        return <div><p>Nothing yet</p></div>;
+        return  <div style={{textAlign:'center'}}><CircularProgress style={{margin:"20px"}} mode="indeterminate"  /></div>;
       } else {
     return (<div style={{width:"100%"}}>
     <AceEditor
