@@ -17,6 +17,11 @@ import GeneratedCodeViewer from './GeneratedCodeViewer/GeneratedCodeViewer';
 import TraceViewer from'./TraceViewer/TraceViewer';
 import AdvancedTraceViewer from'./AdvancedTraceViewer/AdvancedTraceViewer';
 
+
+import AppBar from 'material-ui/lib/app-bar'
+import FlatButton from 'material-ui/lib/flat-button'
+import Snackbar from 'material-ui/lib/snackbar'
+
 import _ from 'lodash';
 
 // import {Accordion,AccordionItem} from 'react-sanfona';
@@ -138,24 +143,31 @@ export default class Main extends Component {
   }
 
   render() {
+    this.snackbar =   <Snackbar
+        message={_.isNull(this.state.error)?"No error":this.state.error.message}
+        autoHideDuration={1000}
+        onActionTouchTap={this._handleAction}/>;
     return (
 // <View layout={'row'}>
 <div>
-  <button type={'button'}>Recompile all</button>
-      <Accordion allowMultiple={true} activeItems={[]}>
-        {[
-          <AccordionItem title={"Lidl code editor"} key={0}><CodeEditor value={this.state.lidl} onChange={this.lidlChanged.bind(this)}/></AccordionItem>,
-          <AccordionItem title={"Lidl visual code editor"} key={1}><BlockCodeEditor lidlAst={this.state.lidlAst} onChange={this.lidlAstChanged.bind(this)}/></AccordionItem>,
-          <AccordionItem title={"Scenario editor"} key={2}><ScenarioEditor value={this.state.scenario} onChange={this.scenarioChanged.bind(this)}/></AccordionItem>,
-          <AccordionItem title={"Custom Header editor"} key={3}><HeaderEditor value={this.state.header} onChange={this.headerChanged.bind(this)}/></AccordionItem>,
-          <AccordionItem title={"Errors"} key={4}><ErrorDisplay value={this.state.error}/></AccordionItem>,
-          <AccordionItem title={"Lidl code analysis"} key={5}><Analysis expandedLidlAst={this.state.expandedLidlAst} expandedLidl={this.state.expandedLidl}/></AccordionItem>,
-          <AccordionItem title={"Graph"} key={6}><Graph graph={this.state.displayGraph}/></AccordionItem>,
-          <AccordionItem title={"Generated code viewer"} key={7}><GeneratedCodeViewer value={this.state.cleanJs}/></AccordionItem>,
-          <AccordionItem title={"Trace viewer"} key={8}><TraceViewer traceAst={this.state.traceAst} /></AccordionItem>,
-          <AccordionItem title={"Advanced Trace viewer"} key={9}><AdvancedTraceViewer value={this.state.trace}/></AccordionItem>,
+<AppBar
+  title="Lidl Sandbox"
+  iconElementRight={<FlatButton label="Recompile All" />} />
+
+      <Accordion >
+
+          <AccordionItem title={"Lidl code editor"} key={0}><CodeEditor value={this.state.lidl} onChange={this.lidlChanged.bind(this)}/></AccordionItem>
+          <AccordionItem title={"Lidl visual code editor"} key={1}><BlockCodeEditor lidlAst={this.state.lidlAst} onChange={this.lidlAstChanged.bind(this)}/></AccordionItem>
+          <AccordionItem title={"Scenario editor"} key={2}><ScenarioEditor value={this.state.scenario} onChange={this.scenarioChanged.bind(this)}/></AccordionItem>
+          <AccordionItem title={"Custom Header editor"} key={3}><HeaderEditor value={this.state.header} onChange={this.headerChanged.bind(this)}/></AccordionItem>
+          <AccordionItem title={"Errors"} key={4}><ErrorDisplay value={this.state.error}/></AccordionItem>
+          <AccordionItem title={"Lidl code analysis"} key={5}><Analysis expandedLidlAst={this.state.expandedLidlAst} expandedLidl={this.state.expandedLidl}/></AccordionItem>
+          <AccordionItem title={"Graph"} key={6}><Graph graph={this.state.displayGraph}/></AccordionItem>
+          <AccordionItem title={"Generated code viewer"} key={7}><GeneratedCodeViewer value={this.state.cleanJs}/></AccordionItem>
+          <AccordionItem title={"Trace viewer"} key={8}><TraceViewer traceAst={this.state.traceAst} /></AccordionItem>
+          <AccordionItem title={"Advanced Trace viewer"} key={9}><AdvancedTraceViewer value={this.state.trace}/></AccordionItem>
           <AccordionItem title={"Canvas"} key={10}><Canvas/></AccordionItem>
-      ]}
+
       </Accordion>
 </div>
 //       <Accordion allowMultiple={true}>
