@@ -117,7 +117,7 @@ export default class Graph extends Component {
 
     let nodes = this.state.model.nodes.map((pt,n)=>(
       <g key={"n"+n}>
-        <circle cx={nodesPos[n][0]} cy={nodesPos[n][1]} r={20} fill={'rgba(230, 230, 230, 1)'} />
+        <circle cx={nodesPos[n][0]} cy={nodesPos[n][1]} r={20} fill={'rgba(209, 209, 209, 1)'} />
         <text x={nodesPos[n][0]} y={nodesPos[n][1]}  textAnchor={"middle"} style={{
       fontFamily: 'roboto',
       fontSize  : '10',
@@ -137,7 +137,7 @@ export default class Graph extends Component {
 
     return (
       <div>
-      <svg ref={"theGraph"} width={this.props.dimensions.width} height={this.props.dimensions.height} style={{cursor: 'pointer',backgroundColor:"#FFFFFF"}} viewBox={"0 0 800 800"}
+      <svg ref={"theGraph"} width={this.props.dimensions.width} height={this.props.dimensions.height} style={{cursor: 'pointer',backgroundColor:"rgba(249, 249, 249, 1)"}} viewBox={"0 0 800 800"}
  onWheel={this.onWheel.bind(this)} onMouseDown={this.onMouseDown.bind(this)}
  onMouseUp={this.onMouseUp.bind(this)} onMouseMove={this.onMouseMove.bind(this)}>
         <g transform={"scale("+this.state.view.zoom+") translate("+this.state.view.position.x+","+this.state.view.position.y+")"}>

@@ -11,6 +11,7 @@ import Paper from 'material-ui/lib/paper'
 import ThemeManager from 'material-ui/lib/styles/theme-manager'
 import DefaultRawTheme  from 'material-ui/lib/styles/raw-themes/light-raw-theme'
 
+import ColorManipulator from  'material-ui/lib/utils/color-manipulator'
 // import Card  from 'material-ui/lib/card/card';
 // import CardHeader from 'material-ui/lib/card/card-header';
 // import CardText from 'material-ui/lib/card/card-text';

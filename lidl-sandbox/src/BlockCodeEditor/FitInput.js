@@ -85,7 +85,7 @@ export default class FitInput extends Component {
         fontFamily: 'Roboto',
         fontWeight: '300',
         fontSize: '14px',
-        backgroundColor: ((_.trim(this.state.value) === "") ? 'rgba(0 , 0, 0, 0.05)' : 'rgba(0 , 0, 0, 0)'),
+        backgroundColor: 'rgba(0 , 0, 0, 0)', //((_.trim(this.state.value) === "") ? 'rgba(0 , 0, 0, 0.05)' : 'rgba(0 , 0, 0, 0)'),
         width: this.getWidth()
       }
     }
