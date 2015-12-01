@@ -1,44 +1,60 @@
 export default
 `[
   {
-    "args":  {},
+    "args":  {"z":null},
     "inter":  { "theNumber": null }
   },
   {
-    "args":  {},
+    "args":  {"z":0},
     "inter":  { "theNumber": null }
   },
   {
-    "args":  {},
-    "inter":  { "theNumber": 78 }
-  },
-  {
-    "args":  {},
+    "args":  {"z":null},
     "inter":  { "theNumber": null }
   },
   {
-    "args":  {},
-    "inter":  { "theNumber": 67}
+    "args":  {"z":0},
+    "inter":  { "theNumber": null }
   },
   {
-    "args":  {},
-    "inter":  { "theNumber": -4}
+    "args":  {"z":0},
+    "inter":  { "theNumber": 1 }
   },
   {
-    "args":  {},
+    "args":  {"z":0},
+    "inter":  { "theNumber": null }
+  },
+  {
+    "args":  {"z":0},
+    "inter":  { "theNumber": 2}
+  },
+  {
+    "args":  {"z":null},
+    "inter":  { "theNumber": 2}
+  },
+  {
+    "args":  {"z":0},
     "inter":  { "theNumber": null}
   },
   {
-    "args":  {},
+    "args":  {"z":0},
+    "inter":  { "theNumber": 3}
+  },
+  {
+    "args":  {"z":0},
     "inter":  { "theNumber": null}
   },
   {
-    "args":  {},
+    "args":  {"z":100},
+    "inter":  { "theNumber": null}
+  },
+  {
+    "args":  {"z":100},
     "inter":  { "theNumber": null }
   },
   {
-    "args":  {},
-    "inter":  { "theNumber": 42 }
+    "args":  {"z":100},
+    "inter":  { "theNumber": 4 }
   }
 ]
 `

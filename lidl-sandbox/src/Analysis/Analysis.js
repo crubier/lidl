@@ -84,6 +84,19 @@ export default class Analysis extends Component {
       var nbrCompositions = nbrOfCompositions(interaction);
       return (
         <div>
+<p> {
+          "Number of previous :" + nbrPrevious
+        } </p> <p> {
+          "Number of identifiers :" + nbrIdentifiers
+        } </p> <p> {
+          "Number of functions :" + nbrFunctions
+        } </p> <p> {
+          "Number of compositions :" + nbrCompositions
+        } </p> <p> {
+          "Number of variables :" + (nbrPrevious + nbrIdentifiers)
+        } </p> <p> {
+          "Total interactions :" + (nbrCompositions + nbrFunctions + nbrPrevious + nbrIdentifiers)
+        } </p>
         <p> {
                   "Expanded LIDL Code :"
                 } </p>
@@ -97,22 +110,11 @@ export default class Analysis extends Component {
                 showPrintMargin={false}
                 wrapEnabled={true}
                 showGutter={true}
+
                 editorProps={{$blockScrolling: true,$useWrapMode:true}}
               />
 
-<p> {
-          "Number of previous :" + nbrPrevious
-        } </p> <p> {
-          "Number of identifiers :" + nbrIdentifiers
-        } </p> <p> {
-          "Number of functions :" + nbrFunctions
-        } </p> <p> {
-          "Number of compositions :" + nbrCompositions
-        } </p> <p> {
-          "Number of variables :" + (nbrPrevious + nbrIdentifiers)
-        } </p> <p> {
-          "Total interactions :" + (nbrCompositions + nbrFunctions + nbrPrevious + nbrIdentifiers)
-        } </p> </div>
+</div>
       );
     }
 

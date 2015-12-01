@@ -59,7 +59,6 @@ export default class Graph extends Component {
 
   pageToElement(coord) {
     let rect=this.refs.theGraph.getBoundingClientRect();
-console.log();
     return {x:coord.x-rect.left-window.pageXOffset,y:coord.y-rect.top-window.pageYOffset};
   }
 
@@ -94,7 +93,17 @@ console.log();
         if(that.state.model.step())clearInterval(graphlayoutInterval);
         that.setState({model:that.state.model});
 
-      }, (1000.0)/(60.0));
+      }, (1000.0)/(30.0));
+  }
+
+  componentWillReceiveProps(nexProps) {
+    let that = this;
+      that.setState({model: new Model(nexProps.graph)});
+        var graphlayoutInterval = setInterval(function(){
+          if(that.state.model.step())clearInterval(graphlayoutInterval);
+          that.setState({model:that.state.model});
+
+        }, (1000.0)/(30.0));
   }
 
   render() {

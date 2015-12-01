@@ -6,9 +6,9 @@ class Graph {
 
 
   ///////////////////////////////////////////////////////////////////////////////
-  constructor(nodes,edges) {
-    this.nodes = nodes===undefined?[]:nodes;
-    this.edges = edges===undefined?[]:edges;
+  constructor(nodes, edges) {
+    this.nodes = nodes === undefined ? [] : nodes;
+    this.edges = edges === undefined ? [] : edges;
   }
 
 
@@ -135,10 +135,6 @@ class Graph {
     return _(result);
   }
 
-
-
-
-
   ///////////////////////////////////////////////////////////////////////////////
   // Get the inverse of an edge without mutating it
   inverse(edge) {
@@ -186,26 +182,182 @@ class Graph {
 
 
   ///////////////////////////////////////////////////////////////////////////////
-    // Export graph into the dot format to visualise them
-    toDotGeneric() {
-      var res = "digraph g{";
+  // Export graph into the dot format to visualise them
+  toDotGeneric() {
+    var res = "digraph g{";
 
-      var nodeTemplate2 = _.template('<%=id%> [shape=box, style=filled, color="0.66 0.1 1.0", fontname="Courier", label="<%=label%>" ]\n');
+    var nodeTemplate = _.template('<%=id%> [shape=box, style=filled, color="0.66 0.1 1.0", fontname="Courier", label="<%=label%>" ]\n');
 
-      this
-      .matchNodes({type: 'ast'})
-      .map(x=>({id:x.id,label:JSON.stringify(_.assign(x,{content:{operator:x.content.operator}})).replace(/\"/g,' ')}))
-      .forEach((x) => (res += nodeTemplate2(x)))
+    this
+      .matchNodes()
+      .map(x => ({
+        id: x.id,
+        label: JSON.stringify(_.assign(x, {
+          content: {
+            operator: x.content.operator
+          }
+        })).replace(/\"/g, ' ')
+      }))
+      .forEach((x) => (res += nodeTemplate(x)))
       .commit();
 
-      var edgeTemplate2 = _.template('<%=from.node.id%> -> <%=to.node.id%> [dir=forward, arrowHead=normal, fontname="Times-Italic", arrowsize=2, color="0.83 1.0 1.0", label="<%=id%>", headlabel="<%=to.index%>", taillabel="<%=from.index%>" ]\n');
+    var edgeTemplate = _.template('<%=from.node.id%> -> <%=to.node.id%> [dir=forward, arrowHead=normal, fontname="Times-Italic", arrowsize=2, color="0.83 1.0 1.0", label="<%=id%>", headlabel="<%=to.index%>", taillabel="<%=from.index%>" ]\n');
 
-      this.matchDirectedEdges({type: 'ast' }).forEach((x) => (res += edgeTemplate2(x))).commit();
+    this
+      .matchDirectedEdges()
+      .forEach((x) => (res += edgeTemplate(x)))
+      .commit();
 
 
-      res += ('}');
-      return res;
+    res += ('}');
+    return res;
+  }
+
+  ///////////////////////////////////////////////////////////////////////////////
+  // Export graph into the dot format to visualise them
+  toDotDef() {
+
+    var colors = {
+      Interaction: "#ffd1d1",
+      Definition: "#afe7ff",
+      SignatureOperand:"#2fffc7"
     }
+    var res = "digraph g{";
+
+    var definitionTemplate = _.template('<%=id%> [shape=ellipse, style=filled, color="<%=color%>", fontname="Times", label="<%=label%>" ]\n');
+
+    this
+      .matchNodes({
+        type: 'Definition'
+      })
+      .map(x => ({
+        id: x.id,
+        label: x.content.signature.operator,
+        color: colors[x.type]
+      }))
+      .forEach((x) => (res += definitionTemplate(x)))
+      .commit();
+
+    var interactionTemplate = _.template('<%=id%> [shape=ellipse, style=filled, color="<%=color%>", fontname="Times", label="<%=label%>" ]\n');
+
+    this
+      .matchNodes({
+        type: 'Interaction'
+      })
+      .map(x => ({
+        id: x.id,
+        label: x.content.operator,
+        color: colors[x.type]
+      }))
+      .forEach((x) => (res += interactionTemplate(x)))
+      .commit();
+
+    var signatureOperandTemplate = _.template('<%=id%> [shape=ellipse, style=filled, color="<%=color%>", fontname="Times", label="<%=label%>" ]\n');
+
+    this
+      .matchNodes({
+        type: 'SignatureOperand'
+      })
+      .map(x => ({
+        id: x.id,
+        label: x.content.name,
+        color: colors[x.type]
+      }))
+      .forEach((x) => (res += signatureOperandTemplate(x)))
+      .commit();
+
+
+
+    var interactionOperandTemplate = _.template('<%=from.node.id%> -> <%=to.node.id%> [dir=forward, arrowHead=normal, fontname="Times-Italic", arrowsize=1, color="#4e4e4e", label="<%=label%>" ]\n');
+    this
+      .matchDirectedEdges({
+        type: 'InteractionOperand'
+      })
+      .map(x => ({
+        id: x.id,
+        label: x.from.index,
+        from: x.from,
+        to: x.to
+      }))
+      .forEach((x) => (res += interactionOperandTemplate(x)))
+      .commit();
+
+    var definitionInteractionTemplate = _.template('<%=from.node.id%> -> <%=to.node.id%> [dir=forward, arrowHead=normal, fontname="Times-Italic", arrowsize=1, color="#f75353", label="<%=label%>" ]\n');
+    this
+      .matchDirectedEdges({
+        type: 'DefinitionInteraction'
+      })
+      .map(x => ({
+        id: x.id,
+        label: x.from.index,
+        from: x.from,
+        to: x.to
+      }))
+      .forEach((x) => (res += definitionInteractionTemplate(x)))
+      .commit();
+
+    var definitionSubInteractionTemplate = _.template('<%=from.node.id%> -> <%=to.node.id%> [dir=forward, arrowHead=normal, fontname="Times-Italic", arrowsize=1, color="#ffcccc", label="<%=label%>" ]\n');
+    this
+      .matchDirectedEdges({
+        type: 'DefinitionSubInteraction'
+      })
+      .map(x => ({
+        id: x.id,
+        label: "",
+        from: x.from,
+        to: x.to
+      }))
+      .forEach((x) => (res += definitionSubInteractionTemplate(x)))
+      .commit();
+
+      var signatureOperandEdgeTemplate = _.template('<%=from.node.id%> -> <%=to.node.id%> [dir=forward, arrowHead=normal, fontname="Times-Italic", arrowsize=1, color="#81ffdd", label="<%=label%>" ]\n');
+    this
+      .matchDirectedEdges({
+        type: 'SignatureOperand'
+      })
+      .map(x => ({
+        id: x.id,
+        label: x.from.index,
+        from: x.from,
+        to: x.to
+      }))
+      .forEach((x) => (res += signatureOperandEdgeTemplate(x)))
+      .commit();
+
+      var definitionDefinitionTemplate = _.template('<%=from.node.id%> -> <%=to.node.id%> [dir=forward, arrowHead=normal, fontname="Times-Italic", arrowsize=1, color="#81ddff", label="<%=label%>" ]\n');
+        this
+          .matchDirectedEdges({
+            type: 'DefinitionDefinition'
+          })
+          .map(x => ({
+            id: x.id,
+            label: x.from.index,
+            from: x.from,
+            to: x.to
+          }))
+          .forEach((x) => (res += definitionDefinitionTemplate(x)))
+          .commit();
+
+
+
+          var interactionDefinitionTemplate = _.template('<%=from.node.id%> -> <%=to.node.id%> [dir=forward, arrowHead=normal, fontname="Times-Italic", arrowsize=1, color="#e681ff", label="<%=label%>" ]\n');
+            this
+              .matchDirectedEdges({
+                type: 'InteractionDefinition'
+              })
+              .map(x => ({
+                id: x.id,
+                label: "",
+                from: x.from,
+                to: x.to
+              }))
+              .forEach((x) => (res += interactionDefinitionTemplate(x)))
+              .commit();
+
+
+    res += ('}');
+    return res;
+  }
 
   ///////////////////////////////////////////////////////////////////////////////
   // Export graph into the dot format to visualise them
@@ -230,42 +382,44 @@ class Graph {
       content: {
         type: 'InteractionNative'
       }
-    }).map(x=>_.assign(_.clone(x),{executionOrder : 0})).forEach((x) => (res += nodeTemplate2(x))).commit();
+    }).map(x => _.assign(_.clone(x), {
+      executionOrder: 0
+    })).forEach((x) => (res += nodeTemplate2(x))).commit();
 
 
     var edgeTemplate1 = _.template('<%=from.node.id%> -> <%=to.node.id%> [dir=none, arrowHead=none, fontname="Times-Italic", label="<%=id%>",  headlabel="<%=to.label%>", taillabel="<%=from.label%>" ]\n');
 
     this.matchUndirectedEdges({
-      type: 'ast'
-    })
-    // .map((x) => _.assign(x,{flabel:(x.from.compositionElementName )? (x.from.index + " " + x.from.compositionElementName) :  ("no"+x.from.index) ,tlabel:(x.to.compositionElementName) ? (x.to.index + " " + x.to.compositionElementName) : ("no"+x.to.index)}))
-    .map(x=>{
-      let res = _.clone(x);
-      res.to = _.clone(res.to);
-      // console.log(JSON.stringify(res.to.compositionElementName));
-      if(_.isUndefined(res.to.compositionElementName)){
-        if(_.isUndefined(res.to.coCompositionElementName)){
-          res.to.label = ""+res.to.index;
+        type: 'ast'
+      })
+      // .map((x) => _.assign(x,{flabel:(x.from.compositionElementName )? (x.from.index + " " + x.from.compositionElementName) :  ("no"+x.from.index) ,tlabel:(x.to.compositionElementName) ? (x.to.index + " " + x.to.compositionElementName) : ("no"+x.to.index)}))
+      .map(x => {
+        let res = _.clone(x);
+        res.to = _.clone(res.to);
+        // console.log(JSON.stringify(res.to.compositionElementName));
+        if (_.isUndefined(res.to.compositionElementName)) {
+          if (_.isUndefined(res.to.coCompositionElementName)) {
+            res.to.label = "" + res.to.index;
+          } else {
+            res.to.label = "co-" + res.to.coCompositionElementName;
+          }
         } else {
-          res.to.label = "co-"+res.to.coCompositionElementName;
+          res.to.label = "di-" + res.to.compositionElementName;
         }
-      } else {
-          res.to.label = "di-"+res.to.compositionElementName;
-      }
-      res.from = _.clone(res.from);
-      if(_.isUndefined(res.from.compositionElementName)){
-        if(_.isUndefined(res.from.coCompositionElementName)){
-          res.from.label = ""+res.from.index;
+        res.from = _.clone(res.from);
+        if (_.isUndefined(res.from.compositionElementName)) {
+          if (_.isUndefined(res.from.coCompositionElementName)) {
+            res.from.label = "" + res.from.index;
+          } else {
+            res.from.label = "co-" + res.from.coCompositionElementName;
+          }
         } else {
-          res.from.label = "co-"+res.from.coCompositionElementName;
+          res.from.label = "di-" + res.from.compositionElementName;
         }
-      } else {
-        res.from.label = "di-"+res.from.compositionElementName;
-      }
-      // console.log(res.from.label + "  "+res.to.label);
-      return res;
-    })
-    .forEach((x) => (res += edgeTemplate1(x))).commit();
+        // console.log(res.from.label + "  "+res.to.label);
+        return res;
+      })
+      .forEach((x) => (res += edgeTemplate1(x))).commit();
 
 
     var edgeTemplate2 = _.template('<%=from.node.id%> -> <%=to.node.id%> [dir=forward, arrowHead=normal, fontname="Times-Italic", arrowsize=2, color="#ff0000", label="<%=id%>", headlabel="<%=to.index%>", taillabel="<%=from.index%>" ]\n');
@@ -279,32 +433,32 @@ class Graph {
     return res;
   }
 
-toInternalDot() {
+  toInternalDot() {
     let nodeTemplate = _.template('');
     var res = "digraph g{";
 
     var nodeTemplate1 = _.template('<%=id%> [shape=ellipse, style=filled, color="#ffd1d1", label="<%=id%>\n<%=label%>" ]\n');
 
     this
-    .matchNodes()
-    .map(x=>{
+      .matchNodes()
+      .map(x => {
         let res = _.clone(x);
-// console.log('-----*****--------------');
-// console.log(x.port);
+        // console.log('-----*****--------------');
+        // console.log(x.port);
         // x.port = _.clone(x.port);
         // console.log(JSON.stringify(res.to.compositionElementName));
-        if(_.isUndefined(x.port.compositionElementName)){
-          if(_.isUndefined(x.port.coCompositionElementName)){
-            res.label = ""+x.port.index;
+        if (_.isUndefined(x.port.compositionElementName)) {
+          if (_.isUndefined(x.port.coCompositionElementName)) {
+            res.label = "" + x.port.index;
           } else {
-            res.label = "co-"+x.port.coCompositionElementName;
+            res.label = "co-" + x.port.coCompositionElementName;
           }
         } else {
-            res.label = "di-"+x.port.compositionElementName;
+          res.label = "di-" + x.port.compositionElementName;
         }
         return res;
       })
-    .forEach((x) => (res += nodeTemplate1(x))).commit();
+      .forEach((x) => (res += nodeTemplate1(x))).commit();
 
 
     var edgeTemplate1 = _.template('<%=from.node.id%> -> <%=to.node.id%> [dir=none, arrowHead=none, fontname="Times-Italic", label="<%=type%>" ]\n');

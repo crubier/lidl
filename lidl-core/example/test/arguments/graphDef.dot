@@ -1,0 +1,5 @@
+digraph g{node_178 [shape=ellipse, style=filled, color="#afe7ff", fontname="Times", label="bob$" ]
+node_184 [shape=ellipse, style=filled, color="#ffd1d1", fontname="Times", label="a" ]
+node_178 -> node_184 [dir=forward, arrowHead=normal, fontname="Times-Italic", arrowsize=1, color="#f75353", label="" ]
+node_178 -> node_184 [dir=forward, arrowHead=normal, fontname="Times-Italic", arrowsize=1, color="#ffcccc", label="" ]
+}

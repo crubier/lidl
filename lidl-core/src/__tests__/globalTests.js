@@ -34,8 +34,8 @@ describe('lidl compiler', function() {
     });
 
     describe('Compilation of file ' + file, function() {
-      console.log("====================================================");
-      console.log("Now compiling and testing " + file);
+      // console.log("====================================================");
+      // console.log("Now compiling and testing " + file);
 
       fs.writeFileSync(path.join(file,'expanded.lidl'), compiler.compileToIii(code), {
         encoding: 'utf8'
@@ -50,7 +50,7 @@ describe('lidl compiler', function() {
       fs.writeFileSync(path.join(file, 'graph1.dot'), graph1.toDot(), {encoding: 'utf8'});
       exec("dot " + path.join(file, 'graph1.dot') + " -o" +path.join(file, 'graph1.pdf')+ " -Tpdf", null);
 
-var graph2= compiler.compileToGraph(code,'Link Identifiers');
+      var graph2= compiler.compileToGraph(code,'Link Identifiers');
 
       fs.writeFileSync(path.join(file, 'graph2.dot'), graph2.toDot(), {encoding: 'utf8'});
       exec("dot " + path.join(file, 'graph2.dot') + " -o" +path.join(file, 'graph2.pdf')+ " -Tpdf", null);

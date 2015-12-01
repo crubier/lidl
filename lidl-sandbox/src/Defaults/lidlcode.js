@@ -1,6 +1,6 @@
 export default
 `interaction
-  (button):{theNumber:Number in,theResult:Number out}
+  (my interaction (z:Number in)):{theNumber:Number in,theResult:Number out}
 with
 
   interaction
@@ -58,7 +58,21 @@ with
   is
     ( not ( (previous(1) ) is active ) )
 
-
+  interaction
+    (if (cond:Boolean in) then (a:Number in) else (b:Number in)):Number out
+  is
+  (
+    (variable result of if (cond) then (a) else (b))
+    with behaviour
+    (
+      apply
+      (function ifThenElse)
+      to
+      ({  cond:(cond)  a:(a)  b:(b)  })
+      and get
+      (variable result of if (cond) then (a) else (b))
+    )
+  )
 
   interaction
     (when (cond:Boolean in) then (a:Activation out) else (b:Activation out)):Activation in
@@ -76,25 +90,8 @@ with
       )
     )
 
-    interaction
-      (if (cond:Boolean in) then (a:Number in) else (b:Number in)):Number out
-    is
-    (
-      (# result of if (cond) then (a) else (b))
-      with behaviour
-      (
-        when
-        (cond)
-        then
-        ((# result of if (cond) then (a) else (b)) = (a))
-        else
-        ((# result of if (cond) then (a) else (b)) = (b))
-      )
-    )
-
-
   interaction
-    (all (a:Activation out) else (b:Activation out)):Activation in
+    (all (a:Activation out) (b:Activation out)):Activation in
   is
     (
       (variable all (a) (b))
@@ -108,6 +105,21 @@ with
         ({a:(a) b:(b)})
       )
     )
+    interaction
+        (all (a:Activation out) (b:Activation out)  (c:Activation out)):Activation in
+      is
+        (
+          (variable all (a) (b) (c))
+          with behaviour
+          (
+            apply
+            (function all)
+            to
+            (variable all (a) (b) (c))
+            and get
+            ({a:(a) b:(b) c:(c)})
+          )
+        )
 
   interaction
     ( (a:Number in) fallback to (b:Number in)):Number out
@@ -144,12 +156,10 @@ is
   (
     ({
       theNumber:(new (variable theNumber))
-      theResult:(variable theNumber)
+      theResult:((variable theNumber)+(z))
     })
     with behaviour
-    (make (variable theNumber) flow initially from (1) )
+    (make (variable theNumber) flow initially from (0) )
   )
-
-
 
 `

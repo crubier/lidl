@@ -8,10 +8,17 @@
     // overflow:hidden;
  }
 
+user-select(n)
+  -webkit-user-select n
+  -moz-user-select n
+  -ms-user-select n
+  user-select n
+
+
 
 .react-sanfona-item-title {
   background-color:rgba(0, 0, 0, 0.07);
-  user-select:none;
+  user-select(none);
   font-size:100%;
   color:rgba(56, 56, 56, 1);
   font-weight:300;
@@ -19,7 +26,12 @@
   // border-bottom: 1px solid rgba(0, 0, 0, 0.21);
   // box-shadow:0px 0px 2px 0px rgba(0, 0, 0, 0.21);
   // margin-bottom:2px;
+  cursor:pointer;cursor:hand;
 }
+
+// .react-sanfona-item-title:hover {
+//   font-weight:500;
+// }
 
 .react-sanfona-item {
   // box-shadow:0px 0px 2px 0px rgba(0, 0, 0, 0.21);
@@ -29,6 +41,15 @@ table, th, td {
     // border: 1px solid black;
     border-collapse: collapse;
     font-weight:300;
+}
+
+tr {
+height:26px;
+min-height:26px;
+}
+
+tr:hover {
+background-color:rgba(0, 0, 0, 0.03);
 }
 
 th, td {

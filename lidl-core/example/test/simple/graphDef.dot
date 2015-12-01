@@ -1,0 +1,9 @@
+digraph g{node_2612 [shape=ellipse, style=filled, color="#afe7ff", fontname="Times", label="main" ]
+node_2622 [shape=ellipse, style=filled, color="#ffd1d1", fontname="Times", label="variablex" ]
+node_2626 [shape=ellipse, style=filled, color="#ffd1d1", fontname="Times", label="{theNumber:$theResult:$}" ]
+node_2626 -> node_2622 [dir=forward, arrowHead=normal, fontname="Times-Italic", arrowsize=1, color="#4e4e4e", label="1" ]
+node_2626 -> node_2622 [dir=forward, arrowHead=normal, fontname="Times-Italic", arrowsize=1, color="#4e4e4e", label="2" ]
+node_2612 -> node_2626 [dir=forward, arrowHead=normal, fontname="Times-Italic", arrowsize=1, color="#f75353", label="" ]
+node_2612 -> node_2622 [dir=forward, arrowHead=normal, fontname="Times-Italic", arrowsize=1, color="#ffcccc", label="" ]
+node_2612 -> node_2626 [dir=forward, arrowHead=normal, fontname="Times-Italic", arrowsize=1, color="#ffcccc", label="" ]
+}

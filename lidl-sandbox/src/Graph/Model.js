@@ -190,19 +190,20 @@ export default class Model {
 
     this.physics.state.t = this.physics.state.t+this.physics.dt;
 
-    // let max = 0.1;
-    // for (let i = 0; i < this.nodes.length; i++) {
-    //   max = Math.max(max, vec2.length(this.physics.state.current.velocity[i]));
-    // }
-    // // let newDt=(this.physics.targetVelocity)/(Math.max(max,this.physics.targetVelocity));
-    // // let dtAdjustTau = 100;
-    // // this.physics.dt = this.physics.dt*(1-(1)/(dtAdjustTau))+newDt*((1)/(dtAdjustTau));
-    // if(max<5) {
-    //   // console.log("Layoutcomplete");
-    //   return true;
-    // } else {
-    //   // console.log(this.physics.dt + " "+ max);
-    // }
+    let max = 0.1;
+    for (let i = 0; i < this.nodes.length; i++) {
+      max = Math.max(max, vec2.length(this.physics.state.current.velocity[i]));
+    }
+    // let newDt=(this.physics.targetVelocity)/(Math.max(max,this.physics.targetVelocity));
+    // let dtAdjustTau = 100;
+    // this.physics.dt = this.physics.dt*(1-(1)/(dtAdjustTau))+newDt*((1)/(dtAdjustTau));
+    if(max<5) {
+      // console.log("Layoutcomplete");
+      return true;
+    } else {
+      // console.log(this.physics.dt + " "+ max);
+      return false;
+    }
   }
 
 }

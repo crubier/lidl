@@ -54,6 +54,9 @@ function Lidl2Js(x,header) {
   return Graph2Js(Lidl2Graph(x));
 }
 
+function LidlAst2Graph(x){
+
+}
 
 
 
