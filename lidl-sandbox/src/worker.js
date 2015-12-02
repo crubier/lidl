@@ -3,7 +3,7 @@ var Lidl = l.compiler;
 var Graph = l.graph;
 var _ = require('lodash');
 var beautify = require('js-beautify').js_beautify;
-
+var viz = require('viz.js');
 
 module.exports = function(self) {
   self.addEventListener('message', function(ev) {
@@ -47,20 +47,18 @@ module.exports = function(self) {
           js: Lidl.Graph2Js(new Graph(m.graph.nodes, m.graph.edges), m.header)
         });
         break;
-      case 'Graph2DisplayGraph':
+      case 'LidlAst2DisplayGraph':
+        let graph= Lidl.LidlAst2Graph(m.lidlAst[0]).toDotDef();
+        // let g =  new Graph();
+        // g.addNode({type:'Definition',content:{signature:{operator:"OKKK"}}});
+        // let graph= g.toDotDef();
+        // let graph = "digraph g {a->b;}"
+        let rawres = viz(graph,{format:'svg',engine:'dot'});
+        let offset = rawres.search('<svg');
+        rawres = rawres.substring(offset);
         self.postMessage({
-          type: 'Graph2DisplayGraph',
-          displayGraph: {
-            nodes: [{
-              label: "A"
-            }, {
-              label: "B"
-            }],
-            edges: [{
-              from: 0,
-              to: 1
-            }]
-          }
+          type: 'LidlAst2DisplayGraph',
+          displayGraph: {__html:rawres}
         });
         break;
       case 'Js2CleanJs':

@@ -31,10 +31,13 @@ export function newExpand(ast){
   let graph = new Graph();
 
   let rootDefinitionNode = addDefinitionToGraph(graph,ast);
-
   addOperatorTypeAnnotation(graph);
   referentialTransparency(graph);
   linkInteractionsToDefinitions(graph);
+
+  computeDefinitionDependencies(graph);
+
+  // instantiateDefinitionInteraction(graph,rootDefinitionNode)
 
   return graph;
 }
@@ -56,7 +59,7 @@ function addOperatorTypeAnnotation(graph) {
 function addDefinitionToGraph(graph, definition) {
   let rootNode =
   graph
-  .addNode({type:'Definition',content: definition});
+  .addNode({type:'Definition',content: definition,instantiated:false});
 
   _(definition.definitions)
   .map(subDefinition=> addDefinitionToGraph(graph, subDefinition))
@@ -67,7 +70,7 @@ function addDefinitionToGraph(graph, definition) {
   .commit();
 
   _(definition.signature.operand)
-    .map(operand=> graph.addNode({type:'SignatureOperand',content:operand}))
+    .map(operand=> graph.addNode({type:'SignatureOperandElement',content:operand}))
     .forEach((operandNode, index) => {
       graph
       .addEdge({type:'SignatureOperand',from:{node:rootNode,index:(index+1)},to:{node:operandNode,index:0}})
@@ -124,75 +127,6 @@ function findParentDefinition(graph,definitionNode) {
 }
 
 
-
-
-function linkInteractionsToDefinitions(graph) {
-  // Mark all nodes as not having a definition
-  graph
-  .matchNodes({type:'Interaction',content:{type:'InteractionSimple',operatorType:'Custom'}})
-  .forEach(theNode=>{theNode.hasDefinition=false;})
-  .commit();
-
-  graph
-  .reduceNodes({type:'Interaction',content:{type:'InteractionSimple',operatorType:'Custom'},hasDefinition:false},
-    (theResult,theNode)=>{
-
-    let edgeToParent =
-    graph
-    .findDirectedEdge({type:'DefinitionSubInteraction',to:{node:theNode}});
-
-
-    while( ! _.isUndefined(edgeToParent) ) {
-
-      let parentDef = edgeToParent.from.node;
-
-      // First case : Interaction definition is a child of current definition
-      let childDefs =
-      graph
-      .matchDirectedEdges({type:'DefinitionDefinition',from:{node:parentDef}})
-      .pluck("to.node")
-      .filter(defNode=>defNode.content.signature.operator === theNode.content.operator)
-      .value();
-      if(_.size(childDefs)>1) {
-        throw new Error('LIDL does not support polymorphism yet (for interaction operator ' + theNode.content.operator + ')');
-      } else if(_.size(childDefs) === 1) {
-        graph
-        .addEdge({type:'InteractionDefinition',from:{node:theNode},to:{node:_.first(childDefs)}});
-        theNode.hasDefinition=true;
-        break;
-      }
-
-
-      // Second case : Interaction definition is an argument ( aka operand) of current definition
-      let argPos =
-      _(parentDef.content.signature.operand)
-      .pluck("name")
-      .indexOf(theNode.content.operator) + 1;
-      if(argPos > 0 ) {
-        let argNode =
-        graph
-        .findDirectedEdge({type:'SignatureOperand',from:{node:parentDef,index:argPos}})
-        .to.node;
-        graph
-        .addEdge({type:'InteractionDefinition',from:{node:theNode},to:{node:argNode}});
-        theNode.hasDefinition=true;
-        break;
-      }
-
-      // Third case: Interaction is maybe defined in a parent definition
-      edgeToParent =
-      graph
-      .findDirectedEdge({type:'DefinitionDefinition',to:{node:parentDef}});
-
-    }
-
-    if(! theNode.hasDefinition) {
-      throw new Error ('Could not find definition for interaction with operator '+theNode.content.operator);
-    }
-
-  });
-
-}
 
 
 
@@ -332,24 +266,319 @@ function referentialTransparency(graph) {
 
 
 
+function linkInteractionsToDefinitions(graph) {
+  // Mark all nodes as not having a definition
+  graph
+  .matchNodes({type:'Interaction',content:{type:'InteractionSimple'}})
+  .forEach(theNode=>{
+    if(theNode.content.operatorType === 'Custom') {
+      theNode.hasDefinition=false;
+    } else {
+      theNode.hasDefinition=true;
+      theNode.isArgument = false;
+      theNode.isCustom = false;
+      theNode.isBase = true;
+    }
+  })
+  .commit();
+
+  graph
+  .reduceNodes({type:'Interaction',content:{type:'InteractionSimple',operatorType:'Custom'},hasDefinition:false},
+    (theResult,theNode)=>{
+
+    let edgeToParent =
+    graph
+    .findDirectedEdge({type:'DefinitionSubInteraction',to:{node:theNode}});
+
+    while( ! _.isUndefined(edgeToParent) ) {
+
+      let parentDef = edgeToParent.from.node;
+
+      // First case : Interaction definition is a child of current definition
+      let childDefs =
+      graph
+      .matchDirectedEdges({type:'DefinitionDefinition',from:{node:parentDef}})
+      .pluck("to.node")
+      .filter(defNode=>defNode.content.signature.operator === theNode.content.operator)
+      .value();
+      if(_.size(childDefs)>1) {
+        throw new Error('LIDL does not support polymorphism yet (for interaction operator ' + theNode.content.operator + ')');
+      } else if(_.size(childDefs) === 1) {
+        graph
+        .addEdge({type:'InteractionDefinition',from:{node:theNode},to:{node:_.first(childDefs)}});
+        theNode.hasDefinition=true;
+        theNode.isArgument = false;
+        theNode.isCustom = true;
+        theNode.isBase = false;
+        break;
+      }
 
 
+      // Second case : Interaction definition is an argument ( aka operand) of current definition
+      let argPos =
+      _(parentDef.content.signature.operand)
+      .pluck("name")
+      .indexOf(theNode.content.operator) + 1;
+      if(argPos > 0 ) {
+        let argNode =
+        graph
+        .findDirectedEdge({type:'SignatureOperand',from:{node:parentDef,index:argPos}})
+        .to.node;
+        graph
+        .addEdge({type:'InteractionDefinition',from:{node:theNode},to:{node:argNode}});
+        theNode.hasDefinition=true;
+        theNode.isArgument = true;
+        theNode.isCustom = false;
+        theNode.isBase = false;
+        break;
+      }
 
+      // Third case: Interaction is maybe defined in a parent definition
+      edgeToParent =
+      graph
+      .findDirectedEdge({type:'DefinitionDefinition',to:{node:parentDef}});
 
+    }
 
+    if(! theNode.hasDefinition) {
+      throw new Error ('Could not find definition for interaction with operator '+theNode.content.operator);
+    }
 
+  });
 
-
-
-function instantiateInteraction(graph,interactionNode) {
-
-
-  return instantiatedInteractionNode;
 }
 
 
 
 
+
+
+
+
+
+function computeDefinitionDependencies (graph) {
+  // First we create dependency links between definitions nodes
+  // For each definition
+  graph
+  .matchNodes({type: 'Definition'})
+  .forEach(defNode=>{
+    defNode.markedDuringDefinitionGraphOrdering = false;
+    // For each of its sub interactions
+    graph
+    .matchDirectedEdges({type:'DefinitionSubInteraction',from:{node:defNode},to:{node:{isCustom:true}}})
+    .pluck('to.node')
+    .forEach(subInteractionNode=>{
+      // Find the definition of this sub interaction
+      let subInteractionDefNode=
+      graph
+      .findDirectedEdge({type:'InteractionDefinition',from:{node:subInteractionNode}})
+      .to.node;
+
+      // Add a dependency from the definition to the definition of the sub interaction
+      if(_.isUndefined(graph.findDirectedEdge({type:'DefinitionDependency',from:{node:defNode},to:{node:subInteractionDefNode}}))){
+        graph
+        .addEdge({type:'DefinitionDependency',from:{node:defNode},to:{node:subInteractionDefNode}});
+      }
+    })
+    .commit();
+  })
+  .commit()
+
+  let orderingList = [];
+
+  // TODO Maybe we can only visit the root definition instead of all of them
+  // Then we create a graph ordering of all definition nodes according to the dependency relationship
+  graph
+  .reduceNodes({type:'Definition',markedDuringDefinitionGraphOrdering:false},
+  (theResult,theNode)=>{
+    visitDef(theNode);
+  });
+
+  function visitDef(n) {
+    if (n.temporarilyMarkedDuringDefinitionGraphOrdering === true) {
+      //TODO Add traceback to initial AST (change code everywhere in order to add traceability)
+      throw new Error ("the definition structure contains circular definitions");//+_(stack).concat([n]).map('id').join(" -> ");
+    } else {
+      if (n.markedDuringDefinitionGraphOrdering !== true) {
+        n.temporarilyMarkedDuringDefinitionGraphOrdering = true;
+        graph
+        .matchNodes(m=>
+          graph
+          .matchDirectedEdges({type: 'DefinitionDependency',from: {node:n},to: {node:m}})
+          .size() > 0)
+        .forEach(visitDef)
+        .commit();
+
+        n.markedDuringDefinitionGraphOrdering = true;
+        n.temporarilyMarkedDuringDefinitionGraphOrdering = false;
+        orderingList.unshift(n);
+      }
+    }
+
+  }
+
+
+
+// Finally, we expand all definitions, in order.
+  _(orderingList)
+  .reverse() // reverse the list in order to expand most basic interactions first
+  .forEach(defNode=>{
+    instantiateDefinitionInteraction(graph,defNode);
+  })
+  .commit();
+
+
+}
+
+
+
+
+
+
+// Here we expand the whole interaction expression of a definition
+function instantiateDefinitionInteraction(graph,definitionNode) {
+    console.log('=================== instantiate '+definitionNode.content.signature.operator);
+
+  // Find the root Interaction
+  let rootInteraction =
+  graph
+  .findDirectedEdge({type:'DefinitionInteraction',from:{node:definitionNode}})
+  .to.node;
+
+  // Mark all subinteractions as not visited
+  graph
+  .matchDirectedEdges({type:'DefinitionSubInteraction',from:{node:definitionNode}})
+  .forEach(edge=>{edge.to.node.markedDuringInteractionGraphOrdering = false;})
+  .commit()
+
+
+
+  let orderingList = [];
+
+  // Then we create a graph ordering of all interaction nodes according to the dependency relationship
+  // Find all sub interactions of the current definition
+  graph
+  .reduceDirectedEdges({type:'DefinitionSubInteraction',from:{node:definitionNode},to:{node:{markedDuringInteractionGraphOrdering:false}}},
+  (theResult,theEdge)=>{
+    visitInteraction(theEdge.to.node);
+  });
+
+  function visitInteraction(n) {
+    if (n.temporarilyMarkedDuringInteractionGraphOrdering === true) {
+      //TODO Add traceback to initial AST (change code everywhere in order to add traceability)
+      throw new Error ("The interaction structure contains cycles");//+_(stack).concat([n]).map('id').join(" -> ");
+    } else {
+      if (n.markedDuringInteractionGraphOrdering !== true) {
+        n.temporarilyMarkedDuringInteractionGraphOrdering = true;
+        graph
+        .matchNodes(m=>
+          graph
+          .matchDirectedEdges({type: 'InteractionOperand',from: {node:n},to: {node:m}})
+          .size() > 0)
+        .forEach(visitInteraction)
+        .commit();
+
+        n.markedDuringInteractionGraphOrdering = true;
+        n.temporarilyMarkedDuringInteractionGraphOrdering = false;
+        orderingList.unshift(n);
+      }
+    }
+
+  }
+
+
+  _(orderingList)
+  .reverse() // reverse the list in order to expand most basic interactions first
+  .forEach(interNode=>{
+    // console.log(interNode.content.operator);
+    // instantiateDefinitionInteraction(graph,defNode);
+    instantiateInteraction(graph,interNode);
+  })
+  .commit();
+
+
+
+  // instantiateInteraction(graph,rootInteraction);
+  //
+  //
+  // definitionNode.instantiated = true;
+  //
+  // graph
+  // .reduceNodes({type:'Interaction',content:{type:'InteractionSimple',operatorType:'Custom'},hasDefinition:false},
+  //   (theResult,theNode)=>
+  //
+  // return instantiatedInteractionNode;
+}
+
+
+
+// Here we expand a single interaction node
+function instantiateInteraction(graph,interactionNode) {
+  // console.log(interactionNode.content.operator);
+
+  // First we get all the InteractionOperand Edges that go from and to this interaction
+  // The sub Interactions are already instantiated
+  let interactionoperandEdgesFrom =
+  graph
+  .matchDirectedEdges({type:'InteractionInstanceOperand',from:{node:interactionNode}})
+  .value();
+  // The super Interactions are not instantiated yet
+  let interactionoperandEdgesTo =
+  graph
+  .matchDirectedEdges({type:'InteractionOperand',to:{node:interactionNode}})
+  .value();
+
+  if (interactionNode.isBase) {
+    console.log("BAS "+interactionNode.content.operator);
+    // Base interaction, we just instantiate it and link it
+
+    // So first we create the instance
+    let newNode =
+    graph
+    .addNode({type:'InteractionInstance',content:interactionNode.content});
+
+    // Then we link the instance
+
+    // First to the sub Interactions (which are already instantiated)
+    _(interactionoperandEdgesFrom)
+    .forEach(edge=>{
+      graph
+      .addEdge({type:'InteractionInstanceOperand',from:{node:newNode},to:edge.to})
+      })
+    .commit();
+
+    // Then to the super Interactions (which are not instantiated)
+    _(interactionoperandEdgesTo)
+    .forEach(edge=>{
+      graph
+      .addEdge({type:'InteractionInstanceOperand',to:{node:newNode},from:edge.from})
+      })
+    .commit();
+
+    // interactionNode.instantiated = true;
+    return newNode;
+  } else if (interactionNode.isCustom) {
+console.log("CUS "+interactionNode.content.operator);
+
+    // let defNode =
+    // graph
+    // .findDirectedEdge({type: 'InteractionDefinition',from:{node:interactionNode}})
+    // .to.node;
+    //
+    // if(defNode.instantiated !== true) {
+    //   instantiateDefinitionInteraction(graph,defNode);
+    // }
+
+
+
+  } else if (interactionNode.isArgument) {
+console.log("ARG "+interactionNode.content.operator);
+
+  } else {
+    throw new Error ('Could not instantiate interaction '+interactionNode.content.operator+ " "+interactionNode.id+ " because it is not an argument, a base interaction or a custom defined interaction");
+  }
+
+}
 
 
 

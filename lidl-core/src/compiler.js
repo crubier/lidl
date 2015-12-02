@@ -10,7 +10,6 @@ var _ = require('lodash');
 var compilationResult = require('./compilerExampleResult.js');
 var sat = require('./satSolver.js');
 var Graph = require('./g.js');
-
 var gexport = require('./gExport.js');
 
 
@@ -54,10 +53,9 @@ function Lidl2Js(x,header) {
   return Graph2Js(Lidl2Graph(x));
 }
 
-function LidlAst2Graph(x){
-
+function LidlAst2Graph(x,upto) {
+  return definitions.newExpand(x,upto);
 }
-
 
 
 
@@ -1895,7 +1893,7 @@ module.exports.compileToGraph = Lidl2Graph;
 
 
 
-
+module.exports. LidlAst2Graph =LidlAst2Graph;
 module.exports. Lidl2LidlAst    = Lidl2LidlAst   ;
 module.exports.  LidlAst2Lidl   = LidlAst2Lidl   ;
 module.exports.   LidlAst2ExpandedLidlAst  =  LidlAst2ExpandedLidlAst  ;

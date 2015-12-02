@@ -1,60 +1,16 @@
 export default
 `[
   {
-    "args":  {"z":null},
-    "inter":  { "theNumber": null }
+    "args":  {"a":1},
+    "inter":  null
   },
   {
-    "args":  {"z":0},
-    "inter":  { "theNumber": null }
+    "args":  {"a":2},
+    "inter":  null
   },
   {
-    "args":  {"z":null},
-    "inter":  { "theNumber": null }
-  },
-  {
-    "args":  {"z":0},
-    "inter":  { "theNumber": null }
-  },
-  {
-    "args":  {"z":0},
-    "inter":  { "theNumber": 1 }
-  },
-  {
-    "args":  {"z":0},
-    "inter":  { "theNumber": null }
-  },
-  {
-    "args":  {"z":0},
-    "inter":  { "theNumber": 2}
-  },
-  {
-    "args":  {"z":null},
-    "inter":  { "theNumber": 2}
-  },
-  {
-    "args":  {"z":0},
-    "inter":  { "theNumber": null}
-  },
-  {
-    "args":  {"z":0},
-    "inter":  { "theNumber": 3}
-  },
-  {
-    "args":  {"z":0},
-    "inter":  { "theNumber": null}
-  },
-  {
-    "args":  {"z":100},
-    "inter":  { "theNumber": null}
-  },
-  {
-    "args":  {"z":100},
-    "inter":  { "theNumber": null }
-  },
-  {
-    "args":  {"z":100},
-    "inter":  { "theNumber": 4 }
+    "args":  {"a":3},
+    "inter":  null
   }
 ]
 `

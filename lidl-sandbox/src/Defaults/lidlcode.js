@@ -1,16 +1,7 @@
 export default
 `interaction
-  (my interaction (z:Number in)):{theNumber:Number in,theResult:Number out}
+ (test (a:Number in)):Number out
 with
-
-  interaction
-    (previous (x:Number in)):Number out
-  is
-    (
-      (variable previous(x))
-      with behaviour
-      (get(variable previous(x))from previous and set (x) for next)
-    )
 
   interaction
     ((a:Number in)==(b:Number in)):Boolean out
@@ -20,59 +11,6 @@ with
       with behaviour
       (apply (function isEqual) to ({a:(a),b:(b)}) and get (variable result of (a)==(b)) )
     )
-
-  interaction
-    (not(a:Boolean in)):Boolean out
-  is
-    (
-      (variable not (a))
-      with behaviour
-      (apply (function boolNot) to (a) and get (variable not (a)) )
-    )
-
-  interaction
-    ((a:Number in) is active):Boolean out
-  is
-    (
-      (variable  (a) is active)
-      with behaviour
-      (apply (function isActive) to (a) and get (variable  (a) is active) )
-    )
-
-  interaction
-    (1):Number out
-  is
-    ((variable the number 1) with behaviour (apply (function return1) to (variable nothing) and get (variable the number 1)   ))
-
-  interaction
-    ((a:Number in)+(b:Number in)):Number out
-  is
-    (
-      (variable result of (a)+(b))
-      with behaviour
-      (apply(function addition)to ({0:(a)1:(b)}) and get (variable result of (a)+(b)))
-    )
-
-  interaction
-    (init):Boolean out
-  is
-    ( not ( (previous(1) ) is active ) )
-
-  interaction
-    (if (cond:Boolean in) then (a:Number in) else (b:Number in)):Number out
-  is
-  (
-    (variable result of if (cond) then (a) else (b))
-    with behaviour
-    (
-      apply
-      (function ifThenElse)
-      to
-      ({  cond:(cond)  a:(a)  b:(b)  })
-      and get
-      (variable result of if (cond) then (a) else (b))
-    )
-  )
 
   interaction
     (when (cond:Boolean in) then (a:Activation out) else (b:Activation out)):Activation in
@@ -90,76 +28,23 @@ with
       )
     )
 
-  interaction
-    (all (a:Activation out) (b:Activation out)):Activation in
-  is
+    interaction
+      (if (cond:Boolean in) then (a:Number in) else (b:Number in)):Number out
+    is
     (
-      (variable all (a) (b))
+      (variable result of if (cond) then (a) else (b))
       with behaviour
       (
-        apply
-        (function all)
-        to
-        (variable all (a) (b))
-        and get
-        ({a:(a) b:(b)})
+        when
+        (cond)
+        then
+        ((variable result of if (cond) then (a) else (b)) = (a))
+        else
+        ((variable result of if (cond) then (a) else (b)) = (b))
       )
     )
-    interaction
-        (all (a:Activation out) (b:Activation out)  (c:Activation out)):Activation in
-      is
-        (
-          (variable all (a) (b) (c))
-          with behaviour
-          (
-            apply
-            (function all)
-            to
-            (variable all (a) (b) (c))
-            and get
-            ({a:(a) b:(b) c:(c)})
-          )
-        )
-
-  interaction
-    ( (a:Number in) fallback to (b:Number in)):Number out
-  is
-    (
-      if ((a) is active)
-      then (a)
-      else (b)
-    )
-
-  interaction
-    ( (a:Number in) fallback to (b:Number in) fallback to (c:Number in)):Number out
-  is
-    (((a) fallback to (b)) fallback to (c))
-
-  interaction
-    (new (x:Number in)):Number in
-  is
-    (variable new (x))
-
-
-
-
-  interaction
-    (make (x:Number out) flow initially from (y:Number in)):Activation in
-  is
-    ( (x)  =   (  (new (x)) fallback to  (if (init) then (y) else (previous (x)) ) ) )
-
-
-
-
 
 is
-  (
-    ({
-      theNumber:(new (variable theNumber))
-      theResult:((variable theNumber)+(z))
-    })
-    with behaviour
-    (make (variable theNumber) flow initially from (0) )
-  )
+  (if((a)==(1))then(3)else(4))
 
 `

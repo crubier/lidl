@@ -9,7 +9,7 @@ var exec = require('child_process').exec;
 
 describe('lidl compiler', function() {
 
-  var exampleTestPath = 'example/test';
+  var exampleTestPath = 'example/xtest';
   var commonHeader = path.join(exampleTestPath, 'common.lidl.js');
 
   _.forEach(fs.readdirSync(exampleTestPath), function(x) {

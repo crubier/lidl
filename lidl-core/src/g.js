@@ -183,6 +183,7 @@ class Graph {
 
   ///////////////////////////////////////////////////////////////////////////////
   // Export graph into the dot format to visualise them
+//TODO use toDotWithParamaters
   toDotGeneric() {
     var res = "digraph g{";
 
@@ -213,154 +214,80 @@ class Graph {
     return res;
   }
 
-  ///////////////////////////////////////////////////////////////////////////////
-  // Export graph into the dot format to visualise them
-  toDotDef() {
+  toDotWithParamaters(def){
+    var nodeDefaults = {shape:'ellipse',style:'filled',color:'#b0b0b0',fontname:"Times",label:'Node'};
+    var edgeDefaults = {arrowsize:1,arrowHead:'normal',color:'#333333',fontname:"Times-Italic",label:'Edge',headlabel:'',taillabel:''};
 
-    var colors = {
-      Interaction: "#ffd1d1",
-      Definition: "#afe7ff",
-      SignatureOperand:"#2fffc7"
-    }
-    var res = "digraph g{";
-
-    var definitionTemplate = _.template('<%=id%> [shape=ellipse, style=filled, color="<%=color%>", fontname="Times", label="<%=label%>" ]\n');
-
-    this
-      .matchNodes({
-        type: 'Definition'
-      })
-      .map(x => ({
-        id: x.id,
-        label: x.content.signature.operator,
-        color: colors[x.type]
-      }))
-      .forEach((x) => (res += definitionTemplate(x)))
-      .commit();
-
-    var interactionTemplate = _.template('<%=id%> [shape=ellipse, style=filled, color="<%=color%>", fontname="Times", label="<%=label%>" ]\n');
-
-    this
-      .matchNodes({
-        type: 'Interaction'
-      })
-      .map(x => ({
-        id: x.id,
-        label: x.content.operator,
-        color: colors[x.type]
-      }))
-      .forEach((x) => (res += interactionTemplate(x)))
-      .commit();
-
-    var signatureOperandTemplate = _.template('<%=id%> [shape=ellipse, style=filled, color="<%=color%>", fontname="Times", label="<%=label%>" ]\n');
-
-    this
-      .matchNodes({
-        type: 'SignatureOperand'
-      })
-      .map(x => ({
-        id: x.id,
-        label: x.content.name,
-        color: colors[x.type]
-      }))
-      .forEach((x) => (res += signatureOperandTemplate(x)))
-      .commit();
+    var nodeTemplate = _.template('<%=id%> [shape="<%=shape%>", style="<%=style%>", color="<%=color%>", fontname="<%=fontname%>", label="<%=label%>" ]\n');
+    var directedEdgeTemplate = _.template('<%=from.node.id%> -> <%=to.node.id%> [dir=forward, arrowHead=normal, fontname="<%=fontname%>", arrowsize=<%=arrowsize%>, color="<%=color%>", label="<%=label%>",  headlabel="<%=headlabel%>", taillabel="<%=taillabel%>" ]\n');
+    var undirectedEdgeTemplate = _.template('<%=from.node.id%> -> <%=to.node.id%> [dir=none, arrowHead=none, fontname="<%=fontname%>", arrowsize=<%=arrowsize%>, color="<%=color%>", label="<%=label%>",  headlabel="<%=headlabel%>", taillabel="<%=taillabel%>" ]\n');
 
 
+    var that = this;
 
-    var interactionOperandTemplate = _.template('<%=from.node.id%> -> <%=to.node.id%> [dir=forward, arrowHead=normal, fontname="Times-Italic", arrowsize=1, color="#4e4e4e", label="<%=label%>" ]\n');
-    this
-      .matchDirectedEdges({
-        type: 'InteractionOperand'
-      })
-      .map(x => ({
-        id: x.id,
-        label: x.from.index,
-        from: x.from,
-        to: x.to
-      }))
-      .forEach((x) => (res += interactionOperandTemplate(x)))
-      .commit();
+var res = "digraph g{";
 
-    var definitionInteractionTemplate = _.template('<%=from.node.id%> -> <%=to.node.id%> [dir=forward, arrowHead=normal, fontname="Times-Italic", arrowsize=1, color="#f75353", label="<%=label%>" ]\n');
-    this
-      .matchDirectedEdges({
-        type: 'DefinitionInteraction'
-      })
-      .map(x => ({
-        id: x.id,
-        label: x.from.index,
-        from: x.from,
-        to: x.to
-      }))
-      .forEach((x) => (res += definitionInteractionTemplate(x)))
-      .commit();
+_(def.nodes)
+.forEach((desc,key)=>{
+  that
+  .matchNodes({type: key})
+  .map(x=>_.assign(_.clone(nodeDefaults),{id:x.id,color:desc.color},desc.transform(x)))
+  .forEach((x) => {res += nodeTemplate(x);})
+  .commit();
+})
+.commit();
 
-    var definitionSubInteractionTemplate = _.template('<%=from.node.id%> -> <%=to.node.id%> [dir=forward, arrowHead=normal, fontname="Times-Italic", arrowsize=1, color="#ffcccc", label="<%=label%>" ]\n');
-    this
-      .matchDirectedEdges({
-        type: 'DefinitionSubInteraction'
-      })
-      .map(x => ({
-        id: x.id,
-        label: "",
-        from: x.from,
-        to: x.to
-      }))
-      .forEach((x) => (res += definitionSubInteractionTemplate(x)))
-      .commit();
+_(def.directedEdges)
+.forEach((desc,key)=>{
+  that
+  .matchDirectedEdges({type: key})
+  .map(x=>_.assign(_.clone(edgeDefaults),{id:x.id,color:desc.color,from:x.from,to:x.to},desc.transform(x)))
+  .forEach((x) => {res += directedEdgeTemplate(x);})
+  .commit();
+})
+.commit();
 
-      var signatureOperandEdgeTemplate = _.template('<%=from.node.id%> -> <%=to.node.id%> [dir=forward, arrowHead=normal, fontname="Times-Italic", arrowsize=1, color="#81ffdd", label="<%=label%>" ]\n');
-    this
-      .matchDirectedEdges({
-        type: 'SignatureOperand'
-      })
-      .map(x => ({
-        id: x.id,
-        label: x.from.index,
-        from: x.from,
-        to: x.to
-      }))
-      .forEach((x) => (res += signatureOperandEdgeTemplate(x)))
-      .commit();
+_(def.undirectedEdges)
+.forEach((desc,key)=>{
+  that
+  .matchUndirectedEdges({type: key})
+  .map(x=>_.assign(_.clone(edgeDefaults),{id:x.id,color:desc.color,from:x.from,to:x.to},desc.transform(x)))
+  .forEach((x) => {res += undirectedEdgeTemplate(x);})
+  .commit();
+})
+.commit();
 
-      var definitionDefinitionTemplate = _.template('<%=from.node.id%> -> <%=to.node.id%> [dir=forward, arrowHead=normal, fontname="Times-Italic", arrowsize=1, color="#81ddff", label="<%=label%>" ]\n');
-        this
-          .matchDirectedEdges({
-            type: 'DefinitionDefinition'
-          })
-          .map(x => ({
-            id: x.id,
-            label: x.from.index,
-            from: x.from,
-            to: x.to
-          }))
-          .forEach((x) => (res += definitionDefinitionTemplate(x)))
-          .commit();
-
-
-
-          var interactionDefinitionTemplate = _.template('<%=from.node.id%> -> <%=to.node.id%> [dir=forward, arrowHead=normal, fontname="Times-Italic", arrowsize=1, color="#e681ff", label="<%=label%>" ]\n');
-            this
-              .matchDirectedEdges({
-                type: 'InteractionDefinition'
-              })
-              .map(x => ({
-                id: x.id,
-                label: "",
-                from: x.from,
-                to: x.to
-              }))
-              .forEach((x) => (res += interactionDefinitionTemplate(x)))
-              .commit();
-
-
-    res += ('}');
-    return res;
+res += ('}');
+return res;
   }
 
   ///////////////////////////////////////////////////////////////////////////////
   // Export graph into the dot format to visualise them
+  toDotDef() {
+    return this.toDotWithParamaters({
+      nodes:{
+        Interaction: {color:"#ffd1d1",transform:(x)=>({label: x.content.operator})},
+        InteractionInstance: {color:"#ffde2f",transform:(x)=>({label: x.content.operator})},
+        Definition: {color:"#afe7ff",transform:(x)=>({label: x.content.signature.operator})},
+        SignatureOperandElement: {color:"#2fffc7",transform:(x)=>({label: x.content.name})}
+      },
+      directedEdges:{
+        InteractionOperand: {color:"#d00000",transform:(x)=>({label: x.from.index})},
+        InteractionInstanceOperand: {color:"#9d8400",transform:(x)=>({label: x.from.index})},
+        DefinitionInteraction: {color:"#ff0000",transform:(x)=>({label: x.from.index})},
+        DefinitionSubInteraction: {color:"#ffd5d5",transform:(x)=>({label: ""})},
+        SignatureOperand: {color:"#2fffc7",transform:(x)=>({label: x.from.index})},
+        DefinitionDefinition: {color:"#81ddff",transform:(x)=>({label: x.from.index})},
+        InteractionDefinition: {color:"#e681ff",transform:(x)=>({label: ""})},
+        DefinitionDependency: {color:"#0040ff",transform:(x)=>({label: ""})}
+      },
+      undirectedEdges:{}
+    });
+  }
+
+  ///////////////////////////////////////////////////////////////////////////////
+  // Export graph into the dot format to visualise them
+  //TODO use toDotWithParamaters
   toDot() {
     let nodeTemplate = _.template('');
     var res = "digraph g{";
@@ -433,6 +360,7 @@ class Graph {
     return res;
   }
 
+//TODO use toDotWithParamaters
   toInternalDot() {
     let nodeTemplate = _.template('');
     var res = "digraph g{";

@@ -6,7 +6,7 @@ import ReactDOM from 'react-dom';
 
 import BlockCodeEditor from './BlockCodeEditor/BlockCodeEditor';
 import CodeEditor from './CodeEditor/CodeEditor';
-import Graph from './Graph/Graph';
+import Graphviz from './Graphviz/Graphviz';
 import View from './FlexContainer/FlexContainer';
 import ScenarioEditor from './ScenarioEditor/ScenarioEditor';
 import HeaderEditor from './HeaderEditor/HeaderEditor';
@@ -80,6 +80,7 @@ export default class Main extends Component {
                 console.log("Lidl2LidlAst");
                 that.setState({lidlAst:m.lidlAst});
                 w.postMessage({type:'LidlAst2ExpandedLidlAst',lidlAst:m.lidlAst});
+                w.postMessage({type:'LidlAst2DisplayGraph',lidlAst:m.lidlAst});
                 break;
               case 'LidlAst2ExpandedLidlAst':
                 console.log("LidlAst2ExpandedLidlAst");
@@ -95,10 +96,10 @@ export default class Main extends Component {
                 console.log("ExpandedLidlAst2Graph");
                 that.setState({graph:m.graph});
                 w.postMessage({type:'Graph2Js',graph:m.graph,header:that.state.header});
-                w.postMessage({type:'Graph2DisplayGraph',graph:m.graph});
                 break;
-              case 'Graph2DisplayGraph':
-                console.log("Graph2DisplayGraph");
+              case 'LidlAst2DisplayGraph':
+                console.log("LidlAst2DisplayGraph");
+                console.log(m.displayGraph.__html);
                 that.setState({displayGraph:m.displayGraph});
                 break;
               case 'Graph2Js':
@@ -267,7 +268,7 @@ let that= this;
           <AccordionItem title={"Custom Header editor"} key={3}><HeaderEditor value={this.state.header} onChange={this.headerChanged.bind(this)}/></AccordionItem>
           <AccordionItem title={"Errors"} key={4}><ErrorDisplay value={this.state.error}/></AccordionItem>
           <AccordionItem title={"Lidl code analysis"} key={5}><Analysis expandedLidlAst={this.state.expandedLidlAst} expandedLidl={this.state.expandedLidl}/></AccordionItem>
-          <AccordionItem title={"Graph"} key={6}><Graph graph={this.state.displayGraph}/></AccordionItem>
+          <AccordionItem title={"Graph"} key={6}><Graphviz displayGraph={this.state.displayGraph}/></AccordionItem>
           <AccordionItem title={"Generated code viewer"} key={7}><GeneratedCodeViewer value={this.state.cleanJs}/></AccordionItem>
           <AccordionItem title={"Trace viewer"} key={8}><TraceViewer lidlAst={this.state.lidlAst} traceAst={this.state.traceAst} /></AccordionItem>
           <AccordionItem title={"Advanced Trace viewer"} key={9}><AdvancedTraceViewer value={this.state.trace}/></AccordionItem>
