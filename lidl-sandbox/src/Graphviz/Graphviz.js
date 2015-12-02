@@ -16,7 +16,7 @@ export default class Graphviz extends Component {
     if ( this.props.displayGraph ===null ) {
       return  <div style={{textAlign:'center'}}><CircularProgress style={{margin:"20px"}} mode="indeterminate"  /></div>;
     } else  {
-      return (<div style={{textAlign:'center',width:"100%",overflow:'auto'}} dangerouslySetInnerHTML={this.props.displayGraph}/>);
+      return (<div style={{textAlign:'center',width:"100%",overflow:'none'}} dangerouslySetInnerHTML={this.props.displayGraph}/>);
     }
   }
 }

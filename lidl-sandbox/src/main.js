@@ -99,7 +99,6 @@ export default class Main extends Component {
                 break;
               case 'LidlAst2DisplayGraph':
                 console.log("LidlAst2DisplayGraph");
-                console.log(m.displayGraph.__html);
                 that.setState({displayGraph:m.displayGraph});
                 break;
               case 'Graph2Js':

@@ -56,6 +56,8 @@ module.exports = function(self) {
         let rawres = viz(graph,{format:'svg',engine:'dot'});
         let offset = rawres.search('<svg');
         rawres = rawres.substring(offset);
+        rawres = rawres.replace(/(width="[^"]+pt")/g, 'width="100%"');
+        rawres = rawres.replace(/(height="[^"]+pt")/g, 'height="100%"');
         self.postMessage({
           type: 'LidlAst2DisplayGraph',
           displayGraph: {__html:rawres}
