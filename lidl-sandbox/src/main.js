@@ -18,9 +18,32 @@ import TraceViewer from'./TraceViewer/TraceViewer';
 import AdvancedTraceViewer from'./AdvancedTraceViewer/AdvancedTraceViewer';
 
 
+import Paper from 'material-ui/lib/paper'
+
 import AppBar from 'material-ui/lib/app-bar'
 import FlatButton from 'material-ui/lib/flat-button'
 import Snackbar from 'material-ui/lib/snackbar'
+import RaisedButton from 'material-ui/lib/raised-button'
+import TextField from 'material-ui/lib/text-field'
+
+
+import Toolbar from 'material-ui/lib/toolbar/toolbar';
+import ToolbarGroup from 'material-ui/lib/toolbar/toolbar-group';
+import ToolbarSeparator from 'material-ui/lib/toolbar/toolbar-separator';
+import ToolbarTitle from 'material-ui/lib/toolbar/toolbar-title';
+
+import DropDownIcon from 'material-ui/lib/drop-down-icon';
+import DropDownMenu from 'material-ui/lib/drop-down-menu';
+
+import MenuItem from 'material-ui/lib/menus/menu-item';
+import IconMenu from 'material-ui/lib/menus/icon-menu';
+import Menu from 'material-ui/lib/menus/menu';
+import FontIcon from 'material-ui/lib/font-icon';
+
+import IconButton from  'material-ui/lib/icon-button';
+
+import injectTapEventPlugin from 'react-tap-event-plugin';
+injectTapEventPlugin();
 
 import _ from 'lodash';
 
@@ -118,6 +141,7 @@ export default class Main extends Component {
     this.scenarioChanged(this.state.scenario);
     this.headerChanged(this.state.header);
 
+
   }
 
   state = initialState;
@@ -143,8 +167,9 @@ export default class Main extends Component {
   }
 
   recompileAll() {
-    console.log("OKKK");
     let newState = initialState;
+newState.fileName = this.state.fileName;
+newState.listOfFiles = this.state.listOfFiles;
     newState.lidl = this.state.lidl;
     newState.header = this.state.header;
     newState.scenario = this.state.scenario;
@@ -153,16 +178,88 @@ export default class Main extends Component {
     w.postMessage({type:'Scenario2ScenarioAst',scenario:this.state.scenario});
   }
 
+  handleChange(event) {
+     this.setState({fileName: event.target.value });
+   }
+
+  dropDownChange(event, selectedIndex, menuItem) {
+
+    this.setState({fileName: menuItem.text });
+  }
+
+  clickOpen(){
+    let opened = JSON.parse(localStorage.getItem("LidlSandbox."+this.state.fileName));
+    let newState = initialState;
+    newState.fileName = this.state.fileName;
+newState.listOfFiles = this.state.listOfFiles;
+        newState.lidl = opened.lidl;
+        newState.header = opened.header;
+        newState.scenario = opened.scenario;
+        this.setState(newState);
+        w.postMessage({type:'Lidl2LidlAst',lidl:opened.lidl});
+        w.postMessage({type:'Scenario2ScenarioAst',scenario:opened.scenario});
+
+    this.refs.snackbarOpened.show();
+  }
+
+  clickSave(){
+    localStorage.setItem("LidlSandbox."+this.state.fileName,JSON.stringify({lidl:this.state.lidl,header:this.state.header,scenario:this.state.scenario}));
+this.updateListOfFiles();
+    this.refs.snackbarSaved.show();
+  }
+
+  updateListOfFiles(){
+    let localStoragekeys = []
+    for ( var i = 0, len = localStorage.length; i < len; ++i ) {
+      let key= localStorage.key( i ) ;
+      if(_.startsWith(key, "LidlSandbox.")){
+        localStoragekeys.push( key.substring("LidlSandbox.".length) );
+      }
+    }
+    this.setState({listOfFiles:localStoragekeys});
+  }
+
+componentDidMount(){
+  this.updateListOfFiles();
+}
+
   render() {
+
+    let menuItems =  _(this.state.listOfFiles)
+    .map((key,index)=>({ payload: ''+index, text: key }))
+    .value();
+
+
+
+
 let that= this;
     return (
 // <View layout={'row'}>
-<div>
-<AppBar
-  title="Lidl Sandbox"
-  iconElementRight={<FlatButton label="Recompile All" onClick={that.recompileAll.bind(that)} />} />
+<div><Paper  zDepth={4} style={{zIndex: 100000,position: "fixed",top: 0,left: 0,width:"100%"}}><Toolbar>
+    <ToolbarGroup key={0} float="left">
+      <ToolbarTitle text="Lidl Sandbox" />
+<DropDownMenu menuItems={menuItems} onChange={this.dropDownChange.bind(this)} />
+<IconButton tooltipPosition="bottom-center"  tooltip="Load File" iconClassName="material-icons" primary={false} onClick={this.clickOpen.bind(this)}>file_download</IconButton>
+<TextField
+  hintText="File Name"
+  value={this.state.fileName}
+  onChange={this.handleChange.bind(this)} />
+<IconButton tooltipPosition="bottom-center"  tooltip="Save File" iconClassName="material-icons" primary={false} onClick={this.clickSave.bind(this)}>file_upload</IconButton>
 
-      <Accordion >
+
+
+
+    </ToolbarGroup>
+    <ToolbarGroup key={1} float="right">
+      <RaisedButton label="Recompile All" onClick={that.recompileAll.bind(that)} primary={true} />
+    </ToolbarGroup>
+  </Toolbar></Paper>
+
+
+
+  <Snackbar ref="snackbarSaved" message={"Saved file "+this.state.fileName} autoHideDuration={1000}/>
+<Snackbar ref="snackbarOpened" message={"Loaded file "+this.state.fileName} autoHideDuration={1000}/>
+      <Accordion style={{marginTop:"90px"}}>
 
           <AccordionItem title={"Lidl code editor"} key={0}><CodeEditor value={this.state.lidl} onChange={this.lidlChanged.bind(this)}/></AccordionItem>
           <AccordionItem title={"Lidl visual code editor"} key={1}><BlockCodeEditor lidlAst={this.state.lidlAst} onChange={this.lidlAstChanged.bind(this)}/></AccordionItem>
@@ -178,19 +275,7 @@ let that= this;
 
       </Accordion>
 </div>
-//       <Accordion allowMultiple={true}>
-//         {[
-//           <AccordionItem title={"Lidl Code editor"} key={1}><CodeEditor/></AccordionItem>,
-//           <AccordionItem title={"Lidl Block Code editor"} key={2}><BlockCodeEditor/></AccordionItem>,
-//           <AccordionItem title={"Scenario editor"} key={3}><ScenarioEditor/></AccordionItem>,
-//           <AccordionItem title={"Header editor"} key={4}><HeaderEditor/></AccordionItem>,
-//           <AccordionItem title={"Errors"} key={5}><ErrorDisplay/></AccordionItem>,
-//           <AccordionItem title={"Analysis"} key={6}><Analysis/></AccordionItem>,
-//           <AccordionItem title={"Graph"} key={7}><Graph/></AccordionItem>,
-//           <AccordionItem title={"Canvas"} key={8}><Canvas/></AccordionItem>
-//       ]}
-//       </Accordion>
-// </View>
+
 
         );
 

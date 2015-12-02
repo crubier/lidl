@@ -5,6 +5,9 @@ import Lidl from 'lidl-core'
 
 export default {
 
+  fileName:'autoSave',
+  listOfFiles:[],
+
   error:null,
 
   lidl: defaultCode,
