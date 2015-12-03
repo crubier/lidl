@@ -7,9 +7,9 @@ var path = require('path');
 var exec = require('child_process').exec;
 
 
-describe('lidl compiler', function() {
+xdescribe('lidl compiler', function() {
 
-  var exampleTestPath = 'example/xtest';
+  var exampleTestPath = 'example/test';
   var commonHeader = path.join(exampleTestPath, 'common.lidl.js');
 
   _.forEach(fs.readdirSync(exampleTestPath), function(x) {
@@ -34,8 +34,8 @@ describe('lidl compiler', function() {
     });
 
     describe('Compilation of file ' + file, function() {
-      // console.log("====================================================");
-      // console.log("Now compiling and testing " + file);
+      console.log("====================================================");
+      console.log("Now (old) compiling and testing " + file);
 
       fs.writeFileSync(path.join(file,'expanded.lidl'), compiler.compileToIii(code), {
         encoding: 'utf8'

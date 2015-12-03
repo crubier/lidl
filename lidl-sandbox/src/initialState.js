@@ -20,6 +20,7 @@ export default {
 
   graph:null,
 
+  displayGraphUpTo:'addDefinitionToGraph',
   displayGraph:null,
 
   header: defaultHeader,

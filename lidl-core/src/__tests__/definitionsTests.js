@@ -11,7 +11,7 @@ var exec = require('child_process').exec;
 describe('lidl definitions', function() {
   // console.log('-------------------');
 
-  var exampleTestPath = 'example/xtest';
+  var exampleTestPath = 'example/test';
 
   _(fs.readdirSync(exampleTestPath))
   .forEach( (x) =>{
@@ -32,11 +32,11 @@ describe('lidl definitions', function() {
 
     describe('Expansion of file ' + file, function() {
     console.log("====================================================");
-    console.log("Now Expansion " + file);
+    console.log("Now (new) compiling " + file);
 
 
 // Print the graph at an intermediary step for debugging
-      var graphDef = newExpand(compiler.Lidl2LidlAst(code)[0]);
+      var graphDef = newExpand(compiler.Lidl2LidlAst(code)[0],'linkIdentifiers');
 
 
       fs.writeFileSync(path.join(file, 'graphDef.dot'), graphDef.toDotDef(), {encoding: 'utf8'});

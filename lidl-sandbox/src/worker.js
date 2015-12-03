@@ -48,11 +48,7 @@ module.exports = function(self) {
         });
         break;
       case 'LidlAst2DisplayGraph':
-        let graph= Lidl.LidlAst2Graph(m.lidlAst[0]).toDotDef();
-        // let g =  new Graph();
-        // g.addNode({type:'Definition',content:{signature:{operator:"OKKK"}}});
-        // let graph= g.toDotDef();
-        // let graph = "digraph g {a->b;}"
+        let graph= Lidl.LidlAst2Graph(m.lidlAst[0],m.upto).toDotDef();
         let rawres = viz(graph,{format:'svg',engine:'dot'});
         let offset = rawres.search('<svg');
         rawres = rawres.substring(offset);

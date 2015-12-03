@@ -1,5 +1,5 @@
 interaction
- (test (a:Number in)):Number out
+ (test (a:Number in)):{theNumber:Number in,theResult:Number out}
 with
 
 
@@ -46,4 +46,4 @@ interaction
     )
 
 is
-  (if((a)==(1))then(3)else(4))
+  (if((a)==(1))then({theNumber:(variable xzw),theResult:(variable xzw)})else({theNumber:(variable xzw),theResult:(-8000)}))

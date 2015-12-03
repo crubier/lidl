@@ -1,42 +1,42 @@
-digraph g{node_3392 [shape=ellipse, style=filled, color="#ffd1d1", label="node_3392
+digraph g{node_3822 [shape=ellipse, style=filled, color="#ffd1d1", label="node_3822
 
 $withbehaviour$" ]
-node_3393 [shape=ellipse, style=filled, color="#ffd1d1", label="node_3393
+node_3823 [shape=ellipse, style=filled, color="#ffd1d1", label="node_3823
 
 {theNumber:$theResult:$}" ]
-node_3394 [shape=ellipse, style=filled, color="#ffd1d1", label="node_3394
+node_3824 [shape=ellipse, style=filled, color="#ffd1d1", label="node_3824
 
 variable0" ]
-node_3395 [shape=ellipse, style=filled, color="#ffd1d1", label="node_3395
+node_3825 [shape=ellipse, style=filled, color="#ffd1d1", label="node_3825
 
 variable1" ]
-node_3398 [shape=ellipse, style=filled, color="#ffd1d1", label="node_3398
+node_3828 [shape=ellipse, style=filled, color="#ffd1d1", label="node_3828
 
 get$frompreviousandset$fornext" ]
-node_3399 [shape=ellipse, style=filled, color="#ffd1d1", label="node_3399
+node_3829 [shape=ellipse, style=filled, color="#ffd1d1", label="node_3829
 
 variable1" ]
-node_3400 [shape=ellipse, style=filled, color="#ffd1d1", label="node_3400
+node_3830 [shape=ellipse, style=filled, color="#ffd1d1", label="node_3830
 
 variable0" ]
-node_3407 [shape=ellipse, style=filled, color="#ffd1d1", label="node_3407
+node_3837 [shape=ellipse, style=filled, color="#ffd1d1", label="node_3837
 
 {theNumber:$theResult:$}" ]
-node_3405 [shape=box, style=filled, color="#d1f1ff", fontname="Courier", label="node_3405
+node_3835 [shape=box, style=filled, color="#d1f1ff", fontname="Courier", label="node_3835
 0
 <%=a0%>=theInterface.theNumber;
 " ]
-node_3406 [shape=box, style=filled, color="#d1f1ff", fontname="Courier", label="node_3406
+node_3836 [shape=box, style=filled, color="#d1f1ff", fontname="Courier", label="node_3836
 0
 theInterface.theResult=<%=a0%>;
 " ]
-node_3393 -> node_3394 [dir=none, arrowHead=none, fontname="Times-Italic", label="edge_3396",  headlabel="0", taillabel="1" ]
-node_3393 -> node_3395 [dir=none, arrowHead=none, fontname="Times-Italic", label="edge_3397",  headlabel="0", taillabel="2" ]
-node_3398 -> node_3399 [dir=none, arrowHead=none, fontname="Times-Italic", label="edge_3401",  headlabel="0", taillabel="1" ]
-node_3398 -> node_3400 [dir=none, arrowHead=none, fontname="Times-Italic", label="edge_3402",  headlabel="0", taillabel="2" ]
-node_3392 -> node_3393 [dir=none, arrowHead=none, fontname="Times-Italic", label="edge_3403",  headlabel="0", taillabel="1" ]
-node_3392 -> node_3398 [dir=none, arrowHead=none, fontname="Times-Italic", label="edge_3404",  headlabel="0", taillabel="2" ]
-node_3407 -> node_3405 [dir=none, arrowHead=none, fontname="Times-Italic", label="edge_3408",  headlabel="0", taillabel="1" ]
-node_3407 -> node_3406 [dir=none, arrowHead=none, fontname="Times-Italic", label="edge_3409",  headlabel="0", taillabel="2" ]
-node_3392 -> node_3407 [dir=none, arrowHead=none, fontname="Times-Italic", label="edge_3410",  headlabel="0", taillabel="0" ]
+node_3823 -> node_3824 [dir=none, arrowHead=none, fontname="Times-Italic", label="edge_3826",  headlabel="0", taillabel="1" ]
+node_3823 -> node_3825 [dir=none, arrowHead=none, fontname="Times-Italic", label="edge_3827",  headlabel="0", taillabel="2" ]
+node_3828 -> node_3829 [dir=none, arrowHead=none, fontname="Times-Italic", label="edge_3831",  headlabel="0", taillabel="1" ]
+node_3828 -> node_3830 [dir=none, arrowHead=none, fontname="Times-Italic", label="edge_3832",  headlabel="0", taillabel="2" ]
+node_3822 -> node_3823 [dir=none, arrowHead=none, fontname="Times-Italic", label="edge_3833",  headlabel="0", taillabel="1" ]
+node_3822 -> node_3828 [dir=none, arrowHead=none, fontname="Times-Italic", label="edge_3834",  headlabel="0", taillabel="2" ]
+node_3837 -> node_3835 [dir=none, arrowHead=none, fontname="Times-Italic", label="edge_3838",  headlabel="0", taillabel="1" ]
+node_3837 -> node_3836 [dir=none, arrowHead=none, fontname="Times-Italic", label="edge_3839",  headlabel="0", taillabel="2" ]
+node_3822 -> node_3837 [dir=none, arrowHead=none, fontname="Times-Italic", label="edge_3840",  headlabel="0", taillabel="0" ]
 }

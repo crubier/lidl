@@ -225,40 +225,40 @@ class Graph {
 
     var that = this;
 
-var res = "digraph g{";
+    var res = "digraph g{";
 
-_(def.nodes)
-.forEach((desc,key)=>{
-  that
-  .matchNodes({type: key})
-  .map(x=>_.assign(_.clone(nodeDefaults),{id:x.id,color:desc.color},desc.transform(x)))
-  .forEach((x) => {res += nodeTemplate(x);})
-  .commit();
-})
-.commit();
+    _(def.nodes)
+    .forEach((desc,key)=>{
+      that
+      .matchNodes({type: key})
+      .map(x=>_.assign(_.clone(nodeDefaults),{id:x.id,color:desc.color},desc.transform(x)))
+      .forEach((x) => {res += nodeTemplate(x);})
+      .commit();
+    })
+    .commit();
 
-_(def.directedEdges)
-.forEach((desc,key)=>{
-  that
-  .matchDirectedEdges({type: key})
-  .map(x=>_.assign(_.clone(edgeDefaults),{id:x.id,color:desc.color,from:x.from,to:x.to},desc.transform(x)))
-  .forEach((x) => {res += directedEdgeTemplate(x);})
-  .commit();
-})
-.commit();
+    _(def.directedEdges)
+    .forEach((desc,key)=>{
+      that
+      .matchDirectedEdges({type: key})
+      .map(x=>_.assign(_.clone(edgeDefaults),{id:x.id,color:desc.color,from:x.from,to:x.to},desc.transform(x)))
+      .forEach((x) => {res += directedEdgeTemplate(x);})
+      .commit();
+    })
+    .commit();
 
-_(def.undirectedEdges)
-.forEach((desc,key)=>{
-  that
-  .matchUndirectedEdges({type: key})
-  .map(x=>_.assign(_.clone(edgeDefaults),{id:x.id,color:desc.color,from:x.from,to:x.to},desc.transform(x)))
-  .forEach((x) => {res += undirectedEdgeTemplate(x);})
-  .commit();
-})
-.commit();
+    _(def.undirectedEdges)
+    .forEach((desc,key)=>{
+      that
+      .matchUndirectedEdges({type: key})
+      .map(x=>_.assign(_.clone(edgeDefaults),{id:x.id,color:desc.color,from:x.from,to:x.to},desc.transform(x)))
+      .forEach((x) => {res += undirectedEdgeTemplate(x);})
+      .commit();
+    })
+    .commit();
 
-res += ('}');
-return res;
+    res += ('}');
+    return res;
   }
 
   ///////////////////////////////////////////////////////////////////////////////
@@ -267,9 +267,10 @@ return res;
     return this.toDotWithParamaters({
       nodes:{
         Interaction: {color:"#ffd1d1",transform:(x)=>({label: x.content.operator})},
-        InteractionInstance: {color:"#ffde2f",transform:(x)=>({label: x.content.operator})},
+        InteractionInstance: {color:"#ffde2f",transform:(x)=>({shape:(x.content.type==='InteractionSimple')?"ellipse":'box',color:(x.content.type==='InteractionSimple')?"#ffde2f":"#dff1f2",fontname:(x.content.type==='InteractionSimple')?'Times':'Courier',label: (x.content.type==='InteractionSimple')?(x.content.operator):(x.content.content)})},
         Definition: {color:"#afe7ff",transform:(x)=>({label: x.content.signature.operator})},
-        SignatureOperandElement: {color:"#2fffc7",transform:(x)=>({label: x.content.name})}
+        SignatureOperandElement: {color:"#2fffc7",transform:(x)=>({label: x.content.name})},
+        Interface: {color:"#2fcdff",transform:(x)=>({label: (x.content.type==='InterfaceAtomic')?(x.name + ' : '+ x.content.direction):(x.name)})}
       },
       directedEdges:{
         DefinitionSubInteractionInstance: {color:"#ffd3b3",transform:(x)=>({label: ""})},
@@ -277,15 +278,21 @@ return res;
         InteractionInstanceIsOperandOf:{color:"#00ff03",transform:(x)=>({label: x.to.index})},
         InteractionInstanceInteraction: {color:"#ffa800",transform:(x)=>({label: ""})},
         InteractionOperand: {color:"#d00000",transform:(x)=>({label: x.from.index})},
-        InteractionInstanceOperand: {color:"#9d8400",transform:(x)=>({label: "",headlabel:x.to.index,taillabel:x.from.index})},
         DefinitionInteraction: {color:"#ff0000",transform:(x)=>({label: x.from.index})},
         DefinitionSubInteraction: {color:"#ffd5d5",transform:(x)=>({label: ""})},
         SignatureOperand: {color:"#2fffc7",transform:(x)=>({label: x.from.index})},
+        SignatureOperandElementInterface: {color:"#00e8ff",transform:(x)=>({label: ""})},
+        DefinitionInterface: {color:"#00e8ff",transform:(x)=>({label: ""})},
+        DefinitionSubInterface: {color:"#bef9ff",transform:(x)=>({label: ""})},
+        InterfaceElement:{color:"#008cff",transform:(x)=>({label: x.from.index})},
+        InterfaceInteractionInstance:{color:"#e300ff",transform:(x)=>({label: ""})},
         DefinitionDefinition: {color:"#81ddff",transform:(x)=>({label: x.from.index})},
         InteractionDefinition: {color:"#e681ff",transform:(x)=>({label: ""})},
         DefinitionDependency: {color:"#0040ff",transform:(x)=>({label: ""})}
       },
-      undirectedEdges:{}
+      undirectedEdges:{
+        InteractionInstanceOperand: {color:"#9d8400",transform:(x)=>({label: "",headlabel:x.to.index+' '+x.to.ports,taillabel:x.from.index+' '+x.from.ports})},
+      }
     });
   }
 

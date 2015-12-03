@@ -1,9 +1,11 @@
-digraph g{node_2612 [shape=ellipse, style=filled, color="#afe7ff", fontname="Times", label="main" ]
-node_2622 [shape=ellipse, style=filled, color="#ffd1d1", fontname="Times", label="variablex" ]
-node_2626 [shape=ellipse, style=filled, color="#ffd1d1", fontname="Times", label="{theNumber:$theResult:$}" ]
-node_2626 -> node_2622 [dir=forward, arrowHead=normal, fontname="Times-Italic", arrowsize=1, color="#4e4e4e", label="1" ]
-node_2626 -> node_2622 [dir=forward, arrowHead=normal, fontname="Times-Italic", arrowsize=1, color="#4e4e4e", label="2" ]
-node_2612 -> node_2626 [dir=forward, arrowHead=normal, fontname="Times-Italic", arrowsize=1, color="#f75353", label="" ]
-node_2612 -> node_2622 [dir=forward, arrowHead=normal, fontname="Times-Italic", arrowsize=1, color="#ffcccc", label="" ]
-node_2612 -> node_2626 [dir=forward, arrowHead=normal, fontname="Times-Italic", arrowsize=1, color="#ffcccc", label="" ]
+digraph g{node_6450 [shape="ellipse", style="filled", color="#ffde2f", fontname="Times", label="{theNumber:$theResult:$}" ]
+node_6456 [shape="box", style="filled", color="#dff1f2", fontname="Courier", label="<%=a0%>=theInterface.theNumber;
+" ]
+node_6458 [shape="box", style="filled", color="#dff1f2", fontname="Courier", label="theInterface.theResult=<%=a0%>;
+" ]
+node_6460 [shape="ellipse", style="filled", color="#ffde2f", fontname="Times", label="{theNumber:$theResult:$}" ]
+node_6460 -> node_6456 [dir=none, arrowHead=none, fontname="Times-Italic", arrowsize=1, color="#9d8400", label="",  headlabel="0 undefined", taillabel="1 undefined" ]
+node_6460 -> node_6458 [dir=none, arrowHead=none, fontname="Times-Italic", arrowsize=1, color="#9d8400", label="",  headlabel="0 undefined", taillabel="2 undefined" ]
+node_6450 -> node_6460 [dir=none, arrowHead=none, fontname="Times-Italic", arrowsize=1, color="#9d8400", label="",  headlabel="0 undefined", taillabel="0 undefined" ]
+node_6450 -> node_6450 [dir=none, arrowHead=none, fontname="Times-Italic", arrowsize=1, color="#9d8400", label="",  headlabel="2 undefined", taillabel="1 undefined" ]
 }

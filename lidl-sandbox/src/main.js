@@ -52,6 +52,8 @@ import {Accordion,AccordionItem} from './Accordion/Accordion';
 
 import initialState from './initialState'
 
+var config = require('lidl-core').config;
+
 // Create a web worker which will do the heavy lifting tasks
 var work = require('webworkify');
 var w = work(require('./worker.js'));
@@ -63,6 +65,8 @@ export default class Main extends Component {
     super(props);
 
     let that = this;
+
+    console.log(config.graphTransformations);
 
     w.addEventListener('error', function (ev) {
       that.setState({error:ev});
@@ -80,7 +84,7 @@ export default class Main extends Component {
                 console.log("Lidl2LidlAst");
                 that.setState({lidlAst:m.lidlAst});
                 w.postMessage({type:'LidlAst2ExpandedLidlAst',lidlAst:m.lidlAst});
-                w.postMessage({type:'LidlAst2DisplayGraph',lidlAst:m.lidlAst});
+                w.postMessage({type:'LidlAst2DisplayGraph',upto:that.state.displayGraphUpTo,lidlAst:m.lidlAst});
                 break;
               case 'LidlAst2ExpandedLidlAst':
                 console.log("LidlAst2ExpandedLidlAst");
@@ -168,8 +172,9 @@ export default class Main extends Component {
 
   recompileAll() {
     let newState = initialState;
-newState.fileName = this.state.fileName;
-newState.listOfFiles = this.state.listOfFiles;
+    newState.fileName = this.state.fileName;
+    newState.listOfFiles = this.state.listOfFiles;
+    newState.displayGraphUpTo = this.state.displayGraphUpTo;
     newState.lidl = this.state.lidl;
     newState.header = this.state.header;
     newState.scenario = this.state.scenario;
@@ -191,20 +196,21 @@ newState.listOfFiles = this.state.listOfFiles;
     let opened = JSON.parse(localStorage.getItem("LidlSandbox."+this.state.fileName));
     let newState = initialState;
     newState.fileName = this.state.fileName;
-newState.listOfFiles = this.state.listOfFiles;
-        newState.lidl = opened.lidl;
-        newState.header = opened.header;
-        newState.scenario = opened.scenario;
-        this.setState(newState);
-        w.postMessage({type:'Lidl2LidlAst',lidl:opened.lidl});
-        w.postMessage({type:'Scenario2ScenarioAst',scenario:opened.scenario});
+    newState.listOfFiles = this.state.listOfFiles;
+    newState.displayGraphUpTo = this.state.displayGraphUpTo;
+    newState.lidl = opened.lidl;
+    newState.header = opened.header;
+    newState.scenario = opened.scenario;
+    this.setState(newState);
+    w.postMessage({type:'Lidl2LidlAst',lidl:opened.lidl});
+    w.postMessage({type:'Scenario2ScenarioAst',scenario:opened.scenario});
 
     this.refs.snackbarOpened.show();
   }
 
   clickSave(){
     localStorage.setItem("LidlSandbox."+this.state.fileName,JSON.stringify({lidl:this.state.lidl,header:this.state.header,scenario:this.state.scenario}));
-this.updateListOfFiles();
+    this.updateListOfFiles();
     this.refs.snackbarSaved.show();
   }
 
@@ -219,9 +225,15 @@ this.updateListOfFiles();
     this.setState({listOfFiles:localStoragekeys});
   }
 
-componentDidMount(){
-  this.updateListOfFiles();
-}
+  componentDidMount(){
+    this.updateListOfFiles();
+  }
+
+  changeDisplayGraphUpTo(event, selectedIndex, menuItem) {
+    // this.setState({displayGraphUpTo:menuItem.text,displayGraph:null});
+    this.setState({displayGraphUpTo:menuItem.text});
+    w.postMessage({type:'LidlAst2DisplayGraph',upto:menuItem.text,lidlAst:this.state.lidlAst});
+  }
 
   render() {
 
@@ -229,7 +241,9 @@ componentDidMount(){
     .map((key,index)=>({ payload: ''+index, text: key }))
     .value();
 
-
+    let menuItems2 =  _(config.graphTransformations)
+    .map((key,index)=>({ payload: ''+index, text: key }))
+    .value();
 
 
 let that= this;
@@ -238,9 +252,10 @@ let that= this;
 <div><Paper  zDepth={4} style={{zIndex: 100000,position: "fixed",top: 0,left: 0,width:"100%"}}><Toolbar>
     <ToolbarGroup key={0} float="left">
       <ToolbarTitle text="Lidl Sandbox" />
-<DropDownMenu menuItems={menuItems} onChange={this.dropDownChange.bind(this)} />
+<DropDownMenu tooltipPosition="bottom-center"  tooltip="Name of file to load" menuItems={menuItems} onChange={this.dropDownChange.bind(this)} />
 <IconButton tooltipPosition="bottom-center"  tooltip="Load File" iconClassName="material-icons" primary={false} onClick={this.clickOpen.bind(this)}>file_download</IconButton>
 <TextField
+tooltipPosition="bottom-center"  tooltip="Name of file to save"
   hintText="File Name"
   value={this.state.fileName}
   onChange={this.handleChange.bind(this)} />
@@ -250,9 +265,15 @@ let that= this;
 
 
     </ToolbarGroup>
-    <ToolbarGroup key={1} float="right">
+
+<ToolbarGroup key={1} float="left">
+<DropDownMenu tooltipPosition="bottom-center"  tooltip="Display this step of compilation as a graph" menuItems={menuItems2} onChange={this.changeDisplayGraphUpTo.bind(this)} />
+</ToolbarGroup>
+
+
+    <ToolbarGroup key={2} float="right">
       <RaisedButton label="Recompile All" onClick={that.recompileAll.bind(that)} primary={true} />
-    </ToolbarGroup>
+</ToolbarGroup>
   </Toolbar></Paper>
 
 

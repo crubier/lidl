@@ -7,5 +7,6 @@ module.exports = {
   serializer:require('./src/serializer.js'),
   compiler:require('./src/compiler.js'),
   operator:require('./src/operator.js'),
-  graph:require('./src/g.js')
+  graph:require('./src/g.js'),
+  config:require('./src/config.js')
 };
