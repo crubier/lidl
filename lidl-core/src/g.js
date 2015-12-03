@@ -16,19 +16,19 @@ class Graph {
   // Only way to add a node to the graph
 
   addNode(node) {
-    var res = _.assign({
+    var res = _.assign( _.omit(_.omit(_.clone(node), 'id'),'finished'),{
       id: _.uniqueId('node_'),
       finished: false
-    }, node);
+    });
     this.nodes.push(res);
     return res;
   }
 
   addEdge(edge) {
-    var res = _.assign({
+    var res = _.assign( _.omit(_.omit(_.clone(edge), 'id'),'finished'),{
       id: _.uniqueId('edge_'),
       finished: false
-    }, edge);
+    });
     this.edges.push(res);
     return res;
   }
@@ -272,8 +272,12 @@ return res;
         SignatureOperandElement: {color:"#2fffc7",transform:(x)=>({label: x.content.name})}
       },
       directedEdges:{
+        DefinitionSubInteractionInstance: {color:"#ffd3b3",transform:(x)=>({label: ""})},
+        DefinitionInteractionInstance: {color:"#ff6b00",transform:(x)=>({label: ""})},
+        InteractionInstanceIsOperandOf:{color:"#00ff03",transform:(x)=>({label: x.to.index})},
+        InteractionInstanceInteraction: {color:"#ffa800",transform:(x)=>({label: ""})},
         InteractionOperand: {color:"#d00000",transform:(x)=>({label: x.from.index})},
-        InteractionInstanceOperand: {color:"#9d8400",transform:(x)=>({label: x.from.index})},
+        InteractionInstanceOperand: {color:"#9d8400",transform:(x)=>({label: "",headlabel:x.to.index,taillabel:x.from.index})},
         DefinitionInteraction: {color:"#ff0000",transform:(x)=>({label: x.from.index})},
         DefinitionSubInteraction: {color:"#ffd5d5",transform:(x)=>({label: ""})},
         SignatureOperand: {color:"#2fffc7",transform:(x)=>({label: x.from.index})},

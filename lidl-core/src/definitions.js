@@ -37,7 +37,7 @@ export function newExpand(ast){
 
   computeDefinitionDependencies(graph);
 
-  // instantiateDefinitionInteraction(graph,rootDefinitionNode)
+
 
   return graph;
 }
@@ -196,7 +196,7 @@ function referentialTransparency(graph) {
     // for example put all syntactic locations of nodes to improve traceback
     let newNode =
     graph
-    .addNode(_.omit(_.omit(theNode,'finished'),'id'));
+    .addNode(theNode);
 
     // Attach the newNode to the definition theNode is in
     graph
@@ -445,6 +445,8 @@ function instantiateDefinitionInteraction(graph,definitionNode) {
   .findDirectedEdge({type:'DefinitionInteraction',from:{node:definitionNode}})
   .to.node;
 
+  rootInteraction.isRootOfDefiniton=true;
+
   // Mark all subinteractions as not visited
   graph
   .matchDirectedEdges({type:'DefinitionSubInteraction',from:{node:definitionNode}})
@@ -492,22 +494,28 @@ function instantiateDefinitionInteraction(graph,definitionNode) {
   .forEach(interNode=>{
     // console.log(interNode.content.operator);
     // instantiateDefinitionInteraction(graph,defNode);
+    let newNodes =
     instantiateInteraction(graph,interNode);
+
+    _(newNodes)
+    .forEach(n=>{
+      graph
+      .addEdge({type:'DefinitionSubInteractionInstance',from:{node:definitionNode},to:{node:n}});})
+    .commit();
   })
   .commit();
 
+  //TODO uncomment this
+  // Link to the root interaction instance
+  let instantiatedRoot =
+  graph
+  .findDirectedEdge({type:'DefinitionSubInteractionInstance',from:{node:definitionNode},to:{node:{isRootOfDefiniton:true}}})
+  .to.node;
+
+  graph
+  .addEdge({type:'DefinitionInteractionInstance',from:{node:definitionNode},to:{node:instantiatedRoot}});
 
 
-  // instantiateInteraction(graph,rootInteraction);
-  //
-  //
-  // definitionNode.instantiated = true;
-  //
-  // graph
-  // .reduceNodes({type:'Interaction',content:{type:'InteractionSimple',operatorType:'Custom'},hasDefinition:false},
-  //   (theResult,theNode)=>
-  //
-  // return instantiatedInteractionNode;
 }
 
 
@@ -529,52 +537,181 @@ function instantiateInteraction(graph,interactionNode) {
   .value();
 
   if (interactionNode.isBase) {
-    console.log("BAS "+interactionNode.content.operator);
-    // Base interaction, we just instantiate it and link it
 
+    // console.log("BAS "+interactionNode.content.operator);
+    // Base interaction, we just instantiate it and link it
     // So first we create the instance
     let newNode =
     graph
-    .addNode({type:'InteractionInstance',content:interactionNode.content});
-
+    .addNode({type:'InteractionInstance',isRootOfDefiniton:interactionNode.isRootOfDefiniton, isArgument:false,content:interactionNode.content});
     // Then we link the instance
-
+    graph
+    .addEdge({type:'InteractionInstanceInteraction',from:{node:newNode},to:{node:interactionNode}})
     // First to the sub Interactions (which are already instantiated)
     _(interactionoperandEdgesFrom)
     .forEach(edge=>{
       graph
-      .addEdge({type:'InteractionInstanceOperand',from:{node:newNode},to:edge.to})
+      .addEdge({type:'InteractionInstanceOperand',from:{node:newNode,index:edge.from.index},to:edge.to})
       })
     .commit();
+    // Then to the super Interactions (which are not instantiated)
+    _(interactionoperandEdgesTo)
+    .forEach(edge=>{
+      graph
+      .addEdge({type:'InteractionInstanceOperand',to:{node:newNode,index:edge.to.index},from:edge.from})
+      })
+    .commit();
+    // interactionNode.instantiated = true;
+    graph.finish(interactionNode);
+    return [newNode];
+
+  } else if (interactionNode.isArgument) {
+
+    // console.log("ARG "+interactionNode.content.operator);
+    // So first we create the instance
+    let newNode =
+    graph
+    .addNode({type:'InteractionInstance',isRootOfDefiniton:interactionNode.isRootOfDefiniton,isArgument:true,content:interactionNode.content});
+    // Then we link the instance
+    graph
+    .addEdge({type:'InteractionInstanceInteraction',from:{node:newNode},to:{node:interactionNode}})
+    // To the definition it is an agument of
+    let argNode=
+    graph
+    .findDirectedEdge({type:'InteractionDefinition',from:{node:interactionNode}})
+    .to.node;
+
+    let defPort=
+    graph
+    .findDirectedEdge({type:'SignatureOperand',to:{node:argNode}})
+    .from;
+
+    graph
+    .addEdge({type:'InteractionInstanceIsOperandOf',from:{node:newNode},to:defPort});
 
     // Then to the super Interactions (which are not instantiated)
     _(interactionoperandEdgesTo)
     .forEach(edge=>{
       graph
-      .addEdge({type:'InteractionInstanceOperand',to:{node:newNode},from:edge.from})
+      .addEdge({type:'InteractionInstanceOperand',to:{node:newNode,index:edge.to.index},from:edge.from});
       })
     .commit();
 
+    graph.finish(interactionNode);
     // interactionNode.instantiated = true;
-    return newNode;
+    return [newNode];
+
+
+
+
   } else if (interactionNode.isCustom) {
-console.log("CUS "+interactionNode.content.operator);
-
-    // let defNode =
-    // graph
-    // .findDirectedEdge({type: 'InteractionDefinition',from:{node:interactionNode}})
-    // .to.node;
-    //
-    // if(defNode.instantiated !== true) {
-    //   instantiateDefinitionInteraction(graph,defNode);
-    // }
 
 
 
-  } else if (interactionNode.isArgument) {
-console.log("ARG "+interactionNode.content.operator);
 
-  } else {
+// console.log("CUS "+interactionNode.content.operator);
+
+    let defNode =
+    graph
+    .findDirectedEdge({type: 'InteractionDefinition',from:{node:interactionNode}})
+    .to.node;
+
+    // let subNodes
+
+    let defInteractionInstanceNodes =
+    graph
+    .matchDirectedEdges({type:'DefinitionSubInteractionInstance',from:{node:defNode}})
+    .map(x=>(x.to.node))
+    .value();
+
+    let defInteractionInstanceEdges =
+    graph
+    .matchDirectedEdges({type:'InteractionInstanceOperand'})
+    .filter(e=>(_.includes(defInteractionInstanceNodes,e.to.node) && _.includes(defInteractionInstanceNodes,e.from.node)))
+    .value();
+
+    let defInteractionInstanceIsOperandOf =
+    graph
+    .matchDirectedEdges({type:'InteractionInstanceIsOperandOf'})
+    .filter(e=>( _.includes(defInteractionInstanceNodes,e.from.node)))
+    .value();
+  //
+  // console.log(defInteractionInstanceIsOperandOf);
+  //
+    let graphToCopy = {nodes:defInteractionInstanceNodes,edges:_.union(defInteractionInstanceEdges,defInteractionInstanceIsOperandOf)};
+    // console.log(graphToCopy);
+    let newSubGraph=
+    copy(graph,graphToCopy);
+// console.log("    fff  ");
+// console.log(newSubGraph);
+// console.log("      ");
+    //Find the root
+    let rootOfDef =
+    _(newSubGraph.nodes)
+    .find({isRootOfDefiniton:true});
+
+    rootOfDef.isRootOfDefiniton=interactionNode.isRootOfDefiniton;
+
+    // Link the root
+    _(interactionoperandEdgesTo)
+    .forEach(edge=>{
+      graph
+      .addEdge({type:'InteractionInstanceOperand',to:{node:rootOfDef,index:edge.to.index},from:edge.from});
+      })
+    .commit();
+//
+    // Find the args
+    let argsOfDef =
+    _(newSubGraph.nodes)
+    .filter({isArgument:true})
+    .map(nod=>{
+      let directArg =
+      graph
+      .findDirectedEdge({type:'InteractionInstanceIsOperandOf',from:{node:nod},to:{node:defNode}});
+// console.log(directArg);
+      if(_.isUndefined(directArg)){
+        return {node:nod,index:undefined};
+      }else {
+//         console.log("hhhhhhh");
+// console.log(directArg);
+        return {node:nod,index:directArg.to.index};
+      }
+    })
+    .reject(x=>_.isUndefined(x.index))
+    .value();
+
+    // console.log(argsOfDef);
+
+    // Link the args
+    _(argsOfDef)
+    .forEach(el=>{
+      // console.log(el);
+      // Get the edges that come out of the interaction we are replacing
+      _(interactionoperandEdgesFrom)
+      .filter({from:{index:el.index}})
+      .forEach(edge=>{
+        // Get the edges that come in the current argument
+        graph
+        .matchDirectedEdges({type:'InteractionInstanceOperand',to:{node:el.node}})
+        .forEach(ed=>{
+          // Add the edge going from the node that refer this argument in the subgraph to the nodes that represent this argument in the main graph
+          graph
+          .addEdge({type:'InteractionInstanceOperand',from:ed.from,to:edge.to});
+        })
+        .commit();
+      })
+      .commit();
+
+      // We delete the argument  interaction node
+      graph
+      .finish(el.node);
+    })
+    .commit();
+
+graph.finish(interactionNode);
+  return newSubGraph.nodes;
+
+  }  else {
     throw new Error ('Could not instantiate interaction '+interactionNode.content.operator+ " "+interactionNode.id+ " because it is not an argument, a base interaction or a custom defined interaction");
   }
 
@@ -582,8 +719,33 @@ console.log("ARG "+interactionNode.content.operator);
 
 
 
+// Duplicates a subgraph
+function copy(graph,subgraph) {
 
+  let newNodes =
+  _(subgraph.nodes)
+  .map(n=>(graph.addNode(n)))
+  .value();
 
+  // Find the copied (or not) version of a node
+  function copied(nod) {
+    let k = _(subgraph.nodes).findIndex(nod);
+    if(k>=0) {
+      return newNodes[k];
+    } else {
+      return nod;
+    }
+  }
+
+  let newEdges =
+  _(subgraph.edges)
+  .map(e=>graph.addEdge(_.assign(_.clone(e),{
+      from:_.assign(_.clone(e.from),{node:copied(e.from.node)}),
+      to:_.assign(_.clone(e.to),{node:copied(e.to.node)})})))
+  .value();
+
+  return {nodes:newNodes,edges:newEdges};
+}
 
 
 
