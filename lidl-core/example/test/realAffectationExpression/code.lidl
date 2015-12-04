@@ -16,7 +16,7 @@ with
 is
   (
     (
-    {theNumber:(variable theNumber)theResult:(variable theResult)}
+    {theResult:(variable theResult)theNumber:(variable theNumber)}
     )
   with behaviour
     ((variable theResult)=((1)+(variable theNumber)))

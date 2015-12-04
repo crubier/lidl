@@ -230,8 +230,8 @@ export default class Main extends Component {
   }
 
   changeDisplayGraphUpTo(event, selectedIndex, menuItem) {
-    // this.setState({displayGraphUpTo:menuItem.text,displayGraph:null});
-    this.setState({displayGraphUpTo:menuItem.text});
+    this.setState({displayGraphUpTo:menuItem.text,displayGraph:null});
+    // this.setState({displayGraphUpTo:menuItem.text});
     w.postMessage({type:'LidlAst2DisplayGraph',upto:menuItem.text,lidlAst:this.state.lidlAst});
   }
 

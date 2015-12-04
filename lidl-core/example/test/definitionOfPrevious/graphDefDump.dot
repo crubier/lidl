@@ -1,0 +1,21 @@
+digraph g{node_3537 [shape="ellipse", style="filled", color="#ffde2f", fontname="Times", label="variabletheNumber" ]
+node_3543 [shape="ellipse", style="filled", color="#ffde2f", fontname="Times", label="variableprevious$" ]
+node_3544 [shape="ellipse", style="filled", color="#ffde2f", fontname="Times", label="get$frompreviousandset$fornext" ]
+node_3545 [shape="ellipse", style="filled", color="#ffde2f", fontname="Times", label="$withbehaviour$" ]
+node_3559 [shape="ellipse", style="filled", color="#ffde2f", fontname="Times", label="{theNumber:$theResult:$}" ]
+node_3565 [shape="box", style="filled", color="#dff1f2", fontname="Courier", label="<%=a0%>=theInterface.theNumber;
+" ]
+node_3567 [shape="box", style="filled", color="#dff1f2", fontname="Courier", label="theInterface.theResult=<%=a0%>;
+" ]
+node_3569 [shape="ellipse", style="filled", color="#ffde2f", fontname="Times", label="{theNumber:$theResult:$}" ]
+node_3544 -> node_3543 [dir=none, arrowHead=none, fontname="Times-Italic", arrowsize=1, color="#9d8400", label="",  headlabel="0", taillabel="1" ]
+node_3545 -> node_3543 [dir=none, arrowHead=none, fontname="Times-Italic", arrowsize=1, color="#9d8400", label="",  headlabel="0", taillabel="1" ]
+node_3545 -> node_3544 [dir=none, arrowHead=none, fontname="Times-Italic", arrowsize=1, color="#9d8400", label="",  headlabel="0", taillabel="2" ]
+node_3543 -> node_3537 [dir=none, arrowHead=none, fontname="Times-Italic", arrowsize=1, color="#9d8400", label="",  headlabel="0", taillabel="1" ]
+node_3544 -> node_3537 [dir=none, arrowHead=none, fontname="Times-Italic", arrowsize=1, color="#9d8400", label="",  headlabel="0", taillabel="2" ]
+node_3559 -> node_3537 [dir=none, arrowHead=none, fontname="Times-Italic", arrowsize=1, color="#9d8400", label="",  headlabel="0", taillabel="1" ]
+node_3559 -> node_3545 [dir=none, arrowHead=none, fontname="Times-Italic", arrowsize=1, color="#9d8400", label="",  headlabel="0", taillabel="2" ]
+node_3569 -> node_3565 [dir=none, arrowHead=none, fontname="Times-Italic", arrowsize=1, color="#9d8400", label="",  headlabel="0", taillabel="1: theNumber" ]
+node_3569 -> node_3567 [dir=none, arrowHead=none, fontname="Times-Italic", arrowsize=1, color="#9d8400", label="",  headlabel="0", taillabel="2: theResult" ]
+node_3559 -> node_3569 [dir=none, arrowHead=none, fontname="Times-Italic", arrowsize=1, color="#9d8400", label="",  headlabel="0", taillabel="0" ]
+}

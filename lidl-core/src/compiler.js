@@ -35,6 +35,10 @@ function Graph2Js(x,header) {
   return generateJsCode(x,header);
 }
 
+function LidlAst2Graph(x,upto) {
+  return definitions.newExpand(x,upto);
+}
+
 // Composed
 
 function Lidl2ExpandedLidlAst(x) {
@@ -46,16 +50,14 @@ function Lidl2ExpandedLidl (x) {
 }
 
 function Lidl2Graph(x,upto) {
-  return ExpandedLidlAst2Graph(Lidl2ExpandedLidlAst(x),upto);
+  return LidlAst2Graph(Lidl2LidlAst(x),upto);
 }
 
 function Lidl2Js(x,header) {
   return Graph2Js(Lidl2Graph(x));
 }
 
-function LidlAst2Graph(x,upto) {
-  return definitions.newExpand(x,upto);
-}
+
 
 
 

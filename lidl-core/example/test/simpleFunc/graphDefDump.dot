@@ -1,0 +1,23 @@
+digraph g{node_5770 [shape="ellipse", style="filled", color="#ffde2f", fontname="Times", label="#a" ]
+node_5776 [shape="ellipse", style="filled", color="#ffde2f", fontname="Times", label="#bob$" ]
+node_5777 [shape="ellipse", style="filled", color="#ffde2f", fontname="Times", label="functionaddOne" ]
+node_5778 [shape="ellipse", style="filled", color="#ffde2f", fontname="Times", label="$$=$" ]
+node_5779 [shape="ellipse", style="filled", color="#ffde2f", fontname="Times", label="$withbehaviour$" ]
+node_5795 [shape="ellipse", style="filled", color="#ffde2f", fontname="Times", label="{theNumber:$,theResult:$}" ]
+node_5801 [shape="box", style="filled", color="#dff1f2", fontname="Courier", label="<%=a0%>=theInterface.theNumber;
+" ]
+node_5803 [shape="box", style="filled", color="#dff1f2", fontname="Courier", label="theInterface.theResult=<%=a0%>;
+" ]
+node_5805 [shape="ellipse", style="filled", color="#ffde2f", fontname="Times", label="{theNumber:$theResult:$}" ]
+node_5778 -> node_5776 [dir=none, arrowHead=none, fontname="Times-Italic", arrowsize=1, color="#9d8400", label="",  headlabel="0", taillabel="3" ]
+node_5778 -> node_5777 [dir=none, arrowHead=none, fontname="Times-Italic", arrowsize=1, color="#9d8400", label="",  headlabel="0", taillabel="1" ]
+node_5779 -> node_5776 [dir=none, arrowHead=none, fontname="Times-Italic", arrowsize=1, color="#9d8400", label="",  headlabel="0", taillabel="1" ]
+node_5779 -> node_5778 [dir=none, arrowHead=none, fontname="Times-Italic", arrowsize=1, color="#9d8400", label="",  headlabel="0", taillabel="2" ]
+node_5776 -> node_5770 [dir=none, arrowHead=none, fontname="Times-Italic", arrowsize=1, color="#9d8400", label="",  headlabel="0", taillabel="1" ]
+node_5778 -> node_5770 [dir=none, arrowHead=none, fontname="Times-Italic", arrowsize=1, color="#9d8400", label="",  headlabel="0", taillabel="2" ]
+node_5795 -> node_5770 [dir=none, arrowHead=none, fontname="Times-Italic", arrowsize=1, color="#9d8400", label="",  headlabel="0", taillabel="1" ]
+node_5795 -> node_5779 [dir=none, arrowHead=none, fontname="Times-Italic", arrowsize=1, color="#9d8400", label="",  headlabel="0", taillabel="2" ]
+node_5805 -> node_5801 [dir=none, arrowHead=none, fontname="Times-Italic", arrowsize=1, color="#9d8400", label="",  headlabel="0", taillabel="1: theNumber" ]
+node_5805 -> node_5803 [dir=none, arrowHead=none, fontname="Times-Italic", arrowsize=1, color="#9d8400", label="",  headlabel="0", taillabel="2: theResult" ]
+node_5795 -> node_5805 [dir=none, arrowHead=none, fontname="Times-Italic", arrowsize=1, color="#9d8400", label="",  headlabel="0", taillabel="0" ]
+}

@@ -92,6 +92,7 @@ let prefix = interfacNode.name;
       break;
     case "InterfaceComposite":
 
+      // Find nodes that corespond to sub interfaces of this interface, if everything goes well, they should already be instantiated
       let nodeOfElement =
       graph
       .matchDirectedEdges({type:'InterfaceElement',from:{node:interfacNode}})
@@ -111,22 +112,25 @@ let prefix = interfacNode.name;
 
       // console.log(nodeOfElement);
 
+      // Create the node that correspond to the interaciton that instantiates this interface
       rootNode =
       graph
       .addNode({
         type:'InteractionInstance',
         content:{
           type: "InteractionSimple",
-          operator: interfacs.toOperator(interfac)
+          operator: interfacs.toOperator(interfac),
+          operatorType:'Composition'
         },
         ports:[]
-    });
+      });
 
+      // for each child element
       _(nodeOfElement)
       .forEach((x) => {
         rootNode.ports[x.index]=x.node.ports;
         graph
-        .addEdge({type:'InteractionInstanceOperand',content:interfac, from:{node: rootNode,index:x.index}, to:{node:x.node,index:0}})})
+        .addEdge({type:'InteractionInstanceOperand',content:interfac, from:{node: rootNode,index:x.index,compositionElementName:interfac.element[x.index-1].key}, to:{node:x.node,index:0}})})
       .commit();
 
       break;

@@ -11,6 +11,7 @@ module.exports= {
     'linkArguments',
     'linkInterface',
     'keepOnlyInteractions',
+    'referentialTransparencyInstances',
     'linkIdentifiers',
     'voidInteractionCreation',
     'behaviourSeparation',

@@ -18,6 +18,7 @@ import instantiateInterfaces from './transformations/instantiateInterfaces'
 import linkArguments from './transformations/linkArguments'
 import linkInterface from './transformations/linkInterface'
 import keepOnlyInteractions from './transformations/keepOnlyInteractions'
+import referentialTransparencyInstances from './transformations/referentialTransparencyInstances'
 import linkIdentifiers from './transformations/linkIdentifiers'
 import voidInteractionCreation from './transformations/voidInteractionCreation'
 import behaviourSeparation from './transformations/behaviourSeparation'
@@ -39,6 +40,10 @@ import orderGraph from './transformations/orderGraph'
 
 export function newExpand(ast,upto){
   let graph = new Graph();
+  return graphTransformationPipeline(graph,ast,upto);
+}
+
+export function graphTransformationPipeline (graph,ast,upto) {
 
   let rootDefinitionNode =
   addDefinitionToGraph(graph,ast);
@@ -84,6 +89,10 @@ export function newExpand(ast,upto){
   keepOnlyInteractions(graph);
   graph.clean();
   if(upto === 'keepOnlyInteractions') return graph;
+
+  referentialTransparencyInstances(graph);
+  graph.clean();
+  if(upto === 'referentialTransparencyInstances') return graph;
 
   linkIdentifiers(graph);
   graph.clean();
@@ -160,7 +169,7 @@ export function newExpand(ast,upto){
   graph.clean();
   if(upto === 'orderGraph') return graph;
 
-  return graph;
+    return graph;
 }
 
 

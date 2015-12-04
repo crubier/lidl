@@ -17,14 +17,14 @@ export default function orderGraph(graph) {
   graph
   .reduceNodes({markedDuringGraphOrdering:false},
   (theResult,theNode)=>{
-    visit(theNode);
+    visit(theNode,[theNode]);
   });
 
-  function visit(n) {
+  function visit(n,stack) {
 
     if (n.temporarilyMarkedDuringGraphOrdering === true) {
       //TODO Add traceback to initial AST (change code everywhere in order to add traceability)
-      throw new Error ("the interaction DAG contains cycles ");//+_(stack).concat([n]).map('id').join(" -> ");
+      throw new Error ("the interaction DAG contains cycles: "+_(stack).concat([n]).map('id').join(" -> "));
     } else {
       if (n.markedDuringGraphOrdering !== true) {
         n.temporarilyMarkedDuringGraphOrdering = true;
@@ -34,7 +34,7 @@ export default function orderGraph(graph) {
           .matchUndirectedEdges({type: 'InteractionInstanceOperand',from: {node:n},to: {node:m}})
           .filter(edge => portIsOnlyMadeOf(edge.from.ports,'out') && portIsOnlyMadeOf(edge.to.ports,'in') )
           .size() > 0)
-        .forEach(visit)
+        .forEach(x=>visit(x,_(stack).concat([n]).value()))
         .commit();
 
         n.markedDuringGraphOrdering = true;

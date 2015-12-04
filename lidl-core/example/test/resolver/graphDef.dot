@@ -1,22 +1,58 @@
-digraph g{node_6388 [shape="ellipse", style="filled", color="#ffde2f", fontname="Times", label="{theNumber:$theOther:$theResult:$theLast:$}" ]
-node_6396 [shape="box", style="filled", color="#dff1f2", fontname="Courier", label="<%=a0%>=theInterface.theNumber;
+digraph g{node_7611 [shape="box", style="filled", color="#dff1f2", fontname="Courier", label="node_7611
+<%=a0%>=theInterface.theNumber;
 " ]
-node_6398 [shape="box", style="filled", color="#dff1f2", fontname="Courier", label="<%=a0%>=theInterface.theOther;
+node_7613 [shape="box", style="filled", color="#dff1f2", fontname="Courier", label="node_7613
+<%=a0%>=theInterface.theOther;
 " ]
-node_6400 [shape="box", style="filled", color="#dff1f2", fontname="Courier", label="theInterface.theResult=<%=a0%>;
+node_7615 [shape="box", style="filled", color="#dff1f2", fontname="Courier", label="node_7615
+theInterface.theResult=<%=a0%>;
 " ]
-node_6402 [shape="box", style="filled", color="#dff1f2", fontname="Courier", label="theInterface.theLast=<%=a0%>;
+node_7617 [shape="box", style="filled", color="#dff1f2", fontname="Courier", label="node_7617
+theInterface.theLast=<%=a0%>;
 " ]
-node_6404 [shape="ellipse", style="filled", color="#ffde2f", fontname="Times", label="{theNumber:$theOther:$theResult:$theLast:$}" ]
-node_6404 -> node_6396 [dir=none, arrowHead=none, fontname="Times-Italic", arrowsize=1, color="#9d8400", label="",  headlabel="0 undefined", taillabel="1 undefined" ]
-node_6404 -> node_6398 [dir=none, arrowHead=none, fontname="Times-Italic", arrowsize=1, color="#9d8400", label="",  headlabel="0 undefined", taillabel="2 undefined" ]
-node_6404 -> node_6400 [dir=none, arrowHead=none, fontname="Times-Italic", arrowsize=1, color="#9d8400", label="",  headlabel="0 undefined", taillabel="3 undefined" ]
-node_6404 -> node_6402 [dir=none, arrowHead=none, fontname="Times-Italic", arrowsize=1, color="#9d8400", label="",  headlabel="0 undefined", taillabel="4 undefined" ]
-node_6388 -> node_6404 [dir=none, arrowHead=none, fontname="Times-Italic", arrowsize=1, color="#9d8400", label="",  headlabel="0 undefined", taillabel="0 undefined" ]
-node_6388 -> node_6388 [dir=none, arrowHead=none, fontname="Times-Italic", arrowsize=1, color="#9d8400", label="",  headlabel="2 undefined", taillabel="1 undefined" ]
-node_6388 -> node_6388 [dir=none, arrowHead=none, fontname="Times-Italic", arrowsize=1, color="#9d8400", label="",  headlabel="3 undefined", taillabel="1 undefined" ]
-node_6388 -> node_6388 [dir=none, arrowHead=none, fontname="Times-Italic", arrowsize=1, color="#9d8400", label="",  headlabel="4 undefined", taillabel="1 undefined" ]
-node_6388 -> node_6388 [dir=none, arrowHead=none, fontname="Times-Italic", arrowsize=1, color="#9d8400", label="",  headlabel="3 undefined", taillabel="2 undefined" ]
-node_6388 -> node_6388 [dir=none, arrowHead=none, fontname="Times-Italic", arrowsize=1, color="#9d8400", label="",  headlabel="4 undefined", taillabel="2 undefined" ]
-node_6388 -> node_6388 [dir=none, arrowHead=none, fontname="Times-Italic", arrowsize=1, color="#9d8400", label="",  headlabel="4 undefined", taillabel="3 undefined" ]
+node_7643 [shape="box", style="filled", color="#dff1f2", fontname="Courier", label="node_7643
+<%=a0%> = active;
+" ]
+node_7710 [shape="box", style="filled", color="#dff1f2", fontname="Courier", label="node_7710
+<%=a1%> = <%=a0%>;
+<%=a2%> = <%=a0%>;
+" ]
+node_7714 [shape="box", style="filled", color="#dff1f2", fontname="Courier", label="node_7714
+<%=a0%>=null;
+if(<%=a0%>===null ){
+  <%=a0%> = <%=a1%>;
+} else if (<%=a1%> !== null){
+  throw ('error:multiple active assignments to the same signal <%=a0%> : '+<%=a0%> + ' and ' + <%=a1%>);
+}if(<%=a0%>===null ){
+  <%=a0%> = <%=a2%>;
+} else if (<%=a2%> !== null){
+  throw ('error:multiple active assignments to the same signal <%=a0%> : '+<%=a0%> + ' and ' + <%=a2%>);
+}" ]
+node_7718 [shape="box", style="filled", color="#dff1f2", fontname="Courier", label="node_7718
+<%=a1%> = <%=a0%>;
+<%=a2%> = <%=a0%>;
+" ]
+node_7722 [shape="box", style="filled", color="#dff1f2", fontname="Courier", label="node_7722
+<%=a0%>=null;
+if(<%=a0%>===null ){
+  <%=a0%> = <%=a1%>;
+} else if (<%=a1%> !== null){
+  throw ('error:multiple active assignments to the same signal <%=a0%> : '+<%=a0%> + ' and ' + <%=a1%>);
+}if(<%=a0%>===null ){
+  <%=a0%> = <%=a2%>;
+} else if (<%=a2%> !== null){
+  throw ('error:multiple active assignments to the same signal <%=a0%> : '+<%=a0%> + ' and ' + <%=a2%>);
+}" ]
+node_7726 [shape="box", style="filled", color="#dff1f2", fontname="Courier", label="node_7726
+// We dont care about <%=a0%>, this is a fake receiver node
+" ]
+node_7611 -> node_7710 [dir=none, arrowHead=none, fontname="Times-Italic", arrowsize=1, color="#9d8400", label="edge_7711",  headlabel="0: in", taillabel="0: out" ]
+node_7714 -> node_7617 [dir=none, arrowHead=none, fontname="Times-Italic", arrowsize=1, color="#9d8400", label="edge_7715",  headlabel="0: in", taillabel="0: out" ]
+node_7710 -> node_7714 [dir=none, arrowHead=none, fontname="Times-Italic", arrowsize=1, color="#9d8400", label="edge_7716",  headlabel="1: in", taillabel="2: out" ]
+node_7613 -> node_7718 [dir=none, arrowHead=none, fontname="Times-Italic", arrowsize=1, color="#9d8400", label="edge_7719",  headlabel="0: in", taillabel="0: out" ]
+node_7718 -> node_7714 [dir=none, arrowHead=none, fontname="Times-Italic", arrowsize=1, color="#9d8400", label="edge_7721",  headlabel="2: in", taillabel="2: out" ]
+node_7722 -> node_7615 [dir=none, arrowHead=none, fontname="Times-Italic", arrowsize=1, color="#9d8400", label="edge_7723",  headlabel="0: in", taillabel="0: out" ]
+node_7710 -> node_7722 [dir=none, arrowHead=none, fontname="Times-Italic", arrowsize=1, color="#9d8400", label="edge_7724",  headlabel="1: in", taillabel="1: out" ]
+node_7718 -> node_7722 [dir=none, arrowHead=none, fontname="Times-Italic", arrowsize=1, color="#9d8400", label="edge_7725",  headlabel="2: in", taillabel="1: out" ]
+node_7643 -> node_7726 [dir=none, arrowHead=none, fontname="Times-Italic", arrowsize=1, color="#9d8400", label="edge_7727",  headlabel="0: in", taillabel="0: out" ]
 }

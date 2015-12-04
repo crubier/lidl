@@ -1,10 +1,11 @@
 jest.autoMockOff();
 //
-var  newExpand = require('../definitions.js').newExpand;
+var  graphTransformationPipeline = require('../definitions.js').graphTransformationPipeline;
 var compiler = require('../compiler.js');
 var _ = require( 'lodash');
 var fs  = require(  'fs');
 var path = require(  'path');
+var Graph =require('../g.js');
 var exec = require('child_process').exec;
 
 
@@ -36,10 +37,18 @@ describe('lidl definitions', function() {
 
 
 // Print the graph at an intermediary step for debugging
-      var graphDef = newExpand(compiler.Lidl2LidlAst(code)[0],'linkIdentifiers');
+      var graphDef = new Graph();
+try {
+// removeOneSidedAffectation
+graphTransformationPipeline(graphDef,compiler.Lidl2LidlAst(code)[0],'orderGraph');
+  // graphTransformationPipeline(graphDef,compiler.Lidl2LidlAst(code)[0],'createDataFlowDirection');
+  fs.writeFileSync(path.join(file, 'graphDef.dot'), graphDef.toDotDef(), {encoding: 'utf8'});
+  exec("dot " + path.join(file, 'graphDef.dot') + " -o" +path.join(file, 'graphDef.pdf')+ " -Tpdf", null);
+} catch (e) {
+  fs.writeFileSync(path.join(file, 'graphDefDump.dot'), graphDef.toDotDef(), {encoding: 'utf8'});
+  exec("dot " + path.join(file, 'graphDefDump.dot') + " -o" +path.join(file, 'graphDefDump.pdf')+ " -Tpdf", null);
+  throw e;
+}
 
-
-      fs.writeFileSync(path.join(file, 'graphDef.dot'), graphDef.toDotDef(), {encoding: 'utf8'});
-      exec("dot " + path.join(file, 'graphDef.dot') + " -o" +path.join(file, 'graphDef.pdf')+ " -Tpdf", null);
 });
 }});

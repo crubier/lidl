@@ -267,7 +267,7 @@ class Graph {
     return this.toDotWithParamaters({
       nodes:{
         Interaction: {color:"#ffd1d1",transform:(x)=>({label: x.content.operator})},
-        InteractionInstance: {color:"#ffde2f",transform:(x)=>({shape:(x.content.type==='InteractionSimple')?"ellipse":'box',color:(x.content.type==='InteractionSimple')?"#ffde2f":"#dff1f2",fontname:(x.content.type==='InteractionSimple')?'Times':'Courier',label: (x.content.type==='InteractionSimple')?(x.content.operator):(x.content.content)})},
+        InteractionInstance: {color:"#ffde2f",transform:(x)=>({shape:(x.content.type==='InteractionSimple')?"ellipse":'box',color:(x.content.type==='InteractionSimple')?"#ffde2f":"#dff1f2",fontname:(x.content.type==='InteractionSimple')?'Times':'Courier',label: (x.content.type==='InteractionSimple')?(x.id+'\n'+x.content.operator):(x.id+'\n'+x.content.content)})},
         Definition: {color:"#afe7ff",transform:(x)=>({label: x.content.signature.operator})},
         SignatureOperandElement: {color:"#2fffc7",transform:(x)=>({label: x.content.name})},
         Interface: {color:"#2fcdff",transform:(x)=>({label: (x.content.type==='InterfaceAtomic')?(x.name + ' : '+ x.content.direction):(x.name)})}
@@ -291,7 +291,7 @@ class Graph {
         DefinitionDependency: {color:"#0040ff",transform:(x)=>({label: ""})}
       },
       undirectedEdges:{
-        InteractionInstanceOperand: {color:"#9d8400",transform:(x)=>({label: "",headlabel:x.to.index+' '+x.to.ports,taillabel:x.from.index+' '+x.from.ports})},
+        InteractionInstanceOperand: {color:"#9d8400",transform:(x)=>({label: x.id,headlabel:x.to.index+(_.isUndefined(x.to.ports)?'':(': '+x.to.ports))+(_.isUndefined(x.to.compositionElementName)?'':(': '+x.to.compositionElementName)),taillabel:x.from.index+(_.isUndefined(x.from.ports)?'':(': '+x.from.ports))+(_.isUndefined(x.from.compositionElementName)?'':(': '+x.from.compositionElementName))})},
       }
     });
   }

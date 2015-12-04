@@ -1,6 +1,15 @@
-digraph g{node_368 [shape="box", style="filled", color="#dff1f2", fontname="Courier", label="<%=a0%>=theArgs.a;
+digraph g{node_448 [shape="box", style="filled", color="#dff1f2", fontname="Courier", label="node_448
+<%=a0%>=theArgs.a;
 " ]
-node_370 [shape="box", style="filled", color="#dff1f2", fontname="Courier", label="theInterface=<%=a0%>;
+node_450 [shape="box", style="filled", color="#dff1f2", fontname="Courier", label="node_450
+theInterface=<%=a0%>;
 " ]
-node_368 -> node_370 [dir=none, arrowHead=none, fontname="Times-Italic", arrowsize=1, color="#9d8400", label="",  headlabel="0 undefined", taillabel="0 undefined" ]
+node_454 [shape="box", style="filled", color="#dff1f2", fontname="Courier", label="node_454
+<%=a0%> = active;
+" ]
+node_455 [shape="box", style="filled", color="#dff1f2", fontname="Courier", label="node_455
+// We dont care about <%=a0%>, this is a fake receiver node
+" ]
+node_448 -> node_450 [dir=none, arrowHead=none, fontname="Times-Italic", arrowsize=1, color="#9d8400", label="edge_453",  headlabel="0: in", taillabel="0: out" ]
+node_454 -> node_455 [dir=none, arrowHead=none, fontname="Times-Italic", arrowsize=1, color="#9d8400", label="edge_456",  headlabel="0: in", taillabel="0: out" ]
 }

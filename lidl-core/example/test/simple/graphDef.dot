@@ -1,11 +1,15 @@
-digraph g{node_6450 [shape="ellipse", style="filled", color="#ffde2f", fontname="Times", label="{theNumber:$theResult:$}" ]
-node_6456 [shape="box", style="filled", color="#dff1f2", fontname="Courier", label="<%=a0%>=theInterface.theNumber;
+digraph g{node_7767 [shape="box", style="filled", color="#dff1f2", fontname="Courier", label="node_7767
+<%=a0%>=theInterface.theNumber;
 " ]
-node_6458 [shape="box", style="filled", color="#dff1f2", fontname="Courier", label="theInterface.theResult=<%=a0%>;
+node_7769 [shape="box", style="filled", color="#dff1f2", fontname="Courier", label="node_7769
+theInterface.theResult=<%=a0%>;
 " ]
-node_6460 [shape="ellipse", style="filled", color="#ffde2f", fontname="Times", label="{theNumber:$theResult:$}" ]
-node_6460 -> node_6456 [dir=none, arrowHead=none, fontname="Times-Italic", arrowsize=1, color="#9d8400", label="",  headlabel="0 undefined", taillabel="1 undefined" ]
-node_6460 -> node_6458 [dir=none, arrowHead=none, fontname="Times-Italic", arrowsize=1, color="#9d8400", label="",  headlabel="0 undefined", taillabel="2 undefined" ]
-node_6450 -> node_6460 [dir=none, arrowHead=none, fontname="Times-Italic", arrowsize=1, color="#9d8400", label="",  headlabel="0 undefined", taillabel="0 undefined" ]
-node_6450 -> node_6450 [dir=none, arrowHead=none, fontname="Times-Italic", arrowsize=1, color="#9d8400", label="",  headlabel="2 undefined", taillabel="1 undefined" ]
+node_7784 [shape="box", style="filled", color="#dff1f2", fontname="Courier", label="node_7784
+<%=a0%> = active;
+" ]
+node_7803 [shape="box", style="filled", color="#dff1f2", fontname="Courier", label="node_7803
+// We dont care about <%=a0%>, this is a fake receiver node
+" ]
+node_7767 -> node_7769 [dir=none, arrowHead=none, fontname="Times-Italic", arrowsize=1, color="#9d8400", label="edge_7797",  headlabel="0: in", taillabel="0: out" ]
+node_7784 -> node_7803 [dir=none, arrowHead=none, fontname="Times-Italic", arrowsize=1, color="#9d8400", label="edge_7804",  headlabel="0: in", taillabel="0: out" ]
 }

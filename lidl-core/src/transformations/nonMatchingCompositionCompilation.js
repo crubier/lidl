@@ -20,7 +20,7 @@ export default function nonMatchingCompositionCompilation(graph) {
         graph
         .matchUndirectedEdges({type:'InteractionInstanceOperand',from:{node:theNode}})
         .reject(theEdge=>_.isUndefined(theEdge.from.compositionElementName))
-        .forEach(theEdge=>{if(theEdge.to.node===theNode){throw new Error('Error:Loop on a composition interaction');}})
+        .forEach(theEdge=>{if(theEdge.to.node===theNode){throw new Error('Error:Loop on a composition interaction '+theNode.content.operator);}})
         .map(theEdge=>({compositionElementName:theEdge.from.compositionElementName, index:theEdge.from.index}))
         .groupBy('index')
         .map(theElement=>
