@@ -28,6 +28,9 @@ module.exports= {
     'removeDuplicateEdge',
     'resolveMultiplePorts',
     'instantiateTemplates',
-    'orderGraph'
+    'orderGraph',
+    'graphTransformationPipeline',
+    'getJsCode',
+    'getExpandedLidlCode'
   ]
 };

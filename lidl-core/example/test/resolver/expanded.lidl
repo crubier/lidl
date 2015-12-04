@@ -1,11 +1,6 @@
 (
-  {theNumber:
-  (variable0)
-  theOther:
-  (variable0)
-  theResult:
-  (variable0)
-  theLast:
-  (variable0)
-  }
-)
+    {theNumber:(variable theNumber)
+    theOther:(variable theNumber)
+    theResult:(variable theNumber)
+    theLast:(variable theNumber)}
+    )

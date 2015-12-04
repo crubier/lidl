@@ -1,0 +1,44 @@
+digraph g{node_6284 [shape="ellipse", style="filled", color="#ffde2f", fontname="Times", label="node_6284
+variabletheNumber" ]
+node_6291 [shape="ellipse", style="filled", color="#ffde2f", fontname="Times", label="node_6291
+{theNumber:$theOther:$theResult:$theLast:$}" ]
+node_6299 [shape="box", style="filled", color="#dff1f2", fontname="Courier", label="node_6299
+<%=a0%>=theInterface.theNumber;
+" ]
+node_6301 [shape="box", style="filled", color="#dff1f2", fontname="Courier", label="node_6301
+<%=a0%>=theInterface.theOther;
+" ]
+node_6303 [shape="box", style="filled", color="#dff1f2", fontname="Courier", label="node_6303
+theInterface.theResult=<%=a0%>;
+" ]
+node_6305 [shape="box", style="filled", color="#dff1f2", fontname="Courier", label="node_6305
+theInterface.theLast=<%=a0%>;
+" ]
+node_6307 [shape="ellipse", style="filled", color="#ffde2f", fontname="Times", label="node_6307
+{theNumber:$theOther:$theResult:$theLast:$}" ]
+node_6240 [shape="ellipse", style="filled", color="#afe7ff", fontname="Times", label="bob" ]
+node_6241 [shape="ellipse", style="filled", color="#2fcdff", fontname="Times", label="theInterface" ]
+node_6242 [shape="ellipse", style="filled", color="#2fcdff", fontname="Times", label="theInterface.theNumber : in" ]
+node_6244 [shape="ellipse", style="filled", color="#2fcdff", fontname="Times", label="theInterface.theOther : in" ]
+node_6246 [shape="ellipse", style="filled", color="#2fcdff", fontname="Times", label="theInterface.theResult : out" ]
+node_6248 [shape="ellipse", style="filled", color="#2fcdff", fontname="Times", label="theInterface.theLast : out" ]
+node_6240 -> node_6291 [dir=forward, arrowHead=normal, fontname="Times-Italic", arrowsize=1, color="#ff6b00", label="",  headlabel="", taillabel="" ]
+node_6240 -> node_6241 [dir=forward, arrowHead=normal, fontname="Times-Italic", arrowsize=1, color="#00e8ff", label="",  headlabel="", taillabel="" ]
+node_6241 -> node_6242 [dir=forward, arrowHead=normal, fontname="Times-Italic", arrowsize=1, color="#008cff", label="1",  headlabel="", taillabel="" ]
+node_6241 -> node_6244 [dir=forward, arrowHead=normal, fontname="Times-Italic", arrowsize=1, color="#008cff", label="2",  headlabel="", taillabel="" ]
+node_6241 -> node_6246 [dir=forward, arrowHead=normal, fontname="Times-Italic", arrowsize=1, color="#008cff", label="3",  headlabel="", taillabel="" ]
+node_6241 -> node_6248 [dir=forward, arrowHead=normal, fontname="Times-Italic", arrowsize=1, color="#008cff", label="4",  headlabel="", taillabel="" ]
+node_6242 -> node_6299 [dir=forward, arrowHead=normal, fontname="Times-Italic", arrowsize=1, color="#e300ff", label="",  headlabel="", taillabel="" ]
+node_6244 -> node_6301 [dir=forward, arrowHead=normal, fontname="Times-Italic", arrowsize=1, color="#e300ff", label="",  headlabel="", taillabel="" ]
+node_6246 -> node_6303 [dir=forward, arrowHead=normal, fontname="Times-Italic", arrowsize=1, color="#e300ff", label="",  headlabel="", taillabel="" ]
+node_6248 -> node_6305 [dir=forward, arrowHead=normal, fontname="Times-Italic", arrowsize=1, color="#e300ff", label="",  headlabel="", taillabel="" ]
+node_6241 -> node_6307 [dir=forward, arrowHead=normal, fontname="Times-Italic", arrowsize=1, color="#e300ff", label="",  headlabel="", taillabel="" ]
+node_6291 -> node_6284 [dir=none, arrowHead=none, fontname="Times-Italic", arrowsize=1, color="#9d8400", label="edge_6293",  headlabel="0", taillabel="1" ]
+node_6291 -> node_6284 [dir=none, arrowHead=none, fontname="Times-Italic", arrowsize=1, color="#9d8400", label="edge_6294",  headlabel="0", taillabel="2" ]
+node_6291 -> node_6284 [dir=none, arrowHead=none, fontname="Times-Italic", arrowsize=1, color="#9d8400", label="edge_6295",  headlabel="0", taillabel="3" ]
+node_6291 -> node_6284 [dir=none, arrowHead=none, fontname="Times-Italic", arrowsize=1, color="#9d8400", label="edge_6296",  headlabel="0", taillabel="4" ]
+node_6307 -> node_6299 [dir=none, arrowHead=none, fontname="Times-Italic", arrowsize=1, color="#9d8400", label="edge_6308",  headlabel="0", taillabel="1: theNumber" ]
+node_6307 -> node_6301 [dir=none, arrowHead=none, fontname="Times-Italic", arrowsize=1, color="#9d8400", label="edge_6309",  headlabel="0", taillabel="2: theOther" ]
+node_6307 -> node_6303 [dir=none, arrowHead=none, fontname="Times-Italic", arrowsize=1, color="#9d8400", label="edge_6310",  headlabel="0", taillabel="3: theResult" ]
+node_6307 -> node_6305 [dir=none, arrowHead=none, fontname="Times-Italic", arrowsize=1, color="#9d8400", label="edge_6311",  headlabel="0", taillabel="4: theLast" ]
+}

@@ -1,29 +1,56 @@
-(
-  {theNumber:
-  (variable0)
-  theResult:
-  (
-    (variable1)
-    withbehaviour
-    (
-      apply
-      (functionboolNot)
-      to
-      (
-        (variable2)
-        withbehaviour
-        (
-          apply
-          (functionisActive)
-          to
-          ((variable3)withbehaviour(get(variable3)frompreviousandset(1)fornext))
-          andget
-          (variable2)
-        )
-      )
-      andget
-      (variable1)
+({
+    theNumber:(variable theNumber)
+    theResult:(
+      (variable not (
+      (variable  (
+      (variable previous(1))
+      with behaviour
+      (get(variable previous(1))from previous and set (1) for next)
+    ) is active)
+      with behaviour
+      (apply (function isActive) to (
+      (variable previous(1))
+      with behaviour
+      (get(variable previous(1))from previous and set (1) for next)
+    ) and get (variable  (
+      (variable previous(1))
+      with behaviour
+      (get(variable previous(1))from previous and set (1) for next)
+    ) is active) )
+    ))
+      with behaviour
+      (apply (function boolNot) to (
+      (variable  (
+      (variable previous(1))
+      with behaviour
+      (get(variable previous(1))from previous and set (1) for next)
+    ) is active)
+      with behaviour
+      (apply (function isActive) to (
+      (variable previous(1))
+      with behaviour
+      (get(variable previous(1))from previous and set (1) for next)
+    ) and get (variable  (
+      (variable previous(1))
+      with behaviour
+      (get(variable previous(1))from previous and set (1) for next)
+    ) is active) )
+    ) and get (variable not (
+      (variable  (
+      (variable previous(1))
+      with behaviour
+      (get(variable previous(1))from previous and set (1) for next)
+    ) is active)
+      with behaviour
+      (apply (function isActive) to (
+      (variable previous(1))
+      with behaviour
+      (get(variable previous(1))from previous and set (1) for next)
+    ) and get (variable  (
+      (variable previous(1))
+      with behaviour
+      (get(variable previous(1))from previous and set (1) for next)
+    ) is active) )
+    )) )
     )
-  )
-  }
-)
+  })

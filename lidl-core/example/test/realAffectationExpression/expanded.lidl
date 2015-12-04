@@ -1,13 +1,13 @@
 (
-  ({theNumber:(variable0)theResult:(variable1)})
-  withbehaviour
-  (
-    (variable1)
-    =
     (
-      (variable2)
-      withbehaviour
-      (apply(functionaddition)to({0:(1)1:(variable0)})andget(variable2))
+    {theResult:(variable theResult)theNumber:(variable theNumber)}
     )
+  with behaviour
+    ((variable theResult)=((variable result of (1)+(variable theNumber))with behaviour
+  (apply(function addition)
+    to ({
+      0:(1)
+      1:(variable theNumber)
+    })
+    and get (variable result of (1)+(variable theNumber)))))
   )
-)

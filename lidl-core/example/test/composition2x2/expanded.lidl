@@ -1,22 +1,10 @@
 (
-  (
-    {theNumber:
-    (variable0)
-    theOther:
-    (variable1)
-    theResult:
-    (variable2)
-    theLast:
-    (variable3)
-    }
+    ({
+      theNumber:(variable theNumber)
+      theOther:(variable y)
+      theResult:(variable theResult)
+      theLast:(variable wow)
+    })
+  with behaviour
+    (apply (function cool) to ({0:(variable theNumber)1:(variable y)}) and get ({sum:(variable theResult)diff:(variable wow)}) )
   )
-  withbehaviour
-  (
-    apply
-    (functioncool)
-    to
-    ({0:(variable0)1:(variable1)})
-    andget
-    ({sum:(variable2)diff:(variable3)})
-  )
-)

@@ -1,0 +1,56 @@
+(
+      (variable result of if (
+      (variable result of (a)==(1))
+      with behaviour
+      (apply (function isEqual) to ({a:(a),b:(1)}) and get (variable result of (a)==(1)) )
+    ) then ({theNumber:(variable xzw),theResult:(variable xzw)}) else ({theNumber:(variable uvwys),theResult:(-8000)}))
+      with behaviour
+      (
+      (variable activation of when (
+      (variable result of (a)==(1))
+      with behaviour
+      (apply (function isEqual) to ({a:(a),b:(1)}) and get (variable result of (a)==(1)) )
+    ) then ((variable result of if (
+      (variable result of (a)==(1))
+      with behaviour
+      (apply (function isEqual) to ({a:(a),b:(1)}) and get (variable result of (a)==(1)) )
+    ) then ({theNumber:(variable xzw),theResult:(variable xzw)}) else ({theNumber:(variable uvwys),theResult:(-8000)})) = ({theNumber:(variable xzw),theResult:(variable xzw)})) else ((variable result of if (
+      (variable result of (a)==(1))
+      with behaviour
+      (apply (function isEqual) to ({a:(a),b:(1)}) and get (variable result of (a)==(1)) )
+    ) then ({theNumber:(variable xzw),theResult:(variable xzw)}) else ({theNumber:(variable uvwys),theResult:(-8000)})) = ({theNumber:(variable uvwys),theResult:(-8000)})))
+      with behaviour
+      (
+        apply
+        (function whenThenElse)
+        to
+        ({  cond:(
+      (variable result of (a)==(1))
+      with behaviour
+      (apply (function isEqual) to ({a:(a),b:(1)}) and get (variable result of (a)==(1)) )
+    )  source:(variable activation of when (
+      (variable result of (a)==(1))
+      with behaviour
+      (apply (function isEqual) to ({a:(a),b:(1)}) and get (variable result of (a)==(1)) )
+    ) then ((variable result of if (
+      (variable result of (a)==(1))
+      with behaviour
+      (apply (function isEqual) to ({a:(a),b:(1)}) and get (variable result of (a)==(1)) )
+    ) then ({theNumber:(variable xzw),theResult:(variable xzw)}) else ({theNumber:(variable uvwys),theResult:(-8000)})) = ({theNumber:(variable xzw),theResult:(variable xzw)})) else ((variable result of if (
+      (variable result of (a)==(1))
+      with behaviour
+      (apply (function isEqual) to ({a:(a),b:(1)}) and get (variable result of (a)==(1)) )
+    ) then ({theNumber:(variable xzw),theResult:(variable xzw)}) else ({theNumber:(variable uvwys),theResult:(-8000)})) = ({theNumber:(variable uvwys),theResult:(-8000)})))   })
+        and get
+        ({a:((variable result of if (
+      (variable result of (a)==(1))
+      with behaviour
+      (apply (function isEqual) to ({a:(a),b:(1)}) and get (variable result of (a)==(1)) )
+    ) then ({theNumber:(variable xzw),theResult:(variable xzw)}) else ({theNumber:(variable uvwys),theResult:(-8000)})) = ({theNumber:(variable xzw),theResult:(variable xzw)})) b:((variable result of if (
+      (variable result of (a)==(1))
+      with behaviour
+      (apply (function isEqual) to ({a:(a),b:(1)}) and get (variable result of (a)==(1)) )
+    ) then ({theNumber:(variable xzw),theResult:(variable xzw)}) else ({theNumber:(variable uvwys),theResult:(-8000)})) = ({theNumber:(variable uvwys),theResult:(-8000)}))})
+      )
+    )
+    )

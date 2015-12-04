@@ -1,9 +1,5 @@
 (
-  (variable0)
-  withbehaviour
-  (
-    ((variable1)withbehaviour((variable0)=({theResult:(variable1)})))
-    =
-    ((variable2)withbehaviour(({theNumber:(variable2)})=(variable0)))
+    (variable this)
+    with behaviour
+    (((variable (variable this).theResult) with behaviour ((variable this)=({theResult:(variable (variable this).theResult)})))=((variable (variable this).theNumber) with behaviour (({theNumber:(variable (variable this).theNumber)})=(variable this))) )
   )
-)

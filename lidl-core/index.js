@@ -5,8 +5,9 @@ module.exports = {
   identifiers: require('./src/identifiers.js'),
   parser:require('./src/parser.js'),
   serializer:require('./src/serializer.js'),
-  compiler:require('./src/compiler.js'),
   operator:require('./src/operator.js'),
   graph:require('./src/g.js'),
-  config:require('./src/config.js')
+  config:require('./src/config.js'),
+  compiler:require('./src/compiler.js'),
+  graphCompiler:require('./src/graphCompiler.js')
 };

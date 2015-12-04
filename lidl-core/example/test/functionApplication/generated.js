@@ -127,22 +127,22 @@ var all = function(x) {
 ///////////////////////////////////////////////////////////////////////
 //Declaration of variables
 
-var edge_2592 = inactive;
-var edge_2593 = inactive;
-var edge_2604 = inactive;
-var edge_2605 = inactive;
+var edge_5809 = inactive;
+var edge_5810 = inactive;
+var edge_5821 = inactive;
+var edge_5822 = inactive;
 ///////////////////////////////////////////////////////////////////////
 //Code of the DAG
 
-edge_2593 = addOne;
+edge_5810 = addOne;
 
-edge_2592 = active;
+edge_5809 = active;
 
-edge_2604=theInterface.theNumber;
+edge_5821=theInterface.theNumber;
 
-if(edge_2592 === active && edge_2593!==null && edge_2593!==undefined) {edge_2605 = edge_2593(edge_2604);}
+if(edge_5809 === active && edge_5810!==null && edge_5810!==undefined) {edge_5822 = edge_5810(edge_5821);}
 
-theInterface.theResult=edge_2605;
+theInterface.theResult=edge_5822;
 
 ///////////////////////////////////////////////////////////////////////
 //Return statement

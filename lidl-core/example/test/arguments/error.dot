@@ -1,0 +1,20 @@
+digraph g{node_357 [shape="ellipse", style="filled", color="#ffde2f", fontname="Times", label="node_357
+a" ]
+node_362 [shape="box", style="filled", color="#dff1f2", fontname="Courier", label="node_362
+<%=a0%>=theArgs.a;
+" ]
+node_364 [shape="box", style="filled", color="#dff1f2", fontname="Courier", label="node_364
+theInterface=<%=a0%>;
+" ]
+node_341 [shape="ellipse", style="filled", color="#afe7ff", fontname="Times", label="bob$" ]
+node_342 [shape="ellipse", style="filled", color="#2fffc7", fontname="Times", label="a" ]
+node_343 [shape="ellipse", style="filled", color="#2fcdff", fontname="Times", label="theArgs.a : in" ]
+node_347 [shape="ellipse", style="filled", color="#2fcdff", fontname="Times", label="theInterface : out" ]
+node_341 -> node_357 [dir=forward, arrowHead=normal, fontname="Times-Italic", arrowsize=1, color="#ff6b00", label="",  headlabel="", taillabel="" ]
+node_357 -> node_341 [dir=forward, arrowHead=normal, fontname="Times-Italic", arrowsize=1, color="#00ff03", label="1",  headlabel="", taillabel="" ]
+node_341 -> node_342 [dir=forward, arrowHead=normal, fontname="Times-Italic", arrowsize=1, color="#2fffc7", label="1",  headlabel="", taillabel="" ]
+node_342 -> node_343 [dir=forward, arrowHead=normal, fontname="Times-Italic", arrowsize=1, color="#00e8ff", label="",  headlabel="", taillabel="" ]
+node_341 -> node_347 [dir=forward, arrowHead=normal, fontname="Times-Italic", arrowsize=1, color="#00e8ff", label="",  headlabel="", taillabel="" ]
+node_343 -> node_362 [dir=forward, arrowHead=normal, fontname="Times-Italic", arrowsize=1, color="#e300ff", label="",  headlabel="", taillabel="" ]
+node_347 -> node_364 [dir=forward, arrowHead=normal, fontname="Times-Italic", arrowsize=1, color="#e300ff", label="",  headlabel="", taillabel="" ]
+}

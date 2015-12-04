@@ -127,32 +127,32 @@ var all = function(x) {
 ///////////////////////////////////////////////////////////////////////
 //Declaration of variables
 
-var edge_2712 = inactive;
-var edge_2713 = inactive;
-var edge_2715 = inactive;
-var edge_2719 = inactive;
-var edge_2721 = inactive;
-var edge_2722 = inactive;
-var edge_2723 = inactive;
+var edge_6928 = inactive;
+var edge_6929 = inactive;
+var edge_6931 = inactive;
+var edge_6935 = inactive;
+var edge_6937 = inactive;
+var edge_6938 = inactive;
+var edge_6939 = inactive;
 ///////////////////////////////////////////////////////////////////////
 //Code of the DAG
 
-edge_2721 = 9;
+edge_6937 = 9;
 
-edge_2722 = edge_2721;
-edge_2723 = edge_2721;
+edge_6938 = edge_6937;
+edge_6939 = edge_6937;
 
-edge_2719 = {};
-edge_2719['0'] = edge_2722;
-edge_2719['1'] = edge_2723;
+edge_6935 = {};
+edge_6935['0'] = edge_6938;
+edge_6935['1'] = edge_6939;
 
-edge_2713 = addition;
+edge_6929 = addition;
 
-edge_2712 = active;
+edge_6928 = active;
 
-if(edge_2712 === active && edge_2713!==null && edge_2713!==undefined) {edge_2715 = edge_2713(edge_2719);}
+if(edge_6928 === active && edge_6929!==null && edge_6929!==undefined) {edge_6931 = edge_6929(edge_6935);}
 
-theInterface=edge_2715;
+theInterface=edge_6931;
 
 ///////////////////////////////////////////////////////////////////////
 //Return statement

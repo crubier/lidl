@@ -127,48 +127,48 @@ var all = function(x) {
 ///////////////////////////////////////////////////////////////////////
 //Declaration of variables
 
-var edge_4135 = inactive;
-var edge_4137 = inactive;
-var edge_4145 = inactive;
-var edge_4147 = inactive;
-var edge_4151 = inactive;
-var edge_4152 = inactive;
-var edge_4153 = inactive;
-var edge_4154 = inactive;
-var edge_4156 = inactive;
-var edge_4157 = inactive;
-var edge_4158 = inactive;
+var edge_8481 = inactive;
+var edge_8483 = inactive;
+var edge_8491 = inactive;
+var edge_8493 = inactive;
+var edge_8497 = inactive;
+var edge_8498 = inactive;
+var edge_8499 = inactive;
+var edge_8500 = inactive;
+var edge_8502 = inactive;
+var edge_8503 = inactive;
+var edge_8504 = inactive;
 ///////////////////////////////////////////////////////////////////////
 //Code of the DAG
 
-edge_4135 = addition;
+edge_8481 = addition;
 
-edge_4151 = active;
+edge_8497 = active;
 
-edge_4152 = edge_4151;
-edge_4153 = edge_4151;
-edge_4154 = edge_4151;
+edge_8498 = edge_8497;
+edge_8499 = edge_8497;
+edge_8500 = edge_8497;
 
-if(edge_4153 === active) {
-edge_4156 = previousState['state_4138'];
+if(edge_8499 === active) {
+edge_8502 = previousState['state_8484'];
 }
 
-edge_4157 = edge_4156;
-edge_4158 = edge_4156;
+edge_8503 = edge_8502;
+edge_8504 = edge_8502;
 
-edge_4147 = {};
-edge_4147['0'] = edge_4157;
-edge_4147['1'] = edge_4158;
+edge_8493 = {};
+edge_8493['0'] = edge_8503;
+edge_8493['1'] = edge_8504;
 
-if(edge_4152 === active && edge_4135!==null && edge_4135!==undefined) {edge_4137 = edge_4135(edge_4147);}
+if(edge_8498 === active && edge_8481!==null && edge_8481!==undefined) {edge_8483 = edge_8481(edge_8493);}
 
-edge_4145=theArgs.a;
+theInterface=edge_8483;
 
-if(edge_4154 === active) {
-nextState['state_4138'] = edge_4145;
+edge_8491=theArgs.a;
+
+if(edge_8500 === active) {
+nextState['state_8484'] = edge_8491;
 }
-
-theInterface=edge_4137;
 
 ///////////////////////////////////////////////////////////////////////
 //Return statement
@@ -185,7 +185,7 @@ theInterface=edge_4137;
 function initializationFunction(data){
 return {
       memo: {},
-      state: {state_4138:null},
+      state: {state_8484:null},
       args: {},
       inter: {}
     };

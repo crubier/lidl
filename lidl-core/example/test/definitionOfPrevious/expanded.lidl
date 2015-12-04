@@ -1,7 +1,8 @@
-(
-  {theNumber:
-  (variable0)
-  theResult:
-  ((variable1)withbehaviour(get(variable1)frompreviousandset(variable0)fornext))
-  }
-)
+({
+    theNumber:(variable theNumber)
+    theResult:(
+      (variable previous(variable theNumber))
+      with behaviour
+      (get(variable previous(variable theNumber))from previous and set (variable theNumber) for next)
+    )
+  })

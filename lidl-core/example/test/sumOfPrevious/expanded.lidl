@@ -1,16 +1,1 @@
-(
-  (variable0)
-  withbehaviour
-  (
-    (functionaddition)
-    (
-      {0:
-      ((variable1)withbehaviour((variable1)=previous(a)))
-      1:
-      ((variable1)withbehaviour((variable1)=previous(a)))
-      }
-    )
-    =
-    (variable0)
-  )
-)
+((# ((# previous (a)) with behaviour ((# previous (a)) = previous (a)))+((# previous (a)) with behaviour ((# previous (a)) = previous (a)))) with behaviour ((function addition)({0:((# previous (a)) with behaviour ((# previous (a)) = previous (a)))1:((# previous (a)) with behaviour ((# previous (a)) = previous (a)))})=(# ((# previous (a)) with behaviour ((# previous (a)) = previous (a)))+((# previous (a)) with behaviour ((# previous (a)) = previous (a))))))

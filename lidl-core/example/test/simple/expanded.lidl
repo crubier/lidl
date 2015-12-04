@@ -1,1 +1,4 @@
-({theNumber:(variable0)theResult:(variable0)})
+({
+          theNumber:(variable x)
+          theResult:(variable x)
+        })

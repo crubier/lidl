@@ -1,73 +1,568 @@
 (
-  ({theNumber:(variable0)theResult:(variable1)})
-  withbehaviour
-  (
-    (variable1)
-    =
+    ({
+      theNumber:(variable new (variable theNumber))
+      theResult:(variable theNumber)
+    })
+    with behaviour
+    ( (variable theNumber)  =   (
+    (variable result of if (
+      (variable  (variable new (variable theNumber)) is active)
+      with behaviour
+      (apply (function isActive) to (variable new (variable theNumber)) and get (variable  (variable new (variable theNumber)) is active) )
+    ) then (variable new (variable theNumber)) else (
+    (variable result of if (
+      (variable not (
+      (variable  (
+      (variable previous(1))
+      with behaviour
+      (get(variable previous(1))from previous and set (1) for next)
+    ) is active)
+      with behaviour
+      (apply (function isActive) to (
+      (variable previous(1))
+      with behaviour
+      (get(variable previous(1))from previous and set (1) for next)
+    ) and get (variable  (
+      (variable previous(1))
+      with behaviour
+      (get(variable previous(1))from previous and set (1) for next)
+    ) is active) )
+    ))
+      with behaviour
+      (apply (function boolNot) to (
+      (variable  (
+      (variable previous(1))
+      with behaviour
+      (get(variable previous(1))from previous and set (1) for next)
+    ) is active)
+      with behaviour
+      (apply (function isActive) to (
+      (variable previous(1))
+      with behaviour
+      (get(variable previous(1))from previous and set (1) for next)
+    ) and get (variable  (
+      (variable previous(1))
+      with behaviour
+      (get(variable previous(1))from previous and set (1) for next)
+    ) is active) )
+    ) and get (variable not (
+      (variable  (
+      (variable previous(1))
+      with behaviour
+      (get(variable previous(1))from previous and set (1) for next)
+    ) is active)
+      with behaviour
+      (apply (function isActive) to (
+      (variable previous(1))
+      with behaviour
+      (get(variable previous(1))from previous and set (1) for next)
+    ) and get (variable  (
+      (variable previous(1))
+      with behaviour
+      (get(variable previous(1))from previous and set (1) for next)
+    ) is active) )
+    )) )
+    ) then (1) else (
+      (variable previous(variable theNumber))
+      with behaviour
+      (get(variable previous(variable theNumber))from previous and set (variable theNumber) for next)
+    ))
+    with behaviour
     (
-      (variable2)
-      withbehaviour
-      (
-        apply
-        (functionifThenElse)
-        to
-        (
-          {cond:
-          (
-            (variable3)
-            withbehaviour
-            (apply(functionisActive)to(variable0)andget(variable3))
-          )
-          a:
-          (variable0)
-          b:
-          (
-            (variable4)
-            withbehaviour
-            (
-              apply
-              (functionifThenElse)
-              to
-              (
-                {cond:
-                (
-                  (variable5)
-                  withbehaviour
-                  (
-                    apply
-                    (functionboolNot)
-                    to
-                    (
-                      (variable6)
-                      withbehaviour
-                      (
-                        apply
-                        (functionisActive)
-                        to
-                        ((variable7)withbehaviour(get(variable7)frompreviousandset(1)fornext))
-                        andget
-                        (variable6)
-                      )
-                    )
-                    andget
-                    (variable5)
-                  )
-                )
-                a:
-                (1)
-                b:
-                ((variable8)withbehaviour(get(variable8)frompreviousandset(variable1)fornext))
-                }
-              )
-              andget
-              (variable4)
-            )
-          )
-          }
-        )
-        andget
-        (variable2)
-      )
+      apply
+      (function ifThenElse)
+      to
+      ({  cond:(
+      (variable not (
+      (variable  (
+      (variable previous(1))
+      with behaviour
+      (get(variable previous(1))from previous and set (1) for next)
+    ) is active)
+      with behaviour
+      (apply (function isActive) to (
+      (variable previous(1))
+      with behaviour
+      (get(variable previous(1))from previous and set (1) for next)
+    ) and get (variable  (
+      (variable previous(1))
+      with behaviour
+      (get(variable previous(1))from previous and set (1) for next)
+    ) is active) )
+    ))
+      with behaviour
+      (apply (function boolNot) to (
+      (variable  (
+      (variable previous(1))
+      with behaviour
+      (get(variable previous(1))from previous and set (1) for next)
+    ) is active)
+      with behaviour
+      (apply (function isActive) to (
+      (variable previous(1))
+      with behaviour
+      (get(variable previous(1))from previous and set (1) for next)
+    ) and get (variable  (
+      (variable previous(1))
+      with behaviour
+      (get(variable previous(1))from previous and set (1) for next)
+    ) is active) )
+    ) and get (variable not (
+      (variable  (
+      (variable previous(1))
+      with behaviour
+      (get(variable previous(1))from previous and set (1) for next)
+    ) is active)
+      with behaviour
+      (apply (function isActive) to (
+      (variable previous(1))
+      with behaviour
+      (get(variable previous(1))from previous and set (1) for next)
+    ) and get (variable  (
+      (variable previous(1))
+      with behaviour
+      (get(variable previous(1))from previous and set (1) for next)
+    ) is active) )
+    )) )
+    )  a:(1)  b:(
+      (variable previous(variable theNumber))
+      with behaviour
+      (get(variable previous(variable theNumber))from previous and set (variable theNumber) for next)
+    )  })
+      and get
+      (variable result of if (
+      (variable not (
+      (variable  (
+      (variable previous(1))
+      with behaviour
+      (get(variable previous(1))from previous and set (1) for next)
+    ) is active)
+      with behaviour
+      (apply (function isActive) to (
+      (variable previous(1))
+      with behaviour
+      (get(variable previous(1))from previous and set (1) for next)
+    ) and get (variable  (
+      (variable previous(1))
+      with behaviour
+      (get(variable previous(1))from previous and set (1) for next)
+    ) is active) )
+    ))
+      with behaviour
+      (apply (function boolNot) to (
+      (variable  (
+      (variable previous(1))
+      with behaviour
+      (get(variable previous(1))from previous and set (1) for next)
+    ) is active)
+      with behaviour
+      (apply (function isActive) to (
+      (variable previous(1))
+      with behaviour
+      (get(variable previous(1))from previous and set (1) for next)
+    ) and get (variable  (
+      (variable previous(1))
+      with behaviour
+      (get(variable previous(1))from previous and set (1) for next)
+    ) is active) )
+    ) and get (variable not (
+      (variable  (
+      (variable previous(1))
+      with behaviour
+      (get(variable previous(1))from previous and set (1) for next)
+    ) is active)
+      with behaviour
+      (apply (function isActive) to (
+      (variable previous(1))
+      with behaviour
+      (get(variable previous(1))from previous and set (1) for next)
+    ) and get (variable  (
+      (variable previous(1))
+      with behaviour
+      (get(variable previous(1))from previous and set (1) for next)
+    ) is active) )
+    )) )
+    ) then (1) else (
+      (variable previous(variable theNumber))
+      with behaviour
+      (get(variable previous(variable theNumber))from previous and set (variable theNumber) for next)
+    ))
     )
+  ))
+    with behaviour
+    (
+      apply
+      (function ifThenElse)
+      to
+      ({  cond:(
+      (variable  (variable new (variable theNumber)) is active)
+      with behaviour
+      (apply (function isActive) to (variable new (variable theNumber)) and get (variable  (variable new (variable theNumber)) is active) )
+    )  a:(variable new (variable theNumber))  b:(
+    (variable result of if (
+      (variable not (
+      (variable  (
+      (variable previous(1))
+      with behaviour
+      (get(variable previous(1))from previous and set (1) for next)
+    ) is active)
+      with behaviour
+      (apply (function isActive) to (
+      (variable previous(1))
+      with behaviour
+      (get(variable previous(1))from previous and set (1) for next)
+    ) and get (variable  (
+      (variable previous(1))
+      with behaviour
+      (get(variable previous(1))from previous and set (1) for next)
+    ) is active) )
+    ))
+      with behaviour
+      (apply (function boolNot) to (
+      (variable  (
+      (variable previous(1))
+      with behaviour
+      (get(variable previous(1))from previous and set (1) for next)
+    ) is active)
+      with behaviour
+      (apply (function isActive) to (
+      (variable previous(1))
+      with behaviour
+      (get(variable previous(1))from previous and set (1) for next)
+    ) and get (variable  (
+      (variable previous(1))
+      with behaviour
+      (get(variable previous(1))from previous and set (1) for next)
+    ) is active) )
+    ) and get (variable not (
+      (variable  (
+      (variable previous(1))
+      with behaviour
+      (get(variable previous(1))from previous and set (1) for next)
+    ) is active)
+      with behaviour
+      (apply (function isActive) to (
+      (variable previous(1))
+      with behaviour
+      (get(variable previous(1))from previous and set (1) for next)
+    ) and get (variable  (
+      (variable previous(1))
+      with behaviour
+      (get(variable previous(1))from previous and set (1) for next)
+    ) is active) )
+    )) )
+    ) then (1) else (
+      (variable previous(variable theNumber))
+      with behaviour
+      (get(variable previous(variable theNumber))from previous and set (variable theNumber) for next)
+    ))
+    with behaviour
+    (
+      apply
+      (function ifThenElse)
+      to
+      ({  cond:(
+      (variable not (
+      (variable  (
+      (variable previous(1))
+      with behaviour
+      (get(variable previous(1))from previous and set (1) for next)
+    ) is active)
+      with behaviour
+      (apply (function isActive) to (
+      (variable previous(1))
+      with behaviour
+      (get(variable previous(1))from previous and set (1) for next)
+    ) and get (variable  (
+      (variable previous(1))
+      with behaviour
+      (get(variable previous(1))from previous and set (1) for next)
+    ) is active) )
+    ))
+      with behaviour
+      (apply (function boolNot) to (
+      (variable  (
+      (variable previous(1))
+      with behaviour
+      (get(variable previous(1))from previous and set (1) for next)
+    ) is active)
+      with behaviour
+      (apply (function isActive) to (
+      (variable previous(1))
+      with behaviour
+      (get(variable previous(1))from previous and set (1) for next)
+    ) and get (variable  (
+      (variable previous(1))
+      with behaviour
+      (get(variable previous(1))from previous and set (1) for next)
+    ) is active) )
+    ) and get (variable not (
+      (variable  (
+      (variable previous(1))
+      with behaviour
+      (get(variable previous(1))from previous and set (1) for next)
+    ) is active)
+      with behaviour
+      (apply (function isActive) to (
+      (variable previous(1))
+      with behaviour
+      (get(variable previous(1))from previous and set (1) for next)
+    ) and get (variable  (
+      (variable previous(1))
+      with behaviour
+      (get(variable previous(1))from previous and set (1) for next)
+    ) is active) )
+    )) )
+    )  a:(1)  b:(
+      (variable previous(variable theNumber))
+      with behaviour
+      (get(variable previous(variable theNumber))from previous and set (variable theNumber) for next)
+    )  })
+      and get
+      (variable result of if (
+      (variable not (
+      (variable  (
+      (variable previous(1))
+      with behaviour
+      (get(variable previous(1))from previous and set (1) for next)
+    ) is active)
+      with behaviour
+      (apply (function isActive) to (
+      (variable previous(1))
+      with behaviour
+      (get(variable previous(1))from previous and set (1) for next)
+    ) and get (variable  (
+      (variable previous(1))
+      with behaviour
+      (get(variable previous(1))from previous and set (1) for next)
+    ) is active) )
+    ))
+      with behaviour
+      (apply (function boolNot) to (
+      (variable  (
+      (variable previous(1))
+      with behaviour
+      (get(variable previous(1))from previous and set (1) for next)
+    ) is active)
+      with behaviour
+      (apply (function isActive) to (
+      (variable previous(1))
+      with behaviour
+      (get(variable previous(1))from previous and set (1) for next)
+    ) and get (variable  (
+      (variable previous(1))
+      with behaviour
+      (get(variable previous(1))from previous and set (1) for next)
+    ) is active) )
+    ) and get (variable not (
+      (variable  (
+      (variable previous(1))
+      with behaviour
+      (get(variable previous(1))from previous and set (1) for next)
+    ) is active)
+      with behaviour
+      (apply (function isActive) to (
+      (variable previous(1))
+      with behaviour
+      (get(variable previous(1))from previous and set (1) for next)
+    ) and get (variable  (
+      (variable previous(1))
+      with behaviour
+      (get(variable previous(1))from previous and set (1) for next)
+    ) is active) )
+    )) )
+    ) then (1) else (
+      (variable previous(variable theNumber))
+      with behaviour
+      (get(variable previous(variable theNumber))from previous and set (variable theNumber) for next)
+    ))
+    )
+  )  })
+      and get
+      (variable result of if (
+      (variable  (variable new (variable theNumber)) is active)
+      with behaviour
+      (apply (function isActive) to (variable new (variable theNumber)) and get (variable  (variable new (variable theNumber)) is active) )
+    ) then (variable new (variable theNumber)) else (
+    (variable result of if (
+      (variable not (
+      (variable  (
+      (variable previous(1))
+      with behaviour
+      (get(variable previous(1))from previous and set (1) for next)
+    ) is active)
+      with behaviour
+      (apply (function isActive) to (
+      (variable previous(1))
+      with behaviour
+      (get(variable previous(1))from previous and set (1) for next)
+    ) and get (variable  (
+      (variable previous(1))
+      with behaviour
+      (get(variable previous(1))from previous and set (1) for next)
+    ) is active) )
+    ))
+      with behaviour
+      (apply (function boolNot) to (
+      (variable  (
+      (variable previous(1))
+      with behaviour
+      (get(variable previous(1))from previous and set (1) for next)
+    ) is active)
+      with behaviour
+      (apply (function isActive) to (
+      (variable previous(1))
+      with behaviour
+      (get(variable previous(1))from previous and set (1) for next)
+    ) and get (variable  (
+      (variable previous(1))
+      with behaviour
+      (get(variable previous(1))from previous and set (1) for next)
+    ) is active) )
+    ) and get (variable not (
+      (variable  (
+      (variable previous(1))
+      with behaviour
+      (get(variable previous(1))from previous and set (1) for next)
+    ) is active)
+      with behaviour
+      (apply (function isActive) to (
+      (variable previous(1))
+      with behaviour
+      (get(variable previous(1))from previous and set (1) for next)
+    ) and get (variable  (
+      (variable previous(1))
+      with behaviour
+      (get(variable previous(1))from previous and set (1) for next)
+    ) is active) )
+    )) )
+    ) then (1) else (
+      (variable previous(variable theNumber))
+      with behaviour
+      (get(variable previous(variable theNumber))from previous and set (variable theNumber) for next)
+    ))
+    with behaviour
+    (
+      apply
+      (function ifThenElse)
+      to
+      ({  cond:(
+      (variable not (
+      (variable  (
+      (variable previous(1))
+      with behaviour
+      (get(variable previous(1))from previous and set (1) for next)
+    ) is active)
+      with behaviour
+      (apply (function isActive) to (
+      (variable previous(1))
+      with behaviour
+      (get(variable previous(1))from previous and set (1) for next)
+    ) and get (variable  (
+      (variable previous(1))
+      with behaviour
+      (get(variable previous(1))from previous and set (1) for next)
+    ) is active) )
+    ))
+      with behaviour
+      (apply (function boolNot) to (
+      (variable  (
+      (variable previous(1))
+      with behaviour
+      (get(variable previous(1))from previous and set (1) for next)
+    ) is active)
+      with behaviour
+      (apply (function isActive) to (
+      (variable previous(1))
+      with behaviour
+      (get(variable previous(1))from previous and set (1) for next)
+    ) and get (variable  (
+      (variable previous(1))
+      with behaviour
+      (get(variable previous(1))from previous and set (1) for next)
+    ) is active) )
+    ) and get (variable not (
+      (variable  (
+      (variable previous(1))
+      with behaviour
+      (get(variable previous(1))from previous and set (1) for next)
+    ) is active)
+      with behaviour
+      (apply (function isActive) to (
+      (variable previous(1))
+      with behaviour
+      (get(variable previous(1))from previous and set (1) for next)
+    ) and get (variable  (
+      (variable previous(1))
+      with behaviour
+      (get(variable previous(1))from previous and set (1) for next)
+    ) is active) )
+    )) )
+    )  a:(1)  b:(
+      (variable previous(variable theNumber))
+      with behaviour
+      (get(variable previous(variable theNumber))from previous and set (variable theNumber) for next)
+    )  })
+      and get
+      (variable result of if (
+      (variable not (
+      (variable  (
+      (variable previous(1))
+      with behaviour
+      (get(variable previous(1))from previous and set (1) for next)
+    ) is active)
+      with behaviour
+      (apply (function isActive) to (
+      (variable previous(1))
+      with behaviour
+      (get(variable previous(1))from previous and set (1) for next)
+    ) and get (variable  (
+      (variable previous(1))
+      with behaviour
+      (get(variable previous(1))from previous and set (1) for next)
+    ) is active) )
+    ))
+      with behaviour
+      (apply (function boolNot) to (
+      (variable  (
+      (variable previous(1))
+      with behaviour
+      (get(variable previous(1))from previous and set (1) for next)
+    ) is active)
+      with behaviour
+      (apply (function isActive) to (
+      (variable previous(1))
+      with behaviour
+      (get(variable previous(1))from previous and set (1) for next)
+    ) and get (variable  (
+      (variable previous(1))
+      with behaviour
+      (get(variable previous(1))from previous and set (1) for next)
+    ) is active) )
+    ) and get (variable not (
+      (variable  (
+      (variable previous(1))
+      with behaviour
+      (get(variable previous(1))from previous and set (1) for next)
+    ) is active)
+      with behaviour
+      (apply (function isActive) to (
+      (variable previous(1))
+      with behaviour
+      (get(variable previous(1))from previous and set (1) for next)
+    ) and get (variable  (
+      (variable previous(1))
+      with behaviour
+      (get(variable previous(1))from previous and set (1) for next)
+    ) is active) )
+    )) )
+    ) then (1) else (
+      (variable previous(variable theNumber))
+      with behaviour
+      (get(variable previous(variable theNumber))from previous and set (variable theNumber) for next)
+    ))
+    )
+  ))
+    )
+  ) )
   )
-)
