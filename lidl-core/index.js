@@ -9,5 +9,7 @@ module.exports = {
   graph:require('./src/g.js'),
   config:require('./src/config.js'),
   compiler:require('./src/compiler.js'),
-  graphCompiler:require('./src/graphCompiler.js')
+  graphCompiler:require('./src/graphCompiler.js'),
+  runner:require('./src/runner.js'),
+  examples:require('./src/examples.js')
 };

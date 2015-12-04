@@ -1,9 +1,28 @@
-var l = require('lidl-core')
-var Lidl = l.compiler;
-var Graph = l.graph;
+
+"use strict"
+
 var _ = require('lodash');
 var beautify = require('js-beautify').js_beautify;
 var viz = require('viz.js');
+
+
+var Lidl = require('lidl-core');
+var Compiler= Lidl.graphCompiler;
+var Parser= Lidl.parser;
+var Runner= Lidl.runner;
+var Config= Lidl.config;
+
+
+
+function graphToSvg(graph) {
+  let rawres = viz(graph,{format:'svg',engine:'dot'});
+  let offset = rawres.search('<svg');
+  rawres = rawres.substring(offset);
+  rawres = rawres.replace(/(width="[^"]+pt")/g, 'width="100%"');
+  rawres = rawres.replace(/(height="[^"]+pt")/g, 'height="100%"');
+  return rawres;
+}
+
 
 module.exports = function(self) {
   self.addEventListener('message', function(ev) {
@@ -17,94 +36,54 @@ module.exports = function(self) {
           message: m.message
         });
         break;
-      case 'Lidl2LidlAst':
-        self.postMessage({
-          type: 'Lidl2LidlAst',
-          lidlAst: Lidl.Lidl2LidlAst(m.lidl)
-        });
-        break;
-      case 'ExpandedLidlAst2ExpandedLidl':
-        self.postMessage({
-          type: 'ExpandedLidlAst2ExpandedLidl',
-          expandedLidl: Lidl.LidlAst2Lidl(m.expandedLidlAst)
-        });
-        break;
-      case 'LidlAst2ExpandedLidlAst':
-        self.postMessage({
-          type: 'LidlAst2ExpandedLidlAst',
-          expandedLidlAst: Lidl.LidlAst2ExpandedLidlAst(m.lidlAst)
-        });
-        break;
-      case 'ExpandedLidlAst2Graph':
-        self.postMessage({
-          type: 'ExpandedLidlAst2Graph',
-          graph: Lidl.ExpandedLidlAst2Graph(m.expandedLidlAst, m.upto)
-        });
-        break;
-      case 'Graph2Js':
-        self.postMessage({
-          type: 'Graph2Js',
-          js: Lidl.Graph2Js(new Graph(m.graph.nodes, m.graph.edges), m.header)
-        });
-        break;
-      case 'LidlAst2DisplayGraph':
-        let graph= Lidl.LidlAst2Graph(m.lidlAst[0],m.upto).toDotDef();
-        let rawres = viz(graph,{format:'svg',engine:'dot'});
-        let offset = rawres.search('<svg');
-        rawres = rawres.substring(offset);
-        rawres = rawres.replace(/(width="[^"]+pt")/g, 'width="100%"');
-        rawres = rawres.replace(/(height="[^"]+pt")/g, 'height="100%"');
-        self.postMessage({
-          type: 'LidlAst2DisplayGraph',
-          displayGraph: {__html:rawres}
-        });
-        break;
-      case 'Js2CleanJs':
-        self.postMessage({
-          type: 'Js2CleanJs',
-          cleanJs: beautify(m.js.source, {
-            indent_size: 2
-          })
-        });
-        break;
-      case 'Scenario2ScenarioAst':
-        self.postMessage({
-          type: 'Scenario2ScenarioAst',
-          scenarioAst: JSON.parse(m.scenario)
-        });
-        break;
-      case 'Js2TraceAst':
-        if (m.js !== null && m.js !== undefined && m.scenarioAst !== null && m.scenarioAst !== undefined) {
-          var trans = new Function("data", m.js.partialSource.transitionFunction);
-          var init = new Function("data", m.js.partialSource.initializationFunction);
 
-          var scenario = m.scenarioAst;
-          var trace = [init()];
-          // Execute LIDL system step by step
-          var i;
-          for (i = 0; i < scenario.length; i++) {
-            trace[i].inter = scenario[i].inter;
-            trace[i].args = scenario[i].args;
-            trace[i] = trans(trace[i]);
-            if (i < scenario.length - 1) {
-              trace[i + 1] = {};
-              trace[i + 1].state = trace[i].state;
-              trace[i + 1].memo = trace[i].memo;
-            }
+      case 'RecompileAll':
+        // Need :
+        //   m.lidl      : string      LIDL code
+        //   m.header    : string      header js code
+        //   m.scenario  : string      header js code
+
+        // Create callbacks for each element of the Lidl config file (declared graph transformation stages)
+        var autoCallbacks =
+        _(Config.graphTransformations)
+        .map(x=>[x,function(graph,data){
+          self.postMessage({type: 'IntermediateGraph',stage:x,graphSvg:graphToSvg(graph)});
+          return true;}])
+        .zipObject()
+        .value();
+
+        // Add custom callbacks for points we are interested in specifically within the lidl sandbox
+        var customCallbacks =
+        {
+          getJsCode : function(graph,data){
+            self.postMessage({type: 'GeneratedJs',code:data.code});
+            let trace = runner.run(data.code,JSON.parse(m.scenario));
+            self.postMessage({type: 'Trace',trace:trace});
+            return true;
+          },
+          getExpandedLidlCode : function(graph,data){
+            self.postMessage({type: 'ExpandedLidl',code:data.code});
+            return true;
+          },
+          getInteractionMetrics : function(graph,data){
+            self.postMessage({type: 'InteractionMetrics',metrics:data.metrics});
+            return true;
+          },
+          error : function(graph,data){
+            autoCallbacks.error(graph,data);
+            self.postMessage({type: 'Error',message:'Error'});
+            return true;
           }
-          self.postMessage({
-            type: 'Js2TraceAst',
-            traceAst: trace
-          });
-        } else {
-          throw new Error('Missing Scenario or Generated code');
-        }
-        break;
-      case 'TraceAst2Trace':
-        self.postMessage({
-          type: 'TraceAst2Trace',
-          trace: JSON.stringify(m.traceAst, null, 2)
-        });
+        };
+
+        var ast = Parser.parse(m.lidl)[0];
+
+        var callbacks = _.assign(autoCallbacks,customCallbacks);
+
+        var header = m.header;
+
+        Compiler.compile(ast,header,callbacks);
+
         break;
 
     }

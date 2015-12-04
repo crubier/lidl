@@ -31,6 +31,8 @@ module.exports= {
     'orderGraph',
     'graphTransformationPipeline',
     'getJsCode',
-    'getExpandedLidlCode'
+    'getExpandedLidlCode',
+    'getInteractionMetrics',
+    'error'
   ]
 };

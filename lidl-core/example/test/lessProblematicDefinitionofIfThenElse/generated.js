@@ -199,17 +199,17 @@ edge_6687 = edge_6686;
 edge_6688 = edge_6686;
 edge_6689 = edge_6686;
 
+if( ( edge_6694 === active ) && ( edge_6689 === inactive )) {
+  edge_6700 = active;
+} else {
+  edge_6700 = inactive;
+}
 if( ( edge_6694 === active ) && ( edge_6689 === active )) {
   edge_6700 = active;
 } else {
   edge_6700 = inactive;
 }
 if( ( edge_6694 === inactive ) && ( edge_6689 === active )) {
-  edge_6700 = active;
-} else {
-  edge_6700 = inactive;
-}
-if( ( edge_6694 === active ) && ( edge_6689 === inactive )) {
   edge_6700 = active;
 } else {
   edge_6700 = inactive;
@@ -228,12 +228,12 @@ if( ( edge_6693 === active ) && ( edge_6688 === active )) {
 }
 if(edge_6677 === active) {edge_6698 = edge_6679;}
 
-if( ( edge_6687 === active ) && ( edge_6692 === inactive )) {
+if( ( edge_6687 === active ) && ( edge_6692 === active )) {
   edge_6673 = active;
 } else {
   edge_6673 = inactive;
 }
-if( ( edge_6687 === active ) && ( edge_6692 === active )) {
+if( ( edge_6687 === active ) && ( edge_6692 === inactive )) {
   edge_6673 = active;
 } else {
   edge_6673 = inactive;

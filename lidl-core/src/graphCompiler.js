@@ -36,6 +36,7 @@ import orderGraph from './graphTransformations/orderGraph'
 
 import getExpandedLidl from './graphOutputs/getExpandedLidl'
 import getJsCode from './graphOutputs/getJsCode'
+import getInteractionMetrics from './graphOutputs/getInteractionMetrics'
 
 
 export function compile(ast,header,callbacks){
@@ -61,12 +62,14 @@ export function compile(ast,header,callbacks){
     _.clone(callbacks),
     {
       instantiateInterfaces:(graph,data)=>{
-        // setTimeout(()=>callCallback('getExpandedLidlCode',{code:getExpandedLidl(graph,rootDefinitionNode)}),1);
         callCallback('getExpandedLidlCode',{code:getExpandedLidl(graph,rootDefinitionNode)});
         return callCallback('instantiateInterfaces',data);
       },
+      referentialTransparencyInstances:(graph,data)=>{
+        callCallback('getInteractionMetrics',{metrics:getInteractionMetrics(graph)});
+        return callCallback('referentialTransparencyInstances',data);
+      },
       graphTransformationPipeline:(graph,data)=>{
-        // setTimeout(()=>callCallback('getJsCode',{code:getJsCode(graph,header)}),1);
         callCallback('getJsCode',{code:getJsCode(graph,header)});
         return callCallback('graphTransformationPipeline',data);
       }

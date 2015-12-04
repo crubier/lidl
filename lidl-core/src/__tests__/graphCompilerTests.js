@@ -2,6 +2,7 @@ jest.autoMockOff();
 //
 var  graphCompiler = require('../graphCompiler.js');
 var parser = require('../parser.js');
+var runner = require('../runner.js');
 var _ = require('lodash');
 var fs  = require('fs');
 var path = require('path');
@@ -34,28 +35,9 @@ describe('lidl graph compiler', function() {
     }
 
 
-    function runCodeAgainstOracle(code,scenarioText) {
-
-      var trans = new Function("data",code.transitionFunction);
-      var init = new Function("data",code.initializationFunction);
-      var scenario = JSON.parse(scenarioText);
-      var trace = [init()];
-
-      // Execute LIDL system step by step
-      var i;
-      for (i = 0; i < scenario.length; i++) {
-        trace[i].inter = scenario[i].inter;
-        trace[i].args = scenario[i].args;
-        trace[i] = trans(trace[i]);
-        if (i < scenario.length - 1) {
-          trace[i + 1] = {};
-          trace[i + 1].state = trace[i].state;
-          trace[i + 1].memo = trace[i].memo;
-        }
-      }
+    function checkTraceAgainstOracle(trace,oracle) {
 
       // Find the oracle
-      var oracle = JSON.parse(scenarioText);
       it('Should have correct length',
         function() {
           expect(trace.length).toEqual(oracle.length)
@@ -64,12 +46,15 @@ describe('lidl graph compiler', function() {
 
       // Check resulting trace against oracle
       _.forEach(_.zip(oracle, trace), function(s, i) {
-        it('Should be correct at step ' + i + ' of the execution',
-          function() {
-            expect(s[0].inter).toEqual(s[1].inter);
-          }
-        );
-      })
+        it('Interface Should be correct at step ' + i + ' of the execution',function() {
+          expect(s[0].inter).toEqual(s[1].inter);
+        });
+        _.forEach(s[0].args, function(arg,argName){
+          it('Argument '+argName+' should be correct at step ' + i + ' of the execution', function(){
+            expect(s[0].args[argName]).toEqual(s[1].args[argName]);
+          });
+        });
+      });
 
       return trace;
 
@@ -85,15 +70,22 @@ describe('lidl graph compiler', function() {
 
       // removeOneSidedAffectation
       graphCompiler.compile(parser.parse(code)[0],header,{
-        createDataFlowDirection:function(graph,data){printGraph(graph,'createDataFlowDirection');return true;},
+        createDataFlowDirection:function(graph,data){
+          printGraph(graph,'createDataFlowDirection');return true;
+        },
         getJsCode:function(graph,data){
           fs.writeFileSync(path.join(file,'generated.js'), data.code.source, {encoding: 'utf8'});
-          let trace = runCodeAgainstOracle(data.code.partialSource,scenarioText);
+          let trace = runner.run(data.code,JSON.parse(scenarioText));
+          checkTraceAgainstOracle(trace,JSON.parse(scenarioText));
           fs.writeFileSync(path.join(file,'trace.json'), JSON.stringify(trace), {encoding: 'utf8'});
           return true;
         },
-        getExpandedLidlCode:function(graph,data){fs.writeFileSync(path.join(file,'expanded.lidl'), data.code.source, {encoding: 'utf8'});return true;},
-        error:function(graph,data){printGraph(graph,'error');return true;}
+        getExpandedLidlCode:function(graph,data){
+          fs.writeFileSync(path.join(file,'expanded.lidl'), data.code.source, {encoding: 'utf8'});return true;
+        },
+        error:function(graph,data){
+          printGraph(graph,'error');return true;
+        }
       });
     });
   }
