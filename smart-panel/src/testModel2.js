@@ -10,7 +10,7 @@ export default {
   "select": 0,
   "content": [{
     "type": "z",
-    "weight": 1,
+    "weight": 2,
     "select": 0,
     "content": [{
       type: "p",
@@ -36,7 +36,7 @@ export default {
       }]
     }, {
       "type": "z",
-      "weight": 1,
+      "weight": 2,
       "select": 1,
       "content": [{
         type: "p",

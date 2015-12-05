@@ -71,7 +71,7 @@ export default class SmartPanel extends Component {
 
 
       case 'z':
-      {  let tabs =
+        let tabs =
         this.props.model
         .get('content')
         .map((submodel,index)=>(<Tab
@@ -95,50 +95,70 @@ export default class SmartPanel extends Component {
               position={this.props.position.set('height',this.props.position.get('height')-tabHeight).set('top',tabHeight).set('left',0)}/>
           </div>);
         break;
-}
+
 
       case 'x':
-        {let elements =
+
+        let totalWeightx =
         this.props.model
         .get('content')
-        .map((submodel,index)=>(<SmartPanel
-          key={index}
-          onChange={this.props.onChange}
-          model={submodel}
-          views={this.props.views}
-          path={this.props.path.push(index)}
-          position={this.props.position
-            .set('top',0)
-            .set('left',index*this.props.position.get('width') / this.props.model.get('content').size)
-            .set('width',this.props.position.get('width') / this.props.model.get('content').size)}
-          />));
+        .reduce(((total,submodel,index) => (total+submodel.get('weight'))),0);
+
+        let xelements =
+        this.props.model
+        .get('content')
+        .reduce((reduction,submodel,index)=>{
+            let sizeOfCurrent = this.props.position.get('width') * submodel.get('weight') / totalWeightx ;
+            let positionOfCurrent = reduction.totalPosition;
+            let newElems = reduction.elems.push(
+              <SmartPanel
+              key={index}
+              onChange={this.props.onChange}
+              model={submodel}
+              views={this.props.views}
+              path={this.props.path.push(index)}
+              position={this.props.position.set('top',0).set('left',positionOfCurrent).set('width',sizeOfCurrent)}/>
+            );
+            return {totalPosition:positionOfCurrent+sizeOfCurrent,elems:newElems};
+         },{totalPosition:0,elems:List([])})
+        .elems.toJS();
         return  (
           <div style={{...style, left:this.props.position.get('left'),top:this.props.position.get('top'),width:this.props.position.get('width'),height:this.props.position.get('height')}}>
-            {elements}
+            {xelements}
           </div>);
-        break;}
+        break;
+
 
         case 'y':
-              {let elements =
-              this.props.model
-              .get('content')
-              .map((submodel,index)=>(<SmartPanel
-                key={index}
-                onChange={this.props.onChange}
-                model={submodel}
-                views={this.props.views}
-                path={this.props.path.push(index)}
-                position={this.props.position
-                  .set('left',0)
-                  .set('top',index*this.props.position.get('height') / this.props.model.get('content').size)
-                  .set('height',this.props.position.get('height') / this.props.model.get('content').size)}
-                />));
-              return  (
-                <div style={{...style, left:this.props.position.get('left'),top:this.props.position.get('top'),width:this.props.position.get('width'),height:this.props.position.get('height')}}>
-                  {elements}
-                </div>);
-              break;
-}
+        let totalWeighty =
+        this.props.model
+        .get('content')
+        .reduce(((total,submodel,index) => (total+submodel.get('weight'))),0);
+
+        let yelements =
+        this.props.model
+        .get('content')
+        .reduce((reduction,submodel,index)=>{
+            let sizeOfCurrent = this.props.position.get('height') * submodel.get('weight') / totalWeighty ;
+            let positionOfCurrent = reduction.totalPosition;
+            let newElems = reduction.elems.push(
+              <SmartPanel
+              key={index}
+              onChange={this.props.onChange}
+              model={submodel}
+              views={this.props.views}
+              path={this.props.path.push(index)}
+              position={this.props.position.set('left',0).set('top',positionOfCurrent).set('height',sizeOfCurrent)}/>
+            );
+            return {totalPosition:positionOfCurrent+sizeOfCurrent,elems:newElems};
+         },{totalPosition:0,elems:List([])})
+        .elems.toJS();
+        return  (
+          <div style={{...style, left:this.props.position.get('left'),top:this.props.position.get('top'),width:this.props.position.get('width'),height:this.props.position.get('height')}}>
+            {yelements}
+          </div>);
+        break;
+
 
       default:
         throw new Error ('Trying to display an invalid entity (type should be x,y,z,or p)');
