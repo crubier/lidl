@@ -5,13 +5,11 @@ import React, {
 } from 'react';
 
 export default {
-  views:{
-    a:{name:'the A',value:<div style={{flexGrow:1,alignSelf: 'stretch',backgroundColor:'rgb(255, 231, 231)'}}>OK a</div>},
-    b:{name:'the B',value:<div style={{flexGrow:1,alignSelf: 'stretch',backgroundColor:'rgb(255, 245, 231)'}}>OK b</div>},
-    c:{name:'the C',value:<div style={{flexGrow:1,alignSelf: 'stretch',backgroundColor:'rgb(254, 255, 231)'}}>OK c</div>},
-    },
-  model:{
-    "type": "z",
+    "type": "x",
+    "weight": 1,
+    "select": 0,
+    "content": [{
+    "type": "y",
     "weight": 1,
     "select": 0,
     "content": [{
@@ -27,4 +25,39 @@ export default {
       "weight": 1,
       value: "c"
     }]
-}}
+},{
+    "type": "y",
+    "weight": 1,
+    "select": 0,
+    "content": [{
+      type: "p",
+      "weight": 1,
+      value: "d"
+    },{
+      type: "p",
+      "weight": 1,
+      value: "e"
+    },{
+      type: "p",
+      "weight": 1,
+      value: "f"
+    }]
+},{
+    "type": "y",
+    "weight": 1,
+    "select": 0,
+    "content": [{
+      type: "p",
+      "weight": 1,
+      value: "g"
+    },{
+      type: "p",
+      "weight": 1,
+      value: "h"
+    },{
+      type: "p",
+      "weight": 1,
+      value: "a"
+    }]
+}]
+}

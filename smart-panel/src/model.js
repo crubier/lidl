@@ -2,7 +2,7 @@
 
 import _ from 'lodash';
 
-import Immutable from 'immutable'
+import Immutable from 'immutable';
 
 export function simplify(model) {
   switch (model.type) {
