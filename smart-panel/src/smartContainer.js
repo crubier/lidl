@@ -32,6 +32,9 @@ export default class SmartContainer extends Component {
       case 'Close':
         this.setState({model:simplify(close(this.state.model,ev.path,ev.index))});
         break;
+      case 'TabDrop':
+        this.setState({model:simplify(add(this.state.model,ev.path,ev.index,ev.viewId))});
+        break;
       default:
 
     }
@@ -42,6 +45,7 @@ export default class SmartContainer extends Component {
   }
 }
 
+// Select a given tab
 function select (model,ppath,index){
   var res;
   if(ppath.isEmpty()) {
@@ -57,7 +61,7 @@ function select (model,ppath,index){
   return res;
 }
 
-
+// Close a given tab
 function close (model,ppath,index){
   var res;
   if(ppath.isEmpty()) {
@@ -74,9 +78,24 @@ function close (model,ppath,index){
   return res;
 }
 
+// Add a tab with a given view
+function add (model,ppath,index,viewId){
+  var res;
+  if(ppath.isEmpty()) {
+    res= model
+      .set('content',model
+        .get('content').splice(index,0,Immutable.fromJS({type:'p',value:viewId})));
+  } else {
+    res= model
+      .set('content',model
+        .get('content')
+        .set(ppath.first(),
+          add(model.get('content').get(ppath.first()),ppath.shift(),index,viewId)));
+  }
+  return res;
+}
+
 function simplify(model) {
-  console.log('pre');
-  console.log(model.toJS());
   var res;
   switch (model.get('type')) {
     case "x":
@@ -106,8 +125,5 @@ function simplify(model) {
       res= model;
       break;
   }
-
-  console.log('post');
-  console.log(res.toJS());
   return res;
 }
