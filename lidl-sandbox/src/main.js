@@ -17,7 +17,6 @@ import GeneratedCodeViewer from './GeneratedCodeViewer/GeneratedCodeViewer';
 import TraceViewer from'./TraceViewer/TraceViewer';
 import AdvancedTraceViewer from'./AdvancedTraceViewer/AdvancedTraceViewer';
 
-
 import Paper from 'material-ui/lib/paper'
 
 import AppBar from 'material-ui/lib/app-bar'
@@ -25,7 +24,6 @@ import FlatButton from 'material-ui/lib/flat-button'
 import Snackbar from 'material-ui/lib/snackbar'
 import RaisedButton from 'material-ui/lib/raised-button'
 import TextField from 'material-ui/lib/text-field'
-
 
 import Toolbar from 'material-ui/lib/toolbar/toolbar';
 import ToolbarGroup from 'material-ui/lib/toolbar/toolbar-group';
@@ -74,62 +72,81 @@ export default class Main extends Component {
 
     // Listen to the web worker events
     w.addEventListener('message', function (ev) {
-        var m = ev.data;
+      var m = ev.data;
 
-        switch(m.type) {
-              case 'Ping':
-                console.log(m.message);
-                break;
-              case 'Lidl2LidlAst':
-                console.log("Lidl2LidlAst");
-                that.setState({lidlAst:m.lidlAst});
-                w.postMessage({type:'LidlAst2ExpandedLidlAst',lidlAst:m.lidlAst});
-                w.postMessage({type:'LidlAst2DisplayGraph',upto:that.state.displayGraphUpTo,lidlAst:m.lidlAst});
-                break;
-              case 'LidlAst2ExpandedLidlAst':
-                console.log("LidlAst2ExpandedLidlAst");
-                that.setState({expandedLidlAst:m.expandedLidlAst});
-                w.postMessage({type:'ExpandedLidlAst2ExpandedLidl',expandedLidlAst:m.expandedLidlAst});
-                w.postMessage({type:'ExpandedLidlAst2Graph',expandedLidlAst:m.expandedLidlAst});
-                break;
-              case 'ExpandedLidlAst2ExpandedLidl':
-                console.log("ExpandedLidlAst2ExpandedLidl");
-                that.setState({expandedLidl:m.expandedLidl});
-                break;
-              case 'ExpandedLidlAst2Graph':
-                console.log("ExpandedLidlAst2Graph");
-                that.setState({graph:m.graph});
-                w.postMessage({type:'Graph2Js',graph:m.graph,header:that.state.header});
-                break;
-              case 'LidlAst2DisplayGraph':
-                console.log("LidlAst2DisplayGraph");
-                that.setState({displayGraph:m.displayGraph});
-                break;
-              case 'Graph2Js':
-                console.log("Graph2Js");
-                that.setState({js:m.js});
-                w.postMessage({type:'Js2CleanJs',js:m.js});
-                w.postMessage({type:'Js2TraceAst',js:m.js,scenarioAst:that.state.scenarioAst});
-                break;
-              case 'Js2CleanJs':
-                console.log("Js2CleanJs");
-                that.setState({cleanJs:m.cleanJs});
-                break;
-              case 'Scenario2ScenarioAst':
-                console.log("Scenario2ScenarioAst");
-                that.setState({scenarioAst:m.scenarioAst});
-                w.postMessage({type:'Js2TraceAst',js:that.state.js,scenarioAst:m.scenarioAst});
-                break;
-              case 'Js2TraceAst':
-                console.log("Js2TraceAst");
-                that.setState({traceAst:m.traceAst});
-                w.postMessage({type:'TraceAst2Trace',traceAst:m.traceAst});
-                break;
-              case 'TraceAst2Trace':
-                console.log("TraceAst2Trace");
-                that.setState({trace:m.trace});
-                break;
-            }
+      switch(m.type) {
+        case 'Ping':
+          console.log(m.message);
+          break;
+
+        case 'LidlAst':
+          break;
+
+        case 'IntermediateGraph':
+          break;
+
+        case 'GeneratedJs':
+          break;
+
+        case 'ExpandedLidl':
+          break;
+
+        case 'InteractionMetrics':
+          break;
+
+        case 'Error':
+          break;
+
+        case 'Lidl2LidlAst':
+          console.log("Lidl2LidlAst");
+          that.setState({lidlAst:m.lidlAst});
+          w.postMessage({type:'LidlAst2ExpandedLidlAst',lidlAst:m.lidlAst});
+          w.postMessage({type:'LidlAst2DisplayGraph',upto:that.state.displayGraphUpTo,lidlAst:m.lidlAst});
+          break;
+        case 'LidlAst2ExpandedLidlAst':
+          console.log("LidlAst2ExpandedLidlAst");
+          that.setState({expandedLidlAst:m.expandedLidlAst});
+          w.postMessage({type:'ExpandedLidlAst2ExpandedLidl',expandedLidlAst:m.expandedLidlAst});
+          w.postMessage({type:'ExpandedLidlAst2Graph',expandedLidlAst:m.expandedLidlAst});
+          break;
+        case 'ExpandedLidlAst2ExpandedLidl':
+          console.log("ExpandedLidlAst2ExpandedLidl");
+          that.setState({expandedLidl:m.expandedLidl});
+          break;
+        case 'ExpandedLidlAst2Graph':
+          console.log("ExpandedLidlAst2Graph");
+          that.setState({graph:m.graph});
+          w.postMessage({type:'Graph2Js',graph:m.graph,header:that.state.header});
+          break;
+        case 'LidlAst2DisplayGraph':
+          console.log("LidlAst2DisplayGraph");
+          that.setState({displayGraph:m.displayGraph});
+          break;
+        case 'Graph2Js':
+          console.log("Graph2Js");
+          that.setState({js:m.js});
+          w.postMessage({type:'Js2CleanJs',js:m.js});
+          w.postMessage({type:'Js2TraceAst',js:m.js,scenarioAst:that.state.scenarioAst});
+          break;
+        case 'Js2CleanJs':
+          console.log("Js2CleanJs");
+          that.setState({cleanJs:m.cleanJs});
+          break;
+        case 'Scenario2ScenarioAst':
+          console.log("Scenario2ScenarioAst");
+          that.setState({scenarioAst:m.scenarioAst});
+          w.postMessage({type:'Js2TraceAst',js:that.state.js,scenarioAst:m.scenarioAst});
+          break;
+        case 'Js2TraceAst':
+          console.log("Js2TraceAst");
+          that.setState({traceAst:m.traceAst});
+          w.postMessage({type:'TraceAst2Trace',traceAst:m.traceAst});
+          break;
+        case 'TraceAst2Trace':
+          console.log("TraceAst2Trace");
+          that.setState({trace:m.trace});
+          break;
+        }
       }
 
     );

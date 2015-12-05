@@ -43,6 +43,9 @@ module.exports = function(self) {
         //   m.header    : string      header js code
         //   m.scenario  : string      header js code
 
+        var ast = Parser.parse(m.lidl)[0];
+        self.postMessage({type: 'LidlAst',lidlAst:ast});
+
         // Create callbacks for each element of the Lidl config file (declared graph transformation stages)
         var autoCallbacks =
         _(Config.graphTransformations)
@@ -75,8 +78,6 @@ module.exports = function(self) {
             return true;
           }
         };
-
-        var ast = Parser.parse(m.lidl)[0];
 
         var callbacks = _.assign(autoCallbacks,customCallbacks);
 

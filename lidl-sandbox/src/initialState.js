@@ -10,7 +10,7 @@ export default {
 
   error:null,
 
-  lidl: defaultCode,
+  lidl: Lidl.examples.lidl[0].code,
 
   lidlAst: null ,
 
@@ -23,13 +23,13 @@ export default {
   displayGraphUpTo:'addDefinitionToGraph',
   displayGraph:null,
 
-  header: defaultHeader,
+  header: Lidl.examples.header,
 
   js : null,
 
   cleanJs :null,
 
-  scenario: defaultScenario,
+  scenario: Lidl.examples.lidl[0].scenario,
 
   scenarioAst: null,
 
