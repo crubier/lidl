@@ -2,6 +2,8 @@
 
 import _ from 'lodash';
 
+import Immutable from 'immutable'
+
 export function simplify(model) {
   switch (model.type) {
     case "x":
@@ -50,5 +52,39 @@ export function getName(data,model) {
     case "p":
       return data.views[model.value].name;
       break;
+  }
+}
+
+export function select(model,ppath,index){
+console.log("select "+ppath+ "   "+index);
+  return _.set(model,_(ppath).push('select').join('.'),index);
+}
+
+export function close(model,ppath,index){
+  console.log("close "+ppath+ "   "+index);
+  if(ppath.length>0){
+
+    let x = close(_.get(model,_(ppath).first()),_(ppath).drop().value(),index);
+    console.log(x);
+    return _.set(
+      model,
+      _(ppath).first(),
+      x
+    );
+  } else {
+    let newModel = _.clone(model);
+    if(_.inRange(index,0,newModel.content.length)) {
+      if(newModel.select === index ) {
+        if(newModel.content.length-1>1) {
+          newModel.select=(newModel.select)%(newModel.content.length-1);
+        } else {
+          newModel.select=0;
+        }
+      }
+      newModel.content = _.pullAt(newModel.content,index);
+      return newModel;
+    } else {
+      throw new Error('Tried to remove the view at index '+index+ ' but there are only '+newModel.content.length+' views');
+    }
   }
 }
