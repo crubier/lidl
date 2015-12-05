@@ -8,7 +8,7 @@ import ReactDOM from 'react-dom';
 
 import SmartContainer from './SmartContainer';
 
-import testModel from './testModel';
+import testModel from './testModel2';
 
 let style = {position:'absolute',left:0,top:0,right:0,bottom:0};
 
