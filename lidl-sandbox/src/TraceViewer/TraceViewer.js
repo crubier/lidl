@@ -44,9 +44,9 @@ let cols = _.sortBy(_.union(interCols,argsCols),'dir');
 // console.log(lidl.interfaces.listOfAtoms(args[0].interfac,args[0].name));
 
 
-    return (<div style={{width:"100%"}}>
+    return (<div style={{width:"100%",height:'100%','overflow':'auto'}}>
 
-    <Table style={{width:"100%"}} columns={cols} data={this.props.traceAst} />
+    <Table style={{width:"100%",height:'100%'}} columns={cols} data={this.props.traceAst} />
 
 
     </div>);}

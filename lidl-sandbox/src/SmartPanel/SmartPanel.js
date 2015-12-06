@@ -96,7 +96,7 @@ export default class SmartPanel extends Component {
   handleDrop(e){
     if(e.dataTransfer.getData("type")==='tab'){
       e.preventDefault();
-      console.log(e.dataTransfer.getData("type"));
+      // console.log(e.dataTransfer.getData("type"));
 
     }
   }
@@ -104,12 +104,13 @@ export default class SmartPanel extends Component {
     let rect =getOffsetRect(this.refs.mainDiv);
     let x=((e.screenX - rect.left)/(rect.width));
     let y =((e.screenY - rect.top)/(rect.height));
-    console.log("Drag "+this.props.path+ " "+x+" "+y);
+    // console.log("Drag "+this.props.path+ " "+x+" "+y);
     // console.log(e.screenX+' - ' +rect.left+' / '+rect.width);
     // console.log(e.screenY+' - ' +rect.top+' / '+rect.height);
     e.preventDefault();
   }
   render(){
+let shadow = (this.props.model.get('select'))?'0 0 5px 0 rgba(0, 0, 0, 0.24)':'none';
     // console.log(this.props.model.toJS());
       switch (this.props.model.get('type')) {
 
@@ -125,7 +126,7 @@ export default class SmartPanel extends Component {
             ref='mainDiv'
             onDrop={this.handleDrop.bind(this)}
             onDragOver={this.handleDragOver.bind(this)}
-            style={{...style, left:this.props.position.get('left'),top:this.props.position.get('top'),width:this.props.position.get('width'),height:this.props.position.get('height')}}>
+            style={{...style,boxShadow:shadow, left:this.props.position.get('left'),top:this.props.position.get('top'),width:this.props.position.get('width'),height:this.props.position.get('height')}}>
             {content}
           </div>);
         break;
@@ -165,7 +166,7 @@ export default class SmartPanel extends Component {
             ref='mainDiv'
             onDrop={this.handleDrop.bind(this)}
             onDragOver={this.handleDragOver.bind(this)}
-            style={{...style, left:this.props.position.get('left'),top:this.props.position.get('top'),width:this.props.position.get('width'),height:this.props.position.get('height')}}>
+            style={{...style,boxShadow:shadow,left:this.props.position.get('left'),top:this.props.position.get('top'),width:this.props.position.get('width'),height:this.props.position.get('height')}}>
             <div style={{position:'absolute', left:0,width:this.props.position.get('width'),top:0,height:tabHeight}}>{zelements.elems.toJS()}</div>
             <SmartPanel
               onChange={this.props.onChange}
@@ -215,7 +216,7 @@ export default class SmartPanel extends Component {
             ref='mainDiv'
             onDrop={this.handleDrop.bind(this)}
             onDragOver={this.handleDragOver.bind(this)}
-            style={{...style, left:this.props.position.get('left'),top:this.props.position.get('top'),width:this.props.position.get('width'),height:this.props.position.get('height')}}>
+            style={{...style,boxShadow:shadow, left:this.props.position.get('left'),top:this.props.position.get('top'),width:this.props.position.get('width'),height:this.props.position.get('height')}}>
             {xelements.elems.toJS()}
             {xSep}
           </div>);
@@ -259,7 +260,7 @@ export default class SmartPanel extends Component {
             ref='mainDiv'
             onDrop={this.handleDrop.bind(this)}
             onDragOver={this.handleDragOver.bind(this)}
-            style={{...style, left:this.props.position.get('left'),top:this.props.position.get('top'),width:this.props.position.get('width'),height:this.props.position.get('height')}}>
+            style={{...style,boxShadow:shadow, left:this.props.position.get('left'),top:this.props.position.get('top'),width:this.props.position.get('width'),height:this.props.position.get('height')}}>
             {yelements.elems.toJS()}
             {ySep}
           </div>);
@@ -392,7 +393,7 @@ class SepY extends Component {
 let val =(e.clientY - this.refs.mainDiv.offsetTop)/(this.refs.mainDiv.offsetHeight)
 // console.log(val);
 if(this.state.dragging) {
-  console.log(val);
+  // console.log(val);
   this.props.onChange({type:'MoveSeparator',path:this.props.path,value:val});
 }
   }
@@ -450,7 +451,7 @@ class Tab extends Component {
     this.props.onChange({type:'Close',path:this.props.path});
   }
   handleDrop(e){
-console.log(e.dataTransfer.getData("type"));
+// console.log(e.dataTransfer.getData("type"));
     if(e.dataTransfer.getData("type")==='tab')
   {  e.preventDefault();
     e.dataTransfer.dropEffect='move';
@@ -474,11 +475,13 @@ e.preventDefault();
 
   render() {
     let selected = this.props.model.get('select');
-    let viewName = getName(this.props.model,this.props.views);
+    let viewName = this.props.model.has('name')?(this.props.model.get('name')):(getName(this.props.model,this.props.views));
     let color = (selected)?('rgb(235, 235, 235)'):((this.state.over)?'rgb(191, 191, 191)':'rgb(210, 210, 210)');
+    let shadow = (selected)?'0 0 5px 0 rgba(0, 0, 0, 0.32)':'none';
+    let zindex = (selected)?100:0;
     return (
     <div
-      draggable="true"
+      draggable={"true"}
       onDrop={this.handleDrop.bind(this)}
       onDragOver={this.handleDragOver.bind(this)}
       onDragEnd={this.handleDragEnd.bind(this)}
@@ -488,7 +491,27 @@ e.preventDefault();
       onMouseEnter={this.handleMouseEnter.bind(this)}
       onMouseOver={this.handleMouseEnter.bind(this)}
       onMouseLeave={this.handleMouseLeave.bind(this)}
-      style={{cursor:'default',position:'absolute',left:this.props.position.get('left'),top:0,boxSizing: 'border-box' ,width:this.props.position.get('width'),minWidth:this.props.position.get('width'),maxWidth:this.props.position.get('width'),height:tabHeight,minHeight:tabHeight,maxHeight:tabHeight,backgroundColor:color,textAlign:'center',padding:'8px',display: 'flex',flexDirection: 'row',justifyContent:'space-between',alignItems:'center'}}>
+      style={{
+        zIndex:zindex,
+        boxShadow:shadow,
+        cursor:'default',
+        position:'absolute',
+        left:this.props.position.get('left'),
+        top:0,
+        boxSizing: 'border-box' ,
+        width:this.props.position.get('width'),
+        minWidth:this.props.position.get('width'),
+        maxWidth:this.props.position.get('width'),
+        height:tabHeight,
+        minHeight:tabHeight,
+        maxHeight:tabHeight,
+        backgroundColor:color,
+        textAlign:'center',
+        padding:'8px',
+        display: 'flex',
+        flexDirection: 'row',
+        justifyContent:'space-between',
+        alignItems:'center'}}>
 
 {this.state.over?<svg onClick={this.handleClose.bind(this)} fill="#000000" height="18" viewBox="0 0 24 24" width="18" xmlns="http://www.w3.org/2000/svg">
         <path d="M19 6.41L17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"/>

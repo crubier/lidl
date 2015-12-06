@@ -20,7 +20,7 @@ export default class SmartContainer extends Component {
         "content": Children.map(this.props.children,(c,i)=>({"type":"p","weight":1,"select":(i===0),"value":c.props.panelId}))
       })};
     } else {
-      this.state = {model:Immutable.fromJS(this.props.model)};
+      this.state = {model:simplify(Immutable.fromJS(this.props.model))};
     }
   }
 
@@ -196,7 +196,7 @@ function simplify(model) {
         .map(simplify)
         .filter((el) => (el.get('type')==="p" || el.get('content').size > 0))
         .map((el) => {
-          if (el.get('type') === model.get('type')) {
+          if (el.get('type') === model.get('type') && el.get('type')!=='z') {
             return el
               .get('content')
               .map(x => x.set('weight',el.get('weight') * x.get('weight')));

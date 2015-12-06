@@ -31,6 +31,7 @@ module.exports = function(self) {
         });
         break;
 
+
       case 'RecompileAll':
         // Need :
         //   m.lidl      : string      LIDL code
@@ -49,6 +50,7 @@ module.exports = function(self) {
         var ast = Parser.parse(m.lidl);
         self.postMessage({type: 'LidlAst',lidlAst:ast});
         ast = ast[0]; // Compile the first def only
+
         // Create callbacks for each element of the Lidl config file (declared graph transformation stages)
         var autoCallbacks =
         _(Config.graphTransformations)
@@ -62,10 +64,9 @@ module.exports = function(self) {
         var customCallbacks =
         {
           getJsCode : function(graph,data){
-            self.postMessage({type: 'GeneratedJs',code:beautify(data.source)});
+            self.postMessage({type: 'GeneratedJs',js:data,cleanJs:beautify(data.source)});
             let trace = Runner.run(data,JSON.parse(m.scenario));
-            self.postMessage({type: 'TraceAst',traceAst:trace});
-            self.postMessage({type: 'Trace',trace:beautify(JSON.stringify(trace))});
+            self.postMessage({type: 'Trace',traceAst:trace,trace:beautify(JSON.stringify(trace))});
             return true;
           },
           getExpandedLidlCode : function(graph,data){
@@ -89,6 +90,11 @@ module.exports = function(self) {
 
         Compiler.compile(ast,header,callbacks);
 
+        break;
+
+        case 'RunScenario':
+          let trace = Runner.run(m.js,JSON.parse(m.scenario));
+          self.postMessage({type: 'Trace',traceAst:trace,trace:beautify(JSON.stringify(trace))});
         break;
 
     }

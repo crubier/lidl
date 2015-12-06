@@ -74,14 +74,14 @@ describe('lidl graph compiler', function() {
           printGraph(graph,'createDataFlowDirection');return true;
         },
         getJsCode:function(graph,data){
-          fs.writeFileSync(path.join(file,'generated.js'), data.code.source, {encoding: 'utf8'});
-          let trace = runner.run(data.code,JSON.parse(scenarioText));
+          fs.writeFileSync(path.join(file,'generated.js'), data.source, {encoding: 'utf8'});
+          let trace = runner.run(data,JSON.parse(scenarioText));
           checkTraceAgainstOracle(trace,JSON.parse(scenarioText));
           fs.writeFileSync(path.join(file,'trace.json'), JSON.stringify(trace), {encoding: 'utf8'});
           return true;
         },
         getExpandedLidlCode:function(graph,data){
-          fs.writeFileSync(path.join(file,'expanded.lidl'), data.code.source, {encoding: 'utf8'});return true;
+          fs.writeFileSync(path.join(file,'expanded.lidl'), data.source, {encoding: 'utf8'});return true;
         },
         error:function(graph,data){
           printGraph(graph,'error');return true;

@@ -1,18 +1,18 @@
 [
   {
     "args":  {"a":0},
-    "inter":  4
+    "inter":  {"theNumber":4,"theResult":-8000}
   },
   {
     "args":  {"a":1},
-    "inter":  3
+    "inter":  {"theNumber":3,"theResult":3}
   },
   {
     "args":  {"a":2},
-    "inter":  4
+    "inter":  {"theNumber":5,"theResult":-8000}
   },
   {
     "args":  {"a":3},
-    "inter":  4
+    "inter":  {"theNumber":4,"theResult":-8000}
   }
 ]

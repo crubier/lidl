@@ -2,7 +2,7 @@ function transitionFunction(data){
 ///////////////////////////////////////////////////////////////////////
 //Standard LIDL Header
 
-function clone(a){if(!a)return a;var c,b=[Number,String,Boolean];if(b.forEach(function(b){a instanceof b&&(c=b(a))}),"undefined"==typeof c)if("[object Array]"===Object.prototype.toString.call(a))c=[],a.forEach(function(a,b,d){c[b]=clone(a)});else if("object"==typeof a)if(a.nodeType&&"function"==typeof a.cloneNode)var c=a.cloneNode(!0);else if(a.prototype)c=a;else if(a instanceof Date)c=new Date(a);else{c={};for(var d in a)c[d]=clone(a[d])}else c=a;return c}
+function clone(a) {if (!a) return a;var c, b = [Number, String, Boolean];if (b.forEach(function(b) { a instanceof b && (c = b(a)); }), "undefined" == typeof c) if ("[object Array]" === Object.prototype.toString.call(a)) c = [], a.forEach(function(a, b, d) { c[b] = clone(a); }); else if ("object" == typeof a) if (a.nodeType && "function" == typeof a.cloneNode) c = a.cloneNode(!0); else if (a.prototype) c = a; else if (a instanceof Date) c = new Date(a); else { c = {}; for (var d in a) c[d] = clone(a[d]); } else c = a; return c;}
 
 var theInterface = clone(data.inter);
 var previousState = data.state;
@@ -62,7 +62,7 @@ var addOne = function(x) {
 };
 
 var identity = function(x) {
-  return x
+  return x;
 };
 
 var isEqual = function(x) {
@@ -121,7 +121,7 @@ var whenThenElse = function(x) {
 
 
 var all = function(x) {
-  return {a:x,b:x,c:x,d:x,e:x,f:x,g:x,h:x,i:x,j:x,k:x,l:x,l:x,n:x,o:x,p:x}
+  return {a:x,b:x,c:x,d:x,e:x,f:x,g:x,h:x,i:x,j:x,k:x,l:x,m:x,n:x,o:x,p:x};
 };
 
 ///////////////////////////////////////////////////////////////////////
@@ -199,12 +199,12 @@ edge_6687 = edge_6686;
 edge_6688 = edge_6686;
 edge_6689 = edge_6686;
 
-if( ( edge_6694 === active ) && ( edge_6689 === inactive )) {
+if( ( edge_6694 === active ) && ( edge_6689 === active )) {
   edge_6700 = active;
 } else {
   edge_6700 = inactive;
 }
-if( ( edge_6694 === active ) && ( edge_6689 === active )) {
+if( ( edge_6694 === active ) && ( edge_6689 === inactive )) {
   edge_6700 = active;
 } else {
   edge_6700 = inactive;

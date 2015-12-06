@@ -113,6 +113,8 @@ var all = function(x) {
 
 `,
 lidl:[{
+    name: 'Affectation Expression',
+fileName: 'example/test/affectationExpression',
      code : `interaction (bob):{theNumber:Number in,theResult:Number out}
 with
 
@@ -161,6 +163,8 @@ is
 ]
 `
 },{
+    name: 'Arguments',
+fileName: 'example/test/arguments',
      code : `interaction
   (bob(a:Number in)):Number out
 is
@@ -186,6 +190,8 @@ is
 ]
 `
 },{
+    name: 'Composition 2 X 1',
+fileName: 'example/test/composition2x1',
      code : `interaction (bob):{theNumber:Number in,theOther:Number in,theResult:Number out} is
 (
 ({theNumber:(variable theNumber)theOther:(variable y)theResult:(variable theResult)})
@@ -219,6 +225,8 @@ to ({0:(variable theNumber)
 ]
 `
 },{
+    name: 'Composition 2 X 2',
+fileName: 'example/test/composition2x2',
      code : `interaction (bob):{theNumber:Number in,theOther:Number in,theResult:Number out,theLast:Number out} is
   (
     ({
@@ -255,6 +263,8 @@ to ({0:(variable theNumber)
 ]
 `
 },{
+    name: 'Definition Of Init',
+fileName: 'example/test/definitionOfInit',
      code : `interaction
   (bob):{theNumber:Number in,theResult:Number out}
 with
@@ -344,6 +354,8 @@ is
 ]
 `
 },{
+    name: 'Definition Of Make Flow',
+fileName: 'example/test/definitionOfMakeFlow',
      code : `interaction
   (bob):{theNumber:Number in,theResult:Number out}
 with
@@ -536,6 +548,8 @@ is
 ]
 `
 },{
+    name: 'Definition Of Previous',
+fileName: 'example/test/definitionOfPrevious',
      code : `interaction
   (bob):{theNumber:Number in,theResult:Number out}
 with
@@ -579,6 +593,8 @@ is
 ]
 `
 },{
+    name: 'Definitionof If Then Else',
+fileName: 'example/test/definitionofIfThenElse',
      code : `interaction
  (test (t:Number in)):Number out
 with
@@ -649,6 +665,8 @@ is
 ]
 `
 },{
+    name: 'Dereferencing',
+fileName: 'example/test/dereferencing',
      code : `interaction
   (bob):{theNumber:Number in,theResult:Number out}
 with
@@ -695,6 +713,8 @@ is
 ]
 `
 },{
+    name: 'Fake Affectation',
+fileName: 'example/test/fakeAffectation',
      code : `interaction (bob):{theNumber:Number in,theResult:Number out}
 with
   interaction ((a:Number out)=fake=(b:Number in)):Activation in is
@@ -732,6 +752,8 @@ is
 ]
 `
 },{
+    name: 'Function Application',
+fileName: 'example/test/functionApplication',
      code : `interaction (bob):{theNumber:Number in,theResult:Number out} is
 ( (
 {theNumber:(variable theNumber)theResult:(variable theResult)}
@@ -762,6 +784,8 @@ is
 ]
 `
 },{
+    name: 'Less Problematic Definitionof If Then Else',
+fileName: 'example/test/lessProblematicDefinitionofIfThenElse',
      code : `interaction
  (test (a:Number in)):{theNumber:Number in,theResult:Number out}
 with
@@ -815,23 +839,25 @@ is
      scenario : `[
   {
     "args":  {"a":0},
-    "inter":  4
+    "inter":  {"theNumber":4,"theResult":-8000}
   },
   {
     "args":  {"a":1},
-    "inter":  3
+    "inter":  {"theNumber":3,"theResult":3}
   },
   {
     "args":  {"a":2},
-    "inter":  4
+    "inter":  {"theNumber":5,"theResult":-8000}
   },
   {
     "args":  {"a":3},
-    "inter":  4
+    "inter":  {"theNumber":4,"theResult":-8000}
   }
 ]
 `
 },{
+    name: 'Literals',
+fileName: 'example/test/literals',
      code : `interaction (ok literal):Number out
 with
 
@@ -862,6 +888,8 @@ is
 ]
 `
 },{
+    name: 'Real Affectation Expression',
+fileName: 'example/test/realAffectationExpression',
      code : `interaction (bob):{theNumber:Number in,theResult:Number out}
 with
 
@@ -910,6 +938,8 @@ is
 ]
 `
 },{
+    name: 'Referential Transparency',
+fileName: 'example/test/referentialTransparency',
      code : `
     interaction (main):{theNumber:Number in,theResult:Number out}
 
@@ -954,6 +984,8 @@ is
 ]
 `
 },{
+    name: 'Resolver',
+fileName: 'example/test/resolver',
      code : `interaction (bob):{theNumber:Number in,theOther:Number in, theResult:Number out, theLast:Number out}
 is
     (
@@ -987,6 +1019,8 @@ is
 ]
 `
 },{
+    name: 'Simple',
+fileName: 'example/test/simple',
      code : `
 
     interaction (main):{theNumber:Number in,theResult:Number out}
@@ -1022,6 +1056,8 @@ is
 ]
 `
 },{
+    name: 'Simple Func',
+fileName: 'example/test/simpleFunc',
      code : `interaction
   (bob):{theNumber:Number in,theResult:Number out}
 with
@@ -1056,6 +1092,8 @@ is
 ]
 `
 },{
+    name: 'Simple Previous Next',
+fileName: 'example/test/simplePreviousNext',
      code : `
 
     interaction (main):{theNumber:Number in,theResult:Number out}
@@ -1094,6 +1132,8 @@ get (variable y) from previous and set (variable x) for next
 ]
 `
 },{
+    name: 'Sum Of Previous',
+fileName: 'example/test/sumOfPrevious',
      code : `interaction (wow (a:Number in)):Number out
 with
 

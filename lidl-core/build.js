@@ -43,6 +43,8 @@ examplecontent += _(fs.readdirSync(exampleTestPath))
 .map(x=>path.join(exampleTestPath, x))
 .filter(ffile=>fs.statSync(ffile).isDirectory())
 .map(ffile =>"{\n\
+    name: '"+ _.startCase(path.basename(ffile)) + "',\n\
+fileName: '"+ ffile + "',\n\
      code : `"+fs.readFileSync(path.join(ffile, "code.lidl"), {encoding: 'utf8'})+"`,\n\
      scenario : `"+fs.readFileSync(path.join(ffile, 'scenario.json'), {encoding: 'utf8'})+"`\n\
 }")
