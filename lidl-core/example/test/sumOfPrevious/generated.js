@@ -127,47 +127,47 @@ var all = function(x) {
 ///////////////////////////////////////////////////////////////////////
 //Declaration of variables
 
-var edge_8481 = inactive;
-var edge_8483 = inactive;
-var edge_8491 = inactive;
-var edge_8493 = inactive;
-var edge_8497 = inactive;
-var edge_8498 = inactive;
-var edge_8499 = inactive;
-var edge_8500 = inactive;
-var edge_8502 = inactive;
-var edge_8503 = inactive;
-var edge_8504 = inactive;
+var edge_7605 = inactive;
+var edge_7607 = inactive;
+var edge_7615 = inactive;
+var edge_7617 = inactive;
+var edge_7621 = inactive;
+var edge_7622 = inactive;
+var edge_7623 = inactive;
+var edge_7624 = inactive;
+var edge_7626 = inactive;
+var edge_7627 = inactive;
+var edge_7628 = inactive;
 ///////////////////////////////////////////////////////////////////////
 //Code of the DAG
 
-edge_8481 = addition;
+edge_7605 = addition;
 
-edge_8497 = active;
+edge_7621 = active;
 
-edge_8498 = edge_8497;
-edge_8499 = edge_8497;
-edge_8500 = edge_8497;
+edge_7622 = edge_7621;
+edge_7623 = edge_7621;
+edge_7624 = edge_7621;
 
-if(edge_8499 === active) {
-edge_8502 = previousState['state_8484'];
+if(edge_7623 === active) {
+edge_7626 = previousState['state_7608'];
 }
 
-edge_8503 = edge_8502;
-edge_8504 = edge_8502;
+edge_7627 = edge_7626;
+edge_7628 = edge_7626;
 
-edge_8493 = {};
-edge_8493['0'] = edge_8503;
-edge_8493['1'] = edge_8504;
+edge_7617 = {};
+edge_7617['0'] = edge_7627;
+edge_7617['1'] = edge_7628;
 
-if(edge_8498 === active && edge_8481!==null && edge_8481!==undefined) {edge_8483 = edge_8481(edge_8493);}
+if(edge_7622 === active && edge_7605!==null && edge_7605!==undefined) {edge_7607 = edge_7605(edge_7617);}
 
-theInterface=edge_8483;
+theInterface=edge_7607;
 
-edge_8491=theArgs.a;
+edge_7615=theArgs.a;
 
-if(edge_8500 === active) {
-nextState['state_8484'] = edge_8491;
+if(edge_7624 === active) {
+nextState['state_7608'] = edge_7615;
 }
 
 ///////////////////////////////////////////////////////////////////////
@@ -185,7 +185,7 @@ nextState['state_8484'] = edge_8491;
 function initializationFunction(data){
 return {
       memo: {},
-      state: {state_8484:null},
+      state: {state_7608:null},
       args: {},
       inter: {}
     };

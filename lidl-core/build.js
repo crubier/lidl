@@ -5,7 +5,7 @@ var path = require('path');
 var _ = require('lodash');
 
 
-// Generated the parser
+// Generate the parser
 fs.writeFileSync('./src/parser.js',
   "module.exports = "+
   peg.buildParser(fs.readFileSync('./src/parser.pegjs', {
@@ -18,7 +18,7 @@ fs.writeFileSync('./src/parser.js',
   });
 
 
-// Generated the operator parser
+// Generate the operator parser
 fs.writeFileSync('./src/operator.js',
   "module.exports = "+
   peg.buildParser(fs.readFileSync('./src/operator.pegjs', {
@@ -33,7 +33,7 @@ fs.writeFileSync('./src/operator.js',
 
 
 
-// Generated the example file that contains all example cases in a JS object form
+// Generate the example file that contains all example cases in a JS object form
 var exampleTestPath = 'example/test';
 var commonHeader = path.join(exampleTestPath, 'common.lidl.js');
 var examplecontent = "// File automatically generated when performing     npm run build   \n// It contains examples of lidl code from the "+exampleTestPath+" folder\n";

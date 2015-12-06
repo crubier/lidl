@@ -127,18 +127,18 @@ var all = function(x) {
 ///////////////////////////////////////////////////////////////////////
 //Declaration of variables
 
-var edge_7544 = inactive;
-var edge_7551 = inactive;
+var edge_6668 = inactive;
+var edge_6675 = inactive;
 ///////////////////////////////////////////////////////////////////////
 //Code of the DAG
 
-edge_7551 = active;
+edge_6675 = active;
 
-// We dont care about edge_7551, this is a fake receiver node
+// We dont care about edge_6675, this is a fake receiver node
 
-edge_7544=theInterface.theNumber;
+edge_6668=theInterface.theNumber;
 
-theInterface.theResult=edge_7544;
+theInterface.theResult=edge_6668;
 
 ///////////////////////////////////////////////////////////////////////
 //Return statement

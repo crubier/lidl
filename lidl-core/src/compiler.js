@@ -1,11 +1,12 @@
-import graphCompiler from './graphCompiler'
+"use strict";
+import {compile} from './graphCompiler'
 import parser from './parser'
 
 // A simple asynchronous compiler
-export function compile(lidl,header,callback) {
+export function simpleCompile(lidl,header,callback) {
   let ast = parser.parse(lidl);
-  graphCompiler.compile(ast,header,{
-    getJsCode:function(graph,data){callback(data.code);}
+  compile(ast[0],header,{
+    getJsCode:function(graph,data){callback(data.source);return true;}
   });
   return;
 }

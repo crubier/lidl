@@ -1,11 +1,11 @@
-digraph g{node_7767 [shape="box", style="filled", color="#dff1f2", fontname="Courier", label="node_7767
+digraph g{node_6891 [shape="box", style="filled", color="#dff1f2", fontname="Courier", label="node_6891
 <%=a0%>=theInterface.theNumber;
 " ]
-node_7769 [shape="box", style="filled", color="#dff1f2", fontname="Courier", label="node_7769
+node_6893 [shape="box", style="filled", color="#dff1f2", fontname="Courier", label="node_6893
 theInterface.theResult=<%=a0%>;
 " ]
-node_7784 [shape="box", style="filled", color="#dff1f2", fontname="Courier", label="node_7784
+node_6908 [shape="box", style="filled", color="#dff1f2", fontname="Courier", label="node_6908
 <%=a0%> = active;
 " ]
-node_7767 -> node_7769 [dir=none, arrowHead=none, fontname="Times-Italic", arrowsize=1, color="#9d8400", label="edge_7797",  headlabel="0: in", taillabel="0: out" ]
+node_6891 -> node_6893 [dir=none, arrowHead=none, fontname="Times-Italic", arrowsize=1, color="#9d8400", label="edge_6921",  headlabel="0: in", taillabel="0: out" ]
 }

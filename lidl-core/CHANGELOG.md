@@ -1,5 +1,30 @@
 # LIDL changelog
 
+# 0.8.5
+
+- Small fix on simple compiler
+
+# 0.8.4
+
+- Small fix on simple compiler
+
+# 0.8.3
+
+- ES5 compatiblity
+
+# 0.8.2
+
+- Small Changes
+
+# 0.8.1
+
+- Removed old Readme
+
+# 0.8.0
+
+- Major breaking Changes
+- Using the graph based compiler
+- Big refactoring, compiler working
 
 # 0.1.8
 

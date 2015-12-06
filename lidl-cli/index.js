@@ -1,43 +1,5 @@
-// // import LIDL from '../lidl-core';
-//
-// import neo4j from 'neo4j';
-//
-// // console.log("trouduc");
-//
-// // LIDL.compiler.compileToJs("ok");
-//
-// // console.log("bouzouk");
-//
-//
-// // var neo4j = require('neo4j');
-//
-//   var db = new neo4j.GraphDatabase('http://neo4j:neo4j@localhost:7474');
-//
-//
-//   console.log(db);
-//
-//   function callback(err,results){console.log(results);}
-//
-//   db.cypher({
-//     query:'MATCH (n) RETURN n LIMIT 100',
-//     params:{}
-//   },callback);
-
-  // var neo4j = require('node-neo4j');
-
-  var neo4j = require('node-neo4j');
-  db = new neo4j('http://neo4j:neo4j@localhost:7474');
-
-
-
-
-
-  db.cypherQuery('MATCH(x:Node:Composition)Return DISTINCT x.operator', function(err, result){
-    if(err) throw err;
-
-    console.log(result.data); // delivers an array of query results
-    console.log(result.columns); // delivers an array of names of objects getting returned
-});
+#!/usr/bin/env node
+"use strict";var _yargs = require('yargs');var _yargs2 = _interopRequireDefault(_yargs);var _chalk = require('chalk');var _chalk2 = _interopRequireDefault(_chalk);var _lidlCore = require('lidl-core');var _lidlCore2 = _interopRequireDefault(_lidlCore);var _fs = require('fs');var _fs2 = _interopRequireDefault(_fs);function _interopRequireDefault(obj) {return obj && obj.__esModule ? obj : { default: obj };}
 
 
 
@@ -45,27 +7,49 @@
 
 
 
-//
-//
-//
-//   var db = new neo4j.GraphDatabase({
-//     url:'http://neo4j:neo4j@localhost:7474',
-//     auth:{username:'neo4j',password:'neo4j'}
-// });
-//
-//   db.query( 'MATCH (n) RETURN n LIMIT 100',
-//       {
-//       },
-//  function (err, results) {
-//       if (err) throw err;
-//       var result = results[0]['n'];
-//
-//
-// console.log(JSON.stringify(result));
-//       //
-//       // if (!result) {
-//       //     console.log('No user found.');
-//       // } else {
-//       //     console.log(JSON.stringify(result));
-//       // }
-//   });
+console.log(_chalk2.default.blue('\nLidl Compiler'));
+
+var argv = _yargs2.default.
+usage('Usage: $0 <command> [options]').
+
+example('$0 -i foo.lidl -o foo.js', 'Compiles the given lidl file').
+demand(['i', 'o']).
+
+alias('i', 'input').
+nargs('i', 1).
+describe('i', 'Input Lidl file to compile').
+
+alias('o', 'output').
+nargs('o', 1).
+describe('o', 'Output generated JS file ').
+
+alias('h', 'header')
+// .nargs('h', 1)
+.describe('h', 'Header JS file to use in the generated JS File').
+
+help('help').
+epilog('copyright 2015').
+argv;
+
+
+
+try {
+  var inputFile = argv.i;
+  console.log('Compiling ' + inputFile);
+  var code = _fs2.default.readFileSync(inputFile, { encoding: 'utf8' });
+
+  var header = "";
+  if (argv.h === undefined) {
+    console.log('Using default header file');
+    header = _lidlCore2.default.examples.header;} else 
+  {
+    console.log('Using header file ' + argv.h);
+    header = _fs2.default.readFileSync(argv.h, { encoding: 'utf8' });}
+
+
+  _lidlCore2.default.compiler.simpleCompile(code, header, function (code) {
+    _fs2.default.writeFileSync(argv.o, code, { encoding: 'utf8' });
+    console.log(_chalk2.default.green('Success !') + '\n');});} 
+
+catch (e) {
+  console.log(_chalk2.default.red('Error: ' + e.message) + '\n');}
