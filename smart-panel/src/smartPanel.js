@@ -36,8 +36,57 @@ function getName(model,views) {
   }
 }
 
-export default class SmartPanel extends Component {
+function getOffsetRect(elem) {
+    // (1)
+    var box = elem.getBoundingClientRect()
 
+    var body = document.body
+    var docElem = document.documentElement
+
+    // (2)
+    var scrollTop = window.pageYOffset || docElem.scrollTop || body.scrollTop
+    var scrollLeft = window.pageXOffset || docElem.scrollLeft || body.scrollLeft
+
+    // (3)
+    var clientTop = docElem.clientTop || body.clientTop || 0
+    var clientLeft = docElem.clientLeft || body.clientLeft || 0
+
+    // (4)
+    var top  = box.top +  scrollTop - clientTop
+    var left = box.left + scrollLeft - clientLeft
+
+    return { top: top, left: left ,width:box.width,height:box.height}
+}
+
+var handleSize = 5;
+function reduceRect(rect,steps){
+  let res = {};
+  if(rect.width<2*handleSize*steps) {
+    res.width=0;
+    res.left=rect.left+res.width/2;
+  } else {
+    res.width = rect.width - 2*handleSize*steps;
+    res.left = rect.left +handleSize*steps;
+  }
+  if(rect.height<2*handleSize*steps) {
+    res.height=0;
+    res.top=rect.top+res.height/2;
+  } else {
+    res.height = rect.height - 2*handleSize*steps;
+    res.top = rect.top +handleSize*steps;
+  }
+  return res;
+}
+
+export default class SmartPanel extends Component {
+  state = {
+    over: false,
+    dragging:false
+  }
+  getSubBoxes(){
+    
+
+  }
   handleChange(){
 
   }
@@ -49,7 +98,12 @@ export default class SmartPanel extends Component {
     }
   }
   handleDragOver(e){
-    console.log((e.clientX - this.refs.mainDiv.offsetLeft)/(this.refs.mainDiv.offsetWidth));
+    let rect =getOffsetRect(this.refs.mainDiv);
+    let x=((e.screenX - rect.left)/(rect.width));
+    let y =((e.screenY - rect.top)/(rect.height));
+    console.log("Drag "+this.props.path+ " "+x+" "+y);
+    // console.log(e.screenX+' - ' +rect.left+' / '+rect.width);
+    // console.log(e.screenY+' - ' +rect.top+' / '+rect.height);
     e.preventDefault();
   }
   render(){
@@ -102,6 +156,7 @@ export default class SmartPanel extends Component {
             return {totalPosition:reduction.totalPosition.push(positionOfCurrent+sizeOfCurrent),elems:newElems};
          },{totalPosition:List([0]),elems:List([])});
         // console.log(zelements.totalPosition.toJS());
+        let shownIndex =this.props.model.get('content').findIndex(x=>x.get('select'));
         return  (
           <div
             ref='mainDiv'
@@ -111,9 +166,9 @@ export default class SmartPanel extends Component {
             <div style={{position:'absolute', left:0,width:this.props.position.get('width'),top:0,height:tabHeight}}>{zelements.elems.toJS()}</div>
             <SmartPanel
               onChange={this.props.onChange}
-              model={this.props.model.get('content').find(x=>x.get('select'))}
+              model={this.props.model.get('content').get(shownIndex)}
               views={this.props.views}
-              path={this.props.path.push(this.props.model.select)}
+              path={this.props.path.push(shownIndex)}
               position={this.props.position.set('height',this.props.position.get('height')-tabHeight).set('top',tabHeight).set('left',0)}/>
           </div>);
         break;
