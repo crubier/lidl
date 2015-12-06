@@ -16,6 +16,10 @@ import Analysis from './Analysis/Analysis';
 import GeneratedCodeViewer from './GeneratedCodeViewer/GeneratedCodeViewer';
 import TraceViewer from'./TraceViewer/TraceViewer';
 import AdvancedTraceViewer from'./AdvancedTraceViewer/AdvancedTraceViewer';
+import ExpandedCodeViewer from'./ExpandedCodeViewer/ExpandedCodeViewer';
+
+import SmartContainer from './SmartPanel/SmartContainer'
+
 
 import Paper from 'material-ui/lib/paper'
 
@@ -49,12 +53,15 @@ import _ from 'lodash';
 import {Accordion,AccordionItem} from './Accordion/Accordion';
 
 import initialState from './initialState'
+import model from './viewModel';
 
 var config = require('lidl-core').config;
 
 // Create a web worker which will do the heavy lifting tasks
 var work = require('webworkify');
 var w = work(require('./worker.js'));
+
+
 
 
 export default class Main extends Component {
@@ -64,7 +71,7 @@ export default class Main extends Component {
 
     let that = this;
 
-    console.log(config.graphTransformations);
+    // console.log(config.graphTransformations);
 
     w.addEventListener('error', function (ev) {
       that.setState({error:ev});
@@ -80,18 +87,31 @@ export default class Main extends Component {
           break;
 
         case 'LidlAst':
+          that.setState({lidlAst:m.lidlAst});
           break;
 
         case 'IntermediateGraph':
+          that.setState({displayGraphs:that.state.displayGraphs.set(m.stage,m.graphSvg)});
           break;
 
         case 'GeneratedJs':
+          that.setState({cleanJs:m.code});
           break;
 
         case 'ExpandedLidl':
+          that.setState({expandedLidl:m.code});
+          break;
+
+        case 'TraceAst':
+          that.setState({traceAst:m.traceAst});
+          break;
+
+        case 'Trace':
+          that.setState({trace:m.trace});
           break;
 
         case 'InteractionMetrics':
+          that.setState({metrics:m.metrics});
           break;
 
         case 'Error':
@@ -150,6 +170,8 @@ export default class Main extends Component {
       }
 
     );
+    this.state = initialState;
+
 
     // Debounce the change methods in order to speed up text editing
     let debounceDelay = 1000;
@@ -158,18 +180,12 @@ export default class Main extends Component {
     this.scenarioChanged = _.debounce(this.scenarioChanged,debounceDelay);
     this.headerChanged = _.debounce(this.headerChanged,debounceDelay);
 
-    this.lidlChanged(this.state.lidl);
-    this.scenarioChanged(this.state.scenario);
-    this.headerChanged(this.state.header);
-
 
   }
 
-  state = initialState;
-
   lidlChanged(newCode) {
     this.setState({lidl:newCode});
-    w.postMessage({type:'Lidl2LidlAst',lidl:newCode});
+    w.postMessage({type:'RecompileAll',lidl:newCode,header:this.state.header,scenario:this.state.scenario});
   }
 
   lidlAstChanged(newAst) {
@@ -179,12 +195,12 @@ export default class Main extends Component {
 
   scenarioChanged(newCode) {
     this.setState({scenario:newCode});
-    w.postMessage({type:'Scenario2ScenarioAst',scenario:newCode});
+    w.postMessage({type:'RecompileAll',lidl:this.state.lidl,header:this.state.header,scenario:newCode});
   }
 
   headerChanged(newCode) {
     this.setState({header:newCode});
-    w.postMessage({type:'Graph2Js',graph:this.state.graph,header:newCode});
+    w.postMessage({type:'RecompileAll',lidl:this.state.lidl,header:newCode,scenario:this.state.scenario});
   }
 
   recompileAll() {
@@ -196,8 +212,7 @@ export default class Main extends Component {
     newState.header = this.state.header;
     newState.scenario = this.state.scenario;
     this.setState(newState);
-    w.postMessage({type:'Lidl2LidlAst',lidl:this.state.lidl});
-    w.postMessage({type:'Scenario2ScenarioAst',scenario:this.state.scenario});
+    w.postMessage({type:'RecompileAll',lidl:this.state.lidl,header:this.state.header,scenario:this.state.scenario});
   }
 
   handleChange(event) {
@@ -205,24 +220,17 @@ export default class Main extends Component {
    }
 
   dropDownChange(event, selectedIndex, menuItem) {
-
-    this.setState({fileName: menuItem.text });
-  }
-
-  clickOpen(){
-    let opened = JSON.parse(localStorage.getItem("LidlSandbox."+this.state.fileName));
-    let newState = initialState;
-    newState.fileName = this.state.fileName;
-    newState.listOfFiles = this.state.listOfFiles;
-    newState.displayGraphUpTo = this.state.displayGraphUpTo;
-    newState.lidl = opened.lidl;
-    newState.header = opened.header;
-    newState.scenario = opened.scenario;
-    this.setState(newState);
-    w.postMessage({type:'Lidl2LidlAst',lidl:opened.lidl});
-    w.postMessage({type:'Scenario2ScenarioAst',scenario:opened.scenario});
-
-    this.refs.snackbarOpened.show();
+    let opened = JSON.parse(localStorage.getItem("LidlSandbox."+menuItem.text));
+      let newState = initialState;
+      newState.fileName = menuItem.text;
+      newState.listOfFiles = this.state.listOfFiles;
+      newState.displayGraphUpTo = this.state.displayGraphUpTo;
+      newState.lidl = opened.lidl;
+      newState.header = opened.header;
+      newState.scenario = opened.scenario;
+      this.setState(newState);
+      w.postMessage({type:'RecompileAll',lidl:opened.lidl,header:opened.header,scenario:opened.scenario});
+      this.refs.snackbarOpened.show();
   }
 
   clickSave(){
@@ -244,12 +252,7 @@ export default class Main extends Component {
 
   componentDidMount(){
     this.updateListOfFiles();
-  }
-
-  changeDisplayGraphUpTo(event, selectedIndex, menuItem) {
-    this.setState({displayGraphUpTo:menuItem.text,displayGraph:null});
-    // this.setState({displayGraphUpTo:menuItem.text});
-    w.postMessage({type:'LidlAst2DisplayGraph',upto:menuItem.text,lidlAst:this.state.lidlAst});
+    w.postMessage({type:'RecompileAll',lidl:this.state.lidl,header:this.state.header,scenario:this.state.scenario});
   }
 
   render() {
@@ -266,11 +269,10 @@ export default class Main extends Component {
 let that= this;
     return (
 // <View layout={'row'}>
-<div><Paper  zDepth={4} style={{zIndex: 100000,position: "fixed",top: 0,left: 0,width:"100%"}}><Toolbar>
+<div><Paper  zDepth={1} style={{zIndex: 100000,position: "fixed",top: 0,left: 0,width:"100%"}}><Toolbar>
     <ToolbarGroup key={0} float="left">
       <ToolbarTitle text="Lidl Sandbox" />
 <DropDownMenu tooltipPosition="bottom-center"  tooltip="Name of file to load" menuItems={menuItems} onChange={this.dropDownChange.bind(this)} />
-<IconButton tooltipPosition="bottom-center"  tooltip="Load File" iconClassName="material-icons" primary={false} onClick={this.clickOpen.bind(this)}>file_download</IconButton>
 <TextField
 tooltipPosition="bottom-center"  tooltip="Name of file to save"
   hintText="File Name"
@@ -283,11 +285,6 @@ tooltipPosition="bottom-center"  tooltip="Name of file to save"
 
     </ToolbarGroup>
 
-<ToolbarGroup key={1} float="left">
-<DropDownMenu tooltipPosition="bottom-center"  tooltip="Display this step of compilation as a graph" menuItems={menuItems2} onChange={this.changeDisplayGraphUpTo.bind(this)} />
-</ToolbarGroup>
-
-
     <ToolbarGroup key={2} float="right">
       <RaisedButton label="Recompile All" onClick={that.recompileAll.bind(that)} primary={true} />
 </ToolbarGroup>
@@ -297,21 +294,21 @@ tooltipPosition="bottom-center"  tooltip="Name of file to save"
 
   <Snackbar ref="snackbarSaved" message={"Saved file "+this.state.fileName} autoHideDuration={1000}/>
 <Snackbar ref="snackbarOpened" message={"Loaded file "+this.state.fileName} autoHideDuration={1000}/>
-      <Accordion style={{marginTop:"90px"}}>
 
-          <AccordionItem title={"Lidl code editor"} key={0}><CodeEditor value={this.state.lidl} onChange={this.lidlChanged.bind(this)}/></AccordionItem>
-          <AccordionItem title={"Lidl visual code editor"} key={1}><BlockCodeEditor lidlAst={this.state.lidlAst} onChange={this.lidlAstChanged.bind(this)}/></AccordionItem>
-          <AccordionItem title={"Scenario editor"} key={2}><ScenarioEditor value={this.state.scenario} onChange={this.scenarioChanged.bind(this)}/></AccordionItem>
-          <AccordionItem title={"Custom Header editor"} key={3}><HeaderEditor value={this.state.header} onChange={this.headerChanged.bind(this)}/></AccordionItem>
-          <AccordionItem title={"Errors"} key={4}><ErrorDisplay value={this.state.error}/></AccordionItem>
-          <AccordionItem title={"Lidl code analysis"} key={5}><Analysis expandedLidlAst={this.state.expandedLidlAst} expandedLidl={this.state.expandedLidl}/></AccordionItem>
-          <AccordionItem title={"Graph"} key={6}><Graphviz displayGraph={this.state.displayGraph}/></AccordionItem>
-          <AccordionItem title={"Generated code viewer"} key={7}><GeneratedCodeViewer value={this.state.cleanJs}/></AccordionItem>
-          <AccordionItem title={"Trace viewer"} key={8}><TraceViewer lidlAst={this.state.lidlAst} traceAst={this.state.traceAst} /></AccordionItem>
-          <AccordionItem title={"Advanced Trace viewer"} key={9}><AdvancedTraceViewer value={this.state.trace}/></AccordionItem>
-          <AccordionItem title={"Canvas"} key={10}><Canvas/></AccordionItem>
-
-      </Accordion>
+      <SmartContainer model={model} position={{left:0,top:56,height:window.innerHeight-56,width:window.innerWidth}}>
+          <CodeEditor panelId={"CodeEditor"} panelName={"Lidl code editor"}  value={this.state.lidl} onChange={this.lidlChanged.bind(this)}/>
+          <BlockCodeEditor panelId={"BlockCodeEditor"} panelName={"Lidl visual code editor"} lidlAst={this.state.lidlAst} onChange={this.lidlAstChanged.bind(this)}/>
+          <ScenarioEditor panelId={"ScenarioEditor"} panelName={"Scenario editor"}  value={this.state.scenario} onChange={this.scenarioChanged.bind(this)}/>
+          <HeaderEditor panelId={"HeaderEditor"} panelName={"Custom Header editor"} value={this.state.header} onChange={this.headerChanged.bind(this)}/>
+          <ErrorDisplay panelId={"ErrorDisplay"} panelName={"Errors"}  value={this.state.error}/>
+          <Analysis panelId={"Analysis"} panelName={"Lidl code analysis"}  metrics={this.state.metrics}/>
+          <Graphviz panelId={"Graphviz"} panelName={"Graph"}  displayGraph={this.state.displayGraphs.get('addDefinitionToGraph')}/>
+          <GeneratedCodeViewer panelId={"GeneratedCodeViewer"} panelName={"Generated code viewer"}  value={this.state.cleanJs}/>
+          <TraceViewer panelId={"TraceViewer"} panelName={"Trace viewer"} lidlAst={this.state.lidlAst} traceAst={this.state.traceAst} />
+          <AdvancedTraceViewer panelId={"AdvancedTraceViewer"} panelName={"Advanced Trace viewer"}  value={this.state.trace}/>
+          <ExpandedCodeViewer panelId={"ExpandedCodeViewer"} panelName={"Expanded code viewer"}  value={this.state.expandedLidl}/>
+          <Canvas panelId={"Canvas"} panelName={"Canvas"} key={10}/>
+      </SmartContainer>
 </div>
 
 
@@ -319,7 +316,6 @@ tooltipPosition="bottom-center"  tooltip="Name of file to save"
 
   }
 }
-
 
 
 ReactDOM.render(<Main/>, document.getElementById("main"));

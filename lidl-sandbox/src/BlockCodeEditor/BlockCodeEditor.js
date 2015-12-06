@@ -40,10 +40,6 @@ class BlockCodeEditor extends Component {
     onChange: PropTypes.func.isRequired
   };
 
-  static defaultProps = {
-    lidlAst: defaultCode
-  };
-
   state = {
     code: this.props.lidlAst
   };
@@ -64,7 +60,7 @@ class BlockCodeEditor extends Component {
   render() {
     // console.log(this.props.value[0])
     // TODO here we render only the first interaction : this.state.code[0]
-    if(this.props.lidlAst===null) {
+    if(this.props.lidlAst===null || this.props.lidlAst===undefined) {
 return  <div style={{textAlign:'center'}}><CircularProgress style={{margin:"20px"}} mode="indeterminate"  /></div>;
     }else
 {

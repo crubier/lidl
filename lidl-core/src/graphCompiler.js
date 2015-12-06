@@ -62,15 +62,15 @@ export function compile(ast,header,callbacks){
     _.clone(callbacks),
     {
       instantiateInterfaces:(graph,data)=>{
-        callCallback('getExpandedLidlCode',{code:getExpandedLidl(graph,rootDefinitionNode)});
+        callCallback('getExpandedLidlCode',getExpandedLidl(graph,rootDefinitionNode));
         return callCallback('instantiateInterfaces',data);
       },
       referentialTransparencyInstances:(graph,data)=>{
-        callCallback('getInteractionMetrics',{metrics:getInteractionMetrics(graph)});
+        callCallback('getInteractionMetrics',getInteractionMetrics(graph));
         return callCallback('referentialTransparencyInstances',data);
       },
       graphTransformationPipeline:(graph,data)=>{
-        callCallback('getJsCode',{code:getJsCode(graph,header)});
+        callCallback('getJsCode',getJsCode(graph,header));
         return callCallback('graphTransformationPipeline',data);
       }
     }

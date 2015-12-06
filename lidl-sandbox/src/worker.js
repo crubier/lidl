@@ -9,19 +9,13 @@ var viz = require('viz.js');
 var Lidl = require('lidl-core');
 var Compiler= Lidl.graphCompiler;
 var Parser= Lidl.parser;
+var Serializer= Lidl.serializer;
 var Runner= Lidl.runner;
 var Config= Lidl.config;
 
 
 
-function graphToSvg(graph) {
-  let rawres = viz(graph,{format:'svg',engine:'dot'});
-  let offset = rawres.search('<svg');
-  rawres = rawres.substring(offset);
-  rawres = rawres.replace(/(width="[^"]+pt")/g, 'width="100%"');
-  rawres = rawres.replace(/(height="[^"]+pt")/g, 'height="100%"');
-  return rawres;
-}
+
 
 
 module.exports = function(self) {
@@ -43,14 +37,23 @@ module.exports = function(self) {
         //   m.header    : string      header js code
         //   m.scenario  : string      header js code
 
-        var ast = Parser.parse(m.lidl)[0];
-        self.postMessage({type: 'LidlAst',lidlAst:ast});
+        function graphToSvg(graph) {
+          let rawres = viz(graph,{format:'svg',engine:'dot'});
+          let offset = rawres.search('<svg');
+          rawres = rawres.substring(offset);
+          rawres = rawres.replace(/(width="[^"]+pt")/g, 'width="100%"');
+          rawres = rawres.replace(/(height="[^"]+pt")/g, 'height="100%"');
+          return rawres;
+        }
 
+        var ast = Parser.parse(m.lidl);
+        self.postMessage({type: 'LidlAst',lidlAst:ast});
+        ast = ast[0]; // Compile the first def only
         // Create callbacks for each element of the Lidl config file (declared graph transformation stages)
         var autoCallbacks =
         _(Config.graphTransformations)
         .map(x=>[x,function(graph,data){
-          self.postMessage({type: 'IntermediateGraph',stage:x,graphSvg:graphToSvg(graph)});
+          self.postMessage({type: 'IntermediateGraph',stage:x,graphSvg:{__html:graphToSvg(graph.toDotDef())}});
           return true;}])
         .zipObject()
         .value();
@@ -59,13 +62,14 @@ module.exports = function(self) {
         var customCallbacks =
         {
           getJsCode : function(graph,data){
-            self.postMessage({type: 'GeneratedJs',code:data.code});
-            let trace = runner.run(data.code,JSON.parse(m.scenario));
-            self.postMessage({type: 'Trace',trace:trace});
+            self.postMessage({type: 'GeneratedJs',code:beautify(data.source)});
+            let trace = Runner.run(data,JSON.parse(m.scenario));
+            self.postMessage({type: 'TraceAst',traceAst:trace});
+            self.postMessage({type: 'Trace',trace:beautify(JSON.stringify(trace))});
             return true;
           },
           getExpandedLidlCode : function(graph,data){
-            self.postMessage({type: 'ExpandedLidl',code:data.code});
+            self.postMessage({type: 'ExpandedLidl',code:data.source});
             return true;
           },
           getInteractionMetrics : function(graph,data){
@@ -79,7 +83,7 @@ module.exports = function(self) {
           }
         };
 
-        var callbacks = _.assign(autoCallbacks,customCallbacks);
+        var callbacks = _.assign(_.clone(autoCallbacks),customCallbacks);
 
         var header = m.header;
 

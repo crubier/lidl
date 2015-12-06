@@ -23,17 +23,18 @@ export default class ScenarioEditor extends Component {
     if(this.props.value === null) {
             return  <div style={{textAlign:'center'}}><CircularProgress style={{margin:"20px"}} mode="indeterminate"  /></div>;
           } else {
-    return (<div style={{width:"100%"}}>
+    return (<div style={{width:"100%",height:"100%"}}>
     <AceEditor
       mode="javascript"
       theme="chrome"
       width="100%"
+      height="100%"
       onChange={this.props.onChange}
       value={this.props.value}
       name="headerEditorAce"
       showPrintMargin={false}
       showGutter={true}
-      editorProps={{$blockScrolling: true}}
+      editorProps={{$blockScrolling: Infinity}}
     />
     </div>);}
   }

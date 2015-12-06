@@ -2,6 +2,7 @@ import defaultHeader from './Defaults/header'
 import defaultCode from './Defaults/lidlcode'
 import defaultScenario from './Defaults/scenario'
 import Lidl from 'lidl-core'
+import Immutable from 'immutable'
 
 export default {
 
@@ -18,10 +19,11 @@ export default {
 
   expandedLidl:null,
 
+  metrics:null,
+
   graph:null,
 
-  displayGraphUpTo:'addDefinitionToGraph',
-  displayGraph:null,
+  displayGraphs:Immutable.fromJS({}),
 
   header: Lidl.examples.header,
 

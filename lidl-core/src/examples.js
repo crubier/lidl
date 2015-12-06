@@ -49,7 +49,7 @@ var addOne = function(x) {
 };
 
 var identity = function(x) {
-  return x
+  return x;
 };
 
 var isEqual = function(x) {
@@ -108,7 +108,7 @@ var whenThenElse = function(x) {
 
 
 var all = function(x) {
-  return {a:x,b:x,c:x,d:x,e:x,f:x,g:x,h:x,i:x,j:x,k:x,l:x,l:x,n:x,o:x,p:x}
+  return {a:x,b:x,c:x,d:x,e:x,f:x,g:x,h:x,i:x,j:x,k:x,l:x,m:x,n:x,o:x,p:x};
 };
 
 `,
