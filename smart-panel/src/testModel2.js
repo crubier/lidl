@@ -2,17 +2,19 @@ import React, {
   Children,
   PropTypes,
   Component
-} from 'react';
+}
+from 'react';
 
 export default {
   "type": "x",
   "weight": 1,
-  "select": 0,
+  "select": false,
   "content": [{
     "type": "z",
     "weight": 2,
-    "select": 0,
+    "select": false,
     "content": [{
+      "select": true,
       type: "p",
       "weight": 1,
       value: "a"
@@ -20,16 +22,18 @@ export default {
   }, {
     "type": "y",
     "weight": 1,
-    "select": 0,
+    "select": false,
     "content": [{
       "type": "z",
       "weight": 1,
-      "select": 0,
+      "select": false,
       "content": [{
+        "select": false,
         type: "p",
         "weight": 1,
         value: "b"
       }, {
+        "select": true,
         type: "p",
         "weight": 1,
         value: "c"
@@ -37,12 +41,14 @@ export default {
     }, {
       "type": "z",
       "weight": 2,
-      "select": 1,
+      "select": false,
       "content": [{
+        "select": true,
         type: "p",
         "weight": 1,
         value: "d"
       }, {
+        "select": false,
         type: "p",
         "weight": 1,
         value: "e"
@@ -51,12 +57,13 @@ export default {
   }, {
     "type": "y",
     "weight": 1,
-    "select": 0,
+    "select": false,
     "content": [{
       "type": "z",
       "weight": 1,
-      "select": 0,
+      "select": false,
       "content": [{
+        "select": true,
         type: "p",
         "weight": 1,
         value: "f"
@@ -64,8 +71,9 @@ export default {
     }, {
       "type": "z",
       "weight": 1,
-      "select": 0,
+      "select": false,
       "content": [{
+        "select": true,
         type: "p",
         "weight": 1,
         value: "g"
@@ -73,8 +81,9 @@ export default {
     }, {
       "type": "z",
       "weight": 1,
-      "select": 0,
+      "select": false,
       "content": [{
+        "select": true,
         type: "p",
         "weight": 1,
         value: "h"

@@ -16,8 +16,8 @@ export default class SmartContainer extends Component {
       this.state = {model:Immutable.fromJS({
         "type": "z",
         "weight": 1,
-        "select": 0,
-        "content": Children.map(this.props.children,c=>({"type":"p","weight":1,"value":c.props.panelId}))
+        "select": true,
+        "content": Children.map(this.props.children,(c,i)=>({"type":"p","weight":1,"select":(i===0),"value":c.props.panelId}))
       })};
     } else {
       this.state = {model:Immutable.fromJS(this.props.model)};
@@ -27,13 +27,16 @@ export default class SmartContainer extends Component {
   handleChange(ev){
     switch (ev.type) {
       case 'Select':
-        this.setState({model:simplify(select(this.state.model,ev.path,ev.index))});
+        this.setState({model:simplify(select(this.state.model,ev.path,ev.val))});
         break;
       case 'Close':
-        this.setState({model:simplify(close(this.state.model,ev.path,ev.index))});
+        this.setState({model:simplify(close(this.state.model,ev.path))});
         break;
       case 'TabDrop':
-        this.setState({model:simplify(add(this.state.model,ev.path,ev.index,ev.viewId))});
+        this.setState({model:simplify(add(this.state.model,ev.toPath,ev.fromPath))});
+        break;
+      case 'MoveSeparator':
+        this.setState({model:move(this.state.model,ev.path,ev.value)});
         break;
       default:
 
@@ -45,55 +48,135 @@ export default class SmartContainer extends Component {
   }
 }
 
-// Select a given tab
-function select (model,ppath,index){
+
+
+// Move a separator
+function move (model,ppath,val){
   var res;
-  if(ppath.isEmpty()) {
+  if(ppath.shift().isEmpty()) {
+
+    var normVal = val*2-1;
+    var indexBefore = Math.floor(ppath.first());
+    var indexAfter = Math.ceil(ppath.first());
+    var before = model.get('content').get(indexBefore);
+    var after = model.get('content').get(indexAfter);
+    var wBefore = before.get('weight');
+    var wAfter = after.get('weight');
+    var wtot = wBefore+wAfter;
+    var newWBefore=wBefore + normVal * wtot * 0.1;
+    var newWAfter=wAfter - normVal * wtot * 0.1;
+// console.log("=======================================");
+// console.log(ppath.first());
+// console.log(indexBefore + "   " + indexAfter);
+// console.log(wBefore + "   " + wAfter);
+// console.log(newWBefore + "   " + newWAfter);
+
     res= model
-      .set('select',index);
+      .set('content',model
+        .get('content')
+        .set(indexBefore,before.set('weight',newWBefore))
+        .set(indexAfter,after.set('weight',newWAfter))
+      );
   } else {
     res= model
       .set('content',model
         .get('content')
         .set(ppath.first(),
-          select(model.get('content').get(ppath.first()),ppath.shift(),index)));
+          move(model.get('content').get(ppath.first()),ppath.shift(),val)));
+  }
+// console.log('---------------------------------------')
+// console.log(""+model);
+//   console.log(""+res);
+  return res;
+}
+
+// Select a given tab
+function select (model,ppath,val){
+  var res;
+  if(ppath.isEmpty()) {
+    res= model
+      .set('select',val);
+  } else {
+    res= model
+      .set('content',model
+        .get('content')
+        .map(x=>x.merge(Immutable.fromJS({select:false})))
+        .set(ppath.first(),
+          select(model.get('content').get(ppath.first()),ppath.shift(),val)));
   }
   return res;
 }
 
 // Close a given tab
-function close (model,ppath,index){
+function close (model,ppath){
   var res;
-  if(ppath.isEmpty()) {
+  if(ppath.shift().isEmpty()) {
     res= model
       .set('content',model
-        .get('content').delete(index));
+        .get('content').delete(ppath.first()));
   } else {
     res= model
       .set('content',model
         .get('content')
         .set(ppath.first(),
-          close(model.get('content').get(ppath.first()),ppath.shift(),index)));
+          close(model.get('content').get(ppath.first()),ppath.shift())));
   }
   return res;
 }
 
 // Add a tab with a given view
-function add (model,ppath,index,viewId){
+function add (model,toPath,fromPath){
   var res;
-  if(ppath.isEmpty()) {
-    res= model
+  if(toPath.isEmpty() && fromPath.isEmpty()) {
+    // Moving a tab on itself
+    res = model;
+  } else if(toPath.isEmpty() || fromPath.isEmpty()) {
+    // Moving a tab into a tab bar or something
+    throw new Error('Incorrect configuration move');
+  } else  if(toPath.first() === fromPath.first()){
+    // Recursion, this is a sub problem
+    res = model
       .set('content',model
-        .get('content').splice(index,0,Immutable.fromJS({type:'p',value:viewId})));
-  } else {
-    res= model
+        .get('content').set(toPath.first(),
+          add(model.get('content').get(toPath.first()),toPath.shift(),fromPath.shift())));
+  } else if (toPath.size === 1 && fromPath.size === 1){
+    // Moving a tab within the same bar (reordering tabs)
+    res = model
       .set('content',model
         .get('content')
-        .set(ppath.first(),
-          add(model.get('content').get(ppath.first()),ppath.shift(),index,viewId)));
+        .delete(fromPath.first())
+        .splice((toPath.first()>fromPath.first())?(toPath.first()-1):(toPath.first()),0,model.get('content').get(fromPath.first()))
+    );
+  } else {
+    // Movign between distant tabs
+    let inter = get(model,fromPath);
+    res = set(model,toPath,inter);
+    res= close(res,fromPath);
   }
   return res;
 }
+
+function get (model,thePath) {
+
+  var res;
+  if(thePath.isEmpty()) {
+    res=  model;
+  } else {
+    res= get(model.get('content').get(thePath.first()),thePath.shift());
+  }
+  return res;
+}
+
+function set (model,thePath,value) {
+  var res;
+  if(thePath.shift().isEmpty()) {
+    res = model.set('content',model.get('content').splice(thePath.first(),0,value));
+  } else {
+    res = model.set('content',model.get('content').set(thePath.first(),set(model.get('content').get(thePath.first()),thePath.shift(),value)))
+  }
+  return res;
+}
+
 
 function simplify(model) {
   var res;
@@ -116,10 +199,15 @@ function simplify(model) {
           }
         })
         .flatten(true));
-      if(res.get('select')>=res.get('content').size)
-        res=res.set('select',res.get('content').size-1);
-      if(res.get('select')<0)
-        res=res.set('select',0);
+      if(res.get('content').size >0){
+        if(res.get('content').filter(x=>x.get('select')).size>1){
+          let actualSel=res.get('content').findIndex(x=>x.get('select'));
+          res=res.set('content',res.get('content').map((x,index)=>x.set('select',index===actualSel)));
+        }
+        if(res.get('content').filter(x=>x.get('select')).size<1){
+          res=res.mergeDeep(Immutable.fromJS({content:[{select:true}]}));
+        }
+      }
       break;
     case "p":
       res= model;
