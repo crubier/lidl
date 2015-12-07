@@ -312,8 +312,10 @@ class SepX extends Component {
 //     console.log(e.button);
 // console.log(e.buttons);
 // console.log(e.button);
-let val =(e.clientX - this.refs.mainDiv.offsetLeft)/(this.refs.mainDiv.offsetWidth)
+let rect = this.refs.mainDiv.getBoundingClientRect();
+let val =(e.screenX - rect.left)/(rect.width)
 // console.log(val);
+// console.log("("+e.screenX +" - " +rect.left+")/("+rect.width+")");
 if(this.state.dragging) {
   // console.log(this.props.path);
   this.props.onChange({type:'MoveSeparator',path:this.props.path,value:val});
@@ -390,8 +392,14 @@ class SepY extends Component {
 //     console.log(e.button);
 // console.log(e.buttons);
 // console.log(e.button);
-let val =(e.clientY - this.refs.mainDiv.offsetTop)/(this.refs.mainDiv.offsetHeight)
+// let val =(e.clientY - this.refs.mainDiv.offsetTop)/(this.refs.mainDiv.offsetHeight)
 // console.log(val);
+
+
+let rect = this.refs.mainDiv.getBoundingClientRect();
+let val =(e.screenY - rect.top)/(rect.height)
+// console.log(val);
+// console.log("("+e.screenX +" - " +rect.left+")/("+rect.width+")");
 if(this.state.dragging) {
   // console.log(val);
   this.props.onChange({type:'MoveSeparator',path:this.props.path,value:val});

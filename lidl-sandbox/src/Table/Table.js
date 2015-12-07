@@ -36,11 +36,11 @@ export default class Table extends Component {
       let row = [];
       _.forEach(that.props.columns,(column, colIndex)=>{
         if (_.isString( column)) {
-          row.push(<td key={i + "-" + column}>{_.get(rowData, column)}</td>);
+          row.push(<td key={i + "-" + column}>{JSON.stringify(_.get(rowData, column))}</td>);
         } else if (_.isString(column.path)) {
-          row.push(<td key={i + "-" + column.path}>{_.get(rowData, column.path)}</td>);
+          row.push(<td key={i + "-" + column.path}>{JSON.stringify(_.get(rowData, column.path))}</td>);
         } else if (_.isFunction(column.func)){
-          row.push(<td key={i + "-" + colIndex}>{column.func(rowData)}</td>);
+          row.push(<td key={i + "-" + colIndex}>{JSON.stringify(column.func(rowData))}</td>);
         }
       });
       return (<tr key={i}>{row}</tr>);
