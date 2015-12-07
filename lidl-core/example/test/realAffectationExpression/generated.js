@@ -8,7 +8,7 @@ var theInterface = clone(data.inter);
 var previousState = data.state;
 var nextState = clone(previousState);
 var theArgs = clone(data.args);
-var active = 1;
+var active = "lidl_active_value";
 var inactive = null;
 
 ///////////////////////////////////////////////////////////////////////

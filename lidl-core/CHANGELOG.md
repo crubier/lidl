@@ -1,5 +1,9 @@
 # LIDL changelog
 
+# 0.8.6
+
+- Changed the active value from `1`to `"lidl_active_value"`;
+
 # 0.8.5
 
 - Small fix on simple compiler

@@ -96,7 +96,7 @@ var theInterface = clone(data.inter);\n\
 var previousState = data.state;\n\
 var nextState = clone(previousState);\n\
 var theArgs = clone(data.args);\n\
-var active = 1;\n\
+var active = "lidl_active_value";\n\
 var inactive = null;\n\
 ';
 
