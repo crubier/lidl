@@ -9,7 +9,7 @@ export default {
   fileName:'autoSave',
   listOfFiles:[],
 
-  error:null,
+  error:Immutable.fromJS([]),
 
   lidl: Lidl.examples.lidl[0].code,
 

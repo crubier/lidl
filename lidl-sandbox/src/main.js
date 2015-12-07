@@ -48,6 +48,7 @@ import injectTapEventPlugin from 'react-tap-event-plugin';
 injectTapEventPlugin();
 
 import _ from 'lodash';
+import Immutable from 'immutable'
 
 // import {Accordion,AccordionItem} from 'react-sanfona';
 import {Accordion,AccordionItem} from './Accordion/Accordion';
@@ -168,7 +169,7 @@ export default class Main extends Component {
   }
 
   workerErrorListener(ev){
-    this.setState({error:ev});
+    this.setState({error:this.state.error.push(ev)});
   }
 
   lidlChanged(newCode) {
@@ -225,6 +226,10 @@ export default class Main extends Component {
     localStorage.setItem("LidlSandbox."+this.state.fileName,JSON.stringify({lidl:this.state.lidl,header:this.state.header,scenario:this.state.scenario}));
     this.updateListOfFiles();
     this.refs.snackbarSaved.show();
+  }
+
+  clearErrors(){
+    this.setState({error:Immutable.fromJS([])});
   }
 
   updateListOfFiles(){

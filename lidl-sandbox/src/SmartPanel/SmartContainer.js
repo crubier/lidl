@@ -69,8 +69,8 @@ function move (model,ppath,val){
     var wBefore = before.get('weight');
     var wAfter = after.get('weight');
     var wtot = wBefore+wAfter;
-    var newWBefore=wBefore + normVal * wtot * 0.1;
-    var newWAfter=wAfter - normVal * wtot * 0.1;
+    var newWBefore=wBefore + normVal * wtot * 0.2;
+    var newWAfter=wAfter - normVal * wtot * 0.2;
 // console.log("=======================================");
 // console.log(ppath.first());
 // console.log(indexBefore + "   " + indexAfter);

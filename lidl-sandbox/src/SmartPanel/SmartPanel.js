@@ -312,24 +312,39 @@ class SepX extends Component {
 //     console.log(e.button);
 // console.log(e.buttons);
 // console.log(e.button);
-let rect = this.refs.mainDiv.getBoundingClientRect();
-let val =(e.screenX - rect.left)/(rect.width)
-// console.log(val);
-// console.log("("+e.screenX +" - " +rect.left+")/("+rect.width+")");
-if(this.state.dragging) {
-  // console.log(this.props.path);
-  this.props.onChange({type:'MoveSeparator',path:this.props.path,value:val});
-}
+    this.mousePos={x:e.pageX,y:e.pageY};
+    // let rect = this.refs.mainDiv.getBoundingClientRect();
+    // let val =(e.pageX - rect.left)/(rect.width)
+    // // console.log(val);
+    // // console.log("("+e.screenX +" - " +rect.left+")/("+rect.width+")");
+    // if(this.state.dragging) {
+    //   // console.log(this.props.path);
+    //   this.props.onChange({type:'MoveSeparator',path:this.props.path,value:val});
+    // }
   }
 
-handleMouseDown(e){
-this.setState({dragging:true});
+  //TODO handle drag without timer
+  dragTimer() {
+    // console.log('timer');
+    if(this.state.dragging) {
+      let rect = this.refs.mainDiv.getBoundingClientRect();
+      let val =(this.mousePos.x - rect.left)/(rect.width);
+      this.props.onChange({type:'MoveSeparator',path:this.props.path,value:val});
+    } else {
+      // console.log('clear')
+      clearInterval(this.timer);
+    }
+  }
 
-}
-handleMouseUp(e){
-this.setState({dragging:false});
-
-}
+  handleMouseDown(e){
+    this.setState({dragging:true});
+    this.mousePos={x:e.pageX,y:e.pageY};
+    // clearInterval(this.timer);
+    this.timer=setInterval(this.dragTimer.bind(this),1000/10);
+  }
+  handleMouseUp(e){
+    this.setState({dragging:false});
+  }
   render(){
     let color = (this.state.dragging)?('rgba(0, 0, 0, 0)'):((this.state.over)?'rgba(0, 0, 0, 0)':'rgba(0, 0, 0, 0)');
     let sepThickness = (this.state.dragging)?(100*separatorThickness):((this.state.over)?4*separatorThickness:separatorThickness);
@@ -346,8 +361,7 @@ onMouseOut={this.handleMouseOut.bind(this)}
       onMouseUp={this.handleMouseUp.bind(this)}
       onDragEnd={this.handleDragEnd.bind(this)}
       onDragStart={this.handleDragStart.bind(this)}
-      style={{...style, cursor:'ew-resize', userSelect:'none',WebkitUserSelect:'none', zIndex:1000, backgroundColor:color, left:this.props.position.get('left')-sepThickness/2,top:0,width:sepThickness,height:this.props.position.get('height')}}
-      />
+      style={{...style, cursor:'ew-resize', userSelect:'none',WebkitUserSelect:'none', zIndex:1000, backgroundColor:color, left:this.props.position.get('left')-sepThickness/2,top:0,width:sepThickness,height:this.props.position.get('height')}}/>
   }
 
 }
@@ -359,6 +373,8 @@ onMouseOut={this.handleMouseOut.bind(this)}
 class SepY extends Component {
   constructor(props){
     super(props);
+
+
   }
   state = {
     over: false,
@@ -388,28 +404,60 @@ class SepY extends Component {
       // if(e.dataTransfer.dropEffect!=='none')
       // this.props.onClose(this.props.index);
   }
+//   handleMouseMove(e){
+// //     console.log(e.button);
+// // console.log(e.buttons);
+// // console.log(e.button);
+// // let val =(e.clientY - this.refs.mainDiv.offsetTop)/(this.refs.mainDiv.offsetHeight)
+// // console.log(val);
+//
+//
+// let rect = this.refs.mainDiv.getBoundingClientRect();
+// let val =(e.pageY - rect.top)/(rect.height)
+// // console.log(val);
+// // console.log("("+e.pageY +" - " +rect.top+")/("+rect.height+")");
+// // console.log((e.pageY - rect.top)/(rect.height));
+// if(this.state.dragging) {
+//   // console.log(val);
+//   this.props.onChange({type:'MoveSeparator',path:this.props.path,value:val});
+// }
+//   }
   handleMouseMove(e){
 //     console.log(e.button);
 // console.log(e.buttons);
 // console.log(e.button);
-// let val =(e.clientY - this.refs.mainDiv.offsetTop)/(this.refs.mainDiv.offsetHeight)
-// console.log(val);
-
-
-let rect = this.refs.mainDiv.getBoundingClientRect();
-let val =(e.screenY - rect.top)/(rect.height)
-// console.log(val);
-// console.log("("+e.screenX +" - " +rect.left+")/("+rect.width+")");
-if(this.state.dragging) {
-  // console.log(val);
-  this.props.onChange({type:'MoveSeparator',path:this.props.path,value:val});
-}
+    // this.setState({mousePos:{x:e.pageX,y:e.pageY}});
+    this.mousePos={x:e.pageX,y:e.pageY};
+    // let rect = this.refs.mainDiv.getBoundingClientRect();
+    // let val =(e.pageX - rect.left)/(rect.width)
+    // // console.log(val);
+    // // console.log("("+e.screenX +" - " +rect.left+")/("+rect.width+")");
+    // if(this.state.dragging) {
+    //   // console.log(this.props.path);
+    //   this.props.onChange({type:'MoveSeparator',path:this.props.path,value:val});
+    // }
   }
 
-handleMouseDown(e){
-this.setState({dragging:true});
+  //TODO handle drag without timer
+  dragTimer() {
+    // console.log('timer');
+    if(this.state.dragging) {
+      let rect = this.refs.mainDiv.getBoundingClientRect();
+      let val =(this.mousePos.y - rect.top)/(rect.height);
+      this.props.onChange({type:'MoveSeparator',path:this.props.path,value:val});
+    } else {
+      // console.log('clear');
+      clearInterval(this.timer);
+    }
+  }
 
-}
+  handleMouseDown(e){
+    this.setState({dragging:true});
+this.mousePos={x:e.pageX,y:e.pageY};
+    // clearInterval(this.timer);
+    this.timer = setInterval(this.dragTimer.bind(this),1000/10);
+  }
+
 handleMouseUp(e){
 this.setState({dragging:false});
 
@@ -430,8 +478,7 @@ onMouseOut={this.handleMouseOut.bind(this)}
       onMouseUp={this.handleMouseUp.bind(this)}
       onDragEnd={this.handleDragEnd.bind(this)}
       onDragStart={this.handleDragStart.bind(this)}
-      style={{...style, cursor:'ns-resize', userSelect:'none',WebkitUserSelect:'none', zIndex:1000, backgroundColor:color, top:this.props.position.get('top')-sepThickness/2,left:0,height:sepThickness,width:this.props.position.get('width')}}
-      />
+      style={{...style, cursor:'ns-resize', userSelect:'none',WebkitUserSelect:'none', zIndex:1000, backgroundColor:color, top:this.props.position.get('top')-sepThickness/2,left:0,height:sepThickness,width:this.props.position.get('width')}}/>
   }
 
 }
