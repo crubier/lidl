@@ -61,7 +61,7 @@ var examples = Lidl.examples;
 
 // Create a web worker which will do the heavy lifting tasks
 var work = require('webworkify');
-var w = work(require('./worker.js'));
+var worker = require('./worker.js');
 
 
 
@@ -81,107 +81,12 @@ export default class Main extends Component {
   constructor(props){
     super(props);
 
-    let that = this;
 
-    // console.log(config.graphTransformations);
-
-    w.addEventListener('error', function (ev) {
-      that.setState({error:ev});
-    });
-
-    // Listen to the web worker events
-    w.addEventListener('message', function (ev) {
-      var m = ev.data;
-
-      switch(m.type) {
-        case 'Ping':
-          console.log(m.message);
-          break;
-
-        case 'LidlAst':
-          that.setState({lidlAst:m.lidlAst});
-          break;
-
-        case 'IntermediateGraph':
-          that.setState({displayGraphs:that.state.displayGraphs.set(m.stage,m.graphSvg)});
-          break;
-
-        case 'GeneratedJs':
-          that.setState({cleanJs:m.cleanJs,js:m.js});
-          break;
-
-        case 'ExpandedLidl':
-          that.setState({expandedLidl:m.code});
-          break;
-
-        case 'Trace':
-          that.setState({traceAst:m.traceAst,trace:m.trace});
-          break;
-
-        case 'InteractionMetrics':
-          that.setState({metrics:m.metrics});
-          break;
-
-        case 'Error':
-          that.setState({error:m.error});
-          break;
-        //
-        // case 'Lidl2LidlAst':
-        //   console.log("Lidl2LidlAst");
-        //   that.setState({lidlAst:m.lidlAst});
-        //   w.postMessage({type:'LidlAst2ExpandedLidlAst',lidlAst:m.lidlAst});
-        //   w.postMessage({type:'LidlAst2DisplayGraph',upto:that.state.displayGraphUpTo,lidlAst:m.lidlAst});
-        //   break;
-        // case 'LidlAst2ExpandedLidlAst':
-        //   console.log("LidlAst2ExpandedLidlAst");
-        //   that.setState({expandedLidlAst:m.expandedLidlAst});
-        //   w.postMessage({type:'ExpandedLidlAst2ExpandedLidl',expandedLidlAst:m.expandedLidlAst});
-        //   w.postMessage({type:'ExpandedLidlAst2Graph',expandedLidlAst:m.expandedLidlAst});
-        //   break;
-        // case 'ExpandedLidlAst2ExpandedLidl':
-        //   console.log("ExpandedLidlAst2ExpandedLidl");
-        //   that.setState({expandedLidl:m.expandedLidl});
-        //   break;
-        // case 'ExpandedLidlAst2Graph':
-        //   console.log("ExpandedLidlAst2Graph");
-        //   that.setState({graph:m.graph});
-        //   w.postMessage({type:'Graph2Js',graph:m.graph,header:that.state.header});
-        //   break;
-        // case 'LidlAst2DisplayGraph':
-        //   console.log("LidlAst2DisplayGraph");
-        //   that.setState({displayGraph:m.displayGraph});
-        //   break;
-        // case 'Graph2Js':
-        //   console.log("Graph2Js");
-        //   that.setState({js:m.js});
-        //   w.postMessage({type:'Js2CleanJs',js:m.js});
-        //   w.postMessage({type:'Js2TraceAst',js:m.js,scenarioAst:that.state.scenarioAst});
-        //   break;
-        // case 'Js2CleanJs':
-        //   console.log("Js2CleanJs");
-        //   that.setState({cleanJs:m.cleanJs});
-        //   break;
-        // case 'Scenario2ScenarioAst':
-        //   console.log("Scenario2ScenarioAst");
-        //   that.setState({scenarioAst:m.scenarioAst});
-        //   w.postMessage({type:'Js2TraceAst',js:that.state.js,scenarioAst:m.scenarioAst});
-        //   break;
-        // case 'Js2TraceAst':
-        //   console.log("Js2TraceAst");
-        //   that.setState({traceAst:m.traceAst});
-        //   w.postMessage({type:'TraceAst2Trace',traceAst:m.traceAst});
-        //   break;
-        // case 'TraceAst2Trace':
-        //   console.log("TraceAst2Trace");
-        //   that.setState({trace:m.trace});
-        //   break;
-        }
-      }
-
-    );
     this.state = initialState;
 
-    let key=63273;
+    this.w = {}; // Worker pool
+
+    let key='6c41176e-f550-45e7-adc9-7e3a4eef7016'; // Unique key that represent the current version of the LIDL Library
     if(localStorage.getItem("LidlSandboxImportedDefaults")!==key) {
       console.log('Writing defaults, this will be done only once...');
       let header = examples.header ;
@@ -192,7 +97,7 @@ export default class Main extends Component {
           "LidlSandbox."+x.name,
           JSON.stringify({lidl:x.code,header:header,scenario:x.scenario}));})
       .commit();
-      localStorage.getItem("LidlSandboxImportedDefaults",key);
+      localStorage.setItem("LidlSandboxImportedDefaults",key);
       console.log('Done');
     }
 
@@ -203,12 +108,72 @@ export default class Main extends Component {
     this.scenarioChanged = _.debounce(this.scenarioChanged,100);
     this.headerChanged = _.debounce(this.headerChanged,1000);
 
+    this.launchWork({type:'Ping',message:'Pong'});
 
+  }
+
+  launchWork(message){
+    // Get the right worker of the pool
+    let oldWorker = this.w[message.type];
+    // Forget worker
+    if( oldWorker !== undefined && oldWorker!==null) {
+      oldWorker.removeEventListener('error', this.workerErrorListener.bind(this));
+      oldWorker.removeEventListener('message',this.workerListener.bind(this));
+      oldWorker.terminate();
+    }
+    // Create newWorker
+    let newWorker = work(worker);
+    this.w[message.type]=newWorker;
+    newWorker.addEventListener('error', this.workerErrorListener.bind(this));
+    newWorker.addEventListener('message',this.workerListener.bind(this));
+    // Send message
+    newWorker.postMessage(message);
+  }
+
+  workerListener(ev){
+    var m = ev.data;
+    switch(m.type) {
+      case 'Ping':
+        console.log(m.message);
+        break;
+
+      case 'LidlAst':
+        this.setState({lidlAst:m.lidlAst});
+        break;
+
+      case 'IntermediateGraph':
+        this.setState({displayGraphs:this.state.displayGraphs.set(m.stage,m.graphSvg)});
+        break;
+
+      case 'GeneratedJs':
+        this.setState({cleanJs:m.cleanJs,js:m.js});
+        break;
+
+      case 'ExpandedLidl':
+        this.setState({expandedLidl:m.code});
+        break;
+
+      case 'Trace':
+        this.setState({traceAst:m.traceAst,trace:m.trace});
+        break;
+
+      case 'InteractionMetrics':
+        this.setState({metrics:m.metrics});
+        break;
+
+      case 'Error':
+        this.setState({error:m.error});
+        break;
+    }
+  }
+
+  workerErrorListener(ev){
+    this.setState({error:ev});
   }
 
   lidlChanged(newCode) {
     this.setState({lidl:newCode});
-    w.postMessage({type:'RecompileAll',lidl:newCode,header:this.state.header,scenario:this.state.scenario});
+    this.launchWork({type:'RecompileAll',lidl:newCode,header:this.state.header,scenario:this.state.scenario});
   }
 
   lidlAstChanged(newAst) {
@@ -218,12 +183,12 @@ export default class Main extends Component {
 
   scenarioChanged(newCode) {
     this.setState({scenario:newCode});
-    w.postMessage({type:'RunScenario',js:this.state.js,scenario:newCode});
+    this.launchWork({type:'RunScenario',js:this.state.js,scenario:newCode});
   }
 
   headerChanged(newCode) {
     this.setState({header:newCode});
-    w.postMessage({type:'RecompileAll',lidl:this.state.lidl,header:newCode,scenario:this.state.scenario});
+    this.launchWork({type:'RecompileAll',lidl:this.state.lidl,header:newCode,scenario:this.state.scenario});
   }
 
   recompileAll() {
@@ -235,7 +200,7 @@ export default class Main extends Component {
     newState.header = this.state.header;
     newState.scenario = this.state.scenario;
     this.setState(newState);
-    w.postMessage({type:'RecompileAll',lidl:this.state.lidl,header:this.state.header,scenario:this.state.scenario});
+    this.launchWork({type:'RecompileAll',lidl:this.state.lidl,header:this.state.header,scenario:this.state.scenario});
   }
 
   handleChange(event) {
@@ -252,7 +217,7 @@ export default class Main extends Component {
       newState.header = opened.header;
       newState.scenario = opened.scenario;
       this.setState(newState);
-      w.postMessage({type:'RecompileAll',lidl:opened.lidl,header:opened.header,scenario:opened.scenario});
+      this.launchWork({type:'RecompileAll',lidl:opened.lidl,header:opened.header,scenario:opened.scenario});
       this.refs.snackbarOpened.show();
   }
 
@@ -275,7 +240,7 @@ export default class Main extends Component {
 
   componentDidMount(){
     this.updateListOfFiles();
-    w.postMessage({type:'RecompileAll',lidl:this.state.lidl,header:this.state.header,scenario:this.state.scenario});
+    this.launchWork({type:'RecompileAll',lidl:this.state.lidl,header:this.state.header,scenario:this.state.scenario});
   }
 
   render() {
@@ -343,6 +308,3 @@ tooltipPosition="bottom-center"  tooltip="Name of file to save"
 
 
 ReactDOM.render(<Main/>, document.getElementById("main"));
-
-
-w.postMessage({type:'Ping',message:"pong"});
