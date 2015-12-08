@@ -29,6 +29,7 @@ module.exports= {
     'resolveMultiplePorts',
     'instantiateTemplates',
     'orderGraph',
+    'keepOnlyOrdering',
     'graphTransformationPipeline',
     'getJsCode',
     'getExpandedLidlCode',

@@ -34,7 +34,8 @@ function orderGraph(graph) {
             matchUndirectedEdges({ type: 'InteractionInstanceOperand', from: { node: n }, to: { node: m } }).
             filter(function (edge) {return (0, _ports.portIsOnlyMadeOf)(edge.from.ports, 'out') && (0, _ports.portIsOnlyMadeOf)(edge.to.ports, 'in');}).
             size() > 0);}).
-        forEach(function (x) {return visit(x, (0, _lodash2.default)(stack).concat([n]).value());}).
+        forEach(function (m) {return visit(m, (0, _lodash2.default)(stack).concat([n]).value());}).
+        forEach(function (m) {graph.addEdge({ type: 'InteractionInstanceDataDependency', from: { node: n }, to: { node: m } });}).
         commit();
 
         n.markedDuringGraphOrdering = true;
@@ -47,9 +48,25 @@ function orderGraph(graph) {
 
   // The list is now ordered ! (Hopefully)
   //  We write the order in the nodes
+  //   _(orderingList)
+  //   .forEach((node, ii) => {node.hasExecutionOrder=true;node.executionOrder = ii;})
+  // .commit();
+
   (0, _lodash2.default)(orderingList).
-  forEach(function (node, ii) {node.hasExecutionOrder = true;node.executionOrder = ii;}).
-  commit();
+  reduce(function (prev, current, index) {
+    current.hasExecutionOrder = true;
+    current.executionOrder = index;
+    if (prev !== null) {
+      // console.log(prev.id + "  "+current.id);
+      graph.
+      addEdge({ type: 'InteractionInstanceOrdering', executionOrder: index, from: { node: prev }, to: { node: current } });}
+
+    return current;}, 
+  null);
+
+
+
+
   // .forEach(function(node, ii) {console.log("iii "+ii);node.hasExecutionOrder=true;node.executionOrder = ii;})
   // .forEach((node, index) =>{console.log(node.executionOrder);})
   // .commit();

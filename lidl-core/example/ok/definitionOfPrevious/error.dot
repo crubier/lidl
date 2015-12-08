@@ -1,0 +1,28 @@
+digraph g{node_4443 [shape="box", style="filled", color="#dff1f2", fontname="Courier", label="<%=a0%>=theInterface.theNumber;
+" ]
+node_4445 [shape="box", style="filled", color="#dff1f2", fontname="Courier", label="theInterface.theResult=<%=a0%>;
+" ]
+node_4476 [shape="box", style="filled", color="#dff1f2", fontname="Courier", label="<%=a0%> = active;
+" ]
+node_4480 [shape="box", style="filled", color="#dff1f2", fontname="Courier", label="if(<%=a0%> === active) {
+<%=a1%> = previousState['state_4479'];
+}
+" ]
+node_4483 [shape="box", style="filled", color="#dff1f2", fontname="Courier", label="if(<%=a0%> === active) {
+nextState['state_4479'] = <%=a1%>;
+}
+" ]
+node_4500 [shape="box", style="filled", color="#dff1f2", fontname="Courier", label="<%=a1%> = <%=a0%>;
+<%=a2%> = <%=a0%>;
+" ]
+node_4443 -> node_4483 [dir=forward, arrowHead=normal, fontname="Times-Italic", arrowsize=1, color="#ddd2ff", label="",  headlabel="", taillabel="" ]
+node_4480 -> node_4445 [dir=forward, arrowHead=normal, fontname="Times-Italic", arrowsize=1, color="#ddd2ff", label="",  headlabel="", taillabel="" ]
+node_4500 -> node_4480 [dir=forward, arrowHead=normal, fontname="Times-Italic", arrowsize=1, color="#ddd2ff", label="",  headlabel="", taillabel="" ]
+node_4500 -> node_4483 [dir=forward, arrowHead=normal, fontname="Times-Italic", arrowsize=1, color="#ddd2ff", label="",  headlabel="", taillabel="" ]
+node_4476 -> node_4500 [dir=forward, arrowHead=normal, fontname="Times-Italic", arrowsize=1, color="#ddd2ff", label="",  headlabel="", taillabel="" ]
+node_4483 -> node_4443 [dir=none, arrowHead=none, fontname="Times-Italic", arrowsize=1, color="#9d8400", label="",  headlabel="0: out", taillabel="1: in" ]
+node_4480 -> node_4445 [dir=none, arrowHead=none, fontname="Times-Italic", arrowsize=1, color="#9d8400", label="",  headlabel="0: in", taillabel="1: out" ]
+node_4476 -> node_4500 [dir=none, arrowHead=none, fontname="Times-Italic", arrowsize=1, color="#9d8400", label="",  headlabel="0: in", taillabel="0: out" ]
+node_4500 -> node_4480 [dir=none, arrowHead=none, fontname="Times-Italic", arrowsize=1, color="#9d8400", label="",  headlabel="0: in", taillabel="1: out" ]
+node_4500 -> node_4483 [dir=none, arrowHead=none, fontname="Times-Italic", arrowsize=1, color="#9d8400", label="",  headlabel="0: in", taillabel="2: out" ]
+}

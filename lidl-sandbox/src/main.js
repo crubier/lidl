@@ -84,10 +84,11 @@ export default class Main extends Component {
 
 
     this.state = initialState;
+    this.state.position ={top:0,left:0,height:window.innerHeight,width:window.innerWidth};
 
     this.w = {}; // Worker pool
 
-    let key='6c41176e-f550-45e7-adc9-7e3a4eef7016'; // Unique key that represent the current version of the LIDL Library
+    let key='bacd7dee-f0a9-462f-9ea5-4066abdfad40'; // Unique key that represent the current version of the LIDL Library, update this every time you want to deprecate the current lib and load the new one in client browsers
     if(localStorage.getItem("LidlSandboxImportedDefaults")!==key) {
       console.log('Writing defaults, this will be done only once...');
       let header = examples.header ;
@@ -109,8 +110,11 @@ export default class Main extends Component {
     this.scenarioChanged = _.debounce(this.scenarioChanged,100);
     this.headerChanged = _.debounce(this.headerChanged,1000);
 
-    this.launchWork({type:'Ping',message:'Pong'});
 
+  }
+
+  resize() {
+    this.setState({position:{top:this.state.top,left:this.state.left,height:window.innerHeight,width:window.innerWidth}});
   }
 
   launchWork(message){
@@ -163,7 +167,7 @@ export default class Main extends Component {
         break;
 
       case 'Error':
-        this.setState({error:m.error});
+        this.setState({error:this.state.error.push(new Error('m.error'))});
         break;
     }
   }
@@ -244,8 +248,14 @@ export default class Main extends Component {
   }
 
   componentDidMount(){
+    this.launchWork({type:'Ping',message:'Pong'});
     this.updateListOfFiles();
     this.launchWork({type:'RecompileAll',lidl:this.state.lidl,header:this.state.header,scenario:this.state.scenario});
+    window.addEventListener("resize", this.resize.bind(this), false);
+  }
+
+  viewLayoutChanged(){
+
   }
 
   render() {
@@ -288,7 +298,7 @@ tooltipPosition="bottom-center"  tooltip="Name of file to save"
   <Snackbar ref="snackbarSaved" message={"Saved file "+this.state.fileName} autoHideDuration={1000}/>
 <Snackbar ref="snackbarOpened" message={"Loaded file "+this.state.fileName} autoHideDuration={1000}/>
 
-      <SmartContainer model={model} position={{left:0,top:56,height:window.innerHeight-56,width:window.innerWidth}}>
+      <SmartContainer onChange={this.viewLayoutChanged.bind(this)} model={model} position={{left:0,top:56,height:this.state.position.height-56,width:this.state.position.width}}>
           <CodeEditor panelId={"CodeEditor"} panelName={"Lidl code editor"}  value={this.state.lidl} onChange={this.lidlChanged.bind(this)}/>
           <BlockCodeEditor panelId={"BlockCodeEditor"} panelName={"Lidl visual code editor"} lidlAst={this.state.lidlAst} onChange={this.lidlAstChanged.bind(this)}/>
           <ScenarioEditor panelId={"ScenarioEditor"} panelName={"Scenario editor"}  value={this.state.scenario} onChange={this.scenarioChanged.bind(this)}/>
@@ -299,7 +309,7 @@ tooltipPosition="bottom-center"  tooltip="Name of file to save"
           <TraceViewer panelId={"TraceViewer"} panelName={"Trace viewer"} lidlAst={this.state.lidlAst} traceAst={this.state.traceAst} />
           <AdvancedTraceViewer panelId={"AdvancedTraceViewer"} panelName={"Advanced Trace viewer"}  value={this.state.trace}/>
           <ExpandedCodeViewer panelId={"ExpandedCodeViewer"} panelName={"Expanded code viewer"}  value={this.state.expandedLidl}/>
-          <Canvas panelId={"Canvas"} panelName={"Canvas"} key={10}/>
+          <Canvas panelId={"Canvas"} panelName={"Canvas"} key={10} code={this.state.js}/>
 
 {_(config.graphTransformations).map(x=>(<Graphviz key={x} panelId={"Graph "+x} panelName={_.startCase(x)}  displayGraph={this.state.displayGraphs.get(x)}/>)).value()}
       </SmartContainer>

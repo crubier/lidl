@@ -79,7 +79,14 @@ export default function linkInteractionsToDefinitions(graph) {
     }
 
     if(! theNode.hasDefinition) {
-      throw new Error ('Could not find definition for interaction with operator '+theNode.content.operator);
+      // If the node has no definition then we consider it as a identifier
+      theNode.content.operator= '#'+theNode.content.operator;
+      theNode.content.operatorType='Identifier';
+      theNode.hasDefinition=true;
+      theNode.isArgument = false;
+      theNode.isCustom = false;
+      theNode.isBase = true;
+      // throw new Error ('Could not find definition for interaction with operator '+theNode.content.operator);
     }
 
   });

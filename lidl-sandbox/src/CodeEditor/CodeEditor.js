@@ -36,7 +36,7 @@ export default class CodeEditor extends Component {
           name="codeEditorAce"
           showPrintMargin={false}
           showGutter={true}
-          editorProps={{$blockScrolling: Infinity}}
+          editorProps={{$blockScrolling: true}}
         />
     </div>);
 

@@ -34,7 +34,7 @@ fs.writeFileSync('./src/operator.js',
 
 
 // Generate the example file that contains all example cases in a JS object form
-var exampleTestPath = 'example/test';
+var exampleTestPath = 'example/ok';
 var commonHeader = path.join(exampleTestPath, 'common.lidl.js');
 var examplecontent = "// File automatically generated when performing     npm run build   \n// It contains examples of lidl code from the "+exampleTestPath+" folder\n";
 examplecontent += "module.exports={\nheader:`" + fs.readFileSync(commonHeader, {encoding: 'utf8'}) + "\n`,\n";

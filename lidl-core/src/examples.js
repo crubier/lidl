@@ -1,5 +1,5 @@
 // File automatically generated when performing     npm run build   
-// It contains examples of lidl code from the example/test folder
+// It contains examples of lidl code from the example/ok folder
 module.exports={
 header:`var isActive = function(x) {
   return (x !== null && x !== undefined);
@@ -111,10 +111,58 @@ var all = function(x) {
   return {a:x,b:x,c:x,d:x,e:x,f:x,g:x,h:x,i:x,j:x,k:x,l:x,m:x,n:x,o:x,p:x};
 };
 
+
+var cursor = function(mouse){
+  var cursor = {
+    type: "shadow",
+    blur: mouse.buttons === 0 ? 20 : 10,
+    offset: {
+      x: 0,
+      y: mouse.buttons === 0 ? 4 : 2
+    },
+    color: "rgba(0, 0, 0, 0.5)",
+    content: {
+      type: "translate",
+      x: mouse.position.x,
+      y: mouse.position.y,
+      content: {
+        type: "scale",
+        width: mouse.buttons === 0 ? 1 : 0.8,
+        height: mouse.buttons === 0 ? 1 : 0.8,
+        content: {
+          type: "fill",
+          style: "rgba(200, 0, 200, 1)",
+          content: {
+            type: "path",
+            content: [{
+              type: "begin"
+            }, {
+              type: "move",
+              x: 0,
+              y: 0
+            }, {
+              type: "line",
+              x: 0,
+              y: 15
+            }, {
+              type: "line",
+              x: 10.6,
+              y: 10.6
+            }, {
+              type: "close"
+            }]
+          }
+        }
+      }
+    }
+  };
+  return cursor;
+}
+
 `,
 lidl:[{
     name: 'Affectation Expression',
-fileName: 'example/test/affectationExpression',
+fileName: 'example/ok/affectationExpression',
      code : `interaction (bob):{theNumber:Number in,theResult:Number out}
 with
 
@@ -164,7 +212,7 @@ is
 `
 },{
     name: 'Arguments',
-fileName: 'example/test/arguments',
+fileName: 'example/ok/arguments',
      code : `interaction
   (bob(a:Number in)):Number out
 is
@@ -190,8 +238,46 @@ is
 ]
 `
 },{
+    name: 'Compilation Example Thesis',
+fileName: 'example/ok/compilationExampleThesis',
+     code : `interaction
+  (My Simple User Interface):{theNumber: Number in, theResult: Number out}
+is
+  (
+    ({
+        theNumber:  (x)
+        theResult:  (y)
+      })
+    with behaviour
+    (apply (function addOne) to (x) and get (y))
+  )
+`,
+     scenario : `[
+  {
+    "args":  {},
+    "inter":  { "theNumber": 50,  "theResult": 51 }
+  },
+  {
+    "args":  {},
+    "inter":  { "theNumber": 78,  "theResult": 79 }
+  },
+  {
+    "args":  {},
+    "inter":  { "theNumber": null,  "theResult": null }
+  },
+  {
+    "args":  {},
+    "inter":  { "theNumber": 42,  "theResult": 43 }
+  },
+  {
+    "args":  {},
+    "inter":  { "theNumber": 67,  "theResult": 68 }
+  }
+]
+`
+},{
     name: 'Composition 2 X 1',
-fileName: 'example/test/composition2x1',
+fileName: 'example/ok/composition2x1',
      code : `interaction (bob):{theNumber:Number in,theOther:Number in,theResult:Number out} is
 (
 ({theNumber:(variable theNumber)theOther:(variable y)theResult:(variable theResult)})
@@ -226,7 +312,7 @@ to ({0:(variable theNumber)
 `
 },{
     name: 'Composition 2 X 2',
-fileName: 'example/test/composition2x2',
+fileName: 'example/ok/composition2x2',
      code : `interaction (bob):{theNumber:Number in,theOther:Number in,theResult:Number out,theLast:Number out} is
   (
     ({
@@ -264,7 +350,7 @@ fileName: 'example/test/composition2x2',
 `
 },{
     name: 'Definition Of Init',
-fileName: 'example/test/definitionOfInit',
+fileName: 'example/ok/definitionOfInit',
      code : `interaction
   (bob):{theNumber:Number in,theResult:Number out}
 with
@@ -355,7 +441,7 @@ is
 `
 },{
     name: 'Definition Of Make Flow',
-fileName: 'example/test/definitionOfMakeFlow',
+fileName: 'example/ok/definitionOfMakeFlow',
      code : `interaction
   (bob):{theNumber:Number in,theResult:Number out}
 with
@@ -549,7 +635,7 @@ is
 `
 },{
     name: 'Definition Of Previous',
-fileName: 'example/test/definitionOfPrevious',
+fileName: 'example/ok/definitionOfPrevious',
      code : `interaction
   (bob):{theNumber:Number in,theResult:Number out}
 with
@@ -594,7 +680,7 @@ is
 `
 },{
     name: 'Definitionof If Then Else',
-fileName: 'example/test/definitionofIfThenElse',
+fileName: 'example/ok/definitionofIfThenElse',
      code : `interaction
  (test (t:Number in)):Number out
 with
@@ -666,7 +752,7 @@ is
 `
 },{
     name: 'Dereferencing',
-fileName: 'example/test/dereferencing',
+fileName: 'example/ok/dereferencing',
      code : `interaction
   (bob):{theNumber:Number in,theResult:Number out}
 with
@@ -714,7 +800,7 @@ is
 `
 },{
     name: 'Fake Affectation',
-fileName: 'example/test/fakeAffectation',
+fileName: 'example/ok/fakeAffectation',
      code : `interaction (bob):{theNumber:Number in,theResult:Number out}
 with
   interaction ((a:Number out)=fake=(b:Number in)):Activation in is
@@ -753,7 +839,7 @@ is
 `
 },{
     name: 'Function Application',
-fileName: 'example/test/functionApplication',
+fileName: 'example/ok/functionApplication',
      code : `interaction (bob):{theNumber:Number in,theResult:Number out} is
 ( (
 {theNumber:(variable theNumber)theResult:(variable theResult)}
@@ -785,7 +871,7 @@ fileName: 'example/test/functionApplication',
 `
 },{
     name: 'Literals',
-fileName: 'example/test/literals',
+fileName: 'example/ok/literals',
      code : `interaction (ok literal):Number out
 with
 
@@ -817,7 +903,7 @@ is
 `
 },{
     name: 'Real Affectation Expression',
-fileName: 'example/test/realAffectationExpression',
+fileName: 'example/ok/realAffectationExpression',
      code : `interaction (bob):{theNumber:Number in,theResult:Number out}
 with
 
@@ -867,7 +953,7 @@ is
 `
 },{
     name: 'Referential Transparency',
-fileName: 'example/test/referentialTransparency',
+fileName: 'example/ok/referentialTransparency',
      code : `
     interaction (main):{theNumber:Number in,theResult:Number out}
 
@@ -913,7 +999,7 @@ fileName: 'example/test/referentialTransparency',
 `
 },{
     name: 'Resolver',
-fileName: 'example/test/resolver',
+fileName: 'example/ok/resolver',
      code : `interaction (bob):{theNumber:Number in,theOther:Number in, theResult:Number out, theLast:Number out}
 is
     (
@@ -948,7 +1034,7 @@ is
 `
 },{
     name: 'Simple',
-fileName: 'example/test/simple',
+fileName: 'example/ok/simple',
      code : `
 
     interaction (main):{theNumber:Number in,theResult:Number out}
@@ -985,7 +1071,7 @@ fileName: 'example/test/simple',
 `
 },{
     name: 'Simple Func',
-fileName: 'example/test/simpleFunc',
+fileName: 'example/ok/simpleFunc',
      code : `interaction
   (bob):{theNumber:Number in,theResult:Number out}
 with
@@ -1021,7 +1107,7 @@ is
 `
 },{
     name: 'Simple Previous Next',
-fileName: 'example/test/simplePreviousNext',
+fileName: 'example/ok/simplePreviousNext',
      code : `
 
     interaction (main):{theNumber:Number in,theResult:Number out}
@@ -1061,7 +1147,7 @@ get (variable y) from previous and set (variable x) for next
 `
 },{
     name: 'Sum Of Previous',
-fileName: 'example/test/sumOfPrevious',
+fileName: 'example/ok/sumOfPrevious',
      code : `interaction (wow (a:Number in)):Number out
 with
 
@@ -1094,6 +1180,124 @@ is
     "inter" : 16
   }
 ]
+`
+},{
+    name: 'Ui Cursor',
+fileName: 'example/ok/uiCursor',
+     code : `interaction
+  (cursor of (mouse:Mouse in)):Graphics out
+is
+  ((#cursor of (mouse))
+  with behaviour
+  ((function cursor)(mouse)=(#cursor of (mouse))))
+`,
+     scenario : `[{
+  "args": {
+    "mouse": {
+      "buttons": 0,
+      "position": {
+        "x": 42,
+        "y": 63
+      }
+    }
+  },
+  "inter": {
+    "type": "shadow",
+    "blur": 20,
+    "offset": {
+      "x": 0,
+      "y": 4
+    },
+    "color": "rgba(0, 0, 0, 0.5)",
+    "content": {
+      "type": "translate",
+      "x": 42,
+      "y": 63,
+      "content": {
+        "type": "scale",
+        "width": 1,
+        "height": 1,
+        "content": {
+          "type": "fill",
+          "style": "rgba(200, 0, 200, 1)",
+          "content": {
+            "type": "path",
+            "content": [{
+              "type": "begin"
+            }, {
+              "type": "move",
+              "x": 0,
+              "y": 0
+            }, {
+              "type": "line",
+              "x": 0,
+              "y": 15
+            }, {
+              "type": "line",
+              "x": 10.6,
+              "y": 10.6
+            }, {
+              "type": "close"
+            }]
+          }
+        }
+      }
+    }
+  }
+}, {
+  "args": {
+    "mouse": {
+      "buttons": 1,
+      "position": {
+        "x": 31,
+        "y": 89
+      }
+    }
+  },
+  "inter": {
+    "type": "shadow",
+    "blur": 10,
+    "offset": {
+      "x": 0,
+      "y": 2
+    },
+    "color": "rgba(0, 0, 0, 0.5)",
+    "content": {
+      "type": "translate",
+      "x": 31,
+      "y": 89,
+      "content": {
+        "type": "scale",
+        "width": 0.8,
+        "height": 0.8,
+        "content": {
+          "type": "fill",
+          "style": "rgba(200, 0, 200, 1)",
+          "content": {
+            "type": "path",
+            "content": [{
+              "type": "begin"
+            }, {
+              "type": "move",
+              "x": 0,
+              "y": 0
+            }, {
+              "type": "line",
+              "x": 0,
+              "y": 15
+            }, {
+              "type": "line",
+              "x": 10.6,
+              "y": 10.6
+            }, {
+              "type": "close"
+            }]
+          }
+        }
+      }
+    }
+  }
+}]
 `
 }]
 };

@@ -1,0 +1,32 @@
+interaction
+  (empty UI with cursor):{
+        mouse: {
+          buttons: Number in,
+          position: {
+            x: Number in,
+            y: Number in
+          },
+          wheel: {
+            x: Number in,
+            y: Number in,
+            z: Number in
+          }
+        },
+        graphics: Graphics out
+      }
+
+with
+
+  interaction
+    (cursor of (mouse:Mouse in)):Graphics out
+  is
+    ((#cursor of (mouse))
+    with behaviour
+    ((function cursor)(mouse)=(#cursor of (mouse))))
+
+
+is
+  ({
+        mouse: (#mouse)
+        graphics: (cursor of (#mouse))
+  })

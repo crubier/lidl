@@ -120,7 +120,7 @@ let shadow = (this.props.model.get('select'))?'0 0 5px 0 rgba(0, 0, 0, 0.24)':'n
         let content =
         Children
         .toArray(this.props.views)
-        .filter(c=>(c.props.panelId===this.props.model.get('value')));
+        .filter(c=>(c.props.panelId===this.props.model.get('value')))
         return (
           <div
             ref='mainDiv'

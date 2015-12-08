@@ -2,14 +2,17 @@
 
 import _ from 'lodash'
 
+import {portIsOnlyMadeOf} from '../ports'
+
 export default function nonMatchingCompositionCompilation(graph) {
   // Then we find composition nodes and reduce them
   graph
   .matchNodes({type:'InteractionInstance',content: {type: 'InteractionSimple',operatorType:'Composition'}})
-  .filter(x=>(x.ports[0]==='out'||x.ports[0]==='in'))
+  // .forEach(x=>{console.log(x.ports);console.log(x.content.operator);})
+  .filter(x=>(portIsOnlyMadeOf(x.ports[0],'out')||portIsOnlyMadeOf(x.ports[0],'in')))
   .forEach(theNode=>{
 
-        let isCompo = theNode.ports[0]==='out';
+        let isCompo = portIsOnlyMadeOf(theNode.ports[0],'out');
 
         // console.log("NODE ! "+theNode.id +" "+ JSON.stringify(theNode.ports));
 
@@ -32,31 +35,35 @@ export default function nonMatchingCompositionCompilation(graph) {
 
 // console.log("  "+JSON.stringify(compositionElementNameWithTheirIndex));
 
-        _(compositionElementNameWithTheirIndex)
-        .forEach((el)=>{
-          if(isCompo){
-            code = code.concat("<%=a0%>['" + el.compositionElementName + "'] = <%=a" + el.index + "%>;\n");
-            ports[el.index] = 'in';
-          }else {
-            code = code.concat("<%=a" + el.index + "%> = <%=a0%>['" + el.compositionElementName + "'];\n");
-            ports[el.index] = 'out';
-          }})
-        .commit();
+      _(compositionElementNameWithTheirIndex)
+      .forEach((el)=>{
+        if(isCompo){
+          code = code.concat("<%=a0%>['" + el.compositionElementName + "'] = <%=a" + el.index + "%>;\n");
+          ports[el.index] = 'in';
+        }else {
+          code = code.concat("<%=a" + el.index + "%> = <%=a0%>['" + el.compositionElementName + "'];\n");
+          ports[el.index] = 'out';
+        }})
+      .commit();
 
         // console.log("  "+code);
 // console.log("  "+JSON.stringify(ports));
 
-        let newNode = graph
-        .addNode({type:'InteractionInstance',content:{
-            'type': 'InteractionNative',
-            'content': code
-          },ports:ports});
+      let newNode = graph
+      .addNode({type:'InteractionInstance',content:{
+          'type': 'InteractionNative',
+          'content': code
+        },ports:ports});
 
       graph
       .matchUndirectedEdges({type:'InteractionInstanceOperand',from:{node:theNode}})
       // .reject(theEdge=>_.isUndefined(theEdge.from.compositionElementName))
       .forEach(theEdge=>{
-        graph.addEdge({type:'InteractionInstanceOperand',from:{node:newNode,index:theEdge.from.index},to:theEdge.to});})
+        graph
+        .addEdge({type:'InteractionInstanceOperand',from:{
+node:newNode,
+index:theEdge.from.index,
+port:(isCompo?((theEdge.from.index===0)?'out':'in'):((theEdge.from.index===0)?'in':'out'))},to:theEdge.to});})
       .commit();
 
       graph

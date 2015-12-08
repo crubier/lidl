@@ -1,7 +1,55 @@
 'use strict'; // File automatically generated when performing     npm run build   
-// It contains examples of lidl code from the example/test folder
+// It contains examples of lidl code from the example/ok folder
 module.exports = { 
-  header: 'var isActive = function(x) {\n  return (x !== null && x !== undefined);\n};\n\nvar cool = function(x) {\n  if (isActive(x[0]) && isActive(x[1])) {\n    return {\n      sum: (x[0] + x[1]),\n      diff: (x[0] - x[1])\n    };\n  } else {\n    return {\n      sum: inactive,\n      diff: inactive\n    };\n  }\n};\n\nvar fallback = function(x) {\n  return (isActive(x[0]) ? x[0] : x[1]);\n};\n\nvar return0 = function(x) {\n  return 0;\n};\n\n\nvar return1 = function(x) {\n  return 1;\n};\n\nvar addition = function(x) {\n  if (isActive(x[0]) && isActive(x[1])) {\n    return x[0] + x[1];\n  } else {\n    return inactive;\n  }\n};\n\nvar addOne = function(x) {\n  if (isActive(x))\n    return x + 1;\n  else {\n    return inactive;\n  }\n};\n\nvar identity = function(x) {\n  return x;\n};\n\nvar isEqual = function(x) {\n  if (isActive(x.a) && isActive(x.b)) {\n    return (x.a===x.b)?true:false;\n  } else {\n    return inactive;\n  }\n};\n\n\nvar boolNot = function(x) {\n  if (isActive(x) ) {\n    return !x;\n  } else {\n    return inactive;\n  }\n};\n\nvar ifThenElse = function(x) {\n  if (isActive(x) ) {\n    if (isActive(x.cond) ) {\n      if(x.cond ===true) {\n        return x.a;\n      } else if(x.cond ===false) {\n        return x.b;\n      } else {\n        return inactive;\n      }\n    } else {\n      return inactive;\n    }\n  } else {\n    return inactive;\n  }\n};\n\n\nvar whenThenElse = function(x) {\n  if (isActive(x) ) {\n    if (isActive(x.cond) ) {\n      if(x.cond === true) {\n        return {a:active,b:inactive};\n      } else if(x.cond ===false) {\n        return {a:inactive,b:active};\n      } else {\n        return inactive;\n      }\n    } else {\n      return inactive;\n    }\n  } else {\n    return inactive;\n  }\n};\n\n\nvar all = function(x) {\n  return {a:x,b:x,c:x,d:x,e:x,f:x,g:x,h:x,i:x,j:x,k:x,l:x,m:x,n:x,o:x,p:x};\n};\n\n', 
+  header: 'var isActive = function(x) {\n  return (x !== null && x !== undefined);\n};\n\nvar cool = function(x) {\n  if (isActive(x[0]) && isActive(x[1])) {\n    return {\n      sum: (x[0] + x[1]),\n      diff: (x[0] - x[1])\n    };\n  } else {\n    return {\n      sum: inactive,\n      diff: inactive\n    };\n  }\n};\n\nvar fallback = function(x) {\n  return (isActive(x[0]) ? x[0] : x[1]);\n};\n\nvar return0 = function(x) {\n  return 0;\n};\n\n\nvar return1 = function(x) {\n  return 1;\n};\n\nvar addition = function(x) {\n  if (isActive(x[0]) && isActive(x[1])) {\n    return x[0] + x[1];\n  } else {\n    return inactive;\n  }\n};\n\nvar addOne = function(x) {\n  if (isActive(x))\n    return x + 1;\n  else {\n    return inactive;\n  }\n};\n\nvar identity = function(x) {\n  return x;\n};\n\nvar isEqual = function(x) {\n  if (isActive(x.a) && isActive(x.b)) {\n    return (x.a===x.b)?true:false;\n  } else {\n    return inactive;\n  }\n};\n\n\nvar boolNot = function(x) {\n  if (isActive(x) ) {\n    return !x;\n  } else {\n    return inactive;\n  }\n};\n\nvar ifThenElse = function(x) {\n  if (isActive(x) ) {\n    if (isActive(x.cond) ) {\n      if(x.cond ===true) {\n        return x.a;\n      } else if(x.cond ===false) {\n        return x.b;\n      } else {\n        return inactive;\n      }\n    } else {\n      return inactive;\n    }\n  } else {\n    return inactive;\n  }\n};\n\n\nvar whenThenElse = function(x) {\n  if (isActive(x) ) {\n    if (isActive(x.cond) ) {\n      if(x.cond === true) {\n        return {a:active,b:inactive};\n      } else if(x.cond ===false) {\n        return {a:inactive,b:active};\n      } else {\n        return inactive;\n      }\n    } else {\n      return inactive;\n    }\n  } else {\n    return inactive;\n  }\n};\n\n\nvar all = function(x) {\n  return {a:x,b:x,c:x,d:x,e:x,f:x,g:x,h:x,i:x,j:x,k:x,l:x,m:x,n:x,o:x,p:x};\n};\n\n\nvar cursor = function(mouse){\n  var cursor = {\n    type: "shadow",\n    blur: mouse.buttons === 0 ? 20 : 10,\n    offset: {\n      x: 0,\n      y: mouse.buttons === 0 ? 4 : 2\n    },\n    color: "rgba(0, 0, 0, 0.5)",\n    content: {\n      type: "translate",\n      x: mouse.position.x,\n      y: mouse.position.y,\n      content: {\n        type: "scale",\n        width: mouse.buttons === 0 ? 1 : 0.8,\n        height: mouse.buttons === 0 ? 1 : 0.8,\n        content: {\n          type: "fill",\n          style: "rgba(200, 0, 200, 1)",\n          content: {\n            type: "path",\n            content: [{\n              type: "begin"\n            }, {\n              type: "move",\n              x: 0,\n              y: 0\n            }, {\n              type: "line",\n              x: 0,\n              y: 15\n            }, {\n              type: "line",\n              x: 10.6,\n              y: 10.6\n            }, {\n              type: "close"\n            }]\n          }\n        }\n      }\n    }\n  };\n  return cursor;\n}\n\n', 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
@@ -114,7 +162,7 @@ module.exports = {
 
   lidl: [{ 
     name: 'Affectation Expression', 
-    fileName: 'example/test/affectationExpression', 
+    fileName: 'example/ok/affectationExpression', 
     code: 'interaction (bob):{theNumber:Number in,theResult:Number out}\nwith\n\n  interaction (1):Number out is\n  ((variable result1) with behaviour (apply (function return1) to (variable ok) and get (variable result1)   ))\n\n  interaction ((a:Number in)+(b:Number in)):Number out is\n  ((variable result of (a)+(b))with behaviour\n  (apply(function addition)\n    to ({\n      0:(a)\n      1:(b)\n    })\n    and get (variable result of (a)+(b))))\n\nis\n  (\n    (\n    {theNumber:(variable theNumber)theResult:(variable theResult)}\n    )\n  with behaviour\n    ((variable theResult)=((1)+(variable theNumber)))\n  )\n', 
 
 
@@ -164,7 +212,7 @@ module.exports = {
 
   { 
     name: 'Arguments', 
-    fileName: 'example/test/arguments', 
+    fileName: 'example/ok/arguments', 
     code: 'interaction\n  (bob(a:Number in)):Number out\nis\n  (a)\n', 
 
 
@@ -190,8 +238,46 @@ module.exports = {
 
 
   { 
+    name: 'Compilation Example Thesis', 
+    fileName: 'example/ok/compilationExampleThesis', 
+    code: 'interaction\n  (My Simple User Interface):{theNumber: Number in, theResult: Number out}\nis\n  (\n    ({\n        theNumber:  (x)\n        theResult:  (y)\n      })\n    with behaviour\n    (apply (function addOne) to (x) and get (y))\n  )\n', 
+
+
+
+
+
+
+
+
+
+
+
+    scenario: '[\n  {\n    "args":  {},\n    "inter":  { "theNumber": 50,  "theResult": 51 }\n  },\n  {\n    "args":  {},\n    "inter":  { "theNumber": 78,  "theResult": 79 }\n  },\n  {\n    "args":  {},\n    "inter":  { "theNumber": null,  "theResult": null }\n  },\n  {\n    "args":  {},\n    "inter":  { "theNumber": 42,  "theResult": 43 }\n  },\n  {\n    "args":  {},\n    "inter":  { "theNumber": 67,  "theResult": 68 }\n  }\n]\n' }, 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  { 
     name: 'Composition 2 X 1', 
-    fileName: 'example/test/composition2x1', 
+    fileName: 'example/ok/composition2x1', 
     code: 'interaction (bob):{theNumber:Number in,theOther:Number in,theResult:Number out} is\n(\n({theNumber:(variable theNumber)theOther:(variable y)theResult:(variable theResult)})\n with behaviour\n(apply(function addition)\nto ({0:(variable theNumber)\n1:(variable y)})\n and get (variable theResult)))\n', 
 
 
@@ -226,7 +312,7 @@ module.exports = {
 
   { 
     name: 'Composition 2 X 2', 
-    fileName: 'example/test/composition2x2', 
+    fileName: 'example/ok/composition2x2', 
     code: 'interaction (bob):{theNumber:Number in,theOther:Number in,theResult:Number out,theLast:Number out} is\n  (\n    ({\n      theNumber:(variable theNumber)\n      theOther:(variable y)\n      theResult:(variable theResult)\n      theLast:(variable wow)\n    })\n  with behaviour\n    (apply (function cool) to ({0:(variable theNumber)1:(variable y)}) and get ({sum:(variable theResult)diff:(variable wow)}) )\n  )\n', 
 
 
@@ -264,7 +350,7 @@ module.exports = {
 
   { 
     name: 'Definition Of Init', 
-    fileName: 'example/test/definitionOfInit', 
+    fileName: 'example/ok/definitionOfInit', 
     code: 'interaction\n  (bob):{theNumber:Number in,theResult:Number out}\nwith\n\n  interaction\n    (previous (x:Number in)):Number out\n  is\n    (\n      (variable previous(x))\n      with behaviour\n      (get(variable previous(x))from previous and set (x) for next)\n    )\n\n  interaction\n    ((a:Number in)==(b:Number in)):Boolean out\n  is\n    (\n      (variable result of (a)==(b))\n      with behaviour\n      (apply (function isEqual) to ({a:(a),b:(b)}) and get (variable result of (a)==(b)) )\n    )\n\n  interaction\n    (not(a:Boolean in)):Boolean out\n  is\n    (\n      (variable not (a))\n      with behaviour\n      (apply (function boolNot) to (a) and get (variable not (a)) )\n    )\n\n  interaction\n    ((a:Number in) is active):Boolean out\n  is\n    (\n      (variable  (a) is active)\n      with behaviour\n      (apply (function isActive) to (a) and get (variable  (a) is active) )\n    )\n\n  interaction\n    (1):Number out\n  is\n    ((variable the number 1) with behaviour (apply (function return1) to (variable nothing) and get (variable the number 1)   ))\n\n  interaction\n    ((a:Number in)+(b:Number in)):Number out\n  is\n    (\n      (variable result of (a)+(b))\n      with behaviour\n      (apply(function addition)to ({0:(a)1:(b)}) and get (variable result of (a)+(b)))\n    )\n\n  interaction\n    (init):Boolean out\n  is\n    ( not ( (previous(1) ) is active ) )\n\nis\n  ({\n    theNumber:(variable theNumber)\n    theResult:(init)\n  })\n', 
 
 
@@ -355,7 +441,7 @@ module.exports = {
 
   { 
     name: 'Definition Of Make Flow', 
-    fileName: 'example/test/definitionOfMakeFlow', 
+    fileName: 'example/ok/definitionOfMakeFlow', 
     code: 'interaction\n  (bob):{theNumber:Number in,theResult:Number out}\nwith\n\n  interaction\n    (previous (x:Number in)):Number out\n  is\n    (\n      (variable previous(x))\n      with behaviour\n      (get(variable previous(x))from previous and set (x) for next)\n    )\n\n  interaction\n    ((a:Number in)==(b:Number in)):Boolean out\n  is\n    (\n      (variable result of (a)==(b))\n      with behaviour\n      (apply (function isEqual) to ({a:(a),b:(b)}) and get (variable result of (a)==(b)) )\n    )\n\n  interaction\n    (not(a:Boolean in)):Boolean out\n  is\n    (\n      (variable not (a))\n      with behaviour\n      (apply (function boolNot) to (a) and get (variable not (a)) )\n    )\n\n  interaction\n    ((a:Number in) is active):Boolean out\n  is\n    (\n      (variable  (a) is active)\n      with behaviour\n      (apply (function isActive) to (a) and get (variable  (a) is active) )\n    )\n\n  interaction\n    (1):Number out\n  is\n    ((variable the number 1) with behaviour (apply (function return1) to (variable nothing) and get (variable the number 1)   ))\n\n  interaction\n    ((a:Number in)+(b:Number in)):Number out\n  is\n    (\n      (variable result of (a)+(b))\n      with behaviour\n      (apply(function addition)to ({0:(a)1:(b)}) and get (variable result of (a)+(b)))\n    )\n\n  interaction\n    (init):Boolean out\n  is\n    ( not ( (previous(1) ) is active ) )\n\n  interaction\n    (if (cond:Boolean in) then (a:Number in) else (b:Number in)):Number out\n  is\n  (\n    (variable result of if (cond) then (a) else (b))\n    with behaviour\n    (\n      apply\n      (function ifThenElse)\n      to\n      ({  cond:(cond)  a:(a)  b:(b)  })\n      and get\n      (variable result of if (cond) then (a) else (b))\n    )\n  )\n\n  interaction\n    (when (cond:Boolean in) then (a:Activation out) else (b:Activation out)):Activation in\n  is\n    (\n      (variable activation of when (cond) then (a) else (b))\n      with behaviour\n      (\n        apply\n        (function whenThenElse)\n        to\n        ({  cond:(cond)  source:(variable activation of when (cond) then (a) else (b))   })\n        and get\n        ({a:(a) b:(b)})\n      )\n    )\n\n  interaction\n    (all (a:Activation out) else (b:Activation out)):Activation in\n  is\n    (\n      (variable all (a) (b))\n      with behaviour\n      (\n        apply\n        (function all)\n        to\n        (variable all (a) (b))\n        and get\n        ({a:(a) b:(b)})\n      )\n    )\n\n  interaction\n    ( (a:Number in) fallback to (b:Number in)):Number out\n  is\n    (\n      if ((a) is active)\n      then (a)\n      else (b)\n    )\n\n  interaction\n    ( (a:Number in) fallback to (b:Number in) fallback to (c:Number in)):Number out\n  is\n    (((a) fallback to (b)) fallback to (c))\n\n  interaction\n    (new (x:Number in)):Number in\n  is\n    (variable new (x))\n\n\n\n\n  interaction\n    (make (x:Number out) flow initially from (y:Number in)):Activation in\n  is\n    ( (x)  =   (  (new (x)) fallback to  (if (init) then (y) else (previous (x)) ) ) )\n\n\n\n\n\nis\n  (\n    ({\n      theNumber:(new (variable theNumber))\n      theResult:(variable theNumber)\n    })\n    with behaviour\n    (make (variable theNumber) flow initially from (1) )\n  )\n', 
 
 
@@ -549,7 +635,7 @@ module.exports = {
 
   { 
     name: 'Definition Of Previous', 
-    fileName: 'example/test/definitionOfPrevious', 
+    fileName: 'example/ok/definitionOfPrevious', 
     code: 'interaction\n  (bob):{theNumber:Number in,theResult:Number out}\nwith\n\n  interaction\n    (previous (x:Number in)):Number out\n  is\n    (\n      (variable previous(x))\n      with behaviour\n      (get(variable previous(x))from previous and set (x) for next)\n    )\n\nis\n  ({\n    theNumber:(variable theNumber)\n    theResult:(previous(variable theNumber))\n  })\n', 
 
 
@@ -594,7 +680,7 @@ module.exports = {
 
   { 
     name: 'Definitionof If Then Else', 
-    fileName: 'example/test/definitionofIfThenElse', 
+    fileName: 'example/ok/definitionofIfThenElse', 
     code: 'interaction\n (test (t:Number in)):Number out\nwith\n\n\n  interaction\n    ((u:Number in)==(v:Number in)):Boolean out\n  is\n    (\n      (variable result of (u)==(v))\n      with behaviour\n      (apply (function isEqual) to ({a:(u),b:(v)}) and get (variable result of (u)==(v)) )\n    )\n\n\ninteraction\n    (when (cond:Boolean in) then (a:Activation out) else (b:Activation out)):Activation in\n  is\n    (\n      (variable activation of when (cond) then (a) else (b))\n      with behaviour\n      (\n        apply\n        (function whenThenElse)\n        to\n        ({  cond:(cond)  source:(variable activation of when (cond) then (a) else (b))   })\n        and get\n        ({a:(a) b:(b)})\n      )\n    )\n\n    interaction\n      (if (cond:Boolean in) then (x:Number in) else (y:Number in)):Number out\n    is\n    (\n      (variable result of if (cond) then (x) else (y))\n      with behaviour\n      (\n        when\n        (cond)\n        then\n        ((variable result of if (cond) then (x) else (y)) = (x))\n        else\n        ((variable result of if (cond) then (x) else (y)) = (y))\n      )\n    )\n\nis\n  (if((t)==(1))then(3)else(4))\n', 
 
 
@@ -666,7 +752,7 @@ module.exports = {
 
   { 
     name: 'Dereferencing', 
-    fileName: 'example/test/dereferencing', 
+    fileName: 'example/ok/dereferencing', 
     code: 'interaction\n  (bob):{theNumber:Number in,theResult:Number out}\nwith\n\n    interaction\n        ((x:{theNumber:Number in,theResult:Number out}).theNumber):Number out\n    is\n        ((variable (x).theNumber) with behaviour (({theNumber:(variable (x).theNumber)})=(x)))\n\n interaction\n        ((x:{theNumber:Number in,theResult:Number out}).theResult):Number in\n    is\n        ((variable (x).theResult) with behaviour ((x)=({theResult:(variable (x).theResult)})))\n\n\nis\n  (\n    (variable this)\n    with behaviour\n    (((variable this).theResult)=((variable this).theNumber) )\n  )\n', 
 
 
@@ -714,7 +800,7 @@ module.exports = {
 
   { 
     name: 'Fake Affectation', 
-    fileName: 'example/test/fakeAffectation', 
+    fileName: 'example/ok/fakeAffectation', 
     code: 'interaction (bob):{theNumber:Number in,theResult:Number out}\nwith\n  interaction ((a:Number out)=fake=(b:Number in)):Activation in is\n  (apply (function identity) to (b) and get (a))\nis\n  (\n    (\n    {theNumber:(variable theNumber)theResult:(variable theResult)}\n    )\n  with behaviour\n    ((variable theResult)=fake=(variable theNumber))\n  )\n', 
 
 
@@ -753,7 +839,7 @@ module.exports = {
 
   { 
     name: 'Function Application', 
-    fileName: 'example/test/functionApplication', 
+    fileName: 'example/ok/functionApplication', 
     code: 'interaction (bob):{theNumber:Number in,theResult:Number out} is\n( (\n{theNumber:(variable theNumber)theResult:(variable theResult)}\n) with behaviour\n(apply(function addOne) to (variable theNumber) and get (variable theResult)))\n', 
 
 
@@ -785,7 +871,7 @@ module.exports = {
 
   { 
     name: 'Literals', 
-    fileName: 'example/test/literals', 
+    fileName: 'example/ok/literals', 
     code: 'interaction (ok literal):Number out\nwith\n\ninteraction ((a:Number in) + (b:Number in)):Number out\nis ((# (a)+(b)) with behaviour ((function addition)({0:(a)1:(b)})=(#(a)+(b))))\n\nis\n    ((9)+(9))\n', 
 
 
@@ -817,7 +903,7 @@ module.exports = {
 
   { 
     name: 'Real Affectation Expression', 
-    fileName: 'example/test/realAffectationExpression', 
+    fileName: 'example/ok/realAffectationExpression', 
     code: 'interaction (bob):{theNumber:Number in,theResult:Number out}\nwith\n\n  interaction (1):Number out is\n  ((variable result1) with behaviour (apply (function return1) to (variable ok) and get (variable result1)   ))\n\n  interaction ((a:Number in)+(b:Number in)):Number out is\n  ((variable result of (a)+(b))with behaviour\n  (apply(function addition)\n    to ({\n      0:(a)\n      1:(b)\n    })\n    and get (variable result of (a)+(b))))\n\nis\n  (\n    (\n    {theResult:(variable theResult)theNumber:(variable theNumber)}\n    )\n  with behaviour\n    ((variable theResult)=((1)+(variable theNumber)))\n  )\n', 
 
 
@@ -867,7 +953,7 @@ module.exports = {
 
   { 
     name: 'Referential Transparency', 
-    fileName: 'example/test/referentialTransparency', 
+    fileName: 'example/ok/referentialTransparency', 
     code: '\n    interaction (main):{theNumber:Number in,theResult:Number out}\n\n    with\n\n      interaction (z):Number out\n      is (variable y b)\n\n      interaction (y):Number out\n      is (variable y b)\n\n      interaction (x):Number out\n      is (variable b)\n    is\n\n        ({\n          theNumber:(variable x (y) (variable b))\n          theResult:(variable x (z) (x))\n        })\n', 
 
 
@@ -913,7 +999,7 @@ module.exports = {
 
   { 
     name: 'Resolver', 
-    fileName: 'example/test/resolver', 
+    fileName: 'example/ok/resolver', 
     code: 'interaction (bob):{theNumber:Number in,theOther:Number in, theResult:Number out, theLast:Number out}\nis\n    (\n    {theNumber:(variable theNumber)\n    theOther:(variable theNumber)\n    theResult:(variable theNumber)\n    theLast:(variable theNumber)}\n    )\n', 
 
 
@@ -948,7 +1034,7 @@ module.exports = {
 
   { 
     name: 'Simple', 
-    fileName: 'example/test/simple', 
+    fileName: 'example/ok/simple', 
     code: '\n\n    interaction (main):{theNumber:Number in,theResult:Number out}\n\n    is\n\n        ({\n          theNumber:(variable x)\n          theResult:(variable x)\n        })\n', 
 
 
@@ -985,7 +1071,7 @@ module.exports = {
 
   { 
     name: 'Simple Func', 
-    fileName: 'example/test/simpleFunc', 
+    fileName: 'example/ok/simpleFunc', 
     code: 'interaction\n  (bob):{theNumber:Number in,theResult:Number out}\nwith\n  interaction\n    (bob(x:Number in)):Number out\n  is\n    ((# bob (x)) with behaviour ((function addOne)(x)=(# bob (x))))\nis\n  ({theNumber:(#a),theResult:(bob(#a))})\n', 
 
 
@@ -1021,7 +1107,7 @@ module.exports = {
 
   { 
     name: 'Simple Previous Next', 
-    fileName: 'example/test/simplePreviousNext', 
+    fileName: 'example/ok/simplePreviousNext', 
     code: '\n\n    interaction (main):{theNumber:Number in,theResult:Number out}\n\n    is\n\n        (({\n          theNumber:(variable x)\n          theResult:(variable y)\n        }) with behaviour (\nget (variable y) from previous and set (variable x) for next\n)\n)\n', 
 
 
@@ -1061,7 +1147,7 @@ module.exports = {
 
   { 
     name: 'Sum Of Previous', 
-    fileName: 'example/test/sumOfPrevious', 
+    fileName: 'example/ok/sumOfPrevious', 
     code: 'interaction (wow (a:Number in)):Number out\nwith\n\ninteraction ((a:Number in) + (b:Number in)):Number out\nis ((# (a)+(b)) with behaviour ((function addition)({0:(a)1:(b)})=(#(a)+(b))))\n\ninteraction (previous(a:Number in)):Number out\nis ((# previous (a)) with behaviour ((# previous (a)) = previous (a)))\nis\n    ((previous(a))+(previous(a)))\n', 
 
 
@@ -1073,4 +1159,36 @@ module.exports = {
 
 
 
-    scenario: '\n[\n  {\n    "args": {\n      "a": 1\n    },\n    "inter" : null\n  },\n  {\n    "args": {\n      "a": 8\n    },\n    "inter" : 2\n  },\n   {\n    "args": {\n      "a": 6\n    },\n    "inter" : 16\n  }\n]\n' }] };
+    scenario: '\n[\n  {\n    "args": {\n      "a": 1\n    },\n    "inter" : null\n  },\n  {\n    "args": {\n      "a": 8\n    },\n    "inter" : 2\n  },\n   {\n    "args": {\n      "a": 6\n    },\n    "inter" : 16\n  }\n]\n' }, 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  { 
+    name: 'Ui Cursor', 
+    fileName: 'example/ok/uiCursor', 
+    code: 'interaction\n  (cursor of (mouse:Mouse in)):Graphics out\nis\n  ((#cursor of (mouse))\n  with behaviour\n  ((function cursor)(mouse)=(#cursor of (mouse))))\n', 
+
+
+
+
+
+
+    scenario: '[{\n  "args": {\n    "mouse": {\n      "buttons": 0,\n      "position": {\n        "x": 42,\n        "y": 63\n      }\n    }\n  },\n  "inter": {\n    "type": "shadow",\n    "blur": 20,\n    "offset": {\n      "x": 0,\n      "y": 4\n    },\n    "color": "rgba(0, 0, 0, 0.5)",\n    "content": {\n      "type": "translate",\n      "x": 42,\n      "y": 63,\n      "content": {\n        "type": "scale",\n        "width": 1,\n        "height": 1,\n        "content": {\n          "type": "fill",\n          "style": "rgba(200, 0, 200, 1)",\n          "content": {\n            "type": "path",\n            "content": [{\n              "type": "begin"\n            }, {\n              "type": "move",\n              "x": 0,\n              "y": 0\n            }, {\n              "type": "line",\n              "x": 0,\n              "y": 15\n            }, {\n              "type": "line",\n              "x": 10.6,\n              "y": 10.6\n            }, {\n              "type": "close"\n            }]\n          }\n        }\n      }\n    }\n  }\n}, {\n  "args": {\n    "mouse": {\n      "buttons": 1,\n      "position": {\n        "x": 31,\n        "y": 89\n      }\n    }\n  },\n  "inter": {\n    "type": "shadow",\n    "blur": 10,\n    "offset": {\n      "x": 0,\n      "y": 2\n    },\n    "color": "rgba(0, 0, 0, 0.5)",\n    "content": {\n      "type": "translate",\n      "x": 31,\n      "y": 89,\n      "content": {\n        "type": "scale",\n        "width": 0.8,\n        "height": 0.8,\n        "content": {\n          "type": "fill",\n          "style": "rgba(200, 0, 200, 1)",\n          "content": {\n            "type": "path",\n            "content": [{\n              "type": "begin"\n            }, {\n              "type": "move",\n              "x": 0,\n              "y": 0\n            }, {\n              "type": "line",\n              "x": 0,\n              "y": 15\n            }, {\n              "type": "line",\n              "x": 10.6,\n              "y": 10.6\n            }, {\n              "type": "close"\n            }]\n          }\n        }\n      }\n    }\n  }\n}]\n' }] };

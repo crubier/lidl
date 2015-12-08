@@ -33,6 +33,7 @@ import removeDuplicateEdge from './graphTransformations/removeDuplicateEdge'
 import resolveMultiplePorts from './graphTransformations/resolveMultiplePorts'
 import instantiateTemplates from './graphTransformations/instantiateTemplates'
 import orderGraph from './graphTransformations/orderGraph'
+import keepOnlyOrdering from './graphTransformations/keepOnlyOrdering'
 
 import getExpandedLidl from './graphOutputs/getExpandedLidl'
 import getJsCode from './graphOutputs/getJsCode'
@@ -69,9 +70,9 @@ export function compile(ast,header,callbacks){
         callCallback('getInteractionMetrics',getInteractionMetrics(graph));
         return callCallback('referentialTransparencyInstances',data);
       },
-      graphTransformationPipeline:(graph,data)=>{
+      orderGraph:(graph,data)=>{
         callCallback('getJsCode',getJsCode(graph,header));
-        return callCallback('graphTransformationPipeline',data);
+        return callCallback('orderGraph',data);
       }
     }
   );
@@ -218,11 +219,14 @@ export function graphTransformationPipeline (graph,rootDefinitionNode,callbacks)
     orderGraph(graph);
     if(false===callCallback('orderGraph',{iteration:1})) return graph;
 
+    keepOnlyOrdering(graph);
+    if(false===callCallback('keepOnlyOrdering',{iteration:1})) return graph;
+
     if(false===callCallback('graphTransformationPipeline',{iteration:1})) return graph;
 
     return graph;
   } catch (e) {
-    callCallback('error',{iteration:1});
+    callCallback('error',{error:e,iteration:1});
     throw(e);
   }
 }

@@ -13,7 +13,7 @@ var exec = require('child_process').exec;
 describe('lidl graph compiler', function () {
   // console.log('-------------------');
 
-  var exampleTestPath = 'example/test';
+  var exampleTestPath = 'example/ok';
   var commonHeader = path.join(exampleTestPath, 'common.lidl.js');
 
   _(fs.readdirSync(exampleTestPath)).
@@ -64,9 +64,9 @@ describe('lidl graph compiler', function () {
     var header = fs.readFileSync(commonHeader, { encoding: 'utf8' });
     var scenarioText = fs.readFileSync(path.join(file, 'scenario.json'), { encoding: 'utf8' });
 
-    describe('Expansion of file ' + file, function () {
+    describe('Compilation of file ' + file, function () {
       console.log("====================================================");
-      console.log("Now (new) compiling " + file);
+      console.log("Compiling and testing " + file);
 
       // removeOneSidedAffectation
       graphCompiler.compile(parser.parse(code)[0], header, { 

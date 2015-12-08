@@ -4,6 +4,8 @@ import React, {
 }
 from 'react';
 // import _ from 'lodash';
+// import exampleResult from './compilerExampleResult';
+import CircularProgress  from 'material-ui/lib/circular-progress'
 
 // Generic retained mode rendering
 function draw(ctx, object) {
@@ -115,52 +117,64 @@ export default class Canvas extends Component {
 
   constructor(props){
     super(props);
-  }
-
-  state = {
-    mainInterfaceState: {
-      dimension: {
-        width: 500,
-        height: 500
-      },
-      time: 0,
-      mouse: {
-        buttons: 0,
-        position: {
-          x: 0,
-          y: 0
+    this.state = {
+      mainInterfaceState: {
+        dimension: {
+          width: this.props.width,
+          height: this.props.height
         },
-        wheel: {
-          x: 0,
-          y: 0,
-          z: 0
+        time: 0,
+        mouse: {
+          buttons: 0,
+          position: {
+            x: 0,
+            y: 0
+          },
+          wheel: {
+            x: 0,
+            y: 0,
+            z: 0
+          }
+        },
+        keyboard: {
+          "Enter": false,
+          "Meta": false,
+          "Control": false,
+          "Alt": false,
+          "Shift": false,
+          "Left": false,
+          "Down": false,
+          "Right": false,
+          "Up": false
+        },
+        touch: [],
+        graphics: {
+          type: "group",
+          content: []
         }
       },
-      keyboard: {
-        "Enter": false,
-        "Meta": false,
-        "Control": false,
-        "Alt": false,
-        "Shift": false,
-        "Left": false,
-        "Down": false,
-        "Right": false,
-        "Up": false
-      },
-      touch: [],
-      graphics: {
-        type: "group",
-        content: []
-      }
-    }
+      lidlOut:null
+    };
   }
 
+  static defaultProps = {
+    position:{top:0,left:0,width:1024,height:768}
+  };
+
   mouse(e) {
-      var target = e.target;
-      var rect = this.refs.iiicanvas.getBoundingClientRect();
-      var offsetX = e.clientX - rect.left;
-      var offsetY = e.clientY - rect.top;
-      this.setState({mainInterfaceState:{dimension:this.state.mainInterfaceState.dimension,time:e.timeStamp,mouse : {
+var container=this.refs.container;
+    var target = e.target;
+    var rect = this.refs.iiicanvas.getBoundingClientRect();
+    var offsetX = (e.clientX - rect.left)*(this.state.mainInterfaceState.dimension.width/rect.width);
+    var offsetY = (e.clientY - rect.top)*(this.state.mainInterfaceState.dimension.height/rect.height);
+    this.setState({
+      mainInterfaceState:{
+        dimension : {
+        width: container.offsetWidth,
+        height: container.offsetHeight
+    },
+        time:e.timeStamp,
+        mouse : {
           buttons: e.buttons,
           position: {
               x: offsetX,
@@ -171,83 +185,116 @@ export default class Canvas extends Component {
               y: (e.deltaY !== undefined && e.deltaY !== null) ? e.deltaY : 0,
               z: (e.deltaZ !== undefined && e.deltaZ !== null) ? e.deltaZ : 0
           }
-      },keyboard:this.state.mainInterfaceState.keyboard,touch:this.state.mainInterfaceState.touch,graphics:this.state.mainInterfaceState.graphics}});
-      this.scenarioChanged();
+        },
+        keyboard:this.state.mainInterfaceState.keyboard,
+        touch:this.state.mainInterfaceState.touch,
+        graphics:this.state.mainInterfaceState.graphics
+      }
+    });
+    this.scenarioChanged();
   }
 
   resize(e) {
-      var canvas=this.refs.iiicanvas;
-      this.setState({mainInterfaceState:{dimension : {
-          width: canvas.offsetWidth,
-          height: canvas.offsetHeight
-      },time:e.timeStamp,mouse:this.state.mainInterfaceState.mouse,keyboard:this.state.mainInterfaceState.keyboard,touch:this.state.mainInterfaceState.touch,graphics:this.state.mainInterfaceState.graphics}});
-      this.scenarioChanged();
+    var container=this.refs.container;
+    this.setState({mainInterfaceState:{dimension : {
+        width: container.offsetWidth,
+        height: container.offsetHeight
+    },time:e.timeStamp,mouse:this.state.mainInterfaceState.mouse,keyboard:this.state.mainInterfaceState.keyboard,touch:this.state.mainInterfaceState.touch,graphics:this.state.mainInterfaceState.graphics}});
+    this.scenarioChanged();
   }
 
   keydown(e) {
-
-      var key;
-      if (event.key !== undefined) {
-          key = event.key;
-      } else if (event.keyIdentifier !== undefined) {
-          key = event.keyIdentifier;
-      } else if (event.keyCode !== undefined) {
-          key = event.keyCode;
-      }
-      key=key.toLowerCase();
-      if (this.state.mainInterfaceState.keyboard[key] !== true) {
-        var theKeyboard=this.state.mainInterfaceState.keyboard;
-        theKeyboard[key]=true;
-        this.setState({mainInterfaceState:{dimension:this.state.mainInterfaceState.dimension,time:e.timeStamp,mouse:this.state.mainInterfaceState.mouse,keyboard:theKeyboard,touch:this.state.mainInterfaceState.touch,graphics:this.state.mainInterfaceState.graphics}});
-      }
-      this.scenarioChanged();
+var container=this.refs.container;
+    var key;
+    if (event.key !== undefined) {
+        key = event.key;
+    } else if (event.keyIdentifier !== undefined) {
+        key = event.keyIdentifier;
+    } else if (event.keyCode !== undefined) {
+        key = event.keyCode;
+    }
+    key=key.toLowerCase();
+    if (this.state.mainInterfaceState.keyboard[key] !== true) {
+      var theKeyboard=this.state.mainInterfaceState.keyboard;
+      theKeyboard[key]=true;
+      this.setState({mainInterfaceState:{dimension : {
+        width: container.offsetWidth,
+        height: container.offsetHeight
+    },time:e.timeStamp,mouse:this.state.mainInterfaceState.mouse,keyboard:theKeyboard,touch:this.state.mainInterfaceState.touch,graphics:this.state.mainInterfaceState.graphics}});
+    }
+    this.scenarioChanged();
   }
 
   keyup(e) {
-
-      var key;
-      if (event.key !== undefined) {
-          key = event.key;
-      } else if (event.keyIdentifier !== undefined) {
-          key = event.keyIdentifier;
-      } else if (event.keyCode !== undefined) {
-          key = event.keyCode;
-      }
-      key=key.toLowerCase();
-      if (this.state.mainInterfaceState.keyboard[key] !== false) {
-        var theKeyboard=this.state.mainInterfaceState.keyboard;
-        theKeyboard[key]=false;
-        this.setState({mainInterfaceState:{dimension:this.state.mainInterfaceState.dimension,time:e.timeStamp,mouse:this.state.mainInterfaceState.mouse,keyboard:theKeyboard,touch:this.state.mainInterfaceState.touch,graphics:this.state.mainInterfaceState.graphics}});
-      }
-      this.scenarioChanged();
+var container=this.refs.container;
+    var key;
+    if (event.key !== undefined) {
+        key = event.key;
+    } else if (event.keyIdentifier !== undefined) {
+        key = event.keyIdentifier;
+    } else if (event.keyCode !== undefined) {
+        key = event.keyCode;
+    }
+    key=key.toLowerCase();
+    if (this.state.mainInterfaceState.keyboard[key] !== false) {
+      var theKeyboard=this.state.mainInterfaceState.keyboard;
+      theKeyboard[key]=false;
+      this.setState({mainInterfaceState:{dimension : {
+        width: container.offsetWidth,
+        height: container.offsetHeight
+    },time:e.timeStamp,mouse:this.state.mainInterfaceState.mouse,keyboard:theKeyboard,touch:this.state.mainInterfaceState.touch,graphics:this.state.mainInterfaceState.graphics}});
+    }
+    this.scenarioChanged();
   }
 
 
   touch(e) {
-      var rect = this.refs.iiicanvas.getBoundingClientRect();
-      var i;
-      var touches = [];
-      for (i = 0; i < e.touches.length; i++) {
-          touches[i] = {};
-          var offsetX = e.touches[i].clientX - rect.left;
-          var offsetY = e.touches[i].clientY - rect.top;
-          touches[i].position = {
-              x: offsetX,
-              y: offsetY
-          };
-          touches[i].identifier = e.touches[i].identifier;
-          touches[i].radius = {
-              x: e.touches[i].radiusX,
-              y: e.touches[i].radiusY
-          };
-          touches[i].rotationAngle = e.touches[i].rotationAngle;
-          touches[i].force = e.touches[i].force;
-      }
-      this.setState({mainInterfaceState:{dimension:this.state.mainInterfaceState.dimension,time:e.timeStamp,mouse:this.state.mainInterfaceState.mouse,keyboard:this.state.mainInterfaceState.keyboard,touch : touches,graphics:this.state.mainInterfaceState.graphics}});
-      this.scenarioChanged();
+var container=this.refs.container;
+    var rect = this.refs.iiicanvas.getBoundingClientRect();
+    var i;
+    var touches = [];
+    for (i = 0; i < e.touches.length; i++) {
+        touches[i] = {};
+        var offsetX = e.touches[i].clientX - rect.left;
+        var offsetY = e.touches[i].clientY - rect.top;
+        touches[i].position = {
+            x: offsetX,
+            y: offsetY
+        };
+        touches[i].identifier = e.touches[i].identifier;
+        touches[i].radius = {
+            x: e.touches[i].radiusX,
+            y: e.touches[i].radiusY
+        };
+        touches[i].rotationAngle = e.touches[i].rotationAngle;
+        touches[i].force = e.touches[i].force;
+    }
+    this.setState({mainInterfaceState:{dimension : {
+        width: container.offsetWidth,
+        height: container.offsetHeight
+    },time:e.timeStamp,mouse:this.state.mainInterfaceState.mouse,keyboard:this.state.mainInterfaceState.keyboard,touch : touches,graphics:this.state.mainInterfaceState.graphics}});
+    this.scenarioChanged();
   }
 
   scenarioChanged() {
+    // Create the input interface
+    let lidlIn = {
+      memo:this.state.lidlOut.memo,
+      state:this.state.lidlOut.state,
+      args:this.state.lidlOut.args,
+      inter: this.state.mainInterfaceState
+    }
+    // Compute the transition function using the lidl code
+    let lidlOut = this.transitionFunction(lidlIn);
+    // Get the canvas
+    let canvas = this.refs.iiicanvas;
+    // Clear the Canvas
+    canvas.getContext("2d").clearRect(0,0,canvas.width,canvas.height);
+    // Draw graphics in the canvas
+    draw(canvas.getContext("2d"),lidlOut.inter.graphics);
+    //Set state of component for next execution step
+    this.setState({lidlOut:lidlOut,mainInterfaceState:lidlOut.inter});
+
     // this.props.addToScenario(this.state.mainInterfaceState);
   }
 
@@ -278,21 +325,37 @@ export default class Canvas extends Component {
     iiicanvas.addEventListener("keyup", this.keyup.bind(this), false);
 
     // // Touch events
-     iiicanvas.addEventListener("touchcancel", this.touch.bind(this), false);
-     iiicanvas.addEventListener("touchend", this.touch.bind(this), false);
-     iiicanvas.addEventListener("touchmove", this.touch.bind(this), false);
-     iiicanvas.addEventListener("touchstart", this.touch.bind(this), false);
+    iiicanvas.addEventListener("touchcancel", this.touch.bind(this), false);
+    iiicanvas.addEventListener("touchend", this.touch.bind(this), false);
+    iiicanvas.addEventListener("touchmove", this.touch.bind(this), false);
+    iiicanvas.addEventListener("touchstart", this.touch.bind(this), false);
 
     // FIN  CODE iii Canvas
     ///////////////////////////////////////////////////////////
-  }
+
+    this.resize({timeStamp:0});
+    }
+
+
 
 
   render() {
+    this.transitionFunction=new Function("data",this.props.code.partialSource.transitionFunction);
+    this.initializationFunction=new Function("data",this.props.code.partialSource.initializationFunction);
+    this.setState({lidlOut:this.initializationFunction()});
+    if ( this.props.code ===null  || this.props.code ===undefined) {
+        return  <div style={{textAlign:'center'}}><CircularProgress style={{margin:"20px"}} mode="indeterminate"  /></div>;
+      } else  {
     return (
-        <div style={{overflow:'hidden',position:'absolute',top:'0',left:'O',bottom:'0',right:'0',display:'flex',justifyContent:'center',alignItems:'center'}}>
-          <canvas ref="iiicanvas" style={{'backgroundColor':'rgb(217, 217, 217)'}} contentEditable="true" tabIndex="1"  width={640} height={480} ></canvas>
+        <div ref="container" style={{overflow:'hidden',position:'absolute',top:'0',left:'0',bottom:'0',right:'0'}}>
+          <canvas
+            ref="iiicanvas"
+            style={{'backgroundColor':'rgb(217, 217, 217)' ,cursor:'none',position:'absolute',top:'0',left:'0',width:this.state.mainInterfaceState.dimension.width,height:this.state.mainInterfaceState.dimension.height}}
+            contentEditable="true"
+            tabIndex="1"
+            width={this.state.mainInterfaceState.dimension.width}
+            height={this.state.mainInterfaceState.dimension.height} ></canvas>
         </div>
-    );
+    );}
   }
 }

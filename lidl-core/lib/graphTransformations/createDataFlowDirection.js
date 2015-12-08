@@ -4,12 +4,24 @@
 
 
 
+
+
+
 createDataFlowDirection;var _lodash = require('lodash');var _lodash2 = _interopRequireDefault(_lodash);var _ports = require('../ports');function _interopRequireDefault(obj) {return obj && obj.__esModule ? obj : { default: obj };}function createDataFlowDirection(graph) {
+
+
+
+
 
   // First we infer type of ports on edges from types of ports of nodes they lead to
   graph.
-  matchUndirectedEdges({ type: 'InteractionInstanceOperand' }).
+  matchUndirectedEdges({ 
+    type: 'InteractionInstanceOperand' }).
+
   forEach(function (theEdge) {
+    // console.log(theEdge.from.node.content.operator);
+    // console.log(theEdge.from.node.ports);
+    // console.log(theEdge.from.index);
     if (_lodash2.default.isUndefined(theEdge.from.node.ports)) console.log('UUUUU' + theEdge.from.node.content.operator);
     var portOnOrigin = 
     _lodash2.default.cloneDeep(theEdge.from.node.ports[theEdge.from.index]);
@@ -40,9 +52,15 @@ createDataFlowDirection;var _lodash = require('lodash');var _lodash2 = _interopR
 
   commit();
 
+
+
+
+
   // Then we infer types of ports on Nodes from types of ports on edges that lead to them
   graph.
-  matchNodes({ type: 'InteractionInstance' }).
+  matchNodes({ 
+    type: 'InteractionInstance' }).
+
   forEach(function (theNode) {
 
     // console.log("NODE0 "+theNode.id +" "+ JSON.stringify(theNode.ports));

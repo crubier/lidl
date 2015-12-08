@@ -1,0 +1,8 @@
+(
+    ({
+        theNumber:  (x)
+        theResult:  (y)
+      })
+    with behaviour
+    (apply (function addOne) to (x) and get (y))
+  )

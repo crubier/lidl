@@ -1,6 +1,3 @@
-import defaultHeader from './Defaults/header'
-import defaultCode from './Defaults/lidlcode'
-import defaultScenario from './Defaults/scenario'
 import Lidl from 'lidl-core'
 import Immutable from 'immutable'
 
@@ -37,7 +34,9 @@ export default {
 
   traceAst :null,
 
-  trace:null
+  trace:null,
+
+  position:null
 
 
 }

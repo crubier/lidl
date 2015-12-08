@@ -18,7 +18,7 @@ export function mergePortList(x, y) {
     } else if (_.isUndefined(y)) {
       return _.clone(x);
     } else {
-      throw new Error ("portLists should be strings or arrays of strings");
+      throw new Error ("PortLists should be strings or arrays of strings");
     }
   } else if (_.isString(x)) {
     if (_.isArray(y)) {
@@ -26,25 +26,25 @@ export function mergePortList(x, y) {
       if(portIsOnlyMadeOf(y,x))return x;
     } else if (_.isString(y)) {
       if (x === y) return x
-      else throw new Error ("trying to merge incompatible ports "+ x + " and "+ y);
+      else throw new Error ("Trying to merge incompatible ports "+ x + " and "+ y);
     } else if (_.isUndefined(y)) {
       return x;
     } else {
-      throw new Error ("portLists should be strings or arrays of strings");
+      throw new Error ("PortLists should be strings or arrays of strings");
     }
   } else if (_.isUndefined(x)) {
     if (_.isArray(y)) {
       return _.clone(y);
     } else if (_.isString(y)) {
       return y;
-      throw new Error (" trying to merge incompatible ports "+ x + " and "+ y);
+      throw new Error ("Trying to merge incompatible ports "+ x + " and "+ y);
     } else if (_.isUndefined(y)) {
       return;
     } else {
-      throw new Error (" portLists should be strings or arrays of strings");
+      throw new Error ("PortLists should be strings or arrays of strings");
     }
   } else {
-    throw new Error (" portLists should be strings or arrays of strings");
+    throw new Error ("PortLists should be strings or arrays of strings");
   }
 }
 
@@ -66,7 +66,7 @@ export function portIsOnlyMadeOf(x,s){
   } else if (_.isUndefined(x)) {
     return false;
   } else {
-    throw new Error (" port should be arrays of strings or strings");
+    throw new Error ("Port should be arrays of strings or strings");
   }
 }
 
@@ -85,12 +85,12 @@ export function conjugatePort(x) {
     }else if (x==='out'){
       return 'in';
     }else {
-      throw new Error (" port should be in our out or arrays of in and out");
+      throw new Error ("Port should be in our out or arrays of in and out");
     }
   } else if (_.isUndefined(x)) {
     return undefined;
   } else {
-    throw new Error (" port should be arrays of strings or strings");
+    throw new Error ("Port should be arrays of strings or strings");
   }
 }
 

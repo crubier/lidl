@@ -79,7 +79,7 @@ module.exports = function(self) {
           },
           error : function(graph,data){
             autoCallbacks.error(graph,data);
-            self.postMessage({type: 'Error',message:'Error'});
+            self.postMessage({type: 'Error',error:data.error.message,message:'Error'});
             return true;
           }
         };

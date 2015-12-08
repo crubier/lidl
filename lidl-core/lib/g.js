@@ -267,7 +267,7 @@ Graph = (function () {
       return this.toDotWithParamaters({ 
         nodes: { 
           Interaction: { color: "#ffd1d1", transform: function transform(x) {return { label: x.content.operator };} }, 
-          InteractionInstance: { color: "#ffde2f", transform: function transform(x) {return { shape: x.content.type === 'InteractionSimple' ? "ellipse" : 'box', color: x.content.type === 'InteractionSimple' ? "#ffde2f" : "#dff1f2", fontname: x.content.type === 'InteractionSimple' ? 'Times' : 'Courier', label: x.content.type === 'InteractionSimple' ? x.id + '\n' + x.content.operator : x.id + '\n' + x.content.content };} }, 
+          InteractionInstance: { color: "#ffed8e", transform: function transform(x) {return { shape: x.content.type === 'InteractionSimple' ? "ellipse" : 'box', color: x.content.type === 'InteractionSimple' ? "#ffde2f" : "#dff1f2", fontname: x.content.type === 'InteractionSimple' ? 'Times' : 'Courier', label: x.content.type === 'InteractionSimple' ? x.content.operator : x.content.content };} }, 
           Definition: { color: "#afe7ff", transform: function transform(x) {return { label: x.content.signature.operator };} }, 
           SignatureOperandElement: { color: "#2fffc7", transform: function transform(x) {return { label: x.content.name };} }, 
           Interface: { color: "#2fcdff", transform: function transform(x) {return { label: x.content.type === 'InterfaceAtomic' ? x.name + ' : ' + x.content.direction : x.name };} } }, 
@@ -288,10 +288,12 @@ Graph = (function () {
           InterfaceInteractionInstance: { color: "#e300ff", transform: function transform(x) {return { label: "" };} }, 
           DefinitionDefinition: { color: "#81ddff", transform: function transform(x) {return { label: x.from.index };} }, 
           InteractionDefinition: { color: "#e681ff", transform: function transform(x) {return { label: "" };} }, 
-          DefinitionDependency: { color: "#0040ff", transform: function transform(x) {return { label: "" };} } }, 
+          DefinitionDependency: { color: "#0040ff", transform: function transform(x) {return { label: "" };} }, 
+          InteractionInstanceDataDependency: { color: "#ddd2ff", transform: function transform(x) {return { label: "" };} }, 
+          InteractionInstanceOrdering: { color: "#cc00ff", transform: function transform(x) {return { label: x.executionOrder };} } }, 
 
         undirectedEdges: { 
-          InteractionInstanceOperand: { color: "#9d8400", transform: function transform(x) {return { label: x.id, headlabel: x.to.index + (_.isUndefined(x.to.ports) ? '' : ': ' + x.to.ports) + (_.isUndefined(x.to.compositionElementName) ? '' : ': ' + x.to.compositionElementName), taillabel: x.from.index + (_.isUndefined(x.from.ports) ? '' : ': ' + x.from.ports) + (_.isUndefined(x.from.compositionElementName) ? '' : ': ' + x.from.compositionElementName) };} } } });}
+          InteractionInstanceOperand: { color: "#9d8400", transform: function transform(x) {return { label: "", headlabel: x.to.index + (_.isUndefined(x.to.ports) ? '' : ': ' + x.to.ports) + (_.isUndefined(x.to.compositionElementName) ? '' : ': ' + x.to.compositionElementName), taillabel: x.from.index + (_.isUndefined(x.from.ports) ? '' : ': ' + x.from.ports) + (_.isUndefined(x.from.compositionElementName) ? '' : ': ' + x.from.compositionElementName) };} } } });}
 
 
 

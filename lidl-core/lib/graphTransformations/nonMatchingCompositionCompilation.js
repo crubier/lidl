@@ -2,14 +2,17 @@
 
 
 
-nonMatchingCompositionCompilation;var _lodash = require('lodash');var _lodash2 = _interopRequireDefault(_lodash);function _interopRequireDefault(obj) {return obj && obj.__esModule ? obj : { default: obj };}function nonMatchingCompositionCompilation(graph) {
+
+
+nonMatchingCompositionCompilation;var _lodash = require('lodash');var _lodash2 = _interopRequireDefault(_lodash);var _ports = require('../ports');function _interopRequireDefault(obj) {return obj && obj.__esModule ? obj : { default: obj };}function nonMatchingCompositionCompilation(graph) {
   // Then we find composition nodes and reduce them
   graph.
-  matchNodes({ type: 'InteractionInstance', content: { type: 'InteractionSimple', operatorType: 'Composition' } }).
-  filter(function (x) {return x.ports[0] === 'out' || x.ports[0] === 'in';}).
+  matchNodes({ type: 'InteractionInstance', content: { type: 'InteractionSimple', operatorType: 'Composition' } })
+  // .forEach(x=>{console.log(x.ports);console.log(x.content.operator);})
+  .filter(function (x) {return (0, _ports.portIsOnlyMadeOf)(x.ports[0], 'out') || (0, _ports.portIsOnlyMadeOf)(x.ports[0], 'in');}).
   forEach(function (theNode) {
 
-    var isCompo = theNode.ports[0] === 'out';
+    var isCompo = (0, _ports.portIsOnlyMadeOf)(theNode.ports[0], 'out');
 
     // console.log("NODE ! "+theNode.id +" "+ JSON.stringify(theNode.ports));
 
@@ -56,7 +59,11 @@ nonMatchingCompositionCompilation;var _lodash = require('lodash');var _lodash2 =
     matchUndirectedEdges({ type: 'InteractionInstanceOperand', from: { node: theNode } })
     // .reject(theEdge=>_.isUndefined(theEdge.from.compositionElementName))
     .forEach(function (theEdge) {
-      graph.addEdge({ type: 'InteractionInstanceOperand', from: { node: newNode, index: theEdge.from.index }, to: theEdge.to });}).
+      graph.
+      addEdge({ type: 'InteractionInstanceOperand', from: { 
+          node: newNode, 
+          index: theEdge.from.index, 
+          port: isCompo ? theEdge.from.index === 0 ? 'out' : 'in' : theEdge.from.index === 0 ? 'in' : 'out' }, to: theEdge.to });}).
     commit();
 
     graph.

@@ -45,6 +45,7 @@ export default class SmartContainer extends Component {
       default:
 
     }
+    this.props.onChange();
   }
 
   render(){

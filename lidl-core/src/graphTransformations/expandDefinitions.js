@@ -183,7 +183,18 @@ function instantiateInteraction(graph,interactionNode) {
   .matchDirectedEdges({type:'InteractionOperand',to:{node:interactionNode}})
   .value();
 
+
+
+
+
+
   if (interactionNode.isBase) {
+
+
+
+
+
+
 
     // console.log("BAS "+interactionNode.content.operator);
     // Base interaction, we just instantiate it and link it
@@ -212,7 +223,19 @@ function instantiateInteraction(graph,interactionNode) {
     graph.finish(interactionNode);
     return [newNode];
 
+
+
+
+
+
+
+
   } else if (interactionNode.isArgument) {
+
+
+
+
+
 
     // console.log("ARG "+interactionNode.content.operator);
     // So first we create the instance
@@ -251,7 +274,14 @@ function instantiateInteraction(graph,interactionNode) {
 
 
 
+
+
+
   } else if (interactionNode.isCustom) {
+
+
+
+
 
 
 
@@ -363,6 +393,27 @@ graph.finish(interactionNode);
   }
 
 }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 

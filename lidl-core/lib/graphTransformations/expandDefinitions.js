@@ -183,7 +183,18 @@ function instantiateInteraction(graph, interactionNode) {
   matchDirectedEdges({ type: 'InteractionOperand', to: { node: interactionNode } }).
   value();
 
+
+
+
+
+
   if (interactionNode.isBase) {var _ret = (function () {
+
+
+
+
+
+
 
       // console.log("BAS "+interactionNode.content.operator);
       // Base interaction, we just instantiate it and link it
@@ -212,7 +223,19 @@ function instantiateInteraction(graph, interactionNode) {
       graph.finish(interactionNode);
       return { v: [newNode] };})();if ((typeof _ret === 'undefined' ? 'undefined' : _typeof(_ret)) === "object") return _ret.v;} else 
 
+
+
+
+
+
+
+
   if (interactionNode.isArgument) {var _ret2 = (function () {
+
+
+
+
+
 
       // console.log("ARG "+interactionNode.content.operator);
       // So first we create the instance
@@ -251,7 +274,14 @@ function instantiateInteraction(graph, interactionNode) {
 
 
 
+
+
+
   if (interactionNode.isCustom) {var _ret3 = (function () {
+
+
+
+
 
 
 
@@ -360,6 +390,27 @@ function instantiateInteraction(graph, interactionNode) {
 
   {
     throw new Error('Could not instantiate interaction ' + interactionNode.content.operator + " " + interactionNode.id + " because it is not an argument, a base interaction or a custom defined interaction");}}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
