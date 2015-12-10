@@ -2,13 +2,18 @@
 
 var _ = require('lodash');var 
 
+
+
+
 Graph = (function () {
 
 
   ///////////////////////////////////////////////////////////////////////////////
   function Graph(nodes, edges) {_classCallCheck(this, Graph);
     this.nodes = nodes === undefined ? [] : nodes;
-    this.edges = edges === undefined ? [] : edges;}
+    this.edges = edges === undefined ? [] : edges;
+    this.nodeTypeIndex = nodes === undefined ? {} : _(nodes).groupBy('type').value();
+    this.edgeTypeIndex = edges === undefined ? {} : _(edges).groupBy('type').value();}
 
 
 
@@ -18,7 +23,11 @@ Graph = (function () {
     node) {
       var res = _.assign(_.omit(_.omit(_.clone(node), 'id'), 'finished'), { 
         id: _.uniqueId('node_'), 
-        finished: false });
+        finished: false, 
+        incomingEdges: [], 
+        outgoingEdges: [], 
+        incomingEdgeTypeIndex: {}, 
+        outgoingEdgeTypeIndex: {} });
 
       this.nodes.push(res);
       return res;} }, { key: 'addEdge', value: function addEdge(
@@ -30,38 +39,17 @@ Graph = (function () {
         finished: false });
 
       this.edges.push(res);
-      return res;} }, { key: 'oldAddNode', value: function oldAddNode(
-
-
-    type, data, ports) {
-      var res = { 
-        type: type, 
-        id: _.uniqueId(type + '_'), 
-        content: data, 
-        ports: ports, 
-        finished: false };
-
-      this.nodes.push(res);
-      return res;} }, { key: 'oldaddEdge', value: function oldaddEdge(
-
-
-    type, data, nodeA, nodeB, indexA, indexB) {
-      var res = { 
-        type: type, 
-        id: _.uniqueId(type + '_'), 
-        finished: false, 
-        content: data, 
-        from: { 
-          node: nodeA, 
-          index: indexA }, 
-
-        to: { 
-          node: nodeB, 
-          index: indexB } };
-
-
-      this.edges.push(res);
+      // Update index of nodes at each end
+      // If the index for this type does not exist we create it
+      if (res.from.node.outgoingEdgeTypeIndex[res.type] === undefined) res.from.node.outgoingEdgeTypeIndex[res.type] = [];
+      res.from.node.outgoingEdges.push(res);
+      res.from.node.outgoingEdgeTypeIndex[res.type].push(res);
+      // If the index for this type does not exist we create it
+      if (res.to.node.incomingEdgeTypeIndex[res.type] === undefined) res.to.node.incomingEdgeTypeIndex[res.type] = [];
+      res.to.node.incomingEdges.push(res);
+      res.to.node.incomingEdgeTypeIndex[res.type].push(res);
       return res;}
+
 
 
     ///////////////////////////////////////////////////////////////////////////////
@@ -173,11 +161,33 @@ Graph = (function () {
 
     // Check if an edge is finished
   }, { key: 'edgeIsFinished', value: function edgeIsFinished(e) {
-      return e.finished === true || e.to.node.finished === true || e.from.node.finished === true;} }, { key: 'edgeIsNotFinished', value: function edgeIsNotFinished(
+      return e.finished === true || this.nodeIsFinished(e.to.node) || this.nodeIsFinished(e.from.node);} }, { key: 'edgeIsNotFinished', value: function edgeIsNotFinished(
 
 
     e) {
       return !this.edgeIsFinished(e);}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 

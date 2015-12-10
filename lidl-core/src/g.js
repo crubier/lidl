@@ -2,6 +2,9 @@
 
 let _ = require('lodash');
 
+
+
+
 class Graph {
 
 
@@ -9,6 +12,8 @@ class Graph {
   constructor(nodes, edges) {
     this.nodes = nodes === undefined ? [] : nodes;
     this.edges = edges === undefined ? [] : edges;
+    this.nodeTypeIndex = nodes === undefined ? {} : _(nodes).groupBy('type').value();
+    this.edgeTypeIndex = edges === undefined ? {} : _(edges).groupBy('type').value();
   }
 
 
@@ -18,7 +23,11 @@ class Graph {
   addNode(node) {
     var res = _.assign( _.omit(_.omit(_.clone(node), 'id'),'finished'),{
       id: _.uniqueId('node_'),
-      finished: false
+      finished: false,
+      incomingEdges:[],
+      outgoingEdges:[],
+      incomingEdgeTypeIndex:{},
+      outgoingEdgeTypeIndex:{}
     });
     this.nodes.push(res);
     return res;
@@ -30,39 +39,18 @@ class Graph {
       finished: false
     });
     this.edges.push(res);
+    // Update index of nodes at each end
+    // If the index for this type does not exist we create it
+    if(res.from.node.outgoingEdgeTypeIndex[res.type]===undefined)res.from.node.outgoingEdgeTypeIndex[res.type]=[];
+    res.from.node.outgoingEdges.push(res);
+    res.from.node.outgoingEdgeTypeIndex[res.type].push(res);
+    // If the index for this type does not exist we create it
+    if(res.to.node.incomingEdgeTypeIndex[res.type]===undefined)res.to.node.incomingEdgeTypeIndex[res.type]=[];
+    res.to.node.incomingEdges.push(res);
+    res.to.node.incomingEdgeTypeIndex[res.type].push(res);
     return res;
   }
 
-  oldAddNode(type, data, ports) {
-    var res = {
-      type: type,
-      id: _.uniqueId(type + '_'),
-      content: data,
-      ports: ports,
-      finished: false
-    };
-    this.nodes.push(res);
-    return res;
-  }
-
-  oldaddEdge(type, data, nodeA, nodeB, indexA, indexB) {
-    var res = {
-      type: type,
-      id: _.uniqueId(type + '_'),
-      finished: false,
-      content: data,
-      from: {
-        node: nodeA,
-        index: indexA
-      },
-      to: {
-        node: nodeB,
-        index: indexB
-      }
-    }
-    this.edges.push(res);
-    return res;
-  }
 
   ///////////////////////////////////////////////////////////////////////////////
   // Functions that match and do things "in parallel"
@@ -173,12 +161,34 @@ class Graph {
 
   // Check if an edge is finished
   edgeIsFinished(e) {
-    return e.finished === true || e.to.node.finished === true || e.from.node.finished === true;
+    return e.finished === true || this.nodeIsFinished(e.to.node) || this.nodeIsFinished(e.from.node);
   }
 
   edgeIsNotFinished(e) {
     return !(this.edgeIsFinished(e));
   }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
   ///////////////////////////////////////////////////////////////////////////////
