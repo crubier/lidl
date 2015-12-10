@@ -174,17 +174,17 @@ var cursor = function(mouse){
 
 ///////////////////////////////////////////////////////////////////////
 // Declaration of variables (Edges of the graph)
-var edge_7069 = inactive;
-var edge_7076 = inactive;
+var edge_7383 = inactive;
+var edge_7390 = inactive;
 
 ///////////////////////////////////////////////////////////////////////
 // Data flow processing (Nodes of the graph)
-// node_7056
-edge_7076 = active;
-// node_7031
-edge_7069=theInterface.theNumber;
-// node_7033
-theInterface.theResult=edge_7069;
+// node_7370
+edge_7390 = active;
+// node_7345
+edge_7383=theInterface.theNumber;
+// node_7347
+theInterface.theResult=edge_7383;
 
 
 ///////////////////////////////////////////////////////////////////////

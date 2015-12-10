@@ -19,10 +19,11 @@ createDataFlowDirection;var _lodash = require('lodash');var _lodash2 = _interopR
     type: 'InteractionInstanceOperand' }).
 
   forEach(function (theEdge) {
+    // if(theEdge.from.node.console.log(theEdge.from.node.content.operator);
     // console.log(theEdge.from.node.content.operator);
     // console.log(theEdge.from.node.ports);
     // console.log(theEdge.from.index);
-    if (_lodash2.default.isUndefined(theEdge.from.node.ports)) console.log('UUUUU' + theEdge.from.node.content.operator);
+    // if (_.isUndefined(theEdge.from.node.ports)) console.log('UUUUU' + theEdge.from.node.content.operator);
     var portOnOrigin = 
     _lodash2.default.cloneDeep(theEdge.from.node.ports[theEdge.from.index]);
     var portOnDestination = 
@@ -42,11 +43,11 @@ createDataFlowDirection;var _lodash = require('lodash');var _lodash2 = _interopR
       // console.log("X EDGE2 "+e+" "+theEdge.id +" "+ theEdge.from.index+" "+ portOnOrigin+" "+ theEdge.to.index + " " + portOnDestination);
     }
     if ((0, _ports.portIsOnlyMadeOf)(theEdge.from.ports, "in") && (0, _ports.portIsOnlyMadeOf)(theEdge.to.ports, "in")) {
-      // console.log("in to in situation on edge " +theEdge.id );
+      console.log("in to in situation on edge " + theEdge.id);
       graph.finish(theEdge);}
 
     if ((0, _ports.portIsOnlyMadeOf)(theEdge.from.ports, "out") && (0, _ports.portIsOnlyMadeOf)(theEdge.to.ports, "out")) {
-      // console.log("out to out situation on edge " +theEdge.id + " from "+ theEdge.from.node.id+" to "+theEdge.to.node.id );
+      console.log("out to out situation on edge " + theEdge.id + " from " + theEdge.from.node.id + " to " + theEdge.to.node.id);
       graph.finish(theEdge);}}).
 
 

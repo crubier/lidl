@@ -1,7 +1,6 @@
 function transitionFunction(data){
 ///////////////////////////////////////////////////////////////////////
-//Standard LIDL Header
-
+// Standard LIDL Header (Standard JS function definitions)
 function clone(a) {if (!a) return a;var c, b = [Number, String, Boolean];if (b.forEach(function(b) { a instanceof b && (c = b(a)); }), "undefined" == typeof c) if ("[object Array]" === Object.prototype.toString.call(a)) c = [], a.forEach(function(a, b, d) { c[b] = clone(a); }); else if ("object" == typeof a) if (a.nodeType && "function" == typeof a.cloneNode) c = a.cloneNode(!0); else if (a.prototype) c = a; else if (a instanceof Date) c = new Date(a); else { c = {}; for (var d in a) c[d] = clone(a[d]); } else c = a; return c;}
 
 var theInterface = clone(data.inter);
@@ -11,9 +10,9 @@ var theArgs = clone(data.args);
 var active = "lidl_active_value";
 var inactive = null;
 
-///////////////////////////////////////////////////////////////////////
-//Custom LIDL Header
 
+///////////////////////////////////////////////////////////////////////
+// Custom LIDL Header (Custom JS function definitions)
 var isActive = function(x) {
   return (x !== null && x !== undefined);
 };
@@ -172,9 +171,9 @@ var cursor = function(mouse){
   return cursor;
 }
 
-///////////////////////////////////////////////////////////////////////
-//Declaration of variables
 
+///////////////////////////////////////////////////////////////////////
+// Declaration of variables (Edges of the graph)
 var edge_247 = inactive;
 var edge_248 = inactive;
 var edge_260 = inactive;
@@ -187,51 +186,38 @@ var edge_277 = inactive;
 var edge_279 = inactive;
 var edge_281 = inactive;
 var edge_283 = inactive;
+
 ///////////////////////////////////////////////////////////////////////
-//Code of the DAG
-
-edge_283 = inactive; //Fake sender node
-
-edge_281 = inactive; //Fake sender node
-
+// Data flow processing (Nodes of the graph)
+// node_244
 edge_248 = cursor;
-
+// node_241
 edge_247 = active;
-
+// node_195
 edge_279=theInterface.mouse.wheel.z;
-
-// We dont care about edge_279, this is a fake receiver node
-
+// node_193
 edge_277=theInterface.mouse.wheel.y;
-
-// We dont care about edge_277, this is a fake receiver node
-
+// node_191
 edge_275=theInterface.mouse.wheel.x;
-
-// We dont care about edge_275, this is a fake receiver node
-
+// node_185
 edge_273=theInterface.mouse.position.y;
-
-// We dont care about edge_273, this is a fake receiver node
-
+// node_183
 edge_271=theInterface.mouse.position.x;
-
-// We dont care about edge_271, this is a fake receiver node
-
+// node_181
 edge_266=theInterface.mouse.buttons;
-
+// node_265
 edge_269 = {};
 edge_269['buttons'] = edge_266;
 edge_269['position'] = edge_281;
 edge_269['wheel'] = edge_283;
-
+// node_246
 if(edge_247 === active && edge_248!==null && edge_248!==undefined) {edge_260 = edge_248(edge_269);}
-
+// node_207
 theInterface.graphics=edge_260;
 
-///////////////////////////////////////////////////////////////////////
-//Return statement
 
+///////////////////////////////////////////////////////////////////////
+// Return statement
   return {
       memo: {},
       state: nextState,

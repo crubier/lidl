@@ -19,10 +19,11 @@ export default function createDataFlowDirection(graph) {
       type: 'InteractionInstanceOperand'
     })
     .forEach((theEdge) => {
+// if(theEdge.from.node.console.log(theEdge.from.node.content.operator);
       // console.log(theEdge.from.node.content.operator);
       // console.log(theEdge.from.node.ports);
       // console.log(theEdge.from.index);
-      if (_.isUndefined(theEdge.from.node.ports)) console.log('UUUUU' + theEdge.from.node.content.operator);
+      // if (_.isUndefined(theEdge.from.node.ports)) console.log('UUUUU' + theEdge.from.node.content.operator);
       let portOnOrigin =
         _.cloneDeep(theEdge.from.node.ports[theEdge.from.index]);
       let portOnDestination =
@@ -42,11 +43,11 @@ export default function createDataFlowDirection(graph) {
         // console.log("X EDGE2 "+e+" "+theEdge.id +" "+ theEdge.from.index+" "+ portOnOrigin+" "+ theEdge.to.index + " " + portOnDestination);
       }
       if (portIsOnlyMadeOf(theEdge.from.ports, "in") && portIsOnlyMadeOf(theEdge.to.ports, "in")) {
-        // console.log("in to in situation on edge " +theEdge.id );
+        console.log("in to in situation on edge " +theEdge.id );
         graph.finish(theEdge);
       }
       if (portIsOnlyMadeOf(theEdge.from.ports, "out") && portIsOnlyMadeOf(theEdge.to.ports, "out")) {
-        // console.log("out to out situation on edge " +theEdge.id + " from "+ theEdge.from.node.id+" to "+theEdge.to.node.id );
+        console.log("out to out situation on edge " +theEdge.id + " from "+ theEdge.from.node.id+" to "+theEdge.to.node.id );
         graph.finish(theEdge);
       }
     })

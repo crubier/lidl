@@ -60,10 +60,14 @@ export default function nonMatchingCompositionCompilation(graph) {
       // .reject(theEdge=>_.isUndefined(theEdge.from.compositionElementName))
       .forEach(theEdge=>{
         graph
-        .addEdge({type:'InteractionInstanceOperand',from:{
-node:newNode,
-index:theEdge.from.index,
-port:(isCompo?((theEdge.from.index===0)?'out':'in'):((theEdge.from.index===0)?'in':'out'))},to:theEdge.to});})
+        .addEdge({
+          type:'InteractionInstanceOperand',
+          from:{
+            node:newNode,
+            index:theEdge.from.index,
+            port:(isCompo?((theEdge.from.index===0)?'out':'in'):((theEdge.from.index===0)?'in':'out'))},
+          to:theEdge.to});
+        })
       .commit();
 
       graph

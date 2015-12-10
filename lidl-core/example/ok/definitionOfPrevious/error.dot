@@ -1,28 +1,24 @@
-digraph g{node_4443 [shape="box", style="filled", color="#dff1f2", fontname="Courier", label="<%=a0%>=theInterface.theNumber;
+digraph g{node_4185 [shape="box", style="filled", color="#dff1f2", fontname="Courier", label="<%=a0%>=theInterface.theNumber;
 " ]
-node_4445 [shape="box", style="filled", color="#dff1f2", fontname="Courier", label="theInterface.theResult=<%=a0%>;
+node_4187 [shape="box", style="filled", color="#dff1f2", fontname="Courier", label="theInterface.theResult=<%=a0%>;
 " ]
-node_4476 [shape="box", style="filled", color="#dff1f2", fontname="Courier", label="<%=a0%> = active;
+node_4189 [shape="ellipse", style="filled", color="#ffde2f", fontname="Times", label="{theNumber:$theResult:$}" ]
+node_4210 [shape="ellipse", style="filled", color="#ffde2f", fontname="Times", label="{theNumber:$theResult:$}" ]
+node_4218 [shape="box", style="filled", color="#dff1f2", fontname="Courier", label="<%=a0%> = active;
 " ]
-node_4480 [shape="box", style="filled", color="#dff1f2", fontname="Courier", label="if(<%=a0%> === active) {
-<%=a1%> = previousState['state_4479'];
+node_4222 [shape="box", style="filled", color="#dff1f2", fontname="Courier", label="if(<%=a0%> === active) {
+<%=a1%> = previousState['state_4221'];
 }
 " ]
-node_4483 [shape="box", style="filled", color="#dff1f2", fontname="Courier", label="if(<%=a0%> === active) {
-nextState['state_4479'] = <%=a1%>;
+node_4225 [shape="box", style="filled", color="#dff1f2", fontname="Courier", label="if(<%=a0%> === active) {
+nextState['state_4221'] = <%=a1%>;
 }
 " ]
-node_4500 [shape="box", style="filled", color="#dff1f2", fontname="Courier", label="<%=a1%> = <%=a0%>;
-<%=a2%> = <%=a0%>;
-" ]
-node_4443 -> node_4483 [dir=forward, arrowHead=normal, fontname="Times-Italic", arrowsize=1, color="#ddd2ff", label="",  headlabel="", taillabel="" ]
-node_4480 -> node_4445 [dir=forward, arrowHead=normal, fontname="Times-Italic", arrowsize=1, color="#ddd2ff", label="",  headlabel="", taillabel="" ]
-node_4500 -> node_4480 [dir=forward, arrowHead=normal, fontname="Times-Italic", arrowsize=1, color="#ddd2ff", label="",  headlabel="", taillabel="" ]
-node_4500 -> node_4483 [dir=forward, arrowHead=normal, fontname="Times-Italic", arrowsize=1, color="#ddd2ff", label="",  headlabel="", taillabel="" ]
-node_4476 -> node_4500 [dir=forward, arrowHead=normal, fontname="Times-Italic", arrowsize=1, color="#ddd2ff", label="",  headlabel="", taillabel="" ]
-node_4483 -> node_4443 [dir=none, arrowHead=none, fontname="Times-Italic", arrowsize=1, color="#9d8400", label="",  headlabel="0: out", taillabel="1: in" ]
-node_4480 -> node_4445 [dir=none, arrowHead=none, fontname="Times-Italic", arrowsize=1, color="#9d8400", label="",  headlabel="0: in", taillabel="1: out" ]
-node_4476 -> node_4500 [dir=none, arrowHead=none, fontname="Times-Italic", arrowsize=1, color="#9d8400", label="",  headlabel="0: in", taillabel="0: out" ]
-node_4500 -> node_4480 [dir=none, arrowHead=none, fontname="Times-Italic", arrowsize=1, color="#9d8400", label="",  headlabel="0: in", taillabel="1: out" ]
-node_4500 -> node_4483 [dir=none, arrowHead=none, fontname="Times-Italic", arrowsize=1, color="#9d8400", label="",  headlabel="0: in", taillabel="2: out" ]
+node_4189 -> node_4185 [dir=none, arrowHead=none, fontname="Times-Italic", arrowsize=1, color="#9d8400", label="",  headlabel="0", taillabel="1: theNumber" ]
+node_4189 -> node_4187 [dir=none, arrowHead=none, fontname="Times-Italic", arrowsize=1, color="#9d8400", label="",  headlabel="0", taillabel="2: theResult" ]
+node_4210 -> node_4189 [dir=none, arrowHead=none, fontname="Times-Italic", arrowsize=1, color="#9d8400", label="",  headlabel="0", taillabel="0" ]
+node_4222 -> node_4218 [dir=none, arrowHead=none, fontname="Times-Italic", arrowsize=1, color="#9d8400", label="",  headlabel="0", taillabel="0" ]
+node_4222 -> node_4210 [dir=none, arrowHead=none, fontname="Times-Italic", arrowsize=1, color="#9d8400", label="",  headlabel="2", taillabel="1" ]
+node_4225 -> node_4218 [dir=none, arrowHead=none, fontname="Times-Italic", arrowsize=1, color="#9d8400", label="",  headlabel="0", taillabel="0" ]
+node_4225 -> node_4210 [dir=none, arrowHead=none, fontname="Times-Italic", arrowsize=1, color="#9d8400", label="",  headlabel="1", taillabel="1" ]
 }

@@ -1,6 +1,6 @@
 {
   "name": "lidl-core",
-  "version": "0.8.6",
+  "version": "0.8.7",
   "description": "The LIDL Interaction Desccription Language",
   "main": "index.js",
   "scripts": {

@@ -1,5 +1,9 @@
 # LIDL changelog
 
+# 0.8.7
+
+- Ten-fold increase in compilation speed thanks to improved graph library
+
 # 0.8.6
 
 - Changed the active value from `1`to `"lidl_active_value"`;

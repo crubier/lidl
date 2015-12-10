@@ -60,10 +60,14 @@ nonMatchingCompositionCompilation;var _lodash = require('lodash');var _lodash2 =
     // .reject(theEdge=>_.isUndefined(theEdge.from.compositionElementName))
     .forEach(function (theEdge) {
       graph.
-      addEdge({ type: 'InteractionInstanceOperand', from: { 
+      addEdge({ 
+        type: 'InteractionInstanceOperand', 
+        from: { 
           node: newNode, 
           index: theEdge.from.index, 
-          port: isCompo ? theEdge.from.index === 0 ? 'out' : 'in' : theEdge.from.index === 0 ? 'in' : 'out' }, to: theEdge.to });}).
+          port: isCompo ? theEdge.from.index === 0 ? 'out' : 'in' : theEdge.from.index === 0 ? 'in' : 'out' }, 
+        to: theEdge.to });}).
+
     commit();
 
     graph.

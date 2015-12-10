@@ -13,21 +13,32 @@ var exec = require('child_process').exec;
 describe('lidl graph compiler', function () {
   // console.log('-------------------');
 
-  var exampleTestPath = 'example/ok';
-  var commonHeader = path.join(exampleTestPath, 'common.lidl.js');
 
-  _(fs.readdirSync(exampleTestPath)).
-  forEach(function (x) {
-    var ffile = path.join(exampleTestPath, x);
-    if (fs.statSync(ffile).isDirectory()) {
-      test(ffile);}
-    ;}).
+  var testPaths = [
+  'example/investigate'
+  // ,'example/ok'
+  // ,'example/nok'
+  ];
 
+
+  _(testPaths).
+  forEach(function (testPath) {
+    var header = path.join(testPath, 'common.lidl.js');
+    _(fs.readdirSync(testPath)).
+    forEach(function (x) {
+      var ffile = path.join(testPath, x);
+      if (fs.statSync(ffile).isDirectory()) {
+        test(ffile, header);}
+      ;}).
+
+    commit();}).
   commit();
 
 
+
+
   // This function compile a lidl file and compare its execution with a scenario
-  function test(file) {
+  function test(file, commonHeader) {
 
     function printGraph(graph, name) {
       fs.writeFileSync(path.join(file, name + '.dot'), graph.toDotDef(), { encoding: 'utf8' });
@@ -71,7 +82,13 @@ describe('lidl graph compiler', function () {
       // removeOneSidedAffectation
       graphCompiler.compile(parser.parse(code)[0], header, { 
         createDataFlowDirection: function createDataFlowDirection(graph, data) {
-          printGraph(graph, 'createDataFlowDirection');return true;}, 
+          printGraph(graph, 'createDataFlowDirection' + data.iteration);return true;}, 
+
+        nonMatchingCompositionCompilation: function nonMatchingCompositionCompilation(graph, data) {
+          printGraph(graph, 'nonMatchingCompositionCompilation' + data.iteration);return true;}, 
+
+        removeOneSidedAffectation: function removeOneSidedAffectation(graph, data) {
+          printGraph(graph, 'removeOneSidedAffectation' + data.iteration);return true;}, 
 
         getJsCode: function getJsCode(graph, data) {
           fs.writeFileSync(path.join(file, 'generated.js'), data.source, { encoding: 'utf8' });

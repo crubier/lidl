@@ -1,11 +1,11 @@
 {
   "name": "lidl-cli",
-  "version": "0.8.5",
+  "version": "0.8.7",
   "description": "Lidl Command Line Interface",
   "main": "index.js",
   "dependencies": {
     "chalk": "^1.1.1",
-    "lidl-core": "^0.8.6",
+    "lidl-core": "^0.8.7",
     "yargs": "^3.31.0"
   },
   "devDependencies": {
