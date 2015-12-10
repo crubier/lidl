@@ -1,7 +1,6 @@
 function transitionFunction(data){
 ///////////////////////////////////////////////////////////////////////
-//Standard LIDL Header
-
+// Standard LIDL Header (Standard JS function definitions)
 function clone(a) {if (!a) return a;var c, b = [Number, String, Boolean];if (b.forEach(function(b) { a instanceof b && (c = b(a)); }), "undefined" == typeof c) if ("[object Array]" === Object.prototype.toString.call(a)) c = [], a.forEach(function(a, b, d) { c[b] = clone(a); }); else if ("object" == typeof a) if (a.nodeType && "function" == typeof a.cloneNode) c = a.cloneNode(!0); else if (a.prototype) c = a; else if (a instanceof Date) c = new Date(a); else { c = {}; for (var d in a) c[d] = clone(a[d]); } else c = a; return c;}
 
 var theInterface = clone(data.inter);
@@ -11,9 +10,9 @@ var theArgs = clone(data.args);
 var active = "lidl_active_value";
 var inactive = null;
 
-///////////////////////////////////////////////////////////////////////
-//Custom LIDL Header
 
+///////////////////////////////////////////////////////////////////////
+// Custom LIDL Header (Custom JS function definitions)
 var isActive = function(x) {
   return (x !== null && x !== undefined);
 };
@@ -172,9 +171,9 @@ var cursor = function(mouse){
   return cursor;
 }
 
-///////////////////////////////////////////////////////////////////////
-//Declaration of variables
 
+///////////////////////////////////////////////////////////////////////
+// Declaration of variables (Edges of the graph)
 var edge_1075 = inactive;
 var edge_1076 = inactive;
 var edge_1104 = inactive;
@@ -183,33 +182,34 @@ var edge_1106 = inactive;
 var edge_1108 = inactive;
 var edge_1109 = inactive;
 var edge_1110 = inactive;
+
 ///////////////////////////////////////////////////////////////////////
-//Code of the DAG
-
+// Data flow processing (Nodes of the graph)
+// node_1072
 edge_1076 = cool;
-
+// node_1069
 edge_1075 = active;
-
+// node_1015
 edge_1105=theInterface.theOther;
-
+// node_1013
 edge_1104=theInterface.theNumber;
-
+// node_1103
 edge_1106 = {};
 edge_1106['0'] = edge_1104;
 edge_1106['1'] = edge_1105;
-
+// node_1074
 if(edge_1075 === active && edge_1076!==null && edge_1076!==undefined) {edge_1110 = edge_1076(edge_1106);}
-
+// node_1107
 edge_1109 = edge_1110['sum'];
 edge_1108 = edge_1110['diff'];
-
+// node_1019
 theInterface.theLast=edge_1108;
-
+// node_1017
 theInterface.theResult=edge_1109;
 
-///////////////////////////////////////////////////////////////////////
-//Return statement
 
+///////////////////////////////////////////////////////////////////////
+// Return statement
   return {
       memo: {},
       state: nextState,

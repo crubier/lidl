@@ -1,7 +1,6 @@
 function transitionFunction(data){
 ///////////////////////////////////////////////////////////////////////
-//Standard LIDL Header
-
+// Standard LIDL Header (Standard JS function definitions)
 function clone(a) {if (!a) return a;var c, b = [Number, String, Boolean];if (b.forEach(function(b) { a instanceof b && (c = b(a)); }), "undefined" == typeof c) if ("[object Array]" === Object.prototype.toString.call(a)) c = [], a.forEach(function(a, b, d) { c[b] = clone(a); }); else if ("object" == typeof a) if (a.nodeType && "function" == typeof a.cloneNode) c = a.cloneNode(!0); else if (a.prototype) c = a; else if (a instanceof Date) c = new Date(a); else { c = {}; for (var d in a) c[d] = clone(a[d]); } else c = a; return c;}
 
 var theInterface = clone(data.inter);
@@ -11,9 +10,9 @@ var theArgs = clone(data.args);
 var active = "lidl_active_value";
 var inactive = null;
 
-///////////////////////////////////////////////////////////////////////
-//Custom LIDL Header
 
+///////////////////////////////////////////////////////////////////////
+// Custom LIDL Header (Custom JS function definitions)
 var isActive = function(x) {
   return (x !== null && x !== undefined);
 };
@@ -172,9 +171,9 @@ var cursor = function(mouse){
   return cursor;
 }
 
-///////////////////////////////////////////////////////////////////////
-//Declaration of variables
 
+///////////////////////////////////////////////////////////////////////
+// Declaration of variables (Edges of the graph)
 var edge_1972 = inactive;
 var edge_1977 = inactive;
 var edge_1978 = inactive;
@@ -187,43 +186,42 @@ var edge_1999 = inactive;
 var edge_2000 = inactive;
 var edge_2001 = inactive;
 var edge_2003 = inactive;
+
 ///////////////////////////////////////////////////////////////////////
-//Code of the DAG
-
+// Data flow processing (Nodes of the graph)
+// node_1968
 edge_1986 = 1;
-
+// node_1966
 edge_1977 = boolNot;
-
+// node_1964
 edge_1972 = isActive;
-
+// node_1957
 edge_1997 = active;
-
+// node_1996
 edge_1998 = edge_1997;
 edge_1999 = edge_1997;
 edge_2000 = edge_1997;
 edge_2001 = edge_1997;
-
+// node_1984
 if(edge_2001 === active) {
 nextState['state_1980'] = edge_1986;
 }
-
+// node_1981
 if(edge_2000 === active) {
 edge_1983 = previousState['state_1980'];
 }
-
+// node_1970
 if(edge_1998 === active && edge_1972!==null && edge_1972!==undefined) {edge_1978 = edge_1972(edge_1983);}
-
+// node_1975
 if(edge_1999 === active && edge_1977!==null && edge_1977!==undefined) {edge_1993 = edge_1977(edge_1978);}
-
+// node_1894
 theInterface.theResult=edge_1993;
-
+// node_1892
 edge_2003=theInterface.theNumber;
 
-// We dont care about edge_2003, this is a fake receiver node
 
 ///////////////////////////////////////////////////////////////////////
-//Return statement
-
+// Return statement
   return {
       memo: {},
       state: nextState,

@@ -33,6 +33,7 @@ export default function instantiateTemplates(graph) {
           let newNode =
           graph
           .addNode({type:'InteractionInstance',content:{type:"InteractionNative",content:"<%=a0%> = inactive; //Fake sender node\n"},shouldDoCodeGeneration:true,ports:['out']});
+          newNode.content = '// '+newNode.id+'\n' + newNode.content;
           edge =
           graph
           .addEdge({type:'InteractionInstanceOperand',from:{node:newNode,index:0,ports:'out'},to:{node:theNode,index:index,ports:port}});
@@ -42,11 +43,12 @@ export default function instantiateTemplates(graph) {
           let newNode =
           graph
           .addNode({type:'InteractionInstance',content:{type:"InteractionNative",content:"// We dont care about <%=a0%>, this is a fake receiver node\n"},shouldDoCodeGeneration:true,ports:['in']});
+          newNode.content = '// '+newNode.id+'\n' + newNode.content;
           edge =
           graph
           .addEdge({type:'InteractionInstanceOperand',to:{node:newNode,index:0,ports:'in'},from:{node:theNode,index:index,ports:port}});
         } else {
-          // console.log("Man this is too much for me, I am just a compiler");
+          throw new Error('A node of the DAG is missing a connexion with a composite interace');
         }
       }
       theArgs["a"+index]=edge.id;
@@ -55,7 +57,7 @@ export default function instantiateTemplates(graph) {
 
     if(shouldGenerate){
       // console.log(theArgs)
-      theNode.codeGeneration = {'js': _.template(theNode.content.content)(theArgs)};
+      theNode.codeGeneration = {'js': '// '+theNode.id+'\n' +_.template(theNode.content.content)(theArgs)};
       theNode.codeGenerated = true;
     }
 

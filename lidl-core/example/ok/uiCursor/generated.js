@@ -1,7 +1,6 @@
 function transitionFunction(data){
 ///////////////////////////////////////////////////////////////////////
-//Standard LIDL Header
-
+// Standard LIDL Header (Standard JS function definitions)
 function clone(a) {if (!a) return a;var c, b = [Number, String, Boolean];if (b.forEach(function(b) { a instanceof b && (c = b(a)); }), "undefined" == typeof c) if ("[object Array]" === Object.prototype.toString.call(a)) c = [], a.forEach(function(a, b, d) { c[b] = clone(a); }); else if ("object" == typeof a) if (a.nodeType && "function" == typeof a.cloneNode) c = a.cloneNode(!0); else if (a.prototype) c = a; else if (a instanceof Date) c = new Date(a); else { c = {}; for (var d in a) c[d] = clone(a[d]); } else c = a; return c;}
 
 var theInterface = clone(data.inter);
@@ -11,9 +10,9 @@ var theArgs = clone(data.args);
 var active = "lidl_active_value";
 var inactive = null;
 
-///////////////////////////////////////////////////////////////////////
-//Custom LIDL Header
 
+///////////////////////////////////////////////////////////////////////
+// Custom LIDL Header (Custom JS function definitions)
 var isActive = function(x) {
   return (x !== null && x !== undefined);
 };
@@ -172,29 +171,30 @@ var cursor = function(mouse){
   return cursor;
 }
 
-///////////////////////////////////////////////////////////////////////
-//Declaration of variables
 
+///////////////////////////////////////////////////////////////////////
+// Declaration of variables (Edges of the graph)
 var edge_8198 = inactive;
 var edge_8199 = inactive;
 var edge_8200 = inactive;
 var edge_8201 = inactive;
+
 ///////////////////////////////////////////////////////////////////////
-//Code of the DAG
-
+// Data flow processing (Nodes of the graph)
+// node_8195
 edge_8199 = cursor;
-
+// node_8192
 edge_8198 = active;
-
+// node_8182
 edge_8200=theArgs.mouse;
-
+// node_8197
 if(edge_8198 === active && edge_8199!==null && edge_8199!==undefined) {edge_8201 = edge_8199(edge_8200);}
-
+// node_8184
 theInterface=edge_8201;
 
-///////////////////////////////////////////////////////////////////////
-//Return statement
 
+///////////////////////////////////////////////////////////////////////
+// Return statement
   return {
       memo: {},
       state: nextState,

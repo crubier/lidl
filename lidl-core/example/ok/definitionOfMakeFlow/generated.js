@@ -1,7 +1,6 @@
 function transitionFunction(data){
 ///////////////////////////////////////////////////////////////////////
-//Standard LIDL Header
-
+// Standard LIDL Header (Standard JS function definitions)
 function clone(a) {if (!a) return a;var c, b = [Number, String, Boolean];if (b.forEach(function(b) { a instanceof b && (c = b(a)); }), "undefined" == typeof c) if ("[object Array]" === Object.prototype.toString.call(a)) c = [], a.forEach(function(a, b, d) { c[b] = clone(a); }); else if ("object" == typeof a) if (a.nodeType && "function" == typeof a.cloneNode) c = a.cloneNode(!0); else if (a.prototype) c = a; else if (a instanceof Date) c = new Date(a); else { c = {}; for (var d in a) c[d] = clone(a[d]); } else c = a; return c;}
 
 var theInterface = clone(data.inter);
@@ -11,9 +10,9 @@ var theArgs = clone(data.args);
 var active = "lidl_active_value";
 var inactive = null;
 
-///////////////////////////////////////////////////////////////////////
-//Custom LIDL Header
 
+///////////////////////////////////////////////////////////////////////
+// Custom LIDL Header (Custom JS function definitions)
 var isActive = function(x) {
   return (x !== null && x !== undefined);
 };
@@ -172,9 +171,9 @@ var cursor = function(mouse){
   return cursor;
 }
 
-///////////////////////////////////////////////////////////////////////
-//Declaration of variables
 
+///////////////////////////////////////////////////////////////////////
+// Declaration of variables (Edges of the graph)
 var edge_4200 = inactive;
 var edge_4201 = inactive;
 var edge_4222 = inactive;
@@ -213,30 +212,29 @@ var edge_4299 = inactive;
 var edge_4300 = inactive;
 var edge_4301 = inactive;
 var edge_4303 = inactive;
+
 ///////////////////////////////////////////////////////////////////////
-//Code of the DAG
-
-edge_4303 = inactive; //Fake sender node
-
+// Data flow processing (Nodes of the graph)
+// node_4190
 edge_4287 = 1;
-
+// node_4286
 edge_4288 = edge_4287;
 edge_4289 = edge_4287;
-
+// node_4187
 edge_4283 = ifThenElse;
-
+// node_4282
 edge_4284 = edge_4283;
 edge_4285 = edge_4283;
-
+// node_4185
 edge_4200 = boolNot;
-
+// node_4182
 edge_4279 = isActive;
-
+// node_4278
 edge_4280 = edge_4279;
 edge_4281 = edge_4279;
-
+// node_4165
 edge_4267 = active;
-
+// node_4266
 edge_4268 = edge_4267;
 edge_4269 = edge_4267;
 edge_4270 = edge_4267;
@@ -247,35 +245,35 @@ edge_4274 = edge_4267;
 edge_4275 = edge_4267;
 edge_4276 = edge_4267;
 edge_4277 = edge_4267;
-
+// node_4227
 if(edge_4275 === active) {
 edge_4254 = previousState['state_4226'];
 }
-
+// node_4223
 if(edge_4274 === active) {
 nextState['state_4219'] = edge_4288;
 }
-
+// node_4220
 if(edge_4273 === active) {
 edge_4222 = previousState['state_4219'];
 }
-
+// node_4193
 if(edge_4268 === active && edge_4280!==null && edge_4280!==undefined) {edge_4201 = edge_4280(edge_4222);}
-
+// node_4198
 if(edge_4269 === active && edge_4200!==null && edge_4200!==undefined) {edge_4252 = edge_4200(edge_4201);}
-
+// node_4250
 edge_4253 = {};
 edge_4253['cond'] = edge_4252;
 edge_4253['a'] = edge_4289;
 edge_4253['b'] = edge_4254;
-
+// node_4203
 if(edge_4270 === active && edge_4284!==null && edge_4284!==undefined) {edge_4257 = edge_4284(edge_4253);}
-
+// node_3981
 edge_4291=theInterface.theNumber;
-
+// node_4290
 edge_4297 = edge_4291;
 edge_4293 = edge_4291;
-
+// node_4294
 edge_4295=null;
 if(edge_4295===null ){
   edge_4295 = edge_4303;
@@ -285,30 +283,30 @@ if(edge_4295===null ){
   edge_4295 = edge_4297;
 } else if (edge_4297 !== null){
   throw ('error:multiple active assignments to the same signal edge_4295 : '+edge_4295 + ' and ' + edge_4297);
-}
+}// node_4208
 if(edge_4271 === active && edge_4281!==null && edge_4281!==undefined) {edge_4259 = edge_4281(edge_4295);}
-
+// node_4255
 edge_4260 = {};
 edge_4260['cond'] = edge_4259;
 edge_4260['a'] = edge_4293;
 edge_4260['b'] = edge_4257;
-
+// node_4214
 if(edge_4272 === active && edge_4285!==null && edge_4285!==undefined) {edge_4265 = edge_4285(edge_4260);}
-
+// node_4261
 if(edge_4277 === active) {edge_4299 = edge_4265;}
-
+// node_4298
 edge_4300 = edge_4299;
 edge_4301 = edge_4299;
-
+// node_4230
 if(edge_4276 === active) {
 nextState['state_4226'] = edge_4301;
 }
-
+// node_3983
 theInterface.theResult=edge_4300;
 
-///////////////////////////////////////////////////////////////////////
-//Return statement
 
+///////////////////////////////////////////////////////////////////////
+// Return statement
   return {
       memo: {},
       state: nextState,

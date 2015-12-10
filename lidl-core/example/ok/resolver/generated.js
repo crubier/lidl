@@ -1,7 +1,6 @@
 function transitionFunction(data){
 ///////////////////////////////////////////////////////////////////////
-//Standard LIDL Header
-
+// Standard LIDL Header (Standard JS function definitions)
 function clone(a) {if (!a) return a;var c, b = [Number, String, Boolean];if (b.forEach(function(b) { a instanceof b && (c = b(a)); }), "undefined" == typeof c) if ("[object Array]" === Object.prototype.toString.call(a)) c = [], a.forEach(function(a, b, d) { c[b] = clone(a); }); else if ("object" == typeof a) if (a.nodeType && "function" == typeof a.cloneNode) c = a.cloneNode(!0); else if (a.prototype) c = a; else if (a instanceof Date) c = new Date(a); else { c = {}; for (var d in a) c[d] = clone(a[d]); } else c = a; return c;}
 
 var theInterface = clone(data.inter);
@@ -11,9 +10,9 @@ var theArgs = clone(data.args);
 var active = "lidl_active_value";
 var inactive = null;
 
-///////////////////////////////////////////////////////////////////////
-//Custom LIDL Header
 
+///////////////////////////////////////////////////////////////////////
+// Custom LIDL Header (Custom JS function definitions)
 var isActive = function(x) {
   return (x !== null && x !== undefined);
 };
@@ -172,9 +171,9 @@ var cursor = function(mouse){
   return cursor;
 }
 
-///////////////////////////////////////////////////////////////////////
-//Declaration of variables
 
+///////////////////////////////////////////////////////////////////////
+// Declaration of variables (Edges of the graph)
 var edge_7241 = inactive;
 var edge_7245 = inactive;
 var edge_7246 = inactive;
@@ -184,23 +183,22 @@ var edge_7253 = inactive;
 var edge_7254 = inactive;
 var edge_7255 = inactive;
 var edge_7257 = inactive;
+
 ///////////////////////////////////////////////////////////////////////
-//Code of the DAG
-
+// Data flow processing (Nodes of the graph)
+// node_7173
 edge_7257 = active;
-
-// We dont care about edge_7257, this is a fake receiver node
-
+// node_7143
 edge_7249=theInterface.theOther;
-
+// node_7248
 edge_7255 = edge_7249;
 edge_7251 = edge_7249;
-
+// node_7141
 edge_7241=theInterface.theNumber;
-
+// node_7240
 edge_7254 = edge_7241;
 edge_7246 = edge_7241;
-
+// node_7252
 edge_7253=null;
 if(edge_7253===null ){
   edge_7253 = edge_7254;
@@ -210,9 +208,9 @@ if(edge_7253===null ){
   edge_7253 = edge_7255;
 } else if (edge_7255 !== null){
   throw ('error:multiple active assignments to the same signal edge_7253 : '+edge_7253 + ' and ' + edge_7255);
-}
+}// node_7145
 theInterface.theResult=edge_7253;
-
+// node_7244
 edge_7245=null;
 if(edge_7245===null ){
   edge_7245 = edge_7246;
@@ -222,12 +220,12 @@ if(edge_7245===null ){
   edge_7245 = edge_7251;
 } else if (edge_7251 !== null){
   throw ('error:multiple active assignments to the same signal edge_7245 : '+edge_7245 + ' and ' + edge_7251);
-}
+}// node_7147
 theInterface.theLast=edge_7245;
 
-///////////////////////////////////////////////////////////////////////
-//Return statement
 
+///////////////////////////////////////////////////////////////////////
+// Return statement
   return {
       memo: {},
       state: nextState,

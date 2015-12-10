@@ -1,7 +1,6 @@
 function transitionFunction(data){
 ///////////////////////////////////////////////////////////////////////
-//Standard LIDL Header
-
+// Standard LIDL Header (Standard JS function definitions)
 function clone(a) {if (!a) return a;var c, b = [Number, String, Boolean];if (b.forEach(function(b) { a instanceof b && (c = b(a)); }), "undefined" == typeof c) if ("[object Array]" === Object.prototype.toString.call(a)) c = [], a.forEach(function(a, b, d) { c[b] = clone(a); }); else if ("object" == typeof a) if (a.nodeType && "function" == typeof a.cloneNode) c = a.cloneNode(!0); else if (a.prototype) c = a; else if (a instanceof Date) c = new Date(a); else { c = {}; for (var d in a) c[d] = clone(a[d]); } else c = a; return c;}
 
 var theInterface = clone(data.inter);
@@ -11,9 +10,9 @@ var theArgs = clone(data.args);
 var active = "lidl_active_value";
 var inactive = null;
 
-///////////////////////////////////////////////////////////////////////
-//Custom LIDL Header
 
+///////////////////////////////////////////////////////////////////////
+// Custom LIDL Header (Custom JS function definitions)
 var isActive = function(x) {
   return (x !== null && x !== undefined);
 };
@@ -172,9 +171,9 @@ var cursor = function(mouse){
   return cursor;
 }
 
-///////////////////////////////////////////////////////////////////////
-//Declaration of variables
 
+///////////////////////////////////////////////////////////////////////
+// Declaration of variables (Edges of the graph)
 var edge_6424 = inactive;
 var edge_6425 = inactive;
 var edge_6427 = inactive;
@@ -182,29 +181,30 @@ var edge_6431 = inactive;
 var edge_6433 = inactive;
 var edge_6434 = inactive;
 var edge_6435 = inactive;
+
 ///////////////////////////////////////////////////////////////////////
-//Code of the DAG
-
+// Data flow processing (Nodes of the graph)
+// node_6420
 edge_6433 = 9;
-
+// node_6432
 edge_6434 = edge_6433;
 edge_6435 = edge_6433;
-
+// node_6428
 edge_6431 = {};
 edge_6431['0'] = edge_6434;
 edge_6431['1'] = edge_6435;
-
+// node_6418
 edge_6425 = addition;
-
+// node_6415
 edge_6424 = active;
-
+// node_6423
 if(edge_6424 === active && edge_6425!==null && edge_6425!==undefined) {edge_6427 = edge_6425(edge_6431);}
-
+// node_6386
 theInterface=edge_6427;
 
-///////////////////////////////////////////////////////////////////////
-//Return statement
 
+///////////////////////////////////////////////////////////////////////
+// Return statement
   return {
       memo: {},
       state: nextState,

@@ -8,9 +8,8 @@ export default function getJsCode(graph, header) {
   graph
   .matchNodes({type:'InteractionInstance',codeGenerated:true,hasExecutionOrder:true})
   .sortBy('executionOrder')
-  .pluck('codeGeneration')
-  .pluck('js')
-  .join('\n');
+  .map(n=>n.codeGeneration.js)
+  .join('');
 
   var edgeTemplate = _.template("var <%=id%> = inactive;");
   var edgesCode =
@@ -39,19 +38,19 @@ export default function getJsCode(graph, header) {
 
   var transTemplate = "\
 ///////////////////////////////////////////////////////////////////////\n\
-//Standard LIDL Header\n\n\
-<%= standardHeader%>\n\
+// Standard LIDL Header (Standard JS function definitions)\n\
+<%= standardHeader%>\n\n\
 ///////////////////////////////////////////////////////////////////////\n\
-//Custom LIDL Header\n\n\
-<%= customHeader%>\n\
+// Custom LIDL Header (Custom JS function definitions)\n\
+<%= customHeader%>\n\n\
 ///////////////////////////////////////////////////////////////////////\n\
-//Declaration of variables\n\n\
-<%= edgesCode%>\n\
+// Declaration of variables (Edges of the graph)\n\
+<%= edgesCode%>\n\n\
 ///////////////////////////////////////////////////////////////////////\n\
-//Code of the DAG\n\n\
-<%= nodesCode%>\n\
+// Data flow processing (Nodes of the graph)\n\
+<%= nodesCode%>\n\n\
 ///////////////////////////////////////////////////////////////////////\n\
-//Return statement\n\n\
+// Return statement\n\
   return {\n\
       memo: {},\n\
       state: nextState,\n\

@@ -1,7 +1,6 @@
 function transitionFunction(data){
 ///////////////////////////////////////////////////////////////////////
-//Standard LIDL Header
-
+// Standard LIDL Header (Standard JS function definitions)
 function clone(a) {if (!a) return a;var c, b = [Number, String, Boolean];if (b.forEach(function(b) { a instanceof b && (c = b(a)); }), "undefined" == typeof c) if ("[object Array]" === Object.prototype.toString.call(a)) c = [], a.forEach(function(a, b, d) { c[b] = clone(a); }); else if ("object" == typeof a) if (a.nodeType && "function" == typeof a.cloneNode) c = a.cloneNode(!0); else if (a.prototype) c = a; else if (a instanceof Date) c = new Date(a); else { c = {}; for (var d in a) c[d] = clone(a[d]); } else c = a; return c;}
 
 var theInterface = clone(data.inter);
@@ -11,9 +10,9 @@ var theArgs = clone(data.args);
 var active = "lidl_active_value";
 var inactive = null;
 
-///////////////////////////////////////////////////////////////////////
-//Custom LIDL Header
 
+///////////////////////////////////////////////////////////////////////
+// Custom LIDL Header (Custom JS function definitions)
 var isActive = function(x) {
   return (x !== null && x !== undefined);
 };
@@ -172,9 +171,9 @@ var cursor = function(mouse){
   return cursor;
 }
 
-///////////////////////////////////////////////////////////////////////
-//Declaration of variables
 
+///////////////////////////////////////////////////////////////////////
+// Declaration of variables (Edges of the graph)
 var edge_8052 = inactive;
 var edge_8054 = inactive;
 var edge_8062 = inactive;
@@ -186,41 +185,42 @@ var edge_8071 = inactive;
 var edge_8073 = inactive;
 var edge_8074 = inactive;
 var edge_8075 = inactive;
+
 ///////////////////////////////////////////////////////////////////////
-//Code of the DAG
-
+// Data flow processing (Nodes of the graph)
+// node_8048
 edge_8052 = addition;
-
+// node_8042
 edge_8068 = active;
-
+// node_8067
 edge_8069 = edge_8068;
 edge_8070 = edge_8068;
 edge_8071 = edge_8068;
-
+// node_8056
 if(edge_8070 === active) {
 edge_8073 = previousState['state_8055'];
 }
-
+// node_8072
 edge_8074 = edge_8073;
 edge_8075 = edge_8073;
-
+// node_8063
 edge_8064 = {};
 edge_8064['0'] = edge_8074;
 edge_8064['1'] = edge_8075;
-
+// node_8050
 if(edge_8069 === active && edge_8052!==null && edge_8052!==undefined) {edge_8054 = edge_8052(edge_8064);}
-
+// node_8033
 theInterface=edge_8054;
-
+// node_8031
 edge_8062=theArgs.a;
-
+// node_8060
 if(edge_8071 === active) {
 nextState['state_8055'] = edge_8062;
 }
 
-///////////////////////////////////////////////////////////////////////
-//Return statement
 
+///////////////////////////////////////////////////////////////////////
+// Return statement
   return {
       memo: {},
       state: nextState,
