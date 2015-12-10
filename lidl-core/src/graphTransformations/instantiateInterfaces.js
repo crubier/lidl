@@ -128,7 +128,7 @@ let prefix = interfacNode.name;
       // for each child element
       _(nodeOfElement)
       .forEach((x) => {
-        rootNode.ports[x.index]=x.node.ports;
+        rootNode.ports[x.index]=x.node.ports[0];
         graph
         .addEdge({type:'InteractionInstanceOperand',content:interfac, from:{node: rootNode,index:x.index,compositionElementName:interfac.element[x.index-1].key}, to:{node:x.node,index:0}})})
       .commit();

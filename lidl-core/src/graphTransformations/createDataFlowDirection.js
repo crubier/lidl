@@ -42,12 +42,13 @@ export default function createDataFlowDirection(graph) {
       } catch (e) {
         // console.log("X EDGE2 "+e+" "+theEdge.id +" "+ theEdge.from.index+" "+ portOnOrigin+" "+ theEdge.to.index + " " + portOnDestination);
       }
+      // console.log("EDGE3 "+theEdge.id +" "+ theEdge.from.index+" "+ portOnOrigin+" "+ theEdge.to.index + " " + portOnDestination);
       if (portIsOnlyMadeOf(theEdge.from.ports, "in") && portIsOnlyMadeOf(theEdge.to.ports, "in")) {
-        console.log("in to in situation on edge " +theEdge.id );
+        // console.log("in to in situation on edge " +theEdge.id );
         graph.finish(theEdge);
       }
       if (portIsOnlyMadeOf(theEdge.from.ports, "out") && portIsOnlyMadeOf(theEdge.to.ports, "out")) {
-        console.log("out to out situation on edge " +theEdge.id + " from "+ theEdge.from.node.id+" to "+theEdge.to.node.id );
+        // console.log("out to out situation on edge " +theEdge.id + " from "+ theEdge.from.node.id+" to "+theEdge.to.node.id );
         graph.finish(theEdge);
       }
     })

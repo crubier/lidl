@@ -1,0 +1,30 @@
+digraph g{node_1013 [shape="box", style="filled", color="#dff1f2", fontname="Courier", label="<%=a0%>=theInterface.theNumber;
+" ]
+node_1015 [shape="box", style="filled", color="#dff1f2", fontname="Courier", label="<%=a0%>=theInterface.theOther;
+" ]
+node_1017 [shape="box", style="filled", color="#dff1f2", fontname="Courier", label="theInterface.theResult=<%=a0%>;
+" ]
+node_1019 [shape="box", style="filled", color="#dff1f2", fontname="Courier", label="theInterface.theLast=<%=a0%>;
+" ]
+node_1069 [shape="box", style="filled", color="#dff1f2", fontname="Courier", label="<%=a0%> = active;
+" ]
+node_1072 [shape="box", style="filled", color="#dff1f2", fontname="Courier", label="<%=a0%> = cool;
+" ]
+node_1074 [shape="box", style="filled", color="#dff1f2", fontname="Courier", label="if(<%=a0%> === active && <%=a1%>!==null && <%=a1%>!==undefined) {<%=a3%> = <%=a1%>(<%=a2%>);}
+" ]
+node_1103 [shape="box", style="filled", color="#dff1f2", fontname="Courier", label="<%=a0%> = {};
+<%=a0%>['0'] = <%=a1%>;
+<%=a0%>['1'] = <%=a2%>;
+" ]
+node_1107 [shape="box", style="filled", color="#dff1f2", fontname="Courier", label="<%=a1%> = <%=a0%>['sum'];
+<%=a2%> = <%=a0%>['diff'];
+" ]
+node_1074 -> node_1069 [dir=none, arrowHead=none, fontname="Times-Italic", arrowsize=1, color="#9d8400", label="",  headlabel="0: out", taillabel="0: in" ]
+node_1074 -> node_1072 [dir=none, arrowHead=none, fontname="Times-Italic", arrowsize=1, color="#9d8400", label="",  headlabel="0: out", taillabel="1: in" ]
+node_1103 -> node_1013 [dir=none, arrowHead=none, fontname="Times-Italic", arrowsize=1, color="#9d8400", label="",  headlabel="0: out", taillabel="1" ]
+node_1103 -> node_1015 [dir=none, arrowHead=none, fontname="Times-Italic", arrowsize=1, color="#9d8400", label="",  headlabel="0: out", taillabel="2" ]
+node_1103 -> node_1074 [dir=none, arrowHead=none, fontname="Times-Italic", arrowsize=1, color="#9d8400", label="",  headlabel="2: in", taillabel="0" ]
+node_1107 -> node_1019 [dir=none, arrowHead=none, fontname="Times-Italic", arrowsize=1, color="#9d8400", label="",  headlabel="0: in", taillabel="2" ]
+node_1107 -> node_1017 [dir=none, arrowHead=none, fontname="Times-Italic", arrowsize=1, color="#9d8400", label="",  headlabel="0: in", taillabel="1" ]
+node_1107 -> node_1074 [dir=none, arrowHead=none, fontname="Times-Italic", arrowsize=1, color="#9d8400", label="",  headlabel="3: out", taillabel="0" ]
+}

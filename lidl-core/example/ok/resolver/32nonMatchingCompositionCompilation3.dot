@@ -1,0 +1,15 @@
+digraph g{node_8015 [shape="box", style="filled", color="#dff1f2", fontname="Courier", label="<%=a0%>=theInterface.theNumber;
+" ]
+node_8017 [shape="box", style="filled", color="#dff1f2", fontname="Courier", label="<%=a0%>=theInterface.theOther;
+" ]
+node_8019 [shape="box", style="filled", color="#dff1f2", fontname="Courier", label="theInterface.theResult=<%=a0%>;
+" ]
+node_8021 [shape="box", style="filled", color="#dff1f2", fontname="Courier", label="theInterface.theLast=<%=a0%>;
+" ]
+node_8047 [shape="box", style="filled", color="#dff1f2", fontname="Courier", label="<%=a0%> = active;
+" ]
+node_8021 -> node_8015 [dir=none, arrowHead=none, fontname="Times-Italic", arrowsize=1, color="#9d8400", label="",  headlabel="0: out", taillabel="0: in" ]
+node_8021 -> node_8017 [dir=none, arrowHead=none, fontname="Times-Italic", arrowsize=1, color="#9d8400", label="",  headlabel="0: out", taillabel="0: in" ]
+node_8015 -> node_8019 [dir=none, arrowHead=none, fontname="Times-Italic", arrowsize=1, color="#9d8400", label="",  headlabel="0: in", taillabel="0: out" ]
+node_8017 -> node_8019 [dir=none, arrowHead=none, fontname="Times-Italic", arrowsize=1, color="#9d8400", label="",  headlabel="0: in", taillabel="0: out" ]
+}

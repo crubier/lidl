@@ -870,6 +870,86 @@ fileName: 'example/ok/functionApplication',
 ]
 `
 },{
+    name: 'Less Problematic Definitionof If Then Else',
+fileName: 'example/ok/lessProblematicDefinitionofIfThenElse',
+     code : `interaction
+ (test (a:Number in)):{theNumber:Number in,theResult:Number out}
+with
+
+
+  interaction
+    ((a:Number in)==(b:Number in)):Boolean out
+  is
+    (
+      (variable result of (a)==(b))
+      with behaviour
+      (apply (function isEqual) to ({a:(a),b:(b)}) and get (variable result of (a)==(b)) )
+    )
+
+
+interaction
+    (when (cond:Boolean in) then (a:Activation out) else (b:Activation out)):Activation in
+  is
+    (
+      (variable activation of when (cond) then (a) else (b))
+      with behaviour
+      (
+        apply
+        (function whenThenElse)
+        to
+        ({  cond:(cond)  source:(variable activation of when (cond) then (a) else (b))   })
+        and get
+        ({a:(a) b:(b)})
+      )
+    )
+
+    interaction
+      (if (cond:Boolean in) then (a:Number in) else (b:Number in)):Number out
+    is
+    (
+      (variable result of if (cond) then (a) else (b))
+      with behaviour
+      (
+        when
+        (cond)
+        then
+        ((variable result of if (cond) then (a) else (b)) = (a))
+        else
+        ((variable result of if (cond) then (a) else (b)) = (b))
+      )
+    )
+
+is
+  (if((a)==(1))then({theNumber:(variable xzw),theResult:(variable xzw)})else({theNumber:(variable uvwys),theResult:(-8000)}))
+`,
+     scenario : `[
+  {
+    "args":  {"a":0},
+    "inter":  {"theNumber":4,"theResult":-8000}
+  },
+  {
+    "args":  {"a":1},
+    "inter":  {"theNumber":3,"theResult":3}
+  },
+  {
+    "args":  {"a":2},
+    "inter":  {"theNumber":5,"theResult":-8000}
+  },
+  {
+    "args":  {"a":3},
+    "inter":  {"theNumber":4,"theResult":-8000}
+  },
+  {
+    "args":  {"a":1},
+    "inter":  {"theNumber":59282,"theResult":59282}
+  },
+  {
+    "args":  {"a":1.1},
+    "inter":  {"theNumber":3.1,"theResult":-8000}
+  }
+]
+`
+},{
     name: 'Literals',
 fileName: 'example/ok/literals',
      code : `interaction (ok literal):Number out
@@ -1292,6 +1372,103 @@ is
             }, {
               "type": "close"
             }]
+          }
+        }
+      }
+    }
+  }
+}]
+`
+},{
+    name: 'Ui Empty With Cursor',
+fileName: 'example/ok/uiEmptyWithCursor',
+     code : `interaction
+  (empty UI with cursor):{
+        mouse: {
+          buttons: Number in,
+          position: {
+            x: Number in,
+            y: Number in
+          },
+          wheel: {
+            x: Number in,
+            y: Number in,
+            z: Number in
+          }
+        },
+        graphics: Graphics out
+      }
+
+with
+
+  interaction
+    (cursor of (mouse:Mouse in)):Graphics out
+  is
+    ((#cursor of (mouse))
+    with behaviour
+    ((function cursor)(mouse)=(#cursor of (mouse))))
+
+
+is
+  ({
+        mouse: (#mouse)
+        graphics: (cursor of (#mouse))
+  })
+`,
+     scenario : `[{
+  "args": {},
+  "inter": {
+    "mouse": {
+      "buttons": 0,
+      "position": {
+        "x": 42,
+        "y": 63
+      },
+      "wheel": {
+        "x": 0,
+        "y": 0,
+        "z": 0
+      }
+    },
+    "graphics": {
+      "type": "shadow",
+      "blur": 20,
+      "offset": {
+        "x": 0,
+        "y": 4
+      },
+      "color": "rgba(0, 0, 0, 0.5)",
+      "content": {
+        "type": "translate",
+        "x": 42,
+        "y": 63,
+        "content": {
+          "type": "scale",
+          "width": 1,
+          "height": 1,
+          "content": {
+            "type": "fill",
+            "style": "rgba(200, 0, 200, 1)",
+            "content": {
+              "type": "path",
+              "content": [{
+                "type": "begin"
+              }, {
+                "type": "move",
+                "x": 0,
+                "y": 0
+              }, {
+                "type": "line",
+                "x": 0,
+                "y": 15
+              }, {
+                "type": "line",
+                "x": 10.6,
+                "y": 10.6
+              }, {
+                "type": "close"
+              }]
+            }
           }
         }
       }

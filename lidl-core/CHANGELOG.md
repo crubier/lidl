@@ -1,5 +1,10 @@
 # LIDL changelog
 
+# 0.8.8
+
+- Fixed a bug during the interface instantiation phase
+
+
 # 0.8.7
 
 - Ten-fold increase in compilation speed thanks to improved graph library

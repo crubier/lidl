@@ -120,8 +120,8 @@ export default class Canvas extends Component {
     this.state = {
       mainInterfaceState: {
         dimension: {
-          width: this.props.width,
-          height: this.props.height
+          width: this.props.position.width,
+          height: this.props.position.height
         },
         time: 0,
         mouse: {
@@ -153,7 +153,7 @@ export default class Canvas extends Component {
           content: []
         }
       },
-      lidlOut:null
+      lidlOut:{memo:{},state:{},inter:{},args:{}}
     };
   }
 
@@ -277,6 +277,7 @@ var container=this.refs.container;
   }
 
   scenarioChanged() {
+    // console.log("Canvas");
     // Create the input interface
     let lidlIn = {
       memo:this.state.lidlOut.memo,
@@ -333,19 +334,37 @@ var container=this.refs.container;
     // FIN  CODE iii Canvas
     ///////////////////////////////////////////////////////////
 
+
+        if ( (this.props.code !==null)  && (this.props.code !== undefined)) {
+          // console.log("DidMount");
+          this.transitionFunction=new Function("data",this.props.code.partialSource.transitionFunction);
+          this.initializationFunction=new Function("data",this.props.code.partialSource.initializationFunction);
+          // console.log("OKOKOK");
+          // console.log(this.initializationFunction());
+          this.setState({lidlOut:this.initializationFunction()});
+        }
+
     this.resize({timeStamp:0});
+
+
+  }
+
+  componentWillReceiveProps (nextProps){
+    if ( (nextProps.code !==null)  && (nextProps.code !== undefined)) {
+      // console.log("WillReceiveProps");
+      this.transitionFunction=new Function("data",nextProps.code.partialSource.transitionFunction);
+      this.initializationFunction=new Function("data",nextProps.code.partialSource.initializationFunction);
+      // console.log("OKOKOK");
+      // console.log(this.initializationFunction());
+      this.setState({lidlOut:this.initializationFunction()});
     }
-
-
+  }
 
 
   render() {
-    this.transitionFunction=new Function("data",this.props.code.partialSource.transitionFunction);
-    this.initializationFunction=new Function("data",this.props.code.partialSource.initializationFunction);
-    this.setState({lidlOut:this.initializationFunction()});
-    if ( this.props.code ===null  || this.props.code ===undefined) {
-        return  <div style={{textAlign:'center'}}><CircularProgress style={{margin:"20px"}} mode="indeterminate"  /></div>;
-      } else  {
+    // if ( this.props.code ===null  || this.props.code ===undefined) {
+    //     return  <div style={{textAlign:'center'}}><CircularProgress style={{margin:"20px"}} mode="indeterminate"  /></div>;
+    //   } else  {
     return (
         <div ref="container" style={{overflow:'hidden',position:'absolute',top:'0',left:'0',bottom:'0',right:'0'}}>
           <canvas
@@ -356,6 +375,7 @@ var container=this.refs.container;
             width={this.state.mainInterfaceState.dimension.width}
             height={this.state.mainInterfaceState.dimension.height} ></canvas>
         </div>
-    );}
+    );
+    // }
   }
 }

@@ -100,10 +100,12 @@ graphTransformationPipeline = graphTransformationPipeline;var _g = require('./g.
   var newCallbacks = _lodash2.default.assign(_lodash2.default.clone(callbacks), { instantiateInterfaces: function instantiateInterfaces(graph, data) {callCallback('getExpandedLidlCode', (0, _getExpandedLidl2.default)(graph, rootDefinitionNode));return callCallback('instantiateInterfaces', data);}, referentialTransparencyInstances: function referentialTransparencyInstances(graph, data) {callCallback('getInteractionMetrics', (0, _getInteractionMetrics2.default)(graph));return callCallback('referentialTransparencyInstances', data);}, orderGraph: function orderGraph(graph, data) {callCallback('getJsCode', (0, _getJsCode2.default)(graph, header));return callCallback('orderGraph', data);} }); // Create a graph
   var graph = new _g2.default(); // Add the AST to it
   var rootDefinitionNode = (0, _addDefinitionToGraph2.default)(graph, ast); // Apply transformations to it
-  graphTransformationPipeline(graph, rootDefinitionNode, newCallbacks);return graph;}function graphTransformationPipeline(graph, rootDefinitionNode, callbacks) {// A function to properly call each callback correctly
+  graphTransformationPipeline(graph, rootDefinitionNode, newCallbacks);return graph;}function graphTransformationPipeline(graph, rootDefinitionNode, callbacks) {var step = 0; // A function to properly call each callback correctly
   function callCallback(element, data) {graph.clean(); // Also it cleans the graph
-    if (_lodash2.default.isUndefined(callbacks[element])) {return true; // No callback for this stage ? We continue compiling;
-    } else {var ret = callbacks[element](graph, _lodash2.default.isObject(data) ? _lodash2.default.assign({ stage: element }, data) : _lodash2.default.isUndefined(data) ? { stage: element } : data);if (_lodash2.default.isBoolean(ret)) {return ret;} else 
+    step = step + 1;if (_lodash2.default.isUndefined(callbacks[element])) {return true; // No callback for this stage ? We continue compiling;
+    } else {var ret = callbacks[element](graph, _lodash2.default.isObject(data) ? _lodash2.default.assign({ stage: element, step: step }, data) : _lodash2.default.isUndefined(data) ? { stage: element, step: step } : data);
+        if (_lodash2.default.isBoolean(ret)) {
+          return ret;} else 
         {
           throw new Error('Compilation stage callbacks should return a boolean (true to continue compilation, false to stop it), the callback for ' + element + ' returned ' + ret);}}}
 

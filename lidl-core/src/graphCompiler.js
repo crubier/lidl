@@ -95,13 +95,15 @@ export function compile(ast,header,callbacks){
 
 export function graphTransformationPipeline (graph,rootDefinitionNode,callbacks) {
 
+  var step = 0;
   // A function to properly call each callback correctly
   function callCallback(element,data) {
     graph.clean(); // Also it cleans the graph
+    step = step+1;
     if(_.isUndefined(callbacks[element])) {
       return true;// No callback for this stage ? We continue compiling;
     } else {
-      let ret = callbacks[element](graph,(_.isObject(data))?(_.assign({stage:element},data)):(_.isUndefined(data)?{stage:element}:data));
+      let ret = callbacks[element](graph,(_.isObject(data))?(_.assign({stage:element,step:step},data)):(_.isUndefined(data)?{stage:element,step:step}:data));
       if(_.isBoolean(ret)) {
         return ret;
       } else {

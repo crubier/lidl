@@ -39,15 +39,16 @@ createDataFlowDirection;var _lodash = require('lodash');var _lodash2 = _interopR
     try {
       theEdge.to.ports = (0, _ports.mergePortList)(portOnDestination, (0, _ports.conjugatePort)(portOnOrigin));
       // console.log("EDGE2 "+theEdge.id +" "+ theEdge.from.index+" "+ portOnOrigin+" "+ theEdge.to.index + " " + portOnDestination);
-    } catch (e) {
-      // console.log("X EDGE2 "+e+" "+theEdge.id +" "+ theEdge.from.index+" "+ portOnOrigin+" "+ theEdge.to.index + " " + portOnDestination);
-    }
+    } catch (e) {}
+    // console.log("X EDGE2 "+e+" "+theEdge.id +" "+ theEdge.from.index+" "+ portOnOrigin+" "+ theEdge.to.index + " " + portOnDestination);
+
+    // console.log("EDGE3 "+theEdge.id +" "+ theEdge.from.index+" "+ portOnOrigin+" "+ theEdge.to.index + " " + portOnDestination);
     if ((0, _ports.portIsOnlyMadeOf)(theEdge.from.ports, "in") && (0, _ports.portIsOnlyMadeOf)(theEdge.to.ports, "in")) {
-      console.log("in to in situation on edge " + theEdge.id);
+      // console.log("in to in situation on edge " +theEdge.id );
       graph.finish(theEdge);}
 
     if ((0, _ports.portIsOnlyMadeOf)(theEdge.from.ports, "out") && (0, _ports.portIsOnlyMadeOf)(theEdge.to.ports, "out")) {
-      console.log("out to out situation on edge " + theEdge.id + " from " + theEdge.from.node.id + " to " + theEdge.to.node.id);
+      // console.log("out to out situation on edge " +theEdge.id + " from "+ theEdge.from.node.id+" to "+theEdge.to.node.id );
       graph.finish(theEdge);}}).
 
 

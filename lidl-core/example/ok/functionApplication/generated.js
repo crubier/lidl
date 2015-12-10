@@ -174,23 +174,23 @@ var cursor = function(mouse){
 
 ///////////////////////////////////////////////////////////////////////
 // Declaration of variables (Edges of the graph)
-var edge_6487 = inactive;
-var edge_6488 = inactive;
-var edge_6499 = inactive;
-var edge_6500 = inactive;
+var edge_6168 = inactive;
+var edge_6169 = inactive;
+var edge_6180 = inactive;
+var edge_6181 = inactive;
 
 ///////////////////////////////////////////////////////////////////////
 // Data flow processing (Nodes of the graph)
-// node_6484
-edge_6488 = addOne;
-// node_6481
-edge_6487 = active;
-// node_6449
-edge_6499=theInterface.theNumber;
-// node_6486
-if(edge_6487 === active && edge_6488!==null && edge_6488!==undefined) {edge_6500 = edge_6488(edge_6499);}
-// node_6451
-theInterface.theResult=edge_6500;
+// node_6165
+edge_6169 = addOne;
+// node_6162
+edge_6168 = active;
+// node_6130
+edge_6180=theInterface.theNumber;
+// node_6167
+if(edge_6168 === active && edge_6169!==null && edge_6169!==undefined) {edge_6181 = edge_6169(edge_6180);}
+// node_6132
+theInterface.theResult=edge_6181;
 
 
 ///////////////////////////////////////////////////////////////////////

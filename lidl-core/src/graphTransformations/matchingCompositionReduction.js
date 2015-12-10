@@ -11,7 +11,9 @@ var Graph = require('../g.js');
 function findAllMatchingCompositionNodesAndTheirAffectationCondition(graph,node) {
 // TODO use
 
-  function visitTheAffectation(n) {
+  // Parameter fromWhichSide is 1 or 2, depending on which side of the "=" we are coming from.
+  // We visit only nodes on the other side of the "=" sign (hence the "3-fromWhichSide" expressions )
+  function visitTheAffectation(n,fromWhichSide) {
 
       n.temporarilyMarkedDuringCompositionTraversal = true;
 
@@ -24,14 +26,14 @@ function findAllMatchingCompositionNodesAndTheirAffectationCondition(graph,node)
           let compos =
           graph
           .matchUndirectedEdges({type: 'InteractionInstanceOperand',from:{node:n},to:{index:0,node:{type: 'InteractionInstance',unSuitableForCompositionReduction:false,content: {type: 'InteractionSimple',operatorType:'Composition'}}}})
-          .filter(e=>((e.from.index===1 || e.from.index===2)&& e.to.node.temporarilyMarkedDuringCompositionTraversal!==true ) )
+          .filter(e=>((e.from.index===(3-fromWhichSide) )&& e.to.node.temporarilyMarkedDuringCompositionTraversal!==true ) )
           .map(e=>({compositionNode:e.to.node,condition:conditionForCurrentAffectation}))
           .value();
 
           let otheraffects =
           graph
-          .matchUndirectedEdges({type: 'InteractionInstanceOperand',from:{node:n},to:{node:{type: 'InteractionInstance',content: {type: 'InteractionSimple',operatorType:'Affectation'}}}})
-          .filter(e=>(e.from.index===1 || e.from.index===2 )&& (e.to.index===1 || e.to.index===2 )&& e.to.node.temporarilyMarkedDuringCompositionTraversal!==true )
+          .matchUndirectedEdges({typae: 'InteractionInstanceOperand',from:{node:n},to:{node:{type: 'InteractionInstance',content: {type: 'InteractionSimple',operatorType:'Affectation'}}}})
+          .filter(e=>(e.from.index===(3-fromWhichSide) )&& (e.to.index===1 || e.to.index===2 )&& (e.to.node.temporarilyMarkedDuringCompositionTraversal!==true) )
           .map(e=> visitTheAffectation(e.to.node))
           .flatten()
           .map(x=>({compositionNode:x.compositionNode,condition:x.condition.concat(conditionForCurrentAffectation)}))
@@ -46,28 +48,28 @@ function findAllMatchingCompositionNodesAndTheirAffectationCondition(graph,node)
   node.temporarilyMarkedDuringCompositionTraversal = true;
   //
   let compos =
-          graph
-          .matchUndirectedEdges({type: 'InteractionInstanceOperand',from:{node:node,index:0},to:{index:0,node:{type: 'InteractionInstance',unSuitableForCompositionReduction:false,content: {type: 'InteractionSimple',operatorType:'Composition'}}}})
-          .map(e=>{
-  graph.finish(e);
-return{compositionNode:e.to.node,condition:[]};})
-          .value();
+    graph
+    .matchUndirectedEdges({type: 'InteractionInstanceOperand',from:{node:node,index:0},to:{index:0,node:{type: 'InteractionInstance',unSuitableForCompositionReduction:false,content: {type: 'InteractionSimple',operatorType:'Composition'}}}})
+    .map(e=>{
+      graph.finish(e);
+      return{compositionNode:e.to.node,condition:[]};})
+    .value();
 
-      let otheraffects =
-          graph
-          .matchUndirectedEdges({type: 'InteractionInstanceOperand',from:{node:node,index:0},to:{node:{type: 'InteractionInstance',content: {type: 'InteractionSimple',operatorType:'Affectation'}}}})
-          .filter(e=>(e.to.index===1 || e.to.index===2 ) )
-          .map(e=> {graph.finish(e);return visitTheAffectation(e.to.node);})
-          .flatten()
-          .value();
-
-
-      node.temporarilyMarkedDuringCompositionTraversal = false;
-
-    let res =  compos.concat(otheraffects);
+  let otheraffects =
+    graph
+    .matchUndirectedEdges({type: 'InteractionInstanceOperand',from:{node:node,index:0},to:{node:{type: 'InteractionInstance',content: {type: 'InteractionSimple',operatorType:'Affectation'}}}})
+    .filter(e=>(e.to.index===1 || e.to.index===2 ) )
+    .map(e=> {graph.finish(e);return visitTheAffectation(e.to.node,e.to.index);})
+    .flatten()
+    .value();
 
 
-return res;
+  node.temporarilyMarkedDuringCompositionTraversal = false;
+
+  let res =  compos.concat(otheraffects);
+
+
+  return res;
 
 
 // return compos;
@@ -76,7 +78,7 @@ return res;
 
 
 
-// TODO This Might eventually be the source of Bugs and has not been tested on edges cases
+//TODO This Might eventually be the source of Bugs and has not been tested on edges cases
 // Here we take several paths that go to composition interactions and simplfy them based on their conditions
 function simplifyPathExpression(graph,p) {
 
@@ -249,7 +251,7 @@ export default function matchingCompositionReduction(graph) {
 
             let intermedAffectation =
             graph
-            .addNode({type:'InteractionInstance',content:{type:'InteractionSimple',operator:'=',operatorType:'Affectation'},ports:['in']})
+            .addNode({type:'InteractionInstance',content:{type:'InteractionSimple',operator:'$=$',operatorType:'Affectation'},ports:['in']})
 
             graph
             .addEdge({type:'InteractionInstanceOperand',from:{node:n1,coCompositionElementName:e2.from.compositionElementName,isCoPort:true},to:{node:intermedAffectation,index:1}});

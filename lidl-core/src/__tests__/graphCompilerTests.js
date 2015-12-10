@@ -15,8 +15,9 @@ describe('lidl graph compiler', function() {
 
 
   var testPaths = [
-    'example/investigate'
-    // ,'example/ok'
+'example/ok'
+    // ,'example/investigate' 
+
     // ,'example/nok'
   ];
 
@@ -82,13 +83,13 @@ describe('lidl graph compiler', function() {
       // removeOneSidedAffectation
       graphCompiler.compile(parser.parse(code)[0],header,{
         createDataFlowDirection:function(graph,data){
-          printGraph(graph,'createDataFlowDirection'+data.iteration);return true;
+          printGraph(graph,data.step+'createDataFlowDirection'+data.iteration);return true;
         },
         nonMatchingCompositionCompilation:function(graph,data){
-          printGraph(graph,'nonMatchingCompositionCompilation'+data.iteration);return true;
+          printGraph(graph,data.step+'nonMatchingCompositionCompilation'+data.iteration);return true;
         },
         removeOneSidedAffectation:function(graph,data){
-          printGraph(graph,'removeOneSidedAffectation'+data.iteration);return true;
+          printGraph(graph,data.step+'removeOneSidedAffectation'+data.iteration);return true;
         },
         getJsCode:function(graph,data){
           fs.writeFileSync(path.join(file,'generated.js'), data.source, {encoding: 'utf8'});

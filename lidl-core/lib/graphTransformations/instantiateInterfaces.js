@@ -128,7 +128,7 @@ function instantiateInterface(graph, interfacNode) {
       // for each child element
       (0, _lodash2.default)(nodeOfElement).
       forEach(function (x) {
-        rootNode.ports[x.index] = x.node.ports;
+        rootNode.ports[x.index] = x.node.ports[0];
         graph.
         addEdge({ type: 'InteractionInstanceOperand', content: interfac, from: { node: rootNode, index: x.index, compositionElementName: interfac.element[x.index - 1].key }, to: { node: x.node, index: 0 } });}).
       commit();

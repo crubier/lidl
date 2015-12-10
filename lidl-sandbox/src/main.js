@@ -20,7 +20,6 @@ import ExpandedCodeViewer from'./ExpandedCodeViewer/ExpandedCodeViewer';
 
 import SmartContainer from './SmartPanel/SmartContainer'
 
-
 import Paper from 'material-ui/lib/paper'
 
 import AppBar from 'material-ui/lib/app-bar'
@@ -64,8 +63,6 @@ var examples = Lidl.examples;
 var work = require('webworkify');
 var worker = require('./worker.js');
 
-
-
 // Print all graph views for viewModel.js
 // console.log(JSON.stringify(_(config.graphTransformations).map(x=>({
 //               type: 'p',
@@ -74,22 +71,19 @@ var worker = require('./worker.js');
 //               value: "Graph "+x
 //             })).value()));
 
-
-
+var buildKey = '9737322e-c98f-43cc-954d-7282efb4b60b'; // Unique key that represent the current version of the LIDL Library, update this every time you want to deprecate the current lib and load the new one in client browsers
 
 export default class Main extends Component {
 
   constructor(props){
     super(props);
 
-
     this.state = initialState;
     this.state.position ={top:0,left:0,height:window.innerHeight,width:window.innerWidth};
 
     this.w = {}; // Worker pool
 
-    let key='bacd7dee-f0a9-462f-9ea5-4066abdfad40'; // Unique key that represent the current version of the LIDL Library, update this every time you want to deprecate the current lib and load the new one in client browsers
-    if(localStorage.getItem("LidlSandboxImportedDefaults")!==key) {
+    if(localStorage.getItem("LidlSandboxImportedDefaults")!==buildKey) {
       console.log('Writing defaults, this will be done only once...');
       let header = examples.header ;
       _(examples.lidl)
@@ -99,7 +93,7 @@ export default class Main extends Component {
           "LidlSandbox."+x.name,
           JSON.stringify({lidl:x.code,header:header,scenario:x.scenario}));})
       .commit();
-      localStorage.setItem("LidlSandboxImportedDefaults",key);
+      localStorage.setItem("LidlSandboxImportedDefaults",buildKey);
       console.log('Done');
     }
 

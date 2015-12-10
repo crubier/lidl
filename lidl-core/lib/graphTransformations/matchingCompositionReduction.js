@@ -174,14 +174,18 @@
 
 
 
+
+
 matchingCompositionReduction;var _lodash = require('lodash');var _lodash2 = _interopRequireDefault(_lodash);var _satSolver = require('../satSolver.js');var _satSolver2 = _interopRequireDefault(_satSolver);function _interopRequireDefault(obj) {return obj && obj.__esModule ? obj : { default: obj };}var Graph = require('../g.js'); // For a given composition Node, find all the Composition Nodes that match it, Along with the condition to match them, determined by the affectations between the two composition Nodes
 // If there is no affectation between them, the condition is always true
 // If there is one affectation between them, the condition is this affectation activation
 // If there are  more than on affectation between them, it is more complicated
 function findAllMatchingCompositionNodesAndTheirAffectationCondition(graph, node) {// TODO use
-  function visitTheAffectation(n) {n.temporarilyMarkedDuringCompositionTraversal = true;var conditionForCurrentAffectation = graph.matchUndirectedEdges({ type: 'InteractionInstanceOperand', from: { node: n, index: 0 }, to: { node: { type: 'InteractionInstance' } } }).map(function (e) {return e.to;}).value();var compos = graph.matchUndirectedEdges({ type: 'InteractionInstanceOperand', from: { node: n }, to: { index: 0, node: { type: 'InteractionInstance', unSuitableForCompositionReduction: false, content: { type: 'InteractionSimple', operatorType: 'Composition' } } } }).filter(function (e) {return (e.from.index === 1 || e.from.index === 2) && e.to.node.temporarilyMarkedDuringCompositionTraversal !== true;}).map(function (e) {return { compositionNode: e.to.node, condition: conditionForCurrentAffectation };}).value();var otheraffects = graph.matchUndirectedEdges({ type: 'InteractionInstanceOperand', from: { node: n }, to: { node: { type: 'InteractionInstance', content: { type: 'InteractionSimple', operatorType: 'Affectation' } } } }).filter(function (e) {return (e.from.index === 1 || e.from.index === 2) && (e.to.index === 1 || e.to.index === 2) && e.to.node.temporarilyMarkedDuringCompositionTraversal !== true;}).map(function (e) {return visitTheAffectation(e.to.node);}).flatten().map(function (x) {return { compositionNode: x.compositionNode, condition: x.condition.concat(conditionForCurrentAffectation) };}).value();n.temporarilyMarkedDuringCompositionTraversal = false;return compos.concat(otheraffects);}node.temporarilyMarkedDuringCompositionTraversal = true; //
-  var compos = graph.matchUndirectedEdges({ type: 'InteractionInstanceOperand', from: { node: node, index: 0 }, to: { index: 0, node: { type: 'InteractionInstance', unSuitableForCompositionReduction: false, content: { type: 'InteractionSimple', operatorType: 'Composition' } } } }).map(function (e) {graph.finish(e);return { compositionNode: e.to.node, condition: [] };}).value();var otheraffects = graph.matchUndirectedEdges({ type: 'InteractionInstanceOperand', from: { node: node, index: 0 }, to: { node: { type: 'InteractionInstance', content: { type: 'InteractionSimple', operatorType: 'Affectation' } } } }).filter(function (e) {return e.to.index === 1 || e.to.index === 2;}).map(function (e) {graph.finish(e);return visitTheAffectation(e.to.node);}).flatten().value();node.temporarilyMarkedDuringCompositionTraversal = false;var res = compos.concat(otheraffects);return res; // return compos;
-} // TODO This Might eventually be the source of Bugs and has not been tested on edges cases
+  // Parameter fromWhichSide is 1 or 2, depending on which side of the "=" we are coming from.
+  // We visit only nodes on the other side of the "=" sign (hence the "3-fromWhichSide" expressions )
+  function visitTheAffectation(n, fromWhichSide) {n.temporarilyMarkedDuringCompositionTraversal = true;var conditionForCurrentAffectation = graph.matchUndirectedEdges({ type: 'InteractionInstanceOperand', from: { node: n, index: 0 }, to: { node: { type: 'InteractionInstance' } } }).map(function (e) {return e.to;}).value();var compos = graph.matchUndirectedEdges({ type: 'InteractionInstanceOperand', from: { node: n }, to: { index: 0, node: { type: 'InteractionInstance', unSuitableForCompositionReduction: false, content: { type: 'InteractionSimple', operatorType: 'Composition' } } } }).filter(function (e) {return e.from.index === 3 - fromWhichSide && e.to.node.temporarilyMarkedDuringCompositionTraversal !== true;}).map(function (e) {return { compositionNode: e.to.node, condition: conditionForCurrentAffectation };}).value();var otheraffects = graph.matchUndirectedEdges({ typae: 'InteractionInstanceOperand', from: { node: n }, to: { node: { type: 'InteractionInstance', content: { type: 'InteractionSimple', operatorType: 'Affectation' } } } }).filter(function (e) {return e.from.index === 3 - fromWhichSide && (e.to.index === 1 || e.to.index === 2) && e.to.node.temporarilyMarkedDuringCompositionTraversal !== true;}).map(function (e) {return visitTheAffectation(e.to.node);}).flatten().map(function (x) {return { compositionNode: x.compositionNode, condition: x.condition.concat(conditionForCurrentAffectation) };}).value();n.temporarilyMarkedDuringCompositionTraversal = false;return compos.concat(otheraffects);}node.temporarilyMarkedDuringCompositionTraversal = true; //
+  var compos = graph.matchUndirectedEdges({ type: 'InteractionInstanceOperand', from: { node: node, index: 0 }, to: { index: 0, node: { type: 'InteractionInstance', unSuitableForCompositionReduction: false, content: { type: 'InteractionSimple', operatorType: 'Composition' } } } }).map(function (e) {graph.finish(e);return { compositionNode: e.to.node, condition: [] };}).value();var otheraffects = graph.matchUndirectedEdges({ type: 'InteractionInstanceOperand', from: { node: node, index: 0 }, to: { node: { type: 'InteractionInstance', content: { type: 'InteractionSimple', operatorType: 'Affectation' } } } }).filter(function (e) {return e.to.index === 1 || e.to.index === 2;}).map(function (e) {graph.finish(e);return visitTheAffectation(e.to.node, e.to.index);}).flatten().value();node.temporarilyMarkedDuringCompositionTraversal = false;var res = compos.concat(otheraffects);return res; // return compos;
+} //TODO This Might eventually be the source of Bugs and has not been tested on edges cases
 // Here we take several paths that go to composition interactions and simplfy them based on their conditions
 function simplifyPathExpression(graph, p) {var reduced = (0, _lodash2.default)(p).groupBy('compositionNode.id') // We group path that go to the same target
   .map(function (x) {return (// For each of these groups
@@ -220,9 +224,7 @@ function matchingCompositionReduction(graph) {// // Mark all
       if (_lodash2.default.isNull(x.simplifiedCond)) {// console.log("ok");
         // No simplified condition because the two composition are linked directly
         // For each edge going to the matching node, we add an edge that goes to the current node with a special label on the port so we dont confuse with edges that already go to it
-        graph.matchUndirectedEdges({ type: 'InteractionInstanceOperand', from: { node: n2 } }).reject(function (e2) {return _lodash2.default.isUndefined(e2.from.compositionElementName);}).
-        forEach(function (e2) {
-          // console.log(d2.id);
+        graph.matchUndirectedEdges({ type: 'InteractionInstanceOperand', from: { node: n2 } }).reject(function (e2) {return _lodash2.default.isUndefined(e2.from.compositionElementName);}).forEach(function (e2) {// console.log(d2.id);
           var d2 = e2.to;
           // console.log(d2.node.id);
           if (d2.node === n2) d2 = { node: n1, coCompositionElementName: e2.to.compositionElementName, isCoPort: true };
@@ -249,7 +251,7 @@ function matchingCompositionReduction(graph) {// // Mark all
 
           var intermedAffectation = 
           graph.
-          addNode({ type: 'InteractionInstance', content: { type: 'InteractionSimple', operator: '=', operatorType: 'Affectation' }, ports: ['in'] });
+          addNode({ type: 'InteractionInstance', content: { type: 'InteractionSimple', operator: '$=$', operatorType: 'Affectation' }, ports: ['in'] });
 
           graph.
           addEdge({ type: 'InteractionInstanceOperand', from: { node: n1, coCompositionElementName: e2.from.compositionElementName, isCoPort: true }, to: { node: intermedAffectation, index: 1 } });

@@ -20,8 +20,11 @@ export default class Graphviz extends Component {
 
   saveFile(){
     var fileParts = [this.props.displayGraph.__html];
-    var myBlob = new Blob(fileParts, {type : 'image/svg+xml'});
-    fileSaver.saveAs(myBlob,_.camelCase(this.props.panelName)+'.svg')
+    var blob = new Blob(fileParts, {type : 'image/svg+xml'});
+    // fileSaver.saveAs(blob,_.camelCase(this.props.panelName)+'.svg');
+    var URL = window.URL || window.webkitURL;
+    var url = URL.createObjectURL(blob);
+    window.open(url);
   }
 
   render() {
