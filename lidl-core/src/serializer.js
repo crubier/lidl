@@ -12,6 +12,18 @@ function serialize(object,indentation) {
     case 'Definition':
       //TODO Proper
       return serialize(object.interaction,indent);
+    case 'InterfaceAtomic':
+      return serialize(object.data)+ " "+object.direction;
+    case 'InterfaceComposite':
+      return '{' + _(object.element).map(x=>(x.key + ": "+serialize(x.value))).join(', ') +'}';
+    case 'DataAtomic':
+      return object.name;
+    case 'DataComposite':
+      return '{' + _(object.element).map(x=>(x.key + ": "+serialize(x.value))).join(', ') +'}';
+    case 'DataFunction':
+      return '{' +serialize(object.domain) + ' -> '+serialize(object.codomain)+'}';
+    case 'DataArray':
+      return  '['+serialize(object.element)+']' ;
     default:
       throw new Error('Cannot serialize '+object.type);
   }

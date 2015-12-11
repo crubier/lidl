@@ -1,0 +1,36 @@
+digraph g{node_8684 [shape="box", style="filled", color="#dff1f2", fontname="Courier", label="<%=a0%>=theInterface.mouse.buttons;
+" ]
+node_8686 [shape="box", style="filled", color="#dff1f2", fontname="Courier", label="<%=a0%>=theInterface.mouse.position.x;
+" ]
+node_8688 [shape="box", style="filled", color="#dff1f2", fontname="Courier", label="<%=a0%>=theInterface.mouse.position.y;
+" ]
+node_8690 [shape="ellipse", style="filled", color="#ffde2f", fontname="Times", label="{x:$y:$}" ]
+node_8694 [shape="box", style="filled", color="#dff1f2", fontname="Courier", label="<%=a0%>=theInterface.mouse.wheel.x;
+" ]
+node_8696 [shape="box", style="filled", color="#dff1f2", fontname="Courier", label="<%=a0%>=theInterface.mouse.wheel.y;
+" ]
+node_8698 [shape="box", style="filled", color="#dff1f2", fontname="Courier", label="<%=a0%>=theInterface.mouse.wheel.z;
+" ]
+node_8700 [shape="ellipse", style="filled", color="#ffde2f", fontname="Times", label="{x:$y:$z:$}" ]
+node_8705 [shape="ellipse", style="filled", color="#ffde2f", fontname="Times", label="{buttons:$position:$wheel:$}" ]
+node_8710 [shape="box", style="filled", color="#dff1f2", fontname="Courier", label="theInterface.graphics=<%=a0%>;
+" ]
+node_8744 [shape="box", style="filled", color="#dff1f2", fontname="Courier", label="<%=a0%> = active;
+" ]
+node_8747 [shape="box", style="filled", color="#dff1f2", fontname="Courier", label="<%=a0%> = ;
+" ]
+node_8749 [shape="box", style="filled", color="#dff1f2", fontname="Courier", label="if(<%=a0%> === active && <%=a1%>!==null && <%=a1%>!==undefined) {<%=a3%> = <%=a1%>(<%=a2%>);}
+" ]
+node_8690 -> node_8686 [dir=none, arrowHead=none, fontname="Times-Italic", arrowsize=1, color="#9d8400", label="",  headlabel="0", taillabel="1: x" ]
+node_8690 -> node_8688 [dir=none, arrowHead=none, fontname="Times-Italic", arrowsize=1, color="#9d8400", label="",  headlabel="0", taillabel="2: y" ]
+node_8700 -> node_8694 [dir=none, arrowHead=none, fontname="Times-Italic", arrowsize=1, color="#9d8400", label="",  headlabel="0", taillabel="1: x" ]
+node_8700 -> node_8696 [dir=none, arrowHead=none, fontname="Times-Italic", arrowsize=1, color="#9d8400", label="",  headlabel="0", taillabel="2: y" ]
+node_8700 -> node_8698 [dir=none, arrowHead=none, fontname="Times-Italic", arrowsize=1, color="#9d8400", label="",  headlabel="0", taillabel="3: z" ]
+node_8705 -> node_8684 [dir=none, arrowHead=none, fontname="Times-Italic", arrowsize=1, color="#9d8400", label="",  headlabel="0", taillabel="1: buttons" ]
+node_8705 -> node_8690 [dir=none, arrowHead=none, fontname="Times-Italic", arrowsize=1, color="#9d8400", label="",  headlabel="0", taillabel="2: position" ]
+node_8705 -> node_8700 [dir=none, arrowHead=none, fontname="Times-Italic", arrowsize=1, color="#9d8400", label="",  headlabel="0", taillabel="3: wheel" ]
+node_8749 -> node_8744 [dir=none, arrowHead=none, fontname="Times-Italic", arrowsize=1, color="#9d8400", label="",  headlabel="0", taillabel="0" ]
+node_8749 -> node_8747 [dir=none, arrowHead=none, fontname="Times-Italic", arrowsize=1, color="#9d8400", label="",  headlabel="0", taillabel="1" ]
+node_8749 -> node_8710 [dir=none, arrowHead=none, fontname="Times-Italic", arrowsize=1, color="#9d8400", label="",  headlabel="0", taillabel="3" ]
+node_8749 -> node_8705 [dir=none, arrowHead=none, fontname="Times-Italic", arrowsize=1, color="#9d8400", label="",  headlabel="0", taillabel="2" ]
+}

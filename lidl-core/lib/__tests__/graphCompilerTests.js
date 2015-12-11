@@ -16,7 +16,7 @@ describe('lidl graph compiler', function () {
 
   var testPaths = [
   'example/ok'
-  // ,'example/investigate' 
+  // ,'example/investigate'
 
   // ,'example/nok'
   ];
@@ -33,6 +33,7 @@ describe('lidl graph compiler', function () {
       ;}).
 
     commit();}).
+
   commit();
 
 
@@ -42,8 +43,16 @@ describe('lidl graph compiler', function () {
   function test(file, commonHeader) {
 
     function printGraph(graph, name) {
-      fs.writeFileSync(path.join(file, name + '.dot'), graph.toDotDef(), { encoding: 'utf8' });
-      exec("dot " + path.join(file, name + '.dot') + " -o" + path.join(file, name + '.pdf') + " -Tpdf", null);}
+      if (!fs.existsSync(path.join(file, "dot"))) {
+        fs.mkdirSync(path.join(file, "dot"));}
+
+      if (!fs.existsSync(path.join(file, "pdf"))) {
+        fs.mkdirSync(path.join(file, "pdf"));}
+
+      fs.writeFileSync(path.join(file, "dot", name + '.dot'), graph.toDot(), { 
+        encoding: 'utf8' });
+
+      exec("dot " + path.join(file, "dot", name + '.dot') + " -o" + path.join(file, "pdf", name + '.pdf') + " -Tpdf", null);}
 
 
 
@@ -72,9 +81,15 @@ describe('lidl graph compiler', function () {
 
 
 
-    var code = fs.readFileSync(path.join(file, "code.lidl"), { encoding: 'utf8' });
-    var header = fs.readFileSync(commonHeader, { encoding: 'utf8' });
-    var scenarioText = fs.readFileSync(path.join(file, 'scenario.json'), { encoding: 'utf8' });
+    var code = fs.readFileSync(path.join(file, "code.lidl"), { 
+      encoding: 'utf8' });
+
+    var header = fs.readFileSync(commonHeader, { 
+      encoding: 'utf8' });
+
+    var scenarioText = fs.readFileSync(path.join(file, 'scenario.json'), { 
+      encoding: 'utf8' });
+
 
     describe('Compilation of file ' + file, function () {
       console.log("====================================================");
@@ -83,23 +98,38 @@ describe('lidl graph compiler', function () {
       // removeOneSidedAffectation
       graphCompiler.compile(parser.parse(code)[0], header, { 
         createDataFlowDirection: function createDataFlowDirection(graph, data) {
-          printGraph(graph, data.step + 'createDataFlowDirection' + data.iteration);return true;}, 
+          printGraph(graph, data.step + 'createDataFlowDirection' + data.iteration);
+          return true;}, 
 
         nonMatchingCompositionCompilation: function nonMatchingCompositionCompilation(graph, data) {
-          printGraph(graph, data.step + 'nonMatchingCompositionCompilation' + data.iteration);return true;}, 
+          printGraph(graph, data.step + 'nonMatchingCompositionCompilation' + data.iteration);
+          return true;}, 
 
         removeOneSidedAffectation: function removeOneSidedAffectation(graph, data) {
-          printGraph(graph, data.step + 'removeOneSidedAffectation' + data.iteration);return true;}, 
+          printGraph(graph, data.step + 'removeOneSidedAffectation' + data.iteration);
+          return true;}, 
+
+        referentialTransparencyInstances: function referentialTransparencyInstances(graph, data) {
+          printGraph(graph, data.step + 'referentialTransparencyInstances' + data.iteration);
+          return true;}, 
 
         getJsCode: function getJsCode(graph, data) {
-          fs.writeFileSync(path.join(file, 'generated.js'), data.source, { encoding: 'utf8' });
+          fs.writeFileSync(path.join(file, 'generated.js'), data.source, { 
+            encoding: 'utf8' });
+
           var trace = runner.run(data, JSON.parse(scenarioText));
           checkTraceAgainstOracle(trace, JSON.parse(scenarioText));
-          fs.writeFileSync(path.join(file, 'trace.json'), JSON.stringify(trace), { encoding: 'utf8' });
+          fs.writeFileSync(path.join(file, 'trace.json'), JSON.stringify(trace), { 
+            encoding: 'utf8' });
+
           return true;}, 
 
         getExpandedLidlCode: function getExpandedLidlCode(graph, data) {
-          fs.writeFileSync(path.join(file, 'expanded.lidl'), data.source, { encoding: 'utf8' });return true;}, 
+          fs.writeFileSync(path.join(file, 'expanded.lidl'), data.source, { 
+            encoding: 'utf8' });
+
+          return true;}, 
 
         error: function error(graph, data) {
-          printGraph(graph, 'error');return true;} });});}});
+          printGraph(graph, 'error');
+          return true;} });});}});

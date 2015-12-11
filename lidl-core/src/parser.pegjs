@@ -148,7 +148,7 @@ dataArray 'the specification of an array type'
 = '[' _ element:data _ ']' {return {type:'DataArray',element:element};}
 
 dataFunction 'the specification of a function type'
-= '(' _ domain:data _ ('→'/'->') _ codomain:data _')'{return {type:'DataFunction',domain:domain,codomain:codomain};}
+= '{' _ domain:data _ ('→'/'->') _ codomain:data _'}'{return {type:'DataFunction',domain:domain,codomain:codomain};}
 
 
 

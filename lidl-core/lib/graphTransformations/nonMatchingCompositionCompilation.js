@@ -4,20 +4,20 @@
 
 
 
-nonMatchingCompositionCompilation;var _lodash = require('lodash');var _lodash2 = _interopRequireDefault(_lodash);var _ports = require('../ports');function _interopRequireDefault(obj) {return obj && obj.__esModule ? obj : { default: obj };}function nonMatchingCompositionCompilation(graph) {
+nonMatchingCompositionCompilation;var _lodash = require('lodash');var _lodash2 = _interopRequireDefault(_lodash);var _interfaces = require('../interfaces');function _interopRequireDefault(obj) {return obj && obj.__esModule ? obj : { default: obj };}function nonMatchingCompositionCompilation(graph) {
   // Then we find composition nodes and reduce them
   graph.
   matchNodes({ type: 'InteractionInstance', content: { type: 'InteractionSimple', operatorType: 'Composition' } })
   // .forEach(x=>{console.log(x.ports);console.log(x.content.operator);})
-  .filter(function (x) {return (0, _ports.portIsOnlyMadeOf)(x.ports[0], 'out') || (0, _ports.portIsOnlyMadeOf)(x.ports[0], 'in');}).
+  .filter(function (x) {return (0, _interfaces.madeOnlyOf)(x.ports[0]) === 'out' || (0, _interfaces.madeOnlyOf)(x.ports[0]) === 'in';}).
   forEach(function (theNode) {
 
-    var isCompo = (0, _ports.portIsOnlyMadeOf)(theNode.ports[0], 'out');
+    var isCompo = (0, _interfaces.madeOnlyOf)(theNode.ports[0]) === 'out';
 
     // console.log("NODE ! "+theNode.id +" "+ JSON.stringify(theNode.ports));
 
     var code = isCompo ? "<%=a0%> = {};\n" : "";
-    var ports = [isCompo ? 'out' : 'in'];
+    var ports = [theNode.ports[0]];
 
     var compositionElementNameWithTheirIndex = 
     graph.
@@ -39,10 +39,10 @@ nonMatchingCompositionCompilation;var _lodash = require('lodash');var _lodash2 =
     forEach(function (el) {
       if (isCompo) {
         code = code.concat("<%=a0%>['" + el.compositionElementName + "'] = <%=a" + el.index + "%>;\n");
-        ports[el.index] = 'in';} else 
+        ports[el.index] = (0, _interfaces.conjugateInterface)((0, _interfaces.subInterface)(theNode.ports[0], el.compositionElementName));} else 
       {
         code = code.concat("<%=a" + el.index + "%> = <%=a0%>['" + el.compositionElementName + "'];\n");
-        ports[el.index] = 'out';}}).
+        ports[el.index] = (0, _interfaces.conjugateInterface)((0, _interfaces.subInterface)(theNode.ports[0], el.compositionElementName));}}).
 
     commit();
 
@@ -64,8 +64,8 @@ nonMatchingCompositionCompilation;var _lodash = require('lodash');var _lodash2 =
         type: 'InteractionInstanceOperand', 
         from: { 
           node: newNode, 
-          index: theEdge.from.index, 
-          port: isCompo ? theEdge.from.index === 0 ? 'out' : 'in' : theEdge.from.index === 0 ? 'in' : 'out' }, 
+          index: theEdge.from.index }, 
+
         to: theEdge.to });}).
 
     commit();

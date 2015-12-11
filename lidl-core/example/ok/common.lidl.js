@@ -3,10 +3,10 @@ var isActive = function(x) {
 };
 
 var cool = function(x) {
-  if (isActive(x[0]) && isActive(x[1])) {
+  if (isActive(x.a) && isActive(x.b)) {
     return {
-      sum: (x[0] + x[1]),
-      diff: (x[0] - x[1])
+      sum: (x.a + x.b),
+      diff: (x.a - x.b)
     };
   } else {
     return {
@@ -17,7 +17,7 @@ var cool = function(x) {
 };
 
 var fallback = function(x) {
-  return (isActive(x[0]) ? x[0] : x[1]);
+  return (isActive(x.a) ? x.a : x.b);
 };
 
 var return0 = function(x) {
@@ -30,8 +30,48 @@ var return1 = function(x) {
 };
 
 var addition = function(x) {
-  if (isActive(x[0]) && isActive(x[1])) {
-    return x[0] + x[1];
+  if (isActive(x.a) && isActive(x.b)) {
+    return x.a + x.b;
+  } else {
+    return inactive;
+  }
+};
+
+var multiplication = function(x) {
+  if (isActive(x.a) && isActive(x.b)) {
+    return x.a * x.b;
+  } else {
+    return inactive;
+  }
+};
+
+var substraction = function(x) {
+  if (isActive(x.a) && isActive(x.b)) {
+    return x.a - x.b;
+  } else {
+    return inactive;
+  }
+};
+
+var division = function(x) {
+  if (isActive(x.a) && isActive(x.b)) {
+    return x.a / x.b;
+  } else {
+    return inactive;
+  }
+};
+
+var remainder = function(x) {
+  if (isActive(x.a) && isActive(x.b)) {
+    return x.a % x.b;
+  } else {
+    return inactive;
+  }
+};
+
+var power = function(x) {
+  if (isActive(x.a) && isActive(x.b)) {
+    return Math.pow(x.a,x.b);
   } else {
     return inactive;
   }

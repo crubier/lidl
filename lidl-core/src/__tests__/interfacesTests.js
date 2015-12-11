@@ -403,6 +403,16 @@ describe('interfaces', function() {
         startRule: "interfac"
       }));
     });
+    it('simple ok 5.5', function() {
+      expect(interfaces.mergeInterface(parser.parse("{x:Number ,y:Number ,z:Text }in", {
+          startRule: "interfac"
+        }),
+        parser.parse("{x:Number in,y:Number in}", {
+          startRule: "interfac"
+        }))).toEqual(parser.parse("{x:Number in,y:Number in,z:Text in}", {
+        startRule: "interfac"
+      }));
+    });
     it('simple ok 6', function() {
       expect(interfaces.mergeInterface(
         parser.parse("{x:Number in,y:Number in}", {
@@ -434,6 +444,10 @@ describe('interfaces', function() {
         }), undefined)).toEqual(parser.parse("Number in", {
         startRule: "interfac"
       }));
+    });
+    it('simple ok 7', function() {
+      expect(interfaces.mergeInterface(
+        undefined, undefined)).toBeUndefined();
     });
   });
 

@@ -283,8 +283,8 @@ if(_.isUndefined(inter))return undefined;
 }
 
 export function isCompatible(int1, int2) {
-if(_.isUndefined(int1))return true;
-if(_.isUndefined(int2))return true;
+  if(_.isUndefined(int1))return true;
+  if(_.isUndefined(int2))return true;
   let i1 = localisationInterface(int1);
   let i2 = localisationInterface(int2);
   var res;
@@ -365,7 +365,7 @@ export function mergeInterface(x, y) {
         } else if (isUndefined(y)) {
           return x;
         } else {
-          throw new Error('Trying to merge incompatible interface: ' + y);
+          throw new Error('Trying to merge with something which is not an interface: ' + JSON.stringify(y));
         }
       } else if (isAtomic(x)) {
         if (isComposite(y)) {
@@ -375,7 +375,7 @@ export function mergeInterface(x, y) {
         } else if (isUndefined(y)) {
           return x;
         } else {
-          throw new Error('Trying to merge incompatible interface: ' + y);
+          throw new Error('Trying to merge with something which is not an interface: ' + JSON.stringify(y));
         }
       } else if (isUndefined(x)) {
         if (isComposite(y)) {
@@ -385,54 +385,13 @@ export function mergeInterface(x, y) {
         } else if (isUndefined(y)) {
           return undefined;
         } else {
-          throw new Error('Trying to merge incompatible interface: ' + y);
+          throw new Error('Trying to merge with something which is not an interface: ' + JSON.stringify(y));
         }
       } else {
-        throw new Error('Trying to merge incompatible interface: ' + x);
+        throw new Error('Trying to merge with something which is not an interface: ' + JSON.stringify(x));
       }
     } else {
       throw new Error('Trying to merge incompatible interfaces: '+ JSON.stringify(x) + ' and '+JSON.stringify(y));
     }
-    // if (isComposite(x)) {
-    //   if (isComposite(y)) {
-    //     let i = 0;
-    //     let res = [];
-    //     for (i = 0; i < Math.max(x.length, y.length); i++) {
-    //       res[i] = mergePortList(x[i], y[i]);
-    //     }
-    //     return res;
-    //   } else if (isAtomic(y)) {
-    //     // reduce interface to data type
-    //     if (isCompatible(x, conjugateInterface(y))) return y;
-    //   } else if (isUndefined(y)) {
-    //     return clone(x);
-    //   } else {
-    //     throw new Error("PortLists should be strings or arrays of strings");
-    //   }
-    // } else if (isAtomic(x)) {
-    //   if (isComposite(y)) {
-    //     // reduce interface to data type
-    //     if (isCompatible(x, conjugateInterface(y))) return x;
-    //   } else if (isAtomic(y)) {
-    //     if (compareData(x.data,y.data)) return x
-    //     else throw new Error("Trying to merge incompatible ports " + x + " and " + y);
-    //   } else if (isUndefined(y)) {
-    //     return clone(x);
-    //   } else {
-    //     throw new Error("PortLists should be strings or arrays of strings");
-    //   }
-    // } else if (isUndefined(x)) {
-    //   if (isComposite(y)) {
-    //     return clone(y);
-    //   } else if (isAtomic(y)) {
-    //     return clone(y);
-    //     throw new Error("Trying to merge incompatible ports " + x + " and " + y);
-    //   } else if (isUndefined(y)) {
-    //     return undefined;
-    //   } else {
-    //     throw new Error("PortLists should be strings or arrays of strings");
-    //   }
-    // } else {
-    //   throw new Error("PortLists should be strings or arrays of strings");
-    // }
+
   }

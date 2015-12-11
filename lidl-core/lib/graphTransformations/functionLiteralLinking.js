@@ -9,7 +9,7 @@ functionLiteralLinking;var _lodash = require('lodash');var _lodash2 = _interopRe
     var funcName = theNode.content.operator.substring(8);
     var source = 
     graph.
-    addNode({ type: 'InteractionInstance', content: { type: 'InteractionNative', 'content': '<%=a0%> = ' + funcName + ';\n' }, ports: ["out"] });
+    addNode({ type: 'InteractionInstance', content: { type: 'InteractionNative', 'content': '<%=a0%> = ' + funcName + ';\n' }, ports: theNode.ports }); //FIXME interface instead of port
     graph.
     matchUndirectedEdges({ type: 'InteractionInstanceOperand', from: { node: theNode, index: 0 } }).
     forEach(function (x) {return (

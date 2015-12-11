@@ -3,9 +3,9 @@
 import _ from 'lodash'
 
 import {
-  mergePortList, portIsOnlyMadeOf, conjugatePort, portIsDefined
+  mergeInterface, madeOnlyOf, conjugateInterface, isUndefined, isCompatible
 }
-from '../ports'
+from '../interfaces'
 
 export default function createDataFlowDirection(graph) {
 
@@ -31,26 +31,32 @@ export default function createDataFlowDirection(graph) {
       // Here we infer that port on one end are conjugated with ports on other end
       // console.log("EDGE0 "+theEdge.id +" "+ theEdge.from.index+" "+ portOnOrigin+" "+ theEdge.to.index + " " + portOnDestination);
       try {
-        theEdge.from.ports = mergePortList(portOnOrigin, conjugatePort(portOnDestination));
+        theEdge.from.ports = mergeInterface(portOnOrigin, conjugateInterface(portOnDestination));
         // console.log("EDGE1 "+theEdge.id +" "+ theEdge.from.index+" "+ portOnOrigin+" "+ theEdge.to.index + " " + portOnDestination);
       } catch (e) {
         // console.log("X EDGE1 "+e+" "+theEdge.id +" "+ theEdge.from.index+" "+ portOnOrigin+" "+ theEdge.to.index + " " + portOnDestination);
       }
       try {
-        theEdge.to.ports = mergePortList(portOnDestination, conjugatePort(portOnOrigin));
+        theEdge.to.ports = mergeInterface(portOnDestination, conjugateInterface(portOnOrigin));
         // console.log("EDGE2 "+theEdge.id +" "+ theEdge.from.index+" "+ portOnOrigin+" "+ theEdge.to.index + " " + portOnDestination);
       } catch (e) {
         // console.log("X EDGE2 "+e+" "+theEdge.id +" "+ theEdge.from.index+" "+ portOnOrigin+" "+ theEdge.to.index + " " + portOnDestination);
       }
       // console.log("EDGE3 "+theEdge.id +" "+ theEdge.from.index+" "+ portOnOrigin+" "+ theEdge.to.index + " " + portOnDestination);
-      if (portIsOnlyMadeOf(theEdge.from.ports, "in") && portIsOnlyMadeOf(theEdge.to.ports, "in")) {
-        // console.log("in to in situation on edge " +theEdge.id );
+      if (!isCompatible(theEdge.from.ports,theEdge.to.ports)) {
+        // Useless edge, we delete it
+        // Maybe we should instead throw an errorin some cases
+        // Sometimes this is normal behaviour though...
         graph.finish(theEdge);
       }
-      if (portIsOnlyMadeOf(theEdge.from.ports, "out") && portIsOnlyMadeOf(theEdge.to.ports, "out")) {
-        // console.log("out to out situation on edge " +theEdge.id + " from "+ theEdge.from.node.id+" to "+theEdge.to.node.id );
-        graph.finish(theEdge);
-      }
+      // if (madeOnlyOf(theEdge.from.ports)=== "in" && madeOnlyOf(theEdge.to.ports)=== "in") {
+      //   // console.log("in to in situation on edge " +theEdge.id );
+      //   graph.finish(theEdge);
+      // }
+      // if (madeOnlyOf(theEdge.from.ports)=== "out" && madeOnlyOf(theEdge.to.ports)=== "out") {
+      //   // console.log("out to out situation on edge " +theEdge.id + " from "+ theEdge.from.node.id+" to "+theEdge.to.node.id );
+      //   graph.finish(theEdge);
+      // }
     })
     .commit();
 
@@ -70,13 +76,13 @@ export default function createDataFlowDirection(graph) {
         .matchUndirectedEdges({type: 'InteractionInstanceOperand',from: {node: theNode}})
         .forEach((theEdge) => {
           // try{
-          theNode.ports[theEdge.from.index] = mergePortList(theNode.ports[theEdge.from.index], theEdge.from.ports);
+          theNode.ports[theEdge.from.index] = mergeInterface(theNode.ports[theEdge.from.index], theEdge.from.ports);
           // }catch(e){console.log("X NODE1 " +theNode.id + " " +theEdge.from.index +" "+JSON.stringify(theNode.ports[theEdge.from.index]) + " "+JSON.stringify(theEdge.from.ports));}
         })
         .filter({type: 'InteractionInstanceOperand',to: {node: theNode}})
         .forEach((theEdge) => {
           // try{
-          theNode.ports[theEdge.to.index] = mergePortList(theNode.ports[theEdge.to.index], theEdge.to.ports);
+          theNode.ports[theEdge.to.index] = mergeInterface(theNode.ports[theEdge.to.index], theEdge.to.ports);
           // }catch(e){console.log("X NODE2 " +theNode.id + " "  +theEdge.from.index +" "+JSON.stringify(theNode.ports[theEdge.to.index]) + " "+JSON.stringify(theEdge.to.ports));}
         })
         .commit();

@@ -8,6 +8,7 @@ import addDefinitionToGraph from './graphInputs/addDefinitionToGraph'
 import addOperatorTypeAnnotation from './graphTransformations/addOperatorTypeAnnotation'
 import referentialTransparency from './graphTransformations/referentialTransparency'
 import linkInteractionsToDefinitions from './graphTransformations/linkInteractionsToDefinitions'
+import addInterfaceInformationToInteractions from './graphTransformations/addInterfaceInformationToInteractions'
 import expandDefinitions from './graphTransformations/expandDefinitions'
 import removeNonRootDefinitions from './graphTransformations/removeNonRootDefinitions'
 import clearSubInformation from './graphTransformations/clearSubInformation'
@@ -124,6 +125,9 @@ export function graphTransformationPipeline (graph,rootDefinitionNode,callbacks)
     linkInteractionsToDefinitions(graph);
     if(false===callCallback('linkInteractionsToDefinitions',{iteration:1})) return graph;
 
+    addInterfaceInformationToInteractions(graph);
+    if(false===callCallback('addInterfaceInformationToInteractions',{iteration:1})) return graph;
+
     expandDefinitions(graph);
     if(false===callCallback('expandDefinitions',{iteration:1})) return graph;
 
@@ -162,6 +166,9 @@ export function graphTransformationPipeline (graph,rootDefinitionNode,callbacks)
 
     dataLiteralLinking(graph);
     if(false===callCallback('dataLiteralLinking',{iteration:1})) return graph;
+
+    createDataFlowDirection(graph);
+    if(false===callCallback('createDataFlowDirection',{iteration:0})) return graph;
 
     functionApplicationLinking(graph);
     if(false===callCallback('functionApplicationLinking',{iteration:1})) return graph;

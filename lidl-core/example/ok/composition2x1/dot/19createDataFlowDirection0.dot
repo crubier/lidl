@@ -1,0 +1,25 @@
+digraph g{node_698 [shape="box", style="filled", color="#dff1f2", fontname="Courier", label="<%=a0%>=theInterface.theNumber;
+" ]
+node_700 [shape="box", style="filled", color="#dff1f2", fontname="Courier", label="<%=a0%>=theInterface.theOther;
+" ]
+node_702 [shape="box", style="filled", color="#dff1f2", fontname="Courier", label="theInterface.theResult=<%=a0%>;
+" ]
+node_704 [shape="ellipse", style="filled", color="#ffde2f", fontname="Times", label="{theNumber:$theOther:$theResult:$}" ]
+node_719 [shape="ellipse", style="filled", color="#ffde2f", fontname="Times", label="{theNumber:$theOther:$theResult:$}" ]
+node_726 [shape="ellipse", style="filled", color="#ffde2f", fontname="Times", label="{a:$b:$}" ]
+node_730 [shape="ellipse", style="filled", color="#ffde2f", fontname="Times", label="apply$to$andget$" ]
+node_742 [shape="box", style="filled", color="#dff1f2", fontname="Courier", label="<%=a0%> = active;
+" ]
+node_745 [shape="box", style="filled", color="#dff1f2", fontname="Courier", label="<%=a0%> = addition;
+" ]
+node_704 -> node_698 [dir=none, arrowHead=none, fontname="Times-Italic", arrowsize=1, color="#9d8400", label="",  headlabel="0", taillabel="1: theNumber" ]
+node_704 -> node_700 [dir=none, arrowHead=none, fontname="Times-Italic", arrowsize=1, color="#9d8400", label="",  headlabel="0", taillabel="2: theOther" ]
+node_704 -> node_702 [dir=none, arrowHead=none, fontname="Times-Italic", arrowsize=1, color="#9d8400", label="",  headlabel="0", taillabel="3: theResult" ]
+node_730 -> node_726 [dir=none, arrowHead=none, fontname="Times-Italic", arrowsize=1, color="#9d8400", label="",  headlabel="0", taillabel="2" ]
+node_719 -> node_726 [dir=none, arrowHead=none, fontname="Times-Italic", arrowsize=1, color="#9d8400", label="",  headlabel="1", taillabel="1" ]
+node_719 -> node_726 [dir=none, arrowHead=none, fontname="Times-Italic", arrowsize=1, color="#9d8400", label="",  headlabel="2", taillabel="2" ]
+node_719 -> node_730 [dir=none, arrowHead=none, fontname="Times-Italic", arrowsize=1, color="#9d8400", label="",  headlabel="3", taillabel="3" ]
+node_742 -> node_730 [dir=none, arrowHead=none, fontname="Times-Italic", arrowsize=1, color="#9d8400", label="",  headlabel="0: Activation in", taillabel="0: Activation out" ]
+node_704 -> node_719 [dir=none, arrowHead=none, fontname="Times-Italic", arrowsize=1, color="#9d8400", label="",  headlabel="0: {theNumber: Number in, theOther: Number in, theResult: Number out}", taillabel="0: {theNumber: Number out, theOther: Number out, theResult: Number in}" ]
+node_745 -> node_730 [dir=none, arrowHead=none, fontname="Times-Italic", arrowsize=1, color="#9d8400", label="",  headlabel="1: {{a: Number, b: Number} -> Number} in", taillabel="0: {{a: Number, b: Number} -> Number} out" ]
+}

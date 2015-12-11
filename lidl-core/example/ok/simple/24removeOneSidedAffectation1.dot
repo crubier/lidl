@@ -1,8 +1,0 @@
-digraph g{node_8189 [shape="box", style="filled", color="#dff1f2", fontname="Courier", label="<%=a0%>=theInterface.theNumber;
-" ]
-node_8191 [shape="box", style="filled", color="#dff1f2", fontname="Courier", label="theInterface.theResult=<%=a0%>;
-" ]
-node_8206 [shape="box", style="filled", color="#dff1f2", fontname="Courier", label="<%=a0%> = active;
-" ]
-node_8189 -> node_8191 [dir=none, arrowHead=none, fontname="Times-Italic", arrowsize=1, color="#9d8400", label="",  headlabel="0", taillabel="0" ]
-}

@@ -1,10 +1,7 @@
-
-
-    interaction (main):{theNumber:Number in,theResult:Number out}
-
-    is
-
-        ({
-          theNumber:(variable x)
-          theResult:(variable x)
-        })
+interaction
+  (main):{theNumber:Number in,theResult:Number out}
+is
+  ({
+    theNumber:(x)
+    theResult:(x)
+  })

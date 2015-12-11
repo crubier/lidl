@@ -55,7 +55,7 @@ module.exports = function(self) {
         var autoCallbacks =
         _(Config.graphTransformations)
         .map(x=>[x,function(graph,data){
-          self.postMessage({type: 'IntermediateGraph',stage:x,graphSvg:{__html:graphToSvg(graph.toDotDef())}});
+          self.postMessage({type: 'IntermediateGraph',stage:x,graphSvg:{__html:graphToSvg(graph.toDot())}});
           return true;}])
         .zipObject()
         .value();

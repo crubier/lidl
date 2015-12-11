@@ -4,6 +4,7 @@ module.exports= {
     'addOperatorTypeAnnotation',
     'referentialTransparency',
     'linkInteractionsToDefinitions',
+    'addInterfaceInformationToInteractions',
     'expandDefinitions',
     'removeNonRootDefinitions',
     'clearSubInformation',

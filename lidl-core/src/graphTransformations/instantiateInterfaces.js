@@ -80,14 +80,14 @@ let prefix = interfacNode.name;
         .addNode({type:'InteractionInstance', content:{
           type: "InteractionNative",
           content: "<%=a0%>=" + prefix + ";\n"
-        }, ports:["out"]});
+        }, ports:[interfacs.conjugateInterface(interfac)]});
       } else {
         rootNode =
         graph
         .addNode({type:'InteractionInstance',content: {
           type: "InteractionNative",
           content: "" + prefix + "=<%=a0%>;\n"
-        }, ports:["in"]});
+        }, ports:[interfacs.conjugateInterface(interfac)]});
       }
       break;
     case "InterfaceComposite":
@@ -122,7 +122,7 @@ let prefix = interfacNode.name;
           operator: interfacs.toOperator(interfac),
           operatorType:'Composition'
         },
-        ports:[]
+        ports:[interfacs.conjugateInterface(interfac)]
       });
 
       // for each child element

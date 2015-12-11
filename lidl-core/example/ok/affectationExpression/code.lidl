@@ -1,23 +1,51 @@
-interaction (bob):{theNumber:Number in,theResult:Number out}
+interaction
+  (bob):{theNumber:Number in,theResult:Number out}
 with
 
-  interaction (1):Number out is
-  ((variable result1) with behaviour (apply (function return1) to (variable ok) and get (variable result1)   ))
+  interaction
+    (the magic number):Number out
+  with
+    interaction (return1):{Void->Number} out is (function return1)
+  is
+    (
+      (variable result1)
+      with behaviour
+      (
+        apply
+        (return1)
+        to
+        (variable ok)
+        and get
+        (variable result1)
+      )
+    )
 
-  interaction ((a:Number in)+(b:Number in)):Number out is
-  ((variable result of (a)+(b))with behaviour
-  (apply(function addition)
-    to ({
-      0:(a)
-      1:(b)
-    })
-    and get (variable result of (a)+(b))))
+  interaction
+    ((a:Number in)+(b:Number in)):Number out
+  with
+    interaction (addition):{{a:Number,b:Number}->Number} out is (function addition)
+  is
+    (
+      (variable result of (a)+(b))
+      with behaviour
+      (
+        apply
+        (addition)
+        to
+        ({a:(a)b:(b)})
+        and get
+        (variable result of (a)+(b))
+      )
+    )
 
 is
   (
-    (
-    {theNumber:(variable theNumber)theResult:(variable theResult)}
+    ({
+      theNumber:(# theNumber)
+      theResult:(# theResult)}
     )
   with behaviour
-    ((variable theResult)=((1)+(variable theNumber)))
+    (
+      (# theResult) =((the magic number )+(# theNumber))
+    )
   )

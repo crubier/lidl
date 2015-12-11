@@ -1,8 +1,23 @@
-interaction (bob):{theNumber:Number in,theOther:Number in,theResult:Number out} is
-(
-({theNumber:(variable theNumber)theOther:(variable y)theResult:(variable theResult)})
- with behaviour
-(apply(function addition)
-to ({0:(variable theNumber)
-1:(variable y)})
- and get (variable theResult)))
+interaction
+  (bob):{theNumber:Number in,theOther:Number in,theResult:Number out}
+with
+  interaction
+    (addition):{{a:Number,b:Number}->Number}out
+  is
+    (function addition)
+is
+  (
+    ({
+      theNumber:(x)
+      theOther:(y)
+      theResult:(z)
+    })
+   with behaviour
+    (apply
+      (addition)
+      to
+      ({a:(x)b:(y)})
+      and get
+      (z)
+    )
+  )

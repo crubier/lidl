@@ -10,7 +10,7 @@ export default function dataLiteralLinking(graph) {
     let literal = theNode.content.operator;
     let source =
       graph
-      .addNode({type:'InteractionInstance',content:{type: 'InteractionNative','content': '<%=a0%> = ' + literal + ';\n'},ports: ["out"]});
+      .addNode({type:'InteractionInstance',content:{type: 'InteractionNative','content': '<%=a0%> = ' + literal + ';\n'},ports: [{type:'InterfaceAtomic',direction:'out',data:{type:'DataAtomic',name:'Activation'}}]});
     graph
     .matchUndirectedEdges({type:'InteractionInstanceOperand',from:{node:theNode,index:0}})
     .forEach(x=>
@@ -27,7 +27,7 @@ export default function dataLiteralLinking(graph) {
     let literal = theNode.content.operator;
     let source =
       graph
-      .addNode({type:'InteractionInstance',content:{type: 'InteractionNative','content': '<%=a0%> = ' + literal + ';\n'},ports: ["out"]});
+      .addNode({type:'InteractionInstance',content:{type: 'InteractionNative','content': '<%=a0%> = ' + literal + ';\n'},ports: [{type:'InterfaceAtomic',direction:'out',data:{type:'DataAtomic',name:'Boolean'}}]});
     graph
     .matchUndirectedEdges({type:'InteractionInstanceOperand',from:{node:theNode,index:0}})
     .forEach(x=>
@@ -44,7 +44,7 @@ export default function dataLiteralLinking(graph) {
     let literal = theNode.content.operator;
     let source =
       graph
-      .addNode({type:'InteractionInstance',content:{type: 'InteractionNative','content': '<%=a0%> = ' + literal + ';\n'},ports: ["out"]});
+      .addNode({type:'InteractionInstance',content:{type: 'InteractionNative','content': '<%=a0%> = ' + literal + ';\n'},ports: [{type:'InterfaceAtomic',direction:'out',data:{type:'DataAtomic',name:'Number'}}]});
     graph
     .matchUndirectedEdges({type:'InteractionInstanceOperand',from:{node:theNode,index:0}})
     .forEach(x=>
@@ -61,7 +61,7 @@ export default function dataLiteralLinking(graph) {
     let literal = theNode.content.operator;
     let source =
       graph
-      .addNode({type:'InteractionInstance',content:{type: 'InteractionNative','content': '<%=a0%> = ' + literal + ';\n'},ports: ["out"]});
+      .addNode({type:'InteractionInstance',content:{type: 'InteractionNative','content': '<%=a0%> = ' + literal + ';\n'},ports: [{type:'InterfaceAtomic',direction:'out',data:{type:'DataAtomic',name:'Text'}}]});
     graph
     .matchUndirectedEdges({type:'InteractionInstanceOperand',from:{node:theNode,index:0}})
     .forEach(x=>

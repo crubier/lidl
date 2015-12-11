@@ -80,14 +80,14 @@ function instantiateInterface(graph, interfacNode) {
         addNode({ type: 'InteractionInstance', content: { 
             type: "InteractionNative", 
             content: "<%=a0%>=" + prefix + ";\n" }, 
-          ports: ["out"] });} else 
+          ports: [interfacs.conjugateInterface(interfac)] });} else 
       {
         rootNode = 
         graph.
         addNode({ type: 'InteractionInstance', content: { 
             type: "InteractionNative", 
             content: "" + prefix + "=<%=a0%>;\n" }, 
-          ports: ["in"] });}
+          ports: [interfacs.conjugateInterface(interfac)] });}
 
       break;
     case "InterfaceComposite":
@@ -122,7 +122,7 @@ function instantiateInterface(graph, interfacNode) {
           operator: interfacs.toOperator(interfac), 
           operatorType: 'Composition' }, 
 
-        ports: [] });
+        ports: [interfacs.conjugateInterface(interfac)] });
 
 
       // for each child element

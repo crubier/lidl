@@ -4,6 +4,7 @@
   'addOperatorTypeAnnotation', 
   'referentialTransparency', 
   'linkInteractionsToDefinitions', 
+  'addInterfaceInformationToInteractions', 
   'expandDefinitions', 
   'removeNonRootDefinitions', 
   'clearSubInformation', 

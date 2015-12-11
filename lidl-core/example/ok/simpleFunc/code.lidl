@@ -3,7 +3,12 @@ interaction
 with
   interaction
     (bob(x:Number in)):Number out
+  with
+    interaction
+      (addOne):{Number->Number}out
+    is
+      (function addOne)
   is
-    ((# bob (x)) with behaviour ((function addOne)(x)=(# bob (x))))
+    ((result of bob(x)) with behaviour ((addOne)(x)=(result of bob(x))))
 is
-  ({theNumber:(#a),theResult:(bob(#a))})
+  ({theNumber:(a),theResult:(bob(a))})

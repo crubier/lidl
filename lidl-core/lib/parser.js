@@ -2043,12 +2043,12 @@
 
       peg$silentFails++;
       s0 = peg$currPos;
-      if (input.charCodeAt(peg$currPos) === 40) {
-        s1 = peg$c20;
+      if (input.charCodeAt(peg$currPos) === 123) {
+        s1 = peg$c60;
         peg$currPos++;} else 
       {
         s1 = peg$FAILED;
-        if (peg$silentFails === 0) {peg$fail(peg$c21);}}
+        if (peg$silentFails === 0) {peg$fail(peg$c61);}}
 
       if (s1 !== peg$FAILED) {
         s2 = peg$parse_();
@@ -2080,12 +2080,12 @@
                   if (s7 !== peg$FAILED) {
                     s8 = peg$parse_();
                     if (s8 !== peg$FAILED) {
-                      if (input.charCodeAt(peg$currPos) === 41) {
-                        s9 = peg$c22;
+                      if (input.charCodeAt(peg$currPos) === 125) {
+                        s9 = peg$c65;
                         peg$currPos++;} else 
                       {
                         s9 = peg$FAILED;
-                        if (peg$silentFails === 0) {peg$fail(peg$c23);}}
+                        if (peg$silentFails === 0) {peg$fail(peg$c66);}}
 
                       if (s9 !== peg$FAILED) {
                         peg$savedPos = s0;

@@ -3,10 +3,10 @@ var isActive = function(x) {
 };
 
 var cool = function(x) {
-  if (isActive(x[0]) && isActive(x[1])) {
+  if (isActive(x.a) && isActive(x.b)) {
     return {
-      sum: (x[0] + x[1]),
-      diff: (x[0] - x[1])
+      sum: (x.a + x.b),
+      diff: (x.a - x.b)
     };
   } else {
     return {
@@ -17,7 +17,7 @@ var cool = function(x) {
 };
 
 var fallback = function(x) {
-  return (isActive(x[0]) ? x[0] : x[1]);
+  return (isActive(x.a) ? x.a : x.b);
 };
 
 var return0 = function(x) {
@@ -30,8 +30,8 @@ var return1 = function(x) {
 };
 
 var addition = function(x) {
-  if (isActive(x[0]) && isActive(x[1])) {
-    return x[0] + x[1];
+  if (isActive(x.a) && isActive(x.b)) {
+    return x.a + x.b;
   } else {
     return inactive;
   }
@@ -46,7 +46,7 @@ var addOne = function(x) {
 };
 
 var identity = function(x) {
-  return x
+  return x;
 };
 
 var isEqual = function(x) {
@@ -105,5 +105,53 @@ var whenThenElse = function(x) {
 
 
 var all = function(x) {
-  return {a:x,b:x,c:x,d:x,e:x,f:x,g:x,h:x,i:x,j:x,k:x,l:x,l:x,n:x,o:x,p:x}
+  return {a:x,b:x,c:x,d:x,e:x,f:x,g:x,h:x,i:x,j:x,k:x,l:x,m:x,n:x,o:x,p:x};
 };
+
+
+var cursor = function(mouse){
+  var cursor = {
+    type: "shadow",
+    blur: mouse.buttons === 0 ? 20 : 10,
+    offset: {
+      x: 0,
+      y: mouse.buttons === 0 ? 4 : 2
+    },
+    color: "rgba(0, 0, 0, 0.5)",
+    content: {
+      type: "translate",
+      x: mouse.position.x,
+      y: mouse.position.y,
+      content: {
+        type: "scale",
+        width: mouse.buttons === 0 ? 1 : 0.8,
+        height: mouse.buttons === 0 ? 1 : 0.8,
+        content: {
+          type: "fill",
+          style: "rgba(200, 0, 200, 1)",
+          content: {
+            type: "path",
+            content: [{
+              type: "begin"
+            }, {
+              type: "move",
+              x: 0,
+              y: 0
+            }, {
+              type: "line",
+              x: 0,
+              y: 15
+            }, {
+              type: "line",
+              x: 10.6,
+              y: 10.6
+            }, {
+              type: "close"
+            }]
+          }
+        }
+      }
+    }
+  };
+  return cursor;
+}

@@ -5,7 +5,7 @@
 
 
 
-orderGraph;var _lodash = require('lodash');var _lodash2 = _interopRequireDefault(_lodash);var _ports = require('../ports');function _interopRequireDefault(obj) {return obj && obj.__esModule ? obj : { default: obj };} // Use tarjan algorithm to order the graph
+orderGraph;var _lodash = require('lodash');var _lodash2 = _interopRequireDefault(_lodash);var _interfaces = require('../interfaces');function _interopRequireDefault(obj) {return obj && obj.__esModule ? obj : { default: obj };} // Use tarjan algorithm to order the graph
 function orderGraph(graph) {
   var orderingList = [];
 
@@ -32,7 +32,7 @@ function orderGraph(graph) {
         matchNodes(function (m) {return (
             graph.
             matchUndirectedEdges({ type: 'InteractionInstanceOperand', from: { node: n }, to: { node: m } }).
-            filter(function (edge) {return (0, _ports.portIsOnlyMadeOf)(edge.from.ports, 'out') && (0, _ports.portIsOnlyMadeOf)(edge.to.ports, 'in');}).
+            filter(function (edge) {return (0, _interfaces.madeOnlyOf)(edge.from.ports) === 'out' && (0, _interfaces.madeOnlyOf)(edge.to.ports) === 'in';}).
             size() > 0);}).
         forEach(function (m) {return visit(m, (0, _lodash2.default)(stack).concat([n]).value());}).
         forEach(function (m) {graph.addEdge({ type: 'InteractionInstanceDataDependency', from: { node: n }, to: { node: m } });}).

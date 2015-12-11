@@ -7,7 +7,7 @@
 
 
 
-resolveMultiplePorts;var _lodash = require('lodash');var _lodash2 = _interopRequireDefault(_lodash);var _createDataFlowDirection = require('./createDataFlowDirection');var _createDataFlowDirection2 = _interopRequireDefault(_createDataFlowDirection);var _ports = require('../ports');function _interopRequireDefault(obj) {return obj && obj.__esModule ? obj : { default: obj };} // Here we solve the cases where several signals come or go from the same node with the same port number.
+resolveMultiplePorts;var _lodash = require('lodash');var _lodash2 = _interopRequireDefault(_lodash);var _createDataFlowDirection = require('./createDataFlowDirection');var _createDataFlowDirection2 = _interopRequireDefault(_createDataFlowDirection);var _interfaces = require('../interfaces');function _interopRequireDefault(obj) {return obj && obj.__esModule ? obj : { default: obj };} // Here we solve the cases where several signals come or go from the same node with the same port number.
 function resolveMultiplePorts(graph) {
   graph.
   matchUndirectedEdges({ type: 'InteractionInstanceOperand' }).
@@ -19,8 +19,8 @@ function resolveMultiplePorts(graph) {
   graph.
   reduceUndirectedEdges({ type: 'InteractionInstanceOperand', from: { multiResolved: false } }, 
   function (theResult, theEdge) {
-    var direct = (0, _ports.portIsOnlyMadeOf)(theEdge.from.ports, 'out');
-    var indirect = (0, _ports.portIsOnlyMadeOf)(theEdge.to.ports, 'out');
+    var direct = (0, _interfaces.madeOnlyOf)(theEdge.from.ports) === 'out';
+    var indirect = (0, _interfaces.madeOnlyOf)(theEdge.to.ports) === 'out';
     if (direct === indirect) {
       // console.log('Useless edge '+theEdge.id);
       graph.finish(theEdge);

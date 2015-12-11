@@ -1,0 +1,15 @@
+(
+    ({
+      theNumber:(x)
+      theOther:(y)
+      theResult:(z)
+    })
+   with behaviour
+    (apply
+      (function addition)
+      to
+      ({a:(x)b:(y)})
+      and get
+      (z)
+    )
+  )

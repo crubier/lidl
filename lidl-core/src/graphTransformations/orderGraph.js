@@ -2,7 +2,7 @@
 
 import _ from 'lodash'
 
-import {mergePortList,portIsOnlyMadeOf,conjugatePort,portIsDefined} from '../ports'
+import {madeOnlyOf} from '../interfaces'
 
 // Use tarjan algorithm to order the graph
 export default function orderGraph(graph) {
@@ -32,7 +32,7 @@ export default function orderGraph(graph) {
         .matchNodes(m=>
           graph
           .matchUndirectedEdges({type: 'InteractionInstanceOperand',from: {node:n},to: {node:m}})
-          .filter(edge => portIsOnlyMadeOf(edge.from.ports,'out') && portIsOnlyMadeOf(edge.to.ports,'in') )
+          .filter(edge => madeOnlyOf(edge.from.ports)==='out' && madeOnlyOf(edge.to.ports)==='in' )
           .size() > 0)
         .forEach(m=>visit(m,_(stack).concat([n]).value()))
         .forEach(m=>{graph.addEdge({type:'InteractionInstanceDataDependency',from:{node:n},to:{node:m}});})

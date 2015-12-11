@@ -1,0 +1,17 @@
+digraph g{node_1283 [shape="box", style="filled", color="#dff1f2", fontname="Courier", label="theInterface=<%=a0%>;
+" ]
+node_1298 [shape="ellipse", style="filled", color="#ffde2f", fontname="Times", label="{a:$b:$}" ]
+node_1302 [shape="ellipse", style="filled", color="#ffde2f", fontname="Times", label="$$=$" ]
+node_1312 [shape="box", style="filled", color="#dff1f2", fontname="Courier", label="<%=a0%> = active;
+" ]
+node_1315 [shape="box", style="filled", color="#dff1f2", fontname="Courier", label="<%=a0%> = addition;
+" ]
+node_1317 [shape="box", style="filled", color="#dff1f2", fontname="Courier", label="<%=a0%> = 9;
+" ]
+node_1302 -> node_1298 [dir=none, arrowHead=none, fontname="Times-Italic", arrowsize=1, color="#9d8400", label="",  headlabel="0", taillabel="2" ]
+node_1312 -> node_1302 [dir=none, arrowHead=none, fontname="Times-Italic", arrowsize=1, color="#9d8400", label="",  headlabel="0: Activation in", taillabel="0: Activation out" ]
+node_1283 -> node_1302 [dir=none, arrowHead=none, fontname="Times-Italic", arrowsize=1, color="#9d8400", label="",  headlabel="3: Number out", taillabel="0: Number in" ]
+node_1315 -> node_1302 [dir=none, arrowHead=none, fontname="Times-Italic", arrowsize=1, color="#9d8400", label="",  headlabel="1: {{a: Number, b: Number} -> Number} in", taillabel="0: {{a: Number, b: Number} -> Number} out" ]
+node_1317 -> node_1298 [dir=none, arrowHead=none, fontname="Times-Italic", arrowsize=1, color="#9d8400", label="",  headlabel="1: Number in", taillabel="0: Number out" ]
+node_1317 -> node_1298 [dir=none, arrowHead=none, fontname="Times-Italic", arrowsize=1, color="#9d8400", label="",  headlabel="2: Number in", taillabel="0: Number out" ]
+}

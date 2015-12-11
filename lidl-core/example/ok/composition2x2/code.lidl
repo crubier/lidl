@@ -1,4 +1,11 @@
-interaction (bob):{theNumber:Number in,theOther:Number in,theResult:Number out,theLast:Number out} is
+interaction
+  (bob):{theNumber:Number in,theOther:Number in,theResult:Number out,theLast:Number out}
+with
+ interaction
+  (cool):{{a:Number,b:Number}->{sum:Number,diff:Number}} out
+  is
+  (function cool)
+is
   (
     ({
       theNumber:(variable theNumber)
@@ -7,5 +14,10 @@ interaction (bob):{theNumber:Number in,theOther:Number in,theResult:Number out,t
       theLast:(variable wow)
     })
   with behaviour
-    (apply (function cool) to ({0:(variable theNumber)1:(variable y)}) and get ({sum:(variable theResult)diff:(variable wow)}) )
+    ( apply (cool)
+      to
+      ({a:(variable theNumber)b:(variable y)})
+      and get
+      ({sum:(variable theResult)diff:(variable wow)})
+    )
   )

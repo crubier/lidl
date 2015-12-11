@@ -2,22 +2,22 @@
 
 import _ from 'lodash'
 
-import {portIsOnlyMadeOf} from '../ports'
+import {madeOnlyOf,conjugateInterface,subInterface} from '../interfaces'
 
 export default function nonMatchingCompositionCompilation(graph) {
   // Then we find composition nodes and reduce them
   graph
   .matchNodes({type:'InteractionInstance',content: {type: 'InteractionSimple',operatorType:'Composition'}})
   // .forEach(x=>{console.log(x.ports);console.log(x.content.operator);})
-  .filter(x=>(portIsOnlyMadeOf(x.ports[0],'out')||portIsOnlyMadeOf(x.ports[0],'in')))
+  .filter(x=>((madeOnlyOf(x.ports[0])==='out')||(madeOnlyOf(x.ports[0])==='in')))
   .forEach(theNode=>{
 
-        let isCompo = portIsOnlyMadeOf(theNode.ports[0],'out');
+        let isCompo = madeOnlyOf(theNode.ports[0])==='out';
 
         // console.log("NODE ! "+theNode.id +" "+ JSON.stringify(theNode.ports));
 
         let code = isCompo?"<%=a0%> = {};\n":"";
-        let ports = [isCompo?'out':'in'];
+        let ports = [theNode.ports[0]];
 
         let compositionElementNameWithTheirIndex =
         graph
@@ -39,10 +39,10 @@ export default function nonMatchingCompositionCompilation(graph) {
       .forEach((el)=>{
         if(isCompo){
           code = code.concat("<%=a0%>['" + el.compositionElementName + "'] = <%=a" + el.index + "%>;\n");
-          ports[el.index] = 'in';
+          ports[el.index] = conjugateInterface( subInterface(theNode.ports[0],el.compositionElementName));
         }else {
           code = code.concat("<%=a" + el.index + "%> = <%=a0%>['" + el.compositionElementName + "'];\n");
-          ports[el.index] = 'out';
+          ports[el.index] = conjugateInterface( subInterface(theNode.ports[0],el.compositionElementName));
         }})
       .commit();
 
@@ -64,8 +64,8 @@ export default function nonMatchingCompositionCompilation(graph) {
           type:'InteractionInstanceOperand',
           from:{
             node:newNode,
-            index:theEdge.from.index,
-            port:(isCompo?((theEdge.from.index===0)?'out':'in'):((theEdge.from.index===0)?'in':'out'))},
+            index:theEdge.from.index
+          },
           to:theEdge.to});
         })
       .commit();
