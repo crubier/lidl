@@ -1,0 +1,29 @@
+digraph g{node_2818 [shape="ellipse", style="filled", color="#ffde2f", fontname="Times", label="{a:$b:$}" ]
+node_2844 [shape="box", style="filled", color="#dff1f2", fontname="Courier", label="<%=a0%>=theArgs.a;
+" ]
+node_2846 [shape="box", style="filled", color="#dff1f2", fontname="Courier", label="theInterface=<%=a0%>;
+" ]
+node_2855 [shape="box", style="filled", color="#dff1f2", fontname="Courier", label="<%=a0%> = active;
+" ]
+node_2861 [shape="box", style="filled", color="#dff1f2", fontname="Courier", label="<%=a0%> = addition;
+" ]
+node_2863 [shape="box", style="filled", color="#dff1f2", fontname="Courier", label="if(<%=a0%> === active && <%=a1%>!==null && <%=a1%>!==undefined) {<%=a3%> = <%=a1%>(<%=a2%>);}
+" ]
+node_2869 [shape="box", style="filled", color="#dff1f2", fontname="Courier", label="if(<%=a0%> === active) {
+<%=a1%> = previousState['state_2868'];
+}
+" ]
+node_2873 [shape="box", style="filled", color="#dff1f2", fontname="Courier", label="if(<%=a0%> === active) {
+nextState['state_2868'] = <%=a1%>;
+}
+" ]
+node_2863 -> node_2855 [dir=none, arrowHead=none, fontname="Times-Italic", arrowsize=1, color="#9d8400", label="",  headlabel="0: Activation out", taillabel="0: Activation in" ]
+node_2863 -> node_2861 [dir=none, arrowHead=none, fontname="Times-Italic", arrowsize=1, color="#9d8400", label="",  headlabel="0: {{a: Number, b: Number} -> Number} out", taillabel="1: {{a: Number, b: Number} -> Number} in" ]
+node_2863 -> node_2818 [dir=none, arrowHead=none, fontname="Times-Italic", arrowsize=1, color="#9d8400", label="",  headlabel="0: {a: Number, b: Number} out", taillabel="2: {a: Number, b: Number} in" ]
+node_2863 -> node_2846 [dir=none, arrowHead=none, fontname="Times-Italic", arrowsize=1, color="#9d8400", label="",  headlabel="0: Number in", taillabel="3: Number out" ]
+node_2869 -> node_2855 [dir=none, arrowHead=none, fontname="Times-Italic", arrowsize=1, color="#9d8400", label="",  headlabel="0: Activation out", taillabel="0: Activation in" ]
+node_2869 -> node_2818 [dir=none, arrowHead=none, fontname="Times-Italic", arrowsize=1, color="#9d8400", label="",  headlabel="1: a", taillabel="1" ]
+node_2869 -> node_2818 [dir=none, arrowHead=none, fontname="Times-Italic", arrowsize=1, color="#9d8400", label="",  headlabel="2: b", taillabel="1" ]
+node_2873 -> node_2855 [dir=none, arrowHead=none, fontname="Times-Italic", arrowsize=1, color="#9d8400", label="",  headlabel="0: Activation out", taillabel="0: Activation in" ]
+node_2873 -> node_2844 [dir=none, arrowHead=none, fontname="Times-Italic", arrowsize=1, color="#9d8400", label="",  headlabel="0: Number out", taillabel="1: Number in" ]
+}

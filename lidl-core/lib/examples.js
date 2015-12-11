@@ -625,4 +625,49 @@ module.exports = {
 
 
 
-    scenario: '[\n  {\n    "args":  {},\n    "inter":  { "theNumber": 50,  "theResult": 51 }\n  },\n  {\n    "args":  {},\n    "inter":  { "theNumber": 78,  "theResult": 79 }\n  },\n  {\n    "args":  {},\n    "inter":  { "theNumber": null,  "theResult": null }\n  },\n  {\n    "args":  {},\n    "inter":  { "theNumber": 42,  "theResult": 43 }\n  },\n  {\n    "args":  {},\n    "inter":  { "theNumber": 67,  "theResult": 68 }\n  }\n]\n' }] };
+    scenario: '[\n  {\n    "args":  {},\n    "inter":  { "theNumber": 50,  "theResult": 51 }\n  },\n  {\n    "args":  {},\n    "inter":  { "theNumber": 78,  "theResult": 79 }\n  },\n  {\n    "args":  {},\n    "inter":  { "theNumber": null,  "theResult": null }\n  },\n  {\n    "args":  {},\n    "inter":  { "theNumber": 42,  "theResult": 43 }\n  },\n  {\n    "args":  {},\n    "inter":  { "theNumber": 67,  "theResult": 68 }\n  }\n]\n' }, 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  { 
+    name: 'Sum Of Previous', 
+    fileName: 'example/ok/sumOfPrevious', 
+    code: 'interaction\n  (wow (a:Number in)):Number out\nwith\n\n  interaction\n    ((a:Number in) + (b:Number in)):Number out\n  with\n    interaction (addition):{{a:Number,b:Number}->Number}out is (function addition)\n  is\n    ((# (a)+(b)) with behaviour ((addition)({a:(a)b:(b)})=(#(a)+(b))))\n\n  interaction\n    (previous(a:Number in)):Number out\n  is\n    ((# previous (a)) with behaviour ((# previous (a)) = previous (a)))\n\nis\n    ((previous(a))+(previous(a)))\n', 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+    scenario: '\n[\n  {\n    "args": {\n      "a": 1\n    },\n    "inter" : null\n  },\n  {\n    "args": {\n      "a": 8\n    },\n    "inter" : 2\n  },\n   {\n    "args": {\n      "a": 6\n    },\n    "inter" : 16\n  }\n]\n' }] };

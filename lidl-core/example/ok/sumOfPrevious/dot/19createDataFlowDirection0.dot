@@ -1,0 +1,20 @@
+digraph g{node_2798 [shape="ellipse", style="filled", color="#ffde2f", fontname="Times", label="$=previous$" ]
+node_2818 [shape="ellipse", style="filled", color="#ffde2f", fontname="Times", label="{a:$b:$}" ]
+node_2819 [shape="ellipse", style="filled", color="#ffde2f", fontname="Times", label="$$=$" ]
+node_2844 [shape="box", style="filled", color="#dff1f2", fontname="Courier", label="<%=a0%>=theArgs.a;
+" ]
+node_2846 [shape="box", style="filled", color="#dff1f2", fontname="Courier", label="theInterface=<%=a0%>;
+" ]
+node_2855 [shape="box", style="filled", color="#dff1f2", fontname="Courier", label="<%=a0%> = active;
+" ]
+node_2861 [shape="box", style="filled", color="#dff1f2", fontname="Courier", label="<%=a0%> = addition;
+" ]
+node_2819 -> node_2818 [dir=none, arrowHead=none, fontname="Times-Italic", arrowsize=1, color="#9d8400", label="",  headlabel="0", taillabel="2" ]
+node_2844 -> node_2798 [dir=none, arrowHead=none, fontname="Times-Italic", arrowsize=1, color="#9d8400", label="",  headlabel="2: Number in", taillabel="0: Number out" ]
+node_2855 -> node_2798 [dir=none, arrowHead=none, fontname="Times-Italic", arrowsize=1, color="#9d8400", label="",  headlabel="0: Activation in", taillabel="0: Activation out" ]
+node_2818 -> node_2798 [dir=none, arrowHead=none, fontname="Times-Italic", arrowsize=1, color="#9d8400", label="",  headlabel="1", taillabel="1" ]
+node_2818 -> node_2798 [dir=none, arrowHead=none, fontname="Times-Italic", arrowsize=1, color="#9d8400", label="",  headlabel="1", taillabel="2" ]
+node_2855 -> node_2819 [dir=none, arrowHead=none, fontname="Times-Italic", arrowsize=1, color="#9d8400", label="",  headlabel="0: Activation in", taillabel="0: Activation out" ]
+node_2846 -> node_2819 [dir=none, arrowHead=none, fontname="Times-Italic", arrowsize=1, color="#9d8400", label="",  headlabel="3: Number out", taillabel="0: Number in" ]
+node_2861 -> node_2819 [dir=none, arrowHead=none, fontname="Times-Italic", arrowsize=1, color="#9d8400", label="",  headlabel="1: {{a: Number, b: Number} -> Number} in", taillabel="0: {{a: Number, b: Number} -> Number} out" ]
+}

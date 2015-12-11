@@ -648,5 +648,49 @@ is
   }
 ]
 `
+},{
+    name: 'Sum Of Previous',
+fileName: 'example/ok/sumOfPrevious',
+     code : `interaction
+  (wow (a:Number in)):Number out
+with
+
+  interaction
+    ((a:Number in) + (b:Number in)):Number out
+  with
+    interaction (addition):{{a:Number,b:Number}->Number}out is (function addition)
+  is
+    ((# (a)+(b)) with behaviour ((addition)({a:(a)b:(b)})=(#(a)+(b))))
+
+  interaction
+    (previous(a:Number in)):Number out
+  is
+    ((# previous (a)) with behaviour ((# previous (a)) = previous (a)))
+
+is
+    ((previous(a))+(previous(a)))
+`,
+     scenario : `
+[
+  {
+    "args": {
+      "a": 1
+    },
+    "inter" : null
+  },
+  {
+    "args": {
+      "a": 8
+    },
+    "inter" : 2
+  },
+   {
+    "args": {
+      "a": 6
+    },
+    "inter" : 16
+  }
+]
+`
 }]
 };
