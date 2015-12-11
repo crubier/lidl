@@ -1,0 +1,21 @@
+interaction
+  (bob):{theNumber:Number in,theResult:Number out}
+with
+
+  interaction
+    ((x:{theNumber:Number in,theResult:Number out}).theNumber):Number out
+  is
+    ((variable (x).theNumber) with behaviour (({theNumber:(variable (x).theNumber)})=(x)))
+
+  interaction
+    ((x:{theNumber:Number in,theResult:Number out}).theResult):Number in
+  is
+    ((variable (x).theResult) with behaviour ((x)=({theResult:(variable (x).theResult)})))
+
+
+is
+  (
+    (variable this)
+    with behaviour
+    (((variable this).theResult)=((variable this).theNumber) )
+  )

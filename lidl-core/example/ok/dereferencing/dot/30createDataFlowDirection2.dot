@@ -1,0 +1,19 @@
+digraph g{node_1382 [shape="box", style="filled", color="#dff1f2", fontname="Courier", label="<%=a0%>=theInterface.theNumber;
+" ]
+node_1384 [shape="box", style="filled", color="#dff1f2", fontname="Courier", label="theInterface.theResult=<%=a0%>;
+" ]
+node_1427 [shape="ellipse", style="filled", color="#ffde2f", fontname="Times", label="$=$" ]
+node_1447 [shape="box", style="filled", color="#dff1f2", fontname="Courier", label="<%=a0%> = active;
+" ]
+node_1475 [shape="box", style="filled", color="#dff1f2", fontname="Courier", label="if(<%=a0%> === active) {<%=a1%> = <%=a2%>;}
+" ]
+node_1479 [shape="box", style="filled", color="#dff1f2", fontname="Courier", label="if(<%=a0%> === active) {<%=a2%> = <%=a1%>;}
+" ]
+node_1447 -> node_1427 [dir=none, arrowHead=none, fontname="Times-Italic", arrowsize=1, color="#9d8400", label="",  headlabel="0: Activation in", taillabel="0: Activation out" ]
+node_1475 -> node_1447 [dir=none, arrowHead=none, fontname="Times-Italic", arrowsize=1, color="#9d8400", label="",  headlabel="0: Activation out", taillabel="0: Activation in" ]
+node_1475 -> node_1384 [dir=none, arrowHead=none, fontname="Times-Italic", arrowsize=1, color="#9d8400", label="",  headlabel="0: Number in", taillabel="1: Number out" ]
+node_1475 -> node_1427 [dir=none, arrowHead=none, fontname="Times-Italic", arrowsize=1, color="#9d8400", label="",  headlabel="1: Number out", taillabel="2: Number in" ]
+node_1479 -> node_1447 [dir=none, arrowHead=none, fontname="Times-Italic", arrowsize=1, color="#9d8400", label="",  headlabel="0: Activation out", taillabel="0: Activation in" ]
+node_1479 -> node_1382 [dir=none, arrowHead=none, fontname="Times-Italic", arrowsize=1, color="#9d8400", label="",  headlabel="0: Number out", taillabel="1: Number in" ]
+node_1479 -> node_1427 [dir=none, arrowHead=none, fontname="Times-Italic", arrowsize=1, color="#9d8400", label="",  headlabel="2: Number in", taillabel="2: Number out" ]
+}
