@@ -222,6 +222,9 @@ export function graphTransformationPipeline (graph,rootDefinitionNode,callbacks)
     resolveMultiplePorts(graph);
     if(false===callCallback('resolveMultiplePorts',{iteration:1})) return graph;
 
+    createDataFlowDirection(graph);
+    if(false===callCallback('createDataFlowDirection',{iteration:5})) return graph;
+
     instantiateTemplates(graph);
     if(false===callCallback('instantiateTemplates',{iteration:1})) return graph;
 

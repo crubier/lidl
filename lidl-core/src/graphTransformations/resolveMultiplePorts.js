@@ -10,7 +10,7 @@ import {
 }
 from '../interfaces'
 
-// Here we solve the cases where several signals come or go from the same node with the same port number.
+// Here we solve the cases where several signals come or go from the same node with the same ports number.
 export default function resolveMultiplePorts(graph) {
 
   graph
@@ -57,15 +57,16 @@ export default function resolveMultiplePorts(graph) {
           theEdge.from.multiResolved = true;
         })
         .value();
+
       if (_(similarOutputEdges).size() > 1) {
         // We have a multiple output condition
         let code = "";
 
-        let ports = [conjugateInterface(theRightEdge.from.port)];
+        let ports = [conjugateInterface(theRightEdge.from.ports)];
         _(similarOutputEdges)
           .forEach((similarEdge, index) => {
             code = code + "<%=a" + (index + 1) + "%> = <%=a0%>;\n";
-            ports.push(theRightEdge.from.port);
+            ports.push(theRightEdge.from.ports);
           })
           .commit();
 
@@ -86,12 +87,14 @@ export default function resolveMultiplePorts(graph) {
             from: {
               multiResolved: true,
               node: theRightEdge.from.node,
-              index: theRightEdge.from.index
+              index: theRightEdge.from.index,
+              ports:theRightEdge.from.ports
             },
             to: {
               multiResolved: true,
               node: newNode,
-              index: 0
+              index: 0,
+              ports:conjugateInterface(theRightEdge.from.ports)
             }
           });
 
@@ -103,11 +106,12 @@ export default function resolveMultiplePorts(graph) {
                 from: {
                   multiResolved: true,
                   node: newNode,
-                  index: index + 1
+                  index: index + 1,
+                  ports: theRightEdge.from.ports
                 },
                 to: similarEdge.to
               });
-            // TODO I Should be able to do that
+            //TODO I Should be able to do that
             // graph.finish(similarEdge);
             // But i have to do the following instead because the graph.matchUndirectedEdges returns copies of the edges and not the edges themselves
             graph.finish(graph.findDirectedEdge({
@@ -130,8 +134,8 @@ export default function resolveMultiplePorts(graph) {
           }
         })
         .forEach(theOtherEdge => {
-          //TODO SCANDAL REMOVE THE NEXT LINE
-          theEdge.from.multiResolved = true;
+          //FIXME SCANDAL REMOVE THE NEXT LINE
+          // theEdge.from.multiResolved = true;
 
           theEdge.to.multiResolved = true;
         })
@@ -139,11 +143,11 @@ export default function resolveMultiplePorts(graph) {
       if (_(similarInputEdges).size() > 1) {
         // We have a multiple input condition
         let code = "<%=a0%>=null;\n";
-        let ports = [conjugateInterface(theRightEdge.to.port)];
+        let ports = [conjugateInterface(theRightEdge.to.ports)];
         _(similarInputEdges)
           .forEach((similarEdge, index) => {
             code = code + "if(<%=a0%>===null ){\n  <%=a0%> = <%=a" + (index + 1) + "%>;\n} else if (<%=a" + (index + 1) + "%> !== null){\n  throw ('error:multiple active assignments to the same signal <%=a0%> : '+<%=a0%> + ' and ' + <%=a" + (index + 1) + "%>);\n}";
-            ports.push(theRightEdge.to.port);
+            ports.push(theRightEdge.to.ports);
           })
           .commit();
 
@@ -153,7 +157,7 @@ export default function resolveMultiplePorts(graph) {
             type: 'InteractionInstance',
             content: {
               type: 'InteractionNative',
-              content: code
+              content: code+"\n"
             },
             ports: ports
           });
@@ -164,12 +168,14 @@ export default function resolveMultiplePorts(graph) {
             to: {
               multiResolved: true,
               node: theRightEdge.to.node,
-              index: theRightEdge.to.index
+              index: theRightEdge.to.index,
+              ports:theRightEdge.to.ports
             },
             from: {
               multiResolved: true,
               node: newNode,
-              index: 0
+              index: 0,
+              ports: conjugateInterface( theRightEdge.to.ports)
             }
           });
 
@@ -181,12 +187,13 @@ export default function resolveMultiplePorts(graph) {
                 to: {
                   multiResolved: true,
                   node: newNode,
-                  index: index + 1
+                  index: index + 1,
+                  ports:theRightEdge.to.ports
                 },
                 from: similarEdge.from
               });
             // console.log("finishing edge "+similarEdge.id);
-            // TODO I Should be able to do that
+            //TODO I Should be able to do that
             // graph.finish(similarEdge);
             // But i have to do the following instead because the graph.matchUndirectedEdges returns copies of the edges and not the edges themselves
             graph.finish(graph.findDirectedEdge({

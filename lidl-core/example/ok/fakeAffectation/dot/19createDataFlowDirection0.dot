@@ -1,0 +1,19 @@
+digraph g{node_1681 [shape="box", style="filled", color="#dff1f2", fontname="Courier", label="<%=a0%>=theInterface.theNumber;
+" ]
+node_1683 [shape="box", style="filled", color="#dff1f2", fontname="Courier", label="theInterface.theResult=<%=a0%>;
+" ]
+node_1685 [shape="ellipse", style="filled", color="#ffde2f", fontname="Times", label="{theNumber:$theResult:$}" ]
+node_1696 [shape="ellipse", style="filled", color="#ffde2f", fontname="Times", label="{theNumber:$theResult:$}" ]
+node_1702 [shape="ellipse", style="filled", color="#ffde2f", fontname="Times", label="apply$to$andget$" ]
+node_1713 [shape="box", style="filled", color="#dff1f2", fontname="Courier", label="<%=a0%> = active;
+" ]
+node_1716 [shape="box", style="filled", color="#dff1f2", fontname="Courier", label="<%=a0%> = identity;
+" ]
+node_1685 -> node_1681 [dir=none, arrowHead=none, fontname="Times-Italic", arrowsize=1, color="#9d8400", label="",  headlabel="0", taillabel="1: theNumber" ]
+node_1685 -> node_1683 [dir=none, arrowHead=none, fontname="Times-Italic", arrowsize=1, color="#9d8400", label="",  headlabel="0", taillabel="2: theResult" ]
+node_1696 -> node_1702 [dir=none, arrowHead=none, fontname="Times-Italic", arrowsize=1, color="#9d8400", label="",  headlabel="2", taillabel="1" ]
+node_1696 -> node_1702 [dir=none, arrowHead=none, fontname="Times-Italic", arrowsize=1, color="#9d8400", label="",  headlabel="3", taillabel="2" ]
+node_1713 -> node_1702 [dir=none, arrowHead=none, fontname="Times-Italic", arrowsize=1, color="#9d8400", label="",  headlabel="0: Activation in", taillabel="0: Activation out" ]
+node_1685 -> node_1696 [dir=none, arrowHead=none, fontname="Times-Italic", arrowsize=1, color="#9d8400", label="",  headlabel="0: {theNumber: Number in, theResult: Number out}", taillabel="0: {theNumber: Number out, theResult: Number in}" ]
+node_1716 -> node_1702 [dir=none, arrowHead=none, fontname="Times-Italic", arrowsize=1, color="#9d8400", label="",  headlabel="1: {Number -> Number} in", taillabel="0: {Number -> Number} out" ]
+}

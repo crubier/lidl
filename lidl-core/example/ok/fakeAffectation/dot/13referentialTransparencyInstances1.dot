@@ -1,0 +1,22 @@
+digraph g{node_1681 [shape="box", style="filled", color="#dff1f2", fontname="Courier", label="<%=a0%>=theInterface.theNumber;
+" ]
+node_1683 [shape="box", style="filled", color="#dff1f2", fontname="Courier", label="theInterface.theResult=<%=a0%>;
+" ]
+node_1685 [shape="ellipse", style="filled", color="#ffde2f", fontname="Times", label="{theNumber:$theResult:$}" ]
+node_1690 [shape="ellipse", style="filled", color="#ffde2f", fontname="Times", label="variabletheNumber" ]
+node_1693 [shape="ellipse", style="filled", color="#ffde2f", fontname="Times", label="variabletheResult" ]
+node_1696 [shape="ellipse", style="filled", color="#ffde2f", fontname="Times", label="{theNumber:$theResult:$}" ]
+node_1700 [shape="ellipse", style="filled", color="#ffde2f", fontname="Times", label="functionidentity" ]
+node_1702 [shape="ellipse", style="filled", color="#ffde2f", fontname="Times", label="apply$to$andget$" ]
+node_1707 [shape="ellipse", style="filled", color="#ffde2f", fontname="Times", label="$withbehaviour$" ]
+node_1685 -> node_1681 [dir=none, arrowHead=none, fontname="Times-Italic", arrowsize=1, color="#9d8400", label="",  headlabel="0", taillabel="1: theNumber" ]
+node_1685 -> node_1683 [dir=none, arrowHead=none, fontname="Times-Italic", arrowsize=1, color="#9d8400", label="",  headlabel="0", taillabel="2: theResult" ]
+node_1696 -> node_1690 [dir=none, arrowHead=none, fontname="Times-Italic", arrowsize=1, color="#9d8400", label="",  headlabel="0", taillabel="1" ]
+node_1696 -> node_1693 [dir=none, arrowHead=none, fontname="Times-Italic", arrowsize=1, color="#9d8400", label="",  headlabel="0", taillabel="2" ]
+node_1702 -> node_1690 [dir=none, arrowHead=none, fontname="Times-Italic", arrowsize=1, color="#9d8400", label="",  headlabel="0", taillabel="2" ]
+node_1702 -> node_1693 [dir=none, arrowHead=none, fontname="Times-Italic", arrowsize=1, color="#9d8400", label="",  headlabel="0", taillabel="3" ]
+node_1702 -> node_1700 [dir=none, arrowHead=none, fontname="Times-Italic", arrowsize=1, color="#9d8400", label="",  headlabel="0", taillabel="1" ]
+node_1707 -> node_1696 [dir=none, arrowHead=none, fontname="Times-Italic", arrowsize=1, color="#9d8400", label="",  headlabel="0", taillabel="1" ]
+node_1707 -> node_1702 [dir=none, arrowHead=none, fontname="Times-Italic", arrowsize=1, color="#9d8400", label="",  headlabel="0", taillabel="2" ]
+node_1707 -> node_1685 [dir=none, arrowHead=none, fontname="Times-Italic", arrowsize=1, color="#9d8400", label="",  headlabel="0", taillabel="0" ]
+}

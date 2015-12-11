@@ -21,7 +21,7 @@ function serialize(object, indentation) {
     case 'DataComposite':
       return '{' + (0, _lodash2.default)(object.element).map(function (x) {return x.key + ": " + serialize(x.value);}).join(', ') + '}';
     case 'DataFunction':
-      return serialize(object.domain) + ' -> ' + serialize(object.codomain);
+      return '{' + serialize(object.domain) + ' -> ' + serialize(object.codomain) + '}';
     case 'DataArray':
       return '[' + serialize(object.element) + ']';
     default:

@@ -343,7 +343,7 @@ export default function matchingCompositionReduction(graph) {
             // console.log("ok");
 
             // No simplified condition because the two composition are linked directly
-            // For each edge going to the matching node, we add an edge that goes to the current node with a special label on the port so we dont confuse with edges that already go to it
+            // For each edge going to the matching node, we add an edge that goes to the current node with a special label on the ports so we dont confuse with edges that already go to it
             graph
               .matchUndirectedEdges({
                 type: 'InteractionInstanceOperand',
@@ -478,7 +478,7 @@ export default function matchingCompositionReduction(graph) {
       // gexport(graph,n1.id);
 
       // Lets build a graph of the situation inside the Composition Node. Wiring between ports and co ports
-      // Each Node of the internal graph represents a port of the Composition node
+      // Each Node of the internal graph represents a ports of the Composition node
       let internalGraph = new Graph();
       internalGraph.type = 'internal';
 
@@ -492,7 +492,7 @@ export default function matchingCompositionReduction(graph) {
         })
         .filter(x => (x.from.isCoPort === true))
         .map(x => ({
-          port: x.from,
+          ports: x.from,
           closed: false
         }))
         .value();
@@ -507,7 +507,7 @@ export default function matchingCompositionReduction(graph) {
         })
         .filter(x => (x.to.isCoPort === true))
         .map(x => ({
-          port: x.to,
+          ports: x.to,
           closed: false
         }))
         .value();
@@ -515,10 +515,10 @@ export default function matchingCompositionReduction(graph) {
       let coPortNodes = {};
       _([coPortsFrom, coPortsTo])
         .flatten()
-        .sortBy("port.coCompositionElementName")
-        .unique(true, "port.coCompositionElementName")
+        .sortBy("ports.coCompositionElementName")
+        .unique(true, "ports.coCompositionElementName")
         .forEach(x => {
-          coPortNodes[x.port.coCompositionElementName] = internalGraph.addNode(x);
+          coPortNodes[x.ports.coCompositionElementName] = internalGraph.addNode(x);
         })
         .commit();
 
@@ -532,7 +532,7 @@ export default function matchingCompositionReduction(graph) {
         })
         .filter(x => (x.from.isCoPort !== true))
         .map(x => ({
-          port: x.from,
+          ports: x.from,
           closed: false
         }))
         .value();
@@ -547,7 +547,7 @@ export default function matchingCompositionReduction(graph) {
         })
         .filter(x => (x.to.isCoPort !== true))
         .map(x => ({
-          port: x.to,
+          ports: x.to,
           closed: false
         }))
         .value();
@@ -555,10 +555,10 @@ export default function matchingCompositionReduction(graph) {
       let portNodes = {};
       _([portsFrom, portsTo])
         .flatten()
-        .sortBy("port.compositionElementName")
-        .unique(true, "port.compositionElementName")
+        .sortBy("ports.compositionElementName")
+        .unique(true, "ports.compositionElementName")
         .forEach(x => {
-          portNodes[x.port.compositionElementName] = internalGraph.addNode(x);
+          portNodes[x.ports.compositionElementName] = internalGraph.addNode(x);
         })
         .commit();
 
@@ -569,18 +569,18 @@ export default function matchingCompositionReduction(graph) {
       // Connect Ports with their respective coPorts in the internal graph, this is semantics of the composition
       internalGraph
         .matchNodes({
-          port: {
+          ports: {
             isCoPort: true
           }
         })
         .forEach(n1 => {
           internalGraph
             .matchNodes({
-              port: {
-                compositionElementName: n1.port.coCompositionElementName
+              ports: {
+                compositionElementName: n1.ports.coCompositionElementName
               }
             })
-            .filter(x => (x.port.isCoPort !== true))
+            .filter(x => (x.ports.isCoPort !== true))
             .forEach(n2 =>
               internalGraph.addEdge({
                 type: 'normal',
@@ -719,24 +719,24 @@ export default function matchingCompositionReduction(graph) {
         .matchUndirectedEdges({
           from: {
             node: {
-              port: {}
+              ports: {}
             }
           },
           to: {
             node: {
-              port: {}
+              ports: {}
             }
           }
         })
         // .tap(x=>{console.log("internal ");console.log(x);})
-        .filter(x => (x.to.node.port.isCoPort !== true && x.from.node.port.isCoPort === true))
+        .filter(x => (x.to.node.ports.isCoPort !== true && x.from.node.ports.isCoPort === true))
         .forEach(internalEdge => {
           // console.log("xxxx")
           graph
             .matchUndirectedEdges({
               from: {
                 node: n1,
-                coCompositionElementName: internalEdge.from.node.port.coCompositionElementName
+                coCompositionElementName: internalEdge.from.node.ports.coCompositionElementName
               }
             })
             .forEach(coEdge => {
@@ -744,7 +744,7 @@ export default function matchingCompositionReduction(graph) {
                 .matchUndirectedEdges({
                   from: {
                     node: n1,
-                    compositionElementName: internalEdge.to.node.port.compositionElementName
+                    compositionElementName: internalEdge.to.node.ports.compositionElementName
                   }
                 })
                 .forEach(edge => {

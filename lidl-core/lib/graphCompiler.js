@@ -222,6 +222,9 @@ graphTransformationPipeline = graphTransformationPipeline;var _g = require('./g.
     (0, _resolveMultiplePorts2.default)(graph);
     if (false === callCallback('resolveMultiplePorts', { iteration: 1 })) return graph;
 
+    (0, _createDataFlowDirection2.default)(graph);
+    if (false === callCallback('createDataFlowDirection', { iteration: 5 })) return graph;
+
     (0, _instantiateTemplates2.default)(graph);
     if (false === callCallback('instantiateTemplates', { iteration: 1 })) return graph;
 

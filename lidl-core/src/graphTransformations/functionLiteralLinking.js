@@ -9,7 +9,7 @@ export default function functionLiteralLinking(graph) {
     let funcName = theNode.content.operator.substring(8);
     let source =
       graph
-      .addNode({type:'InteractionInstance',content:{type: 'InteractionNative','content': '<%=a0%> = ' + funcName + ';\n'},ports: theNode.ports}); //FIXME interface instead of port
+      .addNode({type:'InteractionInstance',content:{type: 'InteractionNative','content': '<%=a0%> = ' + funcName + ';\n'},ports: theNode.ports}); //FIXME interface instead of ports
     graph
     .matchUndirectedEdges({type:'InteractionInstanceOperand',from:{node:theNode,index:0}})
     .forEach(x=>

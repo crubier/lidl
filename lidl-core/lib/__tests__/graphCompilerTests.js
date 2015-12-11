@@ -4,7 +4,7 @@ var graphCompiler = require('../graphCompiler.js');
 var parser = require('../parser.js');
 var runner = require('../runner.js');
 var _ = require('lodash');
-var fs = require('fs');
+var fs = require('fs-extra');
 var path = require('path');
 // var Graph =require('../g.js');
 var exec = require('child_process').exec;
@@ -81,6 +81,10 @@ describe('lidl graph compiler', function () {
 
 
 
+    fs.removeSync(path.join(file, "result"));
+    fs.removeSync(path.join(file, "dot"));
+    fs.removeSync(path.join(file, "pdf"));
+
     var code = fs.readFileSync(path.join(file, "code.lidl"), { 
       encoding: 'utf8' });
 
@@ -89,6 +93,10 @@ describe('lidl graph compiler', function () {
 
     var scenarioText = fs.readFileSync(path.join(file, 'scenario.json'), { 
       encoding: 'utf8' });
+
+
+    if (!fs.existsSync(path.join(file, "result"))) {
+      fs.mkdirSync(path.join(file, "result"));}
 
 
     describe('Compilation of file ' + file, function () {
@@ -113,19 +121,27 @@ describe('lidl graph compiler', function () {
           printGraph(graph, data.step + 'referentialTransparencyInstances' + data.iteration);
           return true;}, 
 
+        orderGraph: function orderGraph(graph, data) {
+          printGraph(graph, data.step + 'orderGraph' + data.iteration);
+          return true;}, 
+
+        resolveMultiplePorts: function resolveMultiplePorts(graph, data) {
+          printGraph(graph, data.step + 'resolveMultiplePorts' + data.iteration);
+          return true;}, 
+
         getJsCode: function getJsCode(graph, data) {
-          fs.writeFileSync(path.join(file, 'generated.js'), data.source, { 
+          fs.writeFileSync(path.join(file, 'result', 'generated.js'), data.source, { 
             encoding: 'utf8' });
 
           var trace = runner.run(data, JSON.parse(scenarioText));
           checkTraceAgainstOracle(trace, JSON.parse(scenarioText));
-          fs.writeFileSync(path.join(file, 'trace.json'), JSON.stringify(trace), { 
+          fs.writeFileSync(path.join(file, 'result', 'trace.json'), JSON.stringify(trace), { 
             encoding: 'utf8' });
 
           return true;}, 
 
         getExpandedLidlCode: function getExpandedLidlCode(graph, data) {
-          fs.writeFileSync(path.join(file, 'expanded.lidl'), data.source, { 
+          fs.writeFileSync(path.join(file, 'result', 'expanded.lidl'), data.source, { 
             encoding: 'utf8' });
 
           return true;}, 

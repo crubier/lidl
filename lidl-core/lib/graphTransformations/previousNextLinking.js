@@ -13,14 +13,14 @@ previousNextLinking;var _lodash = require('lodash');var _lodash2 = _interopRequi
     var source = 
     graph.
     addNode({ type: 'InteractionInstance', containsAState: true, stateVariableName: stateId, content: { 'type': 'InteractionNative', 'content': "if(<%=a0%> === active) {\n<%=a1%> = previousState['" + stateId + "'];\n}\n" }, ports: ["in", "out"] });
-    // Add edge to first port
+    // Add edge to first ports
     graph.
     matchUndirectedEdges({ type: 'InteractionInstanceOperand', from: { node: theNode, index: 0 } }).
     forEach(function (x) {return (
         graph.
         addEdge({ type: 'InteractionInstanceOperand', from: { node: source, index: 0 }, to: x.to }));}).
     commit();
-    // Add edge to second port
+    // Add edge to second ports
     graph.
     matchUndirectedEdges({ type: 'InteractionInstanceOperand', from: { node: theNode, index: 1 } }).
     forEach(function (x) {return (
@@ -33,14 +33,14 @@ previousNextLinking;var _lodash = require('lodash');var _lodash2 = _interopRequi
     var source2 = 
     graph.
     addNode({ type: 'InteractionInstance', containsAState: true, stateVariableName: stateId, content: { 'type': 'InteractionNative', 'content': "if(<%=a0%> === active) {\nnextState['" + stateId + "'] = <%=a1%>;\n}\n" }, ports: ["in", "in"] });
-    // Add edge to first port
+    // Add edge to first ports
     graph.
     matchUndirectedEdges({ type: 'InteractionInstanceOperand', from: { node: theNode, index: 0 } }).
     forEach(function (x) {return (
         graph.
         addEdge({ type: 'InteractionInstanceOperand', from: { node: source2, index: 0 }, to: x.to }));}).
     commit();
-    // Add edge to second port
+    // Add edge to second ports
     graph.
     matchUndirectedEdges({ type: 'InteractionInstanceOperand', from: { node: theNode, index: 2 } }).
     forEach(function (x) {return (

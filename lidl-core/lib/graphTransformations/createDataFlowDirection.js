@@ -28,7 +28,7 @@ createDataFlowDirection;var _lodash = require('lodash');var _lodash2 = _interopR
     _lodash2.default.cloneDeep(theEdge.from.node.ports[theEdge.from.index]);
     var portOnDestination = 
     _lodash2.default.cloneDeep(theEdge.to.node.ports[theEdge.to.index]);
-    // Here we infer that port on one end are conjugated with ports on other end
+    // Here we infer that ports on one end are conjugated with ports on other end
     // console.log("EDGE0 "+theEdge.id +" "+ theEdge.from.index+" "+ portOnOrigin+" "+ theEdge.to.index + " " + portOnDestination);
     try {
       theEdge.from.ports = (0, _interfaces.mergeInterface)(portOnOrigin, (0, _interfaces.conjugateInterface)(portOnDestination));

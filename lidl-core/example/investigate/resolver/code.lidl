@@ -1,8 +1,0 @@
-interaction (bob):{theNumber:Number in,theOther:Number in, theResult:Number out, theLast:Number out}
-is
-    (
-    {theNumber:(variable theNumber)
-    theOther:(variable theNumber)
-    theResult:(variable theNumber)
-    theLast:(variable theNumber)}
-    )

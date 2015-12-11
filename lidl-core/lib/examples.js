@@ -1,7 +1,47 @@
 'use strict'; // File automatically generated when performing     npm run build   
 // It contains examples of lidl code from the example/ok folder
 module.exports = { 
-  header: 'var isActive = function(x) {\n  return (x !== null && x !== undefined);\n};\n\nvar cool = function(x) {\n  if (isActive(x.a) && isActive(x.b)) {\n    return {\n      sum: (x.a + x.b),\n      diff: (x.a - x.b)\n    };\n  } else {\n    return {\n      sum: inactive,\n      diff: inactive\n    };\n  }\n};\n\nvar fallback = function(x) {\n  return (isActive(x.a) ? x.a : x.b);\n};\n\nvar return0 = function(x) {\n  return 0;\n};\n\n\nvar return1 = function(x) {\n  return 1;\n};\n\nvar addition = function(x) {\n  if (isActive(x.a) && isActive(x.b)) {\n    return x.a + x.b;\n  } else {\n    return inactive;\n  }\n};\n\nvar addOne = function(x) {\n  if (isActive(x))\n    return x + 1;\n  else {\n    return inactive;\n  }\n};\n\nvar identity = function(x) {\n  return x;\n};\n\nvar isEqual = function(x) {\n  if (isActive(x.a) && isActive(x.b)) {\n    return (x.a===x.b)?true:false;\n  } else {\n    return inactive;\n  }\n};\n\n\nvar boolNot = function(x) {\n  if (isActive(x) ) {\n    return !x;\n  } else {\n    return inactive;\n  }\n};\n\nvar ifThenElse = function(x) {\n  if (isActive(x) ) {\n    if (isActive(x.cond) ) {\n      if(x.cond ===true) {\n        return x.a;\n      } else if(x.cond ===false) {\n        return x.b;\n      } else {\n        return inactive;\n      }\n    } else {\n      return inactive;\n    }\n  } else {\n    return inactive;\n  }\n};\n\n\nvar whenThenElse = function(x) {\n  if (isActive(x) ) {\n    if (isActive(x.cond) ) {\n      if(x.cond === true) {\n        return {a:active,b:inactive};\n      } else if(x.cond ===false) {\n        return {a:inactive,b:active};\n      } else {\n        return inactive;\n      }\n    } else {\n      return inactive;\n    }\n  } else {\n    return inactive;\n  }\n};\n\n\nvar all = function(x) {\n  return {a:x,b:x,c:x,d:x,e:x,f:x,g:x,h:x,i:x,j:x,k:x,l:x,m:x,n:x,o:x,p:x};\n};\n\n\nvar cursor = function(mouse){\n  var cursor = {\n    type: "shadow",\n    blur: mouse.buttons === 0 ? 20 : 10,\n    offset: {\n      x: 0,\n      y: mouse.buttons === 0 ? 4 : 2\n    },\n    color: "rgba(0, 0, 0, 0.5)",\n    content: {\n      type: "translate",\n      x: mouse.position.x,\n      y: mouse.position.y,\n      content: {\n        type: "scale",\n        width: mouse.buttons === 0 ? 1 : 0.8,\n        height: mouse.buttons === 0 ? 1 : 0.8,\n        content: {\n          type: "fill",\n          style: "rgba(200, 0, 200, 1)",\n          content: {\n            type: "path",\n            content: [{\n              type: "begin"\n            }, {\n              type: "move",\n              x: 0,\n              y: 0\n            }, {\n              type: "line",\n              x: 0,\n              y: 15\n            }, {\n              type: "line",\n              x: 10.6,\n              y: 10.6\n            }, {\n              type: "close"\n            }]\n          }\n        }\n      }\n    }\n  };\n  return cursor;\n}\n\n', 
+  header: 'var isActive = function(x) {\n  return (x !== null && x !== undefined);\n};\n\nvar cool = function(x) {\n  if (isActive(x.a) && isActive(x.b)) {\n    return {\n      sum: (x.a + x.b),\n      diff: (x.a - x.b)\n    };\n  } else {\n    return {\n      sum: inactive,\n      diff: inactive\n    };\n  }\n};\n\nvar fallback = function(x) {\n  return (isActive(x.a) ? x.a : x.b);\n};\n\nvar return0 = function(x) {\n  return 0;\n};\n\n\nvar return1 = function(x) {\n  return 1;\n};\n\nvar addition = function(x) {\n  if (isActive(x.a) && isActive(x.b)) {\n    return x.a + x.b;\n  } else {\n    return inactive;\n  }\n};\n\nvar multiplication = function(x) {\n  if (isActive(x.a) && isActive(x.b)) {\n    return x.a * x.b;\n  } else {\n    return inactive;\n  }\n};\n\nvar substraction = function(x) {\n  if (isActive(x.a) && isActive(x.b)) {\n    return x.a - x.b;\n  } else {\n    return inactive;\n  }\n};\n\nvar division = function(x) {\n  if (isActive(x.a) && isActive(x.b)) {\n    return x.a / x.b;\n  } else {\n    return inactive;\n  }\n};\n\nvar remainder = function(x) {\n  if (isActive(x.a) && isActive(x.b)) {\n    return x.a % x.b;\n  } else {\n    return inactive;\n  }\n};\n\nvar power = function(x) {\n  if (isActive(x.a) && isActive(x.b)) {\n    return Math.pow(x.a,x.b);\n  } else {\n    return inactive;\n  }\n};\n\nvar addOne = function(x) {\n  if (isActive(x))\n    return x + 1;\n  else {\n    return inactive;\n  }\n};\n\nvar identity = function(x) {\n  return x;\n};\n\nvar isEqual = function(x) {\n  if (isActive(x.a) && isActive(x.b)) {\n    return (x.a===x.b)?true:false;\n  } else {\n    return inactive;\n  }\n};\n\n\nvar boolNot = function(x) {\n  if (isActive(x) ) {\n    return !x;\n  } else {\n    return inactive;\n  }\n};\n\nvar ifThenElse = function(x) {\n  if (isActive(x) ) {\n    if (isActive(x.cond) ) {\n      if(x.cond ===true) {\n        return x.a;\n      } else if(x.cond ===false) {\n        return x.b;\n      } else {\n        return inactive;\n      }\n    } else {\n      return inactive;\n    }\n  } else {\n    return inactive;\n  }\n};\n\n\nvar whenThenElse = function(x) {\n  if (isActive(x) ) {\n    if (isActive(x.cond) ) {\n      if(x.cond === true) {\n        return {a:active,b:inactive};\n      } else if(x.cond ===false) {\n        return {a:inactive,b:active};\n      } else {\n        return inactive;\n      }\n    } else {\n      return inactive;\n    }\n  } else {\n    return inactive;\n  }\n};\n\n\nvar all = function(x) {\n  return {a:x,b:x,c:x,d:x,e:x,f:x,g:x,h:x,i:x,j:x,k:x,l:x,m:x,n:x,o:x,p:x};\n};\n\n\nvar cursor = function(mouse){\n  var cursor = {\n    type: "shadow",\n    blur: mouse.buttons === 0 ? 20 : 10,\n    offset: {\n      x: 0,\n      y: mouse.buttons === 0 ? 4 : 2\n    },\n    color: "rgba(0, 0, 0, 0.5)",\n    content: {\n      type: "translate",\n      x: mouse.position.x,\n      y: mouse.position.y,\n      content: {\n        type: "scale",\n        width: mouse.buttons === 0 ? 1 : 0.8,\n        height: mouse.buttons === 0 ? 1 : 0.8,\n        content: {\n          type: "fill",\n          style: "rgba(200, 0, 200, 1)",\n          content: {\n            type: "path",\n            content: [{\n              type: "begin"\n            }, {\n              type: "move",\n              x: 0,\n              y: 0\n            }, {\n              type: "line",\n              x: 0,\n              y: 15\n            }, {\n              type: "line",\n              x: 10.6,\n              y: 10.6\n            }, {\n              type: "close"\n            }]\n          }\n        }\n      }\n    }\n  };\n  return cursor;\n}\n\n', 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
@@ -161,6 +201,111 @@ module.exports = {
 
 
   lidl: [{ 
+    name: 'Affectation Expression', 
+    fileName: 'example/ok/affectationExpression', 
+    code: 'interaction\n  (bob):{theNumber:Number in,theResult:Number out}\nwith\n\n  interaction\n    (the magic number):Number out\n  with\n    interaction (return1):{Void->Number} out is (function return1)\n  is\n    (\n      (variable result1)\n      with behaviour\n      (\n        apply\n        (return1)\n        to\n        (variable ok)\n        and get\n        (variable result1)\n      )\n    )\n\n  interaction\n    ((a:Number in)+(b:Number in)):Number out\n  with\n    interaction (addition):{{a:Number,b:Number}->Number} out is (function addition)\n  is\n    (\n      (variable result of (a)+(b))\n      with behaviour\n      (\n        apply\n        (addition)\n        to\n        ({a:(a)b:(b)})\n        and get\n        (variable result of (a)+(b))\n      )\n    )\n\nis\n  (\n    ({\n      theNumber:(# theNumber)\n      theResult:(# theResult)}\n    )\n  with behaviour\n    (\n      (# theResult) =((the magic number )+(# theNumber))\n    )\n  )\n', 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+    scenario: '[\n  {\n    "args":  {},\n    "inter":  { "theNumber": 50,  "theResult": 51 }\n  },\n  {\n    "args":  {},\n    "inter":  { "theNumber": 78,  "theResult": 79 }\n  },\n  {\n    "args":  {},\n    "inter":  { "theNumber": null,  "theResult": null }\n  },\n  {\n    "args":  {},\n    "inter":  { "theNumber": 42,  "theResult": 43 }\n  },\n  {\n    "args":  {},\n    "inter":  { "theNumber": 67,  "theResult": 68 }\n  }\n]\n' }, 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  { 
+    name: 'Arguments', 
+    fileName: 'example/ok/arguments', 
+    code: 'interaction\n  (bob(a:Number in)):Number out\nis\n  (a)\n', 
+
+
+
+
+    scenario: '[\n  {\n    "args":  {"a":28},\n    "inter":  28\n  },\n  {\n    "args":  {"a":2},\n    "inter":  2\n  },\n  {\n    "args":  {"a":3},\n    "inter":  3\n  },\n  {\n    "args":  {"a":6},\n    "inter":  6\n  }\n]\n' }, 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  { 
     name: 'Composition 2 X 1', 
     fileName: 'example/ok/composition2x1', 
     code: 'interaction\n  (bob):{theNumber:Number in,theOther:Number in,theResult:Number out}\nwith\n  interaction\n    (addition):{{a:Number,b:Number}->Number}out\n  is\n    (function addition)\nis\n  (\n    ({\n      theNumber:(x)\n      theOther:(y)\n      theResult:(z)\n    })\n   with behaviour\n    (apply\n      (addition)\n      to\n      ({a:(x)b:(y)})\n      and get\n      (z)\n    )\n  )\n', 
@@ -211,6 +356,224 @@ module.exports = {
 
 
   { 
+    name: 'Composition 2 X 2', 
+    fileName: 'example/ok/composition2x2', 
+    code: 'interaction\n  (bob):{theNumber:Number in,theOther:Number in,theResult:Number out,theLast:Number out}\nwith\n interaction\n  (cool):{{a:Number,b:Number}->{sum:Number,diff:Number}} out\n  is\n  (function cool)\nis\n  (\n    ({\n      theNumber:(variable theNumber)\n      theOther:(variable y)\n      theResult:(variable theResult)\n      theLast:(variable wow)\n    })\n  with behaviour\n    ( apply (cool)\n      to\n      ({a:(variable theNumber)b:(variable y)})\n      and get\n      ({sum:(variable theResult)diff:(variable wow)})\n    )\n  )\n', 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+    scenario: '[\n  {\n    "args":  {},\n    "inter":  { "theNumber": 50,"theOther": 50,   "theResult": 100,"theLast":0 }\n  },\n  {\n    "args":  {},\n    "inter":  { "theNumber": 78, "theOther": 2, "theResult": 80,"theLast":76 }\n  },\n  {\n    "args":  {},\n    "inter":  { "theNumber": null,"theOther": 50,  "theResult": null,"theLast":null }\n  },\n  {\n    "args":  {},\n    "inter":  { "theNumber": 42,"theOther": 12,  "theResult": 54,"theLast":30 }\n  },\n  {\n    "args":  {},\n    "inter":  { "theNumber": 67,"theOther": 50,  "theResult": 117,"theLast":17 }\n  }\n]\n' }, 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  { 
+    name: 'Dereferencing', 
+    fileName: 'example/ok/dereferencing', 
+    code: 'interaction\n  (bob):{theNumber:Number in,theResult:Number out}\nwith\n\n  interaction\n    ((x:{theNumber:Number in,theResult:Number out}).theNumber):Number out\n  is\n    ((variable (x).theNumber) with behaviour (({theNumber:(variable (x).theNumber)})=(x)))\n\n  interaction\n    ((x:{theNumber:Number in,theResult:Number out}).theResult):Number in\n  is\n    ((variable (x).theResult) with behaviour ((x)=({theResult:(variable (x).theResult)})))\n\n\nis\n  (\n    (variable this)\n    with behaviour\n    (((variable this).theResult)=((variable this).theNumber) )\n  )\n', 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+    scenario: '[\n  {\n    "args":  {},\n    "inter":  { "theNumber": 50,  "theResult": 50 }\n  },\n  {\n    "args":  {},\n    "inter":  { "theNumber": 78,  "theResult": 78 }\n  },\n  {\n    "args":  {},\n    "inter":  { "theNumber": null,  "theResult": null }\n  },\n  {\n    "args":  {},\n    "inter":  { "theNumber": 42,  "theResult": 42 }\n  },\n  {\n    "args":  {},\n    "inter":  { "theNumber": 67,  "theResult": 67 }\n  }\n]\n' }, 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  { 
+    name: 'Fake Affectation', 
+    fileName: 'example/ok/fakeAffectation', 
+    code: 'interaction\n  (bob):{theNumber:Number in,theResult:Number out}\nwith\n  interaction\n    ((a:Number out)=fake=(b:Number in)):Activation in\n  with\n    interaction (identity):{Number->Number}out is (function identity)\n  is\n    (apply (identity) to (b) and get (a))\nis\n  (\n    (\n    {theNumber:(variable theNumber)theResult:(variable theResult)}\n    )\n  with behaviour\n    ((variable theResult)=fake=(variable theNumber))\n  )\n', 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+    scenario: '[\n  {\n    "args":  {},\n    "inter":  { "theNumber": 50,  "theResult": 50 }\n  },\n  {\n    "args":  {},\n    "inter":  { "theNumber": 78,  "theResult": 78 }\n  },\n  {\n    "args":  {},\n    "inter":  { "theNumber": null,  "theResult": null }\n  },\n  {\n    "args":  {},\n    "inter":  { "theNumber": 42,  "theResult": 42 }\n  },\n  {\n    "args":  {},\n    "inter":  { "theNumber": 67,  "theResult": 67 }\n  }\n]\n' }, 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  { 
+    name: 'Literals', 
+    fileName: 'example/ok/literals', 
+    code: 'interaction\n  (ok literal):Number out\nwith\n\n  interaction\n    ((a:Number in) + (b:Number in)):Number out\n  with\n    interaction\n      (addition):{{a:Number,b:Number}->Number}out\n    is\n      (function addition)\n  is\n    ((# (a)+(b)) with behaviour ((addition)({a:(a)b:(b)})=(#(a)+(b))))\n\nis\n  ((9)+(9))\n', 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+    scenario: '\n[\n  {\n    "args": {},\n    "inter" : 18\n  },\n  {\n  "args": {},\n  "inter" : 18\n},\n{\n  "args": {},\n  "inter" : 18\n},\n{\n  "args": {},\n  "inter" : 18\n}\n]\n' }, 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  { 
+    name: 'Resolver', 
+    fileName: 'example/ok/resolver', 
+    code: 'interaction\n  (bob):{theNumber:Number in,theOther:Number in, theResult:Number out, theLast:Number out}\nis\n  ({\n    theNumber:(variable theNumber)\n    theOther:(variable theNumber)\n    theResult:(variable theNumber)\n    theLast:(variable theNumber)\n  })\n', 
+
+
+
+
+
+
+
+
+
+    scenario: '[\n  {\n    "args":  {},\n    "inter":  { "theNumber": 50, "theOther":null, "theResult": 50, "theLast": 50 }\n  },\n  {\n    "args":  {},\n    "inter":  { "theNumber": 78,  "theOther":null,"theResult": 78 , "theLast": 78}\n  },\n  {\n    "args":  {},\n    "inter":  { "theNumber": null, "theOther":null, "theResult": null, "theLast": null }\n  },\n  {\n    "args":  {},\n    "inter":  { "theNumber": null, "theOther":42, "theResult": 42, "theLast": 42 }\n  },\n  {\n    "args":  {},\n    "inter":  { "theNumber": 67, "theOther":null, "theResult": 67, "theLast": 67 }\n  }\n]\n' }, 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  { 
     name: 'Simple', 
     fileName: 'example/ok/simple', 
     code: 'interaction\n  (main):{theNumber:Number in,theResult:Number out}\nis\n  ({\n    theNumber:(x)\n    theResult:(x)\n  })\n', 
@@ -221,4 +584,45 @@ module.exports = {
 
 
 
-    scenario: '[\n  {\n    "args":  {},\n    "inter":  { "theNumber": 50,  "theResult": 50 }\n  },\n  {\n    "args":  {},\n    "inter":  { "theNumber": 78,  "theResult": 78 }\n  },\n  {\n    "args":  {},\n    "inter":  { "theNumber": null,  "theResult": null }\n  },\n  {\n    "args":  {},\n    "inter":  { "theNumber": 42,  "theResult": 42 }\n  },\n  {\n    "args":  {},\n    "inter":  { "theNumber": 67,  "theResult": 67 }\n  }\n]\n' }] };
+    scenario: '[\n  {\n    "args":  {},\n    "inter":  { "theNumber": 50,  "theResult": 50 }\n  },\n  {\n    "args":  {},\n    "inter":  { "theNumber": 78,  "theResult": 78 }\n  },\n  {\n    "args":  {},\n    "inter":  { "theNumber": null,  "theResult": null }\n  },\n  {\n    "args":  {},\n    "inter":  { "theNumber": 42,  "theResult": 42 }\n  },\n  {\n    "args":  {},\n    "inter":  { "theNumber": 67,  "theResult": 67 }\n  }\n]\n' }, 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  { 
+    name: 'Simple Func', 
+    fileName: 'example/ok/simpleFunc', 
+    code: 'interaction\n  (bob):{theNumber:Number in,theResult:Number out}\nwith\n  interaction\n    (bob(x:Number in)):Number out\n  with\n    interaction\n      (addOne):{Number->Number}out\n    is\n      (function addOne)\n  is\n    ((result of bob(x)) with behaviour ((addOne)(x)=(result of bob(x))))\nis\n  ({theNumber:(a),theResult:(bob(a))})\n', 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+    scenario: '[\n  {\n    "args":  {},\n    "inter":  { "theNumber": 50,  "theResult": 51 }\n  },\n  {\n    "args":  {},\n    "inter":  { "theNumber": 78,  "theResult": 79 }\n  },\n  {\n    "args":  {},\n    "inter":  { "theNumber": null,  "theResult": null }\n  },\n  {\n    "args":  {},\n    "inter":  { "theNumber": 42,  "theResult": 43 }\n  },\n  {\n    "args":  {},\n    "inter":  { "theNumber": 67,  "theResult": 68 }\n  }\n]\n' }] };

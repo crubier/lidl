@@ -1,0 +1,21 @@
+digraph g{node_2069 [shape="box", style="filled", color="#dff1f2", fontname="Courier", label="<%=a0%>=theInterface.theNumber;
+" ]
+node_2071 [shape="box", style="filled", color="#dff1f2", fontname="Courier", label="<%=a0%>=theInterface.theOther;
+" ]
+node_2073 [shape="box", style="filled", color="#dff1f2", fontname="Courier", label="theInterface.theResult=<%=a0%>;
+" ]
+node_2075 [shape="box", style="filled", color="#dff1f2", fontname="Courier", label="theInterface.theLast=<%=a0%>;
+" ]
+node_2077 [shape="ellipse", style="filled", color="#ffde2f", fontname="Times", label="{theNumber:$theOther:$theResult:$theLast:$}" ]
+node_2084 [shape="ellipse", style="filled", color="#ffde2f", fontname="Times", label="variabletheNumber" ]
+node_2089 [shape="ellipse", style="filled", color="#ffde2f", fontname="Times", label="{theNumber:$theOther:$theResult:$theLast:$}" ]
+node_2077 -> node_2069 [dir=none, arrowHead=none, fontname="Times-Italic", arrowsize=1, color="#9d8400", label="",  headlabel="0", taillabel="1: theNumber" ]
+node_2077 -> node_2071 [dir=none, arrowHead=none, fontname="Times-Italic", arrowsize=1, color="#9d8400", label="",  headlabel="0", taillabel="2: theOther" ]
+node_2077 -> node_2073 [dir=none, arrowHead=none, fontname="Times-Italic", arrowsize=1, color="#9d8400", label="",  headlabel="0", taillabel="3: theResult" ]
+node_2077 -> node_2075 [dir=none, arrowHead=none, fontname="Times-Italic", arrowsize=1, color="#9d8400", label="",  headlabel="0", taillabel="4: theLast" ]
+node_2089 -> node_2084 [dir=none, arrowHead=none, fontname="Times-Italic", arrowsize=1, color="#9d8400", label="",  headlabel="0", taillabel="1" ]
+node_2089 -> node_2084 [dir=none, arrowHead=none, fontname="Times-Italic", arrowsize=1, color="#9d8400", label="",  headlabel="0", taillabel="2" ]
+node_2089 -> node_2084 [dir=none, arrowHead=none, fontname="Times-Italic", arrowsize=1, color="#9d8400", label="",  headlabel="0", taillabel="3" ]
+node_2089 -> node_2084 [dir=none, arrowHead=none, fontname="Times-Italic", arrowsize=1, color="#9d8400", label="",  headlabel="0", taillabel="4" ]
+node_2089 -> node_2077 [dir=none, arrowHead=none, fontname="Times-Italic", arrowsize=1, color="#9d8400", label="",  headlabel="0", taillabel="0" ]
+}

@@ -23,7 +23,7 @@ function addInterfaceInformationToArguments(graph) {
     findDirectedEdge({ type: 'SignatureOperandElementInterface', from: { node: theArgumentNode } }).
     to.node;
 
-    // Add the appropriate interaction to the interaction node on port 0
+    // Add the appropriate interaction to the interaction node on ports 0
     theNode.ports = [theArgumentInterfaceNode.content];}).
 
   commit();}

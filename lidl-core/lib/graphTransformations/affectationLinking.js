@@ -40,7 +40,7 @@ affectationLinking;var _lodash = require('lodash');var _lodash2 = _interopRequir
         name: 'Activation' }, 
 
       direction: 'in' };
-    // The port 0 of affectations is  activation in : affectation are behaviours
+    // The ports 0 of affectations is  activation in : affectation are behaviours
     if (!(0, _interfaces.isUndefined)(theNode.ports[1]) && !(0, _interfaces.isUndefined)(theNode.ports[2])) {
       if ((0, _interfaces.madeOnlyOf)(theNode.ports[1]) === 'out' && (0, _interfaces.madeOnlyOf)(theNode.ports[2]) === 'in') {(function () {
           var source = 

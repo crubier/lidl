@@ -40,7 +40,7 @@ export default function affectationLinking(graph) {
           name: 'Activation'
         },
         direction: 'in'
-      }; // The port 0 of affectations is  activation in : affectation are behaviours
+      }; // The ports 0 of affectations is  activation in : affectation are behaviours
       if (!isUndefined(theNode.ports[1]) && !isUndefined(theNode.ports[2])) {
         if (madeOnlyOf(theNode.ports[1])=== 'out' && madeOnlyOf(theNode.ports[2])=== 'in') {
           let source =

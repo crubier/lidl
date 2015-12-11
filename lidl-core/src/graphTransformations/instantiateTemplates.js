@@ -33,7 +33,7 @@ export default function instantiateTemplates(graph) {
       let shouldGenerate = true;
 
       _(theNode.ports)
-        .forEach((port, index) => {
+        .forEach((ports, index) => {
           // Normally there should be no duplicated edges, we assume there arent any, and use graph.find to find the only one:
           let edge =
             graph
@@ -47,7 +47,7 @@ export default function instantiateTemplates(graph) {
           if (edge === undefined) {
             //TODO This node is missing some links and we are going to create them like it's nothing : lol
             // console.log("Missing links on node but whatever, I am creating fake nodes for them "+theNode.id);
-            if (madeOnlyOf(port) === 'in') {
+            if (madeOnlyOf(ports) === 'in') {
               // console.log("IN");
               // Create a node that keep sending inactive values
               let newNode =
@@ -59,9 +59,10 @@ export default function instantiateTemplates(graph) {
                     content: "<%=a0%> = inactive; //Fake sender node\n"
                   },
                   shouldDoCodeGeneration: true,
-                  ports: [conjugateInterface(port)]
+                  codeGeneration:false,
+                  ports: [conjugateInterface(ports)]
                 });
-              newNode.content = '// ' + newNode.id + '\n' + newNode.content;
+              // newNode.content.content = '// ' + newNode.id + '\n' + newNode.content.content;
               edge =
                 graph
                 .addEdge({
@@ -69,15 +70,15 @@ export default function instantiateTemplates(graph) {
                   from: {
                     node: newNode,
                     index: 0,
-                    ports: conjugateInterface(port)
+                    ports: conjugateInterface(ports)
                   },
                   to: {
                     node: theNode,
                     index: index,
-                    ports: port
+                    ports: ports
                   }
                 });
-            } else if (madeOnlyOf(port) === 'out') {
+            } else if (madeOnlyOf(ports) === 'out') {
               // console.log("OUT");
               // Create a node that receives the value
               let newNode =
@@ -89,9 +90,10 @@ export default function instantiateTemplates(graph) {
                     content: "// We dont care about <%=a0%>, this is a fake receiver node\n"
                   },
                   shouldDoCodeGeneration: true,
-                  ports: [conjugateInterface(port)]
+                  codeGeneration:false,
+                  ports: [conjugateInterface(ports)]
                 });
-              newNode.content = '// ' + newNode.id + '\n' + newNode.content;
+              // newNode.content.content = '// ' + newNode.id + '\n' + newNode.content.content;
               edge =
                 graph
                 .addEdge({
@@ -99,12 +101,12 @@ export default function instantiateTemplates(graph) {
                   to: {
                     node: newNode,
                     index: 0,
-                    ports: conjugateInterface(port)
+                    ports: conjugateInterface(ports)
                   },
                   from: {
                     node: theNode,
                     index: index,
-                    ports: port
+                    ports: ports
                   }
                 });
             } else {

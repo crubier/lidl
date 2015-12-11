@@ -121,6 +121,14 @@ describe('lidl graph compiler', function() {
           printGraph(graph, data.step + 'referentialTransparencyInstances' + data.iteration);
           return true;
         },
+        orderGraph: function(graph, data) {
+          printGraph(graph, data.step + 'orderGraph' + data.iteration);
+          return true;
+        },
+        resolveMultiplePorts: function(graph, data) {
+          printGraph(graph, data.step + 'resolveMultiplePorts' + data.iteration);
+          return true;
+        },
         getJsCode: function(graph, data) {
           fs.writeFileSync(path.join(file, 'result', 'generated.js'), data.source, {
             encoding: 'utf8'

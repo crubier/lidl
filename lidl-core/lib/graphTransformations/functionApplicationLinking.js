@@ -8,6 +8,7 @@
 
 
 
+
 functionApplicationLinking;var _lodash = require('lodash');var _lodash2 = _interopRequireDefault(_lodash);var _interfaces = require('../interfaces');function _interopRequireDefault(obj) {return obj && obj.__esModule ? obj : { default: obj };}function functionApplicationLinking(graph) {
   graph.
   reduceNodes({ 
@@ -66,29 +67,7 @@ functionApplicationLinking;var _lodash = require('lodash');var _lodash2 = _inter
 
 
     forEach(function (x) {
-      source.ports[1] = (0, _interfaces.mergeInterface)(source.ports[1], x.to.node.ports[x.to.index]);
-      graph.
-      addEdge({ 
-        type: 'InteractionInstanceOperand', 
-        from: { 
-          node: source, 
-          index: 1 }, 
-
-        to: x.to });}).
-
-    commit();
-
-    // Connect input
-    graph.
-    matchUndirectedEdges({ 
-      type: 'InteractionInstanceOperand', 
-      from: { 
-        node: theNode, 
-        index: 1 } }).
-
-
-    forEach(function (x) {
-      source.ports[1] = (0, _interfaces.mergeInterface)(source.ports[1], x.to.node.ports[x.to.index]);
+      source.ports[1] = (0, _interfaces.mergeInterface)(source.ports[1], (0, _interfaces.conjugateInterface)(x.to.node.ports[x.to.index]));
       graph.
       addEdge({ 
         type: 'InteractionInstanceOperand', 
@@ -123,7 +102,7 @@ functionApplicationLinking;var _lodash = require('lodash');var _lodash2 = _inter
 
 
     forEach(function (x) {
-      source.ports[2] = (0, _interfaces.mergeInterface)(source.ports[2], x.to.node.ports[x.to.index]);
+      source.ports[2] = (0, _interfaces.mergeInterface)(source.ports[2], (0, _interfaces.conjugateInterface)(x.to.node.ports[x.to.index]));
       graph.
       addEdge({ 
         type: 'InteractionInstanceOperand', 
@@ -145,7 +124,7 @@ functionApplicationLinking;var _lodash = require('lodash');var _lodash2 = _inter
 
 
     forEach(function (x) {
-      source.ports[3] = (0, _interfaces.mergeInterface)(source.ports[3], x.to.node.ports[x.to.index]);
+      source.ports[3] = (0, _interfaces.mergeInterface)(source.ports[3], (0, _interfaces.conjugateInterface)(x.to.node.ports[x.to.index]));
       graph.
       addEdge({ 
         type: 'InteractionInstanceOperand', 

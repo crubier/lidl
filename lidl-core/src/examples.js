@@ -40,6 +40,46 @@ var addition = function(x) {
   }
 };
 
+var multiplication = function(x) {
+  if (isActive(x.a) && isActive(x.b)) {
+    return x.a * x.b;
+  } else {
+    return inactive;
+  }
+};
+
+var substraction = function(x) {
+  if (isActive(x.a) && isActive(x.b)) {
+    return x.a - x.b;
+  } else {
+    return inactive;
+  }
+};
+
+var division = function(x) {
+  if (isActive(x.a) && isActive(x.b)) {
+    return x.a / x.b;
+  } else {
+    return inactive;
+  }
+};
+
+var remainder = function(x) {
+  if (isActive(x.a) && isActive(x.b)) {
+    return x.a % x.b;
+  } else {
+    return inactive;
+  }
+};
+
+var power = function(x) {
+  if (isActive(x.a) && isActive(x.b)) {
+    return Math.pow(x.a,x.b);
+  } else {
+    return inactive;
+  }
+};
+
 var addOne = function(x) {
   if (isActive(x))
     return x + 1;
@@ -161,6 +201,111 @@ var cursor = function(mouse){
 
 `,
 lidl:[{
+    name: 'Affectation Expression',
+fileName: 'example/ok/affectationExpression',
+     code : `interaction
+  (bob):{theNumber:Number in,theResult:Number out}
+with
+
+  interaction
+    (the magic number):Number out
+  with
+    interaction (return1):{Void->Number} out is (function return1)
+  is
+    (
+      (variable result1)
+      with behaviour
+      (
+        apply
+        (return1)
+        to
+        (variable ok)
+        and get
+        (variable result1)
+      )
+    )
+
+  interaction
+    ((a:Number in)+(b:Number in)):Number out
+  with
+    interaction (addition):{{a:Number,b:Number}->Number} out is (function addition)
+  is
+    (
+      (variable result of (a)+(b))
+      with behaviour
+      (
+        apply
+        (addition)
+        to
+        ({a:(a)b:(b)})
+        and get
+        (variable result of (a)+(b))
+      )
+    )
+
+is
+  (
+    ({
+      theNumber:(# theNumber)
+      theResult:(# theResult)}
+    )
+  with behaviour
+    (
+      (# theResult) =((the magic number )+(# theNumber))
+    )
+  )
+`,
+     scenario : `[
+  {
+    "args":  {},
+    "inter":  { "theNumber": 50,  "theResult": 51 }
+  },
+  {
+    "args":  {},
+    "inter":  { "theNumber": 78,  "theResult": 79 }
+  },
+  {
+    "args":  {},
+    "inter":  { "theNumber": null,  "theResult": null }
+  },
+  {
+    "args":  {},
+    "inter":  { "theNumber": 42,  "theResult": 43 }
+  },
+  {
+    "args":  {},
+    "inter":  { "theNumber": 67,  "theResult": 68 }
+  }
+]
+`
+},{
+    name: 'Arguments',
+fileName: 'example/ok/arguments',
+     code : `interaction
+  (bob(a:Number in)):Number out
+is
+  (a)
+`,
+     scenario : `[
+  {
+    "args":  {"a":28},
+    "inter":  28
+  },
+  {
+    "args":  {"a":2},
+    "inter":  2
+  },
+  {
+    "args":  {"a":3},
+    "inter":  3
+  },
+  {
+    "args":  {"a":6},
+    "inter":  6
+  }
+]
+`
+},{
     name: 'Composition 2 X 1',
 fileName: 'example/ok/composition2x1',
      code : `interaction
@@ -211,6 +356,224 @@ is
 ]
 `
 },{
+    name: 'Composition 2 X 2',
+fileName: 'example/ok/composition2x2',
+     code : `interaction
+  (bob):{theNumber:Number in,theOther:Number in,theResult:Number out,theLast:Number out}
+with
+ interaction
+  (cool):{{a:Number,b:Number}->{sum:Number,diff:Number}} out
+  is
+  (function cool)
+is
+  (
+    ({
+      theNumber:(variable theNumber)
+      theOther:(variable y)
+      theResult:(variable theResult)
+      theLast:(variable wow)
+    })
+  with behaviour
+    ( apply (cool)
+      to
+      ({a:(variable theNumber)b:(variable y)})
+      and get
+      ({sum:(variable theResult)diff:(variable wow)})
+    )
+  )
+`,
+     scenario : `[
+  {
+    "args":  {},
+    "inter":  { "theNumber": 50,"theOther": 50,   "theResult": 100,"theLast":0 }
+  },
+  {
+    "args":  {},
+    "inter":  { "theNumber": 78, "theOther": 2, "theResult": 80,"theLast":76 }
+  },
+  {
+    "args":  {},
+    "inter":  { "theNumber": null,"theOther": 50,  "theResult": null,"theLast":null }
+  },
+  {
+    "args":  {},
+    "inter":  { "theNumber": 42,"theOther": 12,  "theResult": 54,"theLast":30 }
+  },
+  {
+    "args":  {},
+    "inter":  { "theNumber": 67,"theOther": 50,  "theResult": 117,"theLast":17 }
+  }
+]
+`
+},{
+    name: 'Dereferencing',
+fileName: 'example/ok/dereferencing',
+     code : `interaction
+  (bob):{theNumber:Number in,theResult:Number out}
+with
+
+  interaction
+    ((x:{theNumber:Number in,theResult:Number out}).theNumber):Number out
+  is
+    ((variable (x).theNumber) with behaviour (({theNumber:(variable (x).theNumber)})=(x)))
+
+  interaction
+    ((x:{theNumber:Number in,theResult:Number out}).theResult):Number in
+  is
+    ((variable (x).theResult) with behaviour ((x)=({theResult:(variable (x).theResult)})))
+
+
+is
+  (
+    (variable this)
+    with behaviour
+    (((variable this).theResult)=((variable this).theNumber) )
+  )
+`,
+     scenario : `[
+  {
+    "args":  {},
+    "inter":  { "theNumber": 50,  "theResult": 50 }
+  },
+  {
+    "args":  {},
+    "inter":  { "theNumber": 78,  "theResult": 78 }
+  },
+  {
+    "args":  {},
+    "inter":  { "theNumber": null,  "theResult": null }
+  },
+  {
+    "args":  {},
+    "inter":  { "theNumber": 42,  "theResult": 42 }
+  },
+  {
+    "args":  {},
+    "inter":  { "theNumber": 67,  "theResult": 67 }
+  }
+]
+`
+},{
+    name: 'Fake Affectation',
+fileName: 'example/ok/fakeAffectation',
+     code : `interaction
+  (bob):{theNumber:Number in,theResult:Number out}
+with
+  interaction
+    ((a:Number out)=fake=(b:Number in)):Activation in
+  with
+    interaction (identity):{Number->Number}out is (function identity)
+  is
+    (apply (identity) to (b) and get (a))
+is
+  (
+    (
+    {theNumber:(variable theNumber)theResult:(variable theResult)}
+    )
+  with behaviour
+    ((variable theResult)=fake=(variable theNumber))
+  )
+`,
+     scenario : `[
+  {
+    "args":  {},
+    "inter":  { "theNumber": 50,  "theResult": 50 }
+  },
+  {
+    "args":  {},
+    "inter":  { "theNumber": 78,  "theResult": 78 }
+  },
+  {
+    "args":  {},
+    "inter":  { "theNumber": null,  "theResult": null }
+  },
+  {
+    "args":  {},
+    "inter":  { "theNumber": 42,  "theResult": 42 }
+  },
+  {
+    "args":  {},
+    "inter":  { "theNumber": 67,  "theResult": 67 }
+  }
+]
+`
+},{
+    name: 'Literals',
+fileName: 'example/ok/literals',
+     code : `interaction
+  (ok literal):Number out
+with
+
+  interaction
+    ((a:Number in) + (b:Number in)):Number out
+  with
+    interaction
+      (addition):{{a:Number,b:Number}->Number}out
+    is
+      (function addition)
+  is
+    ((# (a)+(b)) with behaviour ((addition)({a:(a)b:(b)})=(#(a)+(b))))
+
+is
+  ((9)+(9))
+`,
+     scenario : `
+[
+  {
+    "args": {},
+    "inter" : 18
+  },
+  {
+  "args": {},
+  "inter" : 18
+},
+{
+  "args": {},
+  "inter" : 18
+},
+{
+  "args": {},
+  "inter" : 18
+}
+]
+`
+},{
+    name: 'Resolver',
+fileName: 'example/ok/resolver',
+     code : `interaction
+  (bob):{theNumber:Number in,theOther:Number in, theResult:Number out, theLast:Number out}
+is
+  ({
+    theNumber:(variable theNumber)
+    theOther:(variable theNumber)
+    theResult:(variable theNumber)
+    theLast:(variable theNumber)
+  })
+`,
+     scenario : `[
+  {
+    "args":  {},
+    "inter":  { "theNumber": 50, "theOther":null, "theResult": 50, "theLast": 50 }
+  },
+  {
+    "args":  {},
+    "inter":  { "theNumber": 78,  "theOther":null,"theResult": 78 , "theLast": 78}
+  },
+  {
+    "args":  {},
+    "inter":  { "theNumber": null, "theOther":null, "theResult": null, "theLast": null }
+  },
+  {
+    "args":  {},
+    "inter":  { "theNumber": null, "theOther":42, "theResult": 42, "theLast": 42 }
+  },
+  {
+    "args":  {},
+    "inter":  { "theNumber": 67, "theOther":null, "theResult": 67, "theLast": 67 }
+  }
+]
+`
+},{
     name: 'Simple',
 fileName: 'example/ok/simple',
      code : `interaction
@@ -241,6 +604,47 @@ is
   {
     "args":  {},
     "inter":  { "theNumber": 67,  "theResult": 67 }
+  }
+]
+`
+},{
+    name: 'Simple Func',
+fileName: 'example/ok/simpleFunc',
+     code : `interaction
+  (bob):{theNumber:Number in,theResult:Number out}
+with
+  interaction
+    (bob(x:Number in)):Number out
+  with
+    interaction
+      (addOne):{Number->Number}out
+    is
+      (function addOne)
+  is
+    ((result of bob(x)) with behaviour ((addOne)(x)=(result of bob(x))))
+is
+  ({theNumber:(a),theResult:(bob(a))})
+`,
+     scenario : `[
+  {
+    "args":  {},
+    "inter":  { "theNumber": 50,  "theResult": 51 }
+  },
+  {
+    "args":  {},
+    "inter":  { "theNumber": 78,  "theResult": 79 }
+  },
+  {
+    "args":  {},
+    "inter":  { "theNumber": null,  "theResult": null }
+  },
+  {
+    "args":  {},
+    "inter":  { "theNumber": 42,  "theResult": 43 }
+  },
+  {
+    "args":  {},
+    "inter":  { "theNumber": 67,  "theResult": 68 }
   }
 ]
 `

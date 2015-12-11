@@ -1,0 +1,17 @@
+interaction
+  (bob):{theNumber:Number in,theResult:Number out}
+with
+  interaction
+    ((a:Number out)=fake=(b:Number in)):Activation in
+  with
+    interaction (identity):{Number->Number}out is (function identity)
+  is
+    (apply (identity) to (b) and get (a))
+is
+  (
+    (
+    {theNumber:(variable theNumber)theResult:(variable theResult)}
+    )
+  with behaviour
+    ((variable theResult)=fake=(variable theNumber))
+  )
