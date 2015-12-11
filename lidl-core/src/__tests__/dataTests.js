@@ -7,31 +7,31 @@ describe('data data', function() {
   describe('validation', function() {
     it('should detect invalid data', function() {
 
-      expect(data.isValid({
+      expect(data.isValidData({
         bob: "lol"
       })).toBeFalsy();
 
-      expect(data.isValid({
+      expect(data.isValidData({
         type: "Bobie"
       })).toBeFalsy();
 
-      expect(data.isValid({
+      expect(data.isValidData({
         type: "DataAtomic"
       })).toBeFalsy();
 
-      expect(data.isValid({
+      expect(data.isValidData({
         type: "DataComposite"
       })).toBeFalsy();
 
-      expect(data.isValid({
+      expect(data.isValidData({
         type: "DataFunction"
       })).toBeFalsy();
 
-      expect(data.isValid({
+      expect(data.isValidData({
         type: "DataArray"
       })).toBeFalsy();
 
-      expect(data.isValid({
+      expect(data.isValidData({
         type: "DataOperation"
       })).toBeFalsy();
     });
@@ -39,14 +39,14 @@ describe('data data', function() {
     describe('valid data', function() {
 
       it('should detect valid atomic type', function() {
-        expect(data.isValid({
+        expect(data.isValidData({
           type: "DataAtomic",
           name: "Boolean"
         })).toBeTruthy();
       });
 
       it('should detect valid composite type', function() {
-        expect(data.isValid({
+        expect(data.isValidData({
           type: "DataComposite",
           element: [{
             type: "DataCompositeElement",
@@ -60,7 +60,7 @@ describe('data data', function() {
       });
 
       it('should detect valid function type', function() {
-        expect(data.isValid({
+        expect(data.isValidData({
           type: "DataFunction",
           domain: {
             type: "DataAtomic",
@@ -74,7 +74,7 @@ describe('data data', function() {
       });
 
       it('should detect valid array type', function() {
-        expect(data.isValid({
+        expect(data.isValidData({
           type: "DataArray",
           element: {
             type: "DataAtomic",
@@ -85,7 +85,7 @@ describe('data data', function() {
 
       //TODO
       it('should detect valid operation type', function() {
-        expect(data.isValid({
+        expect(data.isValidData({
           type: "DataOperation",
           operator: 'union',
           operand: [{
@@ -114,7 +114,7 @@ describe('data data', function() {
 
       //TODO
       // it('should prevent invalid operation type', function() {
-      //   expect(data.isValid({
+      //   expect(data.isValidData({
       //     type: "DataOperation",
       //     operator: 'union',
       //     operand: [{
@@ -129,11 +129,11 @@ describe('data data', function() {
   });
 
 
-  describe('compare', function() {
+  describe('compareData', function() {
 
     describe('mixed data', function() {
       it('should detect difference', function() {
-        expect(data.compare({
+        expect(data.compareData({
           type: "DataAtomic",
           name: "Number"
         }, {
@@ -149,7 +149,7 @@ describe('data data', function() {
 
     describe('atomic', function() {
       it('should detect equality', function() {
-        expect(data.compare({
+        expect(data.compareData({
           type: "DataAtomic",
           name: "Number"
         }, {
@@ -158,7 +158,7 @@ describe('data data', function() {
         })).toBeTruthy();
       });
       it('should detect difference', function() {
-        expect(data.compare({
+        expect(data.compareData({
           type: "DataAtomic",
           name: "Number"
         }, {
@@ -170,7 +170,7 @@ describe('data data', function() {
 
     describe('array', function() {
       it('should detect equality', function() {
-        expect(data.compare({
+        expect(data.compareData({
           type: "DataArray",
           element: {
             type: "DataAtomic",
@@ -185,7 +185,7 @@ describe('data data', function() {
         })).toBeTruthy();
       });
       it('should detect difference', function() {
-        expect(data.compare({
+        expect(data.compareData({
           type: "DataArray",
           element: {
             type: "DataAtomic",
@@ -203,7 +203,7 @@ describe('data data', function() {
 
     describe('function', function() {
       it('should detect equality', function() {
-        expect(data.compare({
+        expect(data.compareData({
           type: "DataFunction",
           domain: {
             type: "DataAtomic",
@@ -226,7 +226,7 @@ describe('data data', function() {
         })).toBeTruthy();
       });
       it('should detect difference', function() {
-        expect(data.compare({
+        expect(data.compareData({
           type: "DataFunction",
           domain: {
             type: "DataAtomic",
@@ -252,7 +252,7 @@ describe('data data', function() {
 
     describe('composite', function() {
       it('should detect equality in a simple case', function() {
-        expect(data.compare({
+        expect(data.compareData({
           type: "DataComposite",
           element: [{
             type: "DataCompositeElement",
@@ -289,7 +289,7 @@ describe('data data', function() {
         })).toBeTruthy();
       });
       it('should detect equality even if keys are in a different order', function() {
-        expect(data.compare({
+        expect(data.compareData({
           type: "DataComposite",
           element: [{
             type: "DataCompositeElement",
@@ -326,7 +326,7 @@ describe('data data', function() {
         })).toBeTruthy();
       });
       it('should detect difference in data', function() {
-        expect(data.compare({
+        expect(data.compareData({
           type: "DataComposite",
           element: [{
             type: "DataCompositeElement",
@@ -350,7 +350,7 @@ describe('data data', function() {
       });
 
       it('should detect difference in keys', function() {
-        expect(data.compare({
+        expect(data.compareData({
           type: "DataComposite",
           element: [{
             type: "DataCompositeElement",
@@ -379,11 +379,11 @@ describe('data data', function() {
   });
 
 
-  describe('compute', function() {
+  describe('computeData', function() {
     describe('union', function() {
 
       it('should work in a simple case', function() {
-        expect(data.compute({
+        expect(data.computeData({
           type: "DataOperation",
           operator: "union",
           operand: [{
@@ -428,7 +428,7 @@ describe('data data', function() {
       });
 
       it('should output a composite type where keys are sorted lexicographically', function() {
-        expect(data.compute({
+        expect(data.computeData({
           type: "DataOperation",
           operator: "union",
           operand: [{
@@ -473,7 +473,7 @@ describe('data data', function() {
       });
 
       it('should pick elements from the first operand when operands have identical keys with different data', function() {
-        expect(data.compute({
+        expect(data.computeData({
           type: "DataOperation",
           operator: "union",
           operand: [{
@@ -530,7 +530,7 @@ describe('data data', function() {
     describe('intersection', function() {
 
       it('should work in a simple case', function() {
-        expect(data.compute({
+        expect(data.computeData({
           type: "DataOperation",
           operator: "intersection",
           operand: [{
@@ -575,7 +575,7 @@ describe('data data', function() {
       });
 
       it('should output a composite type where keys are sorted lexicographically', function() {
-        expect(data.compute({
+        expect(data.computeData({
           type: "DataOperation",
           operator: "union",
           operand: [{
@@ -620,7 +620,7 @@ describe('data data', function() {
       });
 
       it('should pick elements from the first operand when operands have identical keys with different data', function() {
-        expect(data.compute({
+        expect(data.computeData({
           type: "DataOperation",
           operator: "union",
           operand: [{

@@ -33,7 +33,7 @@ _.intersectionObjects = function() {
 };
 ////////////////////////////////////////////////////////////////////
 
-var isValidData = function(theData) {
+export function isValidData (theData) {
   if (theData.hasOwnProperty("type")) {
     switch (theData.type) {
       case "DataAtomic":
@@ -55,7 +55,7 @@ var isValidData = function(theData) {
   }
 };
 
-var computeData = function(theData) {
+export function  computeData (theData) {
   if(theData.type==="DataOperation") {
     switch  (theData.operator) {
       case 'union' :
@@ -91,7 +91,8 @@ var computeData = function(theData) {
 };
 
 
-var compareData = function(data1, data2) {
+export function compareData (data1, data2) {
+  // console.log("OK Compare data");
   switch (data1.type + data2.type) {
     case "DataAtomicDataAtomic":
       // Compare the name
@@ -124,11 +125,4 @@ var compareData = function(data1, data2) {
         return false;
       }
   }
-};
-
-
-module.exports = {
-  compare:compareData,
-  compute:computeData,
-  isValid:isValidData
 };
