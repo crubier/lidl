@@ -3,7 +3,8 @@
 
 
 
-expandDefinitions;var _lodash = require('lodash');var _lodash2 = _interopRequireDefault(_lodash);var _interactions = require('../interactions.js');var _interactions2 = _interopRequireDefault(_interactions);function _interopRequireDefault(obj) {return obj && obj.__esModule ? obj : { default: obj };}function _typeof(obj) {return obj && typeof Symbol !== "undefined" && obj.constructor === Symbol ? "symbol" : typeof obj;}function expandDefinitions(graph) {
+
+expandDefinitions;var _lodash = require('lodash');var _lodash2 = _interopRequireDefault(_lodash);var _interactions = require('../interactions');var _interactions2 = _interopRequireDefault(_interactions);var _serializer = require('../serializer');function _interopRequireDefault(obj) {return obj && obj.__esModule ? obj : { default: obj };}function _typeof(obj) {return obj && typeof Symbol !== "undefined" && obj.constructor === Symbol ? "symbol" : typeof obj;}function expandDefinitions(graph) {
   // First we create dependency links between definitions nodes
   // For each definition
   graph.
@@ -111,7 +112,7 @@ expandDefinitions;var _lodash = require('lodash');var _lodash2 = _interopRequire
 
   // Finally, we expand all definitions, in order.
   (0, _lodash2.default)(orderingList).
-  reverse() // reverse the list in order to expand most basic interactions first
+  reverse() // reverse the list in order to expand most basic interction definitions first
   .forEach(function (defNode) {
     instantiateDefinitionInteraction(graph, defNode);}).
 
@@ -126,6 +127,7 @@ expandDefinitions;var _lodash = require('lodash');var _lodash2 = _interopRequire
 
 
 // Here we expand the whole interaction expression of a definition
+// stack is a list of definitions
 function instantiateDefinitionInteraction(graph, definitionNode) {
   // console.log('=================== instantiate '+definitionNode.content.signature.operator);
 
@@ -178,7 +180,6 @@ function instantiateDefinitionInteraction(graph, definitionNode) {
 
   function visitInteraction(n) {
     if (n.temporarilyMarkedDuringInteractionGraphOrdering === true) {
-      //TODO Add traceback to initial AST (change code everywhere in order to add traceability)
       throw new Error("The interaction structure contains cycles"); //+_(stack).concat([n]).map('id').join(" -> ");
     } else {
         if (n.markedDuringInteractionGraphOrdering !== true) {
@@ -214,7 +215,7 @@ function instantiateDefinitionInteraction(graph, definitionNode) {
     // console.log(interNode.content.operator);
     // instantiateDefinitionInteraction(graph,defNode);
     var newNodes = 
-    instantiateInteraction(graph, interNode);
+    instantiateInteraction(graph, interNode, definitionNode);
 
     (0, _lodash2.default)(newNodes).
     forEach(function (n) {
@@ -233,7 +234,6 @@ function instantiateDefinitionInteraction(graph, definitionNode) {
 
   commit();
 
-  //TODO uncomment this
   // Link to the root interaction instance
   var instantiatedRoot = 
   graph.
@@ -267,7 +267,7 @@ function instantiateDefinitionInteraction(graph, definitionNode) {
 
 
 // Here we expand a single interaction node
-function instantiateInteraction(graph, interactionNode) {
+function instantiateInteraction(graph, interactionNode, stackDefNode) {
   // console.log(interactionNode.content.operator);
 
   // First we get all the InteractionOperand Edges that go from and to this interaction
@@ -291,7 +291,6 @@ function instantiateInteraction(graph, interactionNode) {
 
 
   value();
-
 
 
 
@@ -358,7 +357,21 @@ function instantiateInteraction(graph, interactionNode) {
       commit();
       // interactionNode.instantiated = true;
       graph.finish(interactionNode);
-      return { v: [newNode] };})();if ((typeof _ret === 'undefined' ? 'undefined' : _typeof(_ret)) === "object") return _ret.v;} else 
+
+
+
+      var res = [newNode];
+
+      (0, _lodash2.default)(res).
+      forEach(function (n) {
+        if (_lodash2.default.isUndefined(n.content.meta.stack)) {
+          n.content.meta.stack = [];}
+
+        n.content.meta.stack.push(interactionNode);}).
+
+
+      commit();
+      return { v: res };})();if ((typeof _ret === 'undefined' ? 'undefined' : _typeof(_ret)) === "object") return _ret.v;} else 
 
 
 
@@ -443,7 +456,21 @@ function instantiateInteraction(graph, interactionNode) {
 
       graph.finish(interactionNode);
       // interactionNode.instantiated = true;
-      return { v: [newNode] };})();if ((typeof _ret2 === 'undefined' ? 'undefined' : _typeof(_ret2)) === "object") return _ret2.v;} else 
+
+      var res = [newNode];
+
+      (0, _lodash2.default)(res).
+      forEach(function (n) {
+        if (_lodash2.default.isUndefined(n.content.meta.stack)) {
+          n.content.meta.stack = [];}
+
+        n.content.meta.stack.push(interactionNode);}).
+
+
+      commit();
+      return { v: res };})();if ((typeof _ret2 === 'undefined' ? 'undefined' : _typeof(_ret2)) === "object") return _ret2.v;} else 
+
+
 
 
 
@@ -485,6 +512,7 @@ function instantiateInteraction(graph, interactionNode) {
       map(function (x) {return x.to.node;}).
       value();
 
+      // Copy edges of type InteractionInstanceOperand
       var defInteractionInstanceEdges = 
       graph.
       matchDirectedEdges({ 
@@ -493,6 +521,7 @@ function instantiateInteraction(graph, interactionNode) {
       filter(function (e) {return _lodash2.default.includes(defInteractionInstanceNodes, e.to.node) && _lodash2.default.includes(defInteractionInstanceNodes, e.from.node);}).
       value();
 
+      // Copy edges of type InteractionInstanceIsOperandOf
       var defInteractionInstanceIsOperandOf = 
       graph.
       matchDirectedEdges({ 
@@ -615,10 +644,24 @@ function instantiateInteraction(graph, interactionNode) {
       commit();
 
       graph.finish(interactionNode);
-      return { v: newSubGraph.nodes };})();if ((typeof _ret3 === 'undefined' ? 'undefined' : _typeof(_ret3)) === "object") return _ret3.v;} else 
 
-  {
-    throw new Error('Could not instantiate interaction ' + interactionNode.content.operator + " " + interactionNode.id + " because it is not an argument, a base interaction or a custom defined interaction");}}
+      var res = newSubGraph.nodes;
+
+      (0, _lodash2.default)(res).
+      forEach(function (n) {
+        if (_lodash2.default.isUndefined(n.content.meta.stack)) {
+          n.content.meta.stack = [];}
+
+        n.content.meta.stack.push(interactionNode);}).
+
+
+      commit();
+      return { v: res };
+
+      // return newSubGraph.nodes;
+    })();if ((typeof _ret3 === 'undefined' ? 'undefined' : _typeof(_ret3)) === "object") return _ret3.v;} else 
+    {
+      throw new Error('Could not instantiate interaction ' + interactionNode.content.operator + " " + interactionNode.id + " because it is not an argument, a base interaction or a custom defined interaction");}}
 
 
 

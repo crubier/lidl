@@ -70,7 +70,8 @@ interactionDefinition 'an interaction definition'
     type:'Definition',
     interaction:interaction,
     signature:signature,
-    definitions:(definitions===null?[]:definitions)
+    definitions:(definitions===null?[]:definitions),
+    meta:{location:location(),options:options}
   };
   var arrayLength = res.definitions.length;
   for (var i = 0; i < arrayLength; i++) {
@@ -80,14 +81,14 @@ interactionDefinition 'an interaction definition'
 }
 
 interactionSignature 'an interaction interactionSignature specification'
-= '('  elements:interactionSignatureElement*  ')' _ ':' _ interfac:interfac { var temp = mergeSignature(elements);return {type:'Signature',interfac:interfac,formating:temp.operator,operator:temp.operator.replace(
+= '('  elements:interactionSignatureElement*  ')' _ ':' _ interfac:interfac { var temp = mergeSignature(elements);return {type:'InteractionSignature',interfac:interfac,formating:temp.operator,operator:temp.operator.replace(
 //  /[ \t\r\n]*\$[ \t\r\n]*/g,"$"
  /[ \t\r\n]*/g,""
-),operand:temp.operand};}
+),operand:temp.operand,meta:{location:location(),options:options}};}
 
 interactionSignatureElement 'a interactionSignature element'
 = operator:operatorIdentifier {return {operator:operator};}
-/ '(' _ name:variableIdentifier _':'_ interfac:interfac _ ')' {return {operand:{interfac:interfac,name:name}};}
+/ '(' _ name:variableIdentifier _':'_ interfac:interfac _ ')' {return {operand:{type:'InteractionSignatureOperandElement',interfac:interfac,name:name,meta:{location:location(),options:options}}};}
 
 interaction 'an interaction'
 //= '('lang:language   '`' val:[^`]* '`)'  {return {type:'InteractionNative',language:lang,code:esprima.parse(val.join(''))};}
@@ -95,7 +96,7 @@ interaction 'an interaction'
 = '(' elements:interactionElement* _ ')' {var temp=  mergeExpression(elements);return {type:'InteractionSimple',formating:temp.operator,operator:temp.operator.replace(
 //  /[ \t\r\n]*\$[ \t\r\n]*/g,"$"
  /[ \t\r\n]*/g,""
-),operand:temp.operand};}
+),operand:temp.operand,meta:{location:location(),options:options}};}
 
 interactionElement 'an interaction element'
 = operand:interaction {return {operand:operand};}
@@ -112,16 +113,16 @@ interfac 'the specification of an interfac'
 = interfaceAtomic / interfaceComposite / interfaceOperation
 
 interfaceOperation 'the specification of an interfac using operators'
-= operator:interfaceOperator _ '(' _ first:interfac rest:(_',' _ content:interfac {return content;})* _')' { return {type:"InterfaceOperation",operator:operator,operand:mergeElements(first,rest)}}
+= operator:interfaceOperator _ '(' _ first:interfac rest:(_',' _ content:interfac {return content;})* _')' { return {type:"InterfaceOperation",operator:operator,operand:mergeElements(first,rest),meta:{location:location(),options:options}}}
 
 interfaceOperator 'an interfac operator (conjugation,globalisation,localisation,reception,emission,union,intersection,complement)'
 = 'conjugation' / 'globalisation' / 'localisation' / 'reception' / 'emission' / 'union' / 'intersection' / 'complement'
 
 interfaceAtomic 'the specification of an atomic interfac'
-= data:data _ direction:direction {return {type:'InterfaceAtomic',data:data,direction:direction};}
+= data:data _ direction:direction {return {type:'InterfaceAtomic',data:data,direction:direction,meta:{location:location(),options:options}};}
 
 interfaceComposite 'the specification of a composite interfac'
-= '{' _ first:(key:keyIdentifier _ ':' _ value:interfac {return {type:'InterfaceCompositeElement',key:key,value:value}}) _ rest:(',' _ content:(key:keyIdentifier _ ':' _ value:interfac {return {type:'InterfaceCompositeElement',key:key,value:value}}) _ {return content;})* '}' {return {type:'InterfaceComposite',element:mergeElements(first,rest)};}
+= '{' _ first:(key:keyIdentifier _ ':' _ value:interfac {return {type:'InterfaceCompositeElement',key:key,value:value,meta:{location:location(),options:options}}}) _ rest:(',' _ content:(key:keyIdentifier _ ':' _ value:interfac {return {type:'InterfaceCompositeElement',key:key,value:value,meta:{location:location(),options:options}}}) _ {return content;})* '}' {return {type:'InterfaceComposite',element:mergeElements(first,rest),meta:{location:location(),options:options}};}
 
 direction 'the direction of a data flow'
 = 'out' / 'in' / 'ref'
@@ -133,22 +134,22 @@ data 'the specification of a data type'
 = dataAtomic / dataComposite / dataArray / dataFunction / dataOperation
 
 dataOperation 'the specification of an data type using operators'
-= operator:dataOperator _ '(' _ first:data rest:(_',' _ content:data {return content;})* _')' { return {type:"DataOperation",operator:operator,operand:mergeElements(first,rest)}}
+= operator:dataOperator _ '(' _ first:data rest:(_',' _ content:data {return content;})* _')' { return {type:"DataOperation",operator:operator,operand:mergeElements(first,rest),meta:{location:location(),options:options}}}
 
 dataOperator 'an data type operator (union,intersection,complement)'
 = 'union' / 'intersection' / 'complement'
 
 dataAtomic 'the specification of an atomic data type'
-= name:dataIdentifier {return {type:'DataAtomic',name:name}}
+= name:dataIdentifier {return {type:'DataAtomic',name:name,meta:{location:location(),options:options}}}
 
 dataComposite 'the specification of a composite data type'
-= '{' _ first:(key:keyIdentifier _ ':' _ value:data {return {type:'DataCompositeElement',key:key,value:value}}) _ rest:(',' _ content:(key:keyIdentifier _ ':' _ value:data {return {type:'DataCompositeElement',key:key,value:value}}) _ {return content;})* '}' {return {type:'DataComposite',element:mergeElements(first,rest)};}
+= '{' _ first:(key:keyIdentifier _ ':' _ value:data {return {type:'DataCompositeElement',key:key,value:value,meta:{location:location(),options:options}}}) _ rest:(',' _ content:(key:keyIdentifier _ ':' _ value:data {return {type:'DataCompositeElement',key:key,value:value,meta:{location:location(),options:options}}}) _ {return content;})* '}' {return {type:'DataComposite',element:mergeElements(first,rest),meta:{location:location(),options:options}};}
 
 dataArray 'the specification of an array type'
-= '[' _ element:data _ ']' {return {type:'DataArray',element:element};}
+= '[' _ element:data _ ']' {return {type:'DataArray',element:element,meta:{location:location(),options:options}};}
 
 dataFunction 'the specification of a function type'
-= '{' _ domain:data _ ('→'/'->') _ codomain:data _'}'{return {type:'DataFunction',domain:domain,codomain:codomain};}
+= '{' _ domain:data _ ('→'/'->') _ codomain:data _'}'{return {type:'DataFunction',domain:domain,codomain:codomain,meta:{location:location(),options:options}};}
 
 
 

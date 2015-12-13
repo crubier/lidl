@@ -9,7 +9,11 @@ import {
 }
 from '../interfaces'
 
-import {ExtendableError} from '../ExtendableError'
+import {ExtendableError} from '../extendableError'
+
+import {serialize} from '../serializer'
+
+import {printInteractionInstanceNodeStack} from '../reporting'
 
 
 export default function functionApplicationLinking(graph) {
@@ -109,13 +113,13 @@ export default function functionApplicationLinking(graph) {
             source.ports[2] = mergeInterface(source.ports[2], conjugateInterface(x.to.node.ports[x.to.index]));
           } catch (e) {
             switch (e.name) {
-              case "IncompatibleInterfaceError":                
+              case "IncompatibleInterfaceError":
                 break;
               case "InvalidInterfaceError":
                 break;
               default:
             }
-            throw new Error("While linking "+x.id+": "+ e.message);
+            throw new Error("While linking "+x.id+": "+ e.message+"\n"+printInteractionInstanceNodeStack(x.to.node)+"\n"+printInteractionInstanceNodeStack(x.from.node));
           }
 
           graph

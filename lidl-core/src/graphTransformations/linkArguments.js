@@ -18,7 +18,7 @@ export default function linkArguments(graph,rootDefNode) {
 
     let interfaceNode=
     graph
-    .findDirectedEdge({type:'SignatureOperandElementInterface',from:{node:signatureOperandElementNode}})
+    .findDirectedEdge({type:'InteractionSignatureOperandElementInterface',from:{node:signatureOperandElementNode}})
     .to.node;
 
     let interfaceInteractionInstanceNode =

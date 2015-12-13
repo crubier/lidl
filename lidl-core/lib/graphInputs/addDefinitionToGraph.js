@@ -21,14 +21,14 @@ addDefinitionToGraph;var _lodash = require('lodash');var _lodash2 = _interopRequ
   map(function (operand) {
     var operandNode = 
     graph.
-    addNode({ type: 'SignatureOperandElement', content: operand });
+    addNode({ type: 'InteractionSignatureOperandElement', content: operand });
 
     // console.log(operand.interfac);
     var operandInterfaceNode = 
     addInterfaceToGraph(graph, operand.interfac, 'theArgs.' + operand.name, rootNode);
 
     graph.
-    addEdge({ type: 'SignatureOperandElementInterface', from: { node: operandNode }, to: { node: operandInterfaceNode } });
+    addEdge({ type: 'InteractionSignatureOperandElementInterface', from: { node: operandNode }, to: { node: operandInterfaceNode } });
     return operandNode;}).
 
   forEach(function (operandNode, index) {

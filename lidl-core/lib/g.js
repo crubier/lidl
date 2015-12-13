@@ -483,7 +483,7 @@ Graph = (function () {
                 label: x.content.signature.operator };} }, 
 
 
-          SignatureOperandElement: { 
+          InteractionSignatureOperandElement: { 
             color: "#2fffc7", 
             transform: function transform(x) {return { 
                 label: x.content.name };} }, 
@@ -545,7 +545,7 @@ Graph = (function () {
                 label: x.from.index };} }, 
 
 
-          SignatureOperandElementInterface: { 
+          InteractionSignatureOperandElementInterface: { 
             color: "#00e8ff", 
             transform: function transform(x) {return { 
                 label: "" };} }, 

@@ -214,8 +214,8 @@ var cursor = function(mouse){
 
 ///////////////////////////////////////////////////////////////////////
 // Declaration of variables (Edges of the graph)
-var edge_3580 = inactive;
 var edge_3584 = inactive;
+var edge_3585 = inactive;
 var edge_3588 = inactive;
 var edge_3589 = inactive;
 var edge_3591 = inactive;
@@ -232,15 +232,15 @@ edge_3592 = edge_3591;
 edge_3593 = edge_3591;
 edge_3594 = edge_3591;
 // node_3485
-edge_3584=theInterface.theNumber;
-// node_3582
-if(edge_3593 === active) {edge_3589 = edge_3584;}
+edge_3588=theInterface.theNumber;
 // node_3586
-if(edge_3594 === active) {edge_3588 = edge_3589;}
+if(edge_3594 === active) {edge_3589 = edge_3588;}
 // node_3578
-if(edge_3592 === active) {edge_3580 = edge_3588;}
+if(edge_3592 === active) {edge_3585 = edge_3589;}
+// node_3582
+if(edge_3593 === active) {edge_3584 = edge_3585;}
 // node_3487
-theInterface.theResult=edge_3580;
+theInterface.theResult=edge_3584;
 
 
 ///////////////////////////////////////////////////////////////////////

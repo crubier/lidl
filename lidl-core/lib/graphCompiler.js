@@ -101,10 +101,14 @@ graphTransformationPipeline = graphTransformationPipeline;var _g = require('./g.
   var newCallbacks = _lodash2.default.assign(_lodash2.default.clone(callbacks), { instantiateInterfaces: function instantiateInterfaces(graph, data) {callCallback('getExpandedLidlCode', (0, _getExpandedLidl2.default)(graph, rootDefinitionNode));return callCallback('instantiateInterfaces', data);}, referentialTransparencyInstances: function referentialTransparencyInstances(graph, data) {callCallback('getInteractionMetrics', (0, _getInteractionMetrics2.default)(graph));return callCallback('referentialTransparencyInstances', data);}, orderGraph: function orderGraph(graph, data) {callCallback('getJsCode', (0, _getJsCode2.default)(graph, header));return callCallback('orderGraph', data);} }); // Create a graph
   var graph = new _g2.default(); // Add the AST to it
   var rootDefinitionNode = (0, _addDefinitionToGraph2.default)(graph, ast); // Apply transformations to it
-  graphTransformationPipeline(graph, rootDefinitionNode, newCallbacks);return graph;}function graphTransformationPipeline(graph, rootDefinitionNode, callbacks) {var step = 0; // A function to properly call each callback correctly
+  graphTransformationPipeline(graph, rootDefinitionNode, newCallbacks);return graph;}function graphTransformationPipeline(graph, rootDefinitionNode, callbacks) {var step = 0;var callBackIterationCounter = {}; // A function to properly call each callback correctly
   function callCallback(element, data) {graph.clean(); // Also it cleans the graph
-    step = step + 1;if (_lodash2.default.isUndefined(callbacks[element])) {return true; // No callback for this stage ? We continue compiling;
-    } else {var ret = callbacks[element](graph, _lodash2.default.isObject(data) ? _lodash2.default.assign({ stage: element, step: step }, data) : _lodash2.default.isUndefined(data) ? { stage: element, step: step } : data);
+    step = step + 1;if (callBackIterationCounter[element] === undefined) callBackIterationCounter[element] = 0;callBackIterationCounter[element] = callBackIterationCounter[element] + 1;
+    if (_lodash2.default.isUndefined(callbacks[element])) {
+      return true; // No callback for this stage ? We continue compiling;
+    } else {
+        var additionalInfo = { stage: element, step: step, iteration: callBackIterationCounter[element] };
+        var ret = callbacks[element](graph, _lodash2.default.isObject(data) ? _lodash2.default.assign(additionalInfo, data) : _lodash2.default.isUndefined(data) ? additionalInfo : data);
         if (_lodash2.default.isBoolean(ret)) {
           return ret;} else 
         {
@@ -114,127 +118,148 @@ graphTransformationPipeline = graphTransformationPipeline;var _g = require('./g.
 
 
   try {
-    if (false === callCallback('addDefinitionToGraph', { iteration: 1 })) return graph;
+    if (false === callCallback('addDefinitionToGraph')) return graph;
 
     (0, _addOperatorTypeAnnotation2.default)(graph);
-    if (false === callCallback('addOperatorTypeAnnotation', { iteration: 1 })) return graph;
+    if (false === callCallback('addOperatorTypeAnnotation')) return graph;
 
     (0, _referentialTransparency2.default)(graph);
-    if (false === callCallback('referentialTransparency', { iteration: 1 })) return graph;
+    if (false === callCallback('referentialTransparency')) return graph;
 
     (0, _linkInteractionsToDefinitions2.default)(graph);
-    if (false === callCallback('linkInteractionsToDefinitions', { iteration: 1 })) return graph;
+    if (false === callCallback('linkInteractionsToDefinitions')) return graph;
 
     (0, _addInterfaceInformationToInteractions2.default)(graph);
-    if (false === callCallback('addInterfaceInformationToInteractions', { iteration: 1 })) return graph;
+    if (false === callCallback('addInterfaceInformationToInteractions')) return graph;
 
     (0, _expandDefinitions2.default)(graph);
-    if (false === callCallback('expandDefinitions', { iteration: 1 })) return graph;
+    if (false === callCallback('expandDefinitions')) return graph;
 
     (0, _removeNonRootDefinitions2.default)(graph, rootDefinitionNode);
-    if (false === callCallback('removeNonRootDefinitions', { iteration: 1 })) return graph;
+    if (false === callCallback('removeNonRootDefinitions')) return graph;
 
     (0, _clearSubInformation2.default)(graph);
-    if (false === callCallback('clearSubInformation', { iteration: 1 })) return graph;
+    if (false === callCallback('clearSubInformation')) return graph;
 
     (0, _instantiateInterfaces2.default)(graph, rootDefinitionNode);
-    if (false === callCallback('instantiateInterfaces', { iteration: 1 })) return graph;
+    if (false === callCallback('instantiateInterfaces')) return graph;
 
     (0, _linkArguments2.default)(graph, rootDefinitionNode);
-    if (false === callCallback('linkArguments', { iteration: 1 })) return graph;
+    if (false === callCallback('linkArguments')) return graph;
 
     (0, _linkInterface2.default)(graph, rootDefinitionNode);
-    if (false === callCallback('linkInterface', { iteration: 1 })) return graph;
+    if (false === callCallback('linkInterface')) return graph;
 
     (0, _keepOnlyInteractions2.default)(graph);
-    if (false === callCallback('keepOnlyInteractions', { iteration: 1 })) return graph;
+    if (false === callCallback('keepOnlyInteractions')) return graph;
 
     (0, _referentialTransparencyInstances2.default)(graph);
-    if (false === callCallback('referentialTransparencyInstances', { iteration: 1 })) return graph;
+    if (false === callCallback('referentialTransparencyInstances')) return graph;
 
     (0, _linkIdentifiers2.default)(graph);
-    if (false === callCallback('linkIdentifiers', { iteration: 1 })) return graph;
+    if (false === callCallback('linkIdentifiers')) return graph;
+
+    (0, _createDataFlowDirection2.default)(graph);
+    if (false === callCallback('createDataFlowDirection')) return graph;
 
     (0, _voidInteractionCreation2.default)(graph);
-    if (false === callCallback('voidInteractionCreation', { iteration: 1 })) return graph;
+    if (false === callCallback('voidInteractionCreation')) return graph;
 
     (0, _behaviourSeparation2.default)(graph);
-    if (false === callCallback('behaviourSeparation', { iteration: 1 })) return graph;
+    if (false === callCallback('behaviourSeparation')) return graph;
+
+    (0, _createDataFlowDirection2.default)(graph);
+    if (false === callCallback('createDataFlowDirection')) return graph;
 
     (0, _functionLiteralLinking2.default)(graph);
-    if (false === callCallback('functionLiteralLinking', { iteration: 1 })) return graph;
+    if (false === callCallback('functionLiteralLinking')) return graph;
+
+    (0, _createDataFlowDirection2.default)(graph);
+    if (false === callCallback('createDataFlowDirection')) return graph;
 
     (0, _dataLiteralLinking2.default)(graph);
-    if (false === callCallback('dataLiteralLinking', { iteration: 1 })) return graph;
+    if (false === callCallback('dataLiteralLinking')) return graph;
 
     (0, _createDataFlowDirection2.default)(graph);
-    if (false === callCallback('createDataFlowDirection', { iteration: 0 })) return graph;
+    if (false === callCallback('createDataFlowDirection')) return graph;
 
     (0, _functionApplicationLinking2.default)(graph);
-    if (false === callCallback('functionApplicationLinking', { iteration: 1 })) return graph;
+    if (false === callCallback('functionApplicationLinking')) return graph;
+
+    (0, _createDataFlowDirection2.default)(graph);
+    if (false === callCallback('createDataFlowDirection')) return graph;
 
     (0, _previousNextLinking2.default)(graph);
-    if (false === callCallback('previousNextLinking', { iteration: 1 })) return graph;
+    if (false === callCallback('previousNextLinking')) return graph;
+
+    (0, _createDataFlowDirection2.default)(graph);
+    if (false === callCallback('createDataFlowDirection')) return graph;
 
     (0, _tagCompositionElementEdges2.default)(graph);
-    if (false === callCallback('tagCompositionElementEdges', { iteration: 1 })) return graph;
+    if (false === callCallback('tagCompositionElementEdges')) return graph;
 
     (0, _matchingCompositionReduction2.default)(graph);
-    if (false === callCallback('matchingCompositionReduction', { iteration: 1 })) return graph;
+    if (false === callCallback('matchingCompositionReduction')) return graph;
+    (0, _createDataFlowDirection2.default)(graph);
+    if (false === callCallback('createDataFlowDirection')) return graph;
     (0, _matchingCompositionReduction2.default)(graph);
-    if (false === callCallback('matchingCompositionReduction', { iteration: 2 })) return graph;
+    if (false === callCallback('matchingCompositionReduction')) return graph;
+    (0, _createDataFlowDirection2.default)(graph);
+    if (false === callCallback('createDataFlowDirection')) return graph;
     (0, _matchingCompositionReduction2.default)(graph);
-    if (false === callCallback('matchingCompositionReduction', { iteration: 3 })) return graph;
+    if (false === callCallback('matchingCompositionReduction')) return graph;
+    (0, _createDataFlowDirection2.default)(graph);
+    if (false === callCallback('createDataFlowDirection')) return graph;
+
     //TODO Should loop that, either in the method or here ... until fixed point
 
-
     (0, _removeOneSidedAffectation2.default)(graph);
-    if (false === callCallback('removeOneSidedAffectation', { iteration: 1 })) return graph;
+    if (false === callCallback('removeOneSidedAffectation')) return graph;
 
 
     (0, _createDataFlowDirection2.default)(graph);
-    if (false === callCallback('createDataFlowDirection', { iteration: 1 })) return graph;
+    if (false === callCallback('createDataFlowDirection')) return graph;
     (0, _nonMatchingCompositionCompilation2.default)(graph);
-    if (false === callCallback('nonMatchingCompositionCompilation', { iteration: 1 })) return graph;
+    if (false === callCallback('nonMatchingCompositionCompilation')) return graph;
     (0, _affectationLinking2.default)(graph);
-    if (false === callCallback('affectationLinking', { iteration: 1 })) return graph;
+    if (false === callCallback('affectationLinking')) return graph;
     (0, _createDataFlowDirection2.default)(graph);
-    if (false === callCallback('createDataFlowDirection', { iteration: 2 })) return graph;
+    if (false === callCallback('createDataFlowDirection')) return graph;
     (0, _nonMatchingCompositionCompilation2.default)(graph);
-    if (false === callCallback('nonMatchingCompositionCompilation', { iteration: 2 })) return graph;
+    if (false === callCallback('nonMatchingCompositionCompilation')) return graph;
     (0, _affectationLinking2.default)(graph);
-    if (false === callCallback('affectationLinking', { iteration: 2 })) return graph;
+    if (false === callCallback('affectationLinking')) return graph;
     (0, _createDataFlowDirection2.default)(graph);
-    if (false === callCallback('createDataFlowDirection', { iteration: 3 })) return graph;
+    if (false === callCallback('createDataFlowDirection')) return graph;
     (0, _nonMatchingCompositionCompilation2.default)(graph);
-    if (false === callCallback('nonMatchingCompositionCompilation', { iteration: 3 })) return graph;
+    if (false === callCallback('nonMatchingCompositionCompilation')) return graph;
     (0, _affectationLinking2.default)(graph);
-    if (false === callCallback('affectationLinking', { iteration: 3 })) return graph;
+    if (false === callCallback('affectationLinking')) return graph;
 
     //TODO Should loop that too ... until fixed point ... but always end with another:
     (0, _createDataFlowDirection2.default)(graph);
-    if (false === callCallback('createDataFlowDirection', { iteration: 4 })) return graph;
+    if (false === callCallback('createDataFlowDirection')) return graph;
 
 
     (0, _removeDuplicateEdge2.default)(graph);
-    if (false === callCallback('removeDuplicateEdge', { iteration: 1 })) return graph;
+    if (false === callCallback('removeDuplicateEdge')) return graph;
 
     (0, _resolveMultiplePorts2.default)(graph);
-    if (false === callCallback('resolveMultiplePorts', { iteration: 1 })) return graph;
+    if (false === callCallback('resolveMultiplePorts')) return graph;
 
     (0, _createDataFlowDirection2.default)(graph);
-    if (false === callCallback('createDataFlowDirection', { iteration: 5 })) return graph;
+    if (false === callCallback('createDataFlowDirection')) return graph;
 
     (0, _instantiateTemplates2.default)(graph);
-    if (false === callCallback('instantiateTemplates', { iteration: 1 })) return graph;
+    if (false === callCallback('instantiateTemplates')) return graph;
 
     (0, _orderGraph2.default)(graph);
-    if (false === callCallback('orderGraph', { iteration: 1 })) return graph;
+    if (false === callCallback('orderGraph')) return graph;
 
     (0, _keepOnlyOrdering2.default)(graph);
-    if (false === callCallback('keepOnlyOrdering', { iteration: 1 })) return graph;
+    if (false === callCallback('keepOnlyOrdering')) return graph;
 
-    if (false === callCallback('graphTransformationPipeline', { iteration: 1 })) return graph;
+    if (false === callCallback('graphTransformationPipeline')) return graph;
 
     return graph;} 
   catch (e) {

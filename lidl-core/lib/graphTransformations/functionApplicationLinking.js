@@ -12,7 +12,11 @@
 
 
 
-functionApplicationLinking;var _lodash = require('lodash');var _lodash2 = _interopRequireDefault(_lodash);var _interfaces = require('../interfaces');var _ExtendableError = require('../ExtendableError');var _ExtendableError2 = _interopRequireDefault(_ExtendableError);function _interopRequireDefault(obj) {return obj && obj.__esModule ? obj : { default: obj };}function functionApplicationLinking(graph) {
+
+
+
+
+functionApplicationLinking;var _lodash = require('lodash');var _lodash2 = _interopRequireDefault(_lodash);var _interfaces = require('../interfaces');var _extendableError = require('../extendableError');var _serializer = require('../serializer');var _reporting = require('../reporting');function _interopRequireDefault(obj) {return obj && obj.__esModule ? obj : { default: obj };}function functionApplicationLinking(graph) {
   graph.
   reduceNodes({ 
     type: 'InteractionInstance', 
@@ -108,18 +112,14 @@ functionApplicationLinking;var _lodash = require('lodash');var _lodash2 = _inter
       try {
         source.ports[2] = (0, _interfaces.mergeInterface)(source.ports[2], (0, _interfaces.conjugateInterface)(x.to.node.ports[x.to.index]));} 
       catch (e) {
-        console.log('okokookokok');
-        console.log(e.message);
-        console.log(e.name);
         switch (e.name) {
           case "IncompatibleInterfaceError":
-            console.log("WOWWW");
             break;
           case "InvalidInterfaceError":
             break;
           default:}
 
-        throw new Error("While linking " + x.id + ": " + e.message);}
+        throw new Error("While linking " + x.id + ": " + e.message + "\n" + (0, _reporting.printInteractionInstanceNodeStack)(x.to.node) + "\n" + (0, _reporting.printInteractionInstanceNodeStack)(x.from.node));}
 
 
       graph.

@@ -1,0 +1,35 @@
+digraph g{node_3485 [shape="box", style="filled", color="#dff1f2", fontname="Courier", label="node_3485
+<%=a0%>=theInterface.theNumber;
+
+0: Number out" ]
+node_3487 [shape="box", style="filled", color="#dff1f2", fontname="Courier", label="node_3487
+theInterface.theResult=<%=a0%>;
+
+0: Number in" ]
+node_3530 [shape="ellipse", style="filled", color="#ffde2f", fontname="Times", label="node_3530
+$=$
+0: Activation in
+1: Number out
+2: Number in" ]
+node_3550 [shape="box", style="filled", color="#dff1f2", fontname="Courier", label="node_3550
+<%=a0%> = active;
+
+0: Activation out" ]
+node_3558 [shape="ellipse", style="filled", color="#ffde2f", fontname="Times", label="node_3558
+$=$
+0: Activation in
+1: Number out
+2: Number in" ]
+node_3562 [shape="ellipse", style="filled", color="#ffde2f", fontname="Times", label="node_3562
+$=$
+0: Activation in
+1: Number in
+2: Number out" ]
+node_3550 -> node_3530 [dir=none, arrowHead=none, fontname="Times-Italic", arrowsize=1, color="#9d8400", label="edge_3555",  headlabel="0: Activation in", taillabel="0: Activation out" ]
+node_3558 -> node_3530 [dir=none, arrowHead=none, fontname="Times-Italic", arrowsize=1, color="#9d8400", label="edge_3560",  headlabel="1: Number out", taillabel="2: Number in" ]
+node_3558 -> node_3550 [dir=none, arrowHead=none, fontname="Times-Italic", arrowsize=1, color="#9d8400", label="edge_3561",  headlabel="0: Activation out", taillabel="0: Activation in" ]
+node_3562 -> node_3530 [dir=none, arrowHead=none, fontname="Times-Italic", arrowsize=1, color="#9d8400", label="edge_3564",  headlabel="2: Number in", taillabel="2: Number out" ]
+node_3562 -> node_3550 [dir=none, arrowHead=none, fontname="Times-Italic", arrowsize=1, color="#9d8400", label="edge_3565",  headlabel="0: Activation out", taillabel="0: Activation in" ]
+node_3562 -> node_3485 [dir=none, arrowHead=none, fontname="Times-Italic", arrowsize=1, color="#9d8400", label="edge_3572",  headlabel="0: Number out", taillabel="1: Number in" ]
+node_3558 -> node_3487 [dir=none, arrowHead=none, fontname="Times-Italic", arrowsize=1, color="#9d8400", label="edge_3573",  headlabel="0: Number in", taillabel="1: Number out" ]
+}

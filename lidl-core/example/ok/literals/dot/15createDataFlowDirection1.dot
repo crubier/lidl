@@ -1,0 +1,34 @@
+digraph g{node_6269 [shape="box", style="filled", color="#dff1f2", fontname="Courier", label="node_6269
+theInterface=<%=a0%>;
+
+0: Number in" ]
+node_6272 [shape="ellipse", style="filled", color="#ffde2f", fontname="Times", label="node_6272
+9
+0: ?" ]
+node_6282 [shape="ellipse", style="filled", color="#ffde2f", fontname="Times", label="node_6282
+functionaddition
+0: {{a: Number, b: Number} -> Number} out" ]
+node_6284 [shape="ellipse", style="filled", color="#ffde2f", fontname="Times", label="node_6284
+{a:$b:$}
+0: ?
+1: ?
+2: ?" ]
+node_6288 [shape="ellipse", style="filled", color="#ffde2f", fontname="Times", label="node_6288
+$$=$
+0: ?
+1: {{a: Number, b: Number} -> Number} in
+2: ?
+3: ?" ]
+node_6293 [shape="ellipse", style="filled", color="#ffde2f", fontname="Times", label="node_6293
+$withbehaviour$
+0: Number out
+1: ?
+2: ?" ]
+node_6284 -> node_6272 [dir=none, arrowHead=none, fontname="Times-Italic", arrowsize=1, color="#9d8400", label="edge_6285",  headlabel="0", taillabel="1" ]
+node_6284 -> node_6272 [dir=none, arrowHead=none, fontname="Times-Italic", arrowsize=1, color="#9d8400", label="edge_6286",  headlabel="0", taillabel="2" ]
+node_6288 -> node_6282 [dir=none, arrowHead=none, fontname="Times-Italic", arrowsize=1, color="#9d8400", label="edge_6290",  headlabel="0: {{a: Number, b: Number} -> Number} out", taillabel="1: {{a: Number, b: Number} -> Number} in" ]
+node_6288 -> node_6284 [dir=none, arrowHead=none, fontname="Times-Italic", arrowsize=1, color="#9d8400", label="edge_6291",  headlabel="0", taillabel="2" ]
+node_6293 -> node_6288 [dir=none, arrowHead=none, fontname="Times-Italic", arrowsize=1, color="#9d8400", label="edge_6295",  headlabel="0", taillabel="2" ]
+node_6293 -> node_6269 [dir=none, arrowHead=none, fontname="Times-Italic", arrowsize=1, color="#9d8400", label="edge_6296",  headlabel="0: Number in", taillabel="0: Number out" ]
+node_6288 -> node_6293 [dir=none, arrowHead=none, fontname="Times-Italic", arrowsize=1, color="#9d8400", label="edge_6297",  headlabel="1", taillabel="3" ]
+}

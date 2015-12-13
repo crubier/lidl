@@ -1,0 +1,40 @@
+digraph g{node_7810 [shape="ellipse", style="filled", color="#ffde2f", fontname="Times", label="node_7810
+$=previous$
+0: Activation in
+1: Number out
+2: Number in" ]
+node_7830 [shape="ellipse", style="filled", color="#ffde2f", fontname="Times", label="node_7830
+{a:$b:$}
+0: ?
+1: Number in
+2: Number in" ]
+node_7831 [shape="ellipse", style="filled", color="#ffde2f", fontname="Times", label="node_7831
+$$=$
+0: Activation in
+1: {{a: Number, b: Number} -> Number} in
+2: ?
+3: Number out" ]
+node_7856 [shape="box", style="filled", color="#dff1f2", fontname="Courier", label="node_7856
+<%=a0%>=theArgs.a;
+
+0: Number out" ]
+node_7858 [shape="box", style="filled", color="#dff1f2", fontname="Courier", label="node_7858
+theInterface=<%=a0%>;
+
+0: Number in" ]
+node_7863 [shape="ellipse", style="filled", color="#ffde2f", fontname="Times", label="node_7863
+functionaddition
+0: {{a: Number, b: Number} -> Number} out" ]
+node_7867 [shape="box", style="filled", color="#dff1f2", fontname="Courier", label="node_7867
+<%=a0%> = active;
+
+0: Activation out" ]
+node_7831 -> node_7830 [dir=none, arrowHead=none, fontname="Times-Italic", arrowsize=1, color="#9d8400", label="edge_7839",  headlabel="0", taillabel="2" ]
+node_7856 -> node_7810 [dir=none, arrowHead=none, fontname="Times-Italic", arrowsize=1, color="#9d8400", label="edge_7861",  headlabel="2: Number in", taillabel="0: Number out" ]
+node_7863 -> node_7831 [dir=none, arrowHead=none, fontname="Times-Italic", arrowsize=1, color="#9d8400", label="edge_7864",  headlabel="1: {{a: Number, b: Number} -> Number} in", taillabel="0: {{a: Number, b: Number} -> Number} out" ]
+node_7867 -> node_7810 [dir=none, arrowHead=none, fontname="Times-Italic", arrowsize=1, color="#9d8400", label="edge_7868",  headlabel="0: Activation in", taillabel="0: Activation out" ]
+node_7830 -> node_7810 [dir=none, arrowHead=none, fontname="Times-Italic", arrowsize=1, color="#9d8400", label="edge_7869",  headlabel="1: Number out", taillabel="1: Number in" ]
+node_7830 -> node_7810 [dir=none, arrowHead=none, fontname="Times-Italic", arrowsize=1, color="#9d8400", label="edge_7870",  headlabel="1: Number out", taillabel="2: Number in" ]
+node_7867 -> node_7831 [dir=none, arrowHead=none, fontname="Times-Italic", arrowsize=1, color="#9d8400", label="edge_7871",  headlabel="0: Activation in", taillabel="0: Activation out" ]
+node_7858 -> node_7831 [dir=none, arrowHead=none, fontname="Times-Italic", arrowsize=1, color="#9d8400", label="edge_7872",  headlabel="3: Number out", taillabel="0: Number in" ]
+}

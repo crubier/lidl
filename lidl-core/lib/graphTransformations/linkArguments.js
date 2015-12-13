@@ -18,7 +18,7 @@ linkArguments;var _lodash = require('lodash');var _lodash2 = _interopRequireDefa
 
     var interfaceNode = 
     graph.
-    findDirectedEdge({ type: 'SignatureOperandElementInterface', from: { node: signatureOperandElementNode } }).
+    findDirectedEdge({ type: 'InteractionSignatureOperandElementInterface', from: { node: signatureOperandElementNode } }).
     to.node;
 
     var interfaceInteractionInstanceNode = 

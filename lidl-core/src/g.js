@@ -483,7 +483,7 @@ class Graph {
             label: x.content.signature.operator
           })
         },
-        SignatureOperandElement: {
+        InteractionSignatureOperandElement: {
           color: "#2fffc7",
           transform: (x) => ({
             label: x.content.name
@@ -545,7 +545,7 @@ class Graph {
             label: x.from.index
           })
         },
-        SignatureOperandElementInterface: {
+        InteractionSignatureOperandElementInterface: {
           color: "#00e8ff",
           transform: (x) => ({
             label: ""

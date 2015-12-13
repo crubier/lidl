@@ -2,7 +2,7 @@
 
 
 function serialize(object, indentation) {
-  if (_lodash2.default.isUndefined(object)) return "";
+  if (_lodash2.default.isUndefined(object)) return "?";
   var indent;
   if (!_lodash2.default.isFinite(indentation)) {indent = 0;} else {indent = indentation;}
   switch (object.type) {
@@ -13,6 +13,10 @@ function serialize(object, indentation) {
     case 'Definition':
       //TODO Proper
       return serialize(object.interaction, indent);
+    case 'InteractionSignature':
+      return serializeInteractionSignatureSimpleRow(object, indent);
+    case 'InteractionSignatureOperandElement':
+      return '(' + object.name + ': ' + serialize(object.interfac) + ')';
     case 'InterfaceAtomic':
       return serialize(object.data) + " " + object.direction;
     case 'InterfaceComposite':
@@ -79,14 +83,31 @@ function serializeInteractionSimpleNeat(object, indentation) {
 
 
 
+function serializeInteractionSignatureSimpleRow(object, indent) {
+  if (object.operand.length === 0) {
+    return '(' + object.operator + ')';} else 
+  {
+    var list = object.operator.split("$");
+    var res = '(';
+    res = res + list[0];
+    for (var i = 1; i < list.length; i++) {
+      res = res + serialize(object.operand[i - 1]);
+      res = res + list[i];}
+
+    res = res + ')';
+    return res;}}
 
 
 
 
 
-function serializeInteractionNative(object) {
-  // return "("+object.language+"`"+escodegen.generate(object.code,{format:{newline:'',space:'',indent:{style:''}}})+"`)";
-}
+
+
+
+
+// function serializeInteractionNative(object) {
+//   return "("+object.language+"`"+escodegen.generate(object.code,{format:{newline:'',space:'',indent:{style:''}}})+"`)";
+// }
 
 module.exports.serialize = serialize;
 module.exports.serializeInteractionSimpleRow = serializeInteractionSimpleRow;

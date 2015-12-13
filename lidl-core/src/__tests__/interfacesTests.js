@@ -3,6 +3,28 @@ jest.dontMock('../interfaces.js').dontMock('../parser.js').dontMock('../data.js'
 var interfaces = require('../interfaces.js');
 var parser = require('../parser.js');
 
+function removeMeta(obj) {
+  if (obj.hasOwnProperty("meta")) {
+    delete obj.meta;
+  }
+  if(Array.isArray(obj) || obj.hasOwnProperty("type")){
+  for (var prop in obj) {
+    if (prop !== 'parent') {
+      if (obj.hasOwnProperty(prop)) {
+        removeMeta(obj[prop]);
+      }
+    }
+  }}
+  return obj;
+}
+
+
+function parse(x, options) {
+  var opts;
+  if (options===undefined) opts = {startRule:'start'}; else opts=options;
+  return removeMeta(parser.parse(x, opts));
+}
+
 describe('interfaces', function() {
   var interfaces = require('../interfaces');
 
@@ -85,7 +107,7 @@ describe('interfaces', function() {
   describe('atom list', function() {
     it('simple', function() {
       expect(interfaces.listOfAtoms(
-        parser.parse("Number in", {
+        parse("Number in", {
           startRule: "interfac"
         }), "main")).toEqual(
         [{
@@ -103,7 +125,7 @@ describe('interfaces', function() {
 
     it('composite', function() {
       expect(interfaces.listOfAtoms(
-        parser.parse("{x:Number in,y:Number out}", {
+        parse("{x:Number in,y:Number out}", {
           startRule: "interfac"
         }), "main")).toEqual(
         [{
@@ -129,50 +151,50 @@ describe('interfaces', function() {
   describe('localisationInterface', function() {
     it('simple ok', function() {
       expect(interfaces.localisationInterface(
-        parser.parse("Number in", {
+        parse("Number in", {
           startRule: "interfac"
         }))).toEqual(
-        parser.parse("Number in", {
+        parse("Number in", {
           startRule: "interfac"
         }));
     });
 
     it('composite ok1', function() {
       expect(interfaces.localisationInterface(
-        parser.parse("{a:Number,b:Number} in", {
+        parse("{a:Number,b:Number} in", {
           startRule: "interfac"
         }))).toEqual(
-        parser.parse("{a:Number in,b:Number in}", {
+        parse("{a:Number in,b:Number in}", {
           startRule: "interfac"
         }));
     });
 
     it('composite ok2', function() {
       expect(interfaces.localisationInterface(
-        parser.parse("{ a: { x: Boolean , y : Text},b:Number} in", {
+        parse("{ a: { x: Boolean , y : Text},b:Number} in", {
           startRule: "interfac"
         }))).toEqual(
-        parser.parse("{a:{x:Boolean in,y:Text in},b:Number in}", {
+        parse("{a:{x:Boolean in,y:Text in},b:Number in}", {
           startRule: "interfac"
         }));
     });
 
     it('composite ok3', function() {
       expect(interfaces.localisationInterface(
-        parser.parse("{a:{x:Boolean,y:Text} out,b:Number in }", {
+        parse("{a:{x:Boolean,y:Text} out,b:Number in }", {
           startRule: "interfac"
         }))).toEqual(
-        parser.parse("{a:{x:Boolean out,y:Text out},b:Number in}", {
+        parse("{a:{x:Boolean out,y:Text out},b:Number in}", {
           startRule: "interfac"
         }));
     });
 
     it('composite ok4', function() {
       expect(interfaces.localisationInterface(
-        parser.parse("{a:{x:Boolean in,y:Text out},b:Number in }", {
+        parse("{a:{x:Boolean in,y:Text out},b:Number in }", {
           startRule: "interfac"
         }))).toEqual(
-        parser.parse("{a:{x:Boolean in,y:Text out},b:Number in}", {
+        parse("{a:{x:Boolean in,y:Text out},b:Number in}", {
           startRule: "interfac"
         }));
     });
@@ -185,50 +207,50 @@ describe('interfaces', function() {
   describe('globalisationInterface', function() {
     it('simple ok', function() {
       expect(interfaces.globalisationInterface(
-        parser.parse("Number in", {
+        parse("Number in", {
           startRule: "interfac"
         }))).toEqual(
-        parser.parse("Number in", {
+        parse("Number in", {
           startRule: "interfac"
         }));
     });
     //
     it('composite ok1', function() {
       expect(interfaces.globalisationInterface(
-        parser.parse("{a:Number in,b:Number in}", {
+        parse("{a:Number in,b:Number in}", {
           startRule: "interfac"
         }))).toEqual(
-        parser.parse("{a:Number,b:Number} in", {
+        parse("{a:Number,b:Number} in", {
           startRule: "interfac"
         }));
     });
 
     it('composite ok2', function() {
       expect(interfaces.globalisationInterface(
-        parser.parse("{ a: { x: Boolean in , y : Text in},b:Number in}", {
+        parse("{ a: { x: Boolean in , y : Text in},b:Number in}", {
           startRule: "interfac"
         }))).toEqual(
-        parser.parse("{a:{x:Boolean ,y:Text },b:Number } in", {
+        parse("{a:{x:Boolean ,y:Text },b:Number } in", {
           startRule: "interfac"
         }));
     });
 
     it('composite ok3', function() {
       expect(interfaces.globalisationInterface(
-        parser.parse("{a:{x:Boolean out,y:Text out},b:Number in }", {
+        parse("{a:{x:Boolean out,y:Text out},b:Number in }", {
           startRule: "interfac"
         }))).toEqual(
-        parser.parse("{a:{x:Boolean,y:Text} out,b:Number in}", {
+        parse("{a:{x:Boolean,y:Text} out,b:Number in}", {
           startRule: "interfac"
         }));
     });
 
     it('composite ok4', function() {
       expect(interfaces.globalisationInterface(
-        parser.parse("{a:{x:Boolean in,y:Text out},b:Number in }", {
+        parse("{a:{x:Boolean in,y:Text out},b:Number in }", {
           startRule: "interfac"
         }))).toEqual(
-        parser.parse("{a:{x:Boolean in,y:Text out},b:Number in}", {
+        parse("{a:{x:Boolean in,y:Text out},b:Number in}", {
           startRule: "interfac"
         }));
     });
@@ -239,72 +261,72 @@ describe('interfaces', function() {
   describe('isCompatible', function() {
     it('simple ok', function() {
       expect(interfaces.isCompatible(
-        parser.parse("Number in", {
+        parse("Number in", {
           startRule: "interfac"
-        }), parser.parse("Number out", {
+        }), parse("Number out", {
           startRule: "interfac"
         }))).toBeTruthy();
     });
 
     it('simple nok because of direction', function() {
       expect(interfaces.isCompatible(
-        parser.parse("Number in", {
+        parse("Number in", {
           startRule: "interfac"
-        }), parser.parse("Number in", {
+        }), parse("Number in", {
           startRule: "interfac"
         }))).toBeFalsy();
     });
 
     it('simple nok because of data type', function() {
       expect(interfaces.isCompatible(
-        parser.parse("Number in", {
+        parse("Number in", {
           startRule: "interfac"
-        }), parser.parse("Text out", {
+        }), parse("Text out", {
           startRule: "interfac"
         }))).toBeFalsy();
     });
 
     it('simple nok because of both', function() {
       expect(interfaces.isCompatible(
-        parser.parse("Number in", {
+        parse("Number in", {
           startRule: "interfac"
-        }), parser.parse("Text in", {
+        }), parse("Text in", {
           startRule: "interfac"
         }))).toBeFalsy();
     });
 
     it('composite ok ', function() {
       expect(interfaces.isCompatible(
-        parser.parse("{x:Number in,y:Number out}", {
+        parse("{x:Number in,y:Number out}", {
           startRule: "interfac"
-        }), parser.parse("{x:Number out,y:Number in}", {
+        }), parse("{x:Number out,y:Number in}", {
           startRule: "interfac"
         }))).toBeTruthy();
     });
 
     it('composite nok ', function() {
       expect(interfaces.isCompatible(
-        parser.parse("{x:Number in,y:Number out}", {
+        parse("{x:Number in,y:Number out}", {
           startRule: "interfac"
-        }), parser.parse("{x:Number out,y:Number out}", {
+        }), parse("{x:Number out,y:Number out}", {
           startRule: "interfac"
         }))).toBeFalsy();
     });
 
     it('composite too much on first but ok', function() {
       expect(interfaces.isCompatible(
-        parser.parse("{x:Number in,y:Number out,a:Number out}", {
+        parse("{x:Number in,y:Number out,a:Number out}", {
           startRule: "interfac"
-        }), parser.parse("{x:Number out,y:Number in}", {
+        }), parse("{x:Number out,y:Number in}", {
           startRule: "interfac"
         }))).toBeTruthy();
     });
 
     it('composite too much on second but ok', function() {
       expect(interfaces.isCompatible(
-        parser.parse("{x:Number in,y:Number out,a:Number out}", {
+        parse("{x:Number in,y:Number out,a:Number out}", {
           startRule: "interfac"
-        }), parser.parse("{x:Number out,y:Number in,b:{x:Number in,y:Text out}}", {
+        }), parse("{x:Number out,y:Number in,b:{x:Number in,y:Text out}}", {
           startRule: "interfac"
         }))).toBeTruthy();
     });
@@ -316,26 +338,26 @@ describe('interfaces', function() {
   describe('madeOnlyOf', function() {
     it('simple ok', function() {
       expect(interfaces.madeOnlyOf(
-        parser.parse("Number in", {
+        parse("Number in", {
           startRule: "interfac"
         }))).toEqual('in');
     });
     it('simple ok1', function() {
       expect(interfaces.madeOnlyOf(
-        parser.parse("{a:Number out,b:Number out}", {
+        parse("{a:Number out,b:Number out}", {
           startRule: "interfac"
         }))).toEqual('out');
     });
 
     it('simple ok2', function() {
       expect(interfaces.madeOnlyOf(
-        parser.parse("{a:Number out,b:{x:Number out,y:Number out}}", {
+        parse("{a:Number out,b:{x:Number out,y:Number out}}", {
           startRule: "interfac"
         }))).toEqual('out');
     });
     it('simple ok2', function() {
       expect(interfaces.madeOnlyOf(
-        parser.parse("{a:Number out,b:{x:Number in,y:Number out}}", {
+        parse("{a:Number out,b:{x:Number in,y:Number out}}", {
           startRule: "interfac"
         }))).toBeUndefined();
     });
@@ -345,20 +367,20 @@ describe('interfaces', function() {
   describe('mergeInterface', function() {
     it('simple ok', function() {
       expect(interfaces.mergeInterface(
-        parser.parse("Number in", {
+        parse("Number in", {
           startRule: "interfac"
-        }), parser.parse("Number in", {
+        }), parse("Number in", {
           startRule: "interfac"
-        }))).toEqual(parser.parse("Number in", {
+        }))).toEqual(parse("Number in", {
         startRule: "interfac"
       }));
     });
     it('simple ok 2', function() {
       expect(function() {
         interfaces.mergeInterface(
-          parser.parse("Number in", {
+          parse("Number in", {
             startRule: "interfac"
-          }), parser.parse("{x:Number in,y:Number out}", {
+          }), parse("{x:Number in,y:Number out}", {
             startRule: "interfac"
           }))
       }).toThrow();
@@ -366,82 +388,82 @@ describe('interfaces', function() {
     it('simple ok 2.5', function() {
       expect(function() {
         interfaces.mergeInterface(
-          parser.parse("Number in", {
+          parse("Number in", {
             startRule: "interfac"
-          }), parser.parse("Number out", {
+          }), parse("Number out", {
             startRule: "interfac"
           }))
       }).toThrow();
     });
     it('simple ok 3', function() {
       expect(interfaces.mergeInterface(
-        parser.parse("{x:Number in,y:Number out}", {
+        parse("{x:Number in,y:Number out}", {
           startRule: "interfac"
-        }), parser.parse("{x:Number in,y:Number out}", {
+        }), parse("{x:Number in,y:Number out}", {
           startRule: "interfac"
-        }))).toEqual(parser.parse("{x:Number in,y:Number out}", {
+        }))).toEqual(parse("{x:Number in,y:Number out}", {
         startRule: "interfac"
       }));
     });
     it('simple ok 4', function() {
       expect(interfaces.mergeInterface(
-        parser.parse("{x:Number in,y:Number out,a:Text in}", {
+        parse("{x:Number in,y:Number out,a:Text in}", {
           startRule: "interfac"
-        }), parser.parse("{x:Number in,y:Number out,b:Text out}", {
+        }), parse("{x:Number in,y:Number out,b:Text out}", {
           startRule: "interfac"
-        }))).toEqual(parser.parse("{x:Number in,y:Number out,a:Text in,b: Text out}", {
+        }))).toEqual(parse("{x:Number in,y:Number out,a:Text in,b: Text out}", {
         startRule: "interfac"
       }));
     });
     it('simple ok 5', function() {
       expect(interfaces.mergeInterface(
-        parser.parse("{x:Number in,y:Number in}", {
+        parse("{x:Number in,y:Number in}", {
           startRule: "interfac"
-        }), parser.parse("{x:Number ,y:Number ,z:Text }in", {
+        }), parse("{x:Number ,y:Number ,z:Text }in", {
           startRule: "interfac"
-        }))).toEqual(parser.parse("{x:Number in,y:Number in,z:Text in}", {
+        }))).toEqual(parse("{x:Number in,y:Number in,z:Text in}", {
         startRule: "interfac"
       }));
     });
     it('simple ok 5.5', function() {
-      expect(interfaces.mergeInterface(parser.parse("{x:Number ,y:Number ,z:Text }in", {
+      expect(interfaces.mergeInterface(parse("{x:Number ,y:Number ,z:Text }in", {
           startRule: "interfac"
         }),
-        parser.parse("{x:Number in,y:Number in}", {
+        parse("{x:Number in,y:Number in}", {
           startRule: "interfac"
-        }))).toEqual(parser.parse("{x:Number in,y:Number in,z:Text in}", {
+        }))).toEqual(parse("{x:Number in,y:Number in,z:Text in}", {
         startRule: "interfac"
       }));
     });
     it('simple ok 6', function() {
       expect(interfaces.mergeInterface(
-        parser.parse("{x:Number in,y:Number in}", {
+        parse("{x:Number in,y:Number in}", {
           startRule: "interfac"
-        }), undefined)).toEqual(parser.parse("{x:Number in,y:Number in}", {
+        }), undefined)).toEqual(parse("{x:Number in,y:Number in}", {
         startRule: "interfac"
       }));
     });
     it('simple ok 7', function() {
       expect(interfaces.mergeInterface(
-        undefined, parser.parse("{x:Number in,y:Number in}", {
+        undefined, parse("{x:Number in,y:Number in}", {
           startRule: "interfac"
-        }))).toEqual(parser.parse("{x:Number in,y:Number in}", {
+        }))).toEqual(parse("{x:Number in,y:Number in}", {
         startRule: "interfac"
       }));
     });
     it('simple ok 7', function() {
       expect(interfaces.mergeInterface(
-        undefined, parser.parse("Number in", {
+        undefined, parse("Number in", {
           startRule: "interfac"
-        }))).toEqual(parser.parse("Number in", {
+        }))).toEqual(parse("Number in", {
         startRule: "interfac"
       }));
     });
     it('simple ok 7', function() {
       expect(interfaces.mergeInterface(
-        parser.parse("Number in", {
+        parse("Number in", {
           startRule: "interfac"
-        }), undefined)).toEqual(parser.parse("Number in", {
+        }), undefined)).toEqual(parse("Number in", {
         startRule: "interfac"
       }));
     });
@@ -456,33 +478,33 @@ describe('interfaces', function() {
   describe('subInterface', function() {
     it('simple ok1', function() {
       expect(interfaces.subInterface(
-        parser.parse("{a:Number in,b:Number out}", {
+        parse("{a:Number in,b:Number out}", {
           startRule: "interfac"
-        }), "a")).toEqual(parser.parse("Number in", {
+        }), "a")).toEqual(parse("Number in", {
         startRule: "interfac"
       }));
     });
     it('simple ok2', function() {
       expect(interfaces.subInterface(
-        parser.parse("{a:Number in,b:Number out}", {
+        parse("{a:Number in,b:Number out}", {
           startRule: "interfac"
-        }), "b")).toEqual(parser.parse("Number out", {
+        }), "b")).toEqual(parse("Number out", {
         startRule: "interfac"
       }));
     });
     it('simple ok3', function() {
       expect(interfaces.subInterface(
-        parser.parse("{z:Boolean in,a:{x:Text in,y:Text out, z:Number in},b:Number out}", {
+        parse("{z:Boolean in,a:{x:Text in,y:Text out, z:Number in},b:Number out}", {
           startRule: "interfac"
-        }), "a")).toEqual(parser.parse("{x:Text in,y:Text out, z:Number in}", {
+        }), "a")).toEqual(parse("{x:Text in,y:Text out, z:Number in}", {
         startRule: "interfac"
       }));
     });
     it('simple ok4', function() {
       expect(interfaces.subInterface(
-        parser.parse("{z:Boolean in,a:{x:Text,y:Text, z:Number}out,b:Number out}", {
+        parse("{z:Boolean in,a:{x:Text,y:Text, z:Number}out,b:Number out}", {
           startRule: "interfac"
-        }), "a")).toEqual(parser.parse("{x:Text out,y:Text out, z:Number out}", {
+        }), "a")).toEqual(parse("{x:Text out,y:Text out, z:Number out}", {
         startRule: "interfac"
       }));
     });

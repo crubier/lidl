@@ -1,0 +1,64 @@
+digraph g{node_2009 [shape="box", style="filled", color="#dff1f2", fontname="Courier", label="node_2009
+<%=a0%>=theInterface.theNumber;
+
+0: Number out" ]
+node_2011 [shape="box", style="filled", color="#dff1f2", fontname="Courier", label="node_2011
+theInterface.theResult=<%=a0%>;
+
+0: Boolean in" ]
+node_2013 [shape="ellipse", style="filled", color="#ffde2f", fontname="Times", label="node_2013
+{theNumber:$theResult:$}
+0: {theNumber: Number out, theResult: Boolean in}
+1: Number in
+2: Boolean out" ]
+node_2027 [shape="ellipse", style="filled", color="#ffde2f", fontname="Times", label="node_2027
+get$frompreviousandset$fornext
+0: Activation in
+1: Number out
+2: Number in" ]
+node_2042 [shape="ellipse", style="filled", color="#ffde2f", fontname="Times", label="node_2042
+apply$to$andget$
+0: Activation in
+1: {Number -> Boolean} in
+2: Number in
+3: Boolean out" ]
+node_2058 [shape="ellipse", style="filled", color="#ffde2f", fontname="Times", label="node_2058
+apply$to$andget$
+0: Activation in
+1: {Boolean -> Boolean} in
+2: Boolean in
+3: Boolean out" ]
+node_2067 [shape="ellipse", style="filled", color="#ffde2f", fontname="Times", label="node_2067
+{theNumber:$theResult:$}
+0: {theNumber: Number in, theResult: Boolean out}
+
+2: Boolean in" ]
+node_2074 [shape="box", style="filled", color="#dff1f2", fontname="Courier", label="node_2074
+<%=a0%> = active;
+
+0: Activation out" ]
+node_2081 [shape="box", style="filled", color="#dff1f2", fontname="Courier", label="node_2081
+<%=a0%> = isActive;
+
+0: {Number -> Boolean} out" ]
+node_2083 [shape="box", style="filled", color="#dff1f2", fontname="Courier", label="node_2083
+<%=a0%> = boolNot;
+
+0: {Boolean -> Boolean} out" ]
+node_2085 [shape="box", style="filled", color="#dff1f2", fontname="Courier", label="node_2085
+<%=a0%> = 1;
+
+0: Number out" ]
+node_2013 -> node_2009 [dir=none, arrowHead=none, fontname="Times-Italic", arrowsize=1, color="#9d8400", label="edge_2014",  headlabel="0: Number out", taillabel="1: Number in: theNumber" ]
+node_2013 -> node_2011 [dir=none, arrowHead=none, fontname="Times-Italic", arrowsize=1, color="#9d8400", label="edge_2015",  headlabel="0: Boolean in", taillabel="2: Boolean out: theResult" ]
+node_2067 -> node_2013 [dir=none, arrowHead=none, fontname="Times-Italic", arrowsize=1, color="#9d8400", label="edge_2070",  headlabel="0: {theNumber: Number out, theResult: Boolean in}", taillabel="0: {theNumber: Number in, theResult: Boolean out}" ]
+node_2074 -> node_2027 [dir=none, arrowHead=none, fontname="Times-Italic", arrowsize=1, color="#9d8400", label="edge_2075",  headlabel="0: Activation in", taillabel="0: Activation out" ]
+node_2042 -> node_2027 [dir=none, arrowHead=none, fontname="Times-Italic", arrowsize=1, color="#9d8400", label="edge_2076",  headlabel="1: Number out", taillabel="2: Number in" ]
+node_2074 -> node_2042 [dir=none, arrowHead=none, fontname="Times-Italic", arrowsize=1, color="#9d8400", label="edge_2077",  headlabel="0: Activation in", taillabel="0: Activation out" ]
+node_2058 -> node_2042 [dir=none, arrowHead=none, fontname="Times-Italic", arrowsize=1, color="#9d8400", label="edge_2078",  headlabel="3: Boolean out", taillabel="2: Boolean in" ]
+node_2074 -> node_2058 [dir=none, arrowHead=none, fontname="Times-Italic", arrowsize=1, color="#9d8400", label="edge_2079",  headlabel="0: Activation in", taillabel="0: Activation out" ]
+node_2067 -> node_2058 [dir=none, arrowHead=none, fontname="Times-Italic", arrowsize=1, color="#9d8400", label="edge_2080",  headlabel="3: Boolean out", taillabel="2: Boolean in" ]
+node_2081 -> node_2042 [dir=none, arrowHead=none, fontname="Times-Italic", arrowsize=1, color="#9d8400", label="edge_2082",  headlabel="1: {Number -> Boolean} in", taillabel="0: {Number -> Boolean} out" ]
+node_2083 -> node_2058 [dir=none, arrowHead=none, fontname="Times-Italic", arrowsize=1, color="#9d8400", label="edge_2084",  headlabel="1: {Boolean -> Boolean} in", taillabel="0: {Boolean -> Boolean} out" ]
+node_2085 -> node_2027 [dir=none, arrowHead=none, fontname="Times-Italic", arrowsize=1, color="#9d8400", label="edge_2086",  headlabel="2: Number in", taillabel="0: Number out" ]
+}

@@ -890,12 +890,7 @@ with
     )
 
   interaction
-    ( (a:Number in) fallback to (b:Number in) fallback to (c:Number in)):Number out
-  is
-    (((a) fallback to (b)) fallback to (c))
-
-  interaction
-    (new (x:Number in)):Number in
+    (new (x:Number ref)):Number ref
   is
     (variable new (x))
 

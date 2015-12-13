@@ -13,14 +13,14 @@ function addInterfaceInformationToArguments(graph) {
   graph
   .matchNodes({type:'Interaction',isArgument:true})
   .forEach(theNode=>{
-    // Find the SignatureOperandElement node this interaction agument node is associated with
+    // Find the InteractionSignatureOperandElement node this interaction agument node is associated with
     let theArgumentNode = graph
     .findDirectedEdge({type:'InteractionDefinition',from:{node:theNode}})
     .to.node;
 
-    // Find the Interface node this SignatureOperandElement node is associated with
+    // Find the Interface node this InteractionSignatureOperandElement node is associated with
     let theArgumentInterfaceNode = graph
-    .findDirectedEdge({type:'SignatureOperandElementInterface',from:{node:theArgumentNode}})
+    .findDirectedEdge({type:'InteractionSignatureOperandElementInterface',from:{node:theArgumentNode}})
     .to.node;
 
     // Add the appropriate interaction to the interaction node on ports 0

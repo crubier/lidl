@@ -21,14 +21,14 @@ export default function addDefinitionToGraph(graph, definition) {
   .map(operand=> {
     let operandNode =
     graph
-    .addNode({type:'SignatureOperandElement',content:operand});
+    .addNode({type:'InteractionSignatureOperandElement',content:operand});
 
     // console.log(operand.interfac);
     let operandInterfaceNode =
     addInterfaceToGraph(graph,operand.interfac,'theArgs.'+operand.name,rootNode);
 
     graph
-    .addEdge({type:'SignatureOperandElementInterface',from:{node:operandNode},to:{node:operandInterfaceNode}});
+    .addEdge({type:'InteractionSignatureOperandElementInterface',from:{node:operandNode},to:{node:operandInterfaceNode}});
     return operandNode;
   })
   .forEach((operandNode, index) => {

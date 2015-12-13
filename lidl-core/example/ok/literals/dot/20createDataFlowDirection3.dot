@@ -1,0 +1,33 @@
+digraph g{node_6269 [shape="box", style="filled", color="#dff1f2", fontname="Courier", label="node_6269
+theInterface=<%=a0%>;
+
+0: Number in" ]
+node_6272 [shape="ellipse", style="filled", color="#ffde2f", fontname="Times", label="node_6272
+9
+0: ?" ]
+node_6284 [shape="ellipse", style="filled", color="#ffde2f", fontname="Times", label="node_6284
+{a:$b:$}
+0: ?
+1: ?
+2: ?" ]
+node_6288 [shape="ellipse", style="filled", color="#ffde2f", fontname="Times", label="node_6288
+$$=$
+0: Activation in
+1: {{a: Number, b: Number} -> Number} in
+2: ?
+3: Number out" ]
+node_6298 [shape="box", style="filled", color="#dff1f2", fontname="Courier", label="node_6298
+<%=a0%> = active;
+
+0: Activation out" ]
+node_6301 [shape="box", style="filled", color="#dff1f2", fontname="Courier", label="node_6301
+<%=a0%> = addition;
+
+0: {{a: Number, b: Number} -> Number} out" ]
+node_6284 -> node_6272 [dir=none, arrowHead=none, fontname="Times-Italic", arrowsize=1, color="#9d8400", label="edge_6285",  headlabel="0", taillabel="1" ]
+node_6284 -> node_6272 [dir=none, arrowHead=none, fontname="Times-Italic", arrowsize=1, color="#9d8400", label="edge_6286",  headlabel="0", taillabel="2" ]
+node_6288 -> node_6284 [dir=none, arrowHead=none, fontname="Times-Italic", arrowsize=1, color="#9d8400", label="edge_6291",  headlabel="0", taillabel="2" ]
+node_6298 -> node_6288 [dir=none, arrowHead=none, fontname="Times-Italic", arrowsize=1, color="#9d8400", label="edge_6299",  headlabel="0: Activation in", taillabel="0: Activation out" ]
+node_6269 -> node_6288 [dir=none, arrowHead=none, fontname="Times-Italic", arrowsize=1, color="#9d8400", label="edge_6300",  headlabel="3: Number out", taillabel="0: Number in" ]
+node_6301 -> node_6288 [dir=none, arrowHead=none, fontname="Times-Italic", arrowsize=1, color="#9d8400", label="edge_6302",  headlabel="1: {{a: Number, b: Number} -> Number} in", taillabel="0: {{a: Number, b: Number} -> Number} out" ]
+}

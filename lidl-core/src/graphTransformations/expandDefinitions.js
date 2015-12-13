@@ -1,7 +1,8 @@
 "use strict"
 
 import _ from 'lodash'
-import interactions from '../interactions.js';
+import interactions from '../interactions';
+import {serialize} from '../serializer';
 
 export default function expandDefinitions(graph) {
   // First we create dependency links between definitions nodes
@@ -111,7 +112,7 @@ export default function expandDefinitions(graph) {
 
   // Finally, we expand all definitions, in order.
   _(orderingList)
-    .reverse() // reverse the list in order to expand most basic interactions first
+    .reverse() // reverse the list in order to expand most basic interction definitions first
     .forEach(defNode => {
       instantiateDefinitionInteraction(graph, defNode);
     })
@@ -126,6 +127,7 @@ export default function expandDefinitions(graph) {
 
 
 // Here we expand the whole interaction expression of a definition
+// stack is a list of definitions
 function instantiateDefinitionInteraction(graph, definitionNode) {
   // console.log('=================== instantiate '+definitionNode.content.signature.operator);
 
@@ -178,7 +180,6 @@ function instantiateDefinitionInteraction(graph, definitionNode) {
 
   function visitInteraction(n) {
     if (n.temporarilyMarkedDuringInteractionGraphOrdering === true) {
-      //TODO Add traceback to initial AST (change code everywhere in order to add traceability)
       throw new Error("The interaction structure contains cycles"); //+_(stack).concat([n]).map('id').join(" -> ");
     } else {
       if (n.markedDuringInteractionGraphOrdering !== true) {
@@ -214,7 +215,7 @@ function instantiateDefinitionInteraction(graph, definitionNode) {
       // console.log(interNode.content.operator);
       // instantiateDefinitionInteraction(graph,defNode);
       let newNodes =
-        instantiateInteraction(graph, interNode);
+        instantiateInteraction(graph, interNode,definitionNode);
 
       _(newNodes)
         .forEach(n => {
@@ -233,7 +234,6 @@ function instantiateDefinitionInteraction(graph, definitionNode) {
     })
     .commit();
 
-  //TODO uncomment this
   // Link to the root interaction instance
   let instantiatedRoot =
     graph
@@ -267,7 +267,7 @@ function instantiateDefinitionInteraction(graph, definitionNode) {
 
 
 // Here we expand a single interaction node
-function instantiateInteraction(graph, interactionNode) {
+function instantiateInteraction(graph, interactionNode,stackDefNode) {
   // console.log(interactionNode.content.operator);
 
   // First we get all the InteractionOperand Edges that go from and to this interaction
@@ -291,7 +291,6 @@ function instantiateInteraction(graph, interactionNode) {
       }
     })
     .value();
-
 
 
 
@@ -358,7 +357,21 @@ function instantiateInteraction(graph, interactionNode) {
       .commit();
     // interactionNode.instantiated = true;
     graph.finish(interactionNode);
-    return [newNode];
+
+
+
+    let res = [newNode];
+
+    _(res)
+    .forEach(n=>{
+      if(_.isUndefined(n.content.meta.stack)) {
+        n.content.meta.stack=[];
+      }
+      n.content.meta.stack.push(interactionNode);
+
+    })
+    .commit();
+    return res;
 
 
 
@@ -443,7 +456,21 @@ function instantiateInteraction(graph, interactionNode) {
 
     graph.finish(interactionNode);
     // interactionNode.instantiated = true;
-    return [newNode];
+
+    let res = [newNode];
+
+    _(res)
+    .forEach(n=>{
+      if(_.isUndefined(n.content.meta.stack)) {
+        n.content.meta.stack=[];
+      }
+      n.content.meta.stack.push(interactionNode);
+
+    })
+    .commit();
+    return res;
+
+
 
 
 
@@ -485,6 +512,7 @@ function instantiateInteraction(graph, interactionNode) {
       .map(x => (x.to.node))
       .value();
 
+    // Copy edges of type InteractionInstanceOperand
     let defInteractionInstanceEdges =
       graph
       .matchDirectedEdges({
@@ -493,6 +521,7 @@ function instantiateInteraction(graph, interactionNode) {
       .filter(e => (_.includes(defInteractionInstanceNodes, e.to.node) && _.includes(defInteractionInstanceNodes, e.from.node)))
       .value();
 
+    // Copy edges of type InteractionInstanceIsOperandOf
     let defInteractionInstanceIsOperandOf =
       graph
       .matchDirectedEdges({
@@ -615,7 +644,21 @@ function instantiateInteraction(graph, interactionNode) {
       .commit();
 
     graph.finish(interactionNode);
-    return newSubGraph.nodes;
+
+    let res = newSubGraph.nodes;
+
+    _(res)
+    .forEach(n=>{
+      if(_.isUndefined(n.content.meta.stack)) {
+        n.content.meta.stack=[];
+      }
+      n.content.meta.stack.push(interactionNode);
+
+    })
+    .commit();
+    return res;
+
+    // return newSubGraph.nodes;
 
   } else {
     throw new Error('Could not instantiate interaction ' + interactionNode.content.operator + " " + interactionNode.id + " because it is not an argument, a base interaction or a custom defined interaction");

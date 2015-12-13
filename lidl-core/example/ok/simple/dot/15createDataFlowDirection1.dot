@@ -1,0 +1,23 @@
+digraph g{node_7108 [shape="box", style="filled", color="#dff1f2", fontname="Courier", label="node_7108
+<%=a0%>=theInterface.theNumber;
+
+0: Number out" ]
+node_7110 [shape="box", style="filled", color="#dff1f2", fontname="Courier", label="node_7110
+theInterface.theResult=<%=a0%>;
+
+0: Number in" ]
+node_7112 [shape="ellipse", style="filled", color="#ffde2f", fontname="Times", label="node_7112
+{theNumber:$theResult:$}
+0: {theNumber: Number out, theResult: Number in}
+1: Number in
+2: Number out" ]
+node_7120 [shape="ellipse", style="filled", color="#ffde2f", fontname="Times", label="node_7120
+{theNumber:$theResult:$}
+0: {theNumber: Number in, theResult: Number out}
+1: ?
+2: ?" ]
+node_7112 -> node_7108 [dir=none, arrowHead=none, fontname="Times-Italic", arrowsize=1, color="#9d8400", label="edge_7113",  headlabel="0: Number out", taillabel="1: Number in: theNumber" ]
+node_7112 -> node_7110 [dir=none, arrowHead=none, fontname="Times-Italic", arrowsize=1, color="#9d8400", label="edge_7114",  headlabel="0: Number in", taillabel="2: Number out: theResult" ]
+node_7120 -> node_7112 [dir=none, arrowHead=none, fontname="Times-Italic", arrowsize=1, color="#9d8400", label="edge_7123",  headlabel="0: {theNumber: Number out, theResult: Number in}", taillabel="0: {theNumber: Number in, theResult: Number out}" ]
+node_7120 -> node_7120 [dir=none, arrowHead=none, fontname="Times-Italic", arrowsize=1, color="#9d8400", label="edge_7124",  headlabel="2", taillabel="1" ]
+}
