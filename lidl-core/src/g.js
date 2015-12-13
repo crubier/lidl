@@ -474,7 +474,7 @@ class Graph {
             shape: (x.content.type === 'InteractionSimple') ? "ellipse" : 'box',
             color: (x.content.type === 'InteractionSimple') ? "#ffde2f" : "#dff1f2",
             fontname: (x.content.type === 'InteractionSimple') ? 'Times' : 'Courier',
-            label: (x.content.type === 'InteractionSimple') ? (x.content.operator) : (x.content.content)
+            label: x.id+'\n'+((x.content.type === 'InteractionSimple') ? (x.content.operator) : (x.content.content))+"\n"+((x.ports).map((x,i)=>(i+": "+serialize(x))).join('\n'))
           })
         },
         Definition: {
@@ -610,7 +610,7 @@ class Graph {
         InteractionInstanceOperand: {
           color: "#9d8400",
           transform: (x) => ({
-            label: "",
+            label: x.id,
             headlabel: x.to.index + (_.isUndefined(x.to.ports) ? '' : (': ' + serialize(x.to.ports))) + (_.isUndefined(x.to.compositionElementName) ? '' : (': ' + x.to.compositionElementName)),
             taillabel: x.from.index + (_.isUndefined(x.from.ports) ? '' : (': ' + serialize(x.from.ports))) + (_.isUndefined(x.from.compositionElementName) ? '' : (': ' + x.from.compositionElementName))
           })
@@ -618,7 +618,6 @@ class Graph {
       }
     });
   }
-
 
 }
 

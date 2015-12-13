@@ -9,6 +9,9 @@ import {
 }
 from '../interfaces'
 
+import {ExtendableError} from '../ExtendableError'
+
+
 export default function functionApplicationLinking(graph) {
   graph
     .reduceNodes({
@@ -32,7 +35,7 @@ export default function functionApplicationLinking(graph) {
                 type: 'DataAtomic',
                 name: 'Activation'
               }
-            }] //FIXME itnerface instead of ports
+            }]
         });
 
 
@@ -102,7 +105,19 @@ export default function functionApplicationLinking(graph) {
           }
         })
         .forEach(x =>{
-          source.ports[2] = mergeInterface(source.ports[2], conjugateInterface(x.to.node.ports[x.to.index]));
+          try {
+            source.ports[2] = mergeInterface(source.ports[2], conjugateInterface(x.to.node.ports[x.to.index]));
+          } catch (e) {
+            switch (e.name) {
+              case "IncompatibleInterfaceError":                
+                break;
+              case "InvalidInterfaceError":
+                break;
+              default:
+            }
+            throw new Error("While linking "+x.id+": "+ e.message);
+          }
+
           graph
           .addEdge({
             type: 'InteractionInstanceOperand',

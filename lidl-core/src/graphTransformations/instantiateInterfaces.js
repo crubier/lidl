@@ -1,41 +1,55 @@
 "use strict"
 
-var interfacs = require('../interfaces.js');
+import {conjugateInterface, toOperator, mergeInterface, subInterface} from '../interfaces.js'
 import _ from 'lodash'
 
 // This transformation transforms interfaces into appropriate interaction instances
 
-export default function instantiateInterfaces(graph,defNode) {
+export default function instantiateInterfaces(graph, defNode) {
 
   graph
-  .matchNodes({type:'Interface'})
-  .forEach(n=>{n.markedDuringInterfaceGraphOrdering=false;})
-  .commit();
+    .matchNodes({
+      type: 'Interface'
+    })
+    .forEach(n => {
+      n.markedDuringInterfaceGraphOrdering = false;
+    })
+    .commit();
 
   let orderingList = [];
 
   // TODO Maybe we can only visit the root definition instead of all of them
   // Then we create a graph ordering of all definition nodes according to the dependency relationship
   graph
-  .reduceNodes({type:'Interface',markedDuringInterfaceGraphOrdering:false},
-  (theResult,theNode)=>{
-    visitInterface(theNode);
-  });
+    .reduceNodes({
+      type: 'Interface',
+      markedDuringInterfaceGraphOrdering: false
+    }, (theResult, theNode) => {
+      visitInterface(theNode);
+    });
 
   function visitInterface(n) {
     if (n.temporarilyMarkedDuringInterfaceGraphOrdering === true) {
       //TODO Add traceback to initial AST (change code everywhere in order to add traceability)
-      throw new Error ("the interface structure contains cycles");//+_(stack).concat([n]).map('id').join(" -> ");
+      throw new Error("the interface structure contains cycles"); //+_(stack).concat([n]).map('id').join(" -> ");
     } else {
       if (n.markedDuringInterfaceGraphOrdering !== true) {
         n.temporarilyMarkedDuringInterfaceGraphOrdering = true;
         graph
-        .matchNodes(m=>
-          graph
-          .matchDirectedEdges({type: 'InterfaceElement',from: {node:n},to: {node:m}})
-          .size() > 0)
-        .forEach(visitInterface)
-        .commit();
+          .matchNodes(m =>
+            graph
+            .matchDirectedEdges({
+              type: 'InterfaceElement',
+              from: {
+                node: n
+              },
+              to: {
+                node: m
+              }
+            })
+            .size() > 0)
+          .forEach(visitInterface)
+          .commit();
 
         n.markedDuringInterfaceGraphOrdering = true;
         n.temporarilyMarkedDuringInterfaceGraphOrdering = false;
@@ -45,16 +59,16 @@ export default function instantiateInterfaces(graph,defNode) {
 
   }
 
-// console.log('XXXXXX');
-// console.log(orderingList);
+  // console.log('XXXXXX');
+  // console.log(orderingList);
 
   // Finally, we expand all definitions, in order.
   _(orderingList)
-  .reverse() // reverse the list in order to expand most basic interactions first
-  .map(interfaceNode=>{
-    instantiateInterface(graph,interfaceNode);
-  })
-  .commit();
+    .reverse() // reverse the list in order to expand most basic interactions first
+    .map(interfaceNode => {
+      instantiateInterface(graph, interfaceNode);
+    })
+    .commit();
 
 
 
@@ -63,11 +77,11 @@ export default function instantiateInterfaces(graph,defNode) {
   // Instantiate arguments
 }
 
-function instantiateInterface(graph,interfacNode) {
+function instantiateInterface(graph, interfacNode) {
   // console.log("Instantiate");
   // console.log(interfacNode.name);
 
-let prefix = interfacNode.name;
+  let prefix = interfacNode.name;
 
   let interfac = interfacNode.content;
 
@@ -76,62 +90,95 @@ let prefix = interfacNode.name;
     case "InterfaceAtomic":
       if (interfac.direction === "in") {
         rootNode =
-        graph
-        .addNode({type:'InteractionInstance', content:{
-          type: "InteractionNative",
-          content: "<%=a0%>=" + prefix + ";\n"
-        }, ports:[interfacs.conjugateInterface(interfac)]});
+          graph
+          .addNode({
+            type: 'InteractionInstance',
+            content: {
+              type: "InteractionNative",
+              content: "<%=a0%>=" + prefix + ";\n"
+            },
+            ports: [conjugateInterface(interfac)]
+          });
       } else {
         rootNode =
-        graph
-        .addNode({type:'InteractionInstance',content: {
-          type: "InteractionNative",
-          content: "" + prefix + "=<%=a0%>;\n"
-        }, ports:[interfacs.conjugateInterface(interfac)]});
+          graph
+          .addNode({
+            type: 'InteractionInstance',
+            content: {
+              type: "InteractionNative",
+              content: "" + prefix + "=<%=a0%>;\n"
+            },
+            ports: [conjugateInterface(interfac)]
+          });
       }
       break;
     case "InterfaceComposite":
 
       // Find nodes that corespond to sub interfaces of this interface, if everything goes well, they should already be instantiated
       let nodeOfElement =
-      graph
-      .matchDirectedEdges({type:'InterfaceElement',from:{node:interfacNode}})
-      .map(edge=>{
-        let edgeToInstance =
         graph
-        .findDirectedEdge({type:'InterfaceInteractionInstance',from:{node:edge.to.node}})
-        // console.log(edgeToInstance);
-        return {
-          index:edge.from.index,
-          node:edgeToInstance.to.node
+        .matchDirectedEdges({
+          type: 'InterfaceElement',
+          from: {
+            node: interfacNode
+          }
+        })
+        .map(edge => {
+          let edgeToInstance =
+            graph
+            .findDirectedEdge({
+              type: 'InterfaceInteractionInstance',
+              from: {
+                node: edge.to.node
+              }
+            })
+            // console.log(edgeToInstance);
+          return {
+            index: edge.from.index,
+            node: edgeToInstance.to.node
           };
-        }
-      )
-      .sortBy('index')
-      .value();
+        })
+        .sortBy('index')
+        .value();
 
       // console.log(nodeOfElement);
 
-      // Create the node that correspond to the interaciton that instantiates this interface
+      // Create the node that correspond to the interaction that instantiates this interface
       rootNode =
-      graph
-      .addNode({
-        type:'InteractionInstance',
-        content:{
-          type: "InteractionSimple",
-          operator: interfacs.toOperator(interfac),
-          operatorType:'Composition'
-        },
-        ports:[interfacs.conjugateInterface(interfac)]
-      });
+        graph
+        .addNode({
+          type: 'InteractionInstance',
+          content: {
+            type: "InteractionSimple",
+            operator: toOperator(interfac),
+            operatorType: 'Composition'
+          },
+          ports: [conjugateInterface(interfac)]
+        });
 
       // for each child element
       _(nodeOfElement)
-      .forEach((x) => {
-        rootNode.ports[x.index]=x.node.ports[0];
-        graph
-        .addEdge({type:'InteractionInstanceOperand',content:interfac, from:{node: rootNode,index:x.index,compositionElementName:interfac.element[x.index-1].key}, to:{node:x.node,index:0}})})
-      .commit();
+        .forEach((x) => {
+          x.node.ports[0]=mergeInterface(x.node.ports[0], conjugateInterface(subInterface(interfac,interfac.element[x.index - 1].key)) )
+          rootNode.ports[x.index] = conjugateInterface(x.node.ports[0]);
+          graph
+            .addEdge({
+              type: 'InteractionInstanceOperand',
+              content: interfac,
+              from: {
+                node: rootNode,
+                index: x.index,
+                compositionElementName: interfac.element[x.index - 1].key,
+                ports: rootNode.ports[x.index]
+              },
+              to: {
+                node: x.node,
+                index: 0,
+                ports:x.node.ports[0]
+              }
+            })
+        })
+        .commit();
 
       break;
     default:
@@ -139,6 +186,14 @@ let prefix = interfacNode.name;
   }
 
   graph
-  .addEdge({type:'InterfaceInteractionInstance',from:{node:interfacNode},to:{node:rootNode}});
+    .addEdge({
+      type: 'InterfaceInteractionInstance',
+      from: {
+        node: interfacNode
+      },
+      to: {
+        node: rootNode
+      }
+    });
   return rootNode;
 }

@@ -1,0 +1,75 @@
+digraph g{node_2009 [shape="box", style="filled", color="#dff1f2", fontname="Courier", label="node_2009
+<%=a0%>=theInterface.theNumber;
+
+0: Number out" ]
+node_2011 [shape="box", style="filled", color="#dff1f2", fontname="Courier", label="node_2011
+theInterface.theResult=<%=a0%>;
+
+0: Boolean in" ]
+node_2074 [shape="box", style="filled", color="#dff1f2", fontname="Courier", label="node_2074
+<%=a0%> = active;
+
+0: Activation out" ]
+node_2081 [shape="box", style="filled", color="#dff1f2", fontname="Courier", label="node_2081
+<%=a0%> = isActive;
+
+0: {Number -> Boolean} out" ]
+node_2083 [shape="box", style="filled", color="#dff1f2", fontname="Courier", label="node_2083
+<%=a0%> = boolNot;
+
+0: {Boolean -> Boolean} out" ]
+node_2085 [shape="box", style="filled", color="#dff1f2", fontname="Courier", label="node_2085
+<%=a0%> = 1;
+
+0: Number out" ]
+node_2087 [shape="box", style="filled", color="#dff1f2", fontname="Courier", label="node_2087
+if(<%=a0%> === active && <%=a1%>!==null && <%=a1%>!==undefined) {<%=a3%> = <%=a1%>(<%=a2%>);}
+
+0: Activation in
+1: {Number -> Boolean} in
+2: Number in
+3: Boolean out" ]
+node_2092 [shape="box", style="filled", color="#dff1f2", fontname="Courier", label="node_2092
+if(<%=a0%> === active && <%=a1%>!==null && <%=a1%>!==undefined) {<%=a3%> = <%=a1%>(<%=a2%>);}
+
+0: Activation in
+1: {Boolean -> Boolean} in
+2: Boolean in
+3: Boolean out" ]
+node_2098 [shape="box", style="filled", color="#dff1f2", fontname="Courier", label="node_2098
+if(<%=a0%> === active) {
+<%=a1%> = previousState['state_2097'];
+}
+
+0: Activation in
+1: Number out" ]
+node_2101 [shape="box", style="filled", color="#dff1f2", fontname="Courier", label="node_2101
+if(<%=a0%> === active) {
+nextState['state_2097'] = <%=a1%>;
+}
+
+0: Activation in
+1: Number in" ]
+node_2113 [shape="box", style="filled", color="#dff1f2", fontname="Courier", label="node_2113
+<%=a1%> = <%=a0%>;
+<%=a2%> = <%=a0%>;
+<%=a3%> = <%=a0%>;
+<%=a4%> = <%=a0%>;
+
+0: Activation in
+1: Activation out
+2: Activation out
+3: Activation out
+4: Activation out" ]
+node_2087 -> node_2081 [dir=none, arrowHead=none, fontname="Times-Italic", arrowsize=1, color="#9d8400", label="edge_2089",  headlabel="0: {Number -> Boolean} out", taillabel="1: {Number -> Boolean} in" ]
+node_2092 -> node_2083 [dir=none, arrowHead=none, fontname="Times-Italic", arrowsize=1, color="#9d8400", label="edge_2094",  headlabel="0: {Boolean -> Boolean} out", taillabel="1: {Boolean -> Boolean} in" ]
+node_2092 -> node_2087 [dir=none, arrowHead=none, fontname="Times-Italic", arrowsize=1, color="#9d8400", label="edge_2095",  headlabel="3: Boolean out", taillabel="2: Boolean in" ]
+node_2098 -> node_2087 [dir=none, arrowHead=none, fontname="Times-Italic", arrowsize=1, color="#9d8400", label="edge_2100",  headlabel="2: Number in", taillabel="1: Number out" ]
+node_2101 -> node_2085 [dir=none, arrowHead=none, fontname="Times-Italic", arrowsize=1, color="#9d8400", label="edge_2103",  headlabel="0: Number out", taillabel="1: Number in" ]
+node_2092 -> node_2011 [dir=none, arrowHead=none, fontname="Times-Italic", arrowsize=1, color="#9d8400", label="edge_2110",  headlabel="0: Boolean in", taillabel="3: Boolean out" ]
+node_2074 -> node_2113 [dir=none, arrowHead=none, fontname="Times-Italic", arrowsize=1, color="#9d8400", label="edge_2114",  headlabel="0: Activation in", taillabel="0: Activation out" ]
+node_2113 -> node_2087 [dir=none, arrowHead=none, fontname="Times-Italic", arrowsize=1, color="#9d8400", label="edge_2115",  headlabel="0: Activation in", taillabel="1: Activation out" ]
+node_2113 -> node_2092 [dir=none, arrowHead=none, fontname="Times-Italic", arrowsize=1, color="#9d8400", label="edge_2116",  headlabel="0: Activation in", taillabel="2: Activation out" ]
+node_2113 -> node_2098 [dir=none, arrowHead=none, fontname="Times-Italic", arrowsize=1, color="#9d8400", label="edge_2117",  headlabel="0: Activation in", taillabel="3: Activation out" ]
+node_2113 -> node_2101 [dir=none, arrowHead=none, fontname="Times-Italic", arrowsize=1, color="#9d8400", label="edge_2118",  headlabel="0: Activation in", taillabel="4: Activation out" ]
+}

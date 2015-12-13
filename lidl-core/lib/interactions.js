@@ -1,6 +1,7 @@
-'use strict';var _ = require('lodash');
+'use strict';var _serializer = require('./serializer.js');var _ = require('lodash');
 var operator = require('./operator.js');
-var serializer = require('./serializer.js');
+
+
 
 // get the list of all interaction operators in an interaction expression
 function listOfInteractions(theInteraction) {
@@ -120,7 +121,7 @@ function findMatchingDefinition(interaction, interactionDefinition) {
 
   // First case : No definition
   if (interactionDefinition === undefined) {
-    throw new Error("could not find definition matching interaction " + serializer.serialize(interaction));}
+    throw new Error("could not find definition matching interaction " + (0, _serializer.serialize)(interaction));}
 
 
   if (interaction.type === 'InteractionNative') {

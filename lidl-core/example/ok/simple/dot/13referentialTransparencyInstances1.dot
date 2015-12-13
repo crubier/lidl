@@ -1,13 +1,25 @@
-digraph g{node_2243 [shape="box", style="filled", color="#dff1f2", fontname="Courier", label="<%=a0%>=theInterface.theNumber;
+digraph g{node_7319 [shape="box", style="filled", color="#dff1f2", fontname="Courier", label="node_7319
+<%=a0%>=theInterface.theNumber;
+
+0: Number out" ]
+node_7321 [shape="box", style="filled", color="#dff1f2", fontname="Courier", label="node_7321
+theInterface.theResult=<%=a0%>;
+
+0: Number in" ]
+node_7323 [shape="ellipse", style="filled", color="#ffde2f", fontname="Times", label="node_7323
+{theNumber:$theResult:$}
+0: {theNumber: Number out, theResult: Number in}
+1: Number in
+2: Number out" ]
+node_7328 [shape="ellipse", style="filled", color="#ffde2f", fontname="Times", label="node_7328
+#x
 " ]
-node_2245 [shape="box", style="filled", color="#dff1f2", fontname="Courier", label="theInterface.theResult=<%=a0%>;
-" ]
-node_2247 [shape="ellipse", style="filled", color="#ffde2f", fontname="Times", label="{theNumber:$theResult:$}" ]
-node_2252 [shape="ellipse", style="filled", color="#ffde2f", fontname="Times", label="#x" ]
-node_2255 [shape="ellipse", style="filled", color="#ffde2f", fontname="Times", label="{theNumber:$theResult:$}" ]
-node_2247 -> node_2243 [dir=none, arrowHead=none, fontname="Times-Italic", arrowsize=1, color="#9d8400", label="",  headlabel="0", taillabel="1: theNumber" ]
-node_2247 -> node_2245 [dir=none, arrowHead=none, fontname="Times-Italic", arrowsize=1, color="#9d8400", label="",  headlabel="0", taillabel="2: theResult" ]
-node_2255 -> node_2252 [dir=none, arrowHead=none, fontname="Times-Italic", arrowsize=1, color="#9d8400", label="",  headlabel="0", taillabel="1" ]
-node_2255 -> node_2252 [dir=none, arrowHead=none, fontname="Times-Italic", arrowsize=1, color="#9d8400", label="",  headlabel="0", taillabel="2" ]
-node_2255 -> node_2247 [dir=none, arrowHead=none, fontname="Times-Italic", arrowsize=1, color="#9d8400", label="",  headlabel="0", taillabel="0" ]
+node_7331 [shape="ellipse", style="filled", color="#ffde2f", fontname="Times", label="node_7331
+{theNumber:$theResult:$}
+0: {theNumber: Number in, theResult: Number out}" ]
+node_7323 -> node_7319 [dir=none, arrowHead=none, fontname="Times-Italic", arrowsize=1, color="#9d8400", label="edge_7324",  headlabel="0: Number out", taillabel="1: Number in: theNumber" ]
+node_7323 -> node_7321 [dir=none, arrowHead=none, fontname="Times-Italic", arrowsize=1, color="#9d8400", label="edge_7325",  headlabel="0: Number in", taillabel="2: Number out: theResult" ]
+node_7331 -> node_7328 [dir=none, arrowHead=none, fontname="Times-Italic", arrowsize=1, color="#9d8400", label="edge_7332",  headlabel="0", taillabel="1" ]
+node_7331 -> node_7328 [dir=none, arrowHead=none, fontname="Times-Italic", arrowsize=1, color="#9d8400", label="edge_7333",  headlabel="0", taillabel="2" ]
+node_7331 -> node_7323 [dir=none, arrowHead=none, fontname="Times-Italic", arrowsize=1, color="#9d8400", label="edge_7334",  headlabel="0", taillabel="0" ]
 }

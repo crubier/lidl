@@ -4,6 +4,33 @@ import {
 }
 from './data.js';
 
+import {serialize} from './serializer';
+
+
+// now I can extend
+import {ExtendableError} from './extendableError'
+
+// class ExtendableError extends Error {
+//   constructor(message) {
+//     super(message);
+//     this.name = this.constructor.name;
+//     this.message = message;
+//     Error.captureStackTrace(this, this.constructor.name)
+//   }
+// }
+
+class InvalidInterfaceError extends ExtendableError {
+  constructor(m) {
+    super(m);
+  }
+}
+
+class IncompatibleInterfaceError extends ExtendableError {
+  constructor(m) {
+    super(m);
+  }
+}
+
 export function isInterface(obj) {
   if (obj.type) {
     switch (obj.type) {
@@ -84,7 +111,7 @@ export function conjugateInterface(theInterface) {
         })
       };
     default:
-      throw new Error("Trying to get the conjugation of something which is not an interface: "+JSON.stringify(theInterface));
+      throw new Error("Trying to get the conjugation of something which is not an interface: "+serialize(theInterface));
   }
 };
 
@@ -365,7 +392,7 @@ export function mergeInterface(x, y) {
         } else if (isUndefined(y)) {
           return x;
         } else {
-          throw new Error('Trying to merge with something which is not an interface: ' + JSON.stringify(y));
+          throw new InvalidInterfaceError('Trying to merge with something which is not an interface: ' + serialize(y));
         }
       } else if (isAtomic(x)) {
         if (isComposite(y)) {
@@ -375,7 +402,7 @@ export function mergeInterface(x, y) {
         } else if (isUndefined(y)) {
           return x;
         } else {
-          throw new Error('Trying to merge with something which is not an interface: ' + JSON.stringify(y));
+          throw new InvalidInterfaceError('Trying to merge with something which is not an interface: ' + serialize(y));
         }
       } else if (isUndefined(x)) {
         if (isComposite(y)) {
@@ -385,13 +412,13 @@ export function mergeInterface(x, y) {
         } else if (isUndefined(y)) {
           return undefined;
         } else {
-          throw new Error('Trying to merge with something which is not an interface: ' + JSON.stringify(y));
+          throw new InvalidInterfaceError('Trying to merge with something which is not an interface: ' + serialize(y));
         }
       } else {
-        throw new Error('Trying to merge with something which is not an interface: ' + JSON.stringify(x));
+        throw new InvalidInterfaceError('Trying to merge with something which is not an interface: ' + serialize(x));
       }
     } else {
-      throw new Error('Trying to merge incompatible interfaces: '+ JSON.stringify(x) + ' and '+JSON.stringify(y));
+      throw new IncompatibleInterfaceError('Trying to merge incompatible interfaces: '+ serialize(x) + ' and '+serialize(y));
     }
 
   }

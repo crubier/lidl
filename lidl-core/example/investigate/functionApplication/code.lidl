@@ -1,5 +1,0 @@
-interaction (bob):{theNumber:Number in,theResult:Number out} is
-( (
-{theNumber:(variable theNumber)theResult:(variable theResult)}
-) with behaviour
-(apply(function addOne) to (variable theNumber) and get (variable theResult)))

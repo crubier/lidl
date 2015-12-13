@@ -1,0 +1,49 @@
+digraph g{node_2285 [shape="box", style="filled", color="#dff1f2", fontname="Courier", label="node_2285
+<%=a0%>=theInterface.theNumber;
+
+0: Number out" ]
+node_2287 [shape="box", style="filled", color="#dff1f2", fontname="Courier", label="node_2287
+theInterface.theResult=<%=a0%>;
+
+0: Number in" ]
+node_2318 [shape="box", style="filled", color="#dff1f2", fontname="Courier", label="node_2318
+<%=a0%> = active;
+
+0: Activation out" ]
+node_2322 [shape="box", style="filled", color="#dff1f2", fontname="Courier", label="node_2322
+if(<%=a0%> === active) {
+<%=a1%> = previousState['state_2321'];
+}
+
+0: Activation in
+1: Number out" ]
+node_2325 [shape="box", style="filled", color="#dff1f2", fontname="Courier", label="node_2325
+if(<%=a0%> === active) {
+nextState['state_2321'] = <%=a1%>;
+}
+
+0: Activation in
+1: Number in" ]
+node_2342 [shape="box", style="filled", color="#dff1f2", fontname="Courier", label="node_2342
+<%=a1%> = <%=a0%>;
+<%=a2%> = <%=a0%>;
+
+0: Activation in
+1: Activation out
+2: Activation out" ]
+node_2285 -> node_2325 [dir=forward, arrowHead=normal, fontname="Times-Italic", arrowsize=1, color="#ddd2ff", label="",  headlabel="", taillabel="" ]
+node_2322 -> node_2287 [dir=forward, arrowHead=normal, fontname="Times-Italic", arrowsize=1, color="#ddd2ff", label="",  headlabel="", taillabel="" ]
+node_2342 -> node_2322 [dir=forward, arrowHead=normal, fontname="Times-Italic", arrowsize=1, color="#ddd2ff", label="",  headlabel="", taillabel="" ]
+node_2342 -> node_2325 [dir=forward, arrowHead=normal, fontname="Times-Italic", arrowsize=1, color="#ddd2ff", label="",  headlabel="", taillabel="" ]
+node_2318 -> node_2342 [dir=forward, arrowHead=normal, fontname="Times-Italic", arrowsize=1, color="#ddd2ff", label="",  headlabel="", taillabel="" ]
+node_2318 -> node_2342 [dir=forward, arrowHead=normal, fontname="Times-Italic", arrowsize=1, color="#cc00ff", label="1",  headlabel="", taillabel="" ]
+node_2342 -> node_2322 [dir=forward, arrowHead=normal, fontname="Times-Italic", arrowsize=1, color="#cc00ff", label="2",  headlabel="", taillabel="" ]
+node_2322 -> node_2287 [dir=forward, arrowHead=normal, fontname="Times-Italic", arrowsize=1, color="#cc00ff", label="3",  headlabel="", taillabel="" ]
+node_2287 -> node_2285 [dir=forward, arrowHead=normal, fontname="Times-Italic", arrowsize=1, color="#cc00ff", label="4",  headlabel="", taillabel="" ]
+node_2285 -> node_2325 [dir=forward, arrowHead=normal, fontname="Times-Italic", arrowsize=1, color="#cc00ff", label="5",  headlabel="", taillabel="" ]
+node_2325 -> node_2285 [dir=none, arrowHead=none, fontname="Times-Italic", arrowsize=1, color="#9d8400", label="edge_2337",  headlabel="0: Number out", taillabel="1: Number in" ]
+node_2322 -> node_2287 [dir=none, arrowHead=none, fontname="Times-Italic", arrowsize=1, color="#9d8400", label="edge_2338",  headlabel="0: Number in", taillabel="1: Number out" ]
+node_2318 -> node_2342 [dir=none, arrowHead=none, fontname="Times-Italic", arrowsize=1, color="#9d8400", label="edge_2343",  headlabel="0: Activation in", taillabel="0: Activation out" ]
+node_2342 -> node_2322 [dir=none, arrowHead=none, fontname="Times-Italic", arrowsize=1, color="#9d8400", label="edge_2344",  headlabel="0: Activation in", taillabel="1: Activation out" ]
+node_2342 -> node_2325 [dir=none, arrowHead=none, fontname="Times-Italic", arrowsize=1, color="#9d8400", label="edge_2345",  headlabel="0: Activation in", taillabel="2: Activation out" ]
+}

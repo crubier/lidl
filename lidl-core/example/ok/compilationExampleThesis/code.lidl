@@ -1,0 +1,13 @@
+interaction
+  (My Simple User Interface):{theNumber: Number in, theResult: Number out}
+with
+  interaction (add one):{Number->Number}out is (function addOne)
+is
+  (
+    ({
+        theNumber:  (x)
+        theResult:  (y)
+      })
+    with behaviour
+    (apply (add one) to (x) and get (y))
+  )

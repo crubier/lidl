@@ -1,19 +1,37 @@
-digraph g{node_1382 [shape="box", style="filled", color="#dff1f2", fontname="Courier", label="<%=a0%>=theInterface.theNumber;
-" ]
-node_1384 [shape="box", style="filled", color="#dff1f2", fontname="Courier", label="theInterface.theResult=<%=a0%>;
-" ]
-node_1427 [shape="ellipse", style="filled", color="#ffde2f", fontname="Times", label="$=$" ]
-node_1447 [shape="box", style="filled", color="#dff1f2", fontname="Courier", label="<%=a0%> = active;
-" ]
-node_1475 [shape="box", style="filled", color="#dff1f2", fontname="Courier", label="if(<%=a0%> === active) {<%=a1%> = <%=a2%>;}
-" ]
-node_1479 [shape="box", style="filled", color="#dff1f2", fontname="Courier", label="if(<%=a0%> === active) {<%=a2%> = <%=a1%>;}
-" ]
-node_1447 -> node_1427 [dir=none, arrowHead=none, fontname="Times-Italic", arrowsize=1, color="#9d8400", label="",  headlabel="0: Activation in", taillabel="0: Activation out" ]
-node_1475 -> node_1447 [dir=none, arrowHead=none, fontname="Times-Italic", arrowsize=1, color="#9d8400", label="",  headlabel="0: Activation out", taillabel="0: Activation in" ]
-node_1475 -> node_1384 [dir=none, arrowHead=none, fontname="Times-Italic", arrowsize=1, color="#9d8400", label="",  headlabel="0: Number in", taillabel="1: Number out" ]
-node_1475 -> node_1427 [dir=none, arrowHead=none, fontname="Times-Italic", arrowsize=1, color="#9d8400", label="",  headlabel="1: Number out", taillabel="2: Number in" ]
-node_1479 -> node_1447 [dir=none, arrowHead=none, fontname="Times-Italic", arrowsize=1, color="#9d8400", label="",  headlabel="0: Activation out", taillabel="0: Activation in" ]
-node_1479 -> node_1382 [dir=none, arrowHead=none, fontname="Times-Italic", arrowsize=1, color="#9d8400", label="",  headlabel="0: Number out", taillabel="1: Number in" ]
-node_1479 -> node_1427 [dir=none, arrowHead=none, fontname="Times-Italic", arrowsize=1, color="#9d8400", label="",  headlabel="2: Number in", taillabel="2: Number out" ]
+digraph g{node_3485 [shape="box", style="filled", color="#dff1f2", fontname="Courier", label="node_3485
+<%=a0%>=theInterface.theNumber;
+
+0: Number out" ]
+node_3487 [shape="box", style="filled", color="#dff1f2", fontname="Courier", label="node_3487
+theInterface.theResult=<%=a0%>;
+
+0: Number in" ]
+node_3530 [shape="ellipse", style="filled", color="#ffde2f", fontname="Times", label="node_3530
+$=$
+0: Activation in
+1: Number out
+2: Number in" ]
+node_3550 [shape="box", style="filled", color="#dff1f2", fontname="Courier", label="node_3550
+<%=a0%> = active;
+
+0: Activation out" ]
+node_3578 [shape="box", style="filled", color="#dff1f2", fontname="Courier", label="node_3578
+if(<%=a0%> === active) {<%=a1%> = <%=a2%>;}
+
+0: Activation in
+1: Number out
+2: Number in" ]
+node_3582 [shape="box", style="filled", color="#dff1f2", fontname="Courier", label="node_3582
+if(<%=a0%> === active) {<%=a2%> = <%=a1%>;}
+
+0: Activation in
+1: Number in
+2: Number out" ]
+node_3550 -> node_3530 [dir=none, arrowHead=none, fontname="Times-Italic", arrowsize=1, color="#9d8400", label="edge_3555",  headlabel="0: Activation in", taillabel="0: Activation out" ]
+node_3578 -> node_3550 [dir=none, arrowHead=none, fontname="Times-Italic", arrowsize=1, color="#9d8400", label="edge_3579",  headlabel="0: Activation out", taillabel="0: Activation in" ]
+node_3578 -> node_3487 [dir=none, arrowHead=none, fontname="Times-Italic", arrowsize=1, color="#9d8400", label="edge_3580",  headlabel="0: Number in", taillabel="1: Number out" ]
+node_3578 -> node_3530 [dir=none, arrowHead=none, fontname="Times-Italic", arrowsize=1, color="#9d8400", label="edge_3581",  headlabel="1: Number out", taillabel="2: Number in" ]
+node_3582 -> node_3550 [dir=none, arrowHead=none, fontname="Times-Italic", arrowsize=1, color="#9d8400", label="edge_3583",  headlabel="0: Activation out", taillabel="0: Activation in" ]
+node_3582 -> node_3485 [dir=none, arrowHead=none, fontname="Times-Italic", arrowsize=1, color="#9d8400", label="edge_3584",  headlabel="0: Number out", taillabel="1: Number in" ]
+node_3582 -> node_3530 [dir=none, arrowHead=none, fontname="Times-Italic", arrowsize=1, color="#9d8400", label="edge_3585",  headlabel="2: Number in", taillabel="2: Number out" ]
 }

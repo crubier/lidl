@@ -2,6 +2,7 @@
 import _ from 'lodash';
 
 function serialize(object,indentation) {
+  if(_.isUndefined(object))return "";
   var indent;
   if(! _.isFinite(indentation)){indent=0;}else {indent=indentation;}
   switch (object.type) {

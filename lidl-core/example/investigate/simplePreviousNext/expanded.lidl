@@ -1,7 +1,0 @@
-(({
-          theNumber:(variable x)
-          theResult:(variable y)
-        }) with behaviour (
-get (variable y) from previous and set (variable x) for next
-)
-)

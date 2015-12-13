@@ -1,0 +1,74 @@
+interaction
+  (bob):{theNumber:Number in,theResult:Boolean out}
+with
+
+  interaction
+    (previous (x:Number in)):Number out
+  is
+    (
+      (variable previous(x))
+      with behaviour
+      (get(variable previous(x))from previous and set (x) for next)
+    )
+
+  interaction
+    ((a:Number in)==(b:Number in)):Boolean out
+  with
+    interaction (is equal):{{a:Number,b:Number}->Boolean}out is (function isEqual)
+  is
+    (
+      (variable result of (a)==(b))
+      with behaviour
+      (apply (is equal) to ({a:(a),b:(b)}) and get (variable result of (a)==(b)) )
+    )
+
+  interaction
+    (not(a:Boolean in)):Boolean out
+  with
+    interaction (boolean negation):{Boolean->Boolean} out is (function boolNot)
+  is
+    (
+      (variable not (a))
+      with behaviour
+      (apply (boolean negation) to (a) and get (variable not (a)) )
+    )
+
+  interaction
+    ((a:Number in) is active):Boolean out
+  with
+    interaction (is active):{Number->Boolean} out is (function isActive)
+  is
+    (
+      (variable  (a) is active)
+      with behaviour
+      (apply (is active) to (a) and get (variable (a) is active) )
+    )
+
+  interaction
+    ((a:Number in)+(b:Number in)):Number out
+  with
+    interaction (addition):{{a:Number,b:Number}->Number} out is (function addition)
+  is
+    (
+      (variable result of (a)+(b))
+      with behaviour
+      (
+        apply
+        (addition)
+        to
+        ({a:(a)b:(b)})
+        and get
+        (variable result of (a)+(b))
+      )
+    )
+
+  interaction
+    (init):Boolean out
+  is
+    ( not ( (previous(1) ) is active ) )
+
+is
+  ({
+    theNumber:(variable theNumber)
+    theResult:(init)
+  })

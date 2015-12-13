@@ -1,0 +1,22 @@
+interaction
+  (bob):{theNumber:Number in,theResult:Number out}
+with
+
+  interaction (addition):{{a:Number,b:Number}->Number}out is (function addition)
+
+  interaction
+    ((a:Number in)+(b:Number in)):Number out
+  is
+    ((variable result of (a)+(b))with behaviour
+    (apply(addition)
+    to ({a:(a)b:(b)})
+    and get (variable result of (a)+(b))))
+
+is
+  (
+    (
+    {theResult:(theResult)theNumber:(theNumber)}
+    )
+  with behaviour
+    ((theResult)=((1)+(theNumber)))
+  )

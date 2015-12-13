@@ -110,7 +110,7 @@ export default function instantiateTemplates(graph) {
                   }
                 });
             } else {
-              throw new Error('A node of the DAG is missing a connexion with a composite interace');
+              throw new Error('A node of the DAG is missing a connexion with a composite interface');
             }
           }
           theArgs["a" + index] = edge.id;

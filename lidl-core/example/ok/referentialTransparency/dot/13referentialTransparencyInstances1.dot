@@ -1,0 +1,33 @@
+digraph g{node_7035 [shape="box", style="filled", color="#dff1f2", fontname="Courier", label="node_7035
+<%=a0%>=theInterface.theNumber;
+
+0: Number out" ]
+node_7037 [shape="box", style="filled", color="#dff1f2", fontname="Courier", label="node_7037
+theInterface.theResult=<%=a0%>;
+
+0: Number in" ]
+node_7039 [shape="ellipse", style="filled", color="#ffde2f", fontname="Times", label="node_7039
+{theNumber:$theResult:$}
+0: {theNumber: Number out, theResult: Number in}
+1: Number in
+2: Number out" ]
+node_7044 [shape="ellipse", style="filled", color="#ffde2f", fontname="Times", label="node_7044
+variableyb
+0: Number out" ]
+node_7047 [shape="ellipse", style="filled", color="#ffde2f", fontname="Times", label="node_7047
+variableb
+" ]
+node_7050 [shape="ellipse", style="filled", color="#ffde2f", fontname="Times", label="node_7050
+variablex$$
+" ]
+node_7055 [shape="ellipse", style="filled", color="#ffde2f", fontname="Times", label="node_7055
+{theNumber:$theResult:$}
+0: {theNumber: Number in, theResult: Number out}" ]
+node_7039 -> node_7035 [dir=none, arrowHead=none, fontname="Times-Italic", arrowsize=1, color="#9d8400", label="edge_7040",  headlabel="0: Number out", taillabel="1: Number in: theNumber" ]
+node_7039 -> node_7037 [dir=none, arrowHead=none, fontname="Times-Italic", arrowsize=1, color="#9d8400", label="edge_7041",  headlabel="0: Number in", taillabel="2: Number out: theResult" ]
+node_7050 -> node_7044 [dir=none, arrowHead=none, fontname="Times-Italic", arrowsize=1, color="#9d8400", label="edge_7051",  headlabel="0", taillabel="1" ]
+node_7050 -> node_7047 [dir=none, arrowHead=none, fontname="Times-Italic", arrowsize=1, color="#9d8400", label="edge_7052",  headlabel="0", taillabel="2" ]
+node_7055 -> node_7050 [dir=none, arrowHead=none, fontname="Times-Italic", arrowsize=1, color="#9d8400", label="edge_7056",  headlabel="0", taillabel="1" ]
+node_7055 -> node_7050 [dir=none, arrowHead=none, fontname="Times-Italic", arrowsize=1, color="#9d8400", label="edge_7057",  headlabel="0", taillabel="2" ]
+node_7055 -> node_7039 [dir=none, arrowHead=none, fontname="Times-Italic", arrowsize=1, color="#9d8400", label="edge_7058",  headlabel="0", taillabel="0" ]
+}

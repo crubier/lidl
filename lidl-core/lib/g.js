@@ -474,7 +474,7 @@ Graph = (function () {
                 shape: x.content.type === 'InteractionSimple' ? "ellipse" : 'box', 
                 color: x.content.type === 'InteractionSimple' ? "#ffde2f" : "#dff1f2", 
                 fontname: x.content.type === 'InteractionSimple' ? 'Times' : 'Courier', 
-                label: x.content.type === 'InteractionSimple' ? x.content.operator : x.content.content };} }, 
+                label: x.id + '\n' + (x.content.type === 'InteractionSimple' ? x.content.operator : x.content.content) + "\n" + x.ports.map(function (x, i) {return i + ": " + (0, _serializer.serialize)(x);}).join('\n') };} }, 
 
 
           Definition: { 
@@ -610,10 +610,9 @@ Graph = (function () {
           InteractionInstanceOperand: { 
             color: "#9d8400", 
             transform: function transform(x) {return { 
-                label: "", 
+                label: x.id, 
                 headlabel: x.to.index + (_lodash2.default.isUndefined(x.to.ports) ? '' : ': ' + (0, _serializer.serialize)(x.to.ports)) + (_lodash2.default.isUndefined(x.to.compositionElementName) ? '' : ': ' + x.to.compositionElementName), 
                 taillabel: x.from.index + (_lodash2.default.isUndefined(x.from.ports) ? '' : ': ' + (0, _serializer.serialize)(x.from.ports)) + (_lodash2.default.isUndefined(x.from.compositionElementName) ? '' : ': ' + x.from.compositionElementName) };} } } });} }]);return Graph;})();
-
 
 
 

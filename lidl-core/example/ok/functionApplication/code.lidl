@@ -1,0 +1,13 @@
+interaction
+  (bob):{theNumber:Number in,theResult:Number out}
+with
+  interaction (add one):{Number->Number}out is (function addOne)
+is
+  (
+    ({
+      theNumber:(variable theNumber)
+      theResult:(variable theResult)
+    })
+    with behaviour
+    (apply(add one) to (variable theNumber) and get (variable theResult))
+  )
