@@ -15,8 +15,9 @@ describe('lidl graph compiler', function () {
 
 
   var testPaths = [
-  'example/ok'
-  // ,'example/investigate'
+  // 'example/ok'
+  // ,
+  'example/investigate'
 
   // ,'example/nok'
   ];
@@ -113,6 +114,10 @@ describe('lidl graph compiler', function () {
           printGraph(graph, data.step + 'nonMatchingCompositionCompilation' + data.iteration);
           return true;}, 
 
+        matchingCompositionReduction: function matchingCompositionReduction(graph, data) {
+          printGraph(graph, data.step + 'matchingCompositionReduction' + data.iteration);
+          return true;}, 
+
         removeOneSidedAffectation: function removeOneSidedAffectation(graph, data) {
           printGraph(graph, data.step + 'removeOneSidedAffectation' + data.iteration);
           return true;}, 
@@ -121,8 +126,16 @@ describe('lidl graph compiler', function () {
           printGraph(graph, data.step + 'referentialTransparencyInstances' + data.iteration);
           return true;}, 
 
+        tagCompositionElementEdges: function tagCompositionElementEdges(graph, data) {
+          printGraph(graph, data.step + 'tagCompositionElementEdges' + data.iteration);
+          return true;}, 
+
         orderGraph: function orderGraph(graph, data) {
           printGraph(graph, data.step + 'orderGraph' + data.iteration);
+          return true;}, 
+
+        linkIdentifiers: function linkIdentifiers(graph, data) {
+          printGraph(graph, data.step + 'linkIdentifiers' + data.iteration);
           return true;}, 
 
         resolveMultiplePorts: function resolveMultiplePorts(graph, data) {

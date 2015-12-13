@@ -47,14 +47,14 @@ createDataFlowDirection;var _lodash = require('lodash');var _lodash2 = _interopR
       // Useless edge, we delete it
       // Maybe we should instead throw an errorin some cases
       // Sometimes this is normal behaviour though...
-      console.log("removing edge");
-      if (theEdge.createdByEliminatingIdentifier) {
-        console.log("ok");
-        graph.finish(theEdge);} else 
-      {
-        throw new Error('Incompatible interfaces on ' + theEdge.id);}}
-
-
+      // console.log("removing edge");
+      // if(theEdge.createdByEliminatingIdentifier) {
+      // console.log("ok");
+      // graph.finish(theEdge);
+      // } else {
+      throw new Error('Incompatible interfaces on ' + theEdge.id);
+      // }
+    }
     // if (madeOnlyOf(theEdge.from.ports)=== "in" && madeOnlyOf(theEdge.to.ports)=== "in") {
     //   // console.log("in to in situation on edge " +theEdge.id );
     //   graph.finish(theEdge);

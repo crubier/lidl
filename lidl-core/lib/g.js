@@ -612,10 +612,41 @@ Graph = (function () {
             transform: function transform(x) {return { 
                 label: x.id, 
                 headlabel: x.to.index + (_lodash2.default.isUndefined(x.to.ports) ? '' : ': ' + (0, _serializer.serialize)(x.to.ports)) + (_lodash2.default.isUndefined(x.to.compositionElementName) ? '' : ': ' + x.to.compositionElementName), 
-                taillabel: x.from.index + (_lodash2.default.isUndefined(x.from.ports) ? '' : ': ' + (0, _serializer.serialize)(x.from.ports)) + (_lodash2.default.isUndefined(x.from.compositionElementName) ? '' : ': ' + x.from.compositionElementName) };} } } });} }]);return Graph;})();
+                taillabel: x.from.index + (_lodash2.default.isUndefined(x.from.ports) ? '' : ': ' + (0, _serializer.serialize)(x.from.ports)) + (_lodash2.default.isUndefined(x.from.compositionElementName) ? '' : ': ' + x.from.compositionElementName) };} } } });} }, { key: 'toDot2', value: function toDot2() 
 
 
 
+
+
+
+    {
+      return this.toDotWithParamaters({ 
+        nodes: { 
+          port: { 
+            color: "#94ff87", 
+            transform: function transform(x) {return { label: x.ports.compositionElementName + '\n' + x.node.content.operator + x.node.content.content };} }, 
+
+          coPort: { 
+            color: "#dce7f9", 
+            transform: function transform(x) {return { label: x.ports.coCompositionElementName + '\n' + x.node.content.operator + x.node.content.content };} } }, 
+
+
+
+        directedEdges: { 
+          normal: { 
+            color: "#000000", 
+            transform: function transform(x) {return { label: "" };} }, 
+
+          loop: { 
+            color: "#ff0000", 
+            transform: function transform(x) {return { label: "" };} }, 
+
+          closure: { 
+            color: "#c79999", 
+            transform: function transform(x) {return { label: "" };} } }, 
+
+
+        undirectedEdges: {} });} }]);return Graph;})();
 
 
 

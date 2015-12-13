@@ -146,7 +146,7 @@ export default function resolveMultiplePorts(graph) {
         let ports = [conjugateInterface(theRightEdge.to.ports)];
         _(similarInputEdges)
           .forEach((similarEdge, index) => {
-            code = code + "if(<%=a0%>===null ){\n  <%=a0%> = <%=a" + (index + 1) + "%>;\n} else if (<%=a" + (index + 1) + "%> !== null){\n  throw ('error:multiple active assignments to the same signal <%=a0%> : '+<%=a0%> + ' and ' + <%=a" + (index + 1) + "%>);\n}";
+            code = code + "if(<%=a0%>===null ){\n  <%=a0%> = <%=a" + (index + 1) + "%>;\n} else if (<%=a" + (index + 1) + "%> !== null){\n  throw new Error('Multiple active assignments to the same signal <%=a0%> : '+<%=a0%> + ' and ' + <%=a" + (index + 1) + "%>);\n}";
             ports.push(theRightEdge.to.ports);
           })
           .commit();

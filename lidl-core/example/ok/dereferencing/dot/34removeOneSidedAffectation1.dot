@@ -1,35 +1,35 @@
-digraph g{node_3485 [shape="box", style="filled", color="#dff1f2", fontname="Courier", label="node_3485
+digraph g{node_3584 [shape="box", style="filled", color="#dff1f2", fontname="Courier", label="node_3584
 <%=a0%>=theInterface.theNumber;
 
 0: Number out" ]
-node_3487 [shape="box", style="filled", color="#dff1f2", fontname="Courier", label="node_3487
+node_3586 [shape="box", style="filled", color="#dff1f2", fontname="Courier", label="node_3586
 theInterface.theResult=<%=a0%>;
 
 0: Number in" ]
-node_3530 [shape="ellipse", style="filled", color="#ffde2f", fontname="Times", label="node_3530
+node_3636 [shape="ellipse", style="filled", color="#ffde2f", fontname="Times", label="node_3636
 $=$
 0: Activation in
 1: Number out
 2: Number in" ]
-node_3550 [shape="box", style="filled", color="#dff1f2", fontname="Courier", label="node_3550
+node_3652 [shape="box", style="filled", color="#dff1f2", fontname="Courier", label="node_3652
 <%=a0%> = active;
 
 0: Activation out" ]
-node_3558 [shape="ellipse", style="filled", color="#ffde2f", fontname="Times", label="node_3558
+node_3660 [shape="ellipse", style="filled", color="#ffde2f", fontname="Times", label="node_3660
 $=$
 0: Activation in
 1: Number out
 2: Number in" ]
-node_3562 [shape="ellipse", style="filled", color="#ffde2f", fontname="Times", label="node_3562
+node_3664 [shape="ellipse", style="filled", color="#ffde2f", fontname="Times", label="node_3664
 $=$
 0: Activation in
 1: Number in
 2: Number out" ]
-node_3550 -> node_3530 [dir=none, arrowHead=none, fontname="Times-Italic", arrowsize=1, color="#9d8400", label="edge_3555",  headlabel="0: Activation in", taillabel="0: Activation out" ]
-node_3558 -> node_3530 [dir=none, arrowHead=none, fontname="Times-Italic", arrowsize=1, color="#9d8400", label="edge_3560",  headlabel="1: Number out", taillabel="2: Number in" ]
-node_3558 -> node_3550 [dir=none, arrowHead=none, fontname="Times-Italic", arrowsize=1, color="#9d8400", label="edge_3561",  headlabel="0: Activation out", taillabel="0: Activation in" ]
-node_3562 -> node_3530 [dir=none, arrowHead=none, fontname="Times-Italic", arrowsize=1, color="#9d8400", label="edge_3564",  headlabel="2: Number in", taillabel="2: Number out" ]
-node_3562 -> node_3550 [dir=none, arrowHead=none, fontname="Times-Italic", arrowsize=1, color="#9d8400", label="edge_3565",  headlabel="0: Activation out", taillabel="0: Activation in" ]
-node_3562 -> node_3485 [dir=none, arrowHead=none, fontname="Times-Italic", arrowsize=1, color="#9d8400", label="edge_3572",  headlabel="0: Number out", taillabel="1: Number in" ]
-node_3558 -> node_3487 [dir=none, arrowHead=none, fontname="Times-Italic", arrowsize=1, color="#9d8400", label="edge_3573",  headlabel="0: Number in", taillabel="1: Number out" ]
+node_3652 -> node_3636 [dir=none, arrowHead=none, fontname="Times-Italic", arrowsize=1, color="#9d8400", label="edge_3657",  headlabel="0: Activation in", taillabel="0: Activation out" ]
+node_3660 -> node_3636 [dir=none, arrowHead=none, fontname="Times-Italic", arrowsize=1, color="#9d8400", label="edge_3662",  headlabel="1: Number out", taillabel="2: Number in" ]
+node_3660 -> node_3652 [dir=none, arrowHead=none, fontname="Times-Italic", arrowsize=1, color="#9d8400", label="edge_3663",  headlabel="0: Activation out", taillabel="0: Activation in" ]
+node_3664 -> node_3636 [dir=none, arrowHead=none, fontname="Times-Italic", arrowsize=1, color="#9d8400", label="edge_3666",  headlabel="2: Number in", taillabel="2: Number out" ]
+node_3664 -> node_3652 [dir=none, arrowHead=none, fontname="Times-Italic", arrowsize=1, color="#9d8400", label="edge_3667",  headlabel="0: Activation out", taillabel="0: Activation in" ]
+node_3664 -> node_3584 [dir=none, arrowHead=none, fontname="Times-Italic", arrowsize=1, color="#9d8400", label="edge_3674",  headlabel="0: Number out", taillabel="1: Number in" ]
+node_3660 -> node_3586 [dir=none, arrowHead=none, fontname="Times-Italic", arrowsize=1, color="#9d8400", label="edge_3675",  headlabel="0: Number in", taillabel="1: Number out" ]
 }

@@ -86,7 +86,7 @@ functionApplicationLinking;var _lodash = require('lodash');var _lodash2 = _inter
 
     commit();
 
-    if (!(0, _interfaces.isAtomic)(source.ports[1]) || source.ports[1].data.type !== 'DataFunction') throw new Error('Function application should receive functions as first argument, received the interface ' + JSON.stringify(source.ports[1]));
+    if (!(0, _interfaces.isAtomic)(source.ports[1]) || source.ports[1].data.type !== 'DataFunction') throw new Error('Function application should receive functions as first argument, received the interface ' + (0, _serializer.serialize)(source.ports[1]));
     // Infer in and out ports interfaces from interface of the function
     source.ports[2] = { 
       type: 'InterfaceAtomic', 
@@ -109,19 +109,7 @@ functionApplicationLinking;var _lodash = require('lodash');var _lodash2 = _inter
 
 
     forEach(function (x) {
-      try {
-        source.ports[2] = (0, _interfaces.mergeInterface)(source.ports[2], (0, _interfaces.conjugateInterface)(x.to.node.ports[x.to.index]));} 
-      catch (e) {
-        switch (e.name) {
-          case "IncompatibleInterfaceError":
-            break;
-          case "InvalidInterfaceError":
-            break;
-          default:}
-
-        throw new Error("While linking " + x.id + ": " + e.message + "\n" + (0, _reporting.printInteractionInstanceNodeStack)(x.to.node) + "\n" + (0, _reporting.printInteractionInstanceNodeStack)(x.from.node));}
-
-
+      source.ports[2] = (0, _interfaces.mergeInterface)(source.ports[2], (0, _interfaces.conjugateInterface)(x.to.node.ports[x.to.index]));
       graph.
       addEdge({ 
         type: 'InteractionInstanceOperand', 

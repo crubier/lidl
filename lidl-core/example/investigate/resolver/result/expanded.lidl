@@ -1,0 +1,6 @@
+({
+    theNumber:(x?)
+    theOther:(x?)
+    theResult:(x!)
+    theLast:(x!)
+  })

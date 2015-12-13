@@ -287,12 +287,12 @@
 
 
 
-matchingCompositionReduction;var _lodash = require('lodash');var _lodash2 = _interopRequireDefault(_lodash);var _satSolver = require('../satSolver.js');var _satSolver2 = _interopRequireDefault(_satSolver);function _interopRequireDefault(obj) {return obj && obj.__esModule ? obj : { default: obj };}var Graph = require('../g.js'); // For a given composition Node, find all the Composition Nodes that match it, Along with the condition to match them, determined by the affectations between the two composition Nodes
+
+matchingCompositionReduction;var _lodash = require('lodash');var _lodash2 = _interopRequireDefault(_lodash);var _satSolver = require('../satSolver.js');var _satSolver2 = _interopRequireDefault(_satSolver);var _exportGraph = require('../exportGraph');var _exportGraph2 = _interopRequireDefault(_exportGraph);function _interopRequireDefault(obj) {return obj && obj.__esModule ? obj : { default: obj };}var Graph = require('../g.js'); // For a given composition Node, find all the Composition Nodes that match it, Along with the condition to match them, determined by the affectations between the two composition Nodes
 // If there is no affectation between them, the condition is always true
 // If there is one affectation between them, the condition is this affectation activation
 // If there are  more than on affectation between them, it is more complicated
-function findAllMatchingCompositionNodesAndTheirAffectationCondition(graph, node) {// TODO use
-  // Parameter fromWhichSide is 1 or 2, depending on which side of the "=" we are coming from.
+function findAllMatchingCompositionNodesAndTheirAffectationCondition(graph, node) {// Parameter fromWhichSide is 1 or 2, depending on which side of the "=" we are coming from.
   // We visit only nodes on the other side of the "=" sign (hence the "3-fromWhichSide" expressions )
   function visitTheAffectation(n, fromWhichSide) {n.temporarilyMarkedDuringCompositionTraversal = true;var conditionForCurrentAffectation = graph.matchUndirectedEdges({ type: 'InteractionInstanceOperand', from: { node: n, index: 0 }, to: { node: { type: 'InteractionInstance' } } }).map(function (e) {return e.to;}).value();var compos = graph.matchUndirectedEdges({ type: 'InteractionInstanceOperand', from: { node: n }, to: { index: 0, node: { type: 'InteractionInstance', unSuitableForCompositionReduction: false, content: { type: 'InteractionSimple', operatorType: 'Composition' } } } }).filter(function (e) {return e.from.index === 3 - fromWhichSide && e.to.node.temporarilyMarkedDuringCompositionTraversal !== true;}).map(function (e) {return { compositionNode: e.to.node, condition: conditionForCurrentAffectation };}).value();var otheraffects = graph.matchUndirectedEdges({ typae: 'InteractionInstanceOperand', from: { node: n }, to: { node: { type: 'InteractionInstance', content: { type: 'InteractionSimple', operatorType: 'Affectation' } } } }).filter(function (e) {return e.from.index === 3 - fromWhichSide && (e.to.index === 1 || e.to.index === 2) && e.to.node.temporarilyMarkedDuringCompositionTraversal !== true;}).map(function (e) {return visitTheAffectation(e.to.node);}).flatten().map(function (x) {return { compositionNode: x.compositionNode, condition: x.condition.concat(conditionForCurrentAffectation) };}).value();n.temporarilyMarkedDuringCompositionTraversal = false;return compos.concat(otheraffects);}node.temporarilyMarkedDuringCompositionTraversal = true; //
   var compos = graph.matchUndirectedEdges({ type: 'InteractionInstanceOperand', from: { node: node, index: 0 }, to: { index: 0, node: { type: 'InteractionInstance', unSuitableForCompositionReduction: false, content: { type: 'InteractionSimple', operatorType: 'Composition' } } } }).map(function (e) {graph.finish(e);return { compositionNode: e.to.node, condition: [] };}).value();var otheraffects = graph.matchUndirectedEdges({ type: 'InteractionInstanceOperand', from: { node: node, index: 0 }, to: { node: { type: 'InteractionInstance', content: { type: 'InteractionSimple', operatorType: 'Affectation' } } } }).filter(function (e) {return e.to.index === 1 || e.to.index === 2;}).map(function (e) {graph.finish(e);return visitTheAffectation(e.to.node, e.to.index);}).flatten().value();node.temporarilyMarkedDuringCompositionTraversal = false;var res = compos.concat(otheraffects);return res; // return compos;
@@ -319,6 +319,7 @@ function matchingCompositionReduction(graph) {// // Mark all
   graph.matchNodes({ type: 'InteractionInstance', content: { type: 'InteractionSimple' } }).forEach(function (theNode) {theNode.unSuitableForCompositionReduction = false;theNode.didCompositionReduction = false;}).commit(); // Now that's tricky !
   // First we find composition nodes that arent treated yet
   graph.reduceNodes({ type: 'InteractionInstance', unSuitableForCompositionReduction: false, content: { type: 'InteractionSimple', operatorType: 'Composition' } }, function (theResult, n1) {var matchingCompoNodes = simplifyPathExpression(graph, findAllMatchingCompositionNodesAndTheirAffectationCondition(graph, n1));
+
     // console.log("       ");
     // console.log("       ");
     // console.log("       ");
@@ -466,6 +467,8 @@ function matchingCompositionReduction(graph) {// // Mark all
 
   // gexport(graph,"bob");
 
+  (0, _exportGraph2.default)(graph.toDot(), "bob" + _lodash2.default.uniqueId());
+
   // Now its time to reduce all this mess !
   graph.
   matchNodes({ 
@@ -491,9 +494,13 @@ function matchingCompositionReduction(graph) {// // Mark all
 
 
     filter(function (x) {return x.from.isCoPort === true;}).
+    filter(function (x) {return x.from.coCompositionElementName !== undefined;}).
     map(function (x) {return { 
+        type: 'coPort', 
         ports: x.from, 
-        closed: false };}).
+        closed: false, 
+        node: x.to.node, 
+        target: x.to };}).
 
     value();
 
@@ -506,9 +513,13 @@ function matchingCompositionReduction(graph) {// // Mark all
 
 
     filter(function (x) {return x.to.isCoPort === true;}).
+    filter(function (x) {return x.to.coCompositionElementName !== undefined;}).
     map(function (x) {return { 
+        type: 'coPort', 
         ports: x.to, 
-        closed: false };}).
+        closed: false, 
+        node: x.from.node, 
+        target: x.from };}).
 
     value();
 
@@ -531,9 +542,13 @@ function matchingCompositionReduction(graph) {// // Mark all
 
 
     filter(function (x) {return x.from.isCoPort !== true;}).
+    filter(function (x) {return x.from.compositionElementName !== undefined;}).
     map(function (x) {return { 
+        type: 'port', 
         ports: x.from, 
-        closed: false };}).
+        closed: false, 
+        node: x.to.node, 
+        target: x.to };}).
 
     value();
 
@@ -546,9 +561,13 @@ function matchingCompositionReduction(graph) {// // Mark all
 
 
     filter(function (x) {return x.to.isCoPort !== true;}).
+    filter(function (x) {return x.to.compositionElementName !== undefined;}).
     map(function (x) {return { 
+        type: 'port', 
         ports: x.to, 
-        closed: false };}).
+        closed: false, 
+        node: x.from.node, 
+        target: x.from };}).
 
     value();
 
@@ -582,7 +601,8 @@ function matchingCompositionReduction(graph) {// // Mark all
 
       filter(function (x) {return x.ports.isCoPort !== true;}).
       forEach(function (n2) {return (
-          internalGraph.addEdge({ 
+          internalGraph.
+          addEdge({ 
             type: 'normal', 
             mul: true, 
             from: { 
@@ -631,6 +651,7 @@ function matchingCompositionReduction(graph) {// // Mark all
     // console.log('-----------------------------------');
     // gexport(internalGraph,n1.id+"internal-2");
 
+    //FIXME Need to use a proper closure algorithm.
     // Transitively close the internal graph
     internalGraph.
     reduceNodes({ 
@@ -640,27 +661,27 @@ function matchingCompositionReduction(graph) {// // Mark all
       internalGraph.
       matchUndirectedEdges({ 
         from: { 
-          node: theNode }, 
-
-        to: { 
-          node: { 
-            closed: false } } }).
-
-
-
+          node: theNode }
+        //,
+        // to: {
+        //   node: {
+        //     closed: false
+        //   }
+        // }
+      }).
       forEach(function (e1) {
         internalGraph.
         matchUndirectedEdges({ 
           from: { 
-            node: theNode }, 
-
-          to: { 
-            node: { 
-              closed: false } } }).
-
-
-
-        filter(function (e2) {return e2.id > e1.id;}).
+            node: theNode }
+          //,
+          // to: {
+          //   node: {
+          //     closed: false
+          //   }
+          // }
+        }).
+        filter(function (e2) {return e2.id !== e1.id;}).
         forEach(function (e2) {
           // console.log("close "+e1.to.node.id+" "+e2.to.node.id);
           // gexport(internalGraph,n1.id+"close "+e1.id);
@@ -692,7 +713,7 @@ function matchingCompositionReduction(graph) {// // Mark all
 
 
     // console.log('-----------------------------------');
-    //           gexport(internalGraph,n1.id+"internal-3");
+    (0, _exportGraph2.default)(internalGraph.toDot2(), n1.id + "internal-3");
 
     // // Remove multiple edges on the internal graph
     // internalGraph
@@ -716,22 +737,14 @@ function matchingCompositionReduction(graph) {// // Mark all
 
     // Ok ! Now the internal graph is complete, we can start wiring edges in the main graph
     internalGraph.
-    matchUndirectedEdges({ 
-      from: { 
-        node: { 
-          ports: {} } }, 
+    matchUndirectedEdges(
+    { 
+      from: { node: { type: 'coPort' } }, 
+      to: { node: { type: 'port' } } }).
 
 
-      to: { 
-        node: { 
-          ports: {} } } })
-
-
-
-    // .tap(x=>{console.log("internal ");console.log(x);})
-    .filter(function (x) {return x.to.node.ports.isCoPort !== true && x.from.node.ports.isCoPort === true;}).
     forEach(function (internalEdge) {
-      // console.log("xxxx")
+      console.log("xxxx");
       graph.
       matchUndirectedEdges({ 
         from: { 
@@ -760,7 +773,94 @@ function matchingCompositionReduction(graph) {// // Mark all
 
       commit();}).
 
-    commit();}).
+    commit();
+
+    // internalGraph
+    //         .matchUndirectedEdges(
+    //           {
+    //             from: { node:{type:'port'}},
+    //             to: {node:{type:'port'}}
+    //           }
+    //         )
+    //         // .tap(x=>{console.log("internal ");console.log(x);})
+    //         // .filter(x => (x.to.node.ports.isCoPort !== true && x.from.node.ports.isCoPort === true) || (x.to.node.ports.isCoPort === true && x.from.node.ports.isCoPort !== true))
+    //         .forEach(internalEdge => {
+    //           // console.log("xxxx")
+    //           graph
+    //             .matchUndirectedEdges({
+    //               from: {
+    //                 node: n1,
+    //                 compositionElementName: internalEdge.from.node.ports.compositionElementName
+    //               }
+    //             })
+    //             .forEach(coEdge => {
+    //               graph
+    //                 .matchUndirectedEdges({
+    //                   from: {
+    //                     node: n1,
+    //                     compositionElementName: internalEdge.to.node.ports.compositionElementName
+    //                   }
+    //                 })
+    //                 .forEach(edge => {
+    //                   // console.log("ADD  "+coEdge.to.node.id+" "+edge.to.node.id);
+    //                   graph
+    //                     .addEdge({
+    //                       type: 'InteractionInstanceOperand',
+    //                       from: coEdge.to,
+    //                       to: edge.to
+    //                     });
+    //                 })
+    //                 .commit();
+    //             })
+    //             .commit();
+    //         })
+    //         .commit();
+
+
+    // internalGraph
+    //         .matchUndirectedEdges(
+    //           {
+    //             from: { node:{type:'coPort'}},
+    //             to: {node:{type:'coPort'}}
+    //           }
+    //         )
+    //         // .tap(x=>{console.log("internal ");console.log(x);})
+    //         // .filter(x => (x.to.node.ports.isCoPort !== true && x.from.node.ports.isCoPort === true) || (x.to.node.ports.isCoPort === true && x.from.node.ports.isCoPort !== true))
+    //         .forEach(internalEdge => {
+    //           // console.log("xxxx")
+    //           graph
+    //             .matchUndirectedEdges({
+    //               from: {
+    //                 node: n1,
+    //                 coCompositionElementName: internalEdge.from.node.ports.coCompositionElementName
+    //               }
+    //             })
+    //             .forEach(coEdge => {
+    //               graph
+    //                 .matchUndirectedEdges({
+    //                   from: {
+    //                     node: n1,
+    //                     coCompositionElementName: internalEdge.to.node.ports.coCompositionElementName
+    //                   }
+    //                 })
+    //                 .forEach(edge => {
+    //                   // console.log("ADD  "+coEdge.to.node.id+" "+edge.to.node.id);
+    //                   graph
+    //                     .addEdge({
+    //                       type: 'InteractionInstanceOperand',
+    //                       from: coEdge.to,
+    //                       to: edge.to
+    //                     });
+    //                 })
+    //                 .commit();
+    //             })
+    //             .commit();
+    //         })
+    //         .commit();
+  }).
+
+
+
 
   commit();
 

@@ -1,6 +1,0 @@
-({
-    theNumber:(variable theNumber)
-    theOther:(variable theNumber)
-    theResult:(variable theNumber)
-    theLast:(variable theNumber)
-  })

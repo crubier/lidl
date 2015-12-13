@@ -619,6 +619,37 @@ class Graph {
     });
   }
 
+  toDot2() {
+    return this.toDotWithParamaters({
+      nodes: {
+        port: {
+          color: "#94ff87",
+          transform: (x) => ({label: x.ports.compositionElementName + '\n'+x.node.content.operator+x.node.content.content})
+        },
+        coPort: {
+          color: "#dce7f9",
+          transform: (x) => ({label: x.ports.coCompositionElementName+ '\n'+x.node.content.operator+x.node.content.content})
+        },
+
+      },
+      directedEdges: {
+        normal: {
+          color: "#000000",
+          transform: (x) => ({label: ""})
+        },
+        loop: {
+          color: "#ff0000",
+          transform: (x) => ({label: ""})
+        },
+        closure: {
+          color: "#c79999",
+          transform: (x) => ({label: ""})
+        },
+      },
+      undirectedEdges: {}
+    });
+  }
+
 }
 
 module.exports = Graph;

@@ -605,9 +605,9 @@ with
     interaction (is equal):{{a:Number,b:Number}->Boolean}out is (function isEqual)
   is
     (
-      (variable result of (u)==(v))
+      (variable result of (u)==(v)!)
       with behaviour
-      (apply (is equal) to ({a:(u),b:(v)}) and get (variable result of (u)==(v)) )
+      (apply (is equal) to ({a:(u),b:(v)}) and get (variable result of (u)==(v)?) )
     )
 
 
@@ -620,13 +620,13 @@ with
       (function whenThenElse)
   is
     (
-      (variable activation of when (cond) then (a) else (b))
+      (variable activation of when (cond) then (a) else (b)?)
       with behaviour
       (
         apply
         (whenThenElse)
         to
-        ({  cond:(cond)  source:(variable activation of when (cond) then (a) else (b))   })
+        ({  cond:(cond)  source:(variable activation of when (cond) then (a) else (b)!)   })
         and get
         ({a:(a) b:(b)})
       )
@@ -636,15 +636,15 @@ with
       (if (cond:Boolean in) then (x:Number in) else (y:Number in)):Number out
     is
     (
-      (variable result of if (cond) then (x) else (y))
+      (variable result of if (cond) then (x) else (y)?)
       with behaviour
       (
         when
         (cond)
         then
-        ((variable result of if (cond) then (x) else (y)) = (x))
+        ((variable result of if (cond) then (x) else (y)!) = (x))
         else
-        ((variable result of if (cond) then (x) else (y)) = (y))
+        ((variable result of if (cond) then (x) else (y)!) = (y))
       )
     )
 
@@ -680,19 +680,19 @@ with
   interaction
     ((x:{theNumber:Number in,theResult:Number out}).theNumber):Number out
   is
-    ((variable (x).theNumber) with behaviour (({theNumber:(variable (x).theNumber)})=(x)))
+    ((variable (x).theNumber!) with behaviour (({theNumber:(variable (x).theNumber?)})=(x)))
 
   interaction
     ((x:{theNumber:Number in,theResult:Number out}).theResult):Number in
   is
-    ((variable (x).theResult) with behaviour ((x)=({theResult:(variable (x).theResult)})))
+    ((variable (x).theResult!) with behaviour ((x)=({theResult:(variable (x).theResult?)})))
 
 
 is
   (
-    (variable this)
+    (variable this?)
     with behaviour
-    (((variable this).theResult)=((variable this).theNumber) )
+    (((variable this!).theResult)=((variable this!).theNumber) )
   )
 `,
      scenario : `[
@@ -799,201 +799,6 @@ is
   {
     "args":  {},
     "inter":  { "theNumber": 67,  "theResult": 68 }
-  }
-]
-`
-},{
-    name: 'Less Problematic Definition Of Make Flow',
-fileName: 'example/ok/lessProblematicDefinitionOfMakeFlow',
-     code : `interaction
-  (bob):{theNumber:Number in,theResult:Number out}
-with
-
-  interaction
-    (previous (x:Number in)):Number out
-  is
-    (
-      (variable previous(x))
-      with behaviour
-      (get(variable previous(x))from previous and set (x) for next)
-    )
-
-  interaction
-    (not(a:Boolean in)):Boolean out
-  with
-    interaction (boolean negation):{Boolean->Boolean} out is (function boolNot)
-  is
-    (
-      (variable not (a))
-      with behaviour
-      (apply (boolean negation) to (a) and get (variable not (a)) )
-    )
-
-  interaction
-    ((a:Number in) is active):Boolean out
-  with
-    interaction (is active):{Number->Boolean}out is (function isActive)
-  is
-    (
-      (variable  (a) is active)
-      with behaviour
-      (apply (is active) to (a) and get (variable  (a) is active) )
-    )
-
-  interaction
-    ((a:Number in)+(b:Number in)):Number out
-  with
-    interaction (addition):{{a:Number,b:Number}->Number} out is (function addition)
-  is
-    (
-      (variable result of (a)+(b))
-      with behaviour
-      (
-        apply
-        (addition)
-        to
-        ({a:(a)b:(b)})
-        and get
-        (variable result of (a)+(b))
-      )
-    )
-
-
-  interaction
-    (init):Boolean out
-  is
-    ( not ( (previous(1) ) is active ) )
-
-  interaction
-    (all (a:Activation out) else (b:Activation out)):Activation in
-  is
-    (
-      (variable all (a) (b))
-      with behaviour
-      (
-        apply
-        (function all)
-        to
-        (variable all (a) (b))
-        and get
-        ({a:(a) b:(b)})
-      )
-    )
-
-  interaction
-    ( (a:Number in) fallback to (b:Number in)):Number out
-  is
-    (
-      if ((a) is active)
-      then (a)
-      else (b)
-    )
-
-  interaction
-    (new (x:Number ref)):Number ref
-  is
-    (variable new (x))
-
-  interaction
-    ((u:Number in)==(v:Number in)):Boolean out
-  with
-    interaction (is equal):{{a:Number,b:Number}->Boolean}out is (function isEqual)
-  is
-    (
-      (variable result of (u)==(v))
-      with behaviour
-      (apply (is equal) to ({a:(u),b:(v)}) and get (variable result of (u)==(v)) )
-    )
-
-
-  interaction
-    (when (cond:Boolean in) then (a:Activation out) else (b:Activation out)):Activation in
-  with
-    interaction
-      (whenThenElse):{{cond:Boolean,source:Activation}->{a:Activation,b:Activation}}out
-    is
-      (function whenThenElse)
-  is
-    (
-      (variable activation of when (cond) then (a) else (b))
-      with behaviour
-      (
-        apply
-        (whenThenElse)
-        to
-        ({  cond:(cond)  source:(variable activation of when (cond) then (a) else (b))   })
-        and get
-        ({a:(a) b:(b)})
-      )
-    )
-
-  interaction
-    (if (cond:Boolean in) then (x:Number in) else (y:Number in)):Number out
-  is
-    (
-      (variable result of if (cond) then (x) else (y))
-      with behaviour
-      (
-        when
-        (cond)
-        then
-        ((variable result of if (cond) then (x) else (y)) = (x))
-        else
-        ((variable result of if (cond) then (x) else (y)) = (y))
-      )
-    )
-
-
-is
-  (
-    ({
-      theNumber:(new (variable theNumber))
-      theResult:(variable theNumber)
-    })
-    with behaviour
-    ( (variable theNumber)  =   (  (new (variable theNumber)) fallback to  (if (init) then (1) else (previous (variable theNumber) ) ) ))
-  )
-`,
-     scenario : `[
-  {
-    "args":  {},
-    "inter":  { "theNumber": null,  "theResult": 1 }
-  },
-  {
-    "args":  {},
-    "inter":  { "theNumber": null,  "theResult": 1 }
-  },
-  {
-    "args":  {},
-    "inter":  { "theNumber": 78,  "theResult": 78 }
-  },
-  {
-    "args":  {},
-    "inter":  { "theNumber": null,  "theResult": 78 }
-  },
-  {
-    "args":  {},
-    "inter":  { "theNumber": 67,  "theResult": 67 }
-  },
-  {
-    "args":  {},
-    "inter":  { "theNumber": -4,  "theResult": -4 }
-  },
-  {
-    "args":  {},
-    "inter":  { "theNumber": null,  "theResult": -4 }
-  },
-  {
-    "args":  {},
-    "inter":  { "theNumber": null,  "theResult": -4 }
-  },
-  {
-    "args":  {},
-    "inter":  { "theNumber": null,  "theResult": -4 }
-  },
-  {
-    "args":  {},
-    "inter":  { "theNumber": 42,  "theResult": 42 }
   }
 ]
 `
@@ -1127,42 +932,6 @@ is
   {
     "args":  {},
     "inter":  { "theNumber": 67,  "theResult": 67 }
-  }
-]
-`
-},{
-    name: 'Resolver',
-fileName: 'example/ok/resolver',
-     code : `interaction
-  (bob):{theNumber:Number in,theOther:Number in, theResult:Number out, theLast:Number out}
-is
-  ({
-    theNumber:(variable theNumber)
-    theOther:(variable theNumber)
-    theResult:(variable theNumber)
-    theLast:(variable theNumber)
-  })
-`,
-     scenario : `[
-  {
-    "args":  {},
-    "inter":  { "theNumber": 50, "theOther":null, "theResult": 50, "theLast": 50 }
-  },
-  {
-    "args":  {},
-    "inter":  { "theNumber": 78,  "theOther":null,"theResult": 78 , "theLast": 78}
-  },
-  {
-    "args":  {},
-    "inter":  { "theNumber": null, "theOther":null, "theResult": null, "theLast": null }
-  },
-  {
-    "args":  {},
-    "inter":  { "theNumber": null, "theOther":42, "theResult": 42, "theLast": 42 }
-  },
-  {
-    "args":  {},
-    "inter":  { "theNumber": 67, "theOther":null, "theResult": 67, "theLast": 67 }
   }
 ]
 `

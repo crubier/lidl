@@ -1,5 +1,5 @@
 (
-    (variable this)
+    (variable this?)
     with behaviour
-    (((variable (variable this).theResult) with behaviour ((variable this)=({theResult:(variable (variable this).theResult)})))=((variable (variable this).theNumber) with behaviour (({theNumber:(variable (variable this).theNumber)})=(variable this))) )
+    (((variable (variable this!).theResult!) with behaviour ((variable this!)=({theResult:(variable (variable this!).theResult?)})))=((variable (variable this!).theNumber!) with behaviour (({theNumber:(variable (variable this!).theNumber?)})=(variable this!))) )
   )

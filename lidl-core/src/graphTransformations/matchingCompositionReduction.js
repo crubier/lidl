@@ -2,6 +2,9 @@
 
 import _ from 'lodash'
 import sat from '../satSolver.js'
+
+import exportGraph from '../exportGraph'
+
 var Graph = require('../g.js');
 
 // For a given composition Node, find all the Composition Nodes that match it, Along with the condition to match them, determined by the affectations between the two composition Nodes
@@ -9,8 +12,6 @@ var Graph = require('../g.js');
 // If there is one affectation between them, the condition is this affectation activation
 // If there are  more than on affectation between them, it is more complicated
 function findAllMatchingCompositionNodesAndTheirAffectationCondition(graph, node) {
-  // TODO use
-
   // Parameter fromWhichSide is 1 or 2, depending on which side of the "=" we are coming from.
   // We visit only nodes on the other side of the "=" sign (hence the "3-fromWhichSide" expressions )
   function visitTheAffectation(n, fromWhichSide) {
@@ -466,6 +467,8 @@ export default function matchingCompositionReduction(graph) {
 
   // gexport(graph,"bob");
 
+exportGraph(graph.toDot(),"bob"+_.uniqueId());
+
   // Now its time to reduce all this mess !
   graph
     .matchNodes({
@@ -491,9 +494,13 @@ export default function matchingCompositionReduction(graph) {
           }
         })
         .filter(x => (x.from.isCoPort === true))
+        .filter(x=>(x.from.coCompositionElementName!==undefined))
         .map(x => ({
+          type:'coPort',
           ports: x.from,
-          closed: false
+          closed: false,
+          node:x.to.node,
+          target:x.to
         }))
         .value();
 
@@ -506,9 +513,13 @@ export default function matchingCompositionReduction(graph) {
           }
         })
         .filter(x => (x.to.isCoPort === true))
+        .filter(x=>(x.to.coCompositionElementName!==undefined))
         .map(x => ({
+          type:'coPort',
           ports: x.to,
-          closed: false
+          closed: false,
+          node:x.from.node,
+          target:x.from
         }))
         .value();
 
@@ -531,9 +542,13 @@ export default function matchingCompositionReduction(graph) {
           }
         })
         .filter(x => (x.from.isCoPort !== true))
+        .filter(x=>(x.from.compositionElementName!==undefined))
         .map(x => ({
+          type:'port',
           ports: x.from,
-          closed: false
+          closed: false,
+          node:x.to.node,
+          target:x.to
         }))
         .value();
 
@@ -546,9 +561,13 @@ export default function matchingCompositionReduction(graph) {
           }
         })
         .filter(x => (x.to.isCoPort !== true))
+        .filter(x=>(x.to.compositionElementName!==undefined))
         .map(x => ({
+          type:'port',
           ports: x.to,
-          closed: false
+          closed: false,
+          node:x.from.node,
+          target:x.from
         }))
         .value();
 
@@ -582,7 +601,8 @@ export default function matchingCompositionReduction(graph) {
             })
             .filter(x => (x.ports.isCoPort !== true))
             .forEach(n2 =>
-              internalGraph.addEdge({
+              internalGraph
+              .addEdge({
                 type: 'normal',
                 mul: true,
                 from: {
@@ -631,6 +651,7 @@ export default function matchingCompositionReduction(graph) {
       // console.log('-----------------------------------');
       // gexport(internalGraph,n1.id+"internal-2");
 
+      //FIXME Need to use a proper closure algorithm.
       // Transitively close the internal graph
       internalGraph
         .reduceNodes({
@@ -641,26 +662,26 @@ export default function matchingCompositionReduction(graph) {
             .matchUndirectedEdges({
               from: {
                 node: theNode
-              },
-              to: {
-                node: {
-                  closed: false
-                }
-              }
+              }//,
+              // to: {
+              //   node: {
+              //     closed: false
+              //   }
+              // }
             })
             .forEach(e1 => {
               internalGraph
                 .matchUndirectedEdges({
                   from: {
                     node: theNode
-                  },
-                  to: {
-                    node: {
-                      closed: false
-                    }
-                  }
+                  }//,
+                  // to: {
+                  //   node: {
+                  //     closed: false
+                  //   }
+                  // }
                 })
-                .filter(e2 => (e2.id > e1.id))
+                .filter(e2 => (e2.id !== e1.id))
                 .forEach(e2 => {
                   // console.log("close "+e1.to.node.id+" "+e2.to.node.id);
                   // gexport(internalGraph,n1.id+"close "+e1.id);
@@ -692,7 +713,7 @@ export default function matchingCompositionReduction(graph) {
         });
 
       // console.log('-----------------------------------');
-      //           gexport(internalGraph,n1.id+"internal-3");
+      exportGraph(internalGraph.toDot2(),n1.id+"internal-3");
 
       // // Remove multiple edges on the internal graph
       // internalGraph
@@ -716,22 +737,14 @@ export default function matchingCompositionReduction(graph) {
 
       // Ok ! Now the internal graph is complete, we can start wiring edges in the main graph
       internalGraph
-        .matchUndirectedEdges({
-          from: {
-            node: {
-              ports: {}
-            }
-          },
-          to: {
-            node: {
-              ports: {}
-            }
+        .matchUndirectedEdges(
+          {
+            from: { node:{type:'coPort'}},
+            to: {node:{type:'port'}}
           }
-        })
-        // .tap(x=>{console.log("internal ");console.log(x);})
-        .filter(x => (x.to.node.ports.isCoPort !== true && x.from.node.ports.isCoPort === true))
+        )
         .forEach(internalEdge => {
-          // console.log("xxxx")
+          console.log("xxxx")
           graph
             .matchUndirectedEdges({
               from: {
@@ -761,6 +774,93 @@ export default function matchingCompositionReduction(graph) {
             .commit();
         })
         .commit();
+
+        // internalGraph
+        //         .matchUndirectedEdges(
+        //           {
+        //             from: { node:{type:'port'}},
+        //             to: {node:{type:'port'}}
+        //           }
+        //         )
+        //         // .tap(x=>{console.log("internal ");console.log(x);})
+        //         // .filter(x => (x.to.node.ports.isCoPort !== true && x.from.node.ports.isCoPort === true) || (x.to.node.ports.isCoPort === true && x.from.node.ports.isCoPort !== true))
+        //         .forEach(internalEdge => {
+        //           // console.log("xxxx")
+        //           graph
+        //             .matchUndirectedEdges({
+        //               from: {
+        //                 node: n1,
+        //                 compositionElementName: internalEdge.from.node.ports.compositionElementName
+        //               }
+        //             })
+        //             .forEach(coEdge => {
+        //               graph
+        //                 .matchUndirectedEdges({
+        //                   from: {
+        //                     node: n1,
+        //                     compositionElementName: internalEdge.to.node.ports.compositionElementName
+        //                   }
+        //                 })
+        //                 .forEach(edge => {
+        //                   // console.log("ADD  "+coEdge.to.node.id+" "+edge.to.node.id);
+        //                   graph
+        //                     .addEdge({
+        //                       type: 'InteractionInstanceOperand',
+        //                       from: coEdge.to,
+        //                       to: edge.to
+        //                     });
+        //                 })
+        //                 .commit();
+        //             })
+        //             .commit();
+        //         })
+        //         .commit();
+
+
+                // internalGraph
+                //         .matchUndirectedEdges(
+                //           {
+                //             from: { node:{type:'coPort'}},
+                //             to: {node:{type:'coPort'}}
+                //           }
+                //         )
+                //         // .tap(x=>{console.log("internal ");console.log(x);})
+                //         // .filter(x => (x.to.node.ports.isCoPort !== true && x.from.node.ports.isCoPort === true) || (x.to.node.ports.isCoPort === true && x.from.node.ports.isCoPort !== true))
+                //         .forEach(internalEdge => {
+                //           // console.log("xxxx")
+                //           graph
+                //             .matchUndirectedEdges({
+                //               from: {
+                //                 node: n1,
+                //                 coCompositionElementName: internalEdge.from.node.ports.coCompositionElementName
+                //               }
+                //             })
+                //             .forEach(coEdge => {
+                //               graph
+                //                 .matchUndirectedEdges({
+                //                   from: {
+                //                     node: n1,
+                //                     coCompositionElementName: internalEdge.to.node.ports.coCompositionElementName
+                //                   }
+                //                 })
+                //                 .forEach(edge => {
+                //                   // console.log("ADD  "+coEdge.to.node.id+" "+edge.to.node.id);
+                //                   graph
+                //                     .addEdge({
+                //                       type: 'InteractionInstanceOperand',
+                //                       from: coEdge.to,
+                //                       to: edge.to
+                //                     });
+                //                 })
+                //                 .commit();
+                //             })
+                //             .commit();
+                //         })
+                //         .commit();
+
+
+
+
     })
     .commit();
 

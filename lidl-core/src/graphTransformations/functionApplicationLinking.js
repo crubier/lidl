@@ -86,7 +86,7 @@ export default function functionApplicationLinking(graph) {
           });})
         .commit();
 
-      if (!isAtomic(source.ports[1]) || source.ports[1].data.type !== 'DataFunction') throw new Error('Function application should receive functions as first argument, received the interface ' + JSON.stringify(source.ports[1]));
+      if (!isAtomic(source.ports[1]) || source.ports[1].data.type !== 'DataFunction') throw new Error('Function application should receive functions as first argument, received the interface ' + serialize(source.ports[1]));
       // Infer in and out ports interfaces from interface of the function
       source.ports[2] = {
         type: 'InterfaceAtomic',
@@ -109,19 +109,7 @@ export default function functionApplicationLinking(graph) {
           }
         })
         .forEach(x =>{
-          try {
-            source.ports[2] = mergeInterface(source.ports[2], conjugateInterface(x.to.node.ports[x.to.index]));
-          } catch (e) {
-            switch (e.name) {
-              case "IncompatibleInterfaceError":
-                break;
-              case "InvalidInterfaceError":
-                break;
-              default:
-            }
-            throw new Error("While linking "+x.id+": "+ e.message+"\n"+printInteractionInstanceNodeStack(x.to.node)+"\n"+printInteractionInstanceNodeStack(x.from.node));
-          }
-
+          source.ports[2] = mergeInterface(source.ports[2], conjugateInterface(x.to.node.ports[x.to.index]));
           graph
           .addEdge({
             type: 'InteractionInstanceOperand',

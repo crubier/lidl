@@ -37,6 +37,46 @@ var addition = function(x) {
   }
 };
 
+var multiplication = function(x) {
+  if (isActive(x.a) && isActive(x.b)) {
+    return x.a * x.b;
+  } else {
+    return inactive;
+  }
+};
+
+var substraction = function(x) {
+  if (isActive(x.a) && isActive(x.b)) {
+    return x.a - x.b;
+  } else {
+    return inactive;
+  }
+};
+
+var division = function(x) {
+  if (isActive(x.a) && isActive(x.b)) {
+    return x.a / x.b;
+  } else {
+    return inactive;
+  }
+};
+
+var remainder = function(x) {
+  if (isActive(x.a) && isActive(x.b)) {
+    return x.a % x.b;
+  } else {
+    return inactive;
+  }
+};
+
+var power = function(x) {
+  if (isActive(x.a) && isActive(x.b)) {
+    return Math.pow(x.a,x.b);
+  } else {
+    return inactive;
+  }
+};
+
 var addOne = function(x) {
   if (isActive(x))
     return x + 1;

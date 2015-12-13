@@ -214,78 +214,78 @@ var cursor = function(mouse){
 
 ///////////////////////////////////////////////////////////////////////
 // Declaration of variables (Edges of the graph)
-var edge_3109 = inactive;
-var edge_3114 = inactive;
-var edge_3118 = inactive;
-var edge_3119 = inactive;
-var edge_3120 = inactive;
-var edge_3123 = inactive;
-var edge_3124 = inactive;
-var edge_3128 = inactive;
-var edge_3130 = inactive;
-var edge_3132 = inactive;
-var edge_3134 = inactive;
-var edge_3136 = inactive;
-var edge_3138 = inactive;
-var edge_3139 = inactive;
-var edge_3140 = inactive;
-var edge_3141 = inactive;
-var edge_3143 = inactive;
-var edge_3144 = inactive;
-var edge_3145 = inactive;
+var edge_3179 = inactive;
+var edge_3184 = inactive;
+var edge_3188 = inactive;
+var edge_3189 = inactive;
+var edge_3190 = inactive;
+var edge_3193 = inactive;
+var edge_3194 = inactive;
+var edge_3198 = inactive;
+var edge_3200 = inactive;
+var edge_3202 = inactive;
+var edge_3204 = inactive;
+var edge_3206 = inactive;
+var edge_3208 = inactive;
+var edge_3209 = inactive;
+var edge_3210 = inactive;
+var edge_3211 = inactive;
+var edge_3213 = inactive;
+var edge_3214 = inactive;
+var edge_3215 = inactive;
 
 ///////////////////////////////////////////////////////////////////////
 // Data flow processing (Nodes of the graph)
-// node_3105
-edge_3136 = 4;
-// node_3103
-edge_3132 = 3;
-// node_3101
-edge_3119 = 1;
-// node_3099
-edge_3114 = whenThenElse;
-// node_3097
-edge_3109 = isEqual;
-// node_3089
-edge_3138 = active;
-// node_3137
-edge_3139 = edge_3138;
-edge_3140 = edge_3138;
-edge_3141 = edge_3138;
-// node_3064
-edge_3118=theArgs.t;
-// node_3117
-edge_3120 = {};
-edge_3120['a'] = edge_3118;
-edge_3120['b'] = edge_3119;
-// node_3107
-if(edge_3139 === active && edge_3109!==null && edge_3109!==undefined) {edge_3123 = edge_3109(edge_3120);}
-// node_3121
-edge_3124 = {};
-edge_3124['cond'] = edge_3123;
-edge_3124['source'] = edge_3141;
-// node_3112
-if(edge_3140 === active && edge_3114!==null && edge_3114!==undefined) {edge_3128 = edge_3114(edge_3124);}
-// node_3125
-edge_3130 = edge_3128['a'];
-edge_3134 = edge_3128['b'];
-// node_3133
-if(edge_3134 === active) {edge_3145 = edge_3136;}
-// node_3129
-if(edge_3130 === active) {edge_3144 = edge_3132;}
-// node_3142
-edge_3143=null;
-if(edge_3143===null ){
-  edge_3143 = edge_3144;
-} else if (edge_3144 !== null){
-  throw ('error:multiple active assignments to the same signal edge_3143 : '+edge_3143 + ' and ' + edge_3144);
-}if(edge_3143===null ){
-  edge_3143 = edge_3145;
-} else if (edge_3145 !== null){
-  throw ('error:multiple active assignments to the same signal edge_3143 : '+edge_3143 + ' and ' + edge_3145);
+// node_3175
+edge_3206 = 4;
+// node_3173
+edge_3202 = 3;
+// node_3171
+edge_3189 = 1;
+// node_3169
+edge_3184 = whenThenElse;
+// node_3167
+edge_3179 = isEqual;
+// node_3159
+edge_3208 = active;
+// node_3207
+edge_3209 = edge_3208;
+edge_3210 = edge_3208;
+edge_3211 = edge_3208;
+// node_3131
+edge_3188=theArgs.t;
+// node_3187
+edge_3190 = {};
+edge_3190['a'] = edge_3188;
+edge_3190['b'] = edge_3189;
+// node_3177
+if(edge_3209 === active && edge_3179!==null && edge_3179!==undefined) {edge_3193 = edge_3179(edge_3190);}
+// node_3191
+edge_3194 = {};
+edge_3194['cond'] = edge_3193;
+edge_3194['source'] = edge_3211;
+// node_3182
+if(edge_3210 === active && edge_3184!==null && edge_3184!==undefined) {edge_3198 = edge_3184(edge_3194);}
+// node_3195
+edge_3200 = edge_3198['a'];
+edge_3204 = edge_3198['b'];
+// node_3203
+if(edge_3204 === active) {edge_3215 = edge_3206;}
+// node_3199
+if(edge_3200 === active) {edge_3214 = edge_3202;}
+// node_3212
+edge_3213=null;
+if(edge_3213===null ){
+  edge_3213 = edge_3214;
+} else if (edge_3214 !== null){
+  throw new Error('Multiple active assignments to the same signal edge_3213 : '+edge_3213 + ' and ' + edge_3214);
+}if(edge_3213===null ){
+  edge_3213 = edge_3215;
+} else if (edge_3215 !== null){
+  throw new Error('Multiple active assignments to the same signal edge_3213 : '+edge_3213 + ' and ' + edge_3215);
 }
-// node_3066
-theInterface=edge_3143;
+// node_3133
+theInterface=edge_3213;
 
 
 ///////////////////////////////////////////////////////////////////////
