@@ -110,8 +110,9 @@ instantiateTemplates;var _lodash = require('lodash');var _lodash2 = _interopRequ
 
 
         {
-          throw new Error('A node of the DAG is missing a connexion with a composite interface');}}
-
+          edge = { id: '' };
+          // throw new Error('A node of the DAG ('+theNode.id+') is missing a connexion (on port '+index+') with a composite interface (edge: '+JSON.stringify(edge)+' )');
+        }}
 
       theArgs["a" + index] = edge.id;}).
 
