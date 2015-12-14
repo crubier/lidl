@@ -3,122 +3,276 @@
 import _ from 'lodash'
 
 export default function addDefinitionToGraph(graph, definition) {
+  if (definition.type === 'InteractionDefinition') {
+    return addInteractionDefinitionToGraph(graph, definition);
+  } else if (definition.type === 'InterfaceDefinition') {
+    return addInterfaceDefinitionToGraph(graph, definition);
+  }
+}
+
+
+function addInteractionDefinitionToGraph(graph, definition) {
   let rootNode =
-  graph
-  .addNode({type:'InteractionDefinition',content: definition,instantiated:false});
+    graph
+    .addNode({
+      type: 'InteractionDefinition',
+      content: definition,
+      instantiated: false
+    });
 
   // Add sub defintions
   _(definition.definitions)
-  .map(subDefinition=> addDefinitionToGraph(graph, subDefinition))
-  .forEach((subDefinitionNode, index) => {
-    graph
-    .addEdge({type:'DefinitionDefinition',from:{node:rootNode,index:(index+1)},to:{node:subDefinitionNode,index:0}})
-  })
-  .commit();
+    .map(subDefinition => addDefinitionToGraph(graph, subDefinition))
+    .forEach((subDefinitionNode, index) => {
+      graph
+        .addEdge({
+          type: 'DefinitionDefinition',
+          from: {
+            node: rootNode,
+            index: (index + 1)
+          },
+          to: {
+            node: subDefinitionNode,
+            index: 0
+          }
+        })
+    })
+    .commit();
 
   // Add arguments
   _(definition.signature.operand)
-  .map(operand=> {
-    let operandNode =
-    graph
-    .addNode({type:'InteractionSignatureOperandElement',content:operand});
+    .map(operand => {
+      let operandNode =
+        graph
+        .addNode({
+          type: 'InteractionSignatureOperandElement',
+          content: operand
+        });
 
-    // console.log(operand.interfac);
-    let operandInterfaceNode =
-    addInterfaceToGraph(graph,operand.interfac,'theArgs.'+operand.name,rootNode);
+      // console.log(operand.interfac);
+      let operandInterfaceNode =
+        addInterfaceToGraph(graph, operand.interfac, 'theArgs.' + operand.name, rootNode);
 
-    graph
-    .addEdge({type:'InteractionSignatureOperandElementInterface',from:{node:operandNode},to:{node:operandInterfaceNode}});
-    return operandNode;
-  })
-  .forEach((operandNode, index) => {
-    graph
-    .addEdge({type:'SignatureOperand',from:{node:rootNode,index:(index+1)},to:{node:operandNode,index:0}})
-  })
-  .commit();
-
+      graph
+        .addEdge({
+          type: 'InteractionSignatureOperandElementInterface',
+          from: {
+            node: operandNode
+          },
+          to: {
+            node: operandInterfaceNode
+          }
+        });
+      return operandNode;
+    })
+    .forEach((operandNode, index) => {
+      graph
+        .addEdge({
+          type: 'SignatureOperand',
+          from: {
+            node: rootNode,
+            index: (index + 1)
+          },
+          to: {
+            node: operandNode,
+            index: 0
+          }
+        })
+    })
+    .commit();
 
   // Add interface
   let interfaceNode =
-  addInterfaceToGraph(graph,definition.signature.interfac,'theInterface',rootNode);
+    addInterfaceToGraph(graph, definition.signature.interfac, 'theInterface', rootNode);
 
   graph
-  .addEdge({type:'DefinitionInterface',from:{node:rootNode},to:{node:interfaceNode}});
+    .addEdge({
+      type: 'DefinitionInterface',
+      from: {
+        node: rootNode
+      },
+      to: {
+        node: interfaceNode
+      }
+    });
 
 
   // Add interaction
   graph
-  .addEdge({type:'DefinitionInteraction',from:{node:rootNode},to:{node:addInteractionToGraph(graph,definition.interaction,rootNode)}})
+    .addEdge({
+      type: 'DefinitionInteraction',
+      from: {
+        node: rootNode
+      },
+      to: {
+        node: addInteractionToGraph(graph, definition.interaction, rootNode)
+      }
+    })
+
+  return rootNode;
+
+}
+
+function addInterfaceDefinitionToGraph(graph, definition) {
+  let rootNode =
+    graph
+    .addNode({
+      type: 'InterfaceDefinition',
+      content: definition,
+      instantiated: false
+    });
+
+  let interfacNode = addInterfaceToGraph(graph, definition.interfac, definition.signature, rootNode);
+
+  graph
+    .addEdge({
+      type: 'DefinitionInterface',
+      from: {
+        node: rootNode
+      },
+      to: {
+        node: interfacNode
+      }
+    });
 
   return rootNode;
 }
 
-function addInteractionToGraph(graph, interaction,definitionNode) {
+function addInteractionToGraph(graph, interaction, definitionNode) {
   var rootNode;
   switch (interaction.type) {
     case 'InteractionSimple':
       rootNode =
-      graph
-      .addNode({type:'Interaction',content: interaction,ports:[]});
+        graph
+        .addNode({
+          type: 'Interaction',
+          content: interaction,
+          ports: []
+        });
 
       graph
-      .addEdge({type:'DefinitionSubInteraction',from:{node:definitionNode},to:{node:rootNode}});
+        .addEdge({
+          type: 'DefinitionSubInteraction',
+          from: {
+            node: definitionNode
+          },
+          to: {
+            node: rootNode
+          }
+        });
 
       _(interaction.operand)
-      .map(operand=> addInteractionToGraph(graph, operand,definitionNode))
-      .forEach((x, index) => {
-        graph
-        .addEdge({type:'InteractionOperand',content:interaction,from:{node:rootNode,index:index+1},to:{node:x,index:0}})
-      })
-      .commit();
+        .map(operand => addInteractionToGraph(graph, operand, definitionNode))
+        .forEach((x, index) => {
+          graph
+            .addEdge({
+              type: 'InteractionOperand',
+              content: interaction,
+              from: {
+                node: rootNode,
+                index: index + 1
+              },
+              to: {
+                node: x,
+                index: 0
+              }
+            })
+        })
+        .commit();
 
       break;
     case 'InteractionNative':
-      rootNode = graph.addNode({type:'Interaction',content: interaction,ports:[]});
+      rootNode = graph.addNode({
+        type: 'Interaction',
+        content: interaction,
+        ports: []
+      });
       graph
-      .addEdge({type:'DefinitionSubInteraction',from:{node:definitionNode},to:{node:rootNode}});
+        .addEdge({
+          type: 'DefinitionSubInteraction',
+          from: {
+            node: definitionNode
+          },
+          to: {
+            node: rootNode
+          }
+        });
       break;
     default:
-      throw new Error('trying to transform into a graph invalid interaction');
+      throw new Error('Trying to transform into a graph an invalid interaction of type '+interaction.type);
   }
 
   return rootNode;
 }
 
 
-function addInterfaceToGraph(graph, interfac,prefix,definitionNode) {
+function addInterfaceToGraph(graph, interfac, prefix, definitionNode) {
   var rootNode;
+
   switch (interfac.type) {
     case "InterfaceAtomic":
 
-        rootNode =
+      rootNode =
         graph
-        .addNode({type:'Interface', name:prefix,content:interfac});
+        .addNode({
+          type: 'Interface',
+          name: prefix,
+          content: interfac
+        });
 
       break;
     case "InterfaceComposite":
       rootNode =
-      graph
-      .addNode({type:'Interface', name:prefix, content:interfac});
+        graph
+        .addNode({
+          type: 'Interface',
+          name: prefix,
+          content: interfac
+        });
 
       let nodeOfElement =
-      _(interfac.element)
-      .map (x => addInterfaceToGraph(graph, x.value, prefix + "." + x.key,definitionNode))
-      .value();
-
-
+        _(interfac.element)
+        .map(x => addInterfaceToGraph(graph, x.value, prefix + "." + x.key, definitionNode))
+        .value();
 
       _(nodeOfElement)
-      .forEach((x, index) =>
+        .forEach((x, index) =>
+          graph
+          .addEdge({
+            type: 'InterfaceElement',
+            from: {
+              node: rootNode,
+              index: index + 1
+            },
+            to: {
+              node: x,
+              index: 0
+            }
+          }))
+        .commit();
+      break;
+    case "InterfaceNamed":
+      rootNode =
         graph
-        .addEdge({type:'InterfaceElement', from:{node: rootNode,index:index+1}, to:{node:x,index:0}}))
-      .commit();
+        .addNode({
+          type: 'Interface',
+          name: prefix,
+          content: interfac
+        });
       break;
     default:
-      throw new Error("Cant transform this interface to a graph. Is it an interface really ?");
+      throw new Error("Cannot transform into a graph the interface of type "+interfac.type);
   }
 
-        graph
-        .addEdge({type:'DefinitionSubInterface',from:{node:definitionNode},to:{node:rootNode}});
+  graph
+    .addEdge({
+      type: 'DefinitionSubInterface',
+      from: {
+        node: definitionNode
+      },
+      to: {
+        node: rootNode
+      }
+    });
   return rootNode;
 }

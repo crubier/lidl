@@ -465,7 +465,7 @@ class Graph {
         Interaction: {
           color: "#ffd1d1",
           transform: (x) => ({
-            label: (x.content.operatorType+'\n'+x.content.operator)
+            label: (x.content.operatorType + '\n' + x.content.operator)
           })
         },
         InteractionInstance: {
@@ -474,13 +474,19 @@ class Graph {
             shape: (x.content.type === 'InteractionSimple') ? "ellipse" : 'box',
             color: (x.content.type === 'InteractionSimple') ? "#ffde2f" : "#dff1f2",
             fontname: (x.content.type === 'InteractionSimple') ? 'Times' : 'Courier',
-            label: x.id+'\n'+((x.content.type === 'InteractionSimple') ? (x.content.operatorType+'\n'+x.content.operator) : (x.content.content))+"\n"+((x.ports).map((x,i)=>(i+": "+serialize(x))).join('\n'))
+            label: x.id + '\n' + ((x.content.type === 'InteractionSimple') ? (x.content.operatorType + '\n' + x.content.operator) : (x.content.content)) + "\n" + ((x.ports).map((x, i) => (i + ": " + serialize(x))).join('\n'))
           })
         },
-        Definition: {
+        InteractionDefinition: {
           color: "#afe7ff",
           transform: (x) => ({
             label: x.content.signature.operator
+          })
+        },
+        InterfaceDefinition: {
+          color: "#afffe4",
+          transform: (x) => ({
+            label: x.content.signature
           })
         },
         InteractionSignatureOperandElement: {
@@ -492,7 +498,7 @@ class Graph {
         Interface: {
           color: "#2fcdff",
           transform: (x) => ({
-            label: (x.content.type === 'InterfaceAtomic') ? (x.name + ' : ' + x.content.direction) : (x.name)
+            label: (x.content.type === 'InterfaceAtomic') ? (x.name + ' : ' + serialize(x.content)) : (x.name)
           })
         }
       },
@@ -587,12 +593,24 @@ class Graph {
             label: ""
           })
         },
-        DefinitionDependency: {
+        InterfaceDefinition: {
+          color: "#2bff00",
+          transform: (x) => ({
+            label: ""
+          })
+        },
+        InteractionDefinitionDependency: {
           color: "#0040ff",
           transform: (x) => ({
             label: ""
           })
         },
+        InterfaceDefinitionDependency: {
+                  color: "#b5ff00",
+                  transform: (x) => ({
+                    label: ""
+                  })
+                },
         InteractionInstanceDataDependency: {
           color: "#ddd2ff",
           transform: (x) => ({
@@ -624,26 +642,36 @@ class Graph {
       nodes: {
         port: {
           color: "#94ff87",
-          transform: (x) => ({label: x.ports.compositionElementName + '\n'+x.node.content.operator+x.node.content.content})
+          transform: (x) => ({
+            label: x.ports.compositionElementName + '\n' + x.node.content.operator + x.node.content.content
+          })
         },
         coPort: {
           color: "#dce7f9",
-          transform: (x) => ({label: x.ports.coCompositionElementName+ '\n'+x.node.content.operator+x.node.content.content})
+          transform: (x) => ({
+            label: x.ports.coCompositionElementName + '\n' + x.node.content.operator + x.node.content.content
+          })
         },
 
       },
       directedEdges: {
         normal: {
           color: "#000000",
-          transform: (x) => ({label: ""})
+          transform: (x) => ({
+            label: ""
+          })
         },
         loop: {
           color: "#ff0000",
-          transform: (x) => ({label: ""})
+          transform: (x) => ({
+            label: ""
+          })
         },
         closure: {
           color: "#c79999",
-          transform: (x) => ({label: ""})
+          transform: (x) => ({
+            label: ""
+          })
         },
       },
       undirectedEdges: {}

@@ -5,6 +5,9 @@ import _ from 'lodash';
 
 import addDefinitionToGraph from './graphInputs/addDefinitionToGraph'
 
+
+import linkInterfacesToDefinitions from './graphTransformations/linkInterfacesToDefinitions'
+import expandInterfaces from './graphTransformations/expandInterfaces'
 import addOperatorTypeAnnotation from './graphTransformations/addOperatorTypeAnnotation'
 import referentialTransparency from './graphTransformations/referentialTransparency'
 import linkInteractionsToDefinitions from './graphTransformations/linkInteractionsToDefinitions'
@@ -119,6 +122,13 @@ export function graphTransformationPipeline (graph,rootDefinitionNode,callbacks)
 
   try {
     if(false===callCallback('addDefinitionToGraph')) return graph;
+
+
+    linkInterfacesToDefinitions(graph);
+    if(false===callCallback('linkInterfacesToDefinitions')) return graph;
+
+    expandInterfaces(graph);
+    if(false===callCallback('expandInterfaces')) return graph;
 
     addOperatorTypeAnnotation(graph);
     if(false===callCallback('addOperatorTypeAnnotation')) return graph;

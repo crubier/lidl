@@ -477,10 +477,16 @@ Graph = (function () {
                 label: x.id + '\n' + (x.content.type === 'InteractionSimple' ? x.content.operatorType + '\n' + x.content.operator : x.content.content) + "\n" + x.ports.map(function (x, i) {return i + ": " + (0, _serializer.serialize)(x);}).join('\n') };} }, 
 
 
-          Definition: { 
+          InteractionDefinition: { 
             color: "#afe7ff", 
             transform: function transform(x) {return { 
                 label: x.content.signature.operator };} }, 
+
+
+          InterfaceDefinition: { 
+            color: "#afffe4", 
+            transform: function transform(x) {return { 
+                label: x.content.signature };} }, 
 
 
           InteractionSignatureOperandElement: { 
@@ -492,7 +498,7 @@ Graph = (function () {
           Interface: { 
             color: "#2fcdff", 
             transform: function transform(x) {return { 
-                label: x.content.type === 'InterfaceAtomic' ? x.name + ' : ' + x.content.direction : x.name };} } }, 
+                label: x.content.type === 'InterfaceAtomic' ? x.name + ' : ' + (0, _serializer.serialize)(x.content) : x.name };} } }, 
 
 
 
@@ -587,8 +593,20 @@ Graph = (function () {
                 label: "" };} }, 
 
 
-          DefinitionDependency: { 
+          InterfaceDefinition: { 
+            color: "#2bff00", 
+            transform: function transform(x) {return { 
+                label: "" };} }, 
+
+
+          InteractionDefinitionDependency: { 
             color: "#0040ff", 
+            transform: function transform(x) {return { 
+                label: "" };} }, 
+
+
+          InterfaceDefinitionDependency: { 
+            color: "#b5ff00", 
             transform: function transform(x) {return { 
                 label: "" };} }, 
 
@@ -624,26 +642,36 @@ Graph = (function () {
         nodes: { 
           port: { 
             color: "#94ff87", 
-            transform: function transform(x) {return { label: x.ports.compositionElementName + '\n' + x.node.content.operator + x.node.content.content };} }, 
+            transform: function transform(x) {return { 
+                label: x.ports.compositionElementName + '\n' + x.node.content.operator + x.node.content.content };} }, 
+
 
           coPort: { 
             color: "#dce7f9", 
-            transform: function transform(x) {return { label: x.ports.coCompositionElementName + '\n' + x.node.content.operator + x.node.content.content };} } }, 
+            transform: function transform(x) {return { 
+                label: x.ports.coCompositionElementName + '\n' + x.node.content.operator + x.node.content.content };} } }, 
+
 
 
 
         directedEdges: { 
           normal: { 
             color: "#000000", 
-            transform: function transform(x) {return { label: "" };} }, 
+            transform: function transform(x) {return { 
+                label: "" };} }, 
+
 
           loop: { 
             color: "#ff0000", 
-            transform: function transform(x) {return { label: "" };} }, 
+            transform: function transform(x) {return { 
+                label: "" };} }, 
+
 
           closure: { 
             color: "#c79999", 
-            transform: function transform(x) {return { label: "" };} } }, 
+            transform: function transform(x) {return { 
+                label: "" };} } }, 
+
 
 
         undirectedEdges: {} });} }]);return Graph;})();

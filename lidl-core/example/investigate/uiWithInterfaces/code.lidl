@@ -3,7 +3,15 @@ interaction
 
 with
 
-  data
+  interface
+    WIMP
+  is
+    {
+      mouse: Mouse,
+      graphics: Graphics out
+    }
+
+  interface
     Mouse
   is
     {
@@ -17,15 +25,7 @@ with
         y: Number,
         z: Number
       }
-    }
-
-  interface
-    WIMP
-  is
-    {
-      mouse: Mouse in,
-      graphics: Graphics out
-    }
+    } in
 
   interaction
     (cursor of (mouse:Mouse in)):Graphics out

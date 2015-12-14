@@ -41,7 +41,7 @@ expandDefinitions;var _lodash = require('lodash');var _lodash2 = _interopRequire
 
       // Add a dependency from the definition to the definition of the sub interaction
       if (_lodash2.default.isUndefined(graph.findDirectedEdge({ 
-        type: 'DefinitionDependency', 
+        type: 'InteractionDefinitionDependency', 
         from: { 
           node: defNode }, 
 
@@ -51,7 +51,7 @@ expandDefinitions;var _lodash = require('lodash');var _lodash2 = _interopRequire
       {
         graph.
         addEdge({ 
-          type: 'DefinitionDependency', 
+          type: 'InteractionDefinitionDependency', 
           from: { 
             node: defNode }, 
 
@@ -88,7 +88,7 @@ expandDefinitions;var _lodash = require('lodash');var _lodash2 = _interopRequire
           matchNodes(function (m) {return (
               graph.
               matchDirectedEdges({ 
-                type: 'DefinitionDependency', 
+                type: 'InteractionDefinitionDependency', 
                 from: { 
                   node: n }, 
 

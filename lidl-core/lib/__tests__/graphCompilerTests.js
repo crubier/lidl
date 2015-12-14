@@ -16,7 +16,6 @@ describe('lidl graph compiler', function () {
 
   var testPaths = [
   'example/ok', 
-
   'example/investigate'
 
   // ,'example/nok'
@@ -106,6 +105,14 @@ describe('lidl graph compiler', function () {
 
       // removeOneSidedAffectation
       graphCompiler.compile(parser.parse(code)[0], header, { 
+        addDefinitionToGraph: function addDefinitionToGraph(graph, data) {
+          printGraph(graph, data.step + 'addDefinitionToGraph' + data.iteration);
+          return true;}, 
+
+        linkInterfacesToDefinitions: function linkInterfacesToDefinitions(graph, data) {
+          printGraph(graph, data.step + 'linkInterfacesToDefinitions' + data.iteration);
+          return true;}, 
+
         referentialTransparency: function referentialTransparency(graph, data) {
           printGraph(graph, data.step + 'referentialTransparency' + data.iteration);
           return true;}, 

@@ -123,10 +123,10 @@ interfaceDefinition 'an interface definition'
 }
 
 interfac 'the specification of an interfac'
-= interfaceAtomic / interfaceComposite / interfaceOperation / interfaceIdentifier
+= interfaceAtomic / interfaceComposite / interfaceOperation / interfaceNamed
 
 interfaceOperation 'the specification of an interfac using operators'
-= operator:interfaceOperator _ '(' _ first:interfac rest:(_',' _ content:interfac {return content;})* _')' { return {type:"InterfaceOperation",operator:operator,operand:mergeElements(first,rest),meta:{location:location(),options:options}}}
+= operator:interfaceOperator _ '(' _ first:interfac rest:(_',' _ content:interfac {return content;})* _')' { return {type:"InterfaceOperation",operator:operator,operand:mergeElements(first,rest),meta:{location:location(),options:options}};}
 
 interfaceOperator 'an interfac operator (conjugation,globalisation,localisation,reception,emission,union,intersection,complement)'
 = 'conjugation' / 'globalisation' / 'localisation' / 'reception' / 'emission' / 'union' / 'intersection' / 'complement'
@@ -136,6 +136,9 @@ interfaceAtomic 'the specification of an atomic interfac'
 
 interfaceComposite 'the specification of a composite interfac'
 = '{' _ first:(key:keyIdentifier _ ':' _ value:interfac {return {type:'InterfaceCompositeElement',key:key,value:value,meta:{location:location(),options:options}}}) _ rest:(',' _ content:(key:keyIdentifier _ ':' _ value:interfac {return {type:'InterfaceCompositeElement',key:key,value:value,meta:{location:location(),options:options}}}) _ {return content;})* '}' {return {type:'InterfaceComposite',element:mergeElements(first,rest),meta:{location:location(),options:options}};}
+
+interfaceNamed 'a named interface'
+= name:interfaceIdentifier {return {type:'InterfaceNamed',name:name,meta:{location:location(),options:options}};}
 
 direction 'the direction of a data flow'
 = 'out' / 'in' / 'ref'

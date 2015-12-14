@@ -19,6 +19,8 @@ function serialize(object,indentation) {
       return '('+ object.name+': '+serialize(object.interfac)+')';
     case 'InterfaceAtomic':
       return serialize(object.data)+ " "+object.direction;
+    case 'InterfaceNamed':
+      return object.name;
     case 'InterfaceComposite':
       return '{' + _(object.element).map(x=>(x.key + ": "+serialize(x.value))).join(', ') +'}';
     case 'DataAtomic':

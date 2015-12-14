@@ -182,7 +182,7 @@ function instantiateInterface(graph, interfacNode) {
 
       break;
     default:
-      throw new Error("Cant transform this interface to a graph. Is it an interface really ?");}
+      throw new Error("Cannot transform into a graph the interface of type " + interfac.type);}
 
 
   graph.

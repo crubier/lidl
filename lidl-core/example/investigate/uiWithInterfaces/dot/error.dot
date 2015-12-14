@@ -1,0 +1,72 @@
+digraph g{node_11885 [shape="ellipse", style="filled", color="#ffde2f", fontname="Times", label="node_11885
+Identifier
+#mouse
+" ]
+node_11890 [shape="ellipse", style="filled", color="#ffde2f", fontname="Times", label="node_11890
+CoReference
+$?
+" ]
+node_11895 [shape="ellipse", style="filled", color="#ffde2f", fontname="Times", label="node_11895
+Reference
+$!
+" ]
+node_11901 [shape="ellipse", style="filled", color="#ffde2f", fontname="Times", label="node_11901
+Identifier
+#cursorof$
+" ]
+node_11902 [shape="ellipse", style="filled", color="#ffde2f", fontname="Times", label="node_11902
+Reference
+$!
+" ]
+node_11903 [shape="ellipse", style="filled", color="#ffde2f", fontname="Times", label="node_11903
+Function
+functioncursor
+0: {{buttons: Number, position: {x: Number, y: Number}, wheel: {x: Number, y: Number, z: Number}} -> Graphics} out" ]
+node_11904 [shape="ellipse", style="filled", color="#ffde2f", fontname="Times", label="node_11904
+CoReference
+$?
+" ]
+node_11905 [shape="ellipse", style="filled", color="#ffde2f", fontname="Times", label="node_11905
+FunctionApplication
+$$=$
+" ]
+node_11906 [shape="ellipse", style="filled", color="#ffde2f", fontname="Times", label="node_11906
+Behaviour
+$withbehaviour$
+0: Graphics out" ]
+node_11926 [shape="ellipse", style="filled", color="#ffde2f", fontname="Times", label="node_11926
+Composition
+{mouse:$graphics:$}
+0: WIMP" ]
+node_11693 [shape="ellipse", style="filled", color="#afe7ff", fontname="Times", label="emptyUIwithcursor" ]
+node_11694 [shape="ellipse", style="filled", color="#afffe4", fontname="Times", label="WIMP" ]
+node_11704 [shape="ellipse", style="filled", color="#afffe4", fontname="Times", label="Mouse" ]
+node_11695 [shape="ellipse", style="filled", color="#2fcdff", fontname="Times", label="WIMP" ]
+node_11696 [shape="ellipse", style="filled", color="#2fcdff", fontname="Times", label="WIMP.mouse" ]
+node_11698 [shape="ellipse", style="filled", color="#2fcdff", fontname="Times", label="WIMP.graphics : Graphics out" ]
+node_11705 [shape="ellipse", style="filled", color="#2fcdff", fontname="Times", label="Mouse : {buttons: Number, position: {x: Number, y: Number}, wheel: {x: Number, y: Number, z: Number}} in" ]
+node_11758 [shape="ellipse", style="filled", color="#2fcdff", fontname="Times", label="theInterface" ]
+node_11693 -> node_11926 [dir=forward, arrowHead=normal, fontname="Times-Italic", arrowsize=1, color="#ff6b00", label="",  headlabel="", taillabel="" ]
+node_11694 -> node_11695 [dir=forward, arrowHead=normal, fontname="Times-Italic", arrowsize=1, color="#00e8ff", label="",  headlabel="", taillabel="" ]
+node_11704 -> node_11705 [dir=forward, arrowHead=normal, fontname="Times-Italic", arrowsize=1, color="#00e8ff", label="",  headlabel="", taillabel="" ]
+node_11693 -> node_11758 [dir=forward, arrowHead=normal, fontname="Times-Italic", arrowsize=1, color="#00e8ff", label="",  headlabel="", taillabel="" ]
+node_11695 -> node_11696 [dir=forward, arrowHead=normal, fontname="Times-Italic", arrowsize=1, color="#008cff", label="1",  headlabel="", taillabel="" ]
+node_11695 -> node_11698 [dir=forward, arrowHead=normal, fontname="Times-Italic", arrowsize=1, color="#008cff", label="2",  headlabel="", taillabel="" ]
+node_11693 -> node_11694 [dir=forward, arrowHead=normal, fontname="Times-Italic", arrowsize=1, color="#81ddff", label="1",  headlabel="", taillabel="" ]
+node_11693 -> node_11704 [dir=forward, arrowHead=normal, fontname="Times-Italic", arrowsize=1, color="#81ddff", label="2",  headlabel="", taillabel="" ]
+node_11696 -> node_11704 [dir=forward, arrowHead=normal, fontname="Times-Italic", arrowsize=1, color="#2bff00", label="",  headlabel="", taillabel="" ]
+node_11758 -> node_11694 [dir=forward, arrowHead=normal, fontname="Times-Italic", arrowsize=1, color="#2bff00", label="",  headlabel="", taillabel="" ]
+node_11694 -> node_11704 [dir=forward, arrowHead=normal, fontname="Times-Italic", arrowsize=1, color="#b5ff00", label="",  headlabel="", taillabel="" ]
+node_11890 -> node_11885 [dir=none, arrowHead=none, fontname="Times-Italic", arrowsize=1, color="#9d8400", label="edge_11892",  headlabel="0", taillabel="1" ]
+node_11895 -> node_11885 [dir=none, arrowHead=none, fontname="Times-Italic", arrowsize=1, color="#9d8400", label="edge_11897",  headlabel="0", taillabel="1" ]
+node_11902 -> node_11901 [dir=none, arrowHead=none, fontname="Times-Italic", arrowsize=1, color="#9d8400", label="edge_11908",  headlabel="0", taillabel="1" ]
+node_11904 -> node_11901 [dir=none, arrowHead=none, fontname="Times-Italic", arrowsize=1, color="#9d8400", label="edge_11909",  headlabel="0", taillabel="1" ]
+node_11905 -> node_11903 [dir=none, arrowHead=none, fontname="Times-Italic", arrowsize=1, color="#9d8400", label="edge_11911",  headlabel="0", taillabel="1" ]
+node_11905 -> node_11904 [dir=none, arrowHead=none, fontname="Times-Italic", arrowsize=1, color="#9d8400", label="edge_11912",  headlabel="0", taillabel="3" ]
+node_11906 -> node_11902 [dir=none, arrowHead=none, fontname="Times-Italic", arrowsize=1, color="#9d8400", label="edge_11913",  headlabel="0", taillabel="1" ]
+node_11906 -> node_11905 [dir=none, arrowHead=none, fontname="Times-Italic", arrowsize=1, color="#9d8400", label="edge_11914",  headlabel="0", taillabel="2" ]
+node_11901 -> node_11895 [dir=none, arrowHead=none, fontname="Times-Italic", arrowsize=1, color="#9d8400", label="edge_11917",  headlabel="0", taillabel="1" ]
+node_11905 -> node_11895 [dir=none, arrowHead=none, fontname="Times-Italic", arrowsize=1, color="#9d8400", label="edge_11918",  headlabel="0", taillabel="2" ]
+node_11926 -> node_11890 [dir=none, arrowHead=none, fontname="Times-Italic", arrowsize=1, color="#9d8400", label="edge_11928",  headlabel="0", taillabel="1" ]
+node_11926 -> node_11906 [dir=none, arrowHead=none, fontname="Times-Italic", arrowsize=1, color="#9d8400", label="edge_11929",  headlabel="0", taillabel="2" ]
+}

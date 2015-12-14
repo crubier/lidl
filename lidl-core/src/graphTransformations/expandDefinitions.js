@@ -41,7 +41,7 @@ export default function expandDefinitions(graph) {
 
           // Add a dependency from the definition to the definition of the sub interaction
           if (_.isUndefined(graph.findDirectedEdge({
-              type: 'DefinitionDependency',
+              type: 'InteractionDefinitionDependency',
               from: {
                 node: defNode
               },
@@ -51,7 +51,7 @@ export default function expandDefinitions(graph) {
             }))) {
             graph
               .addEdge({
-                type: 'DefinitionDependency',
+                type: 'InteractionDefinitionDependency',
                 from: {
                   node: defNode
                 },
@@ -88,7 +88,7 @@ export default function expandDefinitions(graph) {
           .matchNodes(m =>
             graph
             .matchDirectedEdges({
-              type: 'DefinitionDependency',
+              type: 'InteractionDefinitionDependency',
               from: {
                 node: n
               },
