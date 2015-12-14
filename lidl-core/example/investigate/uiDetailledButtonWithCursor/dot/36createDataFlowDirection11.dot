@@ -1,0 +1,197 @@
+digraph g{node_16440 [shape="box", style="filled", color="#dff1f2", fontname="Courier", label="node_16440
+<%=a0%>=theInterface.mouse;
+
+0: {buttons: Number out, position: {x: Number out, y: Number out}}" ]
+node_16442 [shape="box", style="filled", color="#dff1f2", fontname="Courier", label="node_16442
+theInterface.graphics=<%=a0%>;
+
+0: Graphics in" ]
+node_16513 [shape="ellipse", style="filled", color="#ffde2f", fontname="Times", label="node_16513
+Composition
+{x:$y:$width:$height:$text:$pushed:$}
+0: {x: Number, y: Number, width: Number, height: Number, text: Text, pushed: Boolean} out
+1: Number in
+2: Number in
+3: Number in
+4: Number in
+5: Text in
+6: Boolean in" ]
+node_16549 [shape="ellipse", style="filled", color="#ffde2f", fontname="Times", label="node_16549
+Affectation
+$=$
+0: Activation in
+1: {mouse: {buttons: Number, position: {x: Number, y: Number}} out, graphics: Graphics in}
+2: ?" ]
+node_16571 [shape="ellipse", style="filled", color="#ffde2f", fontname="Times", label="node_16571
+Affectation
+$=$
+0: Activation in
+1: {mouse: {buttons: Number, position: {x: Number, y: Number}} out, graphics: Graphics in}
+2: ?" ]
+node_16592 [shape="ellipse", style="filled", color="#ffde2f", fontname="Times", label="node_16592
+Affectation
+$=$
+0: ?
+1: {buttons: Number, position: {x: Number, y: Number}} out
+2: {buttons: Number in, position: {x: Number in, y: Number in}}" ]
+node_16597 [shape="ellipse", style="filled", color="#ffde2f", fontname="Times", label="node_16597
+Affectation
+$=$
+0: ?
+1: {buttons: Number, position: {x: Number, y: Number}} out
+2: {buttons: Number in, position: {x: Number in, y: Number in}}" ]
+node_16615 [shape="ellipse", style="filled", color="#ffde2f", fontname="Times", label="node_16615
+Composition
+{a:$b:$}
+0: {a: Activation, b: Activation} in
+1: ?
+2: ?" ]
+node_16645 [shape="ellipse", style="filled", color="#ffde2f", fontname="Times", label="node_16645
+Affectation
+$=$
+0: Activation in
+1: {mouse: {buttons: Number, position: {x: Number, y: Number}} out, graphics: Graphics in}
+2: ?" ]
+node_16667 [shape="ellipse", style="filled", color="#ffde2f", fontname="Times", label="node_16667
+Affectation
+$=$
+0: Activation in
+1: {mouse: {buttons: Number, position: {x: Number, y: Number}} out, graphics: Graphics in}
+2: ?" ]
+node_16686 [shape="ellipse", style="filled", color="#ffde2f", fontname="Times", label="node_16686
+Composition
+{a:$,b:$}
+0: {a: Graphics, b: Graphics} out
+1: Graphics in
+2: Graphics in" ]
+node_16706 [shape="box", style="filled", color="#dff1f2", fontname="Courier", label="node_16706
+<%=a0%> = active;
+
+0: Activation out" ]
+node_16735 [shape="box", style="filled", color="#dff1f2", fontname="Courier", label="node_16735
+<%=a0%> = cursor;
+
+0: {{buttons: Number, position: {x: Number, y: Number}} -> Graphics} out" ]
+node_16737 [shape="box", style="filled", color="#dff1f2", fontname="Courier", label="node_16737
+<%=a0%> = button;
+
+0: {{x: Number, y: Number, width: Number, height: Number, text: Text, pushed: Boolean} -> Graphics} out" ]
+node_16739 [shape="box", style="filled", color="#dff1f2", fontname="Courier", label="node_16739
+<%=a0%> = all;
+
+0: {Activation -> {a: Activation, b: Activation}} out" ]
+node_16741 [shape="box", style="filled", color="#dff1f2", fontname="Courier", label="node_16741
+<%=a0%> = group;
+
+0: {{a: Graphics, b: Graphics} -> Graphics} out" ]
+node_16743 [shape="box", style="filled", color="#dff1f2", fontname="Courier", label="node_16743
+<%=a0%> = false;
+
+0: Boolean out" ]
+node_16745 [shape="box", style="filled", color="#dff1f2", fontname="Courier", label="node_16745
+<%=a0%> = 10;
+
+0: Number out" ]
+node_16748 [shape="box", style="filled", color="#dff1f2", fontname="Courier", label="node_16748
+<%=a0%> = 200;
+
+0: Number out" ]
+node_16750 [shape="box", style="filled", color="#dff1f2", fontname="Courier", label="node_16750
+<%=a0%> = 100;
+
+0: Number out" ]
+node_16752 [shape="box", style="filled", color="#dff1f2", fontname="Courier", label="node_16752
+<%=a0%> = OK;
+
+0: Text out" ]
+node_16754 [shape="box", style="filled", color="#dff1f2", fontname="Courier", label="node_16754
+if(<%=a0%> === active && <%=a1%>!==null && <%=a1%>!==undefined) {<%=a3%> = <%=a1%>(<%=a2%>);}
+
+0: Activation in
+1: {{buttons: Number, position: {x: Number, y: Number}} -> Graphics} in
+2: {buttons: Number, position: {x: Number, y: Number}} in
+3: Graphics out" ]
+node_16759 [shape="box", style="filled", color="#dff1f2", fontname="Courier", label="node_16759
+if(<%=a0%> === active && <%=a1%>!==null && <%=a1%>!==undefined) {<%=a3%> = <%=a1%>(<%=a2%>);}
+
+0: Activation in
+1: {{x: Number, y: Number, width: Number, height: Number, text: Text, pushed: Boolean} -> Graphics} in
+2: {x: Number, y: Number, width: Number, height: Number, text: Text, pushed: Boolean} in
+3: Graphics out" ]
+node_16764 [shape="box", style="filled", color="#dff1f2", fontname="Courier", label="node_16764
+if(<%=a0%> === active && <%=a1%>!==null && <%=a1%>!==undefined) {<%=a3%> = <%=a1%>(<%=a2%>);}
+
+0: Activation in
+1: {Activation -> {a: Activation, b: Activation}} in
+2: Activation in
+3: {a: Activation, b: Activation} out" ]
+node_16769 [shape="box", style="filled", color="#dff1f2", fontname="Courier", label="node_16769
+if(<%=a0%> === active && <%=a1%>!==null && <%=a1%>!==undefined) {<%=a3%> = <%=a1%>(<%=a2%>);}
+
+0: Activation in
+1: {{a: Graphics, b: Graphics} -> Graphics} in
+2: {a: Graphics, b: Graphics} in
+3: Graphics out" ]
+node_16776 [shape="ellipse", style="filled", color="#ffde2f", fontname="Times", label="node_16776
+Affectation
+$=$
+0: Activation in
+1: {buttons: Number, position: {x: Number, y: Number}} out
+2: {buttons: Number, position: {x: Number, y: Number}} in" ]
+node_16780 [shape="ellipse", style="filled", color="#ffde2f", fontname="Times", label="node_16780
+Affectation
+$=$
+0: Activation in
+1: Graphics in
+2: Graphics out" ]
+node_16784 [shape="ellipse", style="filled", color="#ffde2f", fontname="Times", label="node_16784
+Affectation
+$=$
+0: Activation in
+1: ?
+2: {buttons: Number, position: {x: Number, y: Number}} in" ]
+node_16788 [shape="ellipse", style="filled", color="#ffde2f", fontname="Times", label="node_16788
+Affectation
+$=$
+0: Activation in
+1: Graphics in
+2: Graphics out" ]
+node_16615 -> node_16592 [dir=none, arrowHead=none, fontname="Times-Italic", arrowsize=1, color="#9d8400", label="edge_16616",  headlabel="0", taillabel="1: a" ]
+node_16615 -> node_16597 [dir=none, arrowHead=none, fontname="Times-Italic", arrowsize=1, color="#9d8400", label="edge_16617",  headlabel="0", taillabel="2: b" ]
+node_16706 -> node_16549 [dir=none, arrowHead=none, fontname="Times-Italic", arrowsize=1, color="#9d8400", label="edge_16717",  headlabel="0: Activation in", taillabel="0: Activation out" ]
+node_16706 -> node_16571 [dir=none, arrowHead=none, fontname="Times-Italic", arrowsize=1, color="#9d8400", label="edge_16720",  headlabel="0: Activation in", taillabel="0: Activation out" ]
+node_16706 -> node_16645 [dir=none, arrowHead=none, fontname="Times-Italic", arrowsize=1, color="#9d8400", label="edge_16727",  headlabel="0: Activation in", taillabel="0: Activation out" ]
+node_16706 -> node_16667 [dir=none, arrowHead=none, fontname="Times-Italic", arrowsize=1, color="#9d8400", label="edge_16730",  headlabel="0: Activation in", taillabel="0: Activation out" ]
+node_16743 -> node_16513 [dir=none, arrowHead=none, fontname="Times-Italic", arrowsize=1, color="#9d8400", label="edge_16744",  headlabel="6: Boolean in: pushed", taillabel="0: Boolean out" ]
+node_16745 -> node_16513 [dir=none, arrowHead=none, fontname="Times-Italic", arrowsize=1, color="#9d8400", label="edge_16746",  headlabel="1: Number in: x", taillabel="0: Number out" ]
+node_16745 -> node_16513 [dir=none, arrowHead=none, fontname="Times-Italic", arrowsize=1, color="#9d8400", label="edge_16747",  headlabel="2: Number in: y", taillabel="0: Number out" ]
+node_16748 -> node_16513 [dir=none, arrowHead=none, fontname="Times-Italic", arrowsize=1, color="#9d8400", label="edge_16749",  headlabel="3: Number in: width", taillabel="0: Number out" ]
+node_16750 -> node_16513 [dir=none, arrowHead=none, fontname="Times-Italic", arrowsize=1, color="#9d8400", label="edge_16751",  headlabel="4: Number in: height", taillabel="0: Number out" ]
+node_16752 -> node_16513 [dir=none, arrowHead=none, fontname="Times-Italic", arrowsize=1, color="#9d8400", label="edge_16753",  headlabel="5: Text in: text", taillabel="0: Text out" ]
+node_16754 -> node_16706 [dir=none, arrowHead=none, fontname="Times-Italic", arrowsize=1, color="#9d8400", label="edge_16755",  headlabel="0: Activation out", taillabel="0: Activation in" ]
+node_16754 -> node_16735 [dir=none, arrowHead=none, fontname="Times-Italic", arrowsize=1, color="#9d8400", label="edge_16756",  headlabel="0: {{buttons: Number, position: {x: Number, y: Number}} -> Graphics} out", taillabel="1: {{buttons: Number, position: {x: Number, y: Number}} -> Graphics} in" ]
+node_16759 -> node_16706 [dir=none, arrowHead=none, fontname="Times-Italic", arrowsize=1, color="#9d8400", label="edge_16760",  headlabel="0: Activation out", taillabel="0: Activation in" ]
+node_16759 -> node_16737 [dir=none, arrowHead=none, fontname="Times-Italic", arrowsize=1, color="#9d8400", label="edge_16761",  headlabel="0: {{x: Number, y: Number, width: Number, height: Number, text: Text, pushed: Boolean} -> Graphics} out", taillabel="1: {{x: Number, y: Number, width: Number, height: Number, text: Text, pushed: Boolean} -> Graphics} in" ]
+node_16759 -> node_16513 [dir=none, arrowHead=none, fontname="Times-Italic", arrowsize=1, color="#9d8400", label="edge_16762",  headlabel="0: {x: Number, y: Number, width: Number, height: Number, text: Text, pushed: Boolean} out", taillabel="2: {x: Number, y: Number, width: Number, height: Number, text: Text, pushed: Boolean} in" ]
+node_16764 -> node_16706 [dir=none, arrowHead=none, fontname="Times-Italic", arrowsize=1, color="#9d8400", label="edge_16765",  headlabel="0: Activation out", taillabel="0: Activation in" ]
+node_16764 -> node_16739 [dir=none, arrowHead=none, fontname="Times-Italic", arrowsize=1, color="#9d8400", label="edge_16766",  headlabel="0: {Activation -> {a: Activation, b: Activation}} out", taillabel="1: {Activation -> {a: Activation, b: Activation}} in" ]
+node_16764 -> node_16615 [dir=none, arrowHead=none, fontname="Times-Italic", arrowsize=1, color="#9d8400", label="edge_16768",  headlabel="0: {a: Activation, b: Activation} in", taillabel="3: {a: Activation, b: Activation} out" ]
+node_16769 -> node_16706 [dir=none, arrowHead=none, fontname="Times-Italic", arrowsize=1, color="#9d8400", label="edge_16770",  headlabel="0: Activation out", taillabel="0: Activation in" ]
+node_16769 -> node_16741 [dir=none, arrowHead=none, fontname="Times-Italic", arrowsize=1, color="#9d8400", label="edge_16771",  headlabel="0: {{a: Graphics, b: Graphics} -> Graphics} out", taillabel="1: {{a: Graphics, b: Graphics} -> Graphics} in" ]
+node_16769 -> node_16686 [dir=none, arrowHead=none, fontname="Times-Italic", arrowsize=1, color="#9d8400", label="edge_16772",  headlabel="0: {a: Graphics, b: Graphics} out", taillabel="2: {a: Graphics, b: Graphics} in" ]
+node_16776 -> node_16706 [dir=none, arrowHead=none, fontname="Times-Italic", arrowsize=1, color="#9d8400", label="edge_16779",  headlabel="0: Activation out", taillabel="0: Activation in" ]
+node_16780 -> node_16706 [dir=none, arrowHead=none, fontname="Times-Italic", arrowsize=1, color="#9d8400", label="edge_16783",  headlabel="0: Activation out", taillabel="0: Activation in" ]
+node_16784 -> node_16706 [dir=none, arrowHead=none, fontname="Times-Italic", arrowsize=1, color="#9d8400", label="edge_16787",  headlabel="0: Activation out", taillabel="0: Activation in" ]
+node_16788 -> node_16706 [dir=none, arrowHead=none, fontname="Times-Italic", arrowsize=1, color="#9d8400", label="edge_16791",  headlabel="0: Activation out", taillabel="0: Activation in" ]
+node_16754 -> node_16776 [dir=none, arrowHead=none, fontname="Times-Italic", arrowsize=1, color="#9d8400", label="edge_16822",  headlabel="1: {buttons: Number, position: {x: Number, y: Number}} out", taillabel="2: {buttons: Number, position: {x: Number, y: Number}} in" ]
+node_16780 -> node_16754 [dir=none, arrowHead=none, fontname="Times-Italic", arrowsize=1, color="#9d8400", label="edge_16823",  headlabel="3: Graphics out", taillabel="1: Graphics in" ]
+node_16788 -> node_16759 [dir=none, arrowHead=none, fontname="Times-Italic", arrowsize=1, color="#9d8400", label="edge_16824",  headlabel="3: Graphics out", taillabel="1: Graphics in" ]
+node_16592 -> node_16776 [dir=none, arrowHead=none, fontname="Times-Italic", arrowsize=1, color="#9d8400", label="edge_16826",  headlabel="2: {buttons: Number, position: {x: Number, y: Number}} in", taillabel="1: {buttons: Number, position: {x: Number, y: Number}} out" ]
+node_16597 -> node_16784 [dir=none, arrowHead=none, fontname="Times-Italic", arrowsize=1, color="#9d8400", label="edge_16828",  headlabel="2: {buttons: Number, position: {x: Number, y: Number}} in", taillabel="1: {buttons: Number, position: {x: Number, y: Number}} out" ]
+node_16592 -> node_16440 [dir=none, arrowHead=none, fontname="Times-Italic", arrowsize=1, color="#9d8400", label="edge_16829",  headlabel="0: {buttons: Number out, position: {x: Number out, y: Number out}}", taillabel="2: {buttons: Number in, position: {x: Number in, y: Number in}}" ]
+node_16597 -> node_16440 [dir=none, arrowHead=none, fontname="Times-Italic", arrowsize=1, color="#9d8400", label="edge_16830",  headlabel="0: {buttons: Number out, position: {x: Number out, y: Number out}}", taillabel="2: {buttons: Number in, position: {x: Number in, y: Number in}}" ]
+node_16764 -> node_16706 [dir=none, arrowHead=none, fontname="Times-Italic", arrowsize=1, color="#9d8400", label="edge_16831",  headlabel="0: Activation out", taillabel="2: Activation in" ]
+node_16686 -> node_16780 [dir=none, arrowHead=none, fontname="Times-Italic", arrowsize=1, color="#9d8400", label="edge_16833",  headlabel="2: Graphics out", taillabel="1: Graphics in: a" ]
+node_16686 -> node_16788 [dir=none, arrowHead=none, fontname="Times-Italic", arrowsize=1, color="#9d8400", label="edge_16835",  headlabel="2: Graphics out", taillabel="2: Graphics in: b" ]
+node_16442 -> node_16769 [dir=none, arrowHead=none, fontname="Times-Italic", arrowsize=1, color="#9d8400", label="edge_16836",  headlabel="3: Graphics out", taillabel="0: Graphics in" ]
+}
