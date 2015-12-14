@@ -214,23 +214,23 @@ var cursor = function(mouse){
 
 ///////////////////////////////////////////////////////////////////////
 // Declaration of variables (Edges of the graph)
-var edge_6733 = inactive;
-var edge_6734 = inactive;
-var edge_6751 = inactive;
-var edge_6753 = inactive;
+var edge_10555 = inactive;
+var edge_10556 = inactive;
+var edge_10572 = inactive;
+var edge_10573 = inactive;
 
 ///////////////////////////////////////////////////////////////////////
 // Data flow processing (Nodes of the graph)
-// node_6730
-edge_6734 = addOne;
-// node_6727
-edge_6733 = active;
-// node_6691
-edge_6751=theInterface.theNumber;
-// node_6732
-if(edge_6733 === active && edge_6734!==null && edge_6734!==undefined) {edge_6753 = edge_6734(edge_6751);}
-// node_6693
-theInterface.theResult=edge_6753;
+// node_10552
+edge_10556 = addOne;
+// node_10549
+edge_10555 = active;
+// node_10505
+edge_10572=theInterface.theNumber;
+// node_10554
+if(edge_10555 === active && edge_10556!==null && edge_10556!==undefined) {edge_10573 = edge_10556(edge_10572);}
+// node_10507
+theInterface.theResult=edge_10573;
 
 
 ///////////////////////////////////////////////////////////////////////

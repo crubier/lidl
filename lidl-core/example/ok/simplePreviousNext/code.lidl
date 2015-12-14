@@ -3,9 +3,9 @@ interaction
 is
   (
     ({
-      theNumber:(x?)
-      theResult:(y!)
+      theNumber:((x)?)
+      theResult:((y)!)
     })
     with behaviour
-    (get (y?) from previous and set (x!) for next)
+    ( ((y)?) = previous ((x)!) )
   )

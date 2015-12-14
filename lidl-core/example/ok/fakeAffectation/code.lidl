@@ -10,9 +10,9 @@ with
 is
   (
     ({
-      theNumber:(theNumber?)
-      theResult:(theResult!)
+      theNumber:((theNumber)?)
+      theResult:((theResult)!)
     })
   with behaviour
-    ((theResult?)=fake=(theNumber!))
+    (((theResult)?)=fake=((theNumber)!))
   )

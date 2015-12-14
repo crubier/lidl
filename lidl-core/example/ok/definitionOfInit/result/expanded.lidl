@@ -1,56 +1,56 @@
 ({
-    theNumber:(variable theNumber?)
+    theNumber:((theNumber)?)
     theResult:(
-      (not (
-      ( (
-      (previous(1)!)
+      ((#not (
+      ( (#(
+      ((the previous(1))!)
       with behaviour
-      ((previous(1)?)= previous (1))
-    ) is active!)
+      (((the previous(1))?)= previous (1))
+    ) is active)!)
       with behaviour
       (apply (function isActive) to (
-      (previous(1)!)
+      ((the previous(1))!)
       with behaviour
-      ((previous(1)?)= previous (1))
-    ) and get ( (
-      (previous(1)!)
+      (((the previous(1))?)= previous (1))
+    ) and get ( (#(
+      ((the previous(1))!)
       with behaviour
-      ((previous(1)?)= previous (1))
-    ) is active?) )
-    ) !)
+      (((the previous(1))?)= previous (1))
+    ) is active)?) )
+    )) !)
       with behaviour
       (apply (function boolNot) to (
-      ( (
-      (previous(1)!)
+      ( (#(
+      ((the previous(1))!)
       with behaviour
-      ((previous(1)?)= previous (1))
-    ) is active!)
-      with behaviour
-      (apply (function isActive) to (
-      (previous(1)!)
-      with behaviour
-      ((previous(1)?)= previous (1))
-    ) and get ( (
-      (previous(1)!)
-      with behaviour
-      ((previous(1)?)= previous (1))
-    ) is active?) )
-    ) and get (not (
-      ( (
-      (previous(1)!)
-      with behaviour
-      ((previous(1)?)= previous (1))
-    ) is active!)
+      (((the previous(1))?)= previous (1))
+    ) is active)!)
       with behaviour
       (apply (function isActive) to (
-      (previous(1)!)
+      ((the previous(1))!)
       with behaviour
-      ((previous(1)?)= previous (1))
-    ) and get ( (
-      (previous(1)!)
+      (((the previous(1))?)= previous (1))
+    ) and get ( (#(
+      ((the previous(1))!)
       with behaviour
-      ((previous(1)?)= previous (1))
-    ) is active?) )
-    )?) )
+      (((the previous(1))?)= previous (1))
+    ) is active)?) )
+    ) and get ((#not (
+      ( (#(
+      ((the previous(1))!)
+      with behaviour
+      (((the previous(1))?)= previous (1))
+    ) is active)!)
+      with behaviour
+      (apply (function isActive) to (
+      ((the previous(1))!)
+      with behaviour
+      (((the previous(1))?)= previous (1))
+    ) and get ( (#(
+      ((the previous(1))!)
+      with behaviour
+      (((the previous(1))?)= previous (1))
+    ) is active)?) )
+    ))?) )
     )
   })

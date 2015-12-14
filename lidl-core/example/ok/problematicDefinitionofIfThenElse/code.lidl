@@ -9,9 +9,9 @@ with
     interaction (isEqual):{{a:Number,b:Number}->Boolean}out is (function isEqual)
   is
     (
-      (result of (a)==(b)!)
+      ((result of (a)==(b))!)
       with behaviour
-      (apply (isEqual) to ({a:(a),b:(b)}) and get (result of (a)==(b)?) )
+      (apply (isEqual) to ({a:(a),b:(b)}) and get ((result of (a)==(b))?) )
     )
 
 
@@ -21,13 +21,13 @@ with
     interaction (whenThenElse):{{cond:Boolean,source:Activation}->{a:Activation,b:Activation}}out is (function whenThenElse)
   is
     (
-      (activation of when (cond) then (a) else (b)?)
+      ((activation of when (cond) then (a) else (b))?)
       with behaviour
       (
         apply
         (whenThenElse)
         to
-        ({  cond:(cond)  source:(activation of when (cond) then (a) else (b)!)   })
+        ({  cond:(cond)  source:((activation of when (cond) then (a) else (b))!)   })
         and get
         ({a:(a) b:(b)})
       )
@@ -37,17 +37,17 @@ with
       (if (cond:Boolean in) then (a:Number in) else (b:Number in)):Number out
     is
       (
-        (result of if (cond) then (a) else (b)!)
+        ((result of if (cond) then (a) else (b))!)
         with behaviour
         (
           when
           (cond)
           then
-          ((result of if (cond) then (a) else (b)?) = (a))
+          (((result of if (cond) then (a) else (b))?) = (a))
           else
-          ((result of if (cond) then (a) else (b)?) = (b))
+          (((result of if (cond) then (a) else (b))?) = (b))
         )
       )
 
 is
-  (if((a)==(1))then({theNumber:(b?),theResult:(b!)})else({theNumber:(b?),theResult:(-8000)}))
+  (if((a)==(1))then({theNumber:((b)?),theResult:((b)!)})else({theNumber:((b)?),theResult:(-8000)}))

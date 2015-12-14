@@ -1,35 +1,38 @@
-digraph g{node_3829 [shape="box", style="filled", color="#dff1f2", fontname="Courier", label="node_3829
+digraph g{node_4360 [shape="box", style="filled", color="#dff1f2", fontname="Courier", label="node_4360
 <%=a0%>=theInterface.theNumber;
 
 0: Number out" ]
-node_3831 [shape="box", style="filled", color="#dff1f2", fontname="Courier", label="node_3831
+node_4362 [shape="box", style="filled", color="#dff1f2", fontname="Courier", label="node_4362
 theInterface.theResult=<%=a0%>;
 
 0: Number in" ]
-node_3881 [shape="ellipse", style="filled", color="#ffde2f", fontname="Times", label="node_3881
+node_4423 [shape="ellipse", style="filled", color="#ffde2f", fontname="Times", label="node_4423
+Affectation
 $=$
 0: Activation in
 1: Number out
 2: Number in" ]
-node_3889 [shape="box", style="filled", color="#dff1f2", fontname="Courier", label="node_3889
+node_4431 [shape="box", style="filled", color="#dff1f2", fontname="Courier", label="node_4431
 <%=a0%> = active;
 
 0: Activation out" ]
-node_3907 [shape="ellipse", style="filled", color="#ffde2f", fontname="Times", label="node_3907
+node_4444 [shape="ellipse", style="filled", color="#ffde2f", fontname="Times", label="node_4444
+Affectation
 $=$
 0: Activation in
 1: Number out
 2: Number in" ]
-node_3911 [shape="ellipse", style="filled", color="#ffde2f", fontname="Times", label="node_3911
+node_4448 [shape="ellipse", style="filled", color="#ffde2f", fontname="Times", label="node_4448
+Affectation
 $=$
 0: Activation in
 1: Number in
 2: Number out" ]
-node_3889 -> node_3881 [dir=none, arrowHead=none, fontname="Times-Italic", arrowsize=1, color="#9d8400", label="edge_3894",  headlabel="0: Activation in", taillabel="0: Activation out" ]
-node_3907 -> node_3881 [dir=none, arrowHead=none, fontname="Times-Italic", arrowsize=1, color="#9d8400", label="edge_3909",  headlabel="1: Number out", taillabel="2: Number in" ]
-node_3907 -> node_3889 [dir=none, arrowHead=none, fontname="Times-Italic", arrowsize=1, color="#9d8400", label="edge_3910",  headlabel="0: Activation out", taillabel="0: Activation in" ]
-node_3911 -> node_3881 [dir=none, arrowHead=none, fontname="Times-Italic", arrowsize=1, color="#9d8400", label="edge_3913",  headlabel="2: Number in", taillabel="2: Number out" ]
-node_3911 -> node_3889 [dir=none, arrowHead=none, fontname="Times-Italic", arrowsize=1, color="#9d8400", label="edge_3914",  headlabel="0: Activation out", taillabel="0: Activation in" ]
-node_3911 -> node_3829 [dir=none, arrowHead=none, fontname="Times-Italic", arrowsize=1, color="#9d8400", label="edge_3921",  headlabel="0: Number out", taillabel="1: Number in" ]
-node_3907 -> node_3831 [dir=none, arrowHead=none, fontname="Times-Italic", arrowsize=1, color="#9d8400", label="edge_3922",  headlabel="0: Number in", taillabel="1: Number out" ]
+node_4431 -> node_4423 [dir=none, arrowHead=none, fontname="Times-Italic", arrowsize=1, color="#9d8400", label="edge_4436",  headlabel="0: Activation in", taillabel="0: Activation out" ]
+node_4444 -> node_4423 [dir=none, arrowHead=none, fontname="Times-Italic", arrowsize=1, color="#9d8400", label="edge_4446",  headlabel="1: Number out", taillabel="2: Number in" ]
+node_4444 -> node_4431 [dir=none, arrowHead=none, fontname="Times-Italic", arrowsize=1, color="#9d8400", label="edge_4447",  headlabel="0: Activation out", taillabel="0: Activation in" ]
+node_4448 -> node_4423 [dir=none, arrowHead=none, fontname="Times-Italic", arrowsize=1, color="#9d8400", label="edge_4450",  headlabel="2: Number in", taillabel="2: Number out" ]
+node_4448 -> node_4431 [dir=none, arrowHead=none, fontname="Times-Italic", arrowsize=1, color="#9d8400", label="edge_4451",  headlabel="0: Activation out", taillabel="0: Activation in" ]
+node_4448 -> node_4360 [dir=none, arrowHead=none, fontname="Times-Italic", arrowsize=1, color="#9d8400", label="edge_4458",  headlabel="0: Number out", taillabel="1: Number in" ]
+node_4444 -> node_4362 [dir=none, arrowHead=none, fontname="Times-Italic", arrowsize=1, color="#9d8400", label="edge_4459",  headlabel="0: Number in", taillabel="1: Number out" ]
 }

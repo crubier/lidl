@@ -9,6 +9,6 @@ with
     is
       (function addOne)
   is
-    ((result of bob(x)!) with behaviour ((addOne)(x)=(result of bob(x)?)))
+    (((result of bob(x))!) with behaviour ((addOne)(x)=((result of bob(x))?)))
 is
-  ({theNumber:(a?),theResult:(bob(a!))})
+  ({theNumber:((a)?),theResult:(bob((a)!))})

@@ -10,7 +10,7 @@ with
     is
       (function addition)
   is
-    (((a)+(b)!) with behaviour ((addition)({a:(a)b:(b)})=((a)+(b)?)))
+    (((#(a)+(b))!) with behaviour ((addition)({a:(a)b:(b)})=((#(a)+(b))?)))
 
 is
   ((9)+(9))

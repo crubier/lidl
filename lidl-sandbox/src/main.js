@@ -71,7 +71,7 @@ var worker = require('./worker.js');
 //               value: "Graph "+x
 //             })).value()));
 
-var buildKey = '45151ff7-f5d4-4274-9e9c-846f79696571'; // Unique key that represent the current version of the LIDL Library, update this every time you want to deprecate the current lib and load the new one in client browsers
+var buildKey = '6a998f3e-a7c3-47ff-9159-e2edf8480857'; // Unique key that represent the current version of the LIDL Library, update this every time you want to deprecate the current lib and load the new one in client browsers
 
 export default class Main extends Component {
 

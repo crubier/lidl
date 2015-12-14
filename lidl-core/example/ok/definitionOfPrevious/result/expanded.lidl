@@ -1,8 +1,8 @@
 ({
-    theNumber:(theNumber?)
+    theNumber:((x)?)
     theResult:(
-      (previous(theNumber!)!)
+      ((the previous((x)!))!)
       with behaviour
-      ( (previous(theNumber!)?) = previous (theNumber!))
+      ( ((the previous((x)!))?) = previous ((x)!))
     )
   })

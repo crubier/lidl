@@ -213,15 +213,15 @@ with
     interaction (return1):{Void->Number} out is (function return1)
   is
     (
-      ( result1!)
+      ( (result1)!)
       with behaviour
       (
         apply
         (return1)
         to
-        ( ok!)
+        ( (ok)!)
         and get
-        ( result1?)
+        ( (result1)?)
       )
     )
 
@@ -231,7 +231,7 @@ with
     interaction (addition):{{a:Number,b:Number}->Number} out is (function addition)
   is
     (
-      ( result of (a)+(b)!)
+      ( (result of (a)+(b))!)
       with behaviour
       (
         apply
@@ -239,19 +239,19 @@ with
         to
         ({a:(a)b:(b)})
         and get
-        ( result of (a)+(b)?)
+        ( (result of (a)+(b))?)
       )
     )
 
 is
   (
     ({
-      theNumber:(theNumber?)
-      theResult:(theResult!)
+      theNumber:((theNumber)?)
+      theResult:((theResult)!)
     })
   with behaviour
     (
-      (theResult?) =((the magic number )+(theNumber!))
+      ((theResult)?) =((the magic number )+((theNumber)!))
     )
   )
 `,
@@ -315,11 +315,11 @@ with
 is
   (
     ({
-        theNumber:  (x?)
-        theResult:  (y!)
-      })
+      theNumber:  ((x)?)
+      theResult:  ((y)!)
+    })
     with behaviour
-    (apply (add one) to (x!) and get (y?))
+    (apply (add one) to ((x)!) and get ((y)?) )
   )
 `,
      scenario : `[
@@ -358,17 +358,17 @@ with
 is
   (
     ({
-      theNumber:(x?)
-      theOther:(y?)
-      theResult:(z!)
+      theNumber:((x)?)
+      theOther:((y)?)
+      theResult:((z)!)
     })
    with behaviour
     (apply
       (addition)
       to
-      ({a:(x!)b:(y!)})
+      ({a:((x)!)b:((y)!)})
       and get
-      (z?)
+      ((z)?)
     )
   )
 `,
@@ -408,17 +408,17 @@ with
 is
   (
     ({
-      theNumber:( theNumber?)
-      theOther:( y?)
-      theResult:( theResult!)
-      theLast:( wow!)
+      theNumber:( (theNumber)?)
+      theOther:( (y)?)
+      theResult:( (theResult)!)
+      theLast:( (wow)!)
     })
   with behaviour
     ( apply (cool)
       to
-      ({a:( theNumber!)b:( y!)})
+      ({a:( (theNumber)!)b:( (y)!)})
       and get
-      ({sum:( theResult?)diff:( wow?)})
+      ({sum:( (theResult)?)diff:( (wow)?)})
     )
   )
 `,
@@ -456,9 +456,9 @@ with
     (previous (x:Number in)):Number out
   is
     (
-      (previous(x)!)
+      ((the previous(x))!)
       with behaviour
-      ((previous(x)?)= previous (x))
+      (((the previous(x))?)= previous (x))
     )
 
   interaction
@@ -467,9 +467,9 @@ with
     interaction (is equal):{{a:Number,b:Number}->Boolean}out is (function isEqual)
   is
     (
-      (result of (a)==(b)!)
+      ((result of (a)==(b))!)
       with behaviour
-      (apply (is equal) to ({a:(a),b:(b)}) and get ( result of (a)==(b)?) )
+      (apply (is equal) to ({a:(a),b:(b)}) and get ( (result of (a)==(b))?) )
     )
 
   interaction
@@ -478,9 +478,9 @@ with
     interaction (boolean negation):{Boolean->Boolean} out is (function boolNot)
   is
     (
-      (not (a) !)
+      ((#not (a)) !)
       with behaviour
-      (apply (boolean negation) to (a) and get (not (a)?) )
+      (apply (boolean negation) to (a) and get ((#not (a))?) )
     )
 
   interaction
@@ -489,9 +489,9 @@ with
     interaction (is active):{Number->Boolean} out is (function isActive)
   is
     (
-      ( (a) is active!)
+      ( (#(a) is active)!)
       with behaviour
-      (apply (is active) to (a) and get ( (a) is active?) )
+      (apply (is active) to (a) and get ( (#(a) is active)?) )
     )
 
   interaction
@@ -500,7 +500,7 @@ with
     interaction (addition):{{a:Number,b:Number}->Number} out is (function addition)
   is
     (
-      ( result of (a)+(b)!)
+      ( (result of (a)+(b))!)
       with behaviour
       (
         apply
@@ -508,7 +508,7 @@ with
         to
         ({a:(a)b:(b)})
         and get
-        ( result of (a)+(b)?)
+        ( (result of (a)+(b))?)
       )
     )
 
@@ -519,7 +519,7 @@ with
 
 is
   ({
-    theNumber:(variable theNumber?)
+    theNumber:((theNumber)?)
     theResult:(init)
   })
 `,
@@ -557,15 +557,15 @@ with
     (previous (x:Number in)):Number out
   is
     (
-      (previous(x)!)
+      ((the previous(x))!)
       with behaviour
-      ( (previous(x)?) = previous (x))
+      ( ((the previous(x))?) = previous (x))
     )
 
 is
   ({
-    theNumber:(theNumber?)
-    theResult:(previous(theNumber!))
+    theNumber:((x)?)
+    theResult:(previous((x)!))
   })
 `,
      scenario : `[
@@ -605,9 +605,9 @@ with
     interaction (is equal):{{a:Number,b:Number}->Boolean}out is (function isEqual)
   is
     (
-      (variable result of (u)==(v)!)
+      ( (result of (u)==(v))!)
       with behaviour
-      (apply (is equal) to ({a:(u),b:(v)}) and get (variable result of (u)==(v)?) )
+      (apply (is equal) to ({a:(u),b:(v)}) and get ( (result of (u)==(v))?) )
     )
 
 
@@ -620,13 +620,13 @@ with
       (function whenThenElse)
   is
     (
-      (variable activation of when (cond) then (a) else (b)?)
+      ( (activation of when (cond) then (a) else (b))?)
       with behaviour
       (
         apply
         (whenThenElse)
         to
-        ({  cond:(cond)  source:(variable activation of when (cond) then (a) else (b)!)   })
+        ({  cond:(cond)  source:( (activation of when (cond) then (a) else (b))!)   })
         and get
         ({a:(a) b:(b)})
       )
@@ -636,15 +636,15 @@ with
       (if (cond:Boolean in) then (x:Number in) else (y:Number in)):Number out
     is
     (
-      (variable result of if (cond) then (x) else (y)?)
+      ( (result of if (cond) then (x) else (y))?)
       with behaviour
       (
         when
         (cond)
         then
-        ((variable result of if (cond) then (x) else (y)!) = (x))
+        (( (result of if (cond) then (x) else (y))!) = (x))
         else
-        ((variable result of if (cond) then (x) else (y)!) = (y))
+        (( (result of if (cond) then (x) else (y))!) = (y))
       )
     )
 
@@ -680,18 +680,18 @@ with
   interaction
     ((x:{theNumber:Number in,theResult:Number out}).theNumber):Number out
   is
-    (((x).theNumber!) with behaviour (({theNumber:((x).theNumber?)})=(x)))
+    (((#(x).theNumber)!) with behaviour (({theNumber:((#(x).theNumber)?)})=(x)))
 
   interaction
     ((x:{theNumber:Number in,theResult:Number out}).theResult):Number in
   is
-    (((x).theResult!) with behaviour ((x)=({theResult:((x).theResult?)})))
+    (((#(x).theResult)!) with behaviour ((x)=({theResult:((#(x).theResult)?)})))
 
 is
   (
-    (variable this?)
+    ( (this)?)
     with behaviour
-    (((variable this!).theResult)=((variable this!).theNumber) )
+    ((( (this)!).theResult)=(( (this)!).theNumber) )
   )
 `,
      scenario : `[
@@ -732,11 +732,11 @@ with
 is
   (
     ({
-      theNumber:(theNumber?)
-      theResult:(theResult!)
+      theNumber:((theNumber)?)
+      theResult:((theResult)!)
     })
   with behaviour
-    ((theResult?)=fake=(theNumber!))
+    (((theResult)?)=fake=((theNumber)!))
   )
 `,
      scenario : `[
@@ -772,11 +772,11 @@ with
 is
   (
     ({
-      theNumber:(theNumber?)
-      theResult:(theResult!)
+      theNumber:((theNumber)?)
+      theResult:((theResult)!)
     })
     with behaviour
-    (apply(add one) to (theNumber!) and get (theResult?))
+    (apply(add one) to ((theNumber)!) and get ((theResult)?))
   )
 `,
      scenario : `[
@@ -817,7 +817,7 @@ with
     is
       (function addition)
   is
-    (((a)+(b)!) with behaviour ((addition)({a:(a)b:(b)})=((a)+(b)?)))
+    (((#(a)+(b))!) with behaviour ((addition)({a:(a)b:(b)})=((#(a)+(b))?)))
 
 is
   ((9)+(9))
@@ -843,6 +843,211 @@ is
 ]
 `
 },{
+    name: 'Problematic Definition Of Make Flow',
+fileName: 'example/ok/problematicDefinitionOfMakeFlow',
+     code : `interaction
+  (bob):{theNumber:Number in,theResult:Number out}
+with
+
+  interaction
+    (previous (x:Number in)):Number out
+  is
+    (
+      ((the previous(x))!)
+      with behaviour
+      (((the previous(x))?)= previous (x))
+    )
+
+  interaction
+    (not(a:Boolean in)):Boolean out
+  with
+    interaction (boolean negation):{Boolean->Boolean} out is (function boolNot)
+  is
+    (
+      ((#not (a))!)
+      with behaviour
+      ((boolean negation)  (a) = ((#not (a))?) )
+    )
+
+  interaction
+    ((a:Number in) is active):Boolean out
+  with
+    interaction (is active):{Number->Boolean}out is (function isActive)
+  is
+    (
+      ((#(a) is active)!)
+      with behaviour
+      (apply (is active) to (a) and get ((#(a) is active)?) )
+    )
+
+  interaction
+    ((a:Number in)+(b:Number in)):Number out
+  with
+    interaction (addition):{{a:Number,b:Number}->Number} out is (function addition)
+  is
+    (
+      ((result of (a)+(b))!)
+      with behaviour
+      (
+        apply
+        (addition)
+        to
+        ({a:(a)b:(b)})
+        and get
+        ((result of (a)+(b))?)
+      )
+    )
+
+
+  interaction
+    (init):Boolean out
+  is
+    ( not ( (previous(1) ) is active ) )
+
+  interaction
+    (all (a:Activation out) else (b:Activation out)):Activation in
+  with
+    interaction (func all):{Activation->{a:Activation,b:Activation}} out is (function all)
+  is
+    (
+      ((variable all (a) (b))?)
+      with behaviour
+      (
+        apply
+        (function all)
+        to
+        ((variable all (a) (b))!)
+        and get
+        ({a:(a) b:(b)})
+      )
+    )
+
+  interaction
+    ( (a:Number in) fallback to (b:Number in)):Number out
+  is
+    (
+      if ((a) is active)
+      then (a)
+      else (b)
+    )
+
+
+
+  interaction
+    ((u:Number in)==(v:Number in)):Boolean out
+  with
+    interaction (is equal):{{a:Number,b:Number}->Boolean}out is (function isEqual)
+  is
+    (
+      ((result of (u)==(v))!)
+      with behaviour
+      (apply (is equal) to ({a:(u),b:(v)}) and get ((result of (u)==(v))?) )
+    )
+
+
+  interaction
+    (when (cond:Boolean in) then (a:Activation out) else (b:Activation out)):Activation in
+  with
+    interaction
+      (whenThenElse):{{cond:Boolean,source:Activation}->{a:Activation,b:Activation}}out
+    is
+      (function whenThenElse)
+  is
+    (
+      ((activation of when (cond) then (a) else (b) )?)
+      with behaviour
+      (
+        apply
+        (whenThenElse)
+        to
+        ({  cond:(cond)  source:((activation of when (cond) then (a) else (b)) !)   })
+        and get
+        ({a:(a) b:(b)})
+      )
+    )
+
+  interaction
+    (if (cond:Boolean in) then (x:Number in) else (y:Number in)):Number out
+  is
+    (
+      ( (result of if (cond) then (x) else (y)) !)
+      with behaviour
+      (
+        when
+        (cond)
+        then
+        (( (result of if (cond) then (x) else (y) )?) = (x))
+        else
+        (( (result of if (cond) then (x) else (y) )?) = (y))
+      )
+    )
+
+  interaction
+    (make (x:Number ref) flow initially from (y:Number in)):Activation in
+  is
+    (
+      ((x)?) = (
+                  ((new (x))!)
+                  fallback to
+                  (if (init) then (y) else (previous ((x)!)) )
+                )
+    )
+
+
+is
+  (
+    ({
+      theNumber:((new ( y ))?)
+      theResult:(( y )!)
+    })
+    with behaviour
+    (make ( y ) flow initially from (1) )
+  )
+`,
+     scenario : `[
+  {
+    "args":  {},
+    "inter":  { "theNumber": null,  "theResult": 1 }
+  },
+  {
+    "args":  {},
+    "inter":  { "theNumber": null,  "theResult": 1 }
+  },
+  {
+    "args":  {},
+    "inter":  { "theNumber": 78,  "theResult": 78 }
+  },
+  {
+    "args":  {},
+    "inter":  { "theNumber": null,  "theResult": 78 }
+  },
+  {
+    "args":  {},
+    "inter":  { "theNumber": 67,  "theResult": 67 }
+  },
+  {
+    "args":  {},
+    "inter":  { "theNumber": -4,  "theResult": -4 }
+  },
+  {
+    "args":  {},
+    "inter":  { "theNumber": null,  "theResult": -4 }
+  },
+  {
+    "args":  {},
+    "inter":  { "theNumber": null,  "theResult": -4 }
+  },
+  {
+    "args":  {},
+    "inter":  { "theNumber": null,  "theResult": -4 }
+  },
+  {
+    "args":  {},
+    "inter":  { "theNumber": 42,  "theResult": 42 }
+  }
+]
+`
+},{
     name: 'Problematic Definitionof If Then Else',
 fileName: 'example/ok/problematicDefinitionofIfThenElse',
      code : `interaction
@@ -856,9 +1061,9 @@ with
     interaction (isEqual):{{a:Number,b:Number}->Boolean}out is (function isEqual)
   is
     (
-      (result of (a)==(b)!)
+      ((result of (a)==(b))!)
       with behaviour
-      (apply (isEqual) to ({a:(a),b:(b)}) and get (result of (a)==(b)?) )
+      (apply (isEqual) to ({a:(a),b:(b)}) and get ((result of (a)==(b))?) )
     )
 
 
@@ -868,13 +1073,13 @@ with
     interaction (whenThenElse):{{cond:Boolean,source:Activation}->{a:Activation,b:Activation}}out is (function whenThenElse)
   is
     (
-      (activation of when (cond) then (a) else (b)?)
+      ((activation of when (cond) then (a) else (b))?)
       with behaviour
       (
         apply
         (whenThenElse)
         to
-        ({  cond:(cond)  source:(activation of when (cond) then (a) else (b)!)   })
+        ({  cond:(cond)  source:((activation of when (cond) then (a) else (b))!)   })
         and get
         ({a:(a) b:(b)})
       )
@@ -884,20 +1089,20 @@ with
       (if (cond:Boolean in) then (a:Number in) else (b:Number in)):Number out
     is
       (
-        (result of if (cond) then (a) else (b)!)
+        ((result of if (cond) then (a) else (b))!)
         with behaviour
         (
           when
           (cond)
           then
-          ((result of if (cond) then (a) else (b)?) = (a))
+          (((result of if (cond) then (a) else (b))?) = (a))
           else
-          ((result of if (cond) then (a) else (b)?) = (b))
+          (((result of if (cond) then (a) else (b))?) = (b))
         )
       )
 
 is
-  (if((a)==(1))then({theNumber:(b?),theResult:(b!)})else({theNumber:(b?),theResult:(-8000)}))
+  (if((a)==(1))then({theNumber:((b)?),theResult:((b)!)})else({theNumber:((b)?),theResult:(-8000)}))
 `,
      scenario : `[
   {
@@ -931,23 +1136,23 @@ with
     ((a:Number in)+(b:Number in)):Number out
   is
     (
-      (variable result of (a)+(b)!)
+      ((variable result of (a)+(b))!)
       with behaviour
       (
         apply (addition)
         to ({a:(a)b:(b)})
-        and get (variable result of (a)+(b)?)
+        and get ((variable result of (a)+(b))?)
       )
     )
 
 is
   (
     ({
-      theNumber:(theNumber?)
-      theResult:(theResult!)
+      theNumber:((theNumber)?)
+      theResult:((theResult)!)
     })
     with behaviour
-    ((theResult?)=((1)+(theNumber!)))
+    (((theResult)?)=((1)+((theNumber)!)))
   )
 `,
      scenario : `[
@@ -981,17 +1186,17 @@ fileName: 'example/ok/referentialTransparency',
 with
 
   interaction (z):Number out
-  is (variable y b?)
+  is ((variable y b)?)
 
   interaction (y):Number out
-  is (variable y b?)
+  is ((variable y b)?)
 
   interaction (x):Number out
-  is (variable b!)
+  is ((variable b)!)
 is
   ({
-    theNumber:(variable x (y) (variable b!)?)
-    theResult:(variable x (z) (x)!)
+    theNumber:(( x (y) ((variable b)!))?)
+    theResult:(( x (z) (x))!)
   })
 `,
      scenario : `[
@@ -1024,10 +1229,10 @@ fileName: 'example/ok/resolver',
   (bob):{theNumber:Number in,theOther:Number in, theResult:Number out, theLast:Number out}
 is
   ({
-    theNumber:(x?)
-    theOther:(x?)
-    theResult:(x!)
-    theLast:(x!)
+    theNumber:((x)?)
+    theOther:((x)?)
+    theResult:((x)!)
+    theLast:((x)!)
   })
 `,
      scenario : `[
@@ -1060,8 +1265,8 @@ fileName: 'example/ok/simple',
   (main):{theNumber:Number in,theResult:Number out}
 is
   ({
-    theNumber:(x?)
-    theResult:(x!)
+    theNumber:((x)?)
+    theResult:((x)!)
   })
 `,
      scenario : `[
@@ -1101,9 +1306,9 @@ with
     is
       (function addOne)
   is
-    ((result of bob(x)!) with behaviour ((addOne)(x)=(result of bob(x)?)))
+    (((result of bob(x))!) with behaviour ((addOne)(x)=((result of bob(x))?)))
 is
-  ({theNumber:(a?),theResult:(bob(a!))})
+  ({theNumber:((a)?),theResult:(bob((a)!))})
 `,
      scenario : `[
   {
@@ -1136,11 +1341,11 @@ fileName: 'example/ok/simplePreviousNext',
 is
   (
     ({
-      theNumber:(x?)
-      theResult:(y!)
+      theNumber:((x)?)
+      theResult:((y)!)
     })
     with behaviour
-    (get (y?) from previous and set (x!) for next)
+    ( ((y)?) = previous ((x)!) )
   )
 `,
      scenario : `[
@@ -1178,12 +1383,12 @@ with
   with
     interaction (addition):{{a:Number,b:Number}->Number}out is (function addition)
   is
-    (((a)+(b)!) with behaviour ((addition)({a:(a)b:(b)})=((a)+(b)?)))
+    (((result of (a)+(b))!) with behaviour ((addition)({a:(a)b:(b)})=((result of (a)+(b))?)))
 
   interaction
     (previous(a:Number in)):Number out
   is
-    ((previous (a)!) with behaviour ((previous (a)?) = previous (a)))
+    (((the previous (a))!) with behaviour (((the previous (a))?) = previous (a)))
 
 is
     ((previous(a))+(previous(a)))
@@ -1218,9 +1423,9 @@ fileName: 'example/ok/uiCursor',
 with
   interaction (cursor):{Mouse->Graphics}out is (function cursor)
 is
-  ((cursor of (mouse)!)
+  (((#cursor of (mouse))!)
   with behaviour
-  ((cursor)(mouse)=(cursor of (mouse)?)))
+  ((cursor)(mouse)=((#cursor of (mouse))?)))
 `,
      scenario : `[{
   "args": {
@@ -1380,16 +1585,16 @@ with
         }->Graphics}out is (function cursor)
   is
     (
-      (cursor of (mouse)!)
+      ((#cursor of (mouse))!)
       with behaviour
-      ((cursor)(mouse)=(cursor of (mouse)?))
+      ((cursor)(mouse)=((#cursor of (mouse))?))
     )
 
 
 is
   ({
-        mouse: (mouse?)
-        graphics: (cursor of (mouse!))
+        mouse: ((mouse)?)
+        graphics: (cursor of ((mouse)!))
   })
 `,
      scenario : `[{

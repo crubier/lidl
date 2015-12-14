@@ -214,19 +214,19 @@ var cursor = function(mouse){
 
 ///////////////////////////////////////////////////////////////////////
 // Declaration of variables (Edges of the graph)
-var edge_6253 = inactive;
-var edge_6256 = inactive;
+var edge_9977 = inactive;
+var edge_9979 = inactive;
 
 ///////////////////////////////////////////////////////////////////////
 // Data flow processing (Nodes of the graph)
-// node_6238
-edge_6256 = active;
-// node_6255
-// We dont care about edge_6256, this is a fake receiver node
-// node_6211
-edge_6253=theInterface.theNumber;
-// node_6213
-theInterface.theResult=edge_6253;
+// node_9964
+edge_9979 = active;
+// node_9978
+// We dont care about edge_9979, this is a fake receiver node
+// node_9926
+edge_9977=theInterface.theNumber;
+// node_9928
+theInterface.theResult=edge_9977;
 
 
 ///////////////////////////////////////////////////////////////////////

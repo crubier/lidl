@@ -8,21 +8,21 @@ with
     ((a:Number in)+(b:Number in)):Number out
   is
     (
-      (variable result of (a)+(b)!)
+      ((variable result of (a)+(b))!)
       with behaviour
       (
         apply (addition)
         to ({a:(a)b:(b)})
-        and get (variable result of (a)+(b)?)
+        and get ((variable result of (a)+(b))?)
       )
     )
 
 is
   (
     ({
-      theNumber:(theNumber?)
-      theResult:(theResult!)
+      theNumber:((theNumber)?)
+      theResult:((theResult)!)
     })
     with behaviour
-    ((theResult?)=((1)+(theNumber!)))
+    (((theResult)?)=((1)+((theNumber)!)))
   )

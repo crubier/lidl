@@ -465,7 +465,7 @@ Graph = (function () {
           Interaction: { 
             color: "#ffd1d1", 
             transform: function transform(x) {return { 
-                label: x.content.operator };} }, 
+                label: x.content.operatorType + '\n' + x.content.operator };} }, 
 
 
           InteractionInstance: { 
@@ -474,7 +474,7 @@ Graph = (function () {
                 shape: x.content.type === 'InteractionSimple' ? "ellipse" : 'box', 
                 color: x.content.type === 'InteractionSimple' ? "#ffde2f" : "#dff1f2", 
                 fontname: x.content.type === 'InteractionSimple' ? 'Times' : 'Courier', 
-                label: x.id + '\n' + (x.content.type === 'InteractionSimple' ? x.content.operator : x.content.content) + "\n" + x.ports.map(function (x, i) {return i + ": " + (0, _serializer.serialize)(x);}).join('\n') };} }, 
+                label: x.id + '\n' + (x.content.type === 'InteractionSimple' ? x.content.operatorType + '\n' + x.content.operator : x.content.content) + "\n" + x.ports.map(function (x, i) {return i + ": " + (0, _serializer.serialize)(x);}).join('\n') };} }, 
 
 
           Definition: { 

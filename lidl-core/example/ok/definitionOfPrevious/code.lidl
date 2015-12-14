@@ -6,13 +6,13 @@ with
     (previous (x:Number in)):Number out
   is
     (
-      (previous(x)!)
+      ((the previous(x))!)
       with behaviour
-      ( (previous(x)?) = previous (x))
+      ( ((the previous(x))?) = previous (x))
     )
 
 is
   ({
-    theNumber:(theNumber?)
-    theResult:(previous(theNumber!))
+    theNumber:((x)?)
+    theResult:(previous((x)!))
   })

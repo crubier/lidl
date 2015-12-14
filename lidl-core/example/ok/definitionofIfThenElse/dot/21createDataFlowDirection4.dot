@@ -1,140 +1,161 @@
-digraph g{node_3246 [shape="ellipse", style="filled", color="#ffde2f", fontname="Times", label="node_3246
-variableresultof$==$!
-0: Boolean out
+digraph g{node_3734 [shape="ellipse", style="filled", color="#ffde2f", fontname="Times", label="node_3734
+Identifier
+#resultof$==$
+0: ?
 1: Number in
 2: Number in" ]
-node_3248 [shape="ellipse", style="filled", color="#ffde2f", fontname="Times", label="node_3248
+node_3735 [shape="ellipse", style="filled", color="#ffde2f", fontname="Times", label="node_3735
+Reference
+$!
+0: Boolean out
+1: ?" ]
+node_3737 [shape="ellipse", style="filled", color="#ffde2f", fontname="Times", label="node_3737
+Composition
 {a:$,b:$}
 0: ?
 1: Number in
 2: Number in" ]
-node_3249 [shape="ellipse", style="filled", color="#ffde2f", fontname="Times", label="node_3249
-variableresultof$==$?
+node_3738 [shape="ellipse", style="filled", color="#ffde2f", fontname="Times", label="node_3738
+CoReference
+$?
 0: ?
-1: Number in
-2: Number in" ]
-node_3250 [shape="ellipse", style="filled", color="#ffde2f", fontname="Times", label="node_3250
+1: ?" ]
+node_3739 [shape="ellipse", style="filled", color="#ffde2f", fontname="Times", label="node_3739
+FunctionApplication
 apply$to$andget$
 0: Activation in
 1: {{a: Number, b: Number} -> Boolean} in
 2: ?
 3: ?" ]
-node_3291 [shape="ellipse", style="filled", color="#ffde2f", fontname="Times", label="node_3291
-variableresultofif$then$else$?
+node_3779 [shape="ellipse", style="filled", color="#ffde2f", fontname="Times", label="node_3779
+Identifier
+#resultofif$then$else$
+0: ?
+1: Boolean in
+2: Number in
+3: Number in" ]
+node_3780 [shape="ellipse", style="filled", color="#ffde2f", fontname="Times", label="node_3780
+CoReference
+$?
 0: Number out
-1: Boolean in
-2: Number in
-3: Number in" ]
-node_3292 [shape="ellipse", style="filled", color="#ffde2f", fontname="Times", label="node_3292
-variableresultofif$then$else$!
+1: ?" ]
+node_3781 [shape="ellipse", style="filled", color="#ffde2f", fontname="Times", label="node_3781
+Reference
+$!
 0: ?
-1: Boolean in
-2: Number in
-3: Number in" ]
-node_3293 [shape="ellipse", style="filled", color="#ffde2f", fontname="Times", label="node_3293
+1: ?" ]
+node_3782 [shape="ellipse", style="filled", color="#ffde2f", fontname="Times", label="node_3782
+Affectation
 $=$
 0: ?
 1: ?
 2: Number in" ]
-node_3294 [shape="ellipse", style="filled", color="#ffde2f", fontname="Times", label="node_3294
+node_3783 [shape="ellipse", style="filled", color="#ffde2f", fontname="Times", label="node_3783
+Affectation
 $=$
 0: ?
 1: ?
 2: Number in" ]
-node_3295 [shape="ellipse", style="filled", color="#ffde2f", fontname="Times", label="node_3295
-variableactivationofwhen$then$else$?
+node_3784 [shape="ellipse", style="filled", color="#ffde2f", fontname="Times", label="node_3784
+Identifier
+#activationofwhen$then$else$
+0: ?
+1: Boolean in
+2: ?
+3: ?" ]
+node_3785 [shape="ellipse", style="filled", color="#ffde2f", fontname="Times", label="node_3785
+CoReference
+$?
 0: Activation in
-1: Boolean in
-2: ?
-3: ?" ]
-node_3297 [shape="ellipse", style="filled", color="#ffde2f", fontname="Times", label="node_3297
-variableactivationofwhen$then$else$!
+1: ?" ]
+node_3787 [shape="ellipse", style="filled", color="#ffde2f", fontname="Times", label="node_3787
+Reference
+$!
 0: ?
-1: Boolean in
-2: ?
-3: ?" ]
-node_3298 [shape="ellipse", style="filled", color="#ffde2f", fontname="Times", label="node_3298
+1: ?" ]
+node_3788 [shape="ellipse", style="filled", color="#ffde2f", fontname="Times", label="node_3788
+Composition
 {cond:$source:$}
 0: ?
 1: Boolean in
 2: ?" ]
-node_3299 [shape="ellipse", style="filled", color="#ffde2f", fontname="Times", label="node_3299
+node_3789 [shape="ellipse", style="filled", color="#ffde2f", fontname="Times", label="node_3789
+Composition
 {a:$b:$}
 0: ?
 1: ?
 2: ?" ]
-node_3300 [shape="ellipse", style="filled", color="#ffde2f", fontname="Times", label="node_3300
+node_3790 [shape="ellipse", style="filled", color="#ffde2f", fontname="Times", label="node_3790
+FunctionApplication
 apply$to$andget$
 0: Activation in
 1: {{cond: Boolean, source: Activation} -> {a: Activation, b: Activation}} in
 2: ?
 3: ?" ]
-node_3360 [shape="box", style="filled", color="#dff1f2", fontname="Courier", label="node_3360
+node_3846 [shape="box", style="filled", color="#dff1f2", fontname="Courier", label="node_3846
 <%=a0%>=theArgs.t;
 
 0: Number out" ]
-node_3362 [shape="box", style="filled", color="#dff1f2", fontname="Courier", label="node_3362
+node_3848 [shape="box", style="filled", color="#dff1f2", fontname="Courier", label="node_3848
 theInterface=<%=a0%>;
 
 0: Number in" ]
-node_3384 [shape="box", style="filled", color="#dff1f2", fontname="Courier", label="node_3384
+node_3866 [shape="box", style="filled", color="#dff1f2", fontname="Courier", label="node_3866
 <%=a0%> = active;
 
 0: Activation out" ]
-node_3395 [shape="box", style="filled", color="#dff1f2", fontname="Courier", label="node_3395
+node_3875 [shape="box", style="filled", color="#dff1f2", fontname="Courier", label="node_3875
 <%=a0%> = isEqual;
 
 0: {{a: Number, b: Number} -> Boolean} out" ]
-node_3397 [shape="box", style="filled", color="#dff1f2", fontname="Courier", label="node_3397
+node_3877 [shape="box", style="filled", color="#dff1f2", fontname="Courier", label="node_3877
 <%=a0%> = whenThenElse;
 
 0: {{cond: Boolean, source: Activation} -> {a: Activation, b: Activation}} out" ]
-node_3399 [shape="box", style="filled", color="#dff1f2", fontname="Courier", label="node_3399
+node_3879 [shape="box", style="filled", color="#dff1f2", fontname="Courier", label="node_3879
 <%=a0%> = 1;
 
 0: Number out" ]
-node_3403 [shape="box", style="filled", color="#dff1f2", fontname="Courier", label="node_3403
+node_3882 [shape="box", style="filled", color="#dff1f2", fontname="Courier", label="node_3882
 <%=a0%> = 3;
 
 0: Number out" ]
-node_3407 [shape="box", style="filled", color="#dff1f2", fontname="Courier", label="node_3407
+node_3885 [shape="box", style="filled", color="#dff1f2", fontname="Courier", label="node_3885
 <%=a0%> = 4;
 
 0: Number out" ]
-node_3250 -> node_3248 [dir=none, arrowHead=none, fontname="Times-Italic", arrowsize=1, color="#9d8400", label="edge_3259",  headlabel="0", taillabel="2" ]
-node_3250 -> node_3249 [dir=none, arrowHead=none, fontname="Times-Italic", arrowsize=1, color="#9d8400", label="edge_3260",  headlabel="0", taillabel="3" ]
-node_3293 -> node_3292 [dir=none, arrowHead=none, fontname="Times-Italic", arrowsize=1, color="#9d8400", label="edge_3310",  headlabel="0", taillabel="1" ]
-node_3294 -> node_3292 [dir=none, arrowHead=none, fontname="Times-Italic", arrowsize=1, color="#9d8400", label="edge_3312",  headlabel="0", taillabel="1" ]
-node_3298 -> node_3297 [dir=none, arrowHead=none, fontname="Times-Italic", arrowsize=1, color="#9d8400", label="edge_3313",  headlabel="0", taillabel="2" ]
-node_3300 -> node_3298 [dir=none, arrowHead=none, fontname="Times-Italic", arrowsize=1, color="#9d8400", label="edge_3315",  headlabel="0", taillabel="2" ]
-node_3300 -> node_3299 [dir=none, arrowHead=none, fontname="Times-Italic", arrowsize=1, color="#9d8400", label="edge_3316",  headlabel="0", taillabel="3" ]
-node_3295 -> node_3293 [dir=none, arrowHead=none, fontname="Times-Italic", arrowsize=1, color="#9d8400", label="edge_3322",  headlabel="0", taillabel="2" ]
-node_3297 -> node_3293 [dir=none, arrowHead=none, fontname="Times-Italic", arrowsize=1, color="#9d8400", label="edge_3323",  headlabel="0", taillabel="2" ]
-node_3299 -> node_3293 [dir=none, arrowHead=none, fontname="Times-Italic", arrowsize=1, color="#9d8400", label="edge_3324",  headlabel="0", taillabel="1" ]
-node_3295 -> node_3294 [dir=none, arrowHead=none, fontname="Times-Italic", arrowsize=1, color="#9d8400", label="edge_3325",  headlabel="0", taillabel="3" ]
-node_3297 -> node_3294 [dir=none, arrowHead=none, fontname="Times-Italic", arrowsize=1, color="#9d8400", label="edge_3326",  headlabel="0", taillabel="3" ]
-node_3299 -> node_3294 [dir=none, arrowHead=none, fontname="Times-Italic", arrowsize=1, color="#9d8400", label="edge_3327",  headlabel="0", taillabel="2" ]
-node_3360 -> node_3246 [dir=none, arrowHead=none, fontname="Times-Italic", arrowsize=1, color="#9d8400", label="edge_3364",  headlabel="1: Number in", taillabel="0: Number out" ]
-node_3360 -> node_3248 [dir=none, arrowHead=none, fontname="Times-Italic", arrowsize=1, color="#9d8400", label="edge_3365",  headlabel="1: Number in", taillabel="0: Number out" ]
-node_3360 -> node_3249 [dir=none, arrowHead=none, fontname="Times-Italic", arrowsize=1, color="#9d8400", label="edge_3366",  headlabel="1: Number in", taillabel="0: Number out" ]
-node_3384 -> node_3250 [dir=none, arrowHead=none, fontname="Times-Italic", arrowsize=1, color="#9d8400", label="edge_3385",  headlabel="0: Activation in", taillabel="0: Activation out" ]
-node_3291 -> node_3246 [dir=none, arrowHead=none, fontname="Times-Italic", arrowsize=1, color="#9d8400", label="edge_3386",  headlabel="0: Boolean out", taillabel="1: Boolean in" ]
-node_3292 -> node_3246 [dir=none, arrowHead=none, fontname="Times-Italic", arrowsize=1, color="#9d8400", label="edge_3387",  headlabel="0: Boolean out", taillabel="1: Boolean in" ]
-node_3295 -> node_3246 [dir=none, arrowHead=none, fontname="Times-Italic", arrowsize=1, color="#9d8400", label="edge_3388",  headlabel="0: Boolean out", taillabel="1: Boolean in" ]
-node_3297 -> node_3246 [dir=none, arrowHead=none, fontname="Times-Italic", arrowsize=1, color="#9d8400", label="edge_3389",  headlabel="0: Boolean out", taillabel="1: Boolean in" ]
-node_3298 -> node_3246 [dir=none, arrowHead=none, fontname="Times-Italic", arrowsize=1, color="#9d8400", label="edge_3390",  headlabel="0: Boolean out", taillabel="1: Boolean in" ]
-node_3384 -> node_3300 [dir=none, arrowHead=none, fontname="Times-Italic", arrowsize=1, color="#9d8400", label="edge_3391",  headlabel="0: Activation in", taillabel="0: Activation out" ]
-node_3384 -> node_3295 [dir=none, arrowHead=none, fontname="Times-Italic", arrowsize=1, color="#9d8400", label="edge_3393",  headlabel="0: Activation in", taillabel="0: Activation out" ]
-node_3362 -> node_3291 [dir=none, arrowHead=none, fontname="Times-Italic", arrowsize=1, color="#9d8400", label="edge_3394",  headlabel="0: Number out", taillabel="0: Number in" ]
-node_3395 -> node_3250 [dir=none, arrowHead=none, fontname="Times-Italic", arrowsize=1, color="#9d8400", label="edge_3396",  headlabel="1: {{a: Number, b: Number} -> Boolean} in", taillabel="0: {{a: Number, b: Number} -> Boolean} out" ]
-node_3397 -> node_3300 [dir=none, arrowHead=none, fontname="Times-Italic", arrowsize=1, color="#9d8400", label="edge_3398",  headlabel="1: {{cond: Boolean, source: Activation} -> {a: Activation, b: Activation}} in", taillabel="0: {{cond: Boolean, source: Activation} -> {a: Activation, b: Activation}} out" ]
-node_3399 -> node_3246 [dir=none, arrowHead=none, fontname="Times-Italic", arrowsize=1, color="#9d8400", label="edge_3400",  headlabel="2: Number in", taillabel="0: Number out" ]
-node_3399 -> node_3248 [dir=none, arrowHead=none, fontname="Times-Italic", arrowsize=1, color="#9d8400", label="edge_3401",  headlabel="2: Number in", taillabel="0: Number out" ]
-node_3399 -> node_3249 [dir=none, arrowHead=none, fontname="Times-Italic", arrowsize=1, color="#9d8400", label="edge_3402",  headlabel="2: Number in", taillabel="0: Number out" ]
-node_3403 -> node_3291 [dir=none, arrowHead=none, fontname="Times-Italic", arrowsize=1, color="#9d8400", label="edge_3404",  headlabel="2: Number in", taillabel="0: Number out" ]
-node_3403 -> node_3292 [dir=none, arrowHead=none, fontname="Times-Italic", arrowsize=1, color="#9d8400", label="edge_3405",  headlabel="2: Number in", taillabel="0: Number out" ]
-node_3403 -> node_3293 [dir=none, arrowHead=none, fontname="Times-Italic", arrowsize=1, color="#9d8400", label="edge_3406",  headlabel="2: Number in", taillabel="0: Number out" ]
-node_3407 -> node_3291 [dir=none, arrowHead=none, fontname="Times-Italic", arrowsize=1, color="#9d8400", label="edge_3408",  headlabel="3: Number in", taillabel="0: Number out" ]
-node_3407 -> node_3292 [dir=none, arrowHead=none, fontname="Times-Italic", arrowsize=1, color="#9d8400", label="edge_3409",  headlabel="3: Number in", taillabel="0: Number out" ]
-node_3407 -> node_3294 [dir=none, arrowHead=none, fontname="Times-Italic", arrowsize=1, color="#9d8400", label="edge_3410",  headlabel="2: Number in", taillabel="0: Number out" ]
+node_3735 -> node_3734 [dir=none, arrowHead=none, fontname="Times-Italic", arrowsize=1, color="#9d8400", label="edge_3743",  headlabel="0", taillabel="1" ]
+node_3738 -> node_3734 [dir=none, arrowHead=none, fontname="Times-Italic", arrowsize=1, color="#9d8400", label="edge_3746",  headlabel="0", taillabel="1" ]
+node_3739 -> node_3737 [dir=none, arrowHead=none, fontname="Times-Italic", arrowsize=1, color="#9d8400", label="edge_3748",  headlabel="0", taillabel="2" ]
+node_3739 -> node_3738 [dir=none, arrowHead=none, fontname="Times-Italic", arrowsize=1, color="#9d8400", label="edge_3749",  headlabel="0", taillabel="3" ]
+node_3780 -> node_3779 [dir=none, arrowHead=none, fontname="Times-Italic", arrowsize=1, color="#9d8400", label="edge_3796",  headlabel="0", taillabel="1" ]
+node_3781 -> node_3779 [dir=none, arrowHead=none, fontname="Times-Italic", arrowsize=1, color="#9d8400", label="edge_3797",  headlabel="0", taillabel="1" ]
+node_3782 -> node_3781 [dir=none, arrowHead=none, fontname="Times-Italic", arrowsize=1, color="#9d8400", label="edge_3799",  headlabel="0", taillabel="1" ]
+node_3783 -> node_3781 [dir=none, arrowHead=none, fontname="Times-Italic", arrowsize=1, color="#9d8400", label="edge_3801",  headlabel="0", taillabel="1" ]
+node_3785 -> node_3784 [dir=none, arrowHead=none, fontname="Times-Italic", arrowsize=1, color="#9d8400", label="edge_3802",  headlabel="0", taillabel="1" ]
+node_3787 -> node_3784 [dir=none, arrowHead=none, fontname="Times-Italic", arrowsize=1, color="#9d8400", label="edge_3803",  headlabel="0", taillabel="1" ]
+node_3788 -> node_3787 [dir=none, arrowHead=none, fontname="Times-Italic", arrowsize=1, color="#9d8400", label="edge_3804",  headlabel="0", taillabel="2" ]
+node_3790 -> node_3788 [dir=none, arrowHead=none, fontname="Times-Italic", arrowsize=1, color="#9d8400", label="edge_3806",  headlabel="0", taillabel="2" ]
+node_3790 -> node_3789 [dir=none, arrowHead=none, fontname="Times-Italic", arrowsize=1, color="#9d8400", label="edge_3807",  headlabel="0", taillabel="3" ]
+node_3784 -> node_3782 [dir=none, arrowHead=none, fontname="Times-Italic", arrowsize=1, color="#9d8400", label="edge_3812",  headlabel="0", taillabel="2" ]
+node_3789 -> node_3782 [dir=none, arrowHead=none, fontname="Times-Italic", arrowsize=1, color="#9d8400", label="edge_3813",  headlabel="0", taillabel="1" ]
+node_3784 -> node_3783 [dir=none, arrowHead=none, fontname="Times-Italic", arrowsize=1, color="#9d8400", label="edge_3814",  headlabel="0", taillabel="3" ]
+node_3789 -> node_3783 [dir=none, arrowHead=none, fontname="Times-Italic", arrowsize=1, color="#9d8400", label="edge_3815",  headlabel="0", taillabel="2" ]
+node_3846 -> node_3734 [dir=none, arrowHead=none, fontname="Times-Italic", arrowsize=1, color="#9d8400", label="edge_3850",  headlabel="1: Number in", taillabel="0: Number out" ]
+node_3846 -> node_3737 [dir=none, arrowHead=none, fontname="Times-Italic", arrowsize=1, color="#9d8400", label="edge_3851",  headlabel="1: Number in", taillabel="0: Number out" ]
+node_3866 -> node_3739 [dir=none, arrowHead=none, fontname="Times-Italic", arrowsize=1, color="#9d8400", label="edge_3867",  headlabel="0: Activation in", taillabel="0: Activation out" ]
+node_3779 -> node_3735 [dir=none, arrowHead=none, fontname="Times-Italic", arrowsize=1, color="#9d8400", label="edge_3868",  headlabel="0: Boolean out", taillabel="1: Boolean in" ]
+node_3784 -> node_3735 [dir=none, arrowHead=none, fontname="Times-Italic", arrowsize=1, color="#9d8400", label="edge_3869",  headlabel="0: Boolean out", taillabel="1: Boolean in" ]
+node_3788 -> node_3735 [dir=none, arrowHead=none, fontname="Times-Italic", arrowsize=1, color="#9d8400", label="edge_3870",  headlabel="0: Boolean out", taillabel="1: Boolean in" ]
+node_3866 -> node_3790 [dir=none, arrowHead=none, fontname="Times-Italic", arrowsize=1, color="#9d8400", label="edge_3871",  headlabel="0: Activation in", taillabel="0: Activation out" ]
+node_3866 -> node_3785 [dir=none, arrowHead=none, fontname="Times-Italic", arrowsize=1, color="#9d8400", label="edge_3873",  headlabel="0: Activation in", taillabel="0: Activation out" ]
+node_3848 -> node_3780 [dir=none, arrowHead=none, fontname="Times-Italic", arrowsize=1, color="#9d8400", label="edge_3874",  headlabel="0: Number out", taillabel="0: Number in" ]
+node_3875 -> node_3739 [dir=none, arrowHead=none, fontname="Times-Italic", arrowsize=1, color="#9d8400", label="edge_3876",  headlabel="1: {{a: Number, b: Number} -> Boolean} in", taillabel="0: {{a: Number, b: Number} -> Boolean} out" ]
+node_3877 -> node_3790 [dir=none, arrowHead=none, fontname="Times-Italic", arrowsize=1, color="#9d8400", label="edge_3878",  headlabel="1: {{cond: Boolean, source: Activation} -> {a: Activation, b: Activation}} in", taillabel="0: {{cond: Boolean, source: Activation} -> {a: Activation, b: Activation}} out" ]
+node_3879 -> node_3734 [dir=none, arrowHead=none, fontname="Times-Italic", arrowsize=1, color="#9d8400", label="edge_3880",  headlabel="2: Number in", taillabel="0: Number out" ]
+node_3879 -> node_3737 [dir=none, arrowHead=none, fontname="Times-Italic", arrowsize=1, color="#9d8400", label="edge_3881",  headlabel="2: Number in", taillabel="0: Number out" ]
+node_3882 -> node_3779 [dir=none, arrowHead=none, fontname="Times-Italic", arrowsize=1, color="#9d8400", label="edge_3883",  headlabel="2: Number in", taillabel="0: Number out" ]
+node_3882 -> node_3782 [dir=none, arrowHead=none, fontname="Times-Italic", arrowsize=1, color="#9d8400", label="edge_3884",  headlabel="2: Number in", taillabel="0: Number out" ]
+node_3885 -> node_3779 [dir=none, arrowHead=none, fontname="Times-Italic", arrowsize=1, color="#9d8400", label="edge_3886",  headlabel="3: Number in", taillabel="0: Number out" ]
+node_3885 -> node_3783 [dir=none, arrowHead=none, fontname="Times-Italic", arrowsize=1, color="#9d8400", label="edge_3887",  headlabel="2: Number in", taillabel="0: Number out" ]
 }

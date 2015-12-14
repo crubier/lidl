@@ -8,16 +8,16 @@ with
 is
   (
     ({
-      theNumber:( theNumber?)
-      theOther:( y?)
-      theResult:( theResult!)
-      theLast:( wow!)
+      theNumber:( (theNumber)?)
+      theOther:( (y)?)
+      theResult:( (theResult)!)
+      theLast:( (wow)!)
     })
   with behaviour
     ( apply (cool)
       to
-      ({a:( theNumber!)b:( y!)})
+      ({a:( (theNumber)!)b:( (y)!)})
       and get
-      ({sum:( theResult?)diff:( wow?)})
+      ({sum:( (theResult)?)diff:( (wow)?)})
     )
   )

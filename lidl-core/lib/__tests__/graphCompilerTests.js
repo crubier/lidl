@@ -106,6 +106,18 @@ describe('lidl graph compiler', function () {
 
       // removeOneSidedAffectation
       graphCompiler.compile(parser.parse(code)[0], header, { 
+        referentialTransparency: function referentialTransparency(graph, data) {
+          printGraph(graph, data.step + 'referentialTransparency' + data.iteration);
+          return true;}, 
+
+        addOperatorTypeAnnotation: function addOperatorTypeAnnotation(graph, data) {
+          printGraph(graph, data.step + 'addOperatorTypeAnnotation' + data.iteration);
+          return true;}, 
+
+        linkInteractionsToDefinitions: function linkInteractionsToDefinitions(graph, data) {
+          printGraph(graph, data.step + 'linkInteractionsToDefinitions' + data.iteration);
+          return true;}, 
+
         createDataFlowDirection: function createDataFlowDirection(graph, data) {
           printGraph(graph, data.step + 'createDataFlowDirection' + data.iteration);
           return true;}, 

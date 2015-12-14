@@ -465,7 +465,7 @@ class Graph {
         Interaction: {
           color: "#ffd1d1",
           transform: (x) => ({
-            label: x.content.operator
+            label: (x.content.operatorType+'\n'+x.content.operator)
           })
         },
         InteractionInstance: {
@@ -474,7 +474,7 @@ class Graph {
             shape: (x.content.type === 'InteractionSimple') ? "ellipse" : 'box',
             color: (x.content.type === 'InteractionSimple') ? "#ffde2f" : "#dff1f2",
             fontname: (x.content.type === 'InteractionSimple') ? 'Times' : 'Courier',
-            label: x.id+'\n'+((x.content.type === 'InteractionSimple') ? (x.content.operator) : (x.content.content))+"\n"+((x.ports).map((x,i)=>(i+": "+serialize(x))).join('\n'))
+            label: x.id+'\n'+((x.content.type === 'InteractionSimple') ? (x.content.operatorType+'\n'+x.content.operator) : (x.content.content))+"\n"+((x.ports).map((x,i)=>(i+": "+serialize(x))).join('\n'))
           })
         },
         Definition: {

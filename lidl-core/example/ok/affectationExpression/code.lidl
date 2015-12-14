@@ -8,15 +8,15 @@ with
     interaction (return1):{Void->Number} out is (function return1)
   is
     (
-      ( result1!)
+      ( (result1)!)
       with behaviour
       (
         apply
         (return1)
         to
-        ( ok!)
+        ( (ok)!)
         and get
-        ( result1?)
+        ( (result1)?)
       )
     )
 
@@ -26,7 +26,7 @@ with
     interaction (addition):{{a:Number,b:Number}->Number} out is (function addition)
   is
     (
-      ( result of (a)+(b)!)
+      ( (result of (a)+(b))!)
       with behaviour
       (
         apply
@@ -34,18 +34,18 @@ with
         to
         ({a:(a)b:(b)})
         and get
-        ( result of (a)+(b)?)
+        ( (result of (a)+(b))?)
       )
     )
 
 is
   (
     ({
-      theNumber:(theNumber?)
-      theResult:(theResult!)
+      theNumber:((theNumber)?)
+      theResult:((theResult)!)
     })
   with behaviour
     (
-      (theResult?) =((the magic number )+(theNumber!))
+      ((theResult)?) =((the magic number )+((theNumber)!))
     )
   )

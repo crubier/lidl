@@ -1,16 +1,16 @@
 (
     ({
-      theNumber:(theNumber?)
-      theResult:(theResult!)
+      theNumber:((theNumber)?)
+      theResult:((theResult)!)
     })
     with behaviour
-    ((theResult?)=(
-      (variable result of (1)+(theNumber!)!)
+    (((theResult)?)=(
+      ((variable result of (1)+((theNumber)!))!)
       with behaviour
       (
         apply (function addition)
-        to ({a:(1)b:(theNumber!)})
-        and get (variable result of (1)+(theNumber!)?)
+        to ({a:(1)b:((theNumber)!)})
+        and get ((variable result of (1)+((theNumber)!))?)
       )
     ))
   )

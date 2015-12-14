@@ -6,9 +6,9 @@ with
     (previous (x:Number in)):Number out
   is
     (
-      (previous(x)!)
+      ((the previous(x))!)
       with behaviour
-      ((previous(x)?)= previous (x))
+      (((the previous(x))?)= previous (x))
     )
 
   interaction
@@ -17,9 +17,9 @@ with
     interaction (is equal):{{a:Number,b:Number}->Boolean}out is (function isEqual)
   is
     (
-      (result of (a)==(b)!)
+      ((result of (a)==(b))!)
       with behaviour
-      (apply (is equal) to ({a:(a),b:(b)}) and get ( result of (a)==(b)?) )
+      (apply (is equal) to ({a:(a),b:(b)}) and get ( (result of (a)==(b))?) )
     )
 
   interaction
@@ -28,9 +28,9 @@ with
     interaction (boolean negation):{Boolean->Boolean} out is (function boolNot)
   is
     (
-      (not (a) !)
+      ((#not (a)) !)
       with behaviour
-      (apply (boolean negation) to (a) and get (not (a)?) )
+      (apply (boolean negation) to (a) and get ((#not (a))?) )
     )
 
   interaction
@@ -39,9 +39,9 @@ with
     interaction (is active):{Number->Boolean} out is (function isActive)
   is
     (
-      ( (a) is active!)
+      ( (#(a) is active)!)
       with behaviour
-      (apply (is active) to (a) and get ( (a) is active?) )
+      (apply (is active) to (a) and get ( (#(a) is active)?) )
     )
 
   interaction
@@ -50,7 +50,7 @@ with
     interaction (addition):{{a:Number,b:Number}->Number} out is (function addition)
   is
     (
-      ( result of (a)+(b)!)
+      ( (result of (a)+(b))!)
       with behaviour
       (
         apply
@@ -58,7 +58,7 @@ with
         to
         ({a:(a)b:(b)})
         and get
-        ( result of (a)+(b)?)
+        ( (result of (a)+(b))?)
       )
     )
 
@@ -69,6 +69,6 @@ with
 
 is
   ({
-    theNumber:(variable theNumber?)
+    theNumber:((theNumber)?)
     theResult:(init)
   })

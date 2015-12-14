@@ -2,8 +2,8 @@ interaction
   (bob):{theNumber:Number in,theOther:Number in, theResult:Number out, theLast:Number out}
 is
   ({
-    theNumber:(x?)
-    theOther:(x?)
-    theResult:(x!)
-    theLast:(x!)
+    theNumber:((x)?)
+    theOther:((x)?)
+    theResult:((x)!)
+    theLast:((x)!)
   })

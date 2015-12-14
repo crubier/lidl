@@ -2,6 +2,6 @@ interaction
   (main):{theNumber:Number in,theResult:Number out}
 is
   ({
-    theNumber:(x?)
-    theResult:(x!)
+    theNumber:((x)?)
+    theResult:((x)!)
   })

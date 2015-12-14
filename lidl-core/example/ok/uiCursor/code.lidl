@@ -3,6 +3,6 @@ interaction
 with
   interaction (cursor):{Mouse->Graphics}out is (function cursor)
 is
-  ((cursor of (mouse)!)
+  (((#cursor of (mouse))!)
   with behaviour
-  ((cursor)(mouse)=(cursor of (mouse)?)))
+  ((cursor)(mouse)=((#cursor of (mouse))?)))

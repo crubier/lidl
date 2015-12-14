@@ -1,56 +1,56 @@
 (
-        (result of if (
-      (result of (a)==(1)!)
+        ((result of if (
+      ((result of (a)==(1))!)
       with behaviour
-      (apply (function isEqual) to ({a:(a),b:(1)}) and get (result of (a)==(1)?) )
-    ) then ({theNumber:(b?),theResult:(b!)}) else ({theNumber:(b?),theResult:(-8000)})!)
+      (apply (function isEqual) to ({a:(a),b:(1)}) and get ((result of (a)==(1))?) )
+    ) then ({theNumber:((b)?),theResult:((b)!)}) else ({theNumber:((b)?),theResult:(-8000)}))!)
         with behaviour
         (
-      (activation of when (
-      (result of (a)==(1)!)
+      ((activation of when (
+      ((result of (a)==(1))!)
       with behaviour
-      (apply (function isEqual) to ({a:(a),b:(1)}) and get (result of (a)==(1)?) )
-    ) then ((result of if (
-      (result of (a)==(1)!)
+      (apply (function isEqual) to ({a:(a),b:(1)}) and get ((result of (a)==(1))?) )
+    ) then (((result of if (
+      ((result of (a)==(1))!)
       with behaviour
-      (apply (function isEqual) to ({a:(a),b:(1)}) and get (result of (a)==(1)?) )
-    ) then ({theNumber:(b?),theResult:(b!)}) else ({theNumber:(b?),theResult:(-8000)})?) = ({theNumber:(b?),theResult:(b!)})) else ((result of if (
-      (result of (a)==(1)!)
+      (apply (function isEqual) to ({a:(a),b:(1)}) and get ((result of (a)==(1))?) )
+    ) then ({theNumber:((b)?),theResult:((b)!)}) else ({theNumber:((b)?),theResult:(-8000)}))?) = ({theNumber:((b)?),theResult:((b)!)})) else (((result of if (
+      ((result of (a)==(1))!)
       with behaviour
-      (apply (function isEqual) to ({a:(a),b:(1)}) and get (result of (a)==(1)?) )
-    ) then ({theNumber:(b?),theResult:(b!)}) else ({theNumber:(b?),theResult:(-8000)})?) = ({theNumber:(b?),theResult:(-8000)}))?)
+      (apply (function isEqual) to ({a:(a),b:(1)}) and get ((result of (a)==(1))?) )
+    ) then ({theNumber:((b)?),theResult:((b)!)}) else ({theNumber:((b)?),theResult:(-8000)}))?) = ({theNumber:((b)?),theResult:(-8000)})))?)
       with behaviour
       (
         apply
         (function whenThenElse)
         to
         ({  cond:(
-      (result of (a)==(1)!)
+      ((result of (a)==(1))!)
       with behaviour
-      (apply (function isEqual) to ({a:(a),b:(1)}) and get (result of (a)==(1)?) )
-    )  source:(activation of when (
-      (result of (a)==(1)!)
+      (apply (function isEqual) to ({a:(a),b:(1)}) and get ((result of (a)==(1))?) )
+    )  source:((activation of when (
+      ((result of (a)==(1))!)
       with behaviour
-      (apply (function isEqual) to ({a:(a),b:(1)}) and get (result of (a)==(1)?) )
-    ) then ((result of if (
-      (result of (a)==(1)!)
+      (apply (function isEqual) to ({a:(a),b:(1)}) and get ((result of (a)==(1))?) )
+    ) then (((result of if (
+      ((result of (a)==(1))!)
       with behaviour
-      (apply (function isEqual) to ({a:(a),b:(1)}) and get (result of (a)==(1)?) )
-    ) then ({theNumber:(b?),theResult:(b!)}) else ({theNumber:(b?),theResult:(-8000)})?) = ({theNumber:(b?),theResult:(b!)})) else ((result of if (
-      (result of (a)==(1)!)
+      (apply (function isEqual) to ({a:(a),b:(1)}) and get ((result of (a)==(1))?) )
+    ) then ({theNumber:((b)?),theResult:((b)!)}) else ({theNumber:((b)?),theResult:(-8000)}))?) = ({theNumber:((b)?),theResult:((b)!)})) else (((result of if (
+      ((result of (a)==(1))!)
       with behaviour
-      (apply (function isEqual) to ({a:(a),b:(1)}) and get (result of (a)==(1)?) )
-    ) then ({theNumber:(b?),theResult:(b!)}) else ({theNumber:(b?),theResult:(-8000)})?) = ({theNumber:(b?),theResult:(-8000)}))!)   })
+      (apply (function isEqual) to ({a:(a),b:(1)}) and get ((result of (a)==(1))?) )
+    ) then ({theNumber:((b)?),theResult:((b)!)}) else ({theNumber:((b)?),theResult:(-8000)}))?) = ({theNumber:((b)?),theResult:(-8000)})))!)   })
         and get
-        ({a:((result of if (
-      (result of (a)==(1)!)
+        ({a:(((result of if (
+      ((result of (a)==(1))!)
       with behaviour
-      (apply (function isEqual) to ({a:(a),b:(1)}) and get (result of (a)==(1)?) )
-    ) then ({theNumber:(b?),theResult:(b!)}) else ({theNumber:(b?),theResult:(-8000)})?) = ({theNumber:(b?),theResult:(b!)})) b:((result of if (
-      (result of (a)==(1)!)
+      (apply (function isEqual) to ({a:(a),b:(1)}) and get ((result of (a)==(1))?) )
+    ) then ({theNumber:((b)?),theResult:((b)!)}) else ({theNumber:((b)?),theResult:(-8000)}))?) = ({theNumber:((b)?),theResult:((b)!)})) b:(((result of if (
+      ((result of (a)==(1))!)
       with behaviour
-      (apply (function isEqual) to ({a:(a),b:(1)}) and get (result of (a)==(1)?) )
-    ) then ({theNumber:(b?),theResult:(b!)}) else ({theNumber:(b?),theResult:(-8000)})?) = ({theNumber:(b?),theResult:(-8000)}))})
+      (apply (function isEqual) to ({a:(a),b:(1)}) and get ((result of (a)==(1))?) )
+    ) then ({theNumber:((b)?),theResult:((b)!)}) else ({theNumber:((b)?),theResult:(-8000)}))?) = ({theNumber:((b)?),theResult:(-8000)}))})
       )
     )
       )

@@ -51,7 +51,7 @@
 // High level elements
 
 start
-= composition  /  behaviour / affectation/ previous / identifier / functionApplication / function  / activation / boolean / number / text / custom / void
+= composition  /  behaviour / affectation/ previous / identifier / reference/coReference/ functionApplication / function  / activation / boolean / number / text / custom / void
 
 composition 'a composition interaction'
 = _ '{' _ (key:keyIdentifier _':'_'$'_ (',' _)? )* '}' _ {return "Composition";}
@@ -68,8 +68,14 @@ functionApplication 'a function application interaction'
 = _ 'apply' _ '$' _ 'to' _ '$' _ 'and' _ 'get' _ '$' _ {return "FunctionApplication";}
 / _ '$' _ '$' _ '=' _ '$' _ {return "FunctionApplication";}
 
-affectation ''
+affectation 'an affectation interaction'
 = _ '$' _ '=' _ '$' _ {return "Affectation";}
+
+reference 'a reference'
+= _ '$' _ '!' _ {return "Reference";}
+
+coReference 'a co reference'
+= _ '$' _ '?' _ {return "CoReference";}
 
 identifier 'an identifier interaction'
 = _ 'variable' _ (identifier:operatorIdentifier)? _ ('$' _ (identifier:operatorIdentifier)? _ )* _ {return "Identifier";}

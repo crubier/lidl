@@ -5,16 +5,16 @@ with
   interaction
     ((x:{theNumber:Number in,theResult:Number out}).theNumber):Number out
   is
-    (((x).theNumber!) with behaviour (({theNumber:((x).theNumber?)})=(x)))
+    (((#(x).theNumber)!) with behaviour (({theNumber:((#(x).theNumber)?)})=(x)))
 
   interaction
     ((x:{theNumber:Number in,theResult:Number out}).theResult):Number in
   is
-    (((x).theResult!) with behaviour ((x)=({theResult:((x).theResult?)})))
+    (((#(x).theResult)!) with behaviour ((x)=({theResult:((#(x).theResult)?)})))
 
 is
   (
-    (variable this?)
+    ( (this)?)
     with behaviour
-    (((variable this!).theResult)=((variable this!).theNumber) )
+    ((( (this)!).theResult)=(( (this)!).theNumber) )
   )

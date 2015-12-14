@@ -1,53 +1,53 @@
 (
     ({
-      theNumber:(theNumber?)
-      theResult:(theResult!)
+      theNumber:((theNumber)?)
+      theResult:((theResult)!)
     })
   with behaviour
     (
-      (theResult?) =(
-      ( result of (
-      ( result1!)
+      ((theResult)?) =(
+      ( (result of (
+      ( (result1)!)
       with behaviour
       (
         apply
         (function return1)
         to
-        ( ok!)
+        ( (ok)!)
         and get
-        ( result1?)
+        ( (result1)?)
       )
-    )+(theNumber!)!)
+    )+((theNumber)!))!)
       with behaviour
       (
         apply
         (function addition)
         to
         ({a:(
-      ( result1!)
+      ( (result1)!)
       with behaviour
       (
         apply
         (function return1)
         to
-        ( ok!)
+        ( (ok)!)
         and get
-        ( result1?)
+        ( (result1)?)
       )
-    )b:(theNumber!)})
+    )b:((theNumber)!)})
         and get
-        ( result of (
-      ( result1!)
+        ( (result of (
+      ( (result1)!)
       with behaviour
       (
         apply
         (function return1)
         to
-        ( ok!)
+        ( (ok)!)
         and get
-        ( result1?)
+        ( (result1)?)
       )
-    )+(theNumber!)?)
+    )+((theNumber)!))?)
       )
     )
     )

@@ -1,0 +1,14 @@
+digraph g{node_680 [shape="ellipse", style="filled", color="#ffd1d1", fontname="Times", label="Custom
+a" ]
+node_671 [shape="ellipse", style="filled", color="#afe7ff", fontname="Times", label="bob$" ]
+node_672 [shape="ellipse", style="filled", color="#2fffc7", fontname="Times", label="a" ]
+node_673 [shape="ellipse", style="filled", color="#2fcdff", fontname="Times", label="theArgs.a : in" ]
+node_677 [shape="ellipse", style="filled", color="#2fcdff", fontname="Times", label="theInterface : out" ]
+node_671 -> node_680 [dir=forward, arrowHead=normal, fontname="Times-Italic", arrowsize=1, color="#ff0000", label="",  headlabel="", taillabel="" ]
+node_671 -> node_680 [dir=forward, arrowHead=normal, fontname="Times-Italic", arrowsize=1, color="#ffd5d5", label="",  headlabel="", taillabel="" ]
+node_671 -> node_672 [dir=forward, arrowHead=normal, fontname="Times-Italic", arrowsize=1, color="#2fffc7", label="1",  headlabel="", taillabel="" ]
+node_672 -> node_673 [dir=forward, arrowHead=normal, fontname="Times-Italic", arrowsize=1, color="#00e8ff", label="",  headlabel="", taillabel="" ]
+node_671 -> node_677 [dir=forward, arrowHead=normal, fontname="Times-Italic", arrowsize=1, color="#00e8ff", label="",  headlabel="", taillabel="" ]
+node_671 -> node_673 [dir=forward, arrowHead=normal, fontname="Times-Italic", arrowsize=1, color="#bef9ff", label="",  headlabel="", taillabel="" ]
+node_671 -> node_677 [dir=forward, arrowHead=normal, fontname="Times-Italic", arrowsize=1, color="#bef9ff", label="",  headlabel="", taillabel="" ]
+}

@@ -214,38 +214,38 @@ var cursor = function(mouse){
 
 ///////////////////////////////////////////////////////////////////////
 // Declaration of variables (Edges of the graph)
-var edge_1305 = inactive;
-var edge_1306 = inactive;
-var edge_1342 = inactive;
-var edge_1343 = inactive;
-var edge_1344 = inactive;
-var edge_1346 = inactive;
-var edge_1347 = inactive;
-var edge_1348 = inactive;
+var edge_1616 = inactive;
+var edge_1617 = inactive;
+var edge_1649 = inactive;
+var edge_1650 = inactive;
+var edge_1651 = inactive;
+var edge_1653 = inactive;
+var edge_1654 = inactive;
+var edge_1655 = inactive;
 
 ///////////////////////////////////////////////////////////////////////
 // Data flow processing (Nodes of the graph)
-// node_1302
-edge_1306 = cool;
-// node_1299
-edge_1305 = active;
-// node_1245
-edge_1344=theInterface.theOther;
-// node_1243
-edge_1343=theInterface.theNumber;
-// node_1341
-edge_1342 = {};
-edge_1342['a'] = edge_1343;
-edge_1342['b'] = edge_1344;
-// node_1304
-if(edge_1305 === active && edge_1306!==null && edge_1306!==undefined) {edge_1346 = edge_1306(edge_1342);}
-// node_1345
-edge_1347 = edge_1346['sum'];
-edge_1348 = edge_1346['diff'];
-// node_1249
-theInterface.theLast=edge_1348;
-// node_1247
-theInterface.theResult=edge_1347;
+// node_1613
+edge_1617 = cool;
+// node_1610
+edge_1616 = active;
+// node_1536
+edge_1650=theInterface.theOther;
+// node_1534
+edge_1649=theInterface.theNumber;
+// node_1648
+edge_1651 = {};
+edge_1651['a'] = edge_1649;
+edge_1651['b'] = edge_1650;
+// node_1615
+if(edge_1616 === active && edge_1617!==null && edge_1617!==undefined) {edge_1653 = edge_1617(edge_1651);}
+// node_1652
+edge_1654 = edge_1653['sum'];
+edge_1655 = edge_1653['diff'];
+// node_1540
+theInterface.theLast=edge_1655;
+// node_1538
+theInterface.theResult=edge_1654;
 
 
 ///////////////////////////////////////////////////////////////////////

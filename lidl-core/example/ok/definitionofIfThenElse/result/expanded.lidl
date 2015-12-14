@@ -1,56 +1,56 @@
 (
-      (variable result of if (
-      (variable result of (t)==(1)!)
+      ( (result of if (
+      ( (result of (t)==(1))!)
       with behaviour
-      (apply (function isEqual) to ({a:(t),b:(1)}) and get (variable result of (t)==(1)?) )
-    ) then (3) else (4)?)
+      (apply (function isEqual) to ({a:(t),b:(1)}) and get ( (result of (t)==(1))?) )
+    ) then (3) else (4))?)
       with behaviour
       (
-      (variable activation of when (
-      (variable result of (t)==(1)!)
+      ( (activation of when (
+      ( (result of (t)==(1))!)
       with behaviour
-      (apply (function isEqual) to ({a:(t),b:(1)}) and get (variable result of (t)==(1)?) )
-    ) then ((variable result of if (
-      (variable result of (t)==(1)!)
+      (apply (function isEqual) to ({a:(t),b:(1)}) and get ( (result of (t)==(1))?) )
+    ) then (( (result of if (
+      ( (result of (t)==(1))!)
       with behaviour
-      (apply (function isEqual) to ({a:(t),b:(1)}) and get (variable result of (t)==(1)?) )
-    ) then (3) else (4)!) = (3)) else ((variable result of if (
-      (variable result of (t)==(1)!)
+      (apply (function isEqual) to ({a:(t),b:(1)}) and get ( (result of (t)==(1))?) )
+    ) then (3) else (4))!) = (3)) else (( (result of if (
+      ( (result of (t)==(1))!)
       with behaviour
-      (apply (function isEqual) to ({a:(t),b:(1)}) and get (variable result of (t)==(1)?) )
-    ) then (3) else (4)!) = (4))?)
+      (apply (function isEqual) to ({a:(t),b:(1)}) and get ( (result of (t)==(1))?) )
+    ) then (3) else (4))!) = (4)))?)
       with behaviour
       (
         apply
         (function whenThenElse)
         to
         ({  cond:(
-      (variable result of (t)==(1)!)
+      ( (result of (t)==(1))!)
       with behaviour
-      (apply (function isEqual) to ({a:(t),b:(1)}) and get (variable result of (t)==(1)?) )
-    )  source:(variable activation of when (
-      (variable result of (t)==(1)!)
+      (apply (function isEqual) to ({a:(t),b:(1)}) and get ( (result of (t)==(1))?) )
+    )  source:( (activation of when (
+      ( (result of (t)==(1))!)
       with behaviour
-      (apply (function isEqual) to ({a:(t),b:(1)}) and get (variable result of (t)==(1)?) )
-    ) then ((variable result of if (
-      (variable result of (t)==(1)!)
+      (apply (function isEqual) to ({a:(t),b:(1)}) and get ( (result of (t)==(1))?) )
+    ) then (( (result of if (
+      ( (result of (t)==(1))!)
       with behaviour
-      (apply (function isEqual) to ({a:(t),b:(1)}) and get (variable result of (t)==(1)?) )
-    ) then (3) else (4)!) = (3)) else ((variable result of if (
-      (variable result of (t)==(1)!)
+      (apply (function isEqual) to ({a:(t),b:(1)}) and get ( (result of (t)==(1))?) )
+    ) then (3) else (4))!) = (3)) else (( (result of if (
+      ( (result of (t)==(1))!)
       with behaviour
-      (apply (function isEqual) to ({a:(t),b:(1)}) and get (variable result of (t)==(1)?) )
-    ) then (3) else (4)!) = (4))!)   })
+      (apply (function isEqual) to ({a:(t),b:(1)}) and get ( (result of (t)==(1))?) )
+    ) then (3) else (4))!) = (4)))!)   })
         and get
-        ({a:((variable result of if (
-      (variable result of (t)==(1)!)
+        ({a:(( (result of if (
+      ( (result of (t)==(1))!)
       with behaviour
-      (apply (function isEqual) to ({a:(t),b:(1)}) and get (variable result of (t)==(1)?) )
-    ) then (3) else (4)!) = (3)) b:((variable result of if (
-      (variable result of (t)==(1)!)
+      (apply (function isEqual) to ({a:(t),b:(1)}) and get ( (result of (t)==(1))?) )
+    ) then (3) else (4))!) = (3)) b:(( (result of if (
+      ( (result of (t)==(1))!)
       with behaviour
-      (apply (function isEqual) to ({a:(t),b:(1)}) and get (variable result of (t)==(1)?) )
-    ) then (3) else (4)!) = (4))})
+      (apply (function isEqual) to ({a:(t),b:(1)}) and get ( (result of (t)==(1))?) )
+    ) then (3) else (4))!) = (4))})
       )
     )
     )

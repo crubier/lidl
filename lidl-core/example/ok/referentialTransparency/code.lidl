@@ -3,15 +3,15 @@ interaction
 with
 
   interaction (z):Number out
-  is (variable y b?)
+  is ((variable y b)?)
 
   interaction (y):Number out
-  is (variable y b?)
+  is ((variable y b)?)
 
   interaction (x):Number out
-  is (variable b!)
+  is ((variable b)!)
 is
   ({
-    theNumber:(variable x (y) (variable b!)?)
-    theResult:(variable x (z) (x)!)
+    theNumber:(( x (y) ((variable b)!))?)
+    theResult:(( x (z) (x))!)
   })

@@ -9,9 +9,9 @@ with
     interaction (is equal):{{a:Number,b:Number}->Boolean}out is (function isEqual)
   is
     (
-      (variable result of (u)==(v)!)
+      ( (result of (u)==(v))!)
       with behaviour
-      (apply (is equal) to ({a:(u),b:(v)}) and get (variable result of (u)==(v)?) )
+      (apply (is equal) to ({a:(u),b:(v)}) and get ( (result of (u)==(v))?) )
     )
 
 
@@ -24,13 +24,13 @@ with
       (function whenThenElse)
   is
     (
-      (variable activation of when (cond) then (a) else (b)?)
+      ( (activation of when (cond) then (a) else (b))?)
       with behaviour
       (
         apply
         (whenThenElse)
         to
-        ({  cond:(cond)  source:(variable activation of when (cond) then (a) else (b)!)   })
+        ({  cond:(cond)  source:( (activation of when (cond) then (a) else (b))!)   })
         and get
         ({a:(a) b:(b)})
       )
@@ -40,15 +40,15 @@ with
       (if (cond:Boolean in) then (x:Number in) else (y:Number in)):Number out
     is
     (
-      (variable result of if (cond) then (x) else (y)?)
+      ( (result of if (cond) then (x) else (y))?)
       with behaviour
       (
         when
         (cond)
         then
-        ((variable result of if (cond) then (x) else (y)!) = (x))
+        (( (result of if (cond) then (x) else (y))!) = (x))
         else
-        ((variable result of if (cond) then (x) else (y)!) = (y))
+        (( (result of if (cond) then (x) else (y))!) = (y))
       )
     )
 
