@@ -86,7 +86,7 @@ var remainder = function(x) {
 
 var power = function(x) {
   if (isActive(x.a) && isActive(x.b)) {
-    return Math.pow(x.a,x.b);
+    return Math.pow(x.a, x.b);
   } else {
     return inactive;
   }
@@ -106,7 +106,7 @@ var identity = function(x) {
 
 var isEqual = function(x) {
   if (isActive(x.a) && isActive(x.b)) {
-    return (x.a===x.b)?true:false;
+    return (x.a === x.b) ? true : false;
   } else {
     return inactive;
   }
@@ -114,7 +114,7 @@ var isEqual = function(x) {
 
 
 var boolNot = function(x) {
-  if (isActive(x) ) {
+  if (isActive(x)) {
     return !x;
   } else {
     return inactive;
@@ -122,11 +122,11 @@ var boolNot = function(x) {
 };
 
 var ifThenElse = function(x) {
-  if (isActive(x) ) {
-    if (isActive(x.cond) ) {
-      if(x.cond ===true) {
+  if (isActive(x)) {
+    if (isActive(x.cond)) {
+      if (x.cond === true) {
         return x.a;
-      } else if(x.cond ===false) {
+      } else if (x.cond === false) {
         return x.b;
       } else {
         return inactive;
@@ -141,12 +141,18 @@ var ifThenElse = function(x) {
 
 
 var whenThenElse = function(x) {
-  if (isActive(x) ) {
-    if (isActive(x.cond) ) {
-      if(x.cond === true) {
-        return {a:active,b:inactive};
-      } else if(x.cond ===false) {
-        return {a:inactive,b:active};
+  if (isActive(x)) {
+    if (isActive(x.cond)) {
+      if (x.cond === true) {
+        return {
+          a: active,
+          b: inactive
+        };
+      } else if (x.cond === false) {
+        return {
+          a: inactive,
+          b: active
+        };
       } else {
         return inactive;
       }
@@ -160,11 +166,28 @@ var whenThenElse = function(x) {
 
 
 var all = function(x) {
-  return {a:x,b:x,c:x,d:x,e:x,f:x,g:x,h:x,i:x,j:x,k:x,l:x,m:x,n:x,o:x,p:x};
+  return {
+    a: x,
+    b: x,
+    c: x,
+    d: x,
+    e: x,
+    f: x,
+    g: x,
+    h: x,
+    i: x,
+    j: x,
+    k: x,
+    l: x,
+    m: x,
+    n: x,
+    o: x,
+    p: x
+  };
 };
 
 
-var cursor = function(mouse){
+var cursor = function(mouse) {
   var cursor = {
     type: "shadow",
     blur: mouse.buttons === 0 ? 20 : 10,
@@ -212,25 +235,74 @@ var cursor = function(mouse){
 }
 
 
+
+var button = function(button) {
+  var button = {
+    type: "shadow",
+    blur: button.pushed ? 10 : 20,
+    offset: {
+      x: 0,
+      y: button.pushed ? 2 : 4
+    },
+    color: "rgba(0, 0, 0, 0.5)",
+    content: {
+      type: "group",
+      content: [{
+        type: "fill",
+        style: "rgba(0, 171, 255, 1)",
+        content: {
+          type: "rect",
+          x: button.x,
+          y: button.y,
+          width: button.width,
+          height: button.height
+        }
+      }, {
+        type: "fill",
+        style: "rgba(255, 255, 255, 1)",
+        content: {
+          type: "text",
+          textBaseline: "middle",
+          textAlign: "center",
+          font: "200 30px Helvetica neue",
+          text: button.text,
+          x: button.x + button.width / 2,
+          y: button.y + button.height / 2
+        }
+      }]
+    }
+  };
+  return button;
+}
+
+var group = function(elements) {
+  var group = {
+      type: "group",
+      content: [elements.a,elements.b ]
+    };
+  return group;
+}
+
+
 ///////////////////////////////////////////////////////////////////////
 // Declaration of variables (Edges of the graph)
-var edge_11666 = inactive;
-var edge_11667 = inactive;
-var edge_11683 = inactive;
-var edge_11684 = inactive;
+var edge_12361 = inactive;
+var edge_12362 = inactive;
+var edge_12378 = inactive;
+var edge_12379 = inactive;
 
 ///////////////////////////////////////////////////////////////////////
 // Data flow processing (Nodes of the graph)
-// node_11663
-edge_11667 = cursor;
-// node_11660
-edge_11666 = active;
-// node_11616
-edge_11683=theInterface.mouse;
-// node_11665
-if(edge_11666 === active && edge_11667!==null && edge_11667!==undefined) {edge_11684 = edge_11667(edge_11683);}
-// node_11618
-theInterface.graphics=edge_11684;
+// node_12358
+edge_12362 = cursor;
+// node_12355
+edge_12361 = active;
+// node_12311
+edge_12378=theInterface.mouse;
+// node_12360
+if(edge_12361 === active && edge_12362!==null && edge_12362!==undefined) {edge_12379 = edge_12362(edge_12378);}
+// node_12313
+theInterface.graphics=edge_12379;
 
 
 ///////////////////////////////////////////////////////////////////////

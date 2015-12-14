@@ -86,7 +86,7 @@ var remainder = function(x) {
 
 var power = function(x) {
   if (isActive(x.a) && isActive(x.b)) {
-    return Math.pow(x.a,x.b);
+    return Math.pow(x.a, x.b);
   } else {
     return inactive;
   }
@@ -106,7 +106,7 @@ var identity = function(x) {
 
 var isEqual = function(x) {
   if (isActive(x.a) && isActive(x.b)) {
-    return (x.a===x.b)?true:false;
+    return (x.a === x.b) ? true : false;
   } else {
     return inactive;
   }
@@ -114,7 +114,7 @@ var isEqual = function(x) {
 
 
 var boolNot = function(x) {
-  if (isActive(x) ) {
+  if (isActive(x)) {
     return !x;
   } else {
     return inactive;
@@ -122,11 +122,11 @@ var boolNot = function(x) {
 };
 
 var ifThenElse = function(x) {
-  if (isActive(x) ) {
-    if (isActive(x.cond) ) {
-      if(x.cond ===true) {
+  if (isActive(x)) {
+    if (isActive(x.cond)) {
+      if (x.cond === true) {
         return x.a;
-      } else if(x.cond ===false) {
+      } else if (x.cond === false) {
         return x.b;
       } else {
         return inactive;
@@ -141,12 +141,18 @@ var ifThenElse = function(x) {
 
 
 var whenThenElse = function(x) {
-  if (isActive(x) ) {
-    if (isActive(x.cond) ) {
-      if(x.cond === true) {
-        return {a:active,b:inactive};
-      } else if(x.cond ===false) {
-        return {a:inactive,b:active};
+  if (isActive(x)) {
+    if (isActive(x.cond)) {
+      if (x.cond === true) {
+        return {
+          a: active,
+          b: inactive
+        };
+      } else if (x.cond === false) {
+        return {
+          a: inactive,
+          b: active
+        };
       } else {
         return inactive;
       }
@@ -160,11 +166,28 @@ var whenThenElse = function(x) {
 
 
 var all = function(x) {
-  return {a:x,b:x,c:x,d:x,e:x,f:x,g:x,h:x,i:x,j:x,k:x,l:x,m:x,n:x,o:x,p:x};
+  return {
+    a: x,
+    b: x,
+    c: x,
+    d: x,
+    e: x,
+    f: x,
+    g: x,
+    h: x,
+    i: x,
+    j: x,
+    k: x,
+    l: x,
+    m: x,
+    n: x,
+    o: x,
+    p: x
+  };
 };
 
 
-var cursor = function(mouse){
+var cursor = function(mouse) {
   var cursor = {
     type: "shadow",
     blur: mouse.buttons === 0 ? 20 : 10,
@@ -212,50 +235,99 @@ var cursor = function(mouse){
 }
 
 
+
+var button = function(button) {
+  var button = {
+    type: "shadow",
+    blur: button.pushed ? 10 : 20,
+    offset: {
+      x: 0,
+      y: button.pushed ? 2 : 4
+    },
+    color: "rgba(0, 0, 0, 0.5)",
+    content: {
+      type: "group",
+      content: [{
+        type: "fill",
+        style: "rgba(0, 171, 255, 1)",
+        content: {
+          type: "rect",
+          x: button.x,
+          y: button.y,
+          width: button.width,
+          height: button.height
+        }
+      }, {
+        type: "fill",
+        style: "rgba(255, 255, 255, 1)",
+        content: {
+          type: "text",
+          textBaseline: "middle",
+          textAlign: "center",
+          font: "200 30px Helvetica neue",
+          text: button.text,
+          x: button.x + button.width / 2,
+          y: button.y + button.height / 2
+        }
+      }]
+    }
+  };
+  return button;
+}
+
+var group = function(elements) {
+  var group = {
+      type: "group",
+      content: [elements.a,elements.b ]
+    };
+  return group;
+}
+
+
 ///////////////////////////////////////////////////////////////////////
 // Declaration of variables (Edges of the graph)
-var edge_11188 = inactive;
-var edge_11197 = inactive;
-var edge_11202 = inactive;
-var edge_11206 = inactive;
-var edge_11208 = inactive;
-var edge_11209 = inactive;
-var edge_11210 = inactive;
-var edge_11211 = inactive;
-var edge_11213 = inactive;
-var edge_11214 = inactive;
-var edge_11215 = inactive;
+var edge_11343 = inactive;
+var edge_11352 = inactive;
+var edge_11357 = inactive;
+var edge_11361 = inactive;
+var edge_11363 = inactive;
+var edge_11364 = inactive;
+var edge_11365 = inactive;
+var edge_11366 = inactive;
+var edge_11368 = inactive;
+var edge_11369 = inactive;
+var edge_11370 = inactive;
 
 ///////////////////////////////////////////////////////////////////////
 // Data flow processing (Nodes of the graph)
-// node_11184
-edge_11188 = addition;
-// node_11176
-edge_11208 = active;
-// node_11207
-edge_11209 = edge_11208;
-edge_11210 = edge_11208;
-edge_11211 = edge_11208;
-// node_11192
-if(edge_11210 === active) {
-edge_11213 = previousState['state_11191'];
+// node_11339
+edge_11343 = addition;
+// node_11331
+edge_11363 = active;
+// node_11362
+edge_11364 = edge_11363;
+edge_11365 = edge_11363;
+edge_11366 = edge_11363;
+// node_11347
+if(edge_11365 === active) {
+edge_11368 = previousState['state_11346'];
 }
-// node_11212
-edge_11214 = edge_11213;
-edge_11215 = edge_11213;
-// node_11203
-edge_11206 = {};
-edge_11206['a'] = edge_11214;
-edge_11206['b'] = edge_11215;
-// node_11186
-if(edge_11209 === active && edge_11188!==null && edge_11188!==undefined) {edge_11202 = edge_11188(edge_11206);}
-// node_11169
-theInterface=edge_11202;
-// node_11167
-edge_11197=theArgs.a;
-// node_11195
-if(edge_11211 === active) {
-nextState['state_11191'] = edge_11197;
+// node_11367
+edge_11369 = edge_11368;
+edge_11370 = edge_11368;
+// node_11358
+edge_11361 = {};
+edge_11361['a'] = edge_11369;
+edge_11361['b'] = edge_11370;
+// node_11341
+if(edge_11364 === active && edge_11343!==null && edge_11343!==undefined) {edge_11357 = edge_11343(edge_11361);}
+// node_11324
+theInterface=edge_11357;
+// node_11322
+edge_11352=theArgs.a;
+// node_11350
+if(edge_11366 === active) {
+nextState['state_11346'] = edge_11352;
 }
 
 
@@ -273,7 +345,7 @@ nextState['state_11191'] = edge_11197;
 function initializationFunction(data){
 return {
       memo: {},
-      state: {state_11191:null},
+      state: {state_11346:null},
       args: {},
       inter: {}
     };

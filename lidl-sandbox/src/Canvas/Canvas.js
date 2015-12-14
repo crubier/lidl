@@ -103,6 +103,7 @@ function draw(ctx, object) {
         case "text":
             //TODO improve text alignement options using ctx.textMeasure()
             ctx.textAlign = object.textAlign;
+            ctx.textBaseline = object.textBaseline;
             ctx.font = object.font;
             ctx.beginPath();
             ctx.fillText(object.text, object.x, object.y);

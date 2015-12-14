@@ -1,8 +1,20 @@
 interaction
-  (cursor of (mouse:Mouse in)):Graphics out
+  (simple UI):{mouse:Mouse in,graphics:Graphics out}
 with
-  interaction (cursor):{Mouse->Graphics}out is (function cursor)
+
+  interaction
+    (cursor widget):{mouse:Mouse in,graphics:Graphics out}
+  with
+    interaction (cursor):{Mouse->Graphics}out is (function cursor)
+  is
+    (
+      ({
+        mouse: ((the mouse for cursor widget)?)
+        graphics: ((the graphics for cursor widget)!)
+      })
+      with behaviour
+      ((cursor)((the mouse for cursor widget)!)=((the graphics for cursor widget)?))
+    )
+
 is
-  (((#cursor of (mouse))!)
-  with behaviour
-  ((cursor)(mouse)=((#cursor of (mouse))?)))
+  (cursor widget)

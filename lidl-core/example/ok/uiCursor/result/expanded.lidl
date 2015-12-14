@@ -1,3 +1,8 @@
-(((#cursor of (mouse))!)
-  with behaviour
-  ((function cursor)(mouse)=((#cursor of (mouse))?)))
+(
+      ({
+        mouse: ((the mouse for cursor widget)?)
+        graphics: ((the graphics for cursor widget)!)
+      })
+      with behaviour
+      ((function cursor)((the mouse for cursor widget)!)=((the graphics for cursor widget)?))
+    )

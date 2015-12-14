@@ -1,0 +1,69 @@
+digraph g{node_12011 [shape="box", style="filled", color="#dff1f2", fontname="Courier", label="node_12011
+<%=a0%>=theInterface.mouse;
+
+0: Mouse out" ]
+node_12013 [shape="box", style="filled", color="#dff1f2", fontname="Courier", label="node_12013
+theInterface.graphics=<%=a0%>;
+
+0: Graphics in" ]
+node_12015 [shape="ellipse", style="filled", color="#ffde2f", fontname="Times", label="node_12015
+Composition
+{mouse:$graphics:$}
+0: {mouse: Mouse out, graphics: Graphics in}
+1: Mouse in
+2: Graphics out" ]
+node_12020 [shape="ellipse", style="filled", color="#ffde2f", fontname="Times", label="node_12020
+Identifier
+#themouseforcursorwidget
+" ]
+node_12023 [shape="ellipse", style="filled", color="#ffde2f", fontname="Times", label="node_12023
+CoReference
+$?
+" ]
+node_12026 [shape="ellipse", style="filled", color="#ffde2f", fontname="Times", label="node_12026
+Identifier
+#thegraphicsforcursorwidget
+" ]
+node_12029 [shape="ellipse", style="filled", color="#ffde2f", fontname="Times", label="node_12029
+Reference
+$!
+" ]
+node_12032 [shape="ellipse", style="filled", color="#ffde2f", fontname="Times", label="node_12032
+Composition
+{mouse:$graphics:$}
+" ]
+node_12036 [shape="ellipse", style="filled", color="#ffde2f", fontname="Times", label="node_12036
+Function
+functioncursor
+0: {Mouse -> Graphics} out" ]
+node_12038 [shape="ellipse", style="filled", color="#ffde2f", fontname="Times", label="node_12038
+Reference
+$!
+" ]
+node_12041 [shape="ellipse", style="filled", color="#ffde2f", fontname="Times", label="node_12041
+CoReference
+$?
+" ]
+node_12044 [shape="ellipse", style="filled", color="#ffde2f", fontname="Times", label="node_12044
+FunctionApplication
+$$=$
+" ]
+node_12049 [shape="ellipse", style="filled", color="#ffde2f", fontname="Times", label="node_12049
+Behaviour
+$withbehaviour$
+0: {mouse: Mouse in, graphics: Graphics out}" ]
+node_12015 -> node_12011 [dir=none, arrowHead=none, fontname="Times-Italic", arrowsize=1, color="#9d8400", label="edge_12016",  headlabel="0: Mouse out", taillabel="1: Mouse in: mouse" ]
+node_12015 -> node_12013 [dir=none, arrowHead=none, fontname="Times-Italic", arrowsize=1, color="#9d8400", label="edge_12017",  headlabel="0: Graphics in", taillabel="2: Graphics out: graphics" ]
+node_12023 -> node_12020 [dir=none, arrowHead=none, fontname="Times-Italic", arrowsize=1, color="#9d8400", label="edge_12024",  headlabel="0", taillabel="1" ]
+node_12029 -> node_12026 [dir=none, arrowHead=none, fontname="Times-Italic", arrowsize=1, color="#9d8400", label="edge_12030",  headlabel="0", taillabel="1" ]
+node_12032 -> node_12023 [dir=none, arrowHead=none, fontname="Times-Italic", arrowsize=1, color="#9d8400", label="edge_12033",  headlabel="0", taillabel="1" ]
+node_12032 -> node_12029 [dir=none, arrowHead=none, fontname="Times-Italic", arrowsize=1, color="#9d8400", label="edge_12034",  headlabel="0", taillabel="2" ]
+node_12038 -> node_12020 [dir=none, arrowHead=none, fontname="Times-Italic", arrowsize=1, color="#9d8400", label="edge_12039",  headlabel="0", taillabel="1" ]
+node_12041 -> node_12026 [dir=none, arrowHead=none, fontname="Times-Italic", arrowsize=1, color="#9d8400", label="edge_12042",  headlabel="0", taillabel="1" ]
+node_12044 -> node_12036 [dir=none, arrowHead=none, fontname="Times-Italic", arrowsize=1, color="#9d8400", label="edge_12045",  headlabel="0", taillabel="1" ]
+node_12044 -> node_12038 [dir=none, arrowHead=none, fontname="Times-Italic", arrowsize=1, color="#9d8400", label="edge_12046",  headlabel="0", taillabel="2" ]
+node_12044 -> node_12041 [dir=none, arrowHead=none, fontname="Times-Italic", arrowsize=1, color="#9d8400", label="edge_12047",  headlabel="0", taillabel="3" ]
+node_12049 -> node_12032 [dir=none, arrowHead=none, fontname="Times-Italic", arrowsize=1, color="#9d8400", label="edge_12050",  headlabel="0", taillabel="1" ]
+node_12049 -> node_12044 [dir=none, arrowHead=none, fontname="Times-Italic", arrowsize=1, color="#9d8400", label="edge_12051",  headlabel="0", taillabel="2" ]
+node_12049 -> node_12015 [dir=none, arrowHead=none, fontname="Times-Italic", arrowsize=1, color="#9d8400", label="edge_12052",  headlabel="0", taillabel="0" ]
+}

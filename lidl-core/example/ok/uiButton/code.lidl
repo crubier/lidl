@@ -1,0 +1,20 @@
+interaction
+  (simple UI):{mouse:Mouse in,graphics:Graphics out}
+with
+
+  interaction
+    (button widget):{mouse:Mouse in,graphics:Graphics out}
+  with
+    interaction (button):{{x:Number,y:Number,width:Number,height:Number,text:Text,pushed:Boolean}->Graphics}out is (function button)
+  is
+    (
+      ({
+        mouse: ((the mouse for button widget)?)
+        graphics: ((the graphics for button widget)!)
+      })
+      with behaviour
+      ((button)({x:(10)y:(10)width:(200)height:(100)text:("OK")pushed:(false)})=((the graphics for button widget)?))
+    )
+
+is
+  (button widget)

@@ -1,0 +1,112 @@
+interaction
+  (simple UI):{mouse:{buttons:Number, position:{x: Number,y:Number}} in,graphics:Graphics out}
+with
+
+  interaction
+    (group widget containing (a:{mouse:{buttons:Number, position:{x: Number,y:Number}} out,graphics:Graphics in}) and (b:{mouse:{buttons:Number, position:{x: Number,y:Number}} out,graphics:Graphics in})):{mouse:{buttons:Number, position:{x: Number,y:Number}} in,graphics:Graphics out}
+  is
+    ({
+      mouse:    (both ((a).mouse) and ((b).mouse))
+      graphics: (graphics containing ((a).graphics) and ((b).graphics))
+    })
+
+  interaction
+    ((x:{mouse:{buttons:Number, position:{x: Number,y:Number}} out,graphics:Graphics in}).mouse):{buttons:Number, position:{x: Number,y:Number}} in
+  is
+    (((result of (x).mouse)!)
+    with behaviour
+    ((x)=({mouse:((result of (x).mouse)?)})))
+
+
+
+  interaction
+    ((x:{mouse:{buttons:Number, position:{x: Number,y:Number}} out,graphics:Graphics in}).graphics):Graphics out
+  is
+    (((result of (x).graphics)!)
+    with behaviour
+    ((x)=({graphics:((result of (x).graphics)?)})))
+
+
+
+  interaction
+    (both (a:{buttons:Number, position:{x: Number,y:Number}} out) and (b:{buttons:Number, position:{x: Number,y:Number}} out)):{buttons:Number, position:{x: Number,y:Number}} in
+  is
+    (
+      ( (#both(a)and(b)) ?)
+      with behaviour
+      (all
+        ( (a) = ((#both(a)and(b))!) )
+        ( (b) = ((#both(a)and(b))!) )
+      )
+    )
+
+  interaction
+    (graphics containing (a:Graphics in) and (b:Graphics in)):Graphics out
+  with
+    interaction (group graphics):{{a:Graphics,b:Graphics}->Graphics}out is (function group)
+  is
+    (
+      ((result of graphics containing (a) and (b))!)
+      with behaviour
+      (
+        (group graphics)
+        ({a:(a),b:(b)})
+        =
+        ((result of graphics containing (a) and (b))?)
+      )
+    )
+
+
+  interaction
+    (all (a:Activation out)  (b:Activation out)):Activation in
+  with
+    interaction (func all):{Activation->{a:Activation,b:Activation}} out is (function all)
+  is
+    (
+      ((variable all (a) (b))?)
+      with behaviour
+      (
+        apply
+        (func all)
+        to
+        ((variable all (a) (b))!)
+        and get
+        ({a:(a) b:(b)})
+      )
+    )
+
+
+  interaction
+    (cursor widget):{mouse:{buttons:Number, position:{x: Number,y:Number}} in,graphics:Graphics out}
+  with
+    interaction (cursor):{{buttons:Number, position:{x: Number,y:Number}}->Graphics}out is (function cursor)
+  is
+    (
+      ({
+        mouse: ((the mouse for cursor widget)?)
+        graphics: ((the graphics for cursor widget)!)
+      })
+      with behaviour
+      ((cursor)((the mouse for cursor widget)!)=((the graphics for cursor widget)?))
+    )
+
+
+
+
+
+  interaction
+    (button widget):{mouse:{buttons:Number, position:{x: Number,y:Number}} in,graphics:Graphics out}
+  with
+    interaction (button):{{x:Number,y:Number,width:Number,height:Number,text:Text,pushed:Boolean}->Graphics}out is (function button)
+  is
+    (
+      ({
+        mouse: ((the mouse for button widget)?)
+        graphics: ((the graphics for button widget)!)
+      })
+      with behaviour
+      ((button)({x:(10)y:(10)width:(200)height:(100)text:("OK")pushed:(false)})=((the graphics for button widget)?))
+    )
+
+is
+  (group widget containing (button widget) and (cursor widget))

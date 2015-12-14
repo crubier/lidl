@@ -74,7 +74,7 @@ var remainder = function(x) {
 
 var power = function(x) {
   if (isActive(x.a) && isActive(x.b)) {
-    return Math.pow(x.a,x.b);
+    return Math.pow(x.a, x.b);
   } else {
     return inactive;
   }
@@ -94,7 +94,7 @@ var identity = function(x) {
 
 var isEqual = function(x) {
   if (isActive(x.a) && isActive(x.b)) {
-    return (x.a===x.b)?true:false;
+    return (x.a === x.b) ? true : false;
   } else {
     return inactive;
   }
@@ -102,7 +102,7 @@ var isEqual = function(x) {
 
 
 var boolNot = function(x) {
-  if (isActive(x) ) {
+  if (isActive(x)) {
     return !x;
   } else {
     return inactive;
@@ -110,11 +110,11 @@ var boolNot = function(x) {
 };
 
 var ifThenElse = function(x) {
-  if (isActive(x) ) {
-    if (isActive(x.cond) ) {
-      if(x.cond ===true) {
+  if (isActive(x)) {
+    if (isActive(x.cond)) {
+      if (x.cond === true) {
         return x.a;
-      } else if(x.cond ===false) {
+      } else if (x.cond === false) {
         return x.b;
       } else {
         return inactive;
@@ -129,12 +129,18 @@ var ifThenElse = function(x) {
 
 
 var whenThenElse = function(x) {
-  if (isActive(x) ) {
-    if (isActive(x.cond) ) {
-      if(x.cond === true) {
-        return {a:active,b:inactive};
-      } else if(x.cond ===false) {
-        return {a:inactive,b:active};
+  if (isActive(x)) {
+    if (isActive(x.cond)) {
+      if (x.cond === true) {
+        return {
+          a: active,
+          b: inactive
+        };
+      } else if (x.cond === false) {
+        return {
+          a: inactive,
+          b: active
+        };
       } else {
         return inactive;
       }
@@ -148,11 +154,28 @@ var whenThenElse = function(x) {
 
 
 var all = function(x) {
-  return {a:x,b:x,c:x,d:x,e:x,f:x,g:x,h:x,i:x,j:x,k:x,l:x,m:x,n:x,o:x,p:x};
+  return {
+    a: x,
+    b: x,
+    c: x,
+    d: x,
+    e: x,
+    f: x,
+    g: x,
+    h: x,
+    i: x,
+    j: x,
+    k: x,
+    l: x,
+    m: x,
+    n: x,
+    o: x,
+    p: x
+  };
 };
 
 
-var cursor = function(mouse){
+var cursor = function(mouse) {
   var cursor = {
     type: "shadow",
     blur: mouse.buttons === 0 ? 20 : 10,
@@ -197,6 +220,55 @@ var cursor = function(mouse){
     }
   };
   return cursor;
+}
+
+
+
+var button = function(button) {
+  var button = {
+    type: "shadow",
+    blur: button.pushed ? 10 : 20,
+    offset: {
+      x: 0,
+      y: button.pushed ? 2 : 4
+    },
+    color: "rgba(0, 0, 0, 0.5)",
+    content: {
+      type: "group",
+      content: [{
+        type: "fill",
+        style: "rgba(0, 171, 255, 1)",
+        content: {
+          type: "rect",
+          x: button.x,
+          y: button.y,
+          width: button.width,
+          height: button.height
+        }
+      }, {
+        type: "fill",
+        style: "rgba(255, 255, 255, 1)",
+        content: {
+          type: "text",
+          textBaseline: "middle",
+          textAlign: "center",
+          font: "200 30px Helvetica neue",
+          text: button.text,
+          x: button.x + button.width / 2,
+          y: button.y + button.height / 2
+        }
+      }]
+    }
+  };
+  return button;
+}
+
+var group = function(elements) {
+  var group = {
+      type: "group",
+      content: [elements.a,elements.b ]
+    };
+  return group;
 }
 
 `,
@@ -547,6 +619,211 @@ is
 ]
 `
 },{
+    name: 'Definition Of Make Flow',
+fileName: 'example/ok/definitionOfMakeFlow',
+     code : `interaction
+  (bob):{theNumber:Number in,theResult:Number out}
+with
+
+  interaction
+    (previous (x:Number in)):Number out
+  is
+    (
+      ((the previous(x))!)
+      with behaviour
+      (((the previous(x))?)= previous (x))
+    )
+
+  interaction
+    (not(a:Boolean in)):Boolean out
+  with
+    interaction (boolean negation):{Boolean->Boolean} out is (function boolNot)
+  is
+    (
+      ((#not (a))!)
+      with behaviour
+      ((boolean negation)  (a) = ((#not (a))?) )
+    )
+
+  interaction
+    ((a:Number in) is active):Boolean out
+  with
+    interaction (is active):{Number->Boolean}out is (function isActive)
+  is
+    (
+      ((#(a) is active)!)
+      with behaviour
+      (apply (is active) to (a) and get ((#(a) is active)?) )
+    )
+
+  interaction
+    ((a:Number in)+(b:Number in)):Number out
+  with
+    interaction (addition):{{a:Number,b:Number}->Number} out is (function addition)
+  is
+    (
+      ((result of (a)+(b))!)
+      with behaviour
+      (
+        apply
+        (addition)
+        to
+        ({a:(a)b:(b)})
+        and get
+        ((result of (a)+(b))?)
+      )
+    )
+
+
+  interaction
+    (init):Boolean out
+  is
+    ( not ( (previous(1) ) is active ) )
+
+  interaction
+    (all (a:Activation out) else (b:Activation out)):Activation in
+  with
+    interaction (func all):{Activation->{a:Activation,b:Activation}} out is (function all)
+  is
+    (
+      ((variable all (a) (b))?)
+      with behaviour
+      (
+        apply
+        (function all)
+        to
+        ((variable all (a) (b))!)
+        and get
+        ({a:(a) b:(b)})
+      )
+    )
+
+  interaction
+    ( (a:Number in) fallback to (b:Number in)):Number out
+  is
+    (
+      if ((a) is active)
+      then (a)
+      else (b)
+    )
+
+
+
+  interaction
+    ((u:Number in)==(v:Number in)):Boolean out
+  with
+    interaction (is equal):{{a:Number,b:Number}->Boolean}out is (function isEqual)
+  is
+    (
+      ((result of (u)==(v))!)
+      with behaviour
+      (apply (is equal) to ({a:(u),b:(v)}) and get ((result of (u)==(v))?) )
+    )
+
+
+  interaction
+    (when (cond:Boolean in) then (a:Activation out) else (b:Activation out)):Activation in
+  with
+    interaction
+      (whenThenElse):{{cond:Boolean,source:Activation}->{a:Activation,b:Activation}}out
+    is
+      (function whenThenElse)
+  is
+    (
+      ((activation of when (cond) then (a) else (b) )?)
+      with behaviour
+      (
+        apply
+        (whenThenElse)
+        to
+        ({  cond:(cond)  source:((activation of when (cond) then (a) else (b)) !)   })
+        and get
+        ({a:(a) b:(b)})
+      )
+    )
+
+  interaction
+    (if (cond:Boolean in) then (x:Number in) else (y:Number in)):Number out
+  is
+    (
+      ( (result of if (cond) then (x) else (y)) !)
+      with behaviour
+      (
+        when
+        (cond)
+        then
+        (( (result of if (cond) then (x) else (y) )?) = (x))
+        else
+        (( (result of if (cond) then (x) else (y) )?) = (y))
+      )
+    )
+
+  interaction
+    (make (x:Number ref) flow initially from (y:Number in)):Activation in
+  is
+    (
+      ((x)?) = (
+                  ((new (x))!)
+                  fallback to
+                  (if (init) then (y) else (previous ((x)!)) )
+                )
+    )
+
+
+is
+  (
+    ({
+      theNumber:((new ( y ))?)
+      theResult:(( y )!)
+    })
+    with behaviour
+    (make ( y ) flow initially from (1) )
+  )
+`,
+     scenario : `[
+  {
+    "args":  {},
+    "inter":  { "theNumber": null,  "theResult": 1 }
+  },
+  {
+    "args":  {},
+    "inter":  { "theNumber": null,  "theResult": 1 }
+  },
+  {
+    "args":  {},
+    "inter":  { "theNumber": 78,  "theResult": 78 }
+  },
+  {
+    "args":  {},
+    "inter":  { "theNumber": null,  "theResult": 78 }
+  },
+  {
+    "args":  {},
+    "inter":  { "theNumber": 67,  "theResult": 67 }
+  },
+  {
+    "args":  {},
+    "inter":  { "theNumber": -4,  "theResult": -4 }
+  },
+  {
+    "args":  {},
+    "inter":  { "theNumber": null,  "theResult": -4 }
+  },
+  {
+    "args":  {},
+    "inter":  { "theNumber": null,  "theResult": -4 }
+  },
+  {
+    "args":  {},
+    "inter":  { "theNumber": null,  "theResult": -4 }
+  },
+  {
+    "args":  {},
+    "inter":  { "theNumber": 42,  "theResult": 42 }
+  }
+]
+`
+},{
     name: 'Definition Of Previous',
 fileName: 'example/ok/definitionOfPrevious',
      code : `interaction
@@ -843,211 +1120,6 @@ is
 ]
 `
 },{
-    name: 'Problematic Definition Of Make Flow',
-fileName: 'example/ok/problematicDefinitionOfMakeFlow',
-     code : `interaction
-  (bob):{theNumber:Number in,theResult:Number out}
-with
-
-  interaction
-    (previous (x:Number in)):Number out
-  is
-    (
-      ((the previous(x))!)
-      with behaviour
-      (((the previous(x))?)= previous (x))
-    )
-
-  interaction
-    (not(a:Boolean in)):Boolean out
-  with
-    interaction (boolean negation):{Boolean->Boolean} out is (function boolNot)
-  is
-    (
-      ((#not (a))!)
-      with behaviour
-      ((boolean negation)  (a) = ((#not (a))?) )
-    )
-
-  interaction
-    ((a:Number in) is active):Boolean out
-  with
-    interaction (is active):{Number->Boolean}out is (function isActive)
-  is
-    (
-      ((#(a) is active)!)
-      with behaviour
-      (apply (is active) to (a) and get ((#(a) is active)?) )
-    )
-
-  interaction
-    ((a:Number in)+(b:Number in)):Number out
-  with
-    interaction (addition):{{a:Number,b:Number}->Number} out is (function addition)
-  is
-    (
-      ((result of (a)+(b))!)
-      with behaviour
-      (
-        apply
-        (addition)
-        to
-        ({a:(a)b:(b)})
-        and get
-        ((result of (a)+(b))?)
-      )
-    )
-
-
-  interaction
-    (init):Boolean out
-  is
-    ( not ( (previous(1) ) is active ) )
-
-  interaction
-    (all (a:Activation out) else (b:Activation out)):Activation in
-  with
-    interaction (func all):{Activation->{a:Activation,b:Activation}} out is (function all)
-  is
-    (
-      ((variable all (a) (b))?)
-      with behaviour
-      (
-        apply
-        (function all)
-        to
-        ((variable all (a) (b))!)
-        and get
-        ({a:(a) b:(b)})
-      )
-    )
-
-  interaction
-    ( (a:Number in) fallback to (b:Number in)):Number out
-  is
-    (
-      if ((a) is active)
-      then (a)
-      else (b)
-    )
-
-
-
-  interaction
-    ((u:Number in)==(v:Number in)):Boolean out
-  with
-    interaction (is equal):{{a:Number,b:Number}->Boolean}out is (function isEqual)
-  is
-    (
-      ((result of (u)==(v))!)
-      with behaviour
-      (apply (is equal) to ({a:(u),b:(v)}) and get ((result of (u)==(v))?) )
-    )
-
-
-  interaction
-    (when (cond:Boolean in) then (a:Activation out) else (b:Activation out)):Activation in
-  with
-    interaction
-      (whenThenElse):{{cond:Boolean,source:Activation}->{a:Activation,b:Activation}}out
-    is
-      (function whenThenElse)
-  is
-    (
-      ((activation of when (cond) then (a) else (b) )?)
-      with behaviour
-      (
-        apply
-        (whenThenElse)
-        to
-        ({  cond:(cond)  source:((activation of when (cond) then (a) else (b)) !)   })
-        and get
-        ({a:(a) b:(b)})
-      )
-    )
-
-  interaction
-    (if (cond:Boolean in) then (x:Number in) else (y:Number in)):Number out
-  is
-    (
-      ( (result of if (cond) then (x) else (y)) !)
-      with behaviour
-      (
-        when
-        (cond)
-        then
-        (( (result of if (cond) then (x) else (y) )?) = (x))
-        else
-        (( (result of if (cond) then (x) else (y) )?) = (y))
-      )
-    )
-
-  interaction
-    (make (x:Number ref) flow initially from (y:Number in)):Activation in
-  is
-    (
-      ((x)?) = (
-                  ((new (x))!)
-                  fallback to
-                  (if (init) then (y) else (previous ((x)!)) )
-                )
-    )
-
-
-is
-  (
-    ({
-      theNumber:((new ( y ))?)
-      theResult:(( y )!)
-    })
-    with behaviour
-    (make ( y ) flow initially from (1) )
-  )
-`,
-     scenario : `[
-  {
-    "args":  {},
-    "inter":  { "theNumber": null,  "theResult": 1 }
-  },
-  {
-    "args":  {},
-    "inter":  { "theNumber": null,  "theResult": 1 }
-  },
-  {
-    "args":  {},
-    "inter":  { "theNumber": 78,  "theResult": 78 }
-  },
-  {
-    "args":  {},
-    "inter":  { "theNumber": null,  "theResult": 78 }
-  },
-  {
-    "args":  {},
-    "inter":  { "theNumber": 67,  "theResult": 67 }
-  },
-  {
-    "args":  {},
-    "inter":  { "theNumber": -4,  "theResult": -4 }
-  },
-  {
-    "args":  {},
-    "inter":  { "theNumber": null,  "theResult": -4 }
-  },
-  {
-    "args":  {},
-    "inter":  { "theNumber": null,  "theResult": -4 }
-  },
-  {
-    "args":  {},
-    "inter":  { "theNumber": null,  "theResult": -4 }
-  },
-  {
-    "args":  {},
-    "inter":  { "theNumber": 42,  "theResult": 42 }
-  }
-]
-`
-},{
     name: 'Problematic Definitionof If Then Else',
 fileName: 'example/ok/problematicDefinitionofIfThenElse',
      code : `interaction
@@ -1293,6 +1365,126 @@ is
 ]
 `
 },{
+    name: 'Simple Cursor Function',
+fileName: 'example/ok/simpleCursorFunction',
+     code : `interaction
+  (cursor of (mouse:Mouse in)):Graphics out
+with
+  interaction (cursor):{Mouse->Graphics}out is (function cursor)
+is
+  (((#cursor of (mouse))!)
+  with behaviour
+  ((cursor)(mouse)=((#cursor of (mouse))?)))
+`,
+     scenario : `[{
+  "args": {
+    "mouse": {
+      "buttons": 0,
+      "position": {
+        "x": 42,
+        "y": 63
+      }
+    }
+  },
+  "inter": {
+    "type": "shadow",
+    "blur": 20,
+    "offset": {
+      "x": 0,
+      "y": 4
+    },
+    "color": "rgba(0, 0, 0, 0.5)",
+    "content": {
+      "type": "translate",
+      "x": 42,
+      "y": 63,
+      "content": {
+        "type": "scale",
+        "width": 1,
+        "height": 1,
+        "content": {
+          "type": "fill",
+          "style": "rgba(200, 0, 200, 1)",
+          "content": {
+            "type": "path",
+            "content": [{
+              "type": "begin"
+            }, {
+              "type": "move",
+              "x": 0,
+              "y": 0
+            }, {
+              "type": "line",
+              "x": 0,
+              "y": 15
+            }, {
+              "type": "line",
+              "x": 10.6,
+              "y": 10.6
+            }, {
+              "type": "close"
+            }]
+          }
+        }
+      }
+    }
+  }
+}, {
+  "args": {
+    "mouse": {
+      "buttons": 1,
+      "position": {
+        "x": 31,
+        "y": 89
+      }
+    }
+  },
+  "inter": {
+    "type": "shadow",
+    "blur": 10,
+    "offset": {
+      "x": 0,
+      "y": 2
+    },
+    "color": "rgba(0, 0, 0, 0.5)",
+    "content": {
+      "type": "translate",
+      "x": 31,
+      "y": 89,
+      "content": {
+        "type": "scale",
+        "width": 0.8,
+        "height": 0.8,
+        "content": {
+          "type": "fill",
+          "style": "rgba(200, 0, 200, 1)",
+          "content": {
+            "type": "path",
+            "content": [{
+              "type": "begin"
+            }, {
+              "type": "move",
+              "x": 0,
+              "y": 0
+            }, {
+              "type": "line",
+              "x": 0,
+              "y": 15
+            }, {
+              "type": "line",
+              "x": 10.6,
+              "y": 10.6
+            }, {
+              "type": "close"
+            }]
+          }
+        }
+      }
+    }
+  }
+}]
+`
+},{
     name: 'Simple Func',
 fileName: 'example/ok/simpleFunc',
      code : `interaction
@@ -1416,118 +1608,163 @@ is
 ]
 `
 },{
-    name: 'Ui Cursor',
-fileName: 'example/ok/uiCursor',
+    name: 'Ui Button',
+fileName: 'example/ok/uiButton',
      code : `interaction
-  (cursor of (mouse:Mouse in)):Graphics out
+  (simple UI):{mouse:Mouse in,graphics:Graphics out}
 with
-  interaction (cursor):{Mouse->Graphics}out is (function cursor)
+
+  interaction
+    (button widget):{mouse:Mouse in,graphics:Graphics out}
+  with
+    interaction (button):{{x:Number,y:Number,width:Number,height:Number,text:Text,pushed:Boolean}->Graphics}out is (function button)
+  is
+    (
+      ({
+        mouse: ((the mouse for button widget)?)
+        graphics: ((the graphics for button widget)!)
+      })
+      with behaviour
+      ((button)({x:(10)y:(10)width:(200)height:(100)text:("OK")pushed:(false)})=((the graphics for button widget)?))
+    )
+
 is
-  (((#cursor of (mouse))!)
-  with behaviour
-  ((cursor)(mouse)=((#cursor of (mouse))?)))
+  (button widget)
 `,
      scenario : `[{
-  "args": {
+  "memo": {},
+  "state": {},
+  "args": {},
+  "inter": {
     "mouse": {
       "buttons": 0,
       "position": {
         "x": 42,
         "y": 63
+      },
+      "wheel": {
+        "x": 0,
+        "y": 0,
+        "z": 0
       }
-    }
-  },
-  "inter": {
-    "type": "shadow",
-    "blur": 20,
-    "offset": {
-      "x": 0,
-      "y": 4
     },
-    "color": "rgba(0, 0, 0, 0.5)",
-    "content": {
-      "type": "translate",
-      "x": 42,
-      "y": 63,
+    "graphics":
+    {
+      "type": "shadow",
+      "blur": 20,
+      "offset": {
+        "x": 0,
+        "y": 4
+      },
+      "color": "rgba(0, 0, 0, 0.5)",
       "content": {
-        "type": "scale",
-        "width": 1,
-        "height": 1,
-        "content": {
+        "type": "group",
+        "content": [{
           "type": "fill",
-          "style": "rgba(200, 0, 200, 1)",
+          "style": "rgba(0, 171, 255, 1)",
           "content": {
-            "type": "path",
-            "content": [{
-              "type": "begin"
-            }, {
-              "type": "move",
-              "x": 0,
-              "y": 0
-            }, {
-              "type": "line",
-              "x": 0,
-              "y": 15
-            }, {
-              "type": "line",
-              "x": 10.6,
-              "y": 10.6
-            }, {
-              "type": "close"
-            }]
+            "type": "rect",
+            "x": 10,
+            "y": 10,
+            "width": 200,
+            "height": 100
           }
-        }
+        }, {
+          "type": "fill",
+          "style": "rgba(255, 255, 255, 1)",
+          "content": {
+            "type": "text",
+            "textBaseline": "middle",
+            "textAlign": "center",
+            "font": "200 30px Helvetica neue",
+            "text": "OK",
+            "x": 110,
+            "y": 60
+          }
+        }]
       }
     }
   }
-}, {
-  "args": {
-    "mouse": {
-      "buttons": 1,
-      "position": {
-        "x": 31,
-        "y": 89
-      }
-    }
-  },
+}]
+`
+},{
+    name: 'Ui Cursor',
+fileName: 'example/ok/uiCursor',
+     code : `interaction
+  (simple UI):{mouse:Mouse in,graphics:Graphics out}
+with
+
+  interaction
+    (cursor widget):{mouse:Mouse in,graphics:Graphics out}
+  with
+    interaction (cursor):{Mouse->Graphics}out is (function cursor)
+  is
+    (
+      ({
+        mouse: ((the mouse for cursor widget)?)
+        graphics: ((the graphics for cursor widget)!)
+      })
+      with behaviour
+      ((cursor)((the mouse for cursor widget)!)=((the graphics for cursor widget)?))
+    )
+
+is
+  (cursor widget)
+`,
+     scenario : `[{
+  "args": {},
   "inter": {
-    "type": "shadow",
-    "blur": 10,
-    "offset": {
-      "x": 0,
-      "y": 2
+    "mouse": {
+      "buttons": 0,
+      "position": {
+        "x": 42,
+        "y": 63
+      },
+      "wheel": {
+        "x": 0,
+        "y": 0,
+        "z": 0
+      }
     },
-    "color": "rgba(0, 0, 0, 0.5)",
-    "content": {
-      "type": "translate",
-      "x": 31,
-      "y": 89,
+    "graphics": {
+      "type": "shadow",
+      "blur": 20,
+      "offset": {
+        "x": 0,
+        "y": 4
+      },
+      "color": "rgba(0, 0, 0, 0.5)",
       "content": {
-        "type": "scale",
-        "width": 0.8,
-        "height": 0.8,
+        "type": "translate",
+        "x": 42,
+        "y": 63,
         "content": {
-          "type": "fill",
-          "style": "rgba(200, 0, 200, 1)",
+          "type": "scale",
+          "width": 1,
+          "height": 1,
           "content": {
-            "type": "path",
-            "content": [{
-              "type": "begin"
-            }, {
-              "type": "move",
-              "x": 0,
-              "y": 0
-            }, {
-              "type": "line",
-              "x": 0,
-              "y": 15
-            }, {
-              "type": "line",
-              "x": 10.6,
-              "y": 10.6
-            }, {
-              "type": "close"
-            }]
+            "type": "fill",
+            "style": "rgba(200, 0, 200, 1)",
+            "content": {
+              "type": "path",
+              "content": [{
+                "type": "begin"
+              }, {
+                "type": "move",
+                "x": 0,
+                "y": 0
+              }, {
+                "type": "line",
+                "x": 0,
+                "y": 15
+              }, {
+                "type": "line",
+                "x": 10.6,
+                "y": 10.6
+              }, {
+                "type": "close"
+              }]
+            }
           }
         }
       }

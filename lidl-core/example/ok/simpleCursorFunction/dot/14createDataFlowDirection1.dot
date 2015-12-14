@@ -1,0 +1,50 @@
+digraph g{node_10374 [shape="ellipse", style="filled", color="#ffde2f", fontname="Times", label="node_10374
+Identifier
+#cursorof$
+0: ?
+1: Mouse in" ]
+node_10380 [shape="ellipse", style="filled", color="#ffde2f", fontname="Times", label="node_10380
+Reference
+$!
+0: ?
+1: ?" ]
+node_10388 [shape="ellipse", style="filled", color="#ffde2f", fontname="Times", label="node_10388
+CoReference
+$?
+0: ?
+1: ?" ]
+node_10393 [shape="ellipse", style="filled", color="#ffde2f", fontname="Times", label="node_10393
+FunctionApplication
+$$=$
+0: ?
+1: {Mouse -> Graphics} in
+2: Mouse in
+3: ?" ]
+node_10400 [shape="ellipse", style="filled", color="#ffde2f", fontname="Times", label="node_10400
+Behaviour
+$withbehaviour$
+0: Graphics out
+1: ?
+2: ?" ]
+node_10406 [shape="box", style="filled", color="#dff1f2", fontname="Courier", label="node_10406
+<%=a0%>=theArgs.mouse;
+
+0: Mouse out" ]
+node_10408 [shape="box", style="filled", color="#dff1f2", fontname="Courier", label="node_10408
+theInterface=<%=a0%>;
+
+0: Graphics in" ]
+node_10413 [shape="ellipse", style="filled", color="#ffde2f", fontname="Times", label="node_10413
+Function
+functioncursor
+0: {Mouse -> Graphics} out" ]
+node_10380 -> node_10374 [dir=none, arrowHead=none, fontname="Times-Italic", arrowsize=1, color="#9d8400", label="edge_10382",  headlabel="0", taillabel="1" ]
+node_10388 -> node_10374 [dir=none, arrowHead=none, fontname="Times-Italic", arrowsize=1, color="#9d8400", label="edge_10390",  headlabel="0", taillabel="1" ]
+node_10393 -> node_10388 [dir=none, arrowHead=none, fontname="Times-Italic", arrowsize=1, color="#9d8400", label="edge_10397",  headlabel="0", taillabel="3" ]
+node_10400 -> node_10380 [dir=none, arrowHead=none, fontname="Times-Italic", arrowsize=1, color="#9d8400", label="edge_10402",  headlabel="0", taillabel="1" ]
+node_10400 -> node_10393 [dir=none, arrowHead=none, fontname="Times-Italic", arrowsize=1, color="#9d8400", label="edge_10403",  headlabel="0", taillabel="2" ]
+node_10406 -> node_10374 [dir=none, arrowHead=none, fontname="Times-Italic", arrowsize=1, color="#9d8400", label="edge_10410",  headlabel="1: Mouse in", taillabel="0: Mouse out" ]
+node_10406 -> node_10393 [dir=none, arrowHead=none, fontname="Times-Italic", arrowsize=1, color="#9d8400", label="edge_10411",  headlabel="2: Mouse in", taillabel="0: Mouse out" ]
+node_10400 -> node_10408 [dir=none, arrowHead=none, fontname="Times-Italic", arrowsize=1, color="#9d8400", label="edge_10412",  headlabel="0: Graphics in", taillabel="0: Graphics out" ]
+node_10413 -> node_10393 [dir=none, arrowHead=none, fontname="Times-Italic", arrowsize=1, color="#9d8400", label="edge_10414",  headlabel="1: {Mouse -> Graphics} in", taillabel="0: {Mouse -> Graphics} out" ]
+}

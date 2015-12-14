@@ -8,6 +8,7 @@ import _ from 'lodash'
 
 //TODO fix this because it replaces all null substrings, and stuff
 function display(obj) {
+  if(obj===null) return 'inactive';
   return JSON.stringify(obj).replace(/"lidl_active_value"/g,'active').replace(/"([^"*])":/g,'$1:').replace(/null/g,'inactive');
 }
 

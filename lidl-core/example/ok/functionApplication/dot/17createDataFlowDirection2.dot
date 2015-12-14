@@ -1,0 +1,77 @@
+digraph g{node_7837 [shape="box", style="filled", color="#dff1f2", fontname="Courier", label="node_7837
+<%=a0%>=theInterface.theNumber;
+
+0: Number out" ]
+node_7839 [shape="box", style="filled", color="#dff1f2", fontname="Courier", label="node_7839
+theInterface.theResult=<%=a0%>;
+
+0: Number in" ]
+node_7841 [shape="ellipse", style="filled", color="#ffde2f", fontname="Times", label="node_7841
+Composition
+{theNumber:$theResult:$}
+0: {theNumber: Number out, theResult: Number in}
+1: Number in
+2: Number out" ]
+node_7846 [shape="ellipse", style="filled", color="#ffde2f", fontname="Times", label="node_7846
+Identifier
+#theNumber
+0: ?" ]
+node_7849 [shape="ellipse", style="filled", color="#ffde2f", fontname="Times", label="node_7849
+CoReference
+$?
+0: ?
+1: ?" ]
+node_7852 [shape="ellipse", style="filled", color="#ffde2f", fontname="Times", label="node_7852
+Identifier
+#theResult
+0: ?" ]
+node_7855 [shape="ellipse", style="filled", color="#ffde2f", fontname="Times", label="node_7855
+Reference
+$!
+0: ?
+1: ?" ]
+node_7858 [shape="ellipse", style="filled", color="#ffde2f", fontname="Times", label="node_7858
+Composition
+{theNumber:$theResult:$}
+0: {theNumber: Number in, theResult: Number out}
+1: ?
+2: ?" ]
+node_7862 [shape="ellipse", style="filled", color="#ffde2f", fontname="Times", label="node_7862
+Function
+functionaddOne
+0: {Number -> Number} out" ]
+node_7864 [shape="ellipse", style="filled", color="#ffde2f", fontname="Times", label="node_7864
+Reference
+$!
+0: ?
+1: ?" ]
+node_7867 [shape="ellipse", style="filled", color="#ffde2f", fontname="Times", label="node_7867
+CoReference
+$?
+0: ?
+1: ?" ]
+node_7870 [shape="ellipse", style="filled", color="#ffde2f", fontname="Times", label="node_7870
+FunctionApplication
+apply$to$andget$
+0: Activation in
+1: {Number -> Number} in
+2: ?
+3: ?" ]
+node_7879 [shape="box", style="filled", color="#dff1f2", fontname="Courier", label="node_7879
+<%=a0%> = active;
+
+0: Activation out" ]
+node_7841 -> node_7837 [dir=none, arrowHead=none, fontname="Times-Italic", arrowsize=1, color="#9d8400", label="edge_7842",  headlabel="0: Number out", taillabel="1: Number in: theNumber" ]
+node_7841 -> node_7839 [dir=none, arrowHead=none, fontname="Times-Italic", arrowsize=1, color="#9d8400", label="edge_7843",  headlabel="0: Number in", taillabel="2: Number out: theResult" ]
+node_7849 -> node_7846 [dir=none, arrowHead=none, fontname="Times-Italic", arrowsize=1, color="#9d8400", label="edge_7850",  headlabel="0", taillabel="1" ]
+node_7855 -> node_7852 [dir=none, arrowHead=none, fontname="Times-Italic", arrowsize=1, color="#9d8400", label="edge_7856",  headlabel="0", taillabel="1" ]
+node_7858 -> node_7849 [dir=none, arrowHead=none, fontname="Times-Italic", arrowsize=1, color="#9d8400", label="edge_7859",  headlabel="0", taillabel="1" ]
+node_7858 -> node_7855 [dir=none, arrowHead=none, fontname="Times-Italic", arrowsize=1, color="#9d8400", label="edge_7860",  headlabel="0", taillabel="2" ]
+node_7864 -> node_7846 [dir=none, arrowHead=none, fontname="Times-Italic", arrowsize=1, color="#9d8400", label="edge_7865",  headlabel="0", taillabel="1" ]
+node_7867 -> node_7852 [dir=none, arrowHead=none, fontname="Times-Italic", arrowsize=1, color="#9d8400", label="edge_7868",  headlabel="0", taillabel="1" ]
+node_7870 -> node_7862 [dir=none, arrowHead=none, fontname="Times-Italic", arrowsize=1, color="#9d8400", label="edge_7871",  headlabel="0: {Number -> Number} out", taillabel="1: {Number -> Number} in" ]
+node_7870 -> node_7864 [dir=none, arrowHead=none, fontname="Times-Italic", arrowsize=1, color="#9d8400", label="edge_7872",  headlabel="0", taillabel="2" ]
+node_7870 -> node_7867 [dir=none, arrowHead=none, fontname="Times-Italic", arrowsize=1, color="#9d8400", label="edge_7873",  headlabel="0", taillabel="3" ]
+node_7879 -> node_7870 [dir=none, arrowHead=none, fontname="Times-Italic", arrowsize=1, color="#9d8400", label="edge_7880",  headlabel="0: Activation in", taillabel="0: Activation out" ]
+node_7841 -> node_7858 [dir=none, arrowHead=none, fontname="Times-Italic", arrowsize=1, color="#9d8400", label="edge_7881",  headlabel="0: {theNumber: Number in, theResult: Number out}", taillabel="0: {theNumber: Number out, theResult: Number in}" ]
+}

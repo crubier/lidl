@@ -86,7 +86,7 @@ var remainder = function(x) {
 
 var power = function(x) {
   if (isActive(x.a) && isActive(x.b)) {
-    return Math.pow(x.a,x.b);
+    return Math.pow(x.a, x.b);
   } else {
     return inactive;
   }
@@ -106,7 +106,7 @@ var identity = function(x) {
 
 var isEqual = function(x) {
   if (isActive(x.a) && isActive(x.b)) {
-    return (x.a===x.b)?true:false;
+    return (x.a === x.b) ? true : false;
   } else {
     return inactive;
   }
@@ -114,7 +114,7 @@ var isEqual = function(x) {
 
 
 var boolNot = function(x) {
-  if (isActive(x) ) {
+  if (isActive(x)) {
     return !x;
   } else {
     return inactive;
@@ -122,11 +122,11 @@ var boolNot = function(x) {
 };
 
 var ifThenElse = function(x) {
-  if (isActive(x) ) {
-    if (isActive(x.cond) ) {
-      if(x.cond ===true) {
+  if (isActive(x)) {
+    if (isActive(x.cond)) {
+      if (x.cond === true) {
         return x.a;
-      } else if(x.cond ===false) {
+      } else if (x.cond === false) {
         return x.b;
       } else {
         return inactive;
@@ -141,12 +141,18 @@ var ifThenElse = function(x) {
 
 
 var whenThenElse = function(x) {
-  if (isActive(x) ) {
-    if (isActive(x.cond) ) {
-      if(x.cond === true) {
-        return {a:active,b:inactive};
-      } else if(x.cond ===false) {
-        return {a:inactive,b:active};
+  if (isActive(x)) {
+    if (isActive(x.cond)) {
+      if (x.cond === true) {
+        return {
+          a: active,
+          b: inactive
+        };
+      } else if (x.cond === false) {
+        return {
+          a: inactive,
+          b: active
+        };
       } else {
         return inactive;
       }
@@ -160,11 +166,28 @@ var whenThenElse = function(x) {
 
 
 var all = function(x) {
-  return {a:x,b:x,c:x,d:x,e:x,f:x,g:x,h:x,i:x,j:x,k:x,l:x,m:x,n:x,o:x,p:x};
+  return {
+    a: x,
+    b: x,
+    c: x,
+    d: x,
+    e: x,
+    f: x,
+    g: x,
+    h: x,
+    i: x,
+    j: x,
+    k: x,
+    l: x,
+    m: x,
+    n: x,
+    o: x,
+    p: x
+  };
 };
 
 
-var cursor = function(mouse){
+var cursor = function(mouse) {
   var cursor = {
     type: "shadow",
     blur: mouse.buttons === 0 ? 20 : 10,
@@ -212,80 +235,129 @@ var cursor = function(mouse){
 }
 
 
+
+var button = function(button) {
+  var button = {
+    type: "shadow",
+    blur: button.pushed ? 10 : 20,
+    offset: {
+      x: 0,
+      y: button.pushed ? 2 : 4
+    },
+    color: "rgba(0, 0, 0, 0.5)",
+    content: {
+      type: "group",
+      content: [{
+        type: "fill",
+        style: "rgba(0, 171, 255, 1)",
+        content: {
+          type: "rect",
+          x: button.x,
+          y: button.y,
+          width: button.width,
+          height: button.height
+        }
+      }, {
+        type: "fill",
+        style: "rgba(255, 255, 255, 1)",
+        content: {
+          type: "text",
+          textBaseline: "middle",
+          textAlign: "center",
+          font: "200 30px Helvetica neue",
+          text: button.text,
+          x: button.x + button.width / 2,
+          y: button.y + button.height / 2
+        }
+      }]
+    }
+  };
+  return button;
+}
+
+var group = function(elements) {
+  var group = {
+      type: "group",
+      content: [elements.a,elements.b ]
+    };
+  return group;
+}
+
+
 ///////////////////////////////////////////////////////////////////////
 // Declaration of variables (Edges of the graph)
-var edge_3890 = inactive;
-var edge_3895 = inactive;
-var edge_3905 = inactive;
-var edge_3906 = inactive;
-var edge_3907 = inactive;
-var edge_3909 = inactive;
-var edge_3911 = inactive;
-var edge_3915 = inactive;
-var edge_3917 = inactive;
-var edge_3919 = inactive;
-var edge_3921 = inactive;
-var edge_3923 = inactive;
-var edge_3925 = inactive;
-var edge_3926 = inactive;
-var edge_3927 = inactive;
-var edge_3928 = inactive;
-var edge_3930 = inactive;
-var edge_3931 = inactive;
-var edge_3932 = inactive;
+var edge_6779 = inactive;
+var edge_6784 = inactive;
+var edge_6794 = inactive;
+var edge_6795 = inactive;
+var edge_6796 = inactive;
+var edge_6798 = inactive;
+var edge_6800 = inactive;
+var edge_6804 = inactive;
+var edge_6806 = inactive;
+var edge_6808 = inactive;
+var edge_6810 = inactive;
+var edge_6812 = inactive;
+var edge_6814 = inactive;
+var edge_6815 = inactive;
+var edge_6816 = inactive;
+var edge_6817 = inactive;
+var edge_6819 = inactive;
+var edge_6820 = inactive;
+var edge_6821 = inactive;
 
 ///////////////////////////////////////////////////////////////////////
 // Data flow processing (Nodes of the graph)
-// node_3885
-edge_3923 = 4;
-// node_3882
-edge_3919 = 3;
-// node_3879
-edge_3906 = 1;
-// node_3877
-edge_3895 = whenThenElse;
-// node_3875
-edge_3890 = isEqual;
-// node_3866
-edge_3925 = active;
-// node_3924
-edge_3926 = edge_3925;
-edge_3927 = edge_3925;
-edge_3928 = edge_3925;
-// node_3846
-edge_3905=theArgs.t;
-// node_3904
-edge_3907 = {};
-edge_3907['a'] = edge_3905;
-edge_3907['b'] = edge_3906;
-// node_3888
-if(edge_3926 === active && edge_3890!==null && edge_3890!==undefined) {edge_3909 = edge_3890(edge_3907);}
-// node_3908
-edge_3911 = {};
-edge_3911['cond'] = edge_3909;
-edge_3911['source'] = edge_3928;
-// node_3893
-if(edge_3927 === active && edge_3895!==null && edge_3895!==undefined) {edge_3915 = edge_3895(edge_3911);}
-// node_3912
-edge_3917 = edge_3915['a'];
-edge_3921 = edge_3915['b'];
-// node_3920
-if(edge_3921 === active) {edge_3932 = edge_3923;}
-// node_3916
-if(edge_3917 === active) {edge_3931 = edge_3919;}
-// node_3929
-edge_3930=null;
-if(edge_3930===null ){
-  edge_3930 = edge_3931;
-} else if (edge_3931 !== null){
-  throw new Error('Multiple active assignments to the same signal edge_3930 : '+edge_3930 + ' and ' + edge_3931);
-}if(edge_3930===null ){
-  edge_3930 = edge_3932;
-} else if (edge_3932 !== null){
-  throw new Error('Multiple active assignments to the same signal edge_3930 : '+edge_3930 + ' and ' + edge_3932);
+// node_6774
+edge_6812 = 4;
+// node_6771
+edge_6808 = 3;
+// node_6768
+edge_6795 = 1;
+// node_6766
+edge_6784 = whenThenElse;
+// node_6764
+edge_6779 = isEqual;
+// node_6755
+edge_6814 = active;
+// node_6813
+edge_6815 = edge_6814;
+edge_6816 = edge_6814;
+edge_6817 = edge_6814;
+// node_6735
+edge_6794=theArgs.t;
+// node_6793
+edge_6796 = {};
+edge_6796['a'] = edge_6794;
+edge_6796['b'] = edge_6795;
+// node_6777
+if(edge_6815 === active && edge_6779!==null && edge_6779!==undefined) {edge_6798 = edge_6779(edge_6796);}
+// node_6797
+edge_6800 = {};
+edge_6800['cond'] = edge_6798;
+edge_6800['source'] = edge_6817;
+// node_6782
+if(edge_6816 === active && edge_6784!==null && edge_6784!==undefined) {edge_6804 = edge_6784(edge_6800);}
+// node_6801
+edge_6806 = edge_6804['a'];
+edge_6810 = edge_6804['b'];
+// node_6809
+if(edge_6810 === active) {edge_6821 = edge_6812;}
+// node_6805
+if(edge_6806 === active) {edge_6820 = edge_6808;}
+// node_6818
+edge_6819=null;
+if(edge_6819===null ){
+  edge_6819 = edge_6820;
+} else if (edge_6820 !== null){
+  throw new Error('Multiple active assignments to the same signal edge_6819 : '+edge_6819 + ' and ' + edge_6820);
+}if(edge_6819===null ){
+  edge_6819 = edge_6821;
+} else if (edge_6821 !== null){
+  throw new Error('Multiple active assignments to the same signal edge_6819 : '+edge_6819 + ' and ' + edge_6821);
 }
-// node_3848
-theInterface=edge_3930;
+// node_6737
+theInterface=edge_6819;
 
 
 ///////////////////////////////////////////////////////////////////////

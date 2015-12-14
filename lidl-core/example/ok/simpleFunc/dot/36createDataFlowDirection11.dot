@@ -1,0 +1,28 @@
+digraph g{node_10660 [shape="box", style="filled", color="#dff1f2", fontname="Courier", label="node_10660
+<%=a0%>=theInterface.theNumber;
+
+0: Number out" ]
+node_10662 [shape="box", style="filled", color="#dff1f2", fontname="Courier", label="node_10662
+theInterface.theResult=<%=a0%>;
+
+0: Number in" ]
+node_10704 [shape="box", style="filled", color="#dff1f2", fontname="Courier", label="node_10704
+<%=a0%> = active;
+
+0: Activation out" ]
+node_10707 [shape="box", style="filled", color="#dff1f2", fontname="Courier", label="node_10707
+<%=a0%> = addOne;
+
+0: {Number -> Number} out" ]
+node_10709 [shape="box", style="filled", color="#dff1f2", fontname="Courier", label="node_10709
+if(<%=a0%> === active && <%=a1%>!==null && <%=a1%>!==undefined) {<%=a3%> = <%=a1%>(<%=a2%>);}
+
+0: Activation in
+1: {Number -> Number} in
+2: Number in
+3: Number out" ]
+node_10709 -> node_10704 [dir=none, arrowHead=none, fontname="Times-Italic", arrowsize=1, color="#9d8400", label="edge_10710",  headlabel="0: Activation out", taillabel="0: Activation in" ]
+node_10709 -> node_10707 [dir=none, arrowHead=none, fontname="Times-Italic", arrowsize=1, color="#9d8400", label="edge_10711",  headlabel="0: {Number -> Number} out", taillabel="1: {Number -> Number} in" ]
+node_10709 -> node_10660 [dir=none, arrowHead=none, fontname="Times-Italic", arrowsize=1, color="#9d8400", label="edge_10727",  headlabel="0: Number out", taillabel="2: Number in" ]
+node_10662 -> node_10709 [dir=none, arrowHead=none, fontname="Times-Italic", arrowsize=1, color="#9d8400", label="edge_10728",  headlabel="3: Number out", taillabel="0: Number in" ]
+}

@@ -1,0 +1,8 @@
+interaction
+  (cursor of (mouse:Mouse in)):Graphics out
+with
+  interaction (cursor):{Mouse->Graphics}out is (function cursor)
+is
+  (((#cursor of (mouse))!)
+  with behaviour
+  ((cursor)(mouse)=((#cursor of (mouse))?)))
