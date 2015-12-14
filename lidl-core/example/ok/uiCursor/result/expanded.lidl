@@ -1,0 +1,3 @@
+((cursor of (mouse)!)
+  with behaviour
+  ((function cursor)(mouse)=(cursor of (mouse)?)))

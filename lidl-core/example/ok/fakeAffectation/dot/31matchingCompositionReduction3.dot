@@ -1,0 +1,42 @@
+digraph g{node_4141 [shape="box", style="filled", color="#dff1f2", fontname="Courier", label="node_4141
+<%=a0%>=theInterface.theNumber;
+
+0: Number out" ]
+node_4143 [shape="box", style="filled", color="#dff1f2", fontname="Courier", label="node_4143
+theInterface.theResult=<%=a0%>;
+
+0: Number in" ]
+node_4150 [shape="ellipse", style="filled", color="#ffde2f", fontname="Times", label="node_4150
+#theNumber?
+0: Number in" ]
+node_4152 [shape="ellipse", style="filled", color="#ffde2f", fontname="Times", label="node_4152
+#theResult!
+0: Number out" ]
+node_4158 [shape="ellipse", style="filled", color="#ffde2f", fontname="Times", label="node_4158
+#theResult?
+0: Number in" ]
+node_4160 [shape="ellipse", style="filled", color="#ffde2f", fontname="Times", label="node_4160
+#theNumber!
+0: Number out" ]
+node_4173 [shape="box", style="filled", color="#dff1f2", fontname="Courier", label="node_4173
+<%=a0%> = active;
+
+0: Activation out" ]
+node_4176 [shape="box", style="filled", color="#dff1f2", fontname="Courier", label="node_4176
+<%=a0%> = identity;
+
+0: {Number -> Number} out" ]
+node_4178 [shape="box", style="filled", color="#dff1f2", fontname="Courier", label="node_4178
+if(<%=a0%> === active && <%=a1%>!==null && <%=a1%>!==undefined) {<%=a3%> = <%=a1%>(<%=a2%>);}
+
+0: Activation in
+1: {Number -> Number} in
+2: Number in
+3: Number out" ]
+node_4178 -> node_4173 [dir=none, arrowHead=none, fontname="Times-Italic", arrowsize=1, color="#9d8400", label="edge_4179",  headlabel="0: Activation out", taillabel="0: Activation in" ]
+node_4178 -> node_4176 [dir=none, arrowHead=none, fontname="Times-Italic", arrowsize=1, color="#9d8400", label="edge_4180",  headlabel="0: {Number -> Number} out", taillabel="1: {Number -> Number} in" ]
+node_4178 -> node_4160 [dir=none, arrowHead=none, fontname="Times-Italic", arrowsize=1, color="#9d8400", label="edge_4181",  headlabel="0: Number out", taillabel="2: Number in" ]
+node_4178 -> node_4158 [dir=none, arrowHead=none, fontname="Times-Italic", arrowsize=1, color="#9d8400", label="edge_4182",  headlabel="0: Number in", taillabel="3: Number out" ]
+node_4150 -> node_4141 [dir=none, arrowHead=none, fontname="Times-Italic", arrowsize=1, color="#9d8400", label="edge_4191",  headlabel="0: Number out", taillabel="0: Number in" ]
+node_4152 -> node_4143 [dir=none, arrowHead=none, fontname="Times-Italic", arrowsize=1, color="#9d8400", label="edge_4192",  headlabel="0: Number in", taillabel="0: Number out" ]
+}

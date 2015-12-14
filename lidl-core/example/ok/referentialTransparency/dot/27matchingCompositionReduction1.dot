@@ -1,0 +1,35 @@
+digraph g{node_6211 [shape="box", style="filled", color="#dff1f2", fontname="Courier", label="node_6211
+<%=a0%>=theInterface.theNumber;
+
+0: Number out" ]
+node_6213 [shape="box", style="filled", color="#dff1f2", fontname="Courier", label="node_6213
+theInterface.theResult=<%=a0%>;
+
+0: Number in" ]
+node_6220 [shape="ellipse", style="filled", color="#ffde2f", fontname="Times", label="node_6220
+variableyb?
+0: Number out" ]
+node_6223 [shape="ellipse", style="filled", color="#ffde2f", fontname="Times", label="node_6223
+variableb!
+0: ?" ]
+node_6226 [shape="ellipse", style="filled", color="#ffde2f", fontname="Times", label="node_6226
+variablex$$?
+0: ?
+1: Number in
+2: ?" ]
+node_6230 [shape="ellipse", style="filled", color="#ffde2f", fontname="Times", label="node_6230
+variablex$$!
+0: ?
+1: Number in
+2: ?" ]
+node_6238 [shape="box", style="filled", color="#dff1f2", fontname="Courier", label="node_6238
+<%=a0%> = active;
+
+0: Activation out" ]
+node_6226 -> node_6220 [dir=none, arrowHead=none, fontname="Times-Italic", arrowsize=1, color="#9d8400", label="edge_6227",  headlabel="0: Number out", taillabel="1: Number in" ]
+node_6226 -> node_6223 [dir=none, arrowHead=none, fontname="Times-Italic", arrowsize=1, color="#9d8400", label="edge_6228",  headlabel="0", taillabel="2" ]
+node_6230 -> node_6220 [dir=none, arrowHead=none, fontname="Times-Italic", arrowsize=1, color="#9d8400", label="edge_6231",  headlabel="0: Number out", taillabel="1: Number in" ]
+node_6230 -> node_6223 [dir=none, arrowHead=none, fontname="Times-Italic", arrowsize=1, color="#9d8400", label="edge_6232",  headlabel="0", taillabel="2" ]
+node_6226 -> node_6211 [dir=none, arrowHead=none, fontname="Times-Italic", arrowsize=1, color="#9d8400", label="edge_6247",  headlabel="0: Number out", taillabel="0" ]
+node_6230 -> node_6213 [dir=none, arrowHead=none, fontname="Times-Italic", arrowsize=1, color="#9d8400", label="edge_6248",  headlabel="0: Number in", taillabel="0" ]
+}

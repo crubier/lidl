@@ -1,0 +1,24 @@
+digraph g{node_6463 [shape="box", style="filled", color="#dff1f2", fontname="Courier", label="node_6463
+<%=a0%>=theInterface.theNumber;
+
+0: Number out" ]
+node_6465 [shape="box", style="filled", color="#dff1f2", fontname="Courier", label="node_6465
+theInterface.theResult=<%=a0%>;
+
+0: Number in" ]
+node_6480 [shape="box", style="filled", color="#dff1f2", fontname="Courier", label="node_6480
+<%=a0%> = active;
+
+0: Activation out" ]
+node_6495 [shape="box", style="filled", color="#dff1f2", fontname="Courier", label="node_6495
+// We dont care about <%=a0%>, this is a fake receiver node
+
+0: Activation in" ]
+node_6463 -> node_6465 [dir=forward, arrowHead=normal, fontname="Times-Italic", arrowsize=1, color="#ddd2ff", label="",  headlabel="", taillabel="" ]
+node_6480 -> node_6495 [dir=forward, arrowHead=normal, fontname="Times-Italic", arrowsize=1, color="#ddd2ff", label="",  headlabel="", taillabel="" ]
+node_6480 -> node_6495 [dir=forward, arrowHead=normal, fontname="Times-Italic", arrowsize=1, color="#cc00ff", label="1",  headlabel="", taillabel="" ]
+node_6495 -> node_6463 [dir=forward, arrowHead=normal, fontname="Times-Italic", arrowsize=1, color="#cc00ff", label="2",  headlabel="", taillabel="" ]
+node_6463 -> node_6465 [dir=forward, arrowHead=normal, fontname="Times-Italic", arrowsize=1, color="#cc00ff", label="3",  headlabel="", taillabel="" ]
+node_6463 -> node_6465 [dir=none, arrowHead=none, fontname="Times-Italic", arrowsize=1, color="#9d8400", label="edge_6493",  headlabel="0: Number in", taillabel="0: Number out" ]
+node_6480 -> node_6495 [dir=none, arrowHead=none, fontname="Times-Italic", arrowsize=1, color="#9d8400", label="edge_6496",  headlabel="0: Activation in", taillabel="0: Activation out" ]
+}

@@ -2,7 +2,9 @@
 
 
 
-linkIdentifiers;var _lodash = require('lodash');var _lodash2 = _interopRequireDefault(_lodash);function _interopRequireDefault(obj) {return obj && obj.__esModule ? obj : { default: obj };}function linkIdentifiers(graph) {
+
+
+linkIdentifiers;var _lodash = require('lodash');var _lodash2 = _interopRequireDefault(_lodash);var _exportGraph = require('../exportGraph');var _exportGraph2 = _interopRequireDefault(_exportGraph);function _interopRequireDefault(obj) {return obj && obj.__esModule ? obj : { default: obj };}function linkIdentifiers(graph) {
   graph.
   reduceNodes({ 
     type: 'InteractionInstance', 
@@ -62,43 +64,24 @@ linkIdentifiers;var _lodash = require('lodash');var _lodash2 = _interopRequireDe
         .value();
 
 
-        // We find the node which has the opposite situation (? instead of ! or vice versa)
-        var operator = theNode.content.operator;
-        var suffix = operator.slice(-1);
-        var coSuffix = suffix === '!' ? '?' : '!';
-        var coOperator = operator.slice(0, -1) + coSuffix;
-        var coNode = 
-        graph.
-        matchNodes({ 
-          type: 'InteractionInstance', 
-          content: { 
-            operator: coOperator } })
+        if ((0, _lodash2.default)(theChildrenEdges).every(function (edg) {return edg.to.node.content.operatorType !== 'Identifier';})) 
 
-        // Co operator
-        .filter(function (n) {return (// All chidren of similarNode are children of theNode
+        {(function () {
+
+            // We find the node which has the opposite situation (? instead of ! or vice versa)
+            var operator = theNode.content.operator;
+            var suffix = operator.slice(-1);
+            var coSuffix = suffix === '!' ? '?' : '!';
+            var coOperator = operator.slice(0, -1) + coSuffix;
+            var coNode = 
             graph.
-            matchUndirectedEdges({ 
-              type: 'InteractionInstanceOperand', 
-              from: { 
-                node: n } }).
+            matchNodes({ 
+              type: 'InteractionInstance', 
+              content: { 
+                operator: coOperator } })
 
-
-            filter(function (e) {return e.from.index > 0;}) // We check for similarity of children only, not parents !
-            .every(function (e) {return (
-                (0, _lodash2.default)(theChildrenEdges).
-                filter({ 
-                  from: { 
-                    index: e.from.index }, 
-
-                  to: { 
-                    index: e.to.index, 
-                    node: e.to.node } }).
-
-
-                size() === 1);}));}).
-        filter(function (n) {return (// All children of theNode are children of the similarNode
-            (0, _lodash2.default)(theChildrenEdges).
-            every(function (ce) {return (
+            // Co operator
+            .filter(function (n) {return (// All chidren of similarNode are children of theNode
                 graph.
                 matchUndirectedEdges({ 
                   type: 'InteractionInstanceOperand', 
@@ -106,59 +89,95 @@ linkIdentifiers;var _lodash = require('lodash');var _lodash2 = _interopRequireDe
                     node: n } }).
 
 
-                filter(function (e) {return e.from.index > 0;}).
-                filter({ 
-                  from: { 
-                    index: ce.from.index }, 
+                filter(function (e) {return e.from.index > 0;}) // We check for similarity of children only, not parents !
+                .every(function (e) {return (
+                    (0, _lodash2.default)(theChildrenEdges).
+                    filter({ 
+                      from: { 
+                        index: e.from.index }, 
 
-                  to: { 
-                    index: ce.to.index, 
-                    node: ce.to.node } }).
-
-
-                size() === 1);}));}).
-        tap(function (x) {
-          if (x.length > 1) {
-            throw new Error('Fatal: referentialTransparency failed, we found more than one similar coNodes for an identifier');}}).
-
-        first();
+                      to: { 
+                        index: e.to.index, 
+                        node: e.to.node } }).
 
 
-        //
-        // console.log(theNode.content.operator);
-        // console.log(coNode.content.operator);
+                    size() === 1);}));}).
+            filter(function (n) {return (// All children of theNode are children of the similarNode
+                (0, _lodash2.default)(theChildrenEdges).
+                every(function (ce) {return (
+                    graph.
+                    matchUndirectedEdges({ 
+                      type: 'InteractionInstanceOperand', 
+                      from: { 
+                        node: n } }).
 
-        graph.
-        matchUndirectedEdges({ 
-          type: 'InteractionInstanceOperand', 
-          to: { 
-            node: theNode, 
-            index: 0 } }).
+
+                    filter(function (e) {return e.from.index > 0;}).
+                    filter({ 
+                      from: { 
+                        index: ce.from.index }, 
+
+                      to: { 
+                        index: ce.to.index, 
+                        node: ce.to.node } }).
 
 
-        map(function (e1) {return (
+                    size() === 1);}));}).
+            tap(function (x) {
+              if (x.length > 1) {
+                throw new Error('Fatal: referentialTransparency failed, we found more than one similar coNodes for an identifier');} else 
+              if (x.length < 1) {
+                // console.log("Single edge");
+              }}).
+
+            first();
+
+
+            //
+            // console.log(theNode.content.operator);
+            // console.log(coNode.content.operator);
+            if (!_lodash2.default.isUndefined(coNode)) {
+              graph.
+              matchUndirectedEdges({ 
+                type: 'InteractionInstanceOperand', 
+                to: { 
+                  node: theNode, 
+                  index: 0 } }).
+
+
+              map(function (e1) {return (
+                  graph.
+                  matchUndirectedEdges({ 
+                    type: 'InteractionInstanceOperand', 
+                    to: { 
+                      node: coNode, 
+                      index: 0 } }).
+
+
+                  map(function (e2) {return (
+                      graph.
+                      addEdge({ 
+                        type: 'InteractionInstanceOperand', 
+                        from: e1.from, 
+                        to: e2.from, 
+                        createdByEliminatingIdentifier: true, 
+                        meta: theNode.meta //TODO merge meta of theNode and coNode
+                      }));}).
+                  commit());}).
+              commit();
+
+
+
+              graph.
+              finish(coNode);}
+
+
+
             graph.
-            matchUndirectedEdges({ 
-              type: 'InteractionInstanceOperand', 
-              to: { 
-                node: coNode, 
-                index: 0 } }).
+            finish(theNode);})();}})();}
 
 
-            map(function (e2) {return (
-                graph.
-                addEdge({ 
-                  type: 'InteractionInstanceOperand', 
-                  from: e1.from, 
-                  to: e2.from, 
-                  createdByEliminatingIdentifier: true, 
-                  meta: theNode.meta //TODO merge meta of theNode and coNode
-                }));}).
-            commit());}).
-        commit();
 
-        graph.
-        finish(theNode);
 
-        graph.
-        finish(coNode);})();}});}
+    console.log('exxx');
+    (0, _exportGraph2.default)(graph.toDot(), "okk" + _lodash2.default.uniqueId());});}

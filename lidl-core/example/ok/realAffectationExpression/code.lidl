@@ -7,16 +7,22 @@ with
   interaction
     ((a:Number in)+(b:Number in)):Number out
   is
-    ((variable result of (a)+(b))with behaviour
-    (apply(addition)
-    to ({a:(a)b:(b)})
-    and get (variable result of (a)+(b))))
+    (
+      (variable result of (a)+(b)!)
+      with behaviour
+      (
+        apply (addition)
+        to ({a:(a)b:(b)})
+        and get (variable result of (a)+(b)?)
+      )
+    )
 
 is
   (
-    (
-    {theResult:(theResult)theNumber:(theNumber)}
-    )
-  with behaviour
-    ((theResult)=((1)+(theNumber)))
+    ({
+      theNumber:(theNumber?)
+      theResult:(theResult!)
+    })
+    with behaviour
+    ((theResult?)=((1)+(theNumber!)))
   )

@@ -1,0 +1,58 @@
+interaction
+  (empty UI with cursor):{
+        mouse: {
+          buttons: Number,
+          position: {
+            x: Number,
+            y: Number
+          },
+          wheel: {
+            x: Number,
+            y: Number,
+            z: Number
+          }
+        } in,
+        graphics: Graphics out
+      }
+
+with
+
+  interaction
+    (cursor of (mouse:{
+          buttons: Number,
+          position: {
+            x: Number,
+            y: Number
+          },
+          wheel: {
+            x: Number,
+            y: Number,
+            z: Number
+          }
+        } in)):Graphics out
+  with
+    interaction (cursor):{{
+          buttons: Number,
+          position: {
+            x: Number,
+            y: Number
+          },
+          wheel: {
+            x: Number,
+            y: Number,
+            z: Number
+          }
+        }->Graphics}out is (function cursor)
+  is
+    (
+      (cursor of (mouse)!)
+      with behaviour
+      ((cursor)(mouse)=(cursor of (mouse)?))
+    )
+
+
+is
+  ({
+        mouse: (mouse?)
+        graphics: (cursor of (mouse!))
+  })

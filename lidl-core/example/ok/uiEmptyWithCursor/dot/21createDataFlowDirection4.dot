@@ -1,0 +1,58 @@
+digraph g{node_7676 [shape="box", style="filled", color="#dff1f2", fontname="Courier", label="node_7676
+<%=a0%>=theInterface.mouse;
+
+0: {buttons: Number out, position: {x: Number out, y: Number out}, wheel: {x: Number out, y: Number out, z: Number out}}" ]
+node_7678 [shape="box", style="filled", color="#dff1f2", fontname="Courier", label="node_7678
+theInterface.graphics=<%=a0%>;
+
+0: Graphics in" ]
+node_7680 [shape="ellipse", style="filled", color="#ffde2f", fontname="Times", label="node_7680
+{mouse:$graphics:$}
+0: {mouse: {buttons: Number, position: {x: Number, y: Number}, wheel: {x: Number, y: Number, z: Number}} out, graphics: Graphics in}
+1: {buttons: Number in, position: {x: Number in, y: Number in}, wheel: {x: Number in, y: Number in, z: Number in}}
+2: Graphics out" ]
+node_7685 [shape="ellipse", style="filled", color="#ffde2f", fontname="Times", label="node_7685
+#mouse?
+0: ?" ]
+node_7687 [shape="ellipse", style="filled", color="#ffde2f", fontname="Times", label="node_7687
+#mouse!
+0: ?" ]
+node_7691 [shape="ellipse", style="filled", color="#ffde2f", fontname="Times", label="node_7691
+#cursorof$!
+0: Graphics out
+1: ?" ]
+node_7696 [shape="ellipse", style="filled", color="#ffde2f", fontname="Times", label="node_7696
+#cursorof$?
+0: ?
+1: ?" ]
+node_7699 [shape="ellipse", style="filled", color="#ffde2f", fontname="Times", label="node_7699
+$$=$
+0: Activation in
+1: {{buttons: Number, position: {x: Number, y: Number}, wheel: {x: Number, y: Number, z: Number}} -> Graphics} in
+2: ?
+3: ?" ]
+node_7708 [shape="ellipse", style="filled", color="#ffde2f", fontname="Times", label="node_7708
+{mouse:$graphics:$}
+0: {mouse: {buttons: Number, position: {x: Number, y: Number}, wheel: {x: Number, y: Number, z: Number}} in, graphics: Graphics out}
+1: ?
+2: Graphics in" ]
+node_7712 [shape="box", style="filled", color="#dff1f2", fontname="Courier", label="node_7712
+<%=a0%> = active;
+
+0: Activation out" ]
+node_7715 [shape="box", style="filled", color="#dff1f2", fontname="Courier", label="node_7715
+<%=a0%> = cursor;
+
+0: {{buttons: Number, position: {x: Number, y: Number}, wheel: {x: Number, y: Number, z: Number}} -> Graphics} out" ]
+node_7680 -> node_7676 [dir=none, arrowHead=none, fontname="Times-Italic", arrowsize=1, color="#9d8400", label="edge_7681",  headlabel="0: {buttons: Number out, position: {x: Number out, y: Number out}, wheel: {x: Number out, y: Number out, z: Number out}}", taillabel="1: {buttons: Number in, position: {x: Number in, y: Number in}, wheel: {x: Number in, y: Number in, z: Number in}}: mouse" ]
+node_7680 -> node_7678 [dir=none, arrowHead=none, fontname="Times-Italic", arrowsize=1, color="#9d8400", label="edge_7682",  headlabel="0: Graphics in", taillabel="2: Graphics out: graphics" ]
+node_7691 -> node_7687 [dir=none, arrowHead=none, fontname="Times-Italic", arrowsize=1, color="#9d8400", label="edge_7692",  headlabel="0", taillabel="1" ]
+node_7696 -> node_7687 [dir=none, arrowHead=none, fontname="Times-Italic", arrowsize=1, color="#9d8400", label="edge_7697",  headlabel="0", taillabel="1" ]
+node_7699 -> node_7687 [dir=none, arrowHead=none, fontname="Times-Italic", arrowsize=1, color="#9d8400", label="edge_7700",  headlabel="0", taillabel="2" ]
+node_7699 -> node_7696 [dir=none, arrowHead=none, fontname="Times-Italic", arrowsize=1, color="#9d8400", label="edge_7702",  headlabel="0", taillabel="3" ]
+node_7708 -> node_7685 [dir=none, arrowHead=none, fontname="Times-Italic", arrowsize=1, color="#9d8400", label="edge_7709",  headlabel="0", taillabel="1" ]
+node_7708 -> node_7680 [dir=none, arrowHead=none, fontname="Times-Italic", arrowsize=1, color="#9d8400", label="edge_7711",  headlabel="0: {mouse: {buttons: Number, position: {x: Number, y: Number}, wheel: {x: Number, y: Number, z: Number}} out, graphics: Graphics in}", taillabel="0: {mouse: {buttons: Number, position: {x: Number, y: Number}, wheel: {x: Number, y: Number, z: Number}} in, graphics: Graphics out}" ]
+node_7712 -> node_7699 [dir=none, arrowHead=none, fontname="Times-Italic", arrowsize=1, color="#9d8400", label="edge_7713",  headlabel="0: Activation in", taillabel="0: Activation out" ]
+node_7708 -> node_7691 [dir=none, arrowHead=none, fontname="Times-Italic", arrowsize=1, color="#9d8400", label="edge_7714",  headlabel="0: Graphics out", taillabel="2: Graphics in" ]
+node_7715 -> node_7699 [dir=none, arrowHead=none, fontname="Times-Italic", arrowsize=1, color="#9d8400", label="edge_7716",  headlabel="1: {{buttons: Number, position: {x: Number, y: Number}, wheel: {x: Number, y: Number, z: Number}} -> Graphics} in", taillabel="0: {{buttons: Number, position: {x: Number, y: Number}, wheel: {x: Number, y: Number, z: Number}} -> Graphics} out" ]
+}

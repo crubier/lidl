@@ -1,8 +1,8 @@
 (
     ({
-      theNumber:(variable theNumber)
-      theResult:(variable theResult)
+      theNumber:(theNumber?)
+      theResult:(theResult!)
     })
     with behaviour
-    (apply(function addOne) to (variable theNumber) and get (variable theResult))
+    (apply(function addOne) to (theNumber!) and get (theResult?))
   )

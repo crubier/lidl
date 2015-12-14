@@ -1,8 +1,8 @@
 ({
-    theNumber:(variable theNumber)
+    theNumber:(theNumber?)
     theResult:(
-      (variable previous(variable theNumber))
+      (previous(theNumber!)!)
       with behaviour
-      (get(variable previous(variable theNumber))from previous and set (variable theNumber) for next)
+      ( (previous(theNumber!)?) = previous (theNumber!))
     )
   })

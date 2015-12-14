@@ -156,9 +156,6 @@ export function graphTransformationPipeline (graph,rootDefinitionNode,callbacks)
     referentialTransparencyInstances(graph);
     if(false===callCallback('referentialTransparencyInstances')) return graph;
 
-    linkIdentifiers(graph);
-    if(false===callCallback('linkIdentifiers')) return graph;
-
     createDataFlowDirection(graph);
     if(false===callCallback('createDataFlowDirection')) return graph;
 
@@ -212,6 +209,29 @@ export function graphTransformationPipeline (graph,rootDefinitionNode,callbacks)
     if(false===callCallback('createDataFlowDirection')) return graph;
 
     //TODO Should loop that, either in the method or here ... until fixed point
+
+    linkIdentifiers(graph);
+    if(false===callCallback('linkIdentifiers')) return graph;
+
+    createDataFlowDirection(graph);
+      if(false===callCallback('createDataFlowDirection')) return graph;
+
+
+    matchingCompositionReduction(graph);
+    if(false===callCallback('matchingCompositionReduction')) return graph;
+    createDataFlowDirection(graph);
+    if(false===callCallback('createDataFlowDirection')) return graph;
+    matchingCompositionReduction(graph);
+    if(false===callCallback('matchingCompositionReduction')) return graph;
+    createDataFlowDirection(graph);
+    if(false===callCallback('createDataFlowDirection')) return graph;
+    matchingCompositionReduction(graph);
+    if(false===callCallback('matchingCompositionReduction')) return graph;
+    createDataFlowDirection(graph);
+    if(false===callCallback('createDataFlowDirection')) return graph;
+
+    //TODO Should loop that, either in the method or here ... until fixed point
+
 
     removeOneSidedAffectation(graph);
     if(false===callCallback('removeOneSidedAffectation')) return graph;

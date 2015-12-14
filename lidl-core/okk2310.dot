@@ -1,0 +1,96 @@
+digraph g{node_2191 [shape="box", style="filled", color="#dff1f2", fontname="Courier", label="node_2191
+<%=a0%>=theInterface.theNumber;
+
+0: Number out" ]
+node_2193 [shape="box", style="filled", color="#dff1f2", fontname="Courier", label="node_2193
+theInterface.theResult=<%=a0%>;
+
+0: Boolean in" ]
+node_2206 [shape="ellipse", style="filled", color="#ffde2f", fontname="Times", label="node_2206
+#previous$!
+0: Number out
+1: Number in" ]
+node_2209 [shape="ellipse", style="filled", color="#ffde2f", fontname="Times", label="node_2209
+#previous$?
+0: ?
+1: Number in" ]
+node_2222 [shape="ellipse", style="filled", color="#ffde2f", fontname="Times", label="node_2222
+#$isactive!
+0: Boolean out
+1: Number in" ]
+node_2227 [shape="ellipse", style="filled", color="#ffde2f", fontname="Times", label="node_2227
+#$isactive?
+0: Boolean in
+1: Number in" ]
+node_2241 [shape="ellipse", style="filled", color="#ffde2f", fontname="Times", label="node_2241
+#not$!
+0: Boolean out
+1: Boolean in" ]
+node_2246 [shape="ellipse", style="filled", color="#ffde2f", fontname="Times", label="node_2246
+#not$?
+0: Boolean in
+1: Boolean in" ]
+node_2262 [shape="box", style="filled", color="#dff1f2", fontname="Courier", label="node_2262
+<%=a0%> = active;
+
+0: Activation out" ]
+node_2273 [shape="box", style="filled", color="#dff1f2", fontname="Courier", label="node_2273
+<%=a0%> = isActive;
+
+0: {Number -> Boolean} out" ]
+node_2275 [shape="box", style="filled", color="#dff1f2", fontname="Courier", label="node_2275
+<%=a0%> = boolNot;
+
+0: {Boolean -> Boolean} out" ]
+node_2277 [shape="box", style="filled", color="#dff1f2", fontname="Courier", label="node_2277
+<%=a0%> = 1;
+
+0: Number out" ]
+node_2281 [shape="box", style="filled", color="#dff1f2", fontname="Courier", label="node_2281
+if(<%=a0%> === active && <%=a1%>!==null && <%=a1%>!==undefined) {<%=a3%> = <%=a1%>(<%=a2%>);}
+
+0: Activation in
+1: {Number -> Boolean} in
+2: Number in
+3: Boolean out" ]
+node_2286 [shape="box", style="filled", color="#dff1f2", fontname="Courier", label="node_2286
+if(<%=a0%> === active && <%=a1%>!==null && <%=a1%>!==undefined) {<%=a3%> = <%=a1%>(<%=a2%>);}
+
+0: Activation in
+1: {Boolean -> Boolean} in
+2: Boolean in
+3: Boolean out" ]
+node_2292 [shape="box", style="filled", color="#dff1f2", fontname="Courier", label="node_2292
+if(<%=a0%> === active) {
+<%=a1%> = previousState['state_2291'];
+}
+
+0: Activation in
+1: ?" ]
+node_2295 [shape="box", style="filled", color="#dff1f2", fontname="Courier", label="node_2295
+if(<%=a0%> === active) {
+nextState['state_2291'] = <%=a1%>;
+}
+
+0: Activation in
+1: Number in" ]
+node_2222 -> node_2206 [dir=none, arrowHead=none, fontname="Times-Italic", arrowsize=1, color="#9d8400", label="edge_2264",  headlabel="0: Number out", taillabel="1: Number in" ]
+node_2227 -> node_2206 [dir=none, arrowHead=none, fontname="Times-Italic", arrowsize=1, color="#9d8400", label="edge_2265",  headlabel="0: Number out", taillabel="1: Number in" ]
+node_2241 -> node_2222 [dir=none, arrowHead=none, fontname="Times-Italic", arrowsize=1, color="#9d8400", label="edge_2268",  headlabel="0: Boolean out", taillabel="1: Boolean in" ]
+node_2246 -> node_2222 [dir=none, arrowHead=none, fontname="Times-Italic", arrowsize=1, color="#9d8400", label="edge_2269",  headlabel="0: Boolean out", taillabel="1: Boolean in" ]
+node_2277 -> node_2206 [dir=none, arrowHead=none, fontname="Times-Italic", arrowsize=1, color="#9d8400", label="edge_2278",  headlabel="1: Number in", taillabel="0: Number out" ]
+node_2277 -> node_2209 [dir=none, arrowHead=none, fontname="Times-Italic", arrowsize=1, color="#9d8400", label="edge_2279",  headlabel="1: Number in", taillabel="0: Number out" ]
+node_2281 -> node_2262 [dir=none, arrowHead=none, fontname="Times-Italic", arrowsize=1, color="#9d8400", label="edge_2282",  headlabel="0: Activation out", taillabel="0: Activation in" ]
+node_2281 -> node_2273 [dir=none, arrowHead=none, fontname="Times-Italic", arrowsize=1, color="#9d8400", label="edge_2283",  headlabel="0: {Number -> Boolean} out", taillabel="1: {Number -> Boolean} in" ]
+node_2281 -> node_2206 [dir=none, arrowHead=none, fontname="Times-Italic", arrowsize=1, color="#9d8400", label="edge_2284",  headlabel="0: Number out", taillabel="2: Number in" ]
+node_2281 -> node_2227 [dir=none, arrowHead=none, fontname="Times-Italic", arrowsize=1, color="#9d8400", label="edge_2285",  headlabel="0: Boolean in", taillabel="3: Boolean out" ]
+node_2286 -> node_2262 [dir=none, arrowHead=none, fontname="Times-Italic", arrowsize=1, color="#9d8400", label="edge_2287",  headlabel="0: Activation out", taillabel="0: Activation in" ]
+node_2286 -> node_2275 [dir=none, arrowHead=none, fontname="Times-Italic", arrowsize=1, color="#9d8400", label="edge_2288",  headlabel="0: {Boolean -> Boolean} out", taillabel="1: {Boolean -> Boolean} in" ]
+node_2286 -> node_2222 [dir=none, arrowHead=none, fontname="Times-Italic", arrowsize=1, color="#9d8400", label="edge_2289",  headlabel="0: Boolean out", taillabel="2: Boolean in" ]
+node_2286 -> node_2246 [dir=none, arrowHead=none, fontname="Times-Italic", arrowsize=1, color="#9d8400", label="edge_2290",  headlabel="0: Boolean in", taillabel="3: Boolean out" ]
+node_2292 -> node_2262 [dir=none, arrowHead=none, fontname="Times-Italic", arrowsize=1, color="#9d8400", label="edge_2293",  headlabel="0: Activation out", taillabel="0: Activation in" ]
+node_2292 -> node_2209 [dir=none, arrowHead=none, fontname="Times-Italic", arrowsize=1, color="#9d8400", label="edge_2294",  headlabel="0", taillabel="1" ]
+node_2295 -> node_2262 [dir=none, arrowHead=none, fontname="Times-Italic", arrowsize=1, color="#9d8400", label="edge_2296",  headlabel="0: Activation out", taillabel="0: Activation in" ]
+node_2295 -> node_2277 [dir=none, arrowHead=none, fontname="Times-Italic", arrowsize=1, color="#9d8400", label="edge_2297",  headlabel="0: Number out", taillabel="1: Number in" ]
+node_2241 -> node_2193 [dir=none, arrowHead=none, fontname="Times-Italic", arrowsize=1, color="#9d8400", label="edge_2307",  headlabel="0: Boolean in", taillabel="0: Boolean out" ]
+}

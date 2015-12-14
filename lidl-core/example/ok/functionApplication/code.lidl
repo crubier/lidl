@@ -5,9 +5,9 @@ with
 is
   (
     ({
-      theNumber:(variable theNumber)
-      theResult:(variable theResult)
+      theNumber:(theNumber?)
+      theResult:(theResult!)
     })
     with behaviour
-    (apply(add one) to (variable theNumber) and get (variable theResult))
+    (apply(add one) to (theNumber!) and get (theResult?))
   )

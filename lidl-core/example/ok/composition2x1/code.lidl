@@ -8,16 +8,16 @@ with
 is
   (
     ({
-      theNumber:(x)
-      theOther:(y)
-      theResult:(z)
+      theNumber:(x?)
+      theOther:(y?)
+      theResult:(z!)
     })
    with behaviour
     (apply
       (addition)
       to
-      ({a:(x)b:(y)})
+      ({a:(x!)b:(y!)})
       and get
-      (z)
+      (z?)
     )
   )

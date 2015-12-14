@@ -1,6 +1,0 @@
-({
-        mouse: (#mouse)
-        graphics: ((#cursor of (#mouse))
-    with behaviour
-    ((function cursor)(#mouse)=(#cursor of (#mouse))))
-  })

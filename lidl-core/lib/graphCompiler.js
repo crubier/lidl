@@ -156,9 +156,6 @@ graphTransformationPipeline = graphTransformationPipeline;var _g = require('./g.
     (0, _referentialTransparencyInstances2.default)(graph);
     if (false === callCallback('referentialTransparencyInstances')) return graph;
 
-    (0, _linkIdentifiers2.default)(graph);
-    if (false === callCallback('linkIdentifiers')) return graph;
-
     (0, _createDataFlowDirection2.default)(graph);
     if (false === callCallback('createDataFlowDirection')) return graph;
 
@@ -212,6 +209,29 @@ graphTransformationPipeline = graphTransformationPipeline;var _g = require('./g.
     if (false === callCallback('createDataFlowDirection')) return graph;
 
     //TODO Should loop that, either in the method or here ... until fixed point
+
+    (0, _linkIdentifiers2.default)(graph);
+    if (false === callCallback('linkIdentifiers')) return graph;
+
+    (0, _createDataFlowDirection2.default)(graph);
+    if (false === callCallback('createDataFlowDirection')) return graph;
+
+
+    (0, _matchingCompositionReduction2.default)(graph);
+    if (false === callCallback('matchingCompositionReduction')) return graph;
+    (0, _createDataFlowDirection2.default)(graph);
+    if (false === callCallback('createDataFlowDirection')) return graph;
+    (0, _matchingCompositionReduction2.default)(graph);
+    if (false === callCallback('matchingCompositionReduction')) return graph;
+    (0, _createDataFlowDirection2.default)(graph);
+    if (false === callCallback('createDataFlowDirection')) return graph;
+    (0, _matchingCompositionReduction2.default)(graph);
+    if (false === callCallback('matchingCompositionReduction')) return graph;
+    (0, _createDataFlowDirection2.default)(graph);
+    if (false === callCallback('createDataFlowDirection')) return graph;
+
+    //TODO Should loop that, either in the method or here ... until fixed point
+
 
     (0, _removeOneSidedAffectation2.default)(graph);
     if (false === callCallback('removeOneSidedAffectation')) return graph;

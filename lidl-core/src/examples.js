@@ -213,15 +213,15 @@ with
     interaction (return1):{Void->Number} out is (function return1)
   is
     (
-      (variable result1)
+      ( result1!)
       with behaviour
       (
         apply
         (return1)
         to
-        (variable ok)
+        ( ok!)
         and get
-        (variable result1)
+        ( result1?)
       )
     )
 
@@ -231,7 +231,7 @@ with
     interaction (addition):{{a:Number,b:Number}->Number} out is (function addition)
   is
     (
-      (variable result of (a)+(b))
+      ( result of (a)+(b)!)
       with behaviour
       (
         apply
@@ -239,19 +239,19 @@ with
         to
         ({a:(a)b:(b)})
         and get
-        (variable result of (a)+(b))
+        ( result of (a)+(b)?)
       )
     )
 
 is
   (
     ({
-      theNumber:(# theNumber)
-      theResult:(# theResult)}
-    )
+      theNumber:(theNumber?)
+      theResult:(theResult!)
+    })
   with behaviour
     (
-      (# theResult) =((the magic number )+(# theNumber))
+      (theResult?) =((the magic number )+(theNumber!))
     )
   )
 `,
@@ -315,11 +315,11 @@ with
 is
   (
     ({
-        theNumber:  (x)
-        theResult:  (y)
+        theNumber:  (x?)
+        theResult:  (y!)
       })
     with behaviour
-    (apply (add one) to (x) and get (y))
+    (apply (add one) to (x!) and get (y?))
   )
 `,
      scenario : `[
@@ -358,17 +358,17 @@ with
 is
   (
     ({
-      theNumber:(x)
-      theOther:(y)
-      theResult:(z)
+      theNumber:(x?)
+      theOther:(y?)
+      theResult:(z!)
     })
    with behaviour
     (apply
       (addition)
       to
-      ({a:(x)b:(y)})
+      ({a:(x!)b:(y!)})
       and get
-      (z)
+      (z?)
     )
   )
 `,
@@ -408,17 +408,17 @@ with
 is
   (
     ({
-      theNumber:(variable theNumber)
-      theOther:(variable y)
-      theResult:(variable theResult)
-      theLast:(variable wow)
+      theNumber:( theNumber?)
+      theOther:( y?)
+      theResult:( theResult!)
+      theLast:( wow!)
     })
   with behaviour
     ( apply (cool)
       to
-      ({a:(variable theNumber)b:(variable y)})
+      ({a:( theNumber!)b:( y!)})
       and get
-      ({sum:(variable theResult)diff:(variable wow)})
+      ({sum:( theResult?)diff:( wow?)})
     )
   )
 `,
@@ -456,9 +456,9 @@ with
     (previous (x:Number in)):Number out
   is
     (
-      (variable previous(x))
+      (previous(x)!)
       with behaviour
-      (get(variable previous(x))from previous and set (x) for next)
+      ((previous(x)?)= previous (x))
     )
 
   interaction
@@ -467,9 +467,9 @@ with
     interaction (is equal):{{a:Number,b:Number}->Boolean}out is (function isEqual)
   is
     (
-      (variable result of (a)==(b))
+      (result of (a)==(b)!)
       with behaviour
-      (apply (is equal) to ({a:(a),b:(b)}) and get (variable result of (a)==(b)) )
+      (apply (is equal) to ({a:(a),b:(b)}) and get ( result of (a)==(b)?) )
     )
 
   interaction
@@ -478,9 +478,9 @@ with
     interaction (boolean negation):{Boolean->Boolean} out is (function boolNot)
   is
     (
-      (variable not (a))
+      (not (a) !)
       with behaviour
-      (apply (boolean negation) to (a) and get (variable not (a)) )
+      (apply (boolean negation) to (a) and get (not (a)?) )
     )
 
   interaction
@@ -489,9 +489,9 @@ with
     interaction (is active):{Number->Boolean} out is (function isActive)
   is
     (
-      (variable  (a) is active)
+      ( (a) is active!)
       with behaviour
-      (apply (is active) to (a) and get (variable (a) is active) )
+      (apply (is active) to (a) and get ( (a) is active?) )
     )
 
   interaction
@@ -500,7 +500,7 @@ with
     interaction (addition):{{a:Number,b:Number}->Number} out is (function addition)
   is
     (
-      (variable result of (a)+(b))
+      ( result of (a)+(b)!)
       with behaviour
       (
         apply
@@ -508,7 +508,7 @@ with
         to
         ({a:(a)b:(b)})
         and get
-        (variable result of (a)+(b))
+        ( result of (a)+(b)?)
       )
     )
 
@@ -519,7 +519,7 @@ with
 
 is
   ({
-    theNumber:(variable theNumber)
+    theNumber:(variable theNumber?)
     theResult:(init)
   })
 `,
@@ -557,15 +557,15 @@ with
     (previous (x:Number in)):Number out
   is
     (
-      (variable previous(x))
+      (previous(x)!)
       with behaviour
-      (get(variable previous(x))from previous and set (x) for next)
+      ( (previous(x)?) = previous (x))
     )
 
 is
   ({
-    theNumber:(variable theNumber)
-    theResult:(previous(variable theNumber))
+    theNumber:(theNumber?)
+    theResult:(previous(theNumber!))
   })
 `,
      scenario : `[
@@ -680,13 +680,12 @@ with
   interaction
     ((x:{theNumber:Number in,theResult:Number out}).theNumber):Number out
   is
-    ((variable (x).theNumber!) with behaviour (({theNumber:(variable (x).theNumber?)})=(x)))
+    (((x).theNumber!) with behaviour (({theNumber:((x).theNumber?)})=(x)))
 
   interaction
     ((x:{theNumber:Number in,theResult:Number out}).theResult):Number in
   is
-    ((variable (x).theResult!) with behaviour ((x)=({theResult:(variable (x).theResult?)})))
-
+    (((x).theResult!) with behaviour ((x)=({theResult:((x).theResult?)})))
 
 is
   (
@@ -732,11 +731,12 @@ with
     (apply (identity) to (b) and get (a))
 is
   (
-    (
-    {theNumber:(variable theNumber)theResult:(variable theResult)}
-    )
+    ({
+      theNumber:(theNumber?)
+      theResult:(theResult!)
+    })
   with behaviour
-    ((variable theResult)=fake=(variable theNumber))
+    ((theResult?)=fake=(theNumber!))
   )
 `,
      scenario : `[
@@ -772,11 +772,11 @@ with
 is
   (
     ({
-      theNumber:(variable theNumber)
-      theResult:(variable theResult)
+      theNumber:(theNumber?)
+      theResult:(theResult!)
     })
     with behaviour
-    (apply(add one) to (variable theNumber) and get (variable theResult))
+    (apply(add one) to (theNumber!) and get (theResult?))
   )
 `,
      scenario : `[
@@ -817,7 +817,7 @@ with
     is
       (function addition)
   is
-    ((# (a)+(b)) with behaviour ((addition)({a:(a)b:(b)})=(#(a)+(b))))
+    (((a)+(b)!) with behaviour ((addition)({a:(a)b:(b)})=((a)+(b)?)))
 
 is
   ((9)+(9))
@@ -843,6 +843,82 @@ is
 ]
 `
 },{
+    name: 'Problematic Definitionof If Then Else',
+fileName: 'example/ok/problematicDefinitionofIfThenElse',
+     code : `interaction
+ (test (a:Number in)):{theNumber:Number in,theResult:Number out}
+with
+
+
+  interaction
+    ((a:Number in)==(b:Number in)):Boolean out
+  with
+    interaction (isEqual):{{a:Number,b:Number}->Boolean}out is (function isEqual)
+  is
+    (
+      (result of (a)==(b)!)
+      with behaviour
+      (apply (isEqual) to ({a:(a),b:(b)}) and get (result of (a)==(b)?) )
+    )
+
+
+  interaction
+    (when (cond:Boolean in) then (a:Activation out) else (b:Activation out)):Activation in
+  with
+    interaction (whenThenElse):{{cond:Boolean,source:Activation}->{a:Activation,b:Activation}}out is (function whenThenElse)
+  is
+    (
+      (activation of when (cond) then (a) else (b)?)
+      with behaviour
+      (
+        apply
+        (whenThenElse)
+        to
+        ({  cond:(cond)  source:(activation of when (cond) then (a) else (b)!)   })
+        and get
+        ({a:(a) b:(b)})
+      )
+    )
+
+    interaction
+      (if (cond:Boolean in) then (a:Number in) else (b:Number in)):Number out
+    is
+      (
+        (result of if (cond) then (a) else (b)!)
+        with behaviour
+        (
+          when
+          (cond)
+          then
+          ((result of if (cond) then (a) else (b)?) = (a))
+          else
+          ((result of if (cond) then (a) else (b)?) = (b))
+        )
+      )
+
+is
+  (if((a)==(1))then({theNumber:(b?),theResult:(b!)})else({theNumber:(b?),theResult:(-8000)}))
+`,
+     scenario : `[
+  {
+    "args":  {"t":0},
+    "inter":  4
+  },
+  {
+    "args":  {"t":1},
+    "inter":  3
+  },
+  {
+    "args":  {"t":2},
+    "inter":  4
+  },
+  {
+    "args":  {"t":3},
+    "inter":  4
+  }
+]
+`
+},{
     name: 'Real Affectation Expression',
 fileName: 'example/ok/realAffectationExpression',
      code : `interaction
@@ -854,18 +930,24 @@ with
   interaction
     ((a:Number in)+(b:Number in)):Number out
   is
-    ((variable result of (a)+(b))with behaviour
-    (apply(addition)
-    to ({a:(a)b:(b)})
-    and get (variable result of (a)+(b))))
+    (
+      (variable result of (a)+(b)!)
+      with behaviour
+      (
+        apply (addition)
+        to ({a:(a)b:(b)})
+        and get (variable result of (a)+(b)?)
+      )
+    )
 
 is
   (
-    (
-    {theResult:(theResult)theNumber:(theNumber)}
-    )
-  with behaviour
-    ((theResult)=((1)+(theNumber)))
+    ({
+      theNumber:(theNumber?)
+      theResult:(theResult!)
+    })
+    with behaviour
+    ((theResult?)=((1)+(theNumber!)))
   )
 `,
      scenario : `[
@@ -899,17 +981,17 @@ fileName: 'example/ok/referentialTransparency',
 with
 
   interaction (z):Number out
-  is (variable y b)
+  is (variable y b?)
 
   interaction (y):Number out
-  is (variable y b)
+  is (variable y b?)
 
   interaction (x):Number out
-  is (variable b)
+  is (variable b!)
 is
   ({
-    theNumber:(variable x (y) (variable b))
-    theResult:(variable x (z) (x))
+    theNumber:(variable x (y) (variable b!)?)
+    theResult:(variable x (z) (x)!)
   })
 `,
      scenario : `[
@@ -936,14 +1018,50 @@ is
 ]
 `
 },{
+    name: 'Resolver',
+fileName: 'example/ok/resolver',
+     code : `interaction
+  (bob):{theNumber:Number in,theOther:Number in, theResult:Number out, theLast:Number out}
+is
+  ({
+    theNumber:(x?)
+    theOther:(x?)
+    theResult:(x!)
+    theLast:(x!)
+  })
+`,
+     scenario : `[
+  {
+    "args":  {},
+    "inter":  { "theNumber": 50, "theOther":null, "theResult": 50, "theLast": 50 }
+  },
+  {
+    "args":  {},
+    "inter":  { "theNumber": 78,  "theOther":null,"theResult": 78 , "theLast": 78}
+  },
+  {
+    "args":  {},
+    "inter":  { "theNumber": null, "theOther":null, "theResult": null, "theLast": null }
+  },
+  {
+    "args":  {},
+    "inter":  { "theNumber": null, "theOther":42, "theResult": 42, "theLast": 42 }
+  },
+  {
+    "args":  {},
+    "inter":  { "theNumber": 67, "theOther":null, "theResult": 67, "theLast": 67 }
+  }
+]
+`
+},{
     name: 'Simple',
 fileName: 'example/ok/simple',
      code : `interaction
   (main):{theNumber:Number in,theResult:Number out}
 is
   ({
-    theNumber:(x)
-    theResult:(x)
+    theNumber:(x?)
+    theResult:(x!)
   })
 `,
      scenario : `[
@@ -983,9 +1101,9 @@ with
     is
       (function addOne)
   is
-    ((result of bob(x)) with behaviour ((addOne)(x)=(result of bob(x))))
+    ((result of bob(x)!) with behaviour ((addOne)(x)=(result of bob(x)?)))
 is
-  ({theNumber:(a),theResult:(bob(a))})
+  ({theNumber:(a?),theResult:(bob(a!))})
 `,
      scenario : `[
   {
@@ -1018,11 +1136,11 @@ fileName: 'example/ok/simplePreviousNext',
 is
   (
     ({
-      theNumber:(x)
-      theResult:(y)
+      theNumber:(x?)
+      theResult:(y!)
     })
     with behaviour
-    (get (y) from previous and set (x) for next)
+    (get (y?) from previous and set (x!) for next)
   )
 `,
      scenario : `[
@@ -1060,12 +1178,12 @@ with
   with
     interaction (addition):{{a:Number,b:Number}->Number}out is (function addition)
   is
-    ((# (a)+(b)) with behaviour ((addition)({a:(a)b:(b)})=(#(a)+(b))))
+    (((a)+(b)!) with behaviour ((addition)({a:(a)b:(b)})=((a)+(b)?)))
 
   interaction
     (previous(a:Number in)):Number out
   is
-    ((# previous (a)) with behaviour ((# previous (a)) = previous (a)))
+    ((previous (a)!) with behaviour ((previous (a)?) = previous (a)))
 
 is
     ((previous(a))+(previous(a)))
@@ -1091,6 +1209,249 @@ is
     "inter" : 16
   }
 ]
+`
+},{
+    name: 'Ui Cursor',
+fileName: 'example/ok/uiCursor',
+     code : `interaction
+  (cursor of (mouse:Mouse in)):Graphics out
+with
+  interaction (cursor):{Mouse->Graphics}out is (function cursor)
+is
+  ((cursor of (mouse)!)
+  with behaviour
+  ((cursor)(mouse)=(cursor of (mouse)?)))
+`,
+     scenario : `[{
+  "args": {
+    "mouse": {
+      "buttons": 0,
+      "position": {
+        "x": 42,
+        "y": 63
+      }
+    }
+  },
+  "inter": {
+    "type": "shadow",
+    "blur": 20,
+    "offset": {
+      "x": 0,
+      "y": 4
+    },
+    "color": "rgba(0, 0, 0, 0.5)",
+    "content": {
+      "type": "translate",
+      "x": 42,
+      "y": 63,
+      "content": {
+        "type": "scale",
+        "width": 1,
+        "height": 1,
+        "content": {
+          "type": "fill",
+          "style": "rgba(200, 0, 200, 1)",
+          "content": {
+            "type": "path",
+            "content": [{
+              "type": "begin"
+            }, {
+              "type": "move",
+              "x": 0,
+              "y": 0
+            }, {
+              "type": "line",
+              "x": 0,
+              "y": 15
+            }, {
+              "type": "line",
+              "x": 10.6,
+              "y": 10.6
+            }, {
+              "type": "close"
+            }]
+          }
+        }
+      }
+    }
+  }
+}, {
+  "args": {
+    "mouse": {
+      "buttons": 1,
+      "position": {
+        "x": 31,
+        "y": 89
+      }
+    }
+  },
+  "inter": {
+    "type": "shadow",
+    "blur": 10,
+    "offset": {
+      "x": 0,
+      "y": 2
+    },
+    "color": "rgba(0, 0, 0, 0.5)",
+    "content": {
+      "type": "translate",
+      "x": 31,
+      "y": 89,
+      "content": {
+        "type": "scale",
+        "width": 0.8,
+        "height": 0.8,
+        "content": {
+          "type": "fill",
+          "style": "rgba(200, 0, 200, 1)",
+          "content": {
+            "type": "path",
+            "content": [{
+              "type": "begin"
+            }, {
+              "type": "move",
+              "x": 0,
+              "y": 0
+            }, {
+              "type": "line",
+              "x": 0,
+              "y": 15
+            }, {
+              "type": "line",
+              "x": 10.6,
+              "y": 10.6
+            }, {
+              "type": "close"
+            }]
+          }
+        }
+      }
+    }
+  }
+}]
+`
+},{
+    name: 'Ui Empty With Cursor',
+fileName: 'example/ok/uiEmptyWithCursor',
+     code : `interaction
+  (empty UI with cursor):{
+        mouse: {
+          buttons: Number,
+          position: {
+            x: Number,
+            y: Number
+          },
+          wheel: {
+            x: Number,
+            y: Number,
+            z: Number
+          }
+        } in,
+        graphics: Graphics out
+      }
+
+with
+
+  interaction
+    (cursor of (mouse:{
+          buttons: Number,
+          position: {
+            x: Number,
+            y: Number
+          },
+          wheel: {
+            x: Number,
+            y: Number,
+            z: Number
+          }
+        } in)):Graphics out
+  with
+    interaction (cursor):{{
+          buttons: Number,
+          position: {
+            x: Number,
+            y: Number
+          },
+          wheel: {
+            x: Number,
+            y: Number,
+            z: Number
+          }
+        }->Graphics}out is (function cursor)
+  is
+    (
+      (cursor of (mouse)!)
+      with behaviour
+      ((cursor)(mouse)=(cursor of (mouse)?))
+    )
+
+
+is
+  ({
+        mouse: (mouse?)
+        graphics: (cursor of (mouse!))
+  })
+`,
+     scenario : `[{
+  "args": {},
+  "inter": {
+    "mouse": {
+      "buttons": 0,
+      "position": {
+        "x": 42,
+        "y": 63
+      },
+      "wheel": {
+        "x": 0,
+        "y": 0,
+        "z": 0
+      }
+    },
+    "graphics": {
+      "type": "shadow",
+      "blur": 20,
+      "offset": {
+        "x": 0,
+        "y": 4
+      },
+      "color": "rgba(0, 0, 0, 0.5)",
+      "content": {
+        "type": "translate",
+        "x": 42,
+        "y": 63,
+        "content": {
+          "type": "scale",
+          "width": 1,
+          "height": 1,
+          "content": {
+            "type": "fill",
+            "style": "rgba(200, 0, 200, 1)",
+            "content": {
+              "type": "path",
+              "content": [{
+                "type": "begin"
+              }, {
+                "type": "move",
+                "x": 0,
+                "y": 0
+              }, {
+                "type": "line",
+                "x": 0,
+                "y": 15
+              }, {
+                "type": "line",
+                "x": 10.6,
+                "y": 10.6
+              }, {
+                "type": "close"
+              }]
+            }
+          }
+        }
+      }
+    }
+  }
+}]
 `
 }]
 };

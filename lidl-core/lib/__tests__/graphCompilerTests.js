@@ -15,8 +15,8 @@ describe('lidl graph compiler', function () {
 
 
   var testPaths = [
-  // 'example/ok'
-  // ,
+  'example/ok', 
+
   'example/investigate'
 
   // ,'example/nok'

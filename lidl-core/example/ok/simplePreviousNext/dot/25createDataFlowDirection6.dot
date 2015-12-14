@@ -1,0 +1,58 @@
+digraph g{node_6855 [shape="box", style="filled", color="#dff1f2", fontname="Courier", label="node_6855
+<%=a0%>=theInterface.theNumber;
+
+0: Number out" ]
+node_6857 [shape="box", style="filled", color="#dff1f2", fontname="Courier", label="node_6857
+theInterface.theResult=<%=a0%>;
+
+0: Number in" ]
+node_6859 [shape="ellipse", style="filled", color="#ffde2f", fontname="Times", label="node_6859
+{theNumber:$theResult:$}
+0: {theNumber: Number out, theResult: Number in}
+1: Number in
+2: Number out" ]
+node_6864 [shape="ellipse", style="filled", color="#ffde2f", fontname="Times", label="node_6864
+#x?
+0: ?" ]
+node_6866 [shape="ellipse", style="filled", color="#ffde2f", fontname="Times", label="node_6866
+#y!
+0: ?" ]
+node_6868 [shape="ellipse", style="filled", color="#ffde2f", fontname="Times", label="node_6868
+{theNumber:$theResult:$}
+0: {theNumber: Number in, theResult: Number out}
+1: ?
+2: ?" ]
+node_6872 [shape="ellipse", style="filled", color="#ffde2f", fontname="Times", label="node_6872
+#y?
+0: ?" ]
+node_6874 [shape="ellipse", style="filled", color="#ffde2f", fontname="Times", label="node_6874
+#x!
+0: ?" ]
+node_6884 [shape="box", style="filled", color="#dff1f2", fontname="Courier", label="node_6884
+<%=a0%> = active;
+
+0: Activation out" ]
+node_6888 [shape="box", style="filled", color="#dff1f2", fontname="Courier", label="node_6888
+if(<%=a0%> === active) {
+<%=a1%> = previousState['state_6887'];
+}
+
+0: Activation in
+1: ?" ]
+node_6891 [shape="box", style="filled", color="#dff1f2", fontname="Courier", label="node_6891
+if(<%=a0%> === active) {
+nextState['state_6887'] = <%=a1%>;
+}
+
+0: Activation in
+1: ?" ]
+node_6859 -> node_6855 [dir=none, arrowHead=none, fontname="Times-Italic", arrowsize=1, color="#9d8400", label="edge_6860",  headlabel="0: Number out", taillabel="1: Number in: theNumber" ]
+node_6859 -> node_6857 [dir=none, arrowHead=none, fontname="Times-Italic", arrowsize=1, color="#9d8400", label="edge_6861",  headlabel="0: Number in", taillabel="2: Number out: theResult" ]
+node_6868 -> node_6864 [dir=none, arrowHead=none, fontname="Times-Italic", arrowsize=1, color="#9d8400", label="edge_6869",  headlabel="0", taillabel="1" ]
+node_6868 -> node_6866 [dir=none, arrowHead=none, fontname="Times-Italic", arrowsize=1, color="#9d8400", label="edge_6870",  headlabel="0", taillabel="2" ]
+node_6859 -> node_6868 [dir=none, arrowHead=none, fontname="Times-Italic", arrowsize=1, color="#9d8400", label="edge_6886",  headlabel="0: {theNumber: Number in, theResult: Number out}", taillabel="0: {theNumber: Number out, theResult: Number in}" ]
+node_6888 -> node_6884 [dir=none, arrowHead=none, fontname="Times-Italic", arrowsize=1, color="#9d8400", label="edge_6889",  headlabel="0: Activation out", taillabel="0: Activation in" ]
+node_6888 -> node_6872 [dir=none, arrowHead=none, fontname="Times-Italic", arrowsize=1, color="#9d8400", label="edge_6890",  headlabel="0", taillabel="1" ]
+node_6891 -> node_6884 [dir=none, arrowHead=none, fontname="Times-Italic", arrowsize=1, color="#9d8400", label="edge_6892",  headlabel="0: Activation out", taillabel="0: Activation in" ]
+node_6891 -> node_6874 [dir=none, arrowHead=none, fontname="Times-Italic", arrowsize=1, color="#9d8400", label="edge_6893",  headlabel="0", taillabel="1" ]
+}

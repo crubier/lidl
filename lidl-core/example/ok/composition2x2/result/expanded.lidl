@@ -1,15 +1,15 @@
 (
     ({
-      theNumber:(variable theNumber)
-      theOther:(variable y)
-      theResult:(variable theResult)
-      theLast:(variable wow)
+      theNumber:( theNumber?)
+      theOther:( y?)
+      theResult:( theResult!)
+      theLast:( wow!)
     })
   with behaviour
     ( apply (function cool)
       to
-      ({a:(variable theNumber)b:(variable y)})
+      ({a:( theNumber!)b:( y!)})
       and get
-      ({sum:(variable theResult)diff:(variable wow)})
+      ({sum:( theResult?)diff:( wow?)})
     )
   )

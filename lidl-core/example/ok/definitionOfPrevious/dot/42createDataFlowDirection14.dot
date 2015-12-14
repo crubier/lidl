@@ -1,0 +1,31 @@
+digraph g{node_2510 [shape="box", style="filled", color="#dff1f2", fontname="Courier", label="node_2510
+<%=a0%>=theInterface.theNumber;
+
+0: Number out" ]
+node_2512 [shape="box", style="filled", color="#dff1f2", fontname="Courier", label="node_2512
+theInterface.theResult=<%=a0%>;
+
+0: Number in" ]
+node_2543 [shape="box", style="filled", color="#dff1f2", fontname="Courier", label="node_2543
+<%=a0%> = active;
+
+0: Activation out" ]
+node_2547 [shape="box", style="filled", color="#dff1f2", fontname="Courier", label="node_2547
+if(<%=a0%> === active) {
+<%=a1%> = previousState['state_2546'];
+}
+
+0: Activation in
+1: Number out" ]
+node_2550 [shape="box", style="filled", color="#dff1f2", fontname="Courier", label="node_2550
+if(<%=a0%> === active) {
+nextState['state_2546'] = <%=a1%>;
+}
+
+0: Activation in
+1: Number in" ]
+node_2547 -> node_2543 [dir=none, arrowHead=none, fontname="Times-Italic", arrowsize=1, color="#9d8400", label="edge_2548",  headlabel="0: Activation out", taillabel="0: Activation in" ]
+node_2550 -> node_2543 [dir=none, arrowHead=none, fontname="Times-Italic", arrowsize=1, color="#9d8400", label="edge_2551",  headlabel="0: Activation out", taillabel="0: Activation in" ]
+node_2510 -> node_2550 [dir=none, arrowHead=none, fontname="Times-Italic", arrowsize=1, color="#9d8400", label="edge_2567",  headlabel="1: Number in", taillabel="0: Number out" ]
+node_2512 -> node_2547 [dir=none, arrowHead=none, fontname="Times-Italic", arrowsize=1, color="#9d8400", label="edge_2569",  headlabel="1: Number out", taillabel="0: Number in" ]
+}

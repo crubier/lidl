@@ -1,0 +1,39 @@
+digraph g{node_951 [shape="box", style="filled", color="#dff1f2", fontname="Courier", label="node_951
+<%=a0%>=theInterface.theNumber;
+
+0: Number out" ]
+node_953 [shape="box", style="filled", color="#dff1f2", fontname="Courier", label="node_953
+<%=a0%>=theInterface.theOther;
+
+0: Number out" ]
+node_955 [shape="box", style="filled", color="#dff1f2", fontname="Courier", label="node_955
+theInterface.theResult=<%=a0%>;
+
+0: Number in" ]
+node_980 [shape="ellipse", style="filled", color="#ffde2f", fontname="Times", label="node_980
+{a:$b:$}
+0: {a: Number, b: Number} out
+1: Number in
+2: Number in" ]
+node_995 [shape="box", style="filled", color="#dff1f2", fontname="Courier", label="node_995
+<%=a0%> = active;
+
+0: Activation out" ]
+node_998 [shape="box", style="filled", color="#dff1f2", fontname="Courier", label="node_998
+<%=a0%> = addition;
+
+0: {{a: Number, b: Number} -> Number} out" ]
+node_1000 [shape="box", style="filled", color="#dff1f2", fontname="Courier", label="node_1000
+if(<%=a0%> === active && <%=a1%>!==null && <%=a1%>!==undefined) {<%=a3%> = <%=a1%>(<%=a2%>);}
+
+0: Activation in
+1: {{a: Number, b: Number} -> Number} in
+2: {a: Number, b: Number} in
+3: Number out" ]
+node_1000 -> node_995 [dir=none, arrowHead=none, fontname="Times-Italic", arrowsize=1, color="#9d8400", label="edge_1001",  headlabel="0: Activation out", taillabel="0: Activation in" ]
+node_1000 -> node_998 [dir=none, arrowHead=none, fontname="Times-Italic", arrowsize=1, color="#9d8400", label="edge_1002",  headlabel="0: {{a: Number, b: Number} -> Number} out", taillabel="1: {{a: Number, b: Number} -> Number} in" ]
+node_1000 -> node_980 [dir=none, arrowHead=none, fontname="Times-Italic", arrowsize=1, color="#9d8400", label="edge_1003",  headlabel="0: {a: Number, b: Number} out", taillabel="2: {a: Number, b: Number} in" ]
+node_951 -> node_980 [dir=none, arrowHead=none, fontname="Times-Italic", arrowsize=1, color="#9d8400", label="edge_1023",  headlabel="1: Number in: a", taillabel="0: Number out" ]
+node_953 -> node_980 [dir=none, arrowHead=none, fontname="Times-Italic", arrowsize=1, color="#9d8400", label="edge_1025",  headlabel="2: Number in: b", taillabel="0: Number out" ]
+node_955 -> node_1000 [dir=none, arrowHead=none, fontname="Times-Italic", arrowsize=1, color="#9d8400", label="edge_1027",  headlabel="3: Number out", taillabel="0: Number in" ]
+}

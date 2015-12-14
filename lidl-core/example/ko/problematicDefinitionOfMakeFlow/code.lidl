@@ -6,9 +6,9 @@ with
     (previous (x:Number in)):Number out
   is
     (
-      (variable previous(x))
+      (previous(x)!)
       with behaviour
-      (get(variable previous(x))from previous and set (x) for next)
+      ((previous(x)?)= previous (x))
     )
 
   interaction
@@ -17,9 +17,9 @@ with
     interaction (boolean negation):{Boolean->Boolean} out is (function boolNot)
   is
     (
-      (variable not (a))
+      (not (a)!)
       with behaviour
-      (apply (boolean negation) to (a) and get (variable not (a)) )
+      ((boolean negation)  (a) = (not (a)?) )
     )
 
   interaction
@@ -28,9 +28,9 @@ with
     interaction (is active):{Number->Boolean}out is (function isActive)
   is
     (
-      (variable  (a) is active)
+      ((a) is active!)
       with behaviour
-      (apply (is active) to (a) and get (variable  (a) is active) )
+      (apply (is active) to (a) and get ((a) is active?) )
     )
 
   interaction
@@ -39,7 +39,7 @@ with
     interaction (addition):{{a:Number,b:Number}->Number} out is (function addition)
   is
     (
-      (variable result of (a)+(b))
+      (result of (a)+(b)!)
       with behaviour
       (
         apply
@@ -47,7 +47,7 @@ with
         to
         ({a:(a)b:(b)})
         and get
-        (variable result of (a)+(b))
+        (result of (a)+(b)?)
       )
     )
 
@@ -59,15 +59,17 @@ with
 
   interaction
     (all (a:Activation out) else (b:Activation out)):Activation in
+  with
+    interaction (func all):{Activation->{a:Activation,b:Activation}} out is (function all)
   is
     (
-      (variable all (a) (b))
+      (variable all (a) (b)?)
       with behaviour
       (
         apply
         (function all)
         to
-        (variable all (a) (b))
+        (variable all (a) (b)!)
         and get
         ({a:(a) b:(b)})
       )
@@ -81,11 +83,6 @@ with
       then (a)
       else (b)
     )
-
-  interaction
-    ( (a:Number in) fallback to (b:Number in) fallback to (c:Number in)):Number out
-  is
-    (((a) fallback to (b)) fallback to (c))
 
   interaction
     (new (x:Number in)):Number in
@@ -104,9 +101,9 @@ with
     interaction (is equal):{{a:Number,b:Number}->Boolean}out is (function isEqual)
   is
     (
-      (variable result of (u)==(v))
+      (result of (u)==(v)!)
       with behaviour
-      (apply (is equal) to ({a:(u),b:(v)}) and get (variable result of (u)==(v)) )
+      (apply (is equal) to ({a:(u),b:(v)}) and get (result of (u)==(v)?) )
     )
 
 
@@ -119,13 +116,13 @@ with
       (function whenThenElse)
   is
     (
-      (variable activation of when (cond) then (a) else (b))
+      (activation of when (cond) then (a) else (b) ?)
       with behaviour
       (
         apply
         (whenThenElse)
         to
-        ({  cond:(cond)  source:(variable activation of when (cond) then (a) else (b))   })
+        ({  cond:(cond)  source:(activation of when (cond) then (a) else (b) !)   })
         and get
         ({a:(a) b:(b)})
       )
@@ -135,15 +132,15 @@ with
     (if (cond:Boolean in) then (x:Number in) else (y:Number in)):Number out
   is
     (
-      (variable result of if (cond) then (x) else (y))
+      ( result of if (cond) then (x) else (y) !)
       with behaviour
       (
         when
         (cond)
         then
-        ((variable result of if (cond) then (x) else (y)) = (x))
+        (( result of if (cond) then (x) else (y) ?) = (x))
         else
-        ((variable result of if (cond) then (x) else (y)) = (y))
+        (( result of if (cond) then (x) else (y) ?) = (y))
       )
     )
 

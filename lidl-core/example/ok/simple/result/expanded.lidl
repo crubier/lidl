@@ -1,4 +1,4 @@
 ({
-    theNumber:(x)
-    theResult:(x)
+    theNumber:(x?)
+    theResult:(x!)
   })

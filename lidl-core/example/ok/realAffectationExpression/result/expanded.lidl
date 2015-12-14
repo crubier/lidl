@@ -1,10 +1,16 @@
 (
-    (
-    {theResult:(theResult)theNumber:(theNumber)}
-    )
-  with behaviour
-    ((theResult)=((variable result of (1)+(theNumber))with behaviour
-    (apply(function addition)
-    to ({a:(1)b:(theNumber)})
-    and get (variable result of (1)+(theNumber)))))
+    ({
+      theNumber:(theNumber?)
+      theResult:(theResult!)
+    })
+    with behaviour
+    ((theResult?)=(
+      (variable result of (1)+(theNumber!)!)
+      with behaviour
+      (
+        apply (function addition)
+        to ({a:(1)b:(theNumber!)})
+        and get (variable result of (1)+(theNumber!)?)
+      )
+    ))
   )

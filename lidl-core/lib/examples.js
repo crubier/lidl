@@ -203,7 +203,7 @@ module.exports = {
   lidl: [{ 
     name: 'Affectation Expression', 
     fileName: 'example/ok/affectationExpression', 
-    code: 'interaction\n  (bob):{theNumber:Number in,theResult:Number out}\nwith\n\n  interaction\n    (the magic number):Number out\n  with\n    interaction (return1):{Void->Number} out is (function return1)\n  is\n    (\n      (variable result1)\n      with behaviour\n      (\n        apply\n        (return1)\n        to\n        (variable ok)\n        and get\n        (variable result1)\n      )\n    )\n\n  interaction\n    ((a:Number in)+(b:Number in)):Number out\n  with\n    interaction (addition):{{a:Number,b:Number}->Number} out is (function addition)\n  is\n    (\n      (variable result of (a)+(b))\n      with behaviour\n      (\n        apply\n        (addition)\n        to\n        ({a:(a)b:(b)})\n        and get\n        (variable result of (a)+(b))\n      )\n    )\n\nis\n  (\n    ({\n      theNumber:(# theNumber)\n      theResult:(# theResult)}\n    )\n  with behaviour\n    (\n      (# theResult) =((the magic number )+(# theNumber))\n    )\n  )\n', 
+    code: 'interaction\n  (bob):{theNumber:Number in,theResult:Number out}\nwith\n\n  interaction\n    (the magic number):Number out\n  with\n    interaction (return1):{Void->Number} out is (function return1)\n  is\n    (\n      ( result1!)\n      with behaviour\n      (\n        apply\n        (return1)\n        to\n        ( ok!)\n        and get\n        ( result1?)\n      )\n    )\n\n  interaction\n    ((a:Number in)+(b:Number in)):Number out\n  with\n    interaction (addition):{{a:Number,b:Number}->Number} out is (function addition)\n  is\n    (\n      ( result of (a)+(b)!)\n      with behaviour\n      (\n        apply\n        (addition)\n        to\n        ({a:(a)b:(b)})\n        and get\n        ( result of (a)+(b)?)\n      )\n    )\n\nis\n  (\n    ({\n      theNumber:(theNumber?)\n      theResult:(theResult!)\n    })\n  with behaviour\n    (\n      (theResult?) =((the magic number )+(theNumber!))\n    )\n  )\n', 
 
 
 
@@ -308,7 +308,7 @@ module.exports = {
   { 
     name: 'Compilation Example Thesis', 
     fileName: 'example/ok/compilationExampleThesis', 
-    code: 'interaction\n  (My Simple User Interface):{theNumber: Number in, theResult: Number out}\nwith\n  interaction (add one):{Number->Number}out is (function addOne)\nis\n  (\n    ({\n        theNumber:  (x)\n        theResult:  (y)\n      })\n    with behaviour\n    (apply (add one) to (x) and get (y))\n  )\n', 
+    code: 'interaction\n  (My Simple User Interface):{theNumber: Number in, theResult: Number out}\nwith\n  interaction (add one):{Number->Number}out is (function addOne)\nis\n  (\n    ({\n        theNumber:  (x?)\n        theResult:  (y!)\n      })\n    with behaviour\n    (apply (add one) to (x!) and get (y?))\n  )\n', 
 
 
 
@@ -348,7 +348,7 @@ module.exports = {
   { 
     name: 'Composition 2 X 1', 
     fileName: 'example/ok/composition2x1', 
-    code: 'interaction\n  (bob):{theNumber:Number in,theOther:Number in,theResult:Number out}\nwith\n  interaction\n    (addition):{{a:Number,b:Number}->Number}out\n  is\n    (function addition)\nis\n  (\n    ({\n      theNumber:(x)\n      theOther:(y)\n      theResult:(z)\n    })\n   with behaviour\n    (apply\n      (addition)\n      to\n      ({a:(x)b:(y)})\n      and get\n      (z)\n    )\n  )\n', 
+    code: 'interaction\n  (bob):{theNumber:Number in,theOther:Number in,theResult:Number out}\nwith\n  interaction\n    (addition):{{a:Number,b:Number}->Number}out\n  is\n    (function addition)\nis\n  (\n    ({\n      theNumber:(x?)\n      theOther:(y?)\n      theResult:(z!)\n    })\n   with behaviour\n    (apply\n      (addition)\n      to\n      ({a:(x!)b:(y!)})\n      and get\n      (z?)\n    )\n  )\n', 
 
 
 
@@ -398,7 +398,7 @@ module.exports = {
   { 
     name: 'Composition 2 X 2', 
     fileName: 'example/ok/composition2x2', 
-    code: 'interaction\n  (bob):{theNumber:Number in,theOther:Number in,theResult:Number out,theLast:Number out}\nwith\n interaction\n  (cool):{{a:Number,b:Number}->{sum:Number,diff:Number}} out\n  is\n  (function cool)\nis\n  (\n    ({\n      theNumber:(variable theNumber)\n      theOther:(variable y)\n      theResult:(variable theResult)\n      theLast:(variable wow)\n    })\n  with behaviour\n    ( apply (cool)\n      to\n      ({a:(variable theNumber)b:(variable y)})\n      and get\n      ({sum:(variable theResult)diff:(variable wow)})\n    )\n  )\n', 
+    code: 'interaction\n  (bob):{theNumber:Number in,theOther:Number in,theResult:Number out,theLast:Number out}\nwith\n interaction\n  (cool):{{a:Number,b:Number}->{sum:Number,diff:Number}} out\n  is\n  (function cool)\nis\n  (\n    ({\n      theNumber:( theNumber?)\n      theOther:( y?)\n      theResult:( theResult!)\n      theLast:( wow!)\n    })\n  with behaviour\n    ( apply (cool)\n      to\n      ({a:( theNumber!)b:( y!)})\n      and get\n      ({sum:( theResult?)diff:( wow?)})\n    )\n  )\n', 
 
 
 
@@ -448,7 +448,7 @@ module.exports = {
   { 
     name: 'Definition Of Init', 
     fileName: 'example/ok/definitionOfInit', 
-    code: 'interaction\n  (bob):{theNumber:Number in,theResult:Boolean out}\nwith\n\n  interaction\n    (previous (x:Number in)):Number out\n  is\n    (\n      (variable previous(x))\n      with behaviour\n      (get(variable previous(x))from previous and set (x) for next)\n    )\n\n  interaction\n    ((a:Number in)==(b:Number in)):Boolean out\n  with\n    interaction (is equal):{{a:Number,b:Number}->Boolean}out is (function isEqual)\n  is\n    (\n      (variable result of (a)==(b))\n      with behaviour\n      (apply (is equal) to ({a:(a),b:(b)}) and get (variable result of (a)==(b)) )\n    )\n\n  interaction\n    (not(a:Boolean in)):Boolean out\n  with\n    interaction (boolean negation):{Boolean->Boolean} out is (function boolNot)\n  is\n    (\n      (variable not (a))\n      with behaviour\n      (apply (boolean negation) to (a) and get (variable not (a)) )\n    )\n\n  interaction\n    ((a:Number in) is active):Boolean out\n  with\n    interaction (is active):{Number->Boolean} out is (function isActive)\n  is\n    (\n      (variable  (a) is active)\n      with behaviour\n      (apply (is active) to (a) and get (variable (a) is active) )\n    )\n\n  interaction\n    ((a:Number in)+(b:Number in)):Number out\n  with\n    interaction (addition):{{a:Number,b:Number}->Number} out is (function addition)\n  is\n    (\n      (variable result of (a)+(b))\n      with behaviour\n      (\n        apply\n        (addition)\n        to\n        ({a:(a)b:(b)})\n        and get\n        (variable result of (a)+(b))\n      )\n    )\n\n  interaction\n    (init):Boolean out\n  is\n    ( not ( (previous(1) ) is active ) )\n\nis\n  ({\n    theNumber:(variable theNumber)\n    theResult:(init)\n  })\n', 
+    code: 'interaction\n  (bob):{theNumber:Number in,theResult:Boolean out}\nwith\n\n  interaction\n    (previous (x:Number in)):Number out\n  is\n    (\n      (previous(x)!)\n      with behaviour\n      ((previous(x)?)= previous (x))\n    )\n\n  interaction\n    ((a:Number in)==(b:Number in)):Boolean out\n  with\n    interaction (is equal):{{a:Number,b:Number}->Boolean}out is (function isEqual)\n  is\n    (\n      (result of (a)==(b)!)\n      with behaviour\n      (apply (is equal) to ({a:(a),b:(b)}) and get ( result of (a)==(b)?) )\n    )\n\n  interaction\n    (not(a:Boolean in)):Boolean out\n  with\n    interaction (boolean negation):{Boolean->Boolean} out is (function boolNot)\n  is\n    (\n      (not (a) !)\n      with behaviour\n      (apply (boolean negation) to (a) and get (not (a)?) )\n    )\n\n  interaction\n    ((a:Number in) is active):Boolean out\n  with\n    interaction (is active):{Number->Boolean} out is (function isActive)\n  is\n    (\n      ( (a) is active!)\n      with behaviour\n      (apply (is active) to (a) and get ( (a) is active?) )\n    )\n\n  interaction\n    ((a:Number in)+(b:Number in)):Number out\n  with\n    interaction (addition):{{a:Number,b:Number}->Number} out is (function addition)\n  is\n    (\n      ( result of (a)+(b)!)\n      with behaviour\n      (\n        apply\n        (addition)\n        to\n        ({a:(a)b:(b)})\n        and get\n        ( result of (a)+(b)?)\n      )\n    )\n\n  interaction\n    (init):Boolean out\n  is\n    ( not ( (previous(1) ) is active ) )\n\nis\n  ({\n    theNumber:(variable theNumber?)\n    theResult:(init)\n  })\n', 
 
 
 
@@ -549,7 +549,7 @@ module.exports = {
   { 
     name: 'Definition Of Previous', 
     fileName: 'example/ok/definitionOfPrevious', 
-    code: 'interaction\n  (bob):{theNumber:Number in,theResult:Number out}\nwith\n\n  interaction\n    (previous (x:Number in)):Number out\n  is\n    (\n      (variable previous(x))\n      with behaviour\n      (get(variable previous(x))from previous and set (x) for next)\n    )\n\nis\n  ({\n    theNumber:(variable theNumber)\n    theResult:(previous(variable theNumber))\n  })\n', 
+    code: 'interaction\n  (bob):{theNumber:Number in,theResult:Number out}\nwith\n\n  interaction\n    (previous (x:Number in)):Number out\n  is\n    (\n      (previous(x)!)\n      with behaviour\n      ( (previous(x)?) = previous (x))\n    )\n\nis\n  ({\n    theNumber:(theNumber?)\n    theResult:(previous(theNumber!))\n  })\n', 
 
 
 
@@ -673,8 +673,7 @@ module.exports = {
   { 
     name: 'Dereferencing', 
     fileName: 'example/ok/dereferencing', 
-    code: 'interaction\n  (bob):{theNumber:Number in,theResult:Number out}\nwith\n\n  interaction\n    ((x:{theNumber:Number in,theResult:Number out}).theNumber):Number out\n  is\n    ((variable (x).theNumber!) with behaviour (({theNumber:(variable (x).theNumber?)})=(x)))\n\n  interaction\n    ((x:{theNumber:Number in,theResult:Number out}).theResult):Number in\n  is\n    ((variable (x).theResult!) with behaviour ((x)=({theResult:(variable (x).theResult?)})))\n\n\nis\n  (\n    (variable this?)\n    with behaviour\n    (((variable this!).theResult)=((variable this!).theNumber) )\n  )\n', 
-
+    code: 'interaction\n  (bob):{theNumber:Number in,theResult:Number out}\nwith\n\n  interaction\n    ((x:{theNumber:Number in,theResult:Number out}).theNumber):Number out\n  is\n    (((x).theNumber!) with behaviour (({theNumber:((x).theNumber?)})=(x)))\n\n  interaction\n    ((x:{theNumber:Number in,theResult:Number out}).theResult):Number in\n  is\n    (((x).theResult!) with behaviour ((x)=({theResult:((x).theResult?)})))\n\nis\n  (\n    (variable this?)\n    with behaviour\n    (((variable this!).theResult)=((variable this!).theNumber) )\n  )\n', 
 
 
 
@@ -721,7 +720,8 @@ module.exports = {
   { 
     name: 'Fake Affectation', 
     fileName: 'example/ok/fakeAffectation', 
-    code: 'interaction\n  (bob):{theNumber:Number in,theResult:Number out}\nwith\n  interaction\n    ((a:Number out)=fake=(b:Number in)):Activation in\n  with\n    interaction (identity):{Number->Number}out is (function identity)\n  is\n    (apply (identity) to (b) and get (a))\nis\n  (\n    (\n    {theNumber:(variable theNumber)theResult:(variable theResult)}\n    )\n  with behaviour\n    ((variable theResult)=fake=(variable theNumber))\n  )\n', 
+    code: 'interaction\n  (bob):{theNumber:Number in,theResult:Number out}\nwith\n  interaction\n    ((a:Number out)=fake=(b:Number in)):Activation in\n  with\n    interaction (identity):{Number->Number}out is (function identity)\n  is\n    (apply (identity) to (b) and get (a))\nis\n  (\n    ({\n      theNumber:(theNumber?)\n      theResult:(theResult!)\n    })\n  with behaviour\n    ((theResult?)=fake=(theNumber!))\n  )\n', 
+
 
 
 
@@ -765,7 +765,7 @@ module.exports = {
   { 
     name: 'Function Application', 
     fileName: 'example/ok/functionApplication', 
-    code: 'interaction\n  (bob):{theNumber:Number in,theResult:Number out}\nwith\n  interaction (add one):{Number->Number}out is (function addOne)\nis\n  (\n    ({\n      theNumber:(variable theNumber)\n      theResult:(variable theResult)\n    })\n    with behaviour\n    (apply(add one) to (variable theNumber) and get (variable theResult))\n  )\n', 
+    code: 'interaction\n  (bob):{theNumber:Number in,theResult:Number out}\nwith\n  interaction (add one):{Number->Number}out is (function addOne)\nis\n  (\n    ({\n      theNumber:(theNumber?)\n      theResult:(theResult!)\n    })\n    with behaviour\n    (apply(add one) to (theNumber!) and get (theResult?))\n  )\n', 
 
 
 
@@ -805,7 +805,7 @@ module.exports = {
   { 
     name: 'Literals', 
     fileName: 'example/ok/literals', 
-    code: 'interaction\n  (ok literal):Number out\nwith\n\n  interaction\n    ((a:Number in) + (b:Number in)):Number out\n  with\n    interaction\n      (addition):{{a:Number,b:Number}->Number}out\n    is\n      (function addition)\n  is\n    ((# (a)+(b)) with behaviour ((addition)({a:(a)b:(b)})=(#(a)+(b))))\n\nis\n  ((9)+(9))\n', 
+    code: 'interaction\n  (ok literal):Number out\nwith\n\n  interaction\n    ((a:Number in) + (b:Number in)):Number out\n  with\n    interaction\n      (addition):{{a:Number,b:Number}->Number}out\n    is\n      (function addition)\n  is\n    (((a)+(b)!) with behaviour ((addition)({a:(a)b:(b)})=((a)+(b)?)))\n\nis\n  ((9)+(9))\n', 
 
 
 
@@ -843,9 +843,91 @@ module.exports = {
 
 
   { 
+    name: 'Problematic Definitionof If Then Else', 
+    fileName: 'example/ok/problematicDefinitionofIfThenElse', 
+    code: 'interaction\n (test (a:Number in)):{theNumber:Number in,theResult:Number out}\nwith\n\n\n  interaction\n    ((a:Number in)==(b:Number in)):Boolean out\n  with\n    interaction (isEqual):{{a:Number,b:Number}->Boolean}out is (function isEqual)\n  is\n    (\n      (result of (a)==(b)!)\n      with behaviour\n      (apply (isEqual) to ({a:(a),b:(b)}) and get (result of (a)==(b)?) )\n    )\n\n\n  interaction\n    (when (cond:Boolean in) then (a:Activation out) else (b:Activation out)):Activation in\n  with\n    interaction (whenThenElse):{{cond:Boolean,source:Activation}->{a:Activation,b:Activation}}out is (function whenThenElse)\n  is\n    (\n      (activation of when (cond) then (a) else (b)?)\n      with behaviour\n      (\n        apply\n        (whenThenElse)\n        to\n        ({  cond:(cond)  source:(activation of when (cond) then (a) else (b)!)   })\n        and get\n        ({a:(a) b:(b)})\n      )\n    )\n\n    interaction\n      (if (cond:Boolean in) then (a:Number in) else (b:Number in)):Number out\n    is\n      (\n        (result of if (cond) then (a) else (b)!)\n        with behaviour\n        (\n          when\n          (cond)\n          then\n          ((result of if (cond) then (a) else (b)?) = (a))\n          else\n          ((result of if (cond) then (a) else (b)?) = (b))\n        )\n      )\n\nis\n  (if((a)==(1))then({theNumber:(b?),theResult:(b!)})else({theNumber:(b?),theResult:(-8000)}))\n', 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+    scenario: '[\n  {\n    "args":  {"t":0},\n    "inter":  4\n  },\n  {\n    "args":  {"t":1},\n    "inter":  3\n  },\n  {\n    "args":  {"t":2},\n    "inter":  4\n  },\n  {\n    "args":  {"t":3},\n    "inter":  4\n  }\n]\n' }, 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  { 
     name: 'Real Affectation Expression', 
     fileName: 'example/ok/realAffectationExpression', 
-    code: 'interaction\n  (bob):{theNumber:Number in,theResult:Number out}\nwith\n\n  interaction (addition):{{a:Number,b:Number}->Number}out is (function addition)\n\n  interaction\n    ((a:Number in)+(b:Number in)):Number out\n  is\n    ((variable result of (a)+(b))with behaviour\n    (apply(addition)\n    to ({a:(a)b:(b)})\n    and get (variable result of (a)+(b))))\n\nis\n  (\n    (\n    {theResult:(theResult)theNumber:(theNumber)}\n    )\n  with behaviour\n    ((theResult)=((1)+(theNumber)))\n  )\n', 
+    code: 'interaction\n  (bob):{theNumber:Number in,theResult:Number out}\nwith\n\n  interaction (addition):{{a:Number,b:Number}->Number}out is (function addition)\n\n  interaction\n    ((a:Number in)+(b:Number in)):Number out\n  is\n    (\n      (variable result of (a)+(b)!)\n      with behaviour\n      (\n        apply (addition)\n        to ({a:(a)b:(b)})\n        and get (variable result of (a)+(b)?)\n      )\n    )\n\nis\n  (\n    ({\n      theNumber:(theNumber?)\n      theResult:(theResult!)\n    })\n    with behaviour\n    ((theResult?)=((1)+(theNumber!)))\n  )\n', 
+
+
+
+
+
+
 
 
 
@@ -894,7 +976,7 @@ module.exports = {
   { 
     name: 'Referential Transparency', 
     fileName: 'example/ok/referentialTransparency', 
-    code: 'interaction\n  (main):{theNumber:Number in,theResult:Number out}\nwith\n\n  interaction (z):Number out\n  is (variable y b)\n\n  interaction (y):Number out\n  is (variable y b)\n\n  interaction (x):Number out\n  is (variable b)\nis\n  ({\n    theNumber:(variable x (y) (variable b))\n    theResult:(variable x (z) (x))\n  })\n', 
+    code: 'interaction\n  (main):{theNumber:Number in,theResult:Number out}\nwith\n\n  interaction (z):Number out\n  is (variable y b?)\n\n  interaction (y):Number out\n  is (variable y b?)\n\n  interaction (x):Number out\n  is (variable b!)\nis\n  ({\n    theNumber:(variable x (y) (variable b!)?)\n    theResult:(variable x (z) (x)!)\n  })\n', 
 
 
 
@@ -936,9 +1018,45 @@ module.exports = {
 
 
   { 
+    name: 'Resolver', 
+    fileName: 'example/ok/resolver', 
+    code: 'interaction\n  (bob):{theNumber:Number in,theOther:Number in, theResult:Number out, theLast:Number out}\nis\n  ({\n    theNumber:(x?)\n    theOther:(x?)\n    theResult:(x!)\n    theLast:(x!)\n  })\n', 
+
+
+
+
+
+
+
+
+
+    scenario: '[\n  {\n    "args":  {},\n    "inter":  { "theNumber": 50, "theOther":null, "theResult": 50, "theLast": 50 }\n  },\n  {\n    "args":  {},\n    "inter":  { "theNumber": 78,  "theOther":null,"theResult": 78 , "theLast": 78}\n  },\n  {\n    "args":  {},\n    "inter":  { "theNumber": null, "theOther":null, "theResult": null, "theLast": null }\n  },\n  {\n    "args":  {},\n    "inter":  { "theNumber": null, "theOther":42, "theResult": 42, "theLast": 42 }\n  },\n  {\n    "args":  {},\n    "inter":  { "theNumber": 67, "theOther":null, "theResult": 67, "theLast": 67 }\n  }\n]\n' }, 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  { 
     name: 'Simple', 
     fileName: 'example/ok/simple', 
-    code: 'interaction\n  (main):{theNumber:Number in,theResult:Number out}\nis\n  ({\n    theNumber:(x)\n    theResult:(x)\n  })\n', 
+    code: 'interaction\n  (main):{theNumber:Number in,theResult:Number out}\nis\n  ({\n    theNumber:(x?)\n    theResult:(x!)\n  })\n', 
 
 
 
@@ -972,7 +1090,7 @@ module.exports = {
   { 
     name: 'Simple Func', 
     fileName: 'example/ok/simpleFunc', 
-    code: 'interaction\n  (bob):{theNumber:Number in,theResult:Number out}\nwith\n  interaction\n    (bob(x:Number in)):Number out\n  with\n    interaction\n      (addOne):{Number->Number}out\n    is\n      (function addOne)\n  is\n    ((result of bob(x)) with behaviour ((addOne)(x)=(result of bob(x))))\nis\n  ({theNumber:(a),theResult:(bob(a))})\n', 
+    code: 'interaction\n  (bob):{theNumber:Number in,theResult:Number out}\nwith\n  interaction\n    (bob(x:Number in)):Number out\n  with\n    interaction\n      (addOne):{Number->Number}out\n    is\n      (function addOne)\n  is\n    ((result of bob(x)!) with behaviour ((addOne)(x)=(result of bob(x)?)))\nis\n  ({theNumber:(a?),theResult:(bob(a!))})\n', 
 
 
 
@@ -1013,7 +1131,7 @@ module.exports = {
   { 
     name: 'Simple Previous Next', 
     fileName: 'example/ok/simplePreviousNext', 
-    code: 'interaction\n  (main):{theNumber:Number in,theResult:Number out}\nis\n  (\n    ({\n      theNumber:(x)\n      theResult:(y)\n    })\n    with behaviour\n    (get (y) from previous and set (x) for next)\n  )\n', 
+    code: 'interaction\n  (main):{theNumber:Number in,theResult:Number out}\nis\n  (\n    ({\n      theNumber:(x?)\n      theResult:(y!)\n    })\n    with behaviour\n    (get (y?) from previous and set (x!) for next)\n  )\n', 
 
 
 
@@ -1051,7 +1169,7 @@ module.exports = {
   { 
     name: 'Sum Of Previous', 
     fileName: 'example/ok/sumOfPrevious', 
-    code: 'interaction\n  (wow (a:Number in)):Number out\nwith\n\n  interaction\n    ((a:Number in) + (b:Number in)):Number out\n  with\n    interaction (addition):{{a:Number,b:Number}->Number}out is (function addition)\n  is\n    ((# (a)+(b)) with behaviour ((addition)({a:(a)b:(b)})=(#(a)+(b))))\n\n  interaction\n    (previous(a:Number in)):Number out\n  is\n    ((# previous (a)) with behaviour ((# previous (a)) = previous (a)))\n\nis\n    ((previous(a))+(previous(a)))\n', 
+    code: 'interaction\n  (wow (a:Number in)):Number out\nwith\n\n  interaction\n    ((a:Number in) + (b:Number in)):Number out\n  with\n    interaction (addition):{{a:Number,b:Number}->Number}out is (function addition)\n  is\n    (((a)+(b)!) with behaviour ((addition)({a:(a)b:(b)})=((a)+(b)?)))\n\n  interaction\n    (previous(a:Number in)):Number out\n  is\n    ((previous (a)!) with behaviour ((previous (a)?) = previous (a)))\n\nis\n    ((previous(a))+(previous(a)))\n', 
 
 
 
@@ -1070,4 +1188,208 @@ module.exports = {
 
 
 
-    scenario: '\n[\n  {\n    "args": {\n      "a": 1\n    },\n    "inter" : null\n  },\n  {\n    "args": {\n      "a": 8\n    },\n    "inter" : 2\n  },\n   {\n    "args": {\n      "a": 6\n    },\n    "inter" : 16\n  }\n]\n' }] };
+    scenario: '\n[\n  {\n    "args": {\n      "a": 1\n    },\n    "inter" : null\n  },\n  {\n    "args": {\n      "a": 8\n    },\n    "inter" : 2\n  },\n   {\n    "args": {\n      "a": 6\n    },\n    "inter" : 16\n  }\n]\n' }, 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  { 
+    name: 'Ui Cursor', 
+    fileName: 'example/ok/uiCursor', 
+    code: 'interaction\n  (cursor of (mouse:Mouse in)):Graphics out\nwith\n  interaction (cursor):{Mouse->Graphics}out is (function cursor)\nis\n  ((cursor of (mouse)!)\n  with behaviour\n  ((cursor)(mouse)=(cursor of (mouse)?)))\n', 
+
+
+
+
+
+
+
+
+    scenario: '[{\n  "args": {\n    "mouse": {\n      "buttons": 0,\n      "position": {\n        "x": 42,\n        "y": 63\n      }\n    }\n  },\n  "inter": {\n    "type": "shadow",\n    "blur": 20,\n    "offset": {\n      "x": 0,\n      "y": 4\n    },\n    "color": "rgba(0, 0, 0, 0.5)",\n    "content": {\n      "type": "translate",\n      "x": 42,\n      "y": 63,\n      "content": {\n        "type": "scale",\n        "width": 1,\n        "height": 1,\n        "content": {\n          "type": "fill",\n          "style": "rgba(200, 0, 200, 1)",\n          "content": {\n            "type": "path",\n            "content": [{\n              "type": "begin"\n            }, {\n              "type": "move",\n              "x": 0,\n              "y": 0\n            }, {\n              "type": "line",\n              "x": 0,\n              "y": 15\n            }, {\n              "type": "line",\n              "x": 10.6,\n              "y": 10.6\n            }, {\n              "type": "close"\n            }]\n          }\n        }\n      }\n    }\n  }\n}, {\n  "args": {\n    "mouse": {\n      "buttons": 1,\n      "position": {\n        "x": 31,\n        "y": 89\n      }\n    }\n  },\n  "inter": {\n    "type": "shadow",\n    "blur": 10,\n    "offset": {\n      "x": 0,\n      "y": 2\n    },\n    "color": "rgba(0, 0, 0, 0.5)",\n    "content": {\n      "type": "translate",\n      "x": 31,\n      "y": 89,\n      "content": {\n        "type": "scale",\n        "width": 0.8,\n        "height": 0.8,\n        "content": {\n          "type": "fill",\n          "style": "rgba(200, 0, 200, 1)",\n          "content": {\n            "type": "path",\n            "content": [{\n              "type": "begin"\n            }, {\n              "type": "move",\n              "x": 0,\n              "y": 0\n            }, {\n              "type": "line",\n              "x": 0,\n              "y": 15\n            }, {\n              "type": "line",\n              "x": 10.6,\n              "y": 10.6\n            }, {\n              "type": "close"\n            }]\n          }\n        }\n      }\n    }\n  }\n}]\n' }, 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  { 
+    name: 'Ui Empty With Cursor', 
+    fileName: 'example/ok/uiEmptyWithCursor', 
+    code: 'interaction\n  (empty UI with cursor):{\n        mouse: {\n          buttons: Number,\n          position: {\n            x: Number,\n            y: Number\n          },\n          wheel: {\n            x: Number,\n            y: Number,\n            z: Number\n          }\n        } in,\n        graphics: Graphics out\n      }\n\nwith\n\n  interaction\n    (cursor of (mouse:{\n          buttons: Number,\n          position: {\n            x: Number,\n            y: Number\n          },\n          wheel: {\n            x: Number,\n            y: Number,\n            z: Number\n          }\n        } in)):Graphics out\n  with\n    interaction (cursor):{{\n          buttons: Number,\n          position: {\n            x: Number,\n            y: Number\n          },\n          wheel: {\n            x: Number,\n            y: Number,\n            z: Number\n          }\n        }->Graphics}out is (function cursor)\n  is\n    (\n      (cursor of (mouse)!)\n      with behaviour\n      ((cursor)(mouse)=(cursor of (mouse)?))\n    )\n\n\nis\n  ({\n        mouse: (mouse?)\n        graphics: (cursor of (mouse!))\n  })\n', 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+    scenario: '[{\n  "args": {},\n  "inter": {\n    "mouse": {\n      "buttons": 0,\n      "position": {\n        "x": 42,\n        "y": 63\n      },\n      "wheel": {\n        "x": 0,\n        "y": 0,\n        "z": 0\n      }\n    },\n    "graphics": {\n      "type": "shadow",\n      "blur": 20,\n      "offset": {\n        "x": 0,\n        "y": 4\n      },\n      "color": "rgba(0, 0, 0, 0.5)",\n      "content": {\n        "type": "translate",\n        "x": 42,\n        "y": 63,\n        "content": {\n          "type": "scale",\n          "width": 1,\n          "height": 1,\n          "content": {\n            "type": "fill",\n            "style": "rgba(200, 0, 200, 1)",\n            "content": {\n              "type": "path",\n              "content": [{\n                "type": "begin"\n              }, {\n                "type": "move",\n                "x": 0,\n                "y": 0\n              }, {\n                "type": "line",\n                "x": 0,\n                "y": 15\n              }, {\n                "type": "line",\n                "x": 10.6,\n                "y": 10.6\n              }, {\n                "type": "close"\n              }]\n            }\n          }\n        }\n      }\n    }\n  }\n}]\n' }] };

@@ -467,7 +467,7 @@ export default function matchingCompositionReduction(graph) {
 
   // gexport(graph,"bob");
 
-exportGraph(graph.toDot(),"bob"+_.uniqueId());
+// exportGraph(graph.toDot(),"bob"+_.uniqueId());
 
   // Now its time to reduce all this mess !
   graph
@@ -713,7 +713,7 @@ exportGraph(graph.toDot(),"bob"+_.uniqueId());
         });
 
       // console.log('-----------------------------------');
-      exportGraph(internalGraph.toDot2(),n1.id+"internal-3");
+      // exportGraph(internalGraph.toDot2(),n1.id+"internal-3");
 
       // // Remove multiple edges on the internal graph
       // internalGraph
@@ -744,7 +744,7 @@ exportGraph(graph.toDot(),"bob"+_.uniqueId());
           }
         )
         .forEach(internalEdge => {
-          console.log("xxxx")
+          // console.log("xxxx")
           graph
             .matchUndirectedEdges({
               from: {

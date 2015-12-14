@@ -467,7 +467,7 @@ function matchingCompositionReduction(graph) {// // Mark all
 
   // gexport(graph,"bob");
 
-  (0, _exportGraph2.default)(graph.toDot(), "bob" + _lodash2.default.uniqueId());
+  // exportGraph(graph.toDot(),"bob"+_.uniqueId());
 
   // Now its time to reduce all this mess !
   graph.
@@ -713,7 +713,7 @@ function matchingCompositionReduction(graph) {// // Mark all
 
 
     // console.log('-----------------------------------');
-    (0, _exportGraph2.default)(internalGraph.toDot2(), n1.id + "internal-3");
+    // exportGraph(internalGraph.toDot2(),n1.id+"internal-3");
 
     // // Remove multiple edges on the internal graph
     // internalGraph
@@ -744,7 +744,7 @@ function matchingCompositionReduction(graph) {// // Mark all
 
 
     forEach(function (internalEdge) {
-      console.log("xxxx");
+      // console.log("xxxx")
       graph.
       matchUndirectedEdges({ 
         from: { 

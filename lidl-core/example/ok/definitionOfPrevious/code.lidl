@@ -6,13 +6,13 @@ with
     (previous (x:Number in)):Number out
   is
     (
-      (variable previous(x))
+      (previous(x)!)
       with behaviour
-      (get(variable previous(x))from previous and set (x) for next)
+      ( (previous(x)?) = previous (x))
     )
 
 is
   ({
-    theNumber:(variable theNumber)
-    theResult:(previous(variable theNumber))
+    theNumber:(theNumber?)
+    theResult:(previous(theNumber!))
   })

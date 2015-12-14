@@ -1,6 +1,0 @@
-interaction
-  (cursor of (mouse:Mouse in)):Graphics out
-is
-  ((#cursor of (mouse))
-  with behaviour
-  ((function cursor)(mouse)=(#cursor of (mouse))))

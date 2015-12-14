@@ -5,9 +5,9 @@ with
 is
   (
     ({
-        theNumber:  (x)
-        theResult:  (y)
+        theNumber:  (x?)
+        theResult:  (y!)
       })
     with behaviour
-    (apply (add one) to (x) and get (y))
+    (apply (add one) to (x!) and get (y?))
   )

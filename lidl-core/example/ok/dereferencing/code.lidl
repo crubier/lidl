@@ -5,13 +5,12 @@ with
   interaction
     ((x:{theNumber:Number in,theResult:Number out}).theNumber):Number out
   is
-    ((variable (x).theNumber!) with behaviour (({theNumber:(variable (x).theNumber?)})=(x)))
+    (((x).theNumber!) with behaviour (({theNumber:((x).theNumber?)})=(x)))
 
   interaction
     ((x:{theNumber:Number in,theResult:Number out}).theResult):Number in
   is
-    ((variable (x).theResult!) with behaviour ((x)=({theResult:(variable (x).theResult?)})))
-
+    (((x).theResult!) with behaviour ((x)=({theResult:((x).theResult?)})))
 
 is
   (

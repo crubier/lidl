@@ -9,9 +9,10 @@ with
     (apply (identity) to (b) and get (a))
 is
   (
-    (
-    {theNumber:(variable theNumber)theResult:(variable theResult)}
-    )
+    ({
+      theNumber:(theNumber?)
+      theResult:(theResult!)
+    })
   with behaviour
-    ((variable theResult)=fake=(variable theNumber))
+    ((theResult?)=fake=(theNumber!))
   )
