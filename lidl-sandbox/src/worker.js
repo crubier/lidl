@@ -16,8 +16,6 @@ var Config= Lidl.config;
 
 
 
-
-
 module.exports = function(self) {
   self.addEventListener('message', function(ev) {
 
