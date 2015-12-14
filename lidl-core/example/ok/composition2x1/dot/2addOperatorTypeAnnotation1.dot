@@ -34,8 +34,6 @@ node_999 [shape="ellipse", style="filled", color="#ffd1d1", fontname="Times", la
 $?" ]
 node_1001 [shape="ellipse", style="filled", color="#ffd1d1", fontname="Times", label="Custom
 z" ]
-node_938 [shape="ellipse", style="filled", color="#afe7ff", fontname="Times", label="bob" ]
-node_939 [shape="ellipse", style="filled", color="#afe7ff", fontname="Times", label="addition" ]
 node_940 [shape="ellipse", style="filled", color="#2fcdff", fontname="Times", label="theInterface : out" ]
 node_947 [shape="ellipse", style="filled", color="#2fcdff", fontname="Times", label="theInterface" ]
 node_948 [shape="ellipse", style="filled", color="#2fcdff", fontname="Times", label="theInterface.theNumber : in" ]

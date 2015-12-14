@@ -8,7 +8,6 @@ node_10190 [shape="ellipse", style="filled", color="#ffd1d1", fontname="Times", 
 $!" ]
 node_10192 [shape="ellipse", style="filled", color="#ffd1d1", fontname="Times", label="Custom
 x" ]
-node_10173 [shape="ellipse", style="filled", color="#afe7ff", fontname="Times", label="main" ]
 node_10174 [shape="ellipse", style="filled", color="#2fcdff", fontname="Times", label="theInterface" ]
 node_10175 [shape="ellipse", style="filled", color="#2fcdff", fontname="Times", label="theInterface.theNumber : in" ]
 node_10177 [shape="ellipse", style="filled", color="#2fcdff", fontname="Times", label="theInterface.theResult : out" ]

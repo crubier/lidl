@@ -26,7 +26,7 @@ function expand(interactionDefinition) {
   var definitions = _.map(interactionDefinition.definitions, expand);
 
   var interactionDefinitionWithChildrenExpanded = { 
-    type: "Definition", 
+    type: 'InteractionDefinition', 
     interaction: interactionDefinition.interaction, 
     signature: interactionDefinition.signature, 
     definitions: definitions, 
@@ -58,7 +58,7 @@ function expand(interactionDefinition) {
   interactionsToExpandAlongWithTheirMatchingDefinition.length > 0);
 
   return { 
-    type: "Definition", 
+    type: 'InteractionDefinition', 
     interaction: interaction, 
     signature: interactionDefinition.signature, 
     definitions: definitions, 
@@ -126,7 +126,7 @@ function findMatchingDefinition(interaction, interactionDefinition) {
 
   if (interaction.type === 'InteractionNative') {
     return { 
-      type: "Definition", 
+      type: 'InteractionDefinition', 
       interaction: interaction, 
       signature: "function", 
       definitions: [], 
@@ -144,7 +144,7 @@ function findMatchingDefinition(interaction, interactionDefinition) {
 
   // Third case : The interaction is an argument of the definition
   if (_.any(interactionDefinition.signature.operand, "name", interaction.operator)) {
-    // return {type:'Definition',interaction:"Argument",signature:{operand:[{"name":interaction.operator}]}}; /* TODO precise this return value*/
+    // return {type:'InteractionDefinition',interaction:"Argument",signature:{operand:[{"name":interaction.operator}]}}; /* TODO precise this return value*/
     return "Argument"; /* TODO problem is here !*/}
 
 
@@ -166,7 +166,7 @@ function findMatchingDefinition(interaction, interactionDefinition) {
 
 // Checks if an interaction definition states that an interaction is an argument
 function isDefinitionOfAnArgument(definition) {
-  // {type:'Definition',interaction:interaction,signature:{type:'Signature',interface:interface,operator:temp.operator,operand:temp.operand},definitions:(definitions===null?[]:definitions)};
+  // {type:'InteractionDefinition',interaction:interaction,signature:{type:'Signature',interface:interface,operator:temp.operator,operand:temp.operand},definitions:(definitions===null?[]:definitions)};
   return definition === "Argument";}
 
 

@@ -5,7 +5,7 @@ import _ from 'lodash'
 export default function addDefinitionToGraph(graph, definition) {
   let rootNode =
   graph
-  .addNode({type:'Definition',content: definition,instantiated:false});
+  .addNode({type:'InteractionDefinition',content: definition,instantiated:false});
 
   // Add sub defintions
   _(definition.definitions)

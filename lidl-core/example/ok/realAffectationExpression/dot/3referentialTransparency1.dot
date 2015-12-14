@@ -40,9 +40,6 @@ node_9417 [shape="ellipse", style="filled", color="#ffd1d1", fontname="Times", l
 $=$" ]
 node_9422 [shape="ellipse", style="filled", color="#ffd1d1", fontname="Times", label="Behaviour
 $withbehaviour$" ]
-node_9220 [shape="ellipse", style="filled", color="#afe7ff", fontname="Times", label="bob" ]
-node_9221 [shape="ellipse", style="filled", color="#afe7ff", fontname="Times", label="addition" ]
-node_9228 [shape="ellipse", style="filled", color="#afe7ff", fontname="Times", label="$+$" ]
 node_9229 [shape="ellipse", style="filled", color="#2fffc7", fontname="Times", label="a" ]
 node_9233 [shape="ellipse", style="filled", color="#2fffc7", fontname="Times", label="b" ]
 node_9222 [shape="ellipse", style="filled", color="#2fcdff", fontname="Times", label="theInterface : out" ]

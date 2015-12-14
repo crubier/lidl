@@ -1,35 +1,34 @@
 interaction
-  (empty UI with cursor):{
-        mouse: {
-          buttons: Number,
-          position: {
-            x: Number,
-            y: Number
-          },
-          wheel: {
-            x: Number,
-            y: Number,
-            z: Number
-          }
-        } in,
-        graphics: Graphics out
-      }
+  (empty UI with cursor):WIMP
 
 with
 
+  data
+    Mouse
+  is
+    {
+      buttons: Number,
+      position: {
+        x: Number,
+        y: Number
+      },
+      wheel: {
+        x: Number,
+        y: Number,
+        z: Number
+      }
+    }
+
+  interface
+    WIMP
+  is
+    {
+      mouse: Mouse in,
+      graphics: Graphics out
+    }
+
   interaction
-    (cursor of (mouse:{
-          buttons: Number,
-          position: {
-            x: Number,
-            y: Number
-          },
-          wheel: {
-            x: Number,
-            y: Number,
-            z: Number
-          }
-        } in)):Graphics out
+    (cursor of (mouse:Mouse in)):Graphics out
   with
     interaction (cursor):{{
           buttons: Number,

@@ -16,7 +16,6 @@ node_10654 [shape="ellipse", style="filled", color="#ffd1d1", fontname="Times", 
 $=previous$" ]
 node_10659 [shape="ellipse", style="filled", color="#ffd1d1", fontname="Times", label="Behaviour
 $withbehaviour$" ]
-node_10582 [shape="ellipse", style="filled", color="#afe7ff", fontname="Times", label="main" ]
 node_10583 [shape="ellipse", style="filled", color="#2fcdff", fontname="Times", label="theInterface" ]
 node_10584 [shape="ellipse", style="filled", color="#2fcdff", fontname="Times", label="theInterface.theNumber : in" ]
 node_10586 [shape="ellipse", style="filled", color="#2fcdff", fontname="Times", label="theInterface.theResult : out" ]

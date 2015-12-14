@@ -7,7 +7,7 @@ export default function getExpandedLidl(graph) {
 
   let defNode =
   graph
-  .findNode({type:'Definition'});
+  .findNode({type:'InteractionDefinition'});
 
   let rootNode =
   graph

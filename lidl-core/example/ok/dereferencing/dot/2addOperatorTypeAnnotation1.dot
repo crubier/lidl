@@ -58,9 +58,6 @@ node_4089 [shape="ellipse", style="filled", color="#ffd1d1", fontname="Times", l
 $!" ]
 node_4091 [shape="ellipse", style="filled", color="#ffd1d1", fontname="Times", label="Custom
 this" ]
-node_3968 [shape="ellipse", style="filled", color="#afe7ff", fontname="Times", label="bob" ]
-node_3969 [shape="ellipse", style="filled", color="#afe7ff", fontname="Times", label="$.theNumber" ]
-node_4014 [shape="ellipse", style="filled", color="#afe7ff", fontname="Times", label="$.theResult" ]
 node_3970 [shape="ellipse", style="filled", color="#2fffc7", fontname="Times", label="x" ]
 node_4015 [shape="ellipse", style="filled", color="#2fffc7", fontname="Times", label="x" ]
 node_3971 [shape="ellipse", style="filled", color="#2fcdff", fontname="Times", label="theArgs.x" ]

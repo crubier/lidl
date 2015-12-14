@@ -9,7 +9,7 @@ expandDefinitions;var _lodash = require('lodash');var _lodash2 = _interopRequire
   // For each definition
   graph.
   matchNodes({ 
-    type: 'Definition' }).
+    type: 'InteractionDefinition' }).
 
   forEach(function (defNode) {
     defNode.markedDuringDefinitionGraphOrdering = false;
@@ -71,7 +71,7 @@ expandDefinitions;var _lodash = require('lodash');var _lodash2 = _interopRequire
   // Then we create a graph ordering of all definition nodes according to the dependency relationship
   graph.
   reduceNodes({ 
-    type: 'Definition', 
+    type: 'InteractionDefinition', 
     markedDuringDefinitionGraphOrdering: false }, 
   function (theResult, theNode) {
     visitDef(theNode);});

@@ -7,7 +7,7 @@ getExpandedLidl;var _lodash = require('lodash');var _lodash2 = _interopRequireDe
 function getExpandedLidl(graph) {
   var defNode = 
   graph.
-  findNode({ type: 'Definition' });
+  findNode({ type: 'InteractionDefinition' });
 
   var rootNode = 
   graph.

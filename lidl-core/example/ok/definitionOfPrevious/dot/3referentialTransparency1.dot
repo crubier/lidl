@@ -20,8 +20,6 @@ node_2868 [shape="ellipse", style="filled", color="#ffd1d1", fontname="Times", l
 previous$" ]
 node_2872 [shape="ellipse", style="filled", color="#ffd1d1", fontname="Times", label="Composition
 {theNumber:$theResult:$}" ]
-node_2763 [shape="ellipse", style="filled", color="#afe7ff", fontname="Times", label="bob" ]
-node_2764 [shape="ellipse", style="filled", color="#afe7ff", fontname="Times", label="previous$" ]
 node_2765 [shape="ellipse", style="filled", color="#2fffc7", fontname="Times", label="x" ]
 node_2766 [shape="ellipse", style="filled", color="#2fcdff", fontname="Times", label="theArgs.x : in" ]
 node_2770 [shape="ellipse", style="filled", color="#2fcdff", fontname="Times", label="theInterface : out" ]

@@ -2,16 +2,16 @@ export default {
   Interaction: {
     'Expression':'InteractionExpression',
     'Signature':'InteractionSignature',
-    'Definition':'InteractionDefinition'
+    'InteractionDefinition':'InteractionDefinition'
   },
   Interface: {
     'Expression':'InterfaceExpression',
     'Signature':'InterfaceSignature',
-    'Definition':'InterfaceDefinition'
+    'InteractionDefinition':'InterfaceDefinition'
   },
   Data:{
     'Expression':'DataExpression',
     'Signature':'DataSignature',
-    'Definition':'DataDefinition'
+    'InteractionDefinition':'DataDefinition'
   }
 };

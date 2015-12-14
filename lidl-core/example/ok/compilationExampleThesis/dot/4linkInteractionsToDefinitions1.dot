@@ -20,8 +20,6 @@ node_795 [shape="ellipse", style="filled", color="#ffd1d1", fontname="Times", la
 apply$to$andget$" ]
 node_801 [shape="ellipse", style="filled", color="#ffd1d1", fontname="Times", label="Behaviour
 $withbehaviour$" ]
-node_706 [shape="ellipse", style="filled", color="#afe7ff", fontname="Times", label="MySimpleUserInterface" ]
-node_707 [shape="ellipse", style="filled", color="#afe7ff", fontname="Times", label="addone" ]
 node_708 [shape="ellipse", style="filled", color="#2fcdff", fontname="Times", label="theInterface : out" ]
 node_715 [shape="ellipse", style="filled", color="#2fcdff", fontname="Times", label="theInterface" ]
 node_716 [shape="ellipse", style="filled", color="#2fcdff", fontname="Times", label="theInterface.theNumber : in" ]

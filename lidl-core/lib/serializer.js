@@ -10,7 +10,7 @@ function serialize(object, indentation) {
       return serializeInteractionSimple(object, indent);
     case 'InteractionNative':
       return serializeInteractionNative(object, indent);
-    case 'Definition':
+    case 'InteractionDefinition':
       //TODO Proper
       return serialize(object.interaction, indent);
     case 'InteractionSignature':

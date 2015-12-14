@@ -4,7 +4,7 @@
 
 export default function removeNonRootDefinition(graph,rootNode) {
   graph
-  .matchNodes({type:'Definition'})
+  .matchNodes({type:'InteractionDefinition'})
   .reject(x=>(x===rootNode))
   .forEach(x=>{
 

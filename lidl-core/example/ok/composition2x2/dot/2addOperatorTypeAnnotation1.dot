@@ -44,8 +44,6 @@ node_1337 [shape="ellipse", style="filled", color="#ffd1d1", fontname="Times", l
 $?" ]
 node_1339 [shape="ellipse", style="filled", color="#ffd1d1", fontname="Times", label="Custom
 wow" ]
-node_1260 [shape="ellipse", style="filled", color="#afe7ff", fontname="Times", label="bob" ]
-node_1261 [shape="ellipse", style="filled", color="#afe7ff", fontname="Times", label="cool" ]
 node_1262 [shape="ellipse", style="filled", color="#2fcdff", fontname="Times", label="theInterface : out" ]
 node_1269 [shape="ellipse", style="filled", color="#2fcdff", fontname="Times", label="theInterface" ]
 node_1270 [shape="ellipse", style="filled", color="#2fcdff", fontname="Times", label="theInterface.theNumber : in" ]

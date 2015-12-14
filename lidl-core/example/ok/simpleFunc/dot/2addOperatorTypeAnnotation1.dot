@@ -32,9 +32,6 @@ node_10346 [shape="ellipse", style="filled", color="#ffd1d1", fontname="Times", 
 $!" ]
 node_10348 [shape="ellipse", style="filled", color="#ffd1d1", fontname="Times", label="Custom
 a" ]
-node_10279 [shape="ellipse", style="filled", color="#afe7ff", fontname="Times", label="bob" ]
-node_10280 [shape="ellipse", style="filled", color="#afe7ff", fontname="Times", label="bob$" ]
-node_10281 [shape="ellipse", style="filled", color="#afe7ff", fontname="Times", label="addOne" ]
 node_10289 [shape="ellipse", style="filled", color="#2fffc7", fontname="Times", label="x" ]
 node_10282 [shape="ellipse", style="filled", color="#2fcdff", fontname="Times", label="theInterface : out" ]
 node_10290 [shape="ellipse", style="filled", color="#2fcdff", fontname="Times", label="theArgs.x : in" ]

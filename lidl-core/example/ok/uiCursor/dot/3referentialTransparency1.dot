@@ -14,8 +14,6 @@ node_11306 [shape="ellipse", style="filled", color="#ffd1d1", fontname="Times", 
 $$=$" ]
 node_11312 [shape="ellipse", style="filled", color="#ffd1d1", fontname="Times", label="Behaviour
 $withbehaviour$" ]
-node_11235 [shape="ellipse", style="filled", color="#afe7ff", fontname="Times", label="cursorof$" ]
-node_11236 [shape="ellipse", style="filled", color="#afe7ff", fontname="Times", label="cursor" ]
 node_11244 [shape="ellipse", style="filled", color="#2fffc7", fontname="Times", label="mouse" ]
 node_11237 [shape="ellipse", style="filled", color="#2fcdff", fontname="Times", label="theInterface : out" ]
 node_11245 [shape="ellipse", style="filled", color="#2fcdff", fontname="Times", label="theArgs.mouse : in" ]

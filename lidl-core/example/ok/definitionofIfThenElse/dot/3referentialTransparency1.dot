@@ -74,12 +74,6 @@ node_3471 [shape="ellipse", style="filled", color="#ffd1d1", fontname="Times", l
 4" ]
 node_3474 [shape="ellipse", style="filled", color="#ffd1d1", fontname="Times", label="Custom
 if$then$else$" ]
-node_3038 [shape="ellipse", style="filled", color="#afe7ff", fontname="Times", label="test$" ]
-node_3039 [shape="ellipse", style="filled", color="#afe7ff", fontname="Times", label="$==$" ]
-node_3040 [shape="ellipse", style="filled", color="#afe7ff", fontname="Times", label="isequal" ]
-node_3103 [shape="ellipse", style="filled", color="#afe7ff", fontname="Times", label="when$then$else$" ]
-node_3104 [shape="ellipse", style="filled", color="#afe7ff", fontname="Times", label="whenThenElse" ]
-node_3184 [shape="ellipse", style="filled", color="#afe7ff", fontname="Times", label="if$then$else$" ]
 node_3048 [shape="ellipse", style="filled", color="#2fffc7", fontname="Times", label="u" ]
 node_3052 [shape="ellipse", style="filled", color="#2fffc7", fontname="Times", label="v" ]
 node_3112 [shape="ellipse", style="filled", color="#2fffc7", fontname="Times", label="cond" ]

@@ -1,6 +1,5 @@
 digraph g{node_680 [shape="ellipse", style="filled", color="#ffd1d1", fontname="Times", label="Custom
 a" ]
-node_671 [shape="ellipse", style="filled", color="#afe7ff", fontname="Times", label="bob$" ]
 node_672 [shape="ellipse", style="filled", color="#2fffc7", fontname="Times", label="a" ]
 node_673 [shape="ellipse", style="filled", color="#2fcdff", fontname="Times", label="theArgs.a : in" ]
 node_677 [shape="ellipse", style="filled", color="#2fcdff", fontname="Times", label="theInterface : out" ]

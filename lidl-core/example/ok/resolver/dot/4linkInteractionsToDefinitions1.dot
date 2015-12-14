@@ -6,7 +6,6 @@ node_10039 [shape="ellipse", style="filled", color="#ffd1d1", fontname="Times", 
 $!" ]
 node_10044 [shape="ellipse", style="filled", color="#ffd1d1", fontname="Times", label="Composition
 {theNumber:$theOther:$theResult:$theLast:$}" ]
-node_9985 [shape="ellipse", style="filled", color="#afe7ff", fontname="Times", label="bob" ]
 node_9986 [shape="ellipse", style="filled", color="#2fcdff", fontname="Times", label="theInterface" ]
 node_9987 [shape="ellipse", style="filled", color="#2fcdff", fontname="Times", label="theInterface.theNumber : in" ]
 node_9989 [shape="ellipse", style="filled", color="#2fcdff", fontname="Times", label="theInterface.theOther : in" ]

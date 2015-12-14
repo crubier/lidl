@@ -61,13 +61,15 @@ definitions 'a list of definitions'
 = _ content:content* _ {return flatten(content);}
 
 content 'a definition or an import statement'
-= _ definition:interactionDefinition {return [definition];}
+= _ theInteractionDefinition:interactionDefinition {return [theInteractionDefinition];}
+/ _ theInterfaceDefinition:interfaceDefinition {return [theInterfaceDefinition];}
+/ _ theDataDefinition:dataDefinition {return [theDataDefinition];}
 / _ 'import' _ filename:[^`]* _ {return parse(fs.readFileSync(filename.join(''),{encoding:'utf8'}));}
 
 interactionDefinition 'an interaction definition'
 = _ 'interaction' _ signature:interactionSignature  _ definitions:(_ 'with' _ definitions:definitions {return definitions;})? _'is' _ interaction:interaction  _ {
   var res = {
-    type:'Definition',
+    type:'InteractionDefinition',
     interaction:interaction,
     signature:signature,
     definitions:(definitions===null?[]:definitions),
@@ -109,8 +111,19 @@ interactionElement 'an interaction element'
 ////////////////////////////////////////////////////////////////////////////////
 // Interface specifications
 
+interfaceDefinition 'an interface definition'
+= _ 'interface' _ signature:interfaceIdentifier  _ definitions:(_ 'with' _ definitions:definitions {return definitions;})? _'is' _ interfac:interfac  _ {
+  return {
+    type:'InterfaceDefinition',
+    interfac:interfac,
+    signature:signature,
+    definitions:(definitions===null?[]:definitions),
+    meta:{location:location(),options:options}
+  };
+}
+
 interfac 'the specification of an interfac'
-= interfaceAtomic / interfaceComposite / interfaceOperation
+= interfaceAtomic / interfaceComposite / interfaceOperation / interfaceIdentifier
 
 interfaceOperation 'the specification of an interfac using operators'
 = operator:interfaceOperator _ '(' _ first:interfac rest:(_',' _ content:interfac {return content;})* _')' { return {type:"InterfaceOperation",operator:operator,operand:mergeElements(first,rest),meta:{location:location(),options:options}}}
@@ -129,6 +142,17 @@ direction 'the direction of a data flow'
 
 ////////////////////////////////////////////////////////////////////////////////
 // Data Types specifications
+
+dataDefinition 'an interface definition'
+= _ 'data' _ signature:dataIdentifier  _ definitions:(_ 'with' _ definitions:definitions {return definitions;})? _'is' _ data:data  _ {
+  return {
+    type:'DataDefinition',
+    data:data,
+    signature:signature,
+    definitions:(definitions===null?[]:definitions),
+    meta:{location:location(),options:options}
+  };
+}
 
 data 'the specification of a data type'
 = dataAtomic / dataComposite / dataArray / dataFunction / dataOperation

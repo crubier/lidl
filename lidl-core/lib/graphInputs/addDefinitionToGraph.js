@@ -5,7 +5,7 @@
 addDefinitionToGraph;var _lodash = require('lodash');var _lodash2 = _interopRequireDefault(_lodash);function _interopRequireDefault(obj) {return obj && obj.__esModule ? obj : { default: obj };}function addDefinitionToGraph(graph, definition) {
   var rootNode = 
   graph.
-  addNode({ type: 'Definition', content: definition, instantiated: false });
+  addNode({ type: 'InteractionDefinition', content: definition, instantiated: false });
 
   // Add sub defintions
   (0, _lodash2.default)(definition.definitions).

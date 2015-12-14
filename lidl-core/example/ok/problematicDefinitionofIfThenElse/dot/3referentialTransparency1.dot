@@ -82,12 +82,6 @@ node_8695 [shape="ellipse", style="filled", color="#ffd1d1", fontname="Times", l
 {theNumber:$,theResult:$}" ]
 node_8700 [shape="ellipse", style="filled", color="#ffd1d1", fontname="Times", label="Custom
 if$then$else$" ]
-node_8216 [shape="ellipse", style="filled", color="#afe7ff", fontname="Times", label="test$" ]
-node_8217 [shape="ellipse", style="filled", color="#afe7ff", fontname="Times", label="$==$" ]
-node_8218 [shape="ellipse", style="filled", color="#afe7ff", fontname="Times", label="isEqual" ]
-node_8281 [shape="ellipse", style="filled", color="#afe7ff", fontname="Times", label="when$then$else$" ]
-node_8282 [shape="ellipse", style="filled", color="#afe7ff", fontname="Times", label="whenThenElse" ]
-node_8362 [shape="ellipse", style="filled", color="#afe7ff", fontname="Times", label="if$then$else$" ]
 node_8226 [shape="ellipse", style="filled", color="#2fffc7", fontname="Times", label="a" ]
 node_8230 [shape="ellipse", style="filled", color="#2fffc7", fontname="Times", label="b" ]
 node_8290 [shape="ellipse", style="filled", color="#2fffc7", fontname="Times", label="cond" ]

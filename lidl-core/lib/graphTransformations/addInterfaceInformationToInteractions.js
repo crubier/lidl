@@ -32,7 +32,7 @@ function addInterfaceInformationToArguments(graph) {
 
 function addInterfaceInformationToMainInteractions(graph) {
   graph.
-  matchNodes({ type: 'Definition' }).
+  matchNodes({ type: 'InteractionDefinition' }).
   forEach(function (theNode) {
     // Find the interface of this definition
     var theInterfaceNode = graph.

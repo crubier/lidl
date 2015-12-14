@@ -26,9 +26,6 @@ node_4618 [shape="ellipse", style="filled", color="#ffd1d1", fontname="Times", l
 $=fake=$" ]
 node_4623 [shape="ellipse", style="filled", color="#ffd1d1", fontname="Times", label="Behaviour
 $withbehaviour$" ]
-node_4493 [shape="ellipse", style="filled", color="#afe7ff", fontname="Times", label="bob" ]
-node_4494 [shape="ellipse", style="filled", color="#afe7ff", fontname="Times", label="$=fake=$" ]
-node_4495 [shape="ellipse", style="filled", color="#afe7ff", fontname="Times", label="identity" ]
 node_4503 [shape="ellipse", style="filled", color="#2fffc7", fontname="Times", label="a" ]
 node_4507 [shape="ellipse", style="filled", color="#2fffc7", fontname="Times", label="b" ]
 node_4496 [shape="ellipse", style="filled", color="#2fcdff", fontname="Times", label="theInterface : out" ]

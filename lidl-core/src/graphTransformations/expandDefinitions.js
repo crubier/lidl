@@ -9,7 +9,7 @@ export default function expandDefinitions(graph) {
   // For each definition
   graph
     .matchNodes({
-      type: 'Definition'
+      type: 'InteractionDefinition'
     })
     .forEach(defNode => {
       defNode.markedDuringDefinitionGraphOrdering = false;
@@ -71,7 +71,7 @@ export default function expandDefinitions(graph) {
   // Then we create a graph ordering of all definition nodes according to the dependency relationship
   graph
     .reduceNodes({
-      type: 'Definition',
+      type: 'InteractionDefinition',
       markedDuringDefinitionGraphOrdering: false
     }, (theResult, theNode) => {
       visitDef(theNode);

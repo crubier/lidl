@@ -56,10 +56,6 @@ node_10907 [shape="ellipse", style="filled", color="#ffd1d1", fontname="Times", 
 previous$" ]
 node_10909 [shape="ellipse", style="filled", color="#ffd1d1", fontname="Times", label="Custom
 a" ]
-node_10789 [shape="ellipse", style="filled", color="#afe7ff", fontname="Times", label="wow$" ]
-node_10790 [shape="ellipse", style="filled", color="#afe7ff", fontname="Times", label="$+$" ]
-node_10791 [shape="ellipse", style="filled", color="#afe7ff", fontname="Times", label="addition" ]
-node_10854 [shape="ellipse", style="filled", color="#afe7ff", fontname="Times", label="previous$" ]
 node_10799 [shape="ellipse", style="filled", color="#2fffc7", fontname="Times", label="a" ]
 node_10803 [shape="ellipse", style="filled", color="#2fffc7", fontname="Times", label="b" ]
 node_10855 [shape="ellipse", style="filled", color="#2fffc7", fontname="Times", label="a" ]

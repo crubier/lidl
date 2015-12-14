@@ -30,10 +30,6 @@ node_9829 [shape="ellipse", style="filled", color="#ffd1d1", fontname="Times", l
 $!" ]
 node_9833 [shape="ellipse", style="filled", color="#ffd1d1", fontname="Times", label="Composition
 {theNumber:$theResult:$}" ]
-node_9705 [shape="ellipse", style="filled", color="#afe7ff", fontname="Times", label="main" ]
-node_9706 [shape="ellipse", style="filled", color="#afe7ff", fontname="Times", label="z" ]
-node_9716 [shape="ellipse", style="filled", color="#afe7ff", fontname="Times", label="y" ]
-node_9726 [shape="ellipse", style="filled", color="#afe7ff", fontname="Times", label="x" ]
 node_9707 [shape="ellipse", style="filled", color="#2fcdff", fontname="Times", label="theInterface : out" ]
 node_9717 [shape="ellipse", style="filled", color="#2fcdff", fontname="Times", label="theInterface : out" ]
 node_9727 [shape="ellipse", style="filled", color="#2fcdff", fontname="Times", label="theInterface : out" ]

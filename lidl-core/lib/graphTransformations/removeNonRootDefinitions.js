@@ -4,7 +4,7 @@
 Object.defineProperty(exports, "__esModule", { value: true });exports.default = 
 removeNonRootDefinition;function removeNonRootDefinition(graph, rootNode) {
   graph.
-  matchNodes({ type: 'Definition' }).
+  matchNodes({ type: 'InteractionDefinition' }).
   reject(function (x) {return x === rootNode;}).
   forEach(function (x) {
 

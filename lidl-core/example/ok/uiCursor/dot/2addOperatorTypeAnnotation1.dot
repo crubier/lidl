@@ -20,8 +20,6 @@ node_11270 [shape="ellipse", style="filled", color="#ffd1d1", fontname="Times", 
 #cursorof$" ]
 node_11272 [shape="ellipse", style="filled", color="#ffd1d1", fontname="Times", label="Custom
 mouse" ]
-node_11235 [shape="ellipse", style="filled", color="#afe7ff", fontname="Times", label="cursorof$" ]
-node_11236 [shape="ellipse", style="filled", color="#afe7ff", fontname="Times", label="cursor" ]
 node_11244 [shape="ellipse", style="filled", color="#2fffc7", fontname="Times", label="mouse" ]
 node_11237 [shape="ellipse", style="filled", color="#2fcdff", fontname="Times", label="theInterface : out" ]
 node_11245 [shape="ellipse", style="filled", color="#2fcdff", fontname="Times", label="theArgs.mouse : in" ]

@@ -22,9 +22,6 @@ node_5146 [shape="ellipse", style="filled", color="#ffd1d1", fontname="Times", l
 9" ]
 node_5150 [shape="ellipse", style="filled", color="#ffd1d1", fontname="Times", label="Custom
 $+$" ]
-node_5022 [shape="ellipse", style="filled", color="#afe7ff", fontname="Times", label="okliteral" ]
-node_5023 [shape="ellipse", style="filled", color="#afe7ff", fontname="Times", label="$+$" ]
-node_5024 [shape="ellipse", style="filled", color="#afe7ff", fontname="Times", label="addition" ]
 node_5032 [shape="ellipse", style="filled", color="#2fffc7", fontname="Times", label="a" ]
 node_5036 [shape="ellipse", style="filled", color="#2fffc7", fontname="Times", label="b" ]
 node_5025 [shape="ellipse", style="filled", color="#2fcdff", fontname="Times", label="theInterface : out" ]

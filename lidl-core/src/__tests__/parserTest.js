@@ -30,7 +30,7 @@ describe('parser', function() {
 
   describe('interaction definition', function() {
     it('should parse a simple interaction definition', function() {
-      var parseResult = parser.parse('interaction (a):Number in is (b)', {
+      var parseResult = parser.parse('interaction (a):Number in is (a)', {
         startRule: "interactionDefinition"
       });
 
