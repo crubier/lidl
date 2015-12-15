@@ -55,9 +55,12 @@ import {Accordion,AccordionItem} from './Accordion/Accordion';
 import initialState from './initialState'
 import model from './viewModel';
 
+import fileSaver from 'browser-filesaver';
+
 var Lidl = require('lidl-core');
 var config = Lidl.config;
 var examples = Lidl.examples;
+
 
 // Create a web worker which will do the heavy lifting tasks
 var work = require('webworkify');
@@ -71,7 +74,7 @@ var worker = require('./worker.js');
 //               value: "Graph "+x
 //             })).value()));
 
-var buildKey = '57a645e7-a720-4289-8dc1-8ee31aadffd0'; // Unique key that represent the current version of the LIDL Library, update this every time you want to deprecate the current lib and load the new one in client browsers
+var buildKey = 'd70ad78e-eeee-41dc-8ea2-d557dd959915'; // Unique key that represent the current version of the LIDL Library, update this every time you want to deprecate the current lib and load the new one in client browsers
 
 export default class Main extends Component {
 
@@ -253,6 +256,16 @@ export default class Main extends Component {
 
   }
 
+  exportCanvas(){
+    var template = _.template(require('./Canvas/standaloneTemplate.js'))
+    var fileParts = [template(this.state.js.partialSource)];
+    var blob = new Blob(fileParts, {type : 'text/html'});
+    fileSaver.saveAs(blob,'LidlCanvas.html');
+    var URL = window.URL || window.webkitURL;
+    var url = URL.createObjectURL(blob);
+    window.open(url);
+  }
+
   render() {
 
     let menuItems =  _(this.state.listOfFiles)
@@ -284,6 +297,7 @@ tooltipPosition="bottom-center"  tooltip="Name of file to save"
     </ToolbarGroup>
 
     <ToolbarGroup key={2} float="right">
+      <RaisedButton label="Export Canvas" onClick={that.exportCanvas.bind(that)} primary={false} />
       <RaisedButton label="Recompile All" onClick={that.recompileAll.bind(that)} primary={true} />
 </ToolbarGroup>
   </Toolbar></Paper>

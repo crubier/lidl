@@ -194,7 +194,7 @@ with
         ({
           layout:(add margin of (20) to ((the layout for button widget)!))
           text:("OK")
-          pushed:(((the buttons of the mouse)!)==(1))
+          pushed:((((the buttons of the mouse)!)==(1)) and (((the position of the mouse)!) is inside ((the layout for button widget)!)))
         })
         =
         ((the graphics for button widget)?)

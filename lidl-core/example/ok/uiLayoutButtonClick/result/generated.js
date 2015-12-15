@@ -369,303 +369,336 @@ var inset = function(_){
 
 ///////////////////////////////////////////////////////////////////////
 // Declaration of variables (Edges of the graph)
-var edge_22427 = inactive;
-var edge_22432 = inactive;
-var edge_22437 = inactive;
-var edge_22442 = inactive;
-var edge_22474 = inactive;
-var edge_22658 = inactive;
-var edge_22661 = inactive;
-var edge_22662 = inactive;
-var edge_22666 = inactive;
-var edge_22668 = inactive;
 var edge_22669 = inactive;
-var edge_22670 = inactive;
-var edge_22671 = inactive;
 var edge_22674 = inactive;
-var edge_22675 = inactive;
-var edge_22678 = inactive;
-var edge_22682 = inactive;
-var edge_22686 = inactive;
-var edge_22690 = inactive;
-var edge_22692 = inactive;
-var edge_22693 = inactive;
+var edge_22679 = inactive;
+var edge_22684 = inactive;
+var edge_22689 = inactive;
 var edge_22694 = inactive;
-var edge_22698 = inactive;
-var edge_22701 = inactive;
-var edge_22705 = inactive;
-var edge_22707 = inactive;
-var edge_22711 = inactive;
-var edge_22715 = inactive;
-var edge_22719 = inactive;
-var edge_22721 = inactive;
-var edge_22725 = inactive;
-var edge_22728 = inactive;
-var edge_22729 = inactive;
-var edge_22732 = inactive;
-var edge_22733 = inactive;
-var edge_22736 = inactive;
-var edge_22737 = inactive;
-var edge_22740 = inactive;
-var edge_22741 = inactive;
-var edge_22744 = inactive;
-var edge_22745 = inactive;
-var edge_22750 = inactive;
-var edge_22753 = inactive;
-var edge_22754 = inactive;
-var edge_22757 = inactive;
-var edge_22758 = inactive;
-var edge_22761 = inactive;
-var edge_22762 = inactive;
-var edge_22764 = inactive;
-var edge_22765 = inactive;
-var edge_22767 = inactive;
-var edge_22769 = inactive;
-var edge_22773 = inactive;
-var edge_22775 = inactive;
-var edge_22776 = inactive;
-var edge_22777 = inactive;
-var edge_22778 = inactive;
-var edge_22779 = inactive;
-var edge_22780 = inactive;
-var edge_22781 = inactive;
-var edge_22782 = inactive;
-var edge_22783 = inactive;
-var edge_22784 = inactive;
-var edge_22785 = inactive;
-var edge_22786 = inactive;
-var edge_22787 = inactive;
-var edge_22788 = inactive;
-var edge_22789 = inactive;
-var edge_22790 = inactive;
-var edge_22791 = inactive;
-var edge_22792 = inactive;
-var edge_22793 = inactive;
-var edge_22794 = inactive;
-var edge_22795 = inactive;
-var edge_22796 = inactive;
-var edge_22797 = inactive;
-var edge_22798 = inactive;
-var edge_22799 = inactive;
-var edge_22800 = inactive;
-var edge_22802 = inactive;
-var edge_22803 = inactive;
-var edge_22804 = inactive;
-var edge_22805 = inactive;
-var edge_22806 = inactive;
-var edge_22808 = inactive;
-var edge_22809 = inactive;
-var edge_22810 = inactive;
-var edge_22812 = inactive;
-var edge_22813 = inactive;
-var edge_22814 = inactive;
-var edge_22816 = inactive;
-var edge_22817 = inactive;
-var edge_22818 = inactive;
-var edge_22820 = inactive;
-var edge_22821 = inactive;
-var edge_22822 = inactive;
-var edge_22824 = inactive;
-var edge_22825 = inactive;
-var edge_22826 = inactive;
-var edge_22828 = inactive;
-var edge_22829 = inactive;
-var edge_22830 = inactive;
+var edge_22726 = inactive;
+var edge_22918 = inactive;
+var edge_22921 = inactive;
+var edge_22922 = inactive;
+var edge_22926 = inactive;
+var edge_22930 = inactive;
+var edge_22932 = inactive;
+var edge_22933 = inactive;
+var edge_22934 = inactive;
+var edge_22936 = inactive;
+var edge_22937 = inactive;
+var edge_22938 = inactive;
+var edge_22939 = inactive;
+var edge_22942 = inactive;
+var edge_22943 = inactive;
+var edge_22946 = inactive;
+var edge_22950 = inactive;
+var edge_22954 = inactive;
+var edge_22958 = inactive;
+var edge_22960 = inactive;
+var edge_22961 = inactive;
+var edge_22962 = inactive;
+var edge_22966 = inactive;
+var edge_22969 = inactive;
+var edge_22973 = inactive;
+var edge_22975 = inactive;
+var edge_22979 = inactive;
+var edge_22983 = inactive;
+var edge_22987 = inactive;
+var edge_22989 = inactive;
+var edge_22993 = inactive;
+var edge_22996 = inactive;
+var edge_22997 = inactive;
+var edge_23002 = inactive;
+var edge_23005 = inactive;
+var edge_23006 = inactive;
+var edge_23009 = inactive;
+var edge_23010 = inactive;
+var edge_23013 = inactive;
+var edge_23014 = inactive;
+var edge_23019 = inactive;
+var edge_23022 = inactive;
+var edge_23023 = inactive;
+var edge_23026 = inactive;
+var edge_23027 = inactive;
+var edge_23030 = inactive;
+var edge_23031 = inactive;
+var edge_23033 = inactive;
+var edge_23034 = inactive;
+var edge_23035 = inactive;
+var edge_23037 = inactive;
+var edge_23039 = inactive;
+var edge_23043 = inactive;
+var edge_23045 = inactive;
+var edge_23046 = inactive;
+var edge_23047 = inactive;
+var edge_23048 = inactive;
+var edge_23049 = inactive;
+var edge_23050 = inactive;
+var edge_23051 = inactive;
+var edge_23052 = inactive;
+var edge_23053 = inactive;
+var edge_23054 = inactive;
+var edge_23055 = inactive;
+var edge_23056 = inactive;
+var edge_23057 = inactive;
+var edge_23058 = inactive;
+var edge_23059 = inactive;
+var edge_23060 = inactive;
+var edge_23061 = inactive;
+var edge_23062 = inactive;
+var edge_23063 = inactive;
+var edge_23064 = inactive;
+var edge_23065 = inactive;
+var edge_23066 = inactive;
+var edge_23067 = inactive;
+var edge_23068 = inactive;
+var edge_23069 = inactive;
+var edge_23070 = inactive;
+var edge_23071 = inactive;
+var edge_23072 = inactive;
+var edge_23074 = inactive;
+var edge_23075 = inactive;
+var edge_23076 = inactive;
+var edge_23077 = inactive;
+var edge_23078 = inactive;
+var edge_23080 = inactive;
+var edge_23081 = inactive;
+var edge_23082 = inactive;
+var edge_23084 = inactive;
+var edge_23085 = inactive;
+var edge_23086 = inactive;
+var edge_23088 = inactive;
+var edge_23089 = inactive;
+var edge_23090 = inactive;
+var edge_23092 = inactive;
+var edge_23093 = inactive;
+var edge_23094 = inactive;
+var edge_23096 = inactive;
+var edge_23097 = inactive;
+var edge_23098 = inactive;
+var edge_23100 = inactive;
+var edge_23101 = inactive;
+var edge_23102 = inactive;
+var edge_23104 = inactive;
+var edge_23105 = inactive;
+var edge_23106 = inactive;
 
 ///////////////////////////////////////////////////////////////////////
 // Data flow processing (Nodes of the graph)
-// node_22423
-edge_22674 = "Labeltext";
-// node_22421
-edge_22670 = "OK";
-// node_22418
-edge_22828 = 0.5;
-// node_22827
-edge_22829 = edge_22828;
-edge_22830 = edge_22828;
-// node_22416
-edge_22767 = 0;
-// node_22766
-edge_22769 = {};
-edge_22769['start'] = edge_22767;
-edge_22769['end'] = edge_22829;
-// node_22412
-edge_22816 = 1;
-// node_22815
-edge_22817 = edge_22816;
-edge_22818 = edge_22816;
-// node_22770
-edge_22773 = {};
-edge_22773['start'] = edge_22830;
-edge_22773['end'] = edge_22818;
-// node_22409
-edge_22661 = 20;
-// node_22407
-edge_22474 = cursor;
-// node_22404
-edge_22812 = columnElement;
-// node_22811
-edge_22813 = edge_22812;
-edge_22814 = edge_22812;
-// node_22401
-edge_22808 = group;
-// node_22807
-edge_22809 = edge_22808;
-edge_22810 = edge_22808;
-// node_22396
-edge_22802 = all;
-// node_22801
-edge_22803 = edge_22802;
-edge_22804 = edge_22802;
-edge_22805 = edge_22802;
-edge_22806 = edge_22802;
-// node_22394
-edge_22442 = label;
-// node_22392
-edge_22432 = isEqual;
-// node_22390
-edge_22427 = inset;
-// node_22388
-edge_22437 = button;
-// node_22301
-edge_22775 = active;
-// node_22774
-edge_22776 = edge_22775;
-edge_22777 = edge_22775;
-edge_22778 = edge_22775;
-edge_22779 = edge_22775;
-edge_22780 = edge_22775;
-edge_22781 = edge_22775;
-edge_22782 = edge_22775;
-edge_22783 = edge_22775;
-edge_22784 = edge_22775;
-edge_22785 = edge_22775;
-edge_22786 = edge_22775;
-edge_22787 = edge_22775;
-edge_22788 = edge_22775;
-edge_22789 = edge_22775;
-edge_22790 = edge_22775;
-edge_22791 = edge_22775;
-edge_22792 = edge_22775;
-edge_22793 = edge_22775;
-edge_22794 = edge_22775;
-edge_22795 = edge_22775;
-edge_22796 = edge_22775;
-edge_22797 = edge_22775;
-edge_22798 = edge_22775;
-edge_22799 = edge_22775;
-edge_22800 = edge_22775;
-// node_22482
-if(edge_22785 === active && edge_22806!==null && edge_22806!==undefined) {edge_22701 = edge_22806(edge_22790);}
-// node_22699
-edge_22719 = edge_22701['a'];
-// node_22477
-if(edge_22784 === active && edge_22805!==null && edge_22805!==undefined) {edge_22698 = edge_22805(edge_22789);}
-// node_22695
-edge_22711 = edge_22698['a'];
-edge_22715 = edge_22698['b'];
-// node_22467
-if(edge_22782 === active && edge_22804!==null && edge_22804!==undefined) {edge_22694 = edge_22804(edge_22788);}
-// node_22691
-edge_22692 = edge_22694['a'];
-edge_22693 = edge_22694['b'];
-// node_22445
-if(edge_22780 === active && edge_22803!==null && edge_22803!==undefined) {edge_22678 = edge_22803(edge_22787);}
-// node_22676
-edge_22707 = edge_22678['a'];
-// node_21523
-edge_22721=theInterface.layout;
-// node_22718
-if(edge_22719 === active) {edge_22750 = edge_22721;}
-// node_22746
-if(edge_22797 === active) {edge_22824 = edge_22750;}
-// node_22823
-edge_22825 = edge_22824;
-edge_22826 = edge_22824;
-// node_22687
-edge_22690 = {};
-edge_22690['interval'] = edge_22773;
-edge_22690['rect'] = edge_22826;
-// node_22461
-if(edge_22693 === active && edge_22814!==null && edge_22814!==undefined) {edge_22741 = edge_22814(edge_22690);}
-// node_22738
-if(edge_22795 === active) {edge_22740 = edge_22741;}
-// node_22672
-edge_22675 = {};
-edge_22675['layout'] = edge_22740;
-edge_22675['text'] = edge_22674;
-// node_22440
-if(edge_22779 === active && edge_22442!==null && edge_22442!==undefined) {edge_22736 = edge_22442(edge_22675);}
-// node_22734
-if(edge_22794 === active) {edge_22737 = edge_22736;}
-// node_22683
-edge_22686 = {};
-edge_22686['interval'] = edge_22769;
-edge_22686['rect'] = edge_22825;
-// node_22455
-if(edge_22692 === active && edge_22813!==null && edge_22813!==undefined) {edge_22733 = edge_22813(edge_22686);}
-// node_22730
-if(edge_22793 === active) {edge_22732 = edge_22733;}
-// node_22659
-edge_22662 = {};
-edge_22662['rect'] = edge_22732;
-edge_22662['margin'] = edge_22661;
-// node_22425
-if(edge_22776 === active && edge_22427!==null && edge_22427!==undefined) {edge_22668 = edge_22427(edge_22662);}
-// node_21521
-edge_22820=theInterface.mouse;
-// node_22819
-edge_22821 = edge_22820;
-edge_22822 = edge_22820;
-// node_22714
-if(edge_22715 === active) {edge_22758 = edge_22822;}
-// node_22755
-if(edge_22799 === active) {edge_22757 = edge_22758;}
-// node_22472
-if(edge_22783 === active && edge_22474!==null && edge_22474!==undefined) {edge_22761 = edge_22474(edge_22757);}
-// node_22759
-if(edge_22800 === active) {edge_22762 = edge_22761;}
-// node_22710
-if(edge_22711 === active) {edge_22745 = edge_22821;}
-// node_22742
-if(edge_22796 === active) {edge_22744 = edge_22745;}
-// node_22706
-if(edge_22707 === active) {edge_22725 = edge_22744;}
-// node_22722
-if(edge_22791 === active) {edge_22765 = edge_22725;}
-// node_22763
-edge_22764 = edge_22765['buttons'];
+// node_22665
+edge_22942 = "Labeltext";
 // node_22663
-edge_22666 = {};
-edge_22666['a'] = edge_22764;
-edge_22666['b'] = edge_22817;
-// node_22430
-if(edge_22777 === active && edge_22432!==null && edge_22432!==undefined) {edge_22669 = edge_22432(edge_22666);}
+edge_22938 = "OK";
+// node_22660
+edge_23104 = 0.5;
+// node_23103
+edge_23105 = edge_23104;
+edge_23106 = edge_23104;
+// node_22658
+edge_23037 = 0;
+// node_23036
+edge_23039 = {};
+edge_23039['start'] = edge_23037;
+edge_23039['end'] = edge_23105;
+// node_22654
+edge_23088 = 1;
+// node_23087
+edge_23089 = edge_23088;
+edge_23090 = edge_23088;
+// node_23040
+edge_23043 = {};
+edge_23043['start'] = edge_23106;
+edge_23043['end'] = edge_23090;
+// node_22651
+edge_22921 = 20;
+// node_22649
+edge_22726 = cursor;
+// node_22646
+edge_23084 = columnElement;
+// node_23083
+edge_23085 = edge_23084;
+edge_23086 = edge_23084;
+// node_22643
+edge_23080 = group;
+// node_23079
+edge_23081 = edge_23080;
+edge_23082 = edge_23080;
+// node_22638
+edge_23074 = all;
+// node_23073
+edge_23075 = edge_23074;
+edge_23076 = edge_23074;
+edge_23077 = edge_23074;
+edge_23078 = edge_23074;
+// node_22636
+edge_22694 = label;
+// node_22634
+edge_22684 = boolAnd;
+// node_22632
+edge_22679 = isInside;
+// node_22630
+edge_22674 = isEqual;
+// node_22628
+edge_22669 = inset;
+// node_22626
+edge_22689 = button;
+// node_22533
+edge_23045 = active;
+// node_23044
+edge_23046 = edge_23045;
+edge_23047 = edge_23045;
+edge_23048 = edge_23045;
+edge_23049 = edge_23045;
+edge_23050 = edge_23045;
+edge_23051 = edge_23045;
+edge_23052 = edge_23045;
+edge_23053 = edge_23045;
+edge_23054 = edge_23045;
+edge_23055 = edge_23045;
+edge_23056 = edge_23045;
+edge_23057 = edge_23045;
+edge_23058 = edge_23045;
+edge_23059 = edge_23045;
+edge_23060 = edge_23045;
+edge_23061 = edge_23045;
+edge_23062 = edge_23045;
+edge_23063 = edge_23045;
+edge_23064 = edge_23045;
+edge_23065 = edge_23045;
+edge_23066 = edge_23045;
+edge_23067 = edge_23045;
+edge_23068 = edge_23045;
+edge_23069 = edge_23045;
+edge_23070 = edge_23045;
+edge_23071 = edge_23045;
+edge_23072 = edge_23045;
+// node_22734
+if(edge_23057 === active && edge_23078!==null && edge_23078!==undefined) {edge_22969 = edge_23078(edge_23062);}
+// node_22967
+edge_22987 = edge_22969['a'];
+// node_22729
+if(edge_23056 === active && edge_23077!==null && edge_23077!==undefined) {edge_22966 = edge_23077(edge_23061);}
+// node_22963
+edge_22979 = edge_22966['a'];
+edge_22983 = edge_22966['b'];
+// node_22719
+if(edge_23054 === active && edge_23076!==null && edge_23076!==undefined) {edge_22962 = edge_23076(edge_23060);}
+// node_22959
+edge_22960 = edge_22962['a'];
+edge_22961 = edge_22962['b'];
+// node_22697
+if(edge_23052 === active && edge_23075!==null && edge_23075!==undefined) {edge_22946 = edge_23075(edge_23059);}
+// node_22944
+edge_22975 = edge_22946['a'];
+// node_21694
+edge_22989=theInterface.layout;
+// node_22986
+if(edge_22987 === active) {edge_23019 = edge_22989;}
+// node_23015
+if(edge_23069 === active) {edge_23100 = edge_23019;}
+// node_23099
+edge_23101 = edge_23100;
+edge_23102 = edge_23100;
+// node_22955
+edge_22958 = {};
+edge_22958['interval'] = edge_23043;
+edge_22958['rect'] = edge_23102;
+// node_22713
+if(edge_22961 === active && edge_23086!==null && edge_23086!==undefined) {edge_23010 = edge_23086(edge_22958);}
+// node_23007
+if(edge_23067 === active) {edge_23009 = edge_23010;}
+// node_22940
+edge_22943 = {};
+edge_22943['layout'] = edge_23009;
+edge_22943['text'] = edge_22942;
+// node_22692
+if(edge_23051 === active && edge_22694!==null && edge_22694!==undefined) {edge_23005 = edge_22694(edge_22943);}
+// node_23003
+if(edge_23066 === active) {edge_23006 = edge_23005;}
+// node_22951
+edge_22954 = {};
+edge_22954['interval'] = edge_23039;
+edge_22954['rect'] = edge_23101;
+// node_22707
+if(edge_22960 === active && edge_23085!==null && edge_23085!==undefined) {edge_23002 = edge_23085(edge_22954);}
+// node_22998
+if(edge_23065 === active) {edge_23096 = edge_23002;}
+// node_23095
+edge_23097 = edge_23096;
+edge_23098 = edge_23096;
+// node_22919
+edge_22922 = {};
+edge_22922['rect'] = edge_23097;
+edge_22922['margin'] = edge_22921;
 // node_22667
-edge_22671 = {};
-edge_22671['layout'] = edge_22668;
-edge_22671['text'] = edge_22670;
-edge_22671['pushed'] = edge_22669;
-// node_22435
-if(edge_22778 === active && edge_22437!==null && edge_22437!==undefined) {edge_22728 = edge_22437(edge_22671);}
-// node_22726
-if(edge_22792 === active) {edge_22729 = edge_22728;}
-// node_22679
-edge_22682 = {};
-edge_22682['a'] = edge_22729;
-edge_22682['b'] = edge_22737;
-// node_22450
-if(edge_22781 === active && edge_22809!==null && edge_22809!==undefined) {edge_22753 = edge_22809(edge_22682);}
-// node_22751
-if(edge_22798 === active) {edge_22754 = edge_22753;}
+if(edge_23046 === active && edge_22669!==null && edge_22669!==undefined) {edge_22936 = edge_22669(edge_22922);}
+// node_21692
+edge_23092=theInterface.mouse;
+// node_23091
+edge_23093 = edge_23092;
+edge_23094 = edge_23092;
+// node_22982
+if(edge_22983 === active) {edge_23027 = edge_23094;}
+// node_23024
+if(edge_23071 === active) {edge_23026 = edge_23027;}
+// node_22724
+if(edge_23055 === active && edge_22726!==null && edge_22726!==undefined) {edge_23030 = edge_22726(edge_23026);}
+// node_23028
+if(edge_23072 === active) {edge_23031 = edge_23030;}
+// node_22978
+if(edge_22979 === active) {edge_23014 = edge_23093;}
+// node_23011
+if(edge_23068 === active) {edge_23013 = edge_23014;}
+// node_22974
+if(edge_22975 === active) {edge_22993 = edge_23013;}
+// node_22990
+if(edge_23063 === active) {edge_23035 = edge_22993;}
+// node_23032
+edge_23033 = edge_23035['buttons'];
+edge_23034 = edge_23035['position'];
+// node_22927
+edge_22930 = {};
+edge_22930['point'] = edge_23034;
+edge_22930['rect'] = edge_23098;
+// node_22677
+if(edge_23048 === active && edge_22679!==null && edge_22679!==undefined) {edge_22933 = edge_22679(edge_22930);}
+// node_22923
+edge_22926 = {};
+edge_22926['a'] = edge_23033;
+edge_22926['b'] = edge_23089;
+// node_22672
+if(edge_23047 === active && edge_22674!==null && edge_22674!==undefined) {edge_22932 = edge_22674(edge_22926);}
+// node_22931
+edge_22934 = {};
+edge_22934['a'] = edge_22932;
+edge_22934['b'] = edge_22933;
+// node_22682
+if(edge_23049 === active && edge_22684!==null && edge_22684!==undefined) {edge_22937 = edge_22684(edge_22934);}
+// node_22935
+edge_22939 = {};
+edge_22939['layout'] = edge_22936;
+edge_22939['text'] = edge_22938;
+edge_22939['pushed'] = edge_22937;
+// node_22687
+if(edge_23050 === active && edge_22689!==null && edge_22689!==undefined) {edge_22996 = edge_22689(edge_22939);}
+// node_22994
+if(edge_23064 === active) {edge_22997 = edge_22996;}
+// node_22947
+edge_22950 = {};
+edge_22950['a'] = edge_22997;
+edge_22950['b'] = edge_23006;
 // node_22702
-edge_22705 = {};
-edge_22705['a'] = edge_22754;
-edge_22705['b'] = edge_22762;
-// node_22487
-if(edge_22786 === active && edge_22810!==null && edge_22810!==undefined) {edge_22658 = edge_22810(edge_22705);}
-// node_21525
-theInterface.graphics=edge_22658;
+if(edge_23053 === active && edge_23081!==null && edge_23081!==undefined) {edge_23022 = edge_23081(edge_22950);}
+// node_23020
+if(edge_23070 === active) {edge_23023 = edge_23022;}
+// node_22970
+edge_22973 = {};
+edge_22973['a'] = edge_23023;
+edge_22973['b'] = edge_23031;
+// node_22739
+if(edge_23058 === active && edge_23082!==null && edge_23082!==undefined) {edge_22918 = edge_23082(edge_22973);}
+// node_21696
+theInterface.graphics=edge_22918;
 
 
 ///////////////////////////////////////////////////////////////////////

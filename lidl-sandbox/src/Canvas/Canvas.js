@@ -165,7 +165,7 @@ export default class Canvas extends Component {
   };
 
   mouse(e) {
-var container=this.refs.container;
+    var container=this.refs.container;
     var target = e.target;
     var rect = this.refs.iiicanvas.getBoundingClientRect();
     var offsetX = (e.clientX - rect.left)*(this.state.mainInterfaceState.layout.width/rect.width);
@@ -211,7 +211,7 @@ var container=this.refs.container;
   }
 
   keydown(e) {
-var container=this.refs.container;
+    var container=this.refs.container;
     var key;
     if (event.key !== undefined) {
         key = event.key;
@@ -235,7 +235,7 @@ var container=this.refs.container;
   }
 
   keyup(e) {
-var container=this.refs.container;
+    var container=this.refs.container;
     var key;
     if (event.key !== undefined) {
         key = event.key;
@@ -260,7 +260,7 @@ var container=this.refs.container;
 
 
   touch(e) {
-var container=this.refs.container;
+    var container=this.refs.container;
     var rect = this.refs.iiicanvas.getBoundingClientRect();
     var i;
     var touches = [];
