@@ -13,15 +13,15 @@ var inactive = null;
 
 ///////////////////////////////////////////////////////////////////////
 // Custom LIDL Header (Custom JS function definitions)
-var isActive = function(x) {
-  return (x !== null && x !== undefined);
+var isActive = function(_) {
+  return (_ !== null && _ !== undefined);
 };
 
-var cool = function(x) {
-  if (isActive(x.a) && isActive(x.b)) {
+var cool = function(_) {
+  if (isActive(_.a) && isActive(_.b)) {
     return {
-      sum: (x.a + x.b),
-      diff: (x.a - x.b)
+      sum: (_.a + _.b),
+      diff: (_.a - _.b)
     };
   } else {
     return {
@@ -31,103 +31,128 @@ var cool = function(x) {
   }
 };
 
-var fallback = function(x) {
-  return (isActive(x.a) ? x.a : x.b);
+var fallback = function(_) {
+  return (isActive(_.a) ? _.a : _.b);
 };
 
-var return0 = function(x) {
+var return0 = function(_) {
   return 0;
 };
 
 
-var return1 = function(x) {
+var return1 = function(_) {
   return 1;
 };
 
-var addition = function(x) {
-  if (isActive(x.a) && isActive(x.b)) {
-    return x.a + x.b;
+var addition = function(_) {
+  if (isActive(_.a) && isActive(_.b)) {
+    return _.a + _.b;
   } else {
     return inactive;
   }
 };
 
-var multiplication = function(x) {
-  if (isActive(x.a) && isActive(x.b)) {
-    return x.a * x.b;
+var multiplication = function(_) {
+  if (isActive(_.a) && isActive(_.b)) {
+    return _.a * _.b;
   } else {
     return inactive;
   }
 };
 
-var substraction = function(x) {
-  if (isActive(x.a) && isActive(x.b)) {
-    return x.a - x.b;
+var substraction = function(_) {
+  if (isActive(_.a) && isActive(_.b)) {
+    return _.a - _.b;
   } else {
     return inactive;
   }
 };
 
-var division = function(x) {
-  if (isActive(x.a) && isActive(x.b)) {
-    return x.a / x.b;
+var division = function(_) {
+  if (isActive(_.a) && isActive(_.b)) {
+    return _.a / _.b;
   } else {
     return inactive;
   }
 };
 
-var remainder = function(x) {
-  if (isActive(x.a) && isActive(x.b)) {
-    return x.a % x.b;
+var remainder = function(_) {
+  if (isActive(_.a) && isActive(_.b)) {
+    return _.a % _.b;
   } else {
     return inactive;
   }
 };
 
-var power = function(x) {
-  if (isActive(x.a) && isActive(x.b)) {
-    return Math.pow(x.a, x.b);
+var power = function(_) {
+  if (isActive(_.a) && isActive(_.b)) {
+    return Math.pow(_.a, _.b);
   } else {
     return inactive;
   }
 };
 
-var addOne = function(x) {
-  if (isActive(x))
-    return x + 1;
+var addOne = function(_) {
+  if (isActive(_))
+    return _ + 1;
   else {
     return inactive;
   }
 };
 
-var identity = function(x) {
-  return x;
+var identity = function(_) {
+  return _;
 };
 
-var isEqual = function(x) {
-  if (isActive(x.a) && isActive(x.b)) {
-    return (x.a === x.b) ? true : false;
+var isEqual = function(_) {
+  if (isActive(_.a) && isActive(_.b)) {
+    return (_.a === _.b) ? true : false;
   } else {
     return inactive;
   }
 };
 
 
-var boolNot = function(x) {
-  if (isActive(x)) {
-    return !x;
+var boolNot = function(_) {
+  if (isActive(_)) {
+    return !_;
   } else {
     return inactive;
   }
 };
 
-var ifThenElse = function(x) {
-  if (isActive(x)) {
-    if (isActive(x.cond)) {
-      if (x.cond === true) {
-        return x.a;
-      } else if (x.cond === false) {
-        return x.b;
+var boolAnd = function(_) {
+  if (isActive(_) && isActive(_.a) && isActive(_.b)) {
+    return _.a && _.b;
+  } else {
+    return inactive;
+  }
+};
+
+var boolOr = function(_) {
+  if (isActive(_)&& isActive(_.a) && isActive(_.b)) {
+    return _.a || _.b;
+  } else {
+    return inactive;
+  }
+};
+
+var boolXor = function(_) {
+  if (isActive(_)&& isActive(_.a) && isActive(_.b)) {
+    return ( _.a && !_.b ) || ( !_.a && _.b ) ;
+  } else {
+    return inactive;
+  }
+};
+
+
+var ifThenElse = function(_) {
+  if (isActive(_)) {
+    if (isActive(_.cond)) {
+      if (_.cond === true) {
+        return _.a;
+      } else if (_.cond === false) {
+        return _.b;
       } else {
         return inactive;
       }
@@ -140,15 +165,15 @@ var ifThenElse = function(x) {
 };
 
 
-var whenThenElse = function(x) {
-  if (isActive(x)) {
-    if (isActive(x.cond)) {
-      if (x.cond === true) {
+var whenThenElse = function(_) {
+  if (isActive(_)) {
+    if (isActive(_.cond)) {
+      if (_.cond === true) {
         return {
           a: active,
           b: inactive
         };
-      } else if (x.cond === false) {
+      } else if (_.cond === false) {
         return {
           a: inactive,
           b: active
@@ -165,24 +190,24 @@ var whenThenElse = function(x) {
 };
 
 
-var all = function(x) {
+var all = function(_) {
   return {
-    a: x,
-    b: x,
-    c: x,
-    d: x,
-    e: x,
-    f: x,
-    g: x,
-    h: x,
-    i: x,
-    j: x,
-    k: x,
-    l: x,
-    m: x,
-    n: x,
-    o: x,
-    p: x
+    a: _,
+    b: _,
+    c: _,
+    d: _,
+    e: _,
+    f: _,
+    g: _,
+    h: _,
+    i: _,
+    j: _,
+    k: _,
+    l: _,
+    m: _,
+    n: _,
+    o: _,
+    p: _
   };
 };
 
@@ -252,10 +277,10 @@ var button = function(button) {
         style: "rgba(0, 171, 255, 1)",
         content: {
           type: "rect",
-          x: button.x,
-          y: button.y,
-          width: button.width,
-          height: button.height
+          x: button.layout.x,
+          y: button.layout.y,
+          width: button.layout.width,
+          height: button.layout.height
         }
       }, {
         type: "fill",
@@ -266,14 +291,36 @@ var button = function(button) {
           textAlign: "center",
           font: "200 30px Helvetica neue",
           text: button.text,
-          x: button.x + button.width / 2,
-          y: button.y + button.height / 2
+          x: button.layout.x + button.layout.width / 2,
+          y: button.layout.y + button.layout.height / 2
         }
       }]
     }
   };
   return button;
 }
+
+
+
+
+var label = function(_) {
+  var label = {
+        type: "fill",
+        style: "rgba(56, 56, 56, 1)",
+        content: {
+          type: "text",
+          textBaseline: "middle",
+          textAlign: "center",
+          font: "200 30px Helvetica neue",
+          text: _.text,
+          x: _.layout.x + _.layout.width / 2,
+          y: _.layout.y + _.layout.height / 2
+        }
+      };
+  return label;
+}
+
+
 
 var group = function(elements) {
   var group = {
@@ -283,26 +330,62 @@ var group = function(elements) {
   return group;
 }
 
+// Checks if a point is inside a rectangle (picking)
+var isInside = function(_){
+  if(isActive(_) && isActive(_.point) && isActive(_.rect)){
+    return _.point.x >= _.rect.x && _.point.x <= _.rect.x + _.rect.width && _.point.y >= _.rect.y && _.point.y <= _.rect.y + _.rect.height;
+  } else {
+    return inactive;
+  }
+}
+
+// Returns a rectangle which is a fraction of a column of another rectanle
+var columnElement = function(_){
+  if(isActive(_) && isActive(_.interval) && isActive(_.rect)){
+    return {x:_.rect.x,y:_.rect.y+_.interval.start*_.rect.height,width:_.rect.width,height:_.rect.height*(_.interval.end - _.interval.start)};
+  } else {
+    return inactive;
+  }
+}
+
+// Returns a rectangle which is a fraction of a column of another rectanle
+var rowElement = function(_){
+  if(isActive(_) && isActive(_.interval) && isActive(_.rect)){
+    return {y:_.rect.y,x:_.rect.x+_.interval.start*_.rect.width,height:_.rect.height,width:_.rect.width*(_.interval.end - _.interval.start)};
+  } else {
+    return inactive;
+  }
+}
+
+// Returns a rectangle which is inset with a margin inside a bigger rectangle
+var inset = function(_){
+  if(isActive(_) && isActive(_.margin) && isActive(_.rect)){
+    return {x:_.rect.x + _.margin,y:_.rect.y + _.margin,width:_.rect.width-2*_.margin,height:_.rect.height-2*_.margin};
+  } else {
+    return inactive;
+  }
+}
+
 
 ///////////////////////////////////////////////////////////////////////
 // Declaration of variables (Edges of the graph)
-var edge_16909 = inactive;
-var edge_16910 = inactive;
-var edge_16926 = inactive;
-var edge_16927 = inactive;
+var edge_16978 = inactive;
+var edge_16979 = inactive;
+var edge_16995 = inactive;
+var edge_16996 = inactive;
 
 ///////////////////////////////////////////////////////////////////////
 // Data flow processing (Nodes of the graph)
-// node_16906
-edge_16910 = cursor;
-// node_16903
-edge_16909 = active;
-// node_16859
-edge_16926=theInterface.mouse;
-// node_16908
-if(edge_16909 === active && edge_16910!==null && edge_16910!==undefined) {edge_16927 = edge_16910(edge_16926);}
-// node_16861
-theInterface.graphics=edge_16927;
+// node_16975
+edge_16979 = cursor;
+// node_16972
+edge_16978 = active;
+// node_16928
+edge_16995=theInterface.mouse;
+// node_16977
+if(edge_16978 === active && edge_16979!==null && edge_16979!==undefined) {edge_16996 = edge_16979(edge_16995);}
+// node_16930
+theInterface.graphics=edge_16996;
 
 
 ///////////////////////////////////////////////////////////////////////

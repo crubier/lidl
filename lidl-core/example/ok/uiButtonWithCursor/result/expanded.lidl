@@ -29,7 +29,7 @@
         graphics: ((the graphics for button widget)!)
       })
       with behaviour
-      ((function button)({x:(10)y:(10)width:(200)height:(100)text:("OK")pushed:(false)})=((the graphics for button widget)?))
+      ((function button)({layout:({x:(10)y:(10)width:(200)height:(100)})text:("OK")pushed:(false)})=((the graphics for button widget)?))
     ).mouse)!)
     with behaviour
     ((
@@ -38,14 +38,14 @@
         graphics: ((the graphics for button widget)!)
       })
       with behaviour
-      ((function button)({x:(10)y:(10)width:(200)height:(100)text:("OK")pushed:(false)})=((the graphics for button widget)?))
+      ((function button)({layout:({x:(10)y:(10)width:(200)height:(100)})text:("OK")pushed:(false)})=((the graphics for button widget)?))
     )=({mouse:((result of (
       ({
         mouse: ((the mouse for button widget)?)
         graphics: ((the graphics for button widget)!)
       })
       with behaviour
-      ((function button)({x:(10)y:(10)width:(200)height:(100)text:("OK")pushed:(false)})=((the graphics for button widget)?))
+      ((function button)({layout:({x:(10)y:(10)width:(200)height:(100)})text:("OK")pushed:(false)})=((the graphics for button widget)?))
     ).mouse)?)})))) ?)
       with behaviour
       (
@@ -101,7 +101,7 @@
         graphics: ((the graphics for button widget)!)
       })
       with behaviour
-      ((function button)({x:(10)y:(10)width:(200)height:(100)text:("OK")pushed:(false)})=((the graphics for button widget)?))
+      ((function button)({layout:({x:(10)y:(10)width:(200)height:(100)})text:("OK")pushed:(false)})=((the graphics for button widget)?))
     ).mouse)!)
     with behaviour
     ((
@@ -110,21 +110,21 @@
         graphics: ((the graphics for button widget)!)
       })
       with behaviour
-      ((function button)({x:(10)y:(10)width:(200)height:(100)text:("OK")pushed:(false)})=((the graphics for button widget)?))
+      ((function button)({layout:({x:(10)y:(10)width:(200)height:(100)})text:("OK")pushed:(false)})=((the graphics for button widget)?))
     )=({mouse:((result of (
       ({
         mouse: ((the mouse for button widget)?)
         graphics: ((the graphics for button widget)!)
       })
       with behaviour
-      ((function button)({x:(10)y:(10)width:(200)height:(100)text:("OK")pushed:(false)})=((the graphics for button widget)?))
+      ((function button)({layout:({x:(10)y:(10)width:(200)height:(100)})text:("OK")pushed:(false)})=((the graphics for button widget)?))
     ).mouse)?)}))))!) ) ( (((result of (
       ({
         mouse: ((the mouse for button widget)?)
         graphics: ((the graphics for button widget)!)
       })
       with behaviour
-      ((function button)({x:(10)y:(10)width:(200)height:(100)text:("OK")pushed:(false)})=((the graphics for button widget)?))
+      ((function button)({layout:({x:(10)y:(10)width:(200)height:(100)})text:("OK")pushed:(false)})=((the graphics for button widget)?))
     ).mouse)!)
     with behaviour
     ((
@@ -133,14 +133,14 @@
         graphics: ((the graphics for button widget)!)
       })
       with behaviour
-      ((function button)({x:(10)y:(10)width:(200)height:(100)text:("OK")pushed:(false)})=((the graphics for button widget)?))
+      ((function button)({layout:({x:(10)y:(10)width:(200)height:(100)})text:("OK")pushed:(false)})=((the graphics for button widget)?))
     )=({mouse:((result of (
       ({
         mouse: ((the mouse for button widget)?)
         graphics: ((the graphics for button widget)!)
       })
       with behaviour
-      ((function button)({x:(10)y:(10)width:(200)height:(100)text:("OK")pushed:(false)})=((the graphics for button widget)?))
+      ((function button)({layout:({x:(10)y:(10)width:(200)height:(100)})text:("OK")pushed:(false)})=((the graphics for button widget)?))
     ).mouse)?)}))) = ((#both(((result of (
       ({
         mouse: ((the mouse for cursor widget)?)
@@ -170,7 +170,7 @@
         graphics: ((the graphics for button widget)!)
       })
       with behaviour
-      ((function button)({x:(10)y:(10)width:(200)height:(100)text:("OK")pushed:(false)})=((the graphics for button widget)?))
+      ((function button)({layout:({x:(10)y:(10)width:(200)height:(100)})text:("OK")pushed:(false)})=((the graphics for button widget)?))
     ).mouse)!)
     with behaviour
     ((
@@ -179,14 +179,14 @@
         graphics: ((the graphics for button widget)!)
       })
       with behaviour
-      ((function button)({x:(10)y:(10)width:(200)height:(100)text:("OK")pushed:(false)})=((the graphics for button widget)?))
+      ((function button)({layout:({x:(10)y:(10)width:(200)height:(100)})text:("OK")pushed:(false)})=((the graphics for button widget)?))
     )=({mouse:((result of (
       ({
         mouse: ((the mouse for button widget)?)
         graphics: ((the graphics for button widget)!)
       })
       with behaviour
-      ((function button)({x:(10)y:(10)width:(200)height:(100)text:("OK")pushed:(false)})=((the graphics for button widget)?))
+      ((function button)({layout:({x:(10)y:(10)width:(200)height:(100)})text:("OK")pushed:(false)})=((the graphics for button widget)?))
     ).mouse)?)}))))!) ))?)
       with behaviour
       (
@@ -245,7 +245,7 @@
         graphics: ((the graphics for button widget)!)
       })
       with behaviour
-      ((function button)({x:(10)y:(10)width:(200)height:(100)text:("OK")pushed:(false)})=((the graphics for button widget)?))
+      ((function button)({layout:({x:(10)y:(10)width:(200)height:(100)})text:("OK")pushed:(false)})=((the graphics for button widget)?))
     ).mouse)!)
     with behaviour
     ((
@@ -254,21 +254,21 @@
         graphics: ((the graphics for button widget)!)
       })
       with behaviour
-      ((function button)({x:(10)y:(10)width:(200)height:(100)text:("OK")pushed:(false)})=((the graphics for button widget)?))
+      ((function button)({layout:({x:(10)y:(10)width:(200)height:(100)})text:("OK")pushed:(false)})=((the graphics for button widget)?))
     )=({mouse:((result of (
       ({
         mouse: ((the mouse for button widget)?)
         graphics: ((the graphics for button widget)!)
       })
       with behaviour
-      ((function button)({x:(10)y:(10)width:(200)height:(100)text:("OK")pushed:(false)})=((the graphics for button widget)?))
+      ((function button)({layout:({x:(10)y:(10)width:(200)height:(100)})text:("OK")pushed:(false)})=((the graphics for button widget)?))
     ).mouse)?)}))))!) ) ( (((result of (
       ({
         mouse: ((the mouse for button widget)?)
         graphics: ((the graphics for button widget)!)
       })
       with behaviour
-      ((function button)({x:(10)y:(10)width:(200)height:(100)text:("OK")pushed:(false)})=((the graphics for button widget)?))
+      ((function button)({layout:({x:(10)y:(10)width:(200)height:(100)})text:("OK")pushed:(false)})=((the graphics for button widget)?))
     ).mouse)!)
     with behaviour
     ((
@@ -277,14 +277,14 @@
         graphics: ((the graphics for button widget)!)
       })
       with behaviour
-      ((function button)({x:(10)y:(10)width:(200)height:(100)text:("OK")pushed:(false)})=((the graphics for button widget)?))
+      ((function button)({layout:({x:(10)y:(10)width:(200)height:(100)})text:("OK")pushed:(false)})=((the graphics for button widget)?))
     )=({mouse:((result of (
       ({
         mouse: ((the mouse for button widget)?)
         graphics: ((the graphics for button widget)!)
       })
       with behaviour
-      ((function button)({x:(10)y:(10)width:(200)height:(100)text:("OK")pushed:(false)})=((the graphics for button widget)?))
+      ((function button)({layout:({x:(10)y:(10)width:(200)height:(100)})text:("OK")pushed:(false)})=((the graphics for button widget)?))
     ).mouse)?)}))) = ((#both(((result of (
       ({
         mouse: ((the mouse for cursor widget)?)
@@ -314,7 +314,7 @@
         graphics: ((the graphics for button widget)!)
       })
       with behaviour
-      ((function button)({x:(10)y:(10)width:(200)height:(100)text:("OK")pushed:(false)})=((the graphics for button widget)?))
+      ((function button)({layout:({x:(10)y:(10)width:(200)height:(100)})text:("OK")pushed:(false)})=((the graphics for button widget)?))
     ).mouse)!)
     with behaviour
     ((
@@ -323,14 +323,14 @@
         graphics: ((the graphics for button widget)!)
       })
       with behaviour
-      ((function button)({x:(10)y:(10)width:(200)height:(100)text:("OK")pushed:(false)})=((the graphics for button widget)?))
+      ((function button)({layout:({x:(10)y:(10)width:(200)height:(100)})text:("OK")pushed:(false)})=((the graphics for button widget)?))
     )=({mouse:((result of (
       ({
         mouse: ((the mouse for button widget)?)
         graphics: ((the graphics for button widget)!)
       })
       with behaviour
-      ((function button)({x:(10)y:(10)width:(200)height:(100)text:("OK")pushed:(false)})=((the graphics for button widget)?))
+      ((function button)({layout:({x:(10)y:(10)width:(200)height:(100)})text:("OK")pushed:(false)})=((the graphics for button widget)?))
     ).mouse)?)}))))!) ))!)
         and get
         ({a:( (((result of (
@@ -385,7 +385,7 @@
         graphics: ((the graphics for button widget)!)
       })
       with behaviour
-      ((function button)({x:(10)y:(10)width:(200)height:(100)text:("OK")pushed:(false)})=((the graphics for button widget)?))
+      ((function button)({layout:({x:(10)y:(10)width:(200)height:(100)})text:("OK")pushed:(false)})=((the graphics for button widget)?))
     ).mouse)!)
     with behaviour
     ((
@@ -394,21 +394,21 @@
         graphics: ((the graphics for button widget)!)
       })
       with behaviour
-      ((function button)({x:(10)y:(10)width:(200)height:(100)text:("OK")pushed:(false)})=((the graphics for button widget)?))
+      ((function button)({layout:({x:(10)y:(10)width:(200)height:(100)})text:("OK")pushed:(false)})=((the graphics for button widget)?))
     )=({mouse:((result of (
       ({
         mouse: ((the mouse for button widget)?)
         graphics: ((the graphics for button widget)!)
       })
       with behaviour
-      ((function button)({x:(10)y:(10)width:(200)height:(100)text:("OK")pushed:(false)})=((the graphics for button widget)?))
+      ((function button)({layout:({x:(10)y:(10)width:(200)height:(100)})text:("OK")pushed:(false)})=((the graphics for button widget)?))
     ).mouse)?)}))))!) ) b:( (((result of (
       ({
         mouse: ((the mouse for button widget)?)
         graphics: ((the graphics for button widget)!)
       })
       with behaviour
-      ((function button)({x:(10)y:(10)width:(200)height:(100)text:("OK")pushed:(false)})=((the graphics for button widget)?))
+      ((function button)({layout:({x:(10)y:(10)width:(200)height:(100)})text:("OK")pushed:(false)})=((the graphics for button widget)?))
     ).mouse)!)
     with behaviour
     ((
@@ -417,14 +417,14 @@
         graphics: ((the graphics for button widget)!)
       })
       with behaviour
-      ((function button)({x:(10)y:(10)width:(200)height:(100)text:("OK")pushed:(false)})=((the graphics for button widget)?))
+      ((function button)({layout:({x:(10)y:(10)width:(200)height:(100)})text:("OK")pushed:(false)})=((the graphics for button widget)?))
     )=({mouse:((result of (
       ({
         mouse: ((the mouse for button widget)?)
         graphics: ((the graphics for button widget)!)
       })
       with behaviour
-      ((function button)({x:(10)y:(10)width:(200)height:(100)text:("OK")pushed:(false)})=((the graphics for button widget)?))
+      ((function button)({layout:({x:(10)y:(10)width:(200)height:(100)})text:("OK")pushed:(false)})=((the graphics for button widget)?))
     ).mouse)?)}))) = ((#both(((result of (
       ({
         mouse: ((the mouse for cursor widget)?)
@@ -454,7 +454,7 @@
         graphics: ((the graphics for button widget)!)
       })
       with behaviour
-      ((function button)({x:(10)y:(10)width:(200)height:(100)text:("OK")pushed:(false)})=((the graphics for button widget)?))
+      ((function button)({layout:({x:(10)y:(10)width:(200)height:(100)})text:("OK")pushed:(false)})=((the graphics for button widget)?))
     ).mouse)!)
     with behaviour
     ((
@@ -463,14 +463,14 @@
         graphics: ((the graphics for button widget)!)
       })
       with behaviour
-      ((function button)({x:(10)y:(10)width:(200)height:(100)text:("OK")pushed:(false)})=((the graphics for button widget)?))
+      ((function button)({layout:({x:(10)y:(10)width:(200)height:(100)})text:("OK")pushed:(false)})=((the graphics for button widget)?))
     )=({mouse:((result of (
       ({
         mouse: ((the mouse for button widget)?)
         graphics: ((the graphics for button widget)!)
       })
       with behaviour
-      ((function button)({x:(10)y:(10)width:(200)height:(100)text:("OK")pushed:(false)})=((the graphics for button widget)?))
+      ((function button)({layout:({x:(10)y:(10)width:(200)height:(100)})text:("OK")pushed:(false)})=((the graphics for button widget)?))
     ).mouse)?)}))))!) )})
       )
     )
@@ -505,7 +505,7 @@
         graphics: ((the graphics for button widget)!)
       })
       with behaviour
-      ((function button)({x:(10)y:(10)width:(200)height:(100)text:("OK")pushed:(false)})=((the graphics for button widget)?))
+      ((function button)({layout:({x:(10)y:(10)width:(200)height:(100)})text:("OK")pushed:(false)})=((the graphics for button widget)?))
     ).graphics)!)
     with behaviour
     ((
@@ -514,14 +514,14 @@
         graphics: ((the graphics for button widget)!)
       })
       with behaviour
-      ((function button)({x:(10)y:(10)width:(200)height:(100)text:("OK")pushed:(false)})=((the graphics for button widget)?))
+      ((function button)({layout:({x:(10)y:(10)width:(200)height:(100)})text:("OK")pushed:(false)})=((the graphics for button widget)?))
     )=({graphics:((result of (
       ({
         mouse: ((the mouse for button widget)?)
         graphics: ((the graphics for button widget)!)
       })
       with behaviour
-      ((function button)({x:(10)y:(10)width:(200)height:(100)text:("OK")pushed:(false)})=((the graphics for button widget)?))
+      ((function button)({layout:({x:(10)y:(10)width:(200)height:(100)})text:("OK")pushed:(false)})=((the graphics for button widget)?))
     ).graphics)?)}))))!)
       with behaviour
       (
@@ -555,7 +555,7 @@
         graphics: ((the graphics for button widget)!)
       })
       with behaviour
-      ((function button)({x:(10)y:(10)width:(200)height:(100)text:("OK")pushed:(false)})=((the graphics for button widget)?))
+      ((function button)({layout:({x:(10)y:(10)width:(200)height:(100)})text:("OK")pushed:(false)})=((the graphics for button widget)?))
     ).graphics)!)
     with behaviour
     ((
@@ -564,14 +564,14 @@
         graphics: ((the graphics for button widget)!)
       })
       with behaviour
-      ((function button)({x:(10)y:(10)width:(200)height:(100)text:("OK")pushed:(false)})=((the graphics for button widget)?))
+      ((function button)({layout:({x:(10)y:(10)width:(200)height:(100)})text:("OK")pushed:(false)})=((the graphics for button widget)?))
     )=({graphics:((result of (
       ({
         mouse: ((the mouse for button widget)?)
         graphics: ((the graphics for button widget)!)
       })
       with behaviour
-      ((function button)({x:(10)y:(10)width:(200)height:(100)text:("OK")pushed:(false)})=((the graphics for button widget)?))
+      ((function button)({layout:({x:(10)y:(10)width:(200)height:(100)})text:("OK")pushed:(false)})=((the graphics for button widget)?))
     ).graphics)?)})))})
         =
         ((result of graphics containing (((result of (
@@ -603,7 +603,7 @@
         graphics: ((the graphics for button widget)!)
       })
       with behaviour
-      ((function button)({x:(10)y:(10)width:(200)height:(100)text:("OK")pushed:(false)})=((the graphics for button widget)?))
+      ((function button)({layout:({x:(10)y:(10)width:(200)height:(100)})text:("OK")pushed:(false)})=((the graphics for button widget)?))
     ).graphics)!)
     with behaviour
     ((
@@ -612,14 +612,14 @@
         graphics: ((the graphics for button widget)!)
       })
       with behaviour
-      ((function button)({x:(10)y:(10)width:(200)height:(100)text:("OK")pushed:(false)})=((the graphics for button widget)?))
+      ((function button)({layout:({x:(10)y:(10)width:(200)height:(100)})text:("OK")pushed:(false)})=((the graphics for button widget)?))
     )=({graphics:((result of (
       ({
         mouse: ((the mouse for button widget)?)
         graphics: ((the graphics for button widget)!)
       })
       with behaviour
-      ((function button)({x:(10)y:(10)width:(200)height:(100)text:("OK")pushed:(false)})=((the graphics for button widget)?))
+      ((function button)({layout:({x:(10)y:(10)width:(200)height:(100)})text:("OK")pushed:(false)})=((the graphics for button widget)?))
     ).graphics)?)}))))?)
       )
     )

@@ -1,0 +1,234 @@
+interaction
+  (simple UI):{mouse:{buttons:Number, position:{x: Number,y:Number}} in,layout:{x:Number,y:Number,width:Number,height:Number} in, graphics:Graphics out}
+with
+
+  interaction
+    (two layers containing (a:{mouse:{buttons:Number, position:{x: Number,y:Number}} out,layout:{x:Number,y:Number,width:Number,height:Number} out, graphics:Graphics in}) and (b:{mouse:{buttons:Number, position:{x: Number,y:Number}} out,layout:{x:Number,y:Number,width:Number,height:Number} out, graphics:Graphics in})):{mouse:{buttons:Number, position:{x: Number,y:Number}} in,layout:{x:Number,y:Number,width:Number,height:Number} in, graphics:Graphics out}
+  is
+    ({
+      mouse:    (both ((a).mouse) and ((b).mouse))
+      layout:   (both2 ((a).layout) and ((b).layout))
+      graphics: (graphics containing ((a).graphics) and ((b).graphics))
+    })
+
+
+  interaction
+    (split column containing (a:{mouse:{buttons:Number, position:{x: Number,y:Number}} out,layout:{x:Number,y:Number,width:Number,height:Number} out, graphics:Graphics in}) and (b:{mouse:{buttons:Number, position:{x: Number,y:Number}} out,layout:{x:Number,y:Number,width:Number,height:Number} out, graphics:Graphics in})):{mouse:{buttons:Number, position:{x: Number,y:Number}} in,layout:{x:Number,y:Number,width:Number,height:Number} in, graphics:Graphics out}
+  with
+    interaction (columnElement):{{interval:{start:Number,end:Number},rect:{x:Number,y:Number,width:Number,height:Number}}->{x:Number,y:Number,width:Number,height:Number}} out is (function columnElement)
+  is
+    (
+      ({
+        mouse:    (both ((a).mouse) and ((b).mouse))
+        layout:   ((the layout of split column containing (a) and (b))?)
+        graphics: (graphics containing ((a).graphics) and ((b).graphics))
+      })
+      with behaviour
+      (all
+        ((columnElement)({interval:({start:(0)end:(0.5)})rect:((the layout of split column containing (a) and (b))!)})=((a).layout))
+        ((columnElement)({interval:({start:(0.5)end:(1)})rect:((the layout of split column containing (a) and (b))!)})=((b).layout))
+      )
+    )
+
+
+  interaction
+    ((x:{mouse:{buttons:Number, position:{x: Number,y:Number}} out,layout:{x:Number,y:Number,width:Number,height:Number} out, graphics:Graphics in}).mouse):{buttons:Number, position:{x: Number,y:Number}} in
+  is
+    (((result of (x).mouse)!)
+    with behaviour
+    ((x)=({mouse:((result of (x).mouse)?)})))
+
+
+
+  interaction
+    ((x:{mouse:{buttons:Number, position:{x: Number,y:Number}} out,layout:{x:Number,y:Number,width:Number,height:Number} out, graphics:Graphics in}).graphics):Graphics out
+  is
+    (((result of (x).graphics)!)
+    with behaviour
+    ((x)=({graphics:((result of (x).graphics)?)})))
+
+  interaction
+    ((x:{mouse:{buttons:Number, position:{x: Number,y:Number}} out,layout:{x:Number,y:Number,width:Number,height:Number} out, graphics:Graphics in}).layout):{x:Number,y:Number,width:Number,height:Number} in
+  is
+    (((result of (x).layout)!)
+    with behaviour
+    ((x)=({layout:((result of (x).layout)?)})))
+
+
+
+  interaction
+    (both (a:{buttons:Number, position:{x: Number,y:Number}} out) and (b:{buttons:Number, position:{x: Number,y:Number}} out)):{buttons:Number, position:{x: Number,y:Number}} in
+  is
+    (
+      ( (#both(a)and(b)) ?)
+      with behaviour
+      (all
+        ( (a) = ((#both(a)and(b))!) )
+        ( (b) = ((#both(a)and(b))!) )
+      )
+    )
+
+  interaction
+    (both2 (a:{x:Number,y:Number,width:Number,height:Number} out) and (b:{x:Number,y:Number,width:Number,height:Number} out)):{x:Number,y:Number,width:Number,height:Number} in
+  is
+    (
+      ( (#both2(a)and(b)) ?)
+      with behaviour
+      (all
+        ( (a) = ((#both2(a)and(b))!) )
+        ( (b) = ((#both2(a)and(b))!) )
+      )
+    )
+
+  interaction
+    (graphics containing (a:Graphics in) and (b:Graphics in)):Graphics out
+  with
+    interaction (group graphics):{{a:Graphics,b:Graphics}->Graphics}out is (function group)
+  is
+    (
+      ((result of graphics containing (a) and (b))!)
+      with behaviour
+      (
+        (group graphics)
+        ({a:(a),b:(b)})
+        =
+        ((result of graphics containing (a) and (b))?)
+      )
+    )
+
+
+  interaction
+    (all (a:Activation out)  (b:Activation out)):Activation in
+  with
+    interaction (func all):{Activation->{a:Activation,b:Activation}} out is (function all)
+  is
+    (
+      ((variable all (a) (b))?)
+      with behaviour
+      (
+        apply
+        (func all)
+        to
+        ((variable all (a) (b))!)
+        and get
+        ({a:(a) b:(b)})
+      )
+    )
+
+
+  interaction
+    (cursor widget):{mouse:{buttons:Number, position:{x: Number,y:Number}} in,layout:{x:Number,y:Number,width:Number,height:Number} in, graphics:Graphics out}
+  with
+    interaction (cursor):{{buttons:Number, position:{x: Number,y:Number}}->Graphics}out is (function cursor)
+  is
+    (
+      ({
+        mouse: ((the mouse for cursor widget)?)
+        graphics: ((the graphics for cursor widget)!)
+      })
+      with behaviour
+      ((cursor)((the mouse for cursor widget)!)=((the graphics for cursor widget)?))
+    )
+
+
+  interaction
+    ((a:Number in)==(b:Number in)):Boolean out
+  with
+    interaction (is equal):{{a:Number,b:Number}->Boolean}out is (function isEqual)
+  is
+    (
+      ((result of (a)==(b))!)
+      with behaviour
+      (apply (is equal) to ({a:(a),b:(b)}) and get ( (result of (a)==(b))?) )
+    )
+
+
+  interaction
+    ((a:Boolean in)and(b:Boolean in)):Boolean out
+  with
+    interaction (boolean and):{{a:Boolean,b:Boolean}->Boolean} out is (function boolAnd)
+  is
+    (
+      ((result of (a)and(b))!)
+      with behaviour
+      (apply (boolean and) to ({a:(a),b:(b)}) and get ( (result of (a)and(b))?) )
+    )
+
+  interaction
+    (add margin of (m:Number in) to (a:{x:Number,y:Number,width:Number,height:Number} in)):{x:Number,y:Number,width:Number,height:Number} out
+  with
+    interaction (inset):{{rect:{x:Number,y:Number,width:Number,height:Number},margin:Number}->{x:Number,y:Number,width:Number,height:Number}} out is (function inset)
+  is
+    (
+      (((a)with added margin(m))!)
+      with behaviour
+      ((inset)({rect:(a)margin:(m)})=(((a)with added margin(m))?))
+    )
+
+  interaction
+    ((thePoint:{x:Number,y:Number}in) is inside (theRectangle:{x:Number,y:Number,width:Number,height:Number}in)):Boolean out
+  with
+    interaction (func is inside): {{point:{x: Number,y:Number},rect:{x:Number,y:Number,width:Number,height:Number}}->Boolean} out is (function isInside)
+  is
+    (
+      ((the result of (thePoint) is inside (theRectangle))!)
+      with behaviour
+      ((func is inside)({point:(thePoint),rect:(theRectangle)})=((the result of (thePoint) is inside (theRectangle))?))
+    )
+
+
+  interaction
+    (button widget):{mouse:{buttons:Number, position:{x: Number,y:Number}} in,layout:{x:Number,y:Number,width:Number,height:Number} in, graphics:Graphics out}
+  with
+    interaction (button graphics function):{{layout:{x:Number,y:Number,width:Number,height:Number},text:Text,pushed:Boolean}->Graphics}out is (function button)
+  is
+    (
+      ({
+        mouse: ({buttons:((the buttons of the mouse)?),position:((the position of the mouse)?)})
+        layout:((the layout for button widget)?)
+        graphics: ((the graphics for button widget)!)
+      })
+      with behaviour
+      (
+        (button graphics function)
+        ({
+          layout:(add margin of (20) to ((the layout for button widget)!))
+          text:("OK")
+          pushed:(((the buttons of the mouse)!)==(1))
+        })
+        =
+        ((the graphics for button widget)?)
+      )
+    )
+
+  interaction
+    (label widget):{mouse:{buttons:Number, position:{x: Number,y:Number}} in,layout:{x:Number,y:Number,width:Number,height:Number} in, graphics:Graphics out}
+  with
+    interaction (label graphics function):{{layout:{x:Number,y:Number,width:Number,height:Number},text:Text,pushed:Boolean}->Graphics}out is (function label)
+  is
+    (
+      ({
+        layout:((the layout for label widget)?)
+        graphics: ((the graphics for label widget)!)
+      })
+      with behaviour
+      (
+        (label graphics function)
+        ({
+          layout:((the layout for label widget)!)
+          text:("Label text")
+        })
+        =
+        ((the graphics for label widget)?)
+      )
+    )
+
+
+
+is
+  (two layers containing
+    (split column containing
+      (button widget) and
+      (label widget)) and
+    (cursor widget)
+  )

@@ -13,15 +13,15 @@ var inactive = null;
 
 ///////////////////////////////////////////////////////////////////////
 // Custom LIDL Header (Custom JS function definitions)
-var isActive = function(x) {
-  return (x !== null && x !== undefined);
+var isActive = function(_) {
+  return (_ !== null && _ !== undefined);
 };
 
-var cool = function(x) {
-  if (isActive(x.a) && isActive(x.b)) {
+var cool = function(_) {
+  if (isActive(_.a) && isActive(_.b)) {
     return {
-      sum: (x.a + x.b),
-      diff: (x.a - x.b)
+      sum: (_.a + _.b),
+      diff: (_.a - _.b)
     };
   } else {
     return {
@@ -31,103 +31,128 @@ var cool = function(x) {
   }
 };
 
-var fallback = function(x) {
-  return (isActive(x.a) ? x.a : x.b);
+var fallback = function(_) {
+  return (isActive(_.a) ? _.a : _.b);
 };
 
-var return0 = function(x) {
+var return0 = function(_) {
   return 0;
 };
 
 
-var return1 = function(x) {
+var return1 = function(_) {
   return 1;
 };
 
-var addition = function(x) {
-  if (isActive(x.a) && isActive(x.b)) {
-    return x.a + x.b;
+var addition = function(_) {
+  if (isActive(_.a) && isActive(_.b)) {
+    return _.a + _.b;
   } else {
     return inactive;
   }
 };
 
-var multiplication = function(x) {
-  if (isActive(x.a) && isActive(x.b)) {
-    return x.a * x.b;
+var multiplication = function(_) {
+  if (isActive(_.a) && isActive(_.b)) {
+    return _.a * _.b;
   } else {
     return inactive;
   }
 };
 
-var substraction = function(x) {
-  if (isActive(x.a) && isActive(x.b)) {
-    return x.a - x.b;
+var substraction = function(_) {
+  if (isActive(_.a) && isActive(_.b)) {
+    return _.a - _.b;
   } else {
     return inactive;
   }
 };
 
-var division = function(x) {
-  if (isActive(x.a) && isActive(x.b)) {
-    return x.a / x.b;
+var division = function(_) {
+  if (isActive(_.a) && isActive(_.b)) {
+    return _.a / _.b;
   } else {
     return inactive;
   }
 };
 
-var remainder = function(x) {
-  if (isActive(x.a) && isActive(x.b)) {
-    return x.a % x.b;
+var remainder = function(_) {
+  if (isActive(_.a) && isActive(_.b)) {
+    return _.a % _.b;
   } else {
     return inactive;
   }
 };
 
-var power = function(x) {
-  if (isActive(x.a) && isActive(x.b)) {
-    return Math.pow(x.a, x.b);
+var power = function(_) {
+  if (isActive(_.a) && isActive(_.b)) {
+    return Math.pow(_.a, _.b);
   } else {
     return inactive;
   }
 };
 
-var addOne = function(x) {
-  if (isActive(x))
-    return x + 1;
+var addOne = function(_) {
+  if (isActive(_))
+    return _ + 1;
   else {
     return inactive;
   }
 };
 
-var identity = function(x) {
-  return x;
+var identity = function(_) {
+  return _;
 };
 
-var isEqual = function(x) {
-  if (isActive(x.a) && isActive(x.b)) {
-    return (x.a === x.b) ? true : false;
+var isEqual = function(_) {
+  if (isActive(_.a) && isActive(_.b)) {
+    return (_.a === _.b) ? true : false;
   } else {
     return inactive;
   }
 };
 
 
-var boolNot = function(x) {
-  if (isActive(x)) {
-    return !x;
+var boolNot = function(_) {
+  if (isActive(_)) {
+    return !_;
   } else {
     return inactive;
   }
 };
 
-var ifThenElse = function(x) {
-  if (isActive(x)) {
-    if (isActive(x.cond)) {
-      if (x.cond === true) {
-        return x.a;
-      } else if (x.cond === false) {
-        return x.b;
+var boolAnd = function(_) {
+  if (isActive(_) && isActive(_.a) && isActive(_.b)) {
+    return _.a && _.b;
+  } else {
+    return inactive;
+  }
+};
+
+var boolOr = function(_) {
+  if (isActive(_)&& isActive(_.a) && isActive(_.b)) {
+    return _.a || _.b;
+  } else {
+    return inactive;
+  }
+};
+
+var boolXor = function(_) {
+  if (isActive(_)&& isActive(_.a) && isActive(_.b)) {
+    return ( _.a && !_.b ) || ( !_.a && _.b ) ;
+  } else {
+    return inactive;
+  }
+};
+
+
+var ifThenElse = function(_) {
+  if (isActive(_)) {
+    if (isActive(_.cond)) {
+      if (_.cond === true) {
+        return _.a;
+      } else if (_.cond === false) {
+        return _.b;
       } else {
         return inactive;
       }
@@ -140,15 +165,15 @@ var ifThenElse = function(x) {
 };
 
 
-var whenThenElse = function(x) {
-  if (isActive(x)) {
-    if (isActive(x.cond)) {
-      if (x.cond === true) {
+var whenThenElse = function(_) {
+  if (isActive(_)) {
+    if (isActive(_.cond)) {
+      if (_.cond === true) {
         return {
           a: active,
           b: inactive
         };
-      } else if (x.cond === false) {
+      } else if (_.cond === false) {
         return {
           a: inactive,
           b: active
@@ -165,24 +190,24 @@ var whenThenElse = function(x) {
 };
 
 
-var all = function(x) {
+var all = function(_) {
   return {
-    a: x,
-    b: x,
-    c: x,
-    d: x,
-    e: x,
-    f: x,
-    g: x,
-    h: x,
-    i: x,
-    j: x,
-    k: x,
-    l: x,
-    m: x,
-    n: x,
-    o: x,
-    p: x
+    a: _,
+    b: _,
+    c: _,
+    d: _,
+    e: _,
+    f: _,
+    g: _,
+    h: _,
+    i: _,
+    j: _,
+    k: _,
+    l: _,
+    m: _,
+    n: _,
+    o: _,
+    p: _
   };
 };
 
@@ -252,10 +277,10 @@ var button = function(button) {
         style: "rgba(0, 171, 255, 1)",
         content: {
           type: "rect",
-          x: button.x,
-          y: button.y,
-          width: button.width,
-          height: button.height
+          x: button.layout.x,
+          y: button.layout.y,
+          width: button.layout.width,
+          height: button.layout.height
         }
       }, {
         type: "fill",
@@ -266,14 +291,36 @@ var button = function(button) {
           textAlign: "center",
           font: "200 30px Helvetica neue",
           text: button.text,
-          x: button.x + button.width / 2,
-          y: button.y + button.height / 2
+          x: button.layout.x + button.layout.width / 2,
+          y: button.layout.y + button.layout.height / 2
         }
       }]
     }
   };
   return button;
 }
+
+
+
+
+var label = function(_) {
+  var label = {
+        type: "fill",
+        style: "rgba(56, 56, 56, 1)",
+        content: {
+          type: "text",
+          textBaseline: "middle",
+          textAlign: "center",
+          font: "200 30px Helvetica neue",
+          text: _.text,
+          x: _.layout.x + _.layout.width / 2,
+          y: _.layout.y + _.layout.height / 2
+        }
+      };
+  return label;
+}
+
+
 
 var group = function(elements) {
   var group = {
@@ -283,57 +330,97 @@ var group = function(elements) {
   return group;
 }
 
+// Checks if a point is inside a rectangle (picking)
+var isInside = function(_){
+  if(isActive(_) && isActive(_.point) && isActive(_.rect)){
+    return _.point.x >= _.rect.x && _.point.x <= _.rect.x + _.rect.width && _.point.y >= _.rect.y && _.point.y <= _.rect.y + _.rect.height;
+  } else {
+    return inactive;
+  }
+}
+
+// Returns a rectangle which is a fraction of a column of another rectanle
+var columnElement = function(_){
+  if(isActive(_) && isActive(_.interval) && isActive(_.rect)){
+    return {x:_.rect.x,y:_.rect.y+_.interval.start*_.rect.height,width:_.rect.width,height:_.rect.height*(_.interval.end - _.interval.start)};
+  } else {
+    return inactive;
+  }
+}
+
+// Returns a rectangle which is a fraction of a column of another rectanle
+var rowElement = function(_){
+  if(isActive(_) && isActive(_.interval) && isActive(_.rect)){
+    return {y:_.rect.y,x:_.rect.x+_.interval.start*_.rect.width,height:_.rect.height,width:_.rect.width*(_.interval.end - _.interval.start)};
+  } else {
+    return inactive;
+  }
+}
+
+// Returns a rectangle which is inset with a margin inside a bigger rectangle
+var inset = function(_){
+  if(isActive(_) && isActive(_.margin) && isActive(_.rect)){
+    return {x:_.rect.x + _.margin,y:_.rect.y + _.margin,width:_.rect.width-2*_.margin,height:_.rect.height-2*_.margin};
+  } else {
+    return inactive;
+  }
+}
+
 
 ///////////////////////////////////////////////////////////////////////
 // Declaration of variables (Edges of the graph)
-var edge_11748 = inactive;
-var edge_11749 = inactive;
-var edge_11764 = inactive;
 var edge_11766 = inactive;
-var edge_11769 = inactive;
-var edge_11770 = inactive;
-var edge_11771 = inactive;
-var edge_11772 = inactive;
-var edge_11774 = inactive;
-var edge_11775 = inactive;
-var edge_11776 = inactive;
-var edge_11778 = inactive;
+var edge_11767 = inactive;
+var edge_11782 = inactive;
+var edge_11785 = inactive;
+var edge_11786 = inactive;
+var edge_11787 = inactive;
+var edge_11791 = inactive;
+var edge_11792 = inactive;
+var edge_11793 = inactive;
+var edge_11795 = inactive;
+var edge_11796 = inactive;
+var edge_11797 = inactive;
+var edge_11799 = inactive;
 
 ///////////////////////////////////////////////////////////////////////
 // Data flow processing (Nodes of the graph)
-// node_11745
-edge_11771 = "OK";
-// node_11743
-edge_11770 = 100;
-// node_11741
-edge_11769 = 200;
-// node_11738
-edge_11774 = 10;
-// node_11773
-edge_11775 = edge_11774;
-edge_11776 = edge_11774;
-// node_11736
-edge_11766 = false;
+// node_11763
+edge_11786 = "OK";
+// node_11761
+edge_11792 = 100;
+// node_11759
+edge_11791 = 200;
+// node_11756
+edge_11795 = 10;
+// node_11794
+edge_11796 = edge_11795;
+edge_11797 = edge_11795;
+// node_11788
+edge_11793 = {};
+edge_11793['x'] = edge_11796;
+edge_11793['y'] = edge_11797;
+edge_11793['width'] = edge_11791;
+edge_11793['height'] = edge_11792;
+// node_11754
+edge_11785 = false;
+// node_11783
+edge_11787 = {};
+edge_11787['layout'] = edge_11793;
+edge_11787['text'] = edge_11786;
+edge_11787['pushed'] = edge_11785;
+// node_11752
+edge_11767 = button;
+// node_11749
+edge_11766 = active;
 // node_11765
-edge_11772 = {};
-edge_11772['x'] = edge_11775;
-edge_11772['y'] = edge_11776;
-edge_11772['width'] = edge_11769;
-edge_11772['height'] = edge_11770;
-edge_11772['text'] = edge_11771;
-edge_11772['pushed'] = edge_11766;
-// node_11734
-edge_11749 = button;
-// node_11731
-edge_11748 = active;
-// node_11747
-if(edge_11748 === active && edge_11749!==null && edge_11749!==undefined) {edge_11764 = edge_11749(edge_11772);}
-// node_11676
-theInterface.graphics=edge_11764;
-// node_11674
-edge_11778=theInterface.mouse;
-// node_11777
-// We dont care about edge_11778, this is a fake receiver node
+if(edge_11766 === active && edge_11767!==null && edge_11767!==undefined) {edge_11782 = edge_11767(edge_11787);}
+// node_11691
+theInterface.graphics=edge_11782;
+// node_11689
+edge_11799=theInterface.mouse;
+// node_11798
+// We dont care about edge_11799, this is a fake receiver node
 
 
 ///////////////////////////////////////////////////////////////////////

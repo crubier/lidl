@@ -1,7 +1,90 @@
 'use strict'; // File automatically generated when performing     npm run build   
 // It contains examples of lidl code from the example/ok folder
 module.exports = { 
-  header: 'var isActive = function(x) {\n  return (x !== null && x !== undefined);\n};\n\nvar cool = function(x) {\n  if (isActive(x.a) && isActive(x.b)) {\n    return {\n      sum: (x.a + x.b),\n      diff: (x.a - x.b)\n    };\n  } else {\n    return {\n      sum: inactive,\n      diff: inactive\n    };\n  }\n};\n\nvar fallback = function(x) {\n  return (isActive(x.a) ? x.a : x.b);\n};\n\nvar return0 = function(x) {\n  return 0;\n};\n\n\nvar return1 = function(x) {\n  return 1;\n};\n\nvar addition = function(x) {\n  if (isActive(x.a) && isActive(x.b)) {\n    return x.a + x.b;\n  } else {\n    return inactive;\n  }\n};\n\nvar multiplication = function(x) {\n  if (isActive(x.a) && isActive(x.b)) {\n    return x.a * x.b;\n  } else {\n    return inactive;\n  }\n};\n\nvar substraction = function(x) {\n  if (isActive(x.a) && isActive(x.b)) {\n    return x.a - x.b;\n  } else {\n    return inactive;\n  }\n};\n\nvar division = function(x) {\n  if (isActive(x.a) && isActive(x.b)) {\n    return x.a / x.b;\n  } else {\n    return inactive;\n  }\n};\n\nvar remainder = function(x) {\n  if (isActive(x.a) && isActive(x.b)) {\n    return x.a % x.b;\n  } else {\n    return inactive;\n  }\n};\n\nvar power = function(x) {\n  if (isActive(x.a) && isActive(x.b)) {\n    return Math.pow(x.a, x.b);\n  } else {\n    return inactive;\n  }\n};\n\nvar addOne = function(x) {\n  if (isActive(x))\n    return x + 1;\n  else {\n    return inactive;\n  }\n};\n\nvar identity = function(x) {\n  return x;\n};\n\nvar isEqual = function(x) {\n  if (isActive(x.a) && isActive(x.b)) {\n    return (x.a === x.b) ? true : false;\n  } else {\n    return inactive;\n  }\n};\n\n\nvar boolNot = function(x) {\n  if (isActive(x)) {\n    return !x;\n  } else {\n    return inactive;\n  }\n};\n\nvar ifThenElse = function(x) {\n  if (isActive(x)) {\n    if (isActive(x.cond)) {\n      if (x.cond === true) {\n        return x.a;\n      } else if (x.cond === false) {\n        return x.b;\n      } else {\n        return inactive;\n      }\n    } else {\n      return inactive;\n    }\n  } else {\n    return inactive;\n  }\n};\n\n\nvar whenThenElse = function(x) {\n  if (isActive(x)) {\n    if (isActive(x.cond)) {\n      if (x.cond === true) {\n        return {\n          a: active,\n          b: inactive\n        };\n      } else if (x.cond === false) {\n        return {\n          a: inactive,\n          b: active\n        };\n      } else {\n        return inactive;\n      }\n    } else {\n      return inactive;\n    }\n  } else {\n    return inactive;\n  }\n};\n\n\nvar all = function(x) {\n  return {\n    a: x,\n    b: x,\n    c: x,\n    d: x,\n    e: x,\n    f: x,\n    g: x,\n    h: x,\n    i: x,\n    j: x,\n    k: x,\n    l: x,\n    m: x,\n    n: x,\n    o: x,\n    p: x\n  };\n};\n\n\nvar cursor = function(mouse) {\n  var cursor = {\n    type: "shadow",\n    blur: mouse.buttons === 0 ? 20 : 10,\n    offset: {\n      x: 0,\n      y: mouse.buttons === 0 ? 4 : 2\n    },\n    color: "rgba(0, 0, 0, 0.5)",\n    content: {\n      type: "translate",\n      x: mouse.position.x,\n      y: mouse.position.y,\n      content: {\n        type: "scale",\n        width: mouse.buttons === 0 ? 1 : 0.8,\n        height: mouse.buttons === 0 ? 1 : 0.8,\n        content: {\n          type: "fill",\n          style: "rgba(200, 0, 200, 1)",\n          content: {\n            type: "path",\n            content: [{\n              type: "begin"\n            }, {\n              type: "move",\n              x: 0,\n              y: 0\n            }, {\n              type: "line",\n              x: 0,\n              y: 15\n            }, {\n              type: "line",\n              x: 10.6,\n              y: 10.6\n            }, {\n              type: "close"\n            }]\n          }\n        }\n      }\n    }\n  };\n  return cursor;\n}\n\n\n\nvar button = function(button) {\n  var button = {\n    type: "shadow",\n    blur: button.pushed ? 10 : 20,\n    offset: {\n      x: 0,\n      y: button.pushed ? 2 : 4\n    },\n    color: "rgba(0, 0, 0, 0.5)",\n    content: {\n      type: "group",\n      content: [{\n        type: "fill",\n        style: "rgba(0, 171, 255, 1)",\n        content: {\n          type: "rect",\n          x: button.x,\n          y: button.y,\n          width: button.width,\n          height: button.height\n        }\n      }, {\n        type: "fill",\n        style: "rgba(255, 255, 255, 1)",\n        content: {\n          type: "text",\n          textBaseline: "middle",\n          textAlign: "center",\n          font: "200 30px Helvetica neue",\n          text: button.text,\n          x: button.x + button.width / 2,\n          y: button.y + button.height / 2\n        }\n      }]\n    }\n  };\n  return button;\n}\n\nvar group = function(elements) {\n  var group = {\n      type: "group",\n      content: [elements.a,elements.b ]\n    };\n  return group;\n}\n\n', 
+  header: 'var isActive = function(_) {\n  return (_ !== null && _ !== undefined);\n};\n\nvar cool = function(_) {\n  if (isActive(_.a) && isActive(_.b)) {\n    return {\n      sum: (_.a + _.b),\n      diff: (_.a - _.b)\n    };\n  } else {\n    return {\n      sum: inactive,\n      diff: inactive\n    };\n  }\n};\n\nvar fallback = function(_) {\n  return (isActive(_.a) ? _.a : _.b);\n};\n\nvar return0 = function(_) {\n  return 0;\n};\n\n\nvar return1 = function(_) {\n  return 1;\n};\n\nvar addition = function(_) {\n  if (isActive(_.a) && isActive(_.b)) {\n    return _.a + _.b;\n  } else {\n    return inactive;\n  }\n};\n\nvar multiplication = function(_) {\n  if (isActive(_.a) && isActive(_.b)) {\n    return _.a * _.b;\n  } else {\n    return inactive;\n  }\n};\n\nvar substraction = function(_) {\n  if (isActive(_.a) && isActive(_.b)) {\n    return _.a - _.b;\n  } else {\n    return inactive;\n  }\n};\n\nvar division = function(_) {\n  if (isActive(_.a) && isActive(_.b)) {\n    return _.a / _.b;\n  } else {\n    return inactive;\n  }\n};\n\nvar remainder = function(_) {\n  if (isActive(_.a) && isActive(_.b)) {\n    return _.a % _.b;\n  } else {\n    return inactive;\n  }\n};\n\nvar power = function(_) {\n  if (isActive(_.a) && isActive(_.b)) {\n    return Math.pow(_.a, _.b);\n  } else {\n    return inactive;\n  }\n};\n\nvar addOne = function(_) {\n  if (isActive(_))\n    return _ + 1;\n  else {\n    return inactive;\n  }\n};\n\nvar identity = function(_) {\n  return _;\n};\n\nvar isEqual = function(_) {\n  if (isActive(_.a) && isActive(_.b)) {\n    return (_.a === _.b) ? true : false;\n  } else {\n    return inactive;\n  }\n};\n\n\nvar boolNot = function(_) {\n  if (isActive(_)) {\n    return !_;\n  } else {\n    return inactive;\n  }\n};\n\nvar boolAnd = function(_) {\n  if (isActive(_) && isActive(_.a) && isActive(_.b)) {\n    return _.a && _.b;\n  } else {\n    return inactive;\n  }\n};\n\nvar boolOr = function(_) {\n  if (isActive(_)&& isActive(_.a) && isActive(_.b)) {\n    return _.a || _.b;\n  } else {\n    return inactive;\n  }\n};\n\nvar boolXor = function(_) {\n  if (isActive(_)&& isActive(_.a) && isActive(_.b)) {\n    return ( _.a && !_.b ) || ( !_.a && _.b ) ;\n  } else {\n    return inactive;\n  }\n};\n\n\nvar ifThenElse = function(_) {\n  if (isActive(_)) {\n    if (isActive(_.cond)) {\n      if (_.cond === true) {\n        return _.a;\n      } else if (_.cond === false) {\n        return _.b;\n      } else {\n        return inactive;\n      }\n    } else {\n      return inactive;\n    }\n  } else {\n    return inactive;\n  }\n};\n\n\nvar whenThenElse = function(_) {\n  if (isActive(_)) {\n    if (isActive(_.cond)) {\n      if (_.cond === true) {\n        return {\n          a: active,\n          b: inactive\n        };\n      } else if (_.cond === false) {\n        return {\n          a: inactive,\n          b: active\n        };\n      } else {\n        return inactive;\n      }\n    } else {\n      return inactive;\n    }\n  } else {\n    return inactive;\n  }\n};\n\n\nvar all = function(_) {\n  return {\n    a: _,\n    b: _,\n    c: _,\n    d: _,\n    e: _,\n    f: _,\n    g: _,\n    h: _,\n    i: _,\n    j: _,\n    k: _,\n    l: _,\n    m: _,\n    n: _,\n    o: _,\n    p: _\n  };\n};\n\n\nvar cursor = function(mouse) {\n  var cursor = {\n    type: "shadow",\n    blur: mouse.buttons === 0 ? 20 : 10,\n    offset: {\n      x: 0,\n      y: mouse.buttons === 0 ? 4 : 2\n    },\n    color: "rgba(0, 0, 0, 0.5)",\n    content: {\n      type: "translate",\n      x: mouse.position.x,\n      y: mouse.position.y,\n      content: {\n        type: "scale",\n        width: mouse.buttons === 0 ? 1 : 0.8,\n        height: mouse.buttons === 0 ? 1 : 0.8,\n        content: {\n          type: "fill",\n          style: "rgba(200, 0, 200, 1)",\n          content: {\n            type: "path",\n            content: [{\n              type: "begin"\n            }, {\n              type: "move",\n              x: 0,\n              y: 0\n            }, {\n              type: "line",\n              x: 0,\n              y: 15\n            }, {\n              type: "line",\n              x: 10.6,\n              y: 10.6\n            }, {\n              type: "close"\n            }]\n          }\n        }\n      }\n    }\n  };\n  return cursor;\n}\n\n\n\nvar button = function(button) {\n  var button = {\n    type: "shadow",\n    blur: button.pushed ? 10 : 20,\n    offset: {\n      x: 0,\n      y: button.pushed ? 2 : 4\n    },\n    color: "rgba(0, 0, 0, 0.5)",\n    content: {\n      type: "group",\n      content: [{\n        type: "fill",\n        style: "rgba(0, 171, 255, 1)",\n        content: {\n          type: "rect",\n          x: button.layout.x,\n          y: button.layout.y,\n          width: button.layout.width,\n          height: button.layout.height\n        }\n      }, {\n        type: "fill",\n        style: "rgba(255, 255, 255, 1)",\n        content: {\n          type: "text",\n          textBaseline: "middle",\n          textAlign: "center",\n          font: "200 30px Helvetica neue",\n          text: button.text,\n          x: button.layout.x + button.layout.width / 2,\n          y: button.layout.y + button.layout.height / 2\n        }\n      }]\n    }\n  };\n  return button;\n}\n\n\n\n\nvar label = function(_) {\n  var label = {\n        type: "fill",\n        style: "rgba(56, 56, 56, 1)",\n        content: {\n          type: "text",\n          textBaseline: "middle",\n          textAlign: "center",\n          font: "200 30px Helvetica neue",\n          text: _.text,\n          x: _.layout.x + _.layout.width / 2,\n          y: _.layout.y + _.layout.height / 2\n        }\n      };\n  return label;\n}\n\n\n\nvar group = function(elements) {\n  var group = {\n      type: "group",\n      content: [elements.a,elements.b ]\n    };\n  return group;\n}\n\n// Checks if a point is inside a rectangle (picking)\nvar isInside = function(_){\n  if(isActive(_) && isActive(_.point) && isActive(_.rect)){\n    return _.point.x >= _.rect.x && _.point.x <= _.rect.x + _.rect.width && _.point.y >= _.rect.y && _.point.y <= _.rect.y + _.rect.height;\n  } else {\n    return inactive;\n  }\n}\n\n// Returns a rectangle which is a fraction of a column of another rectanle\nvar columnElement = function(_){\n  if(isActive(_) && isActive(_.interval) && isActive(_.rect)){\n    return {x:_.rect.x,y:_.rect.y+_.interval.start*_.rect.height,width:_.rect.width,height:_.rect.height*(_.interval.end - _.interval.start)};\n  } else {\n    return inactive;\n  }\n}\n\n// Returns a rectangle which is a fraction of a column of another rectanle\nvar rowElement = function(_){\n  if(isActive(_) && isActive(_.interval) && isActive(_.rect)){\n    return {y:_.rect.y,x:_.rect.x+_.interval.start*_.rect.width,height:_.rect.height,width:_.rect.width*(_.interval.end - _.interval.start)};\n  } else {\n    return inactive;\n  }\n}\n\n// Returns a rectangle which is inset with a margin inside a bigger rectangle\nvar inset = function(_){\n  if(isActive(_) && isActive(_.margin) && isActive(_.rect)){\n    return {x:_.rect.x + _.margin,y:_.rect.y + _.margin,width:_.rect.width-2*_.margin,height:_.rect.height-2*_.margin};\n  } else {\n    return inactive;\n  }\n}\n\n', 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
@@ -1610,7 +1693,7 @@ module.exports = {
   { 
     name: 'Ui Button', 
     fileName: 'example/ok/uiButton', 
-    code: 'interaction\n  (simple UI):{mouse:Mouse in,graphics:Graphics out}\nwith\n\n  interaction\n    (button widget):{mouse:Mouse in,graphics:Graphics out}\n  with\n    interaction (button):{{x:Number,y:Number,width:Number,height:Number,text:Text,pushed:Boolean}->Graphics}out is (function button)\n  is\n    (\n      ({\n        mouse: ((the mouse for button widget)?)\n        graphics: ((the graphics for button widget)!)\n      })\n      with behaviour\n      ((button)({x:(10)y:(10)width:(200)height:(100)text:("OK")pushed:(false)})=((the graphics for button widget)?))\n    )\n\nis\n  (button widget)\n', 
+    code: 'interaction\n  (simple UI):{mouse:Mouse in,graphics:Graphics out}\nwith\n\n  interaction\n    (button widget):{mouse:Mouse in,graphics:Graphics out}\n  with\n    interaction (button):{{layout:{x:Number,y:Number,width:Number,height:Number},text:Text,pushed:Boolean}->Graphics}out is (function button)\n  is\n    (\n      ({\n        mouse: ((the mouse for button widget)?)\n        graphics: ((the graphics for button widget)!)\n      })\n      with behaviour\n      ((button)({layout:({x:(10)y:(10)width:(200)height:(100)})text:("OK")pushed:(false)})=((the graphics for button widget)?))\n    )\n\nis\n  (button widget)\n', 
 
 
 
@@ -1690,7 +1773,7 @@ module.exports = {
   { 
     name: 'Ui Button With Cursor', 
     fileName: 'example/ok/uiButtonWithCursor', 
-    code: 'interaction\n  (simple UI):{mouse:Mouse in,graphics:Graphics out}\nwith\n\n  interaction\n    (group widget containing (a:{mouse:Mouse out,graphics:Graphics in}) and (b:{mouse:Mouse out,graphics:Graphics in})):{mouse:Mouse in,graphics:Graphics out}\n  is\n    ({\n      mouse:    (both ((a).mouse) and ((b).mouse))\n      graphics: (graphics containing ((a).graphics) and ((b).graphics))\n    })\n\n  interaction\n    ((x:{mouse:Mouse out,graphics:Graphics in}).mouse):Mouse in\n  is\n    (((result of (x).mouse)!)\n    with behaviour\n    ((x)=({mouse:((result of (x).mouse)?)})))\n\n\n\n  interaction\n    ((x:{mouse:Mouse out,graphics:Graphics in}).graphics):Graphics out\n  is\n    (((result of (x).graphics)!)\n    with behaviour\n    ((x)=({graphics:((result of (x).graphics)?)})))\n\n\n\n  interaction\n    (both (a:Mouse out) and (b:Mouse out)):Mouse in\n  is\n    (\n      ( (#both(a)and(b)) ?)\n      with behaviour\n      (all\n        ( (a) = ((#both(a)and(b))!) )\n        ( (b) = ((#both(a)and(b))!) )\n      )\n    )\n\n  interaction\n    (graphics containing (a:Graphics in) and (b:Graphics in)):Graphics out\n  with\n    interaction (group graphics):{{a:Graphics,b:Graphics}->Graphics}out is (function group)\n  is\n    (\n      ((result of graphics containing (a) and (b))!)\n      with behaviour\n      (\n        (group graphics)\n        ({a:(a),b:(b)})\n        =\n        ((result of graphics containing (a) and (b))?)\n      )\n    )\n\n\n  interaction\n    (all (a:Activation out)  (b:Activation out)):Activation in\n  with\n    interaction (func all):{Activation->{a:Activation,b:Activation}} out is (function all)\n  is\n    (\n      ((variable all (a) (b))?)\n      with behaviour\n      (\n        apply\n        (func all)\n        to\n        ((variable all (a) (b))!)\n        and get\n        ({a:(a) b:(b)})\n      )\n    )\n\n\n  interaction\n    (cursor widget):{mouse:Mouse in,graphics:Graphics out}\n  with\n    interaction (cursor):{Mouse->Graphics}out is (function cursor)\n  is\n    (\n      ({\n        mouse: ((the mouse for cursor widget)?)\n        graphics: ((the graphics for cursor widget)!)\n      })\n      with behaviour\n      ((cursor)((the mouse for cursor widget)!)=((the graphics for cursor widget)?))\n    )\n\n\n\n\n\n  interaction\n    (button widget):{mouse:Mouse in,graphics:Graphics out}\n  with\n    interaction (button):{{x:Number,y:Number,width:Number,height:Number,text:Text,pushed:Boolean}->Graphics}out is (function button)\n  is\n    (\n      ({\n        mouse: ((the mouse for button widget)?)\n        graphics: ((the graphics for button widget)!)\n      })\n      with behaviour\n      ((button)({x:(10)y:(10)width:(200)height:(100)text:("OK")pushed:(false)})=((the graphics for button widget)?))\n    )\n\nis\n  (group widget containing (cursor widget) and (button widget))\n', 
+    code: 'interaction\n  (simple UI):{mouse:Mouse in,graphics:Graphics out}\nwith\n\n  interaction\n    (group widget containing (a:{mouse:Mouse out,graphics:Graphics in}) and (b:{mouse:Mouse out,graphics:Graphics in})):{mouse:Mouse in,graphics:Graphics out}\n  is\n    ({\n      mouse:    (both ((a).mouse) and ((b).mouse))\n      graphics: (graphics containing ((a).graphics) and ((b).graphics))\n    })\n\n  interaction\n    ((x:{mouse:Mouse out,graphics:Graphics in}).mouse):Mouse in\n  is\n    (((result of (x).mouse)!)\n    with behaviour\n    ((x)=({mouse:((result of (x).mouse)?)})))\n\n\n\n  interaction\n    ((x:{mouse:Mouse out,graphics:Graphics in}).graphics):Graphics out\n  is\n    (((result of (x).graphics)!)\n    with behaviour\n    ((x)=({graphics:((result of (x).graphics)?)})))\n\n\n\n  interaction\n    (both (a:Mouse out) and (b:Mouse out)):Mouse in\n  is\n    (\n      ( (#both(a)and(b)) ?)\n      with behaviour\n      (all\n        ( (a) = ((#both(a)and(b))!) )\n        ( (b) = ((#both(a)and(b))!) )\n      )\n    )\n\n  interaction\n    (graphics containing (a:Graphics in) and (b:Graphics in)):Graphics out\n  with\n    interaction (group graphics):{{a:Graphics,b:Graphics}->Graphics}out is (function group)\n  is\n    (\n      ((result of graphics containing (a) and (b))!)\n      with behaviour\n      (\n        (group graphics)\n        ({a:(a),b:(b)})\n        =\n        ((result of graphics containing (a) and (b))?)\n      )\n    )\n\n\n  interaction\n    (all (a:Activation out)  (b:Activation out)):Activation in\n  with\n    interaction (func all):{Activation->{a:Activation,b:Activation}} out is (function all)\n  is\n    (\n      ((variable all (a) (b))?)\n      with behaviour\n      (\n        apply\n        (func all)\n        to\n        ((variable all (a) (b))!)\n        and get\n        ({a:(a) b:(b)})\n      )\n    )\n\n\n  interaction\n    (cursor widget):{mouse:Mouse in,graphics:Graphics out}\n  with\n    interaction (cursor):{Mouse->Graphics}out is (function cursor)\n  is\n    (\n      ({\n        mouse: ((the mouse for cursor widget)?)\n        graphics: ((the graphics for cursor widget)!)\n      })\n      with behaviour\n      ((cursor)((the mouse for cursor widget)!)=((the graphics for cursor widget)?))\n    )\n\n\n\n\n\n  interaction\n    (button widget):{mouse:Mouse in,graphics:Graphics out}\n  with\n    interaction (button):{{layout:{x:Number,y:Number,width:Number,height:Number},text:Text,pushed:Boolean}->Graphics}out is (function button)\n  is\n    (\n      ({\n        mouse: ((the mouse for button widget)?)\n        graphics: ((the graphics for button widget)!)\n      })\n      with behaviour\n      ((button)({layout:({x:(10)y:(10)width:(200)height:(100)})text:("OK")pushed:(false)})=((the graphics for button widget)?))\n    )\n\nis\n  (group widget containing (cursor widget) and (button widget))\n', 
 
 
 
@@ -1992,7 +2075,7 @@ module.exports = {
   { 
     name: 'Ui Detailled Button With Cursor', 
     fileName: 'example/ok/uiDetailledButtonWithCursor', 
-    code: 'interaction\n  (simple UI):{mouse:{buttons:Number, position:{x: Number,y:Number}} in,graphics:Graphics out}\nwith\n\n  interaction\n    (group widget containing (a:{mouse:{buttons:Number, position:{x: Number,y:Number}} out,graphics:Graphics in}) and (b:{mouse:{buttons:Number, position:{x: Number,y:Number}} out,graphics:Graphics in})):{mouse:{buttons:Number, position:{x: Number,y:Number}} in,graphics:Graphics out}\n  is\n    ({\n      mouse:    (both ((a).mouse) and ((b).mouse))\n      graphics: (graphics containing ((a).graphics) and ((b).graphics))\n    })\n\n  interaction\n    ((x:{mouse:{buttons:Number, position:{x: Number,y:Number}} out,graphics:Graphics in}).mouse):{buttons:Number, position:{x: Number,y:Number}} in\n  is\n    (((result of (x).mouse)!)\n    with behaviour\n    ((x)=({mouse:((result of (x).mouse)?)})))\n\n\n\n  interaction\n    ((x:{mouse:{buttons:Number, position:{x: Number,y:Number}} out,graphics:Graphics in}).graphics):Graphics out\n  is\n    (((result of (x).graphics)!)\n    with behaviour\n    ((x)=({graphics:((result of (x).graphics)?)})))\n\n\n\n  interaction\n    (both (a:{buttons:Number, position:{x: Number,y:Number}} out) and (b:{buttons:Number, position:{x: Number,y:Number}} out)):{buttons:Number, position:{x: Number,y:Number}} in\n  is\n    (\n      ( (#both(a)and(b)) ?)\n      with behaviour\n      (all\n        ( (a) = ((#both(a)and(b))!) )\n        ( (b) = ((#both(a)and(b))!) )\n      )\n    )\n\n  interaction\n    (graphics containing (a:Graphics in) and (b:Graphics in)):Graphics out\n  with\n    interaction (group graphics):{{a:Graphics,b:Graphics}->Graphics}out is (function group)\n  is\n    (\n      ((result of graphics containing (a) and (b))!)\n      with behaviour\n      (\n        (group graphics)\n        ({a:(a),b:(b)})\n        =\n        ((result of graphics containing (a) and (b))?)\n      )\n    )\n\n\n  interaction\n    (all (a:Activation out)  (b:Activation out)):Activation in\n  with\n    interaction (func all):{Activation->{a:Activation,b:Activation}} out is (function all)\n  is\n    (\n      ((variable all (a) (b))?)\n      with behaviour\n      (\n        apply\n        (func all)\n        to\n        ((variable all (a) (b))!)\n        and get\n        ({a:(a) b:(b)})\n      )\n    )\n\n\n  interaction\n    (cursor widget):{mouse:{buttons:Number, position:{x: Number,y:Number}} in,graphics:Graphics out}\n  with\n    interaction (cursor):{{buttons:Number, position:{x: Number,y:Number}}->Graphics}out is (function cursor)\n  is\n    (\n      ({\n        mouse: ((the mouse for cursor widget)?)\n        graphics: ((the graphics for cursor widget)!)\n      })\n      with behaviour\n      ((cursor)((the mouse for cursor widget)!)=((the graphics for cursor widget)?))\n    )\n\n\n\n\n\n  interaction\n    (button widget):{mouse:{buttons:Number, position:{x: Number,y:Number}} in,graphics:Graphics out}\n  with\n    interaction (button):{{x:Number,y:Number,width:Number,height:Number,text:Text,pushed:Boolean}->Graphics}out is (function button)\n  is\n    (\n      ({\n        mouse: ((the mouse for button widget)?)\n        graphics: ((the graphics for button widget)!)\n      })\n      with behaviour\n      ((button)({x:(10)y:(10)width:(200)height:(100)text:("OK")pushed:(false)})=((the graphics for button widget)?))\n    )\n\nis\n  (group widget containing (button widget) and (cursor widget) )\n', 
+    code: 'interaction\n  (simple UI):{mouse:{buttons:Number, position:{x: Number,y:Number}} in,graphics:Graphics out}\nwith\n\n  interaction\n    (group widget containing (a:{mouse:{buttons:Number, position:{x: Number,y:Number}} out,graphics:Graphics in}) and (b:{mouse:{buttons:Number, position:{x: Number,y:Number}} out,graphics:Graphics in})):{mouse:{buttons:Number, position:{x: Number,y:Number}} in,graphics:Graphics out}\n  is\n    ({\n      mouse:    (both ((a).mouse) and ((b).mouse))\n      graphics: (graphics containing ((a).graphics) and ((b).graphics))\n    })\n\n  interaction\n    ((x:{mouse:{buttons:Number, position:{x: Number,y:Number}} out,graphics:Graphics in}).mouse):{buttons:Number, position:{x: Number,y:Number}} in\n  is\n    (((result of (x).mouse)!)\n    with behaviour\n    ((x)=({mouse:((result of (x).mouse)?)})))\n\n\n\n  interaction\n    ((x:{mouse:{buttons:Number, position:{x: Number,y:Number}} out,graphics:Graphics in}).graphics):Graphics out\n  is\n    (((result of (x).graphics)!)\n    with behaviour\n    ((x)=({graphics:((result of (x).graphics)?)})))\n\n\n\n  interaction\n    (both (a:{buttons:Number, position:{x: Number,y:Number}} out) and (b:{buttons:Number, position:{x: Number,y:Number}} out)):{buttons:Number, position:{x: Number,y:Number}} in\n  is\n    (\n      ( (#both(a)and(b)) ?)\n      with behaviour\n      (all\n        ( (a) = ((#both(a)and(b))!) )\n        ( (b) = ((#both(a)and(b))!) )\n      )\n    )\n\n  interaction\n    (graphics containing (a:Graphics in) and (b:Graphics in)):Graphics out\n  with\n    interaction (group graphics):{{a:Graphics,b:Graphics}->Graphics}out is (function group)\n  is\n    (\n      ((result of graphics containing (a) and (b))!)\n      with behaviour\n      (\n        (group graphics)\n        ({a:(a),b:(b)})\n        =\n        ((result of graphics containing (a) and (b))?)\n      )\n    )\n\n\n  interaction\n    (all (a:Activation out)  (b:Activation out)):Activation in\n  with\n    interaction (func all):{Activation->{a:Activation,b:Activation}} out is (function all)\n  is\n    (\n      ((variable all (a) (b))?)\n      with behaviour\n      (\n        apply\n        (func all)\n        to\n        ((variable all (a) (b))!)\n        and get\n        ({a:(a) b:(b)})\n      )\n    )\n\n\n  interaction\n    (cursor widget):{mouse:{buttons:Number, position:{x: Number,y:Number}} in,graphics:Graphics out}\n  with\n    interaction (cursor):{{buttons:Number, position:{x: Number,y:Number}}->Graphics}out is (function cursor)\n  is\n    (\n      ({\n        mouse: ((the mouse for cursor widget)?)\n        graphics: ((the graphics for cursor widget)!)\n      })\n      with behaviour\n      ((cursor)((the mouse for cursor widget)!)=((the graphics for cursor widget)?))\n    )\n\n\n\n\n\n  interaction\n    (button widget):{mouse:{buttons:Number, position:{x: Number,y:Number}} in,graphics:Graphics out}\n  with\n    interaction (button):{{layout:{x:Number,y:Number,width:Number,height:Number},text:Text,pushed:Boolean}->Graphics}out is (function button)\n  is\n    (\n      ({\n        mouse: ((the mouse for button widget)?)\n        graphics: ((the graphics for button widget)!)\n      })\n      with behaviour\n      ((button)({layout:({x:(10)y:(10)width:(200)height:(100)})text:("OK")pushed:(false)})=((the graphics for button widget)?))\n    )\n\nis\n  (group widget containing (button widget) and (cursor widget) )\n', 
 
 
 
@@ -2268,4 +2351,303 @@ module.exports = {
 
 
 
-    scenario: '[{\n  "args": {},\n  "inter": {\n    "mouse": {\n      "buttons": 0,\n      "position": {\n        "x": 42,\n        "y": 63\n      },\n      "wheel": {\n        "x": 0,\n        "y": 0,\n        "z": 0\n      }\n    },\n    "graphics": {\n      "type": "shadow",\n      "blur": 20,\n      "offset": {\n        "x": 0,\n        "y": 4\n      },\n      "color": "rgba(0, 0, 0, 0.5)",\n      "content": {\n        "type": "translate",\n        "x": 42,\n        "y": 63,\n        "content": {\n          "type": "scale",\n          "width": 1,\n          "height": 1,\n          "content": {\n            "type": "fill",\n            "style": "rgba(200, 0, 200, 1)",\n            "content": {\n              "type": "path",\n              "content": [{\n                "type": "begin"\n              }, {\n                "type": "move",\n                "x": 0,\n                "y": 0\n              }, {\n                "type": "line",\n                "x": 0,\n                "y": 15\n              }, {\n                "type": "line",\n                "x": 10.6,\n                "y": 10.6\n              }, {\n                "type": "close"\n              }]\n            }\n          }\n        }\n      }\n    }\n  }\n}]\n' }] };
+    scenario: '[{\n  "args": {},\n  "inter": {\n    "mouse": {\n      "buttons": 0,\n      "position": {\n        "x": 42,\n        "y": 63\n      },\n      "wheel": {\n        "x": 0,\n        "y": 0,\n        "z": 0\n      }\n    },\n    "graphics": {\n      "type": "shadow",\n      "blur": 20,\n      "offset": {\n        "x": 0,\n        "y": 4\n      },\n      "color": "rgba(0, 0, 0, 0.5)",\n      "content": {\n        "type": "translate",\n        "x": 42,\n        "y": 63,\n        "content": {\n          "type": "scale",\n          "width": 1,\n          "height": 1,\n          "content": {\n            "type": "fill",\n            "style": "rgba(200, 0, 200, 1)",\n            "content": {\n              "type": "path",\n              "content": [{\n                "type": "begin"\n              }, {\n                "type": "move",\n                "x": 0,\n                "y": 0\n              }, {\n                "type": "line",\n                "x": 0,\n                "y": 15\n              }, {\n                "type": "line",\n                "x": 10.6,\n                "y": 10.6\n              }, {\n                "type": "close"\n              }]\n            }\n          }\n        }\n      }\n    }\n  }\n}]\n' }, 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  { 
+    name: 'Ui Layout Button Click', 
+    fileName: 'example/ok/uiLayoutButtonClick', 
+    code: 'interaction\n  (simple UI):{mouse:{buttons:Number, position:{x: Number,y:Number}} in,layout:{x:Number,y:Number,width:Number,height:Number} in, graphics:Graphics out}\nwith\n\n  interaction\n    (two layers containing (a:{mouse:{buttons:Number, position:{x: Number,y:Number}} out,layout:{x:Number,y:Number,width:Number,height:Number} out, graphics:Graphics in}) and (b:{mouse:{buttons:Number, position:{x: Number,y:Number}} out,layout:{x:Number,y:Number,width:Number,height:Number} out, graphics:Graphics in})):{mouse:{buttons:Number, position:{x: Number,y:Number}} in,layout:{x:Number,y:Number,width:Number,height:Number} in, graphics:Graphics out}\n  is\n    ({\n      mouse:    (both ((a).mouse) and ((b).mouse))\n      layout:   (both2 ((a).layout) and ((b).layout))\n      graphics: (graphics containing ((a).graphics) and ((b).graphics))\n    })\n\n\n  interaction\n    (split column containing (a:{mouse:{buttons:Number, position:{x: Number,y:Number}} out,layout:{x:Number,y:Number,width:Number,height:Number} out, graphics:Graphics in}) and (b:{mouse:{buttons:Number, position:{x: Number,y:Number}} out,layout:{x:Number,y:Number,width:Number,height:Number} out, graphics:Graphics in})):{mouse:{buttons:Number, position:{x: Number,y:Number}} in,layout:{x:Number,y:Number,width:Number,height:Number} in, graphics:Graphics out}\n  with\n    interaction (columnElement):{{interval:{start:Number,end:Number},rect:{x:Number,y:Number,width:Number,height:Number}}->{x:Number,y:Number,width:Number,height:Number}} out is (function columnElement)\n  is\n    (\n      ({\n        mouse:    (both ((a).mouse) and ((b).mouse))\n        layout:   ((the layout of split column containing (a) and (b))?)\n        graphics: (graphics containing ((a).graphics) and ((b).graphics))\n      })\n      with behaviour\n      (all\n        ((columnElement)({interval:({start:(0)end:(0.5)})rect:((the layout of split column containing (a) and (b))!)})=((a).layout))\n        ((columnElement)({interval:({start:(0.5)end:(1)})rect:((the layout of split column containing (a) and (b))!)})=((b).layout))\n      )\n    )\n\n\n  interaction\n    ((x:{mouse:{buttons:Number, position:{x: Number,y:Number}} out,layout:{x:Number,y:Number,width:Number,height:Number} out, graphics:Graphics in}).mouse):{buttons:Number, position:{x: Number,y:Number}} in\n  is\n    (((result of (x).mouse)!)\n    with behaviour\n    ((x)=({mouse:((result of (x).mouse)?)})))\n\n\n\n  interaction\n    ((x:{mouse:{buttons:Number, position:{x: Number,y:Number}} out,layout:{x:Number,y:Number,width:Number,height:Number} out, graphics:Graphics in}).graphics):Graphics out\n  is\n    (((result of (x).graphics)!)\n    with behaviour\n    ((x)=({graphics:((result of (x).graphics)?)})))\n\n  interaction\n    ((x:{mouse:{buttons:Number, position:{x: Number,y:Number}} out,layout:{x:Number,y:Number,width:Number,height:Number} out, graphics:Graphics in}).layout):{x:Number,y:Number,width:Number,height:Number} in\n  is\n    (((result of (x).layout)!)\n    with behaviour\n    ((x)=({layout:((result of (x).layout)?)})))\n\n\n\n  interaction\n    (both (a:{buttons:Number, position:{x: Number,y:Number}} out) and (b:{buttons:Number, position:{x: Number,y:Number}} out)):{buttons:Number, position:{x: Number,y:Number}} in\n  is\n    (\n      ( (#both(a)and(b)) ?)\n      with behaviour\n      (all\n        ( (a) = ((#both(a)and(b))!) )\n        ( (b) = ((#both(a)and(b))!) )\n      )\n    )\n\n  interaction\n    (both2 (a:{x:Number,y:Number,width:Number,height:Number} out) and (b:{x:Number,y:Number,width:Number,height:Number} out)):{x:Number,y:Number,width:Number,height:Number} in\n  is\n    (\n      ( (#both2(a)and(b)) ?)\n      with behaviour\n      (all\n        ( (a) = ((#both2(a)and(b))!) )\n        ( (b) = ((#both2(a)and(b))!) )\n      )\n    )\n\n  interaction\n    (graphics containing (a:Graphics in) and (b:Graphics in)):Graphics out\n  with\n    interaction (group graphics):{{a:Graphics,b:Graphics}->Graphics}out is (function group)\n  is\n    (\n      ((result of graphics containing (a) and (b))!)\n      with behaviour\n      (\n        (group graphics)\n        ({a:(a),b:(b)})\n        =\n        ((result of graphics containing (a) and (b))?)\n      )\n    )\n\n\n  interaction\n    (all (a:Activation out)  (b:Activation out)):Activation in\n  with\n    interaction (func all):{Activation->{a:Activation,b:Activation}} out is (function all)\n  is\n    (\n      ((variable all (a) (b))?)\n      with behaviour\n      (\n        apply\n        (func all)\n        to\n        ((variable all (a) (b))!)\n        and get\n        ({a:(a) b:(b)})\n      )\n    )\n\n\n  interaction\n    (cursor widget):{mouse:{buttons:Number, position:{x: Number,y:Number}} in,layout:{x:Number,y:Number,width:Number,height:Number} in, graphics:Graphics out}\n  with\n    interaction (cursor):{{buttons:Number, position:{x: Number,y:Number}}->Graphics}out is (function cursor)\n  is\n    (\n      ({\n        mouse: ((the mouse for cursor widget)?)\n        graphics: ((the graphics for cursor widget)!)\n      })\n      with behaviour\n      ((cursor)((the mouse for cursor widget)!)=((the graphics for cursor widget)?))\n    )\n\n\n  interaction\n    ((a:Number in)==(b:Number in)):Boolean out\n  with\n    interaction (is equal):{{a:Number,b:Number}->Boolean}out is (function isEqual)\n  is\n    (\n      ((result of (a)==(b))!)\n      with behaviour\n      (apply (is equal) to ({a:(a),b:(b)}) and get ( (result of (a)==(b))?) )\n    )\n\n\n  interaction\n    ((a:Boolean in)and(b:Boolean in)):Boolean out\n  with\n    interaction (boolean and):{{a:Boolean,b:Boolean}->Boolean} out is (function boolAnd)\n  is\n    (\n      ((result of (a)and(b))!)\n      with behaviour\n      (apply (boolean and) to ({a:(a),b:(b)}) and get ( (result of (a)and(b))?) )\n    )\n\n  interaction\n    (add margin of (m:Number in) to (a:{x:Number,y:Number,width:Number,height:Number} in)):{x:Number,y:Number,width:Number,height:Number} out\n  with\n    interaction (inset):{{rect:{x:Number,y:Number,width:Number,height:Number},margin:Number}->{x:Number,y:Number,width:Number,height:Number}} out is (function inset)\n  is\n    (\n      (((a)with added margin(m))!)\n      with behaviour\n      ((inset)({rect:(a)margin:(m)})=(((a)with added margin(m))?))\n    )\n\n  interaction\n    ((thePoint:{x:Number,y:Number}in) is inside (theRectangle:{x:Number,y:Number,width:Number,height:Number}in)):Boolean out\n  with\n    interaction (func is inside): {{point:{x: Number,y:Number},rect:{x:Number,y:Number,width:Number,height:Number}}->Boolean} out is (function isInside)\n  is\n    (\n      ((the result of (thePoint) is inside (theRectangle))!)\n      with behaviour\n      ((func is inside)({point:(thePoint),rect:(theRectangle)})=((the result of (thePoint) is inside (theRectangle))?))\n    )\n\n\n  interaction\n    (button widget):{mouse:{buttons:Number, position:{x: Number,y:Number}} in,layout:{x:Number,y:Number,width:Number,height:Number} in, graphics:Graphics out}\n  with\n    interaction (button graphics function):{{layout:{x:Number,y:Number,width:Number,height:Number},text:Text,pushed:Boolean}->Graphics}out is (function button)\n  is\n    (\n      ({\n        mouse: ({buttons:((the buttons of the mouse)?),position:((the position of the mouse)?)})\n        layout:((the layout for button widget)?)\n        graphics: ((the graphics for button widget)!)\n      })\n      with behaviour\n      (\n        (button graphics function)\n        ({\n          layout:(add margin of (20) to ((the layout for button widget)!))\n          text:("OK")\n          pushed:(((the buttons of the mouse)!)==(1))\n        })\n        =\n        ((the graphics for button widget)?)\n      )\n    )\n\n  interaction\n    (label widget):{mouse:{buttons:Number, position:{x: Number,y:Number}} in,layout:{x:Number,y:Number,width:Number,height:Number} in, graphics:Graphics out}\n  with\n    interaction (label graphics function):{{layout:{x:Number,y:Number,width:Number,height:Number},text:Text,pushed:Boolean}->Graphics}out is (function label)\n  is\n    (\n      ({\n        layout:((the layout for label widget)?)\n        graphics: ((the graphics for label widget)!)\n      })\n      with behaviour\n      (\n        (label graphics function)\n        ({\n          layout:((the layout for label widget)!)\n          text:("Label text")\n        })\n        =\n        ((the graphics for label widget)?)\n      )\n    )\n\n\n\nis\n  (two layers containing\n    (split column containing\n      (button widget) and\n      (label widget)) and\n    (cursor widget)\n  )\n', 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+    scenario: '[{\n  "memo": {},\n  "state": {},\n  "args": {},\n  "inter": {\n    "layout": {\n      "x": 0,\n      "y": 0,\n      "width": 1024,\n      "height": 768\n    },\n    "mouse": {\n      "buttons": 0,\n      "position": {\n        "x": 42,\n        "y": 63\n      },\n      "wheel": {\n        "x": 0,\n        "y": 0,\n        "z": 0\n      }\n    },\n    "graphics": {\n      "type": "group",\n      "content": [{\n        "type": "group",\n        "content": [{\n          "type": "shadow",\n          "blur": 20,\n          "offset": {\n            "x": 0,\n            "y": 4\n          },\n          "color": "rgba(0, 0, 0, 0.5)",\n          "content": {\n            "type": "group",\n            "content": [{\n              "type": "fill",\n              "style": "rgba(0, 171, 255, 1)",\n              "content": {\n                "type": "rect",\n                "x": 20,\n                "y": 20,\n                "width": 984,\n                "height": 344\n              }\n            }, {\n              "type": "fill",\n              "style": "rgba(255, 255, 255, 1)",\n              "content": {\n                "type": "text",\n                "textBaseline": "middle",\n                "textAlign": "center",\n                "font": "200 30px Helvetica neue",\n                "text": "OK",\n                "x": 512,\n                "y": 192\n              }\n            }]\n          }\n        }, {\n          "type": "fill",\n          "style": "rgba(56, 56, 56, 1)",\n          "content": {\n            "type": "text",\n            "textBaseline": "middle",\n            "textAlign": "center",\n            "font": "200 30px Helvetica neue",\n            "text": "Labeltext",\n            "x": 512,\n            "y": 576\n          }\n        }]\n      }, {\n        "type": "shadow",\n        "blur": 20,\n        "offset": {\n          "x": 0,\n          "y": 4\n        },\n        "color": "rgba(0, 0, 0, 0.5)",\n        "content": {\n          "type": "translate",\n          "x": 42,\n          "y": 63,\n          "content": {\n            "type": "scale",\n            "width": 1,\n            "height": 1,\n            "content": {\n              "type": "fill",\n              "style": "rgba(200, 0, 200, 1)",\n              "content": {\n                "type": "path",\n                "content": [{\n                  "type": "begin"\n                }, {\n                  "type": "move",\n                  "x": 0,\n                  "y": 0\n                }, {\n                  "type": "line",\n                  "x": 0,\n                  "y": 15\n                }, {\n                  "type": "line",\n                  "x": 10.6,\n                  "y": 10.6\n                }, {\n                  "type": "close"\n                }]\n              }\n            }\n          }\n        }\n      }]\n    }\n  }\n}]\n' }] };

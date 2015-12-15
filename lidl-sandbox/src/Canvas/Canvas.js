@@ -120,9 +120,11 @@ export default class Canvas extends Component {
     super(props);
     this.state = {
       mainInterfaceState: {
-        dimension: {
+        layout: {
           width: this.props.position.width,
-          height: this.props.position.height
+          height: this.props.position.height,
+          x:0,
+          y:0
         },
         time: 0,
         mouse: {
@@ -166,13 +168,15 @@ export default class Canvas extends Component {
 var container=this.refs.container;
     var target = e.target;
     var rect = this.refs.iiicanvas.getBoundingClientRect();
-    var offsetX = (e.clientX - rect.left)*(this.state.mainInterfaceState.dimension.width/rect.width);
-    var offsetY = (e.clientY - rect.top)*(this.state.mainInterfaceState.dimension.height/rect.height);
+    var offsetX = (e.clientX - rect.left)*(this.state.mainInterfaceState.layout.width/rect.width);
+    var offsetY = (e.clientY - rect.top)*(this.state.mainInterfaceState.layout.height/rect.height);
     this.setState({
       mainInterfaceState:{
-        dimension : {
+        layout : {
         width: container.offsetWidth,
-        height: container.offsetHeight
+        height: container.offsetHeight,
+        x:0,
+        y:0
     },
         time:e.timeStamp,
         mouse : {
@@ -197,9 +201,11 @@ var container=this.refs.container;
 
   resize(e) {
     var container=this.refs.container;
-    this.setState({mainInterfaceState:{dimension : {
+    this.setState({mainInterfaceState:{layout : {
         width: container.offsetWidth,
-        height: container.offsetHeight
+        height: container.offsetHeight,
+        x:0,
+        y:0
     },time:e.timeStamp,mouse:this.state.mainInterfaceState.mouse,keyboard:this.state.mainInterfaceState.keyboard,touch:this.state.mainInterfaceState.touch,graphics:this.state.mainInterfaceState.graphics}});
     this.scenarioChanged();
   }
@@ -218,9 +224,11 @@ var container=this.refs.container;
     if (this.state.mainInterfaceState.keyboard[key] !== true) {
       var theKeyboard=this.state.mainInterfaceState.keyboard;
       theKeyboard[key]=true;
-      this.setState({mainInterfaceState:{dimension : {
+      this.setState({mainInterfaceState:{layout : {
         width: container.offsetWidth,
-        height: container.offsetHeight
+        height: container.offsetHeight,
+        x:0,
+        y:0
     },time:e.timeStamp,mouse:this.state.mainInterfaceState.mouse,keyboard:theKeyboard,touch:this.state.mainInterfaceState.touch,graphics:this.state.mainInterfaceState.graphics}});
     }
     this.scenarioChanged();
@@ -240,9 +248,11 @@ var container=this.refs.container;
     if (this.state.mainInterfaceState.keyboard[key] !== false) {
       var theKeyboard=this.state.mainInterfaceState.keyboard;
       theKeyboard[key]=false;
-      this.setState({mainInterfaceState:{dimension : {
+      this.setState({mainInterfaceState:{layout : {
         width: container.offsetWidth,
-        height: container.offsetHeight
+        height: container.offsetHeight,
+        x:0,
+        y:0
     },time:e.timeStamp,mouse:this.state.mainInterfaceState.mouse,keyboard:theKeyboard,touch:this.state.mainInterfaceState.touch,graphics:this.state.mainInterfaceState.graphics}});
     }
     this.scenarioChanged();
@@ -270,9 +280,11 @@ var container=this.refs.container;
         touches[i].rotationAngle = e.touches[i].rotationAngle;
         touches[i].force = e.touches[i].force;
     }
-    this.setState({mainInterfaceState:{dimension : {
+    this.setState({mainInterfaceState:{layout : {
         width: container.offsetWidth,
-        height: container.offsetHeight
+        height: container.offsetHeight,
+        x:0,
+        y:0
     },time:e.timeStamp,mouse:this.state.mainInterfaceState.mouse,keyboard:this.state.mainInterfaceState.keyboard,touch : touches,graphics:this.state.mainInterfaceState.graphics}});
     this.scenarioChanged();
   }
@@ -370,11 +382,11 @@ var container=this.refs.container;
         <div ref="container" style={{overflow:'hidden',position:'absolute',top:'0',left:'0',bottom:'0',right:'0'}}>
           <canvas
             ref="iiicanvas"
-            style={{'backgroundColor':'rgb(217, 217, 217)' ,cursor:'none',position:'absolute',top:'0',left:'0',width:this.state.mainInterfaceState.dimension.width,height:this.state.mainInterfaceState.dimension.height}}
+            style={{'backgroundColor':'rgb(217, 217, 217)' ,cursor:'none',position:'absolute',top:'0',left:'0',width:this.state.mainInterfaceState.layout.width,height:this.state.mainInterfaceState.layout.height}}
             contentEditable="true"
             tabIndex="1"
-            width={this.state.mainInterfaceState.dimension.width}
-            height={this.state.mainInterfaceState.dimension.height} ></canvas>
+            width={this.state.mainInterfaceState.layout.width}
+            height={this.state.mainInterfaceState.layout.height} ></canvas>
         </div>
     );
     // }

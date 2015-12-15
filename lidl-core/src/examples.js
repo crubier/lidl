@@ -1,15 +1,15 @@
 // File automatically generated when performing     npm run build   
 // It contains examples of lidl code from the example/ok folder
 module.exports={
-header:`var isActive = function(x) {
-  return (x !== null && x !== undefined);
+header:`var isActive = function(_) {
+  return (_ !== null && _ !== undefined);
 };
 
-var cool = function(x) {
-  if (isActive(x.a) && isActive(x.b)) {
+var cool = function(_) {
+  if (isActive(_.a) && isActive(_.b)) {
     return {
-      sum: (x.a + x.b),
-      diff: (x.a - x.b)
+      sum: (_.a + _.b),
+      diff: (_.a - _.b)
     };
   } else {
     return {
@@ -19,103 +19,128 @@ var cool = function(x) {
   }
 };
 
-var fallback = function(x) {
-  return (isActive(x.a) ? x.a : x.b);
+var fallback = function(_) {
+  return (isActive(_.a) ? _.a : _.b);
 };
 
-var return0 = function(x) {
+var return0 = function(_) {
   return 0;
 };
 
 
-var return1 = function(x) {
+var return1 = function(_) {
   return 1;
 };
 
-var addition = function(x) {
-  if (isActive(x.a) && isActive(x.b)) {
-    return x.a + x.b;
+var addition = function(_) {
+  if (isActive(_.a) && isActive(_.b)) {
+    return _.a + _.b;
   } else {
     return inactive;
   }
 };
 
-var multiplication = function(x) {
-  if (isActive(x.a) && isActive(x.b)) {
-    return x.a * x.b;
+var multiplication = function(_) {
+  if (isActive(_.a) && isActive(_.b)) {
+    return _.a * _.b;
   } else {
     return inactive;
   }
 };
 
-var substraction = function(x) {
-  if (isActive(x.a) && isActive(x.b)) {
-    return x.a - x.b;
+var substraction = function(_) {
+  if (isActive(_.a) && isActive(_.b)) {
+    return _.a - _.b;
   } else {
     return inactive;
   }
 };
 
-var division = function(x) {
-  if (isActive(x.a) && isActive(x.b)) {
-    return x.a / x.b;
+var division = function(_) {
+  if (isActive(_.a) && isActive(_.b)) {
+    return _.a / _.b;
   } else {
     return inactive;
   }
 };
 
-var remainder = function(x) {
-  if (isActive(x.a) && isActive(x.b)) {
-    return x.a % x.b;
+var remainder = function(_) {
+  if (isActive(_.a) && isActive(_.b)) {
+    return _.a % _.b;
   } else {
     return inactive;
   }
 };
 
-var power = function(x) {
-  if (isActive(x.a) && isActive(x.b)) {
-    return Math.pow(x.a, x.b);
+var power = function(_) {
+  if (isActive(_.a) && isActive(_.b)) {
+    return Math.pow(_.a, _.b);
   } else {
     return inactive;
   }
 };
 
-var addOne = function(x) {
-  if (isActive(x))
-    return x + 1;
+var addOne = function(_) {
+  if (isActive(_))
+    return _ + 1;
   else {
     return inactive;
   }
 };
 
-var identity = function(x) {
-  return x;
+var identity = function(_) {
+  return _;
 };
 
-var isEqual = function(x) {
-  if (isActive(x.a) && isActive(x.b)) {
-    return (x.a === x.b) ? true : false;
+var isEqual = function(_) {
+  if (isActive(_.a) && isActive(_.b)) {
+    return (_.a === _.b) ? true : false;
   } else {
     return inactive;
   }
 };
 
 
-var boolNot = function(x) {
-  if (isActive(x)) {
-    return !x;
+var boolNot = function(_) {
+  if (isActive(_)) {
+    return !_;
   } else {
     return inactive;
   }
 };
 
-var ifThenElse = function(x) {
-  if (isActive(x)) {
-    if (isActive(x.cond)) {
-      if (x.cond === true) {
-        return x.a;
-      } else if (x.cond === false) {
-        return x.b;
+var boolAnd = function(_) {
+  if (isActive(_) && isActive(_.a) && isActive(_.b)) {
+    return _.a && _.b;
+  } else {
+    return inactive;
+  }
+};
+
+var boolOr = function(_) {
+  if (isActive(_)&& isActive(_.a) && isActive(_.b)) {
+    return _.a || _.b;
+  } else {
+    return inactive;
+  }
+};
+
+var boolXor = function(_) {
+  if (isActive(_)&& isActive(_.a) && isActive(_.b)) {
+    return ( _.a && !_.b ) || ( !_.a && _.b ) ;
+  } else {
+    return inactive;
+  }
+};
+
+
+var ifThenElse = function(_) {
+  if (isActive(_)) {
+    if (isActive(_.cond)) {
+      if (_.cond === true) {
+        return _.a;
+      } else if (_.cond === false) {
+        return _.b;
       } else {
         return inactive;
       }
@@ -128,15 +153,15 @@ var ifThenElse = function(x) {
 };
 
 
-var whenThenElse = function(x) {
-  if (isActive(x)) {
-    if (isActive(x.cond)) {
-      if (x.cond === true) {
+var whenThenElse = function(_) {
+  if (isActive(_)) {
+    if (isActive(_.cond)) {
+      if (_.cond === true) {
         return {
           a: active,
           b: inactive
         };
-      } else if (x.cond === false) {
+      } else if (_.cond === false) {
         return {
           a: inactive,
           b: active
@@ -153,24 +178,24 @@ var whenThenElse = function(x) {
 };
 
 
-var all = function(x) {
+var all = function(_) {
   return {
-    a: x,
-    b: x,
-    c: x,
-    d: x,
-    e: x,
-    f: x,
-    g: x,
-    h: x,
-    i: x,
-    j: x,
-    k: x,
-    l: x,
-    m: x,
-    n: x,
-    o: x,
-    p: x
+    a: _,
+    b: _,
+    c: _,
+    d: _,
+    e: _,
+    f: _,
+    g: _,
+    h: _,
+    i: _,
+    j: _,
+    k: _,
+    l: _,
+    m: _,
+    n: _,
+    o: _,
+    p: _
   };
 };
 
@@ -240,10 +265,10 @@ var button = function(button) {
         style: "rgba(0, 171, 255, 1)",
         content: {
           type: "rect",
-          x: button.x,
-          y: button.y,
-          width: button.width,
-          height: button.height
+          x: button.layout.x,
+          y: button.layout.y,
+          width: button.layout.width,
+          height: button.layout.height
         }
       }, {
         type: "fill",
@@ -254,8 +279,8 @@ var button = function(button) {
           textAlign: "center",
           font: "200 30px Helvetica neue",
           text: button.text,
-          x: button.x + button.width / 2,
-          y: button.y + button.height / 2
+          x: button.layout.x + button.layout.width / 2,
+          y: button.layout.y + button.layout.height / 2
         }
       }]
     }
@@ -263,12 +288,70 @@ var button = function(button) {
   return button;
 }
 
+
+
+
+var label = function(_) {
+  var label = {
+        type: "fill",
+        style: "rgba(56, 56, 56, 1)",
+        content: {
+          type: "text",
+          textBaseline: "middle",
+          textAlign: "center",
+          font: "200 30px Helvetica neue",
+          text: _.text,
+          x: _.layout.x + _.layout.width / 2,
+          y: _.layout.y + _.layout.height / 2
+        }
+      };
+  return label;
+}
+
+
+
 var group = function(elements) {
   var group = {
       type: "group",
       content: [elements.a,elements.b ]
     };
   return group;
+}
+
+// Checks if a point is inside a rectangle (picking)
+var isInside = function(_){
+  if(isActive(_) && isActive(_.point) && isActive(_.rect)){
+    return _.point.x >= _.rect.x && _.point.x <= _.rect.x + _.rect.width && _.point.y >= _.rect.y && _.point.y <= _.rect.y + _.rect.height;
+  } else {
+    return inactive;
+  }
+}
+
+// Returns a rectangle which is a fraction of a column of another rectanle
+var columnElement = function(_){
+  if(isActive(_) && isActive(_.interval) && isActive(_.rect)){
+    return {x:_.rect.x,y:_.rect.y+_.interval.start*_.rect.height,width:_.rect.width,height:_.rect.height*(_.interval.end - _.interval.start)};
+  } else {
+    return inactive;
+  }
+}
+
+// Returns a rectangle which is a fraction of a column of another rectanle
+var rowElement = function(_){
+  if(isActive(_) && isActive(_.interval) && isActive(_.rect)){
+    return {y:_.rect.y,x:_.rect.x+_.interval.start*_.rect.width,height:_.rect.height,width:_.rect.width*(_.interval.end - _.interval.start)};
+  } else {
+    return inactive;
+  }
+}
+
+// Returns a rectangle which is inset with a margin inside a bigger rectangle
+var inset = function(_){
+  if(isActive(_) && isActive(_.margin) && isActive(_.rect)){
+    return {x:_.rect.x + _.margin,y:_.rect.y + _.margin,width:_.rect.width-2*_.margin,height:_.rect.height-2*_.margin};
+  } else {
+    return inactive;
+  }
 }
 
 `,
@@ -1617,7 +1700,7 @@ with
   interaction
     (button widget):{mouse:Mouse in,graphics:Graphics out}
   with
-    interaction (button):{{x:Number,y:Number,width:Number,height:Number,text:Text,pushed:Boolean}->Graphics}out is (function button)
+    interaction (button):{{layout:{x:Number,y:Number,width:Number,height:Number},text:Text,pushed:Boolean}->Graphics}out is (function button)
   is
     (
       ({
@@ -1625,7 +1708,7 @@ with
         graphics: ((the graphics for button widget)!)
       })
       with behaviour
-      ((button)({x:(10)y:(10)width:(200)height:(100)text:("OK")pushed:(false)})=((the graphics for button widget)?))
+      ((button)({layout:({x:(10)y:(10)width:(200)height:(100)})text:("OK")pushed:(false)})=((the graphics for button widget)?))
     )
 
 is
@@ -1789,7 +1872,7 @@ with
   interaction
     (button widget):{mouse:Mouse in,graphics:Graphics out}
   with
-    interaction (button):{{x:Number,y:Number,width:Number,height:Number,text:Text,pushed:Boolean}->Graphics}out is (function button)
+    interaction (button):{{layout:{x:Number,y:Number,width:Number,height:Number},text:Text,pushed:Boolean}->Graphics}out is (function button)
   is
     (
       ({
@@ -1797,7 +1880,7 @@ with
         graphics: ((the graphics for button widget)!)
       })
       with behaviour
-      ((button)({x:(10)y:(10)width:(200)height:(100)text:("OK")pushed:(false)})=((the graphics for button widget)?))
+      ((button)({layout:({x:(10)y:(10)width:(200)height:(100)})text:("OK")pushed:(false)})=((the graphics for button widget)?))
     )
 
 is
@@ -2091,7 +2174,7 @@ with
   interaction
     (button widget):{mouse:{buttons:Number, position:{x: Number,y:Number}} in,graphics:Graphics out}
   with
-    interaction (button):{{x:Number,y:Number,width:Number,height:Number,text:Text,pushed:Boolean}->Graphics}out is (function button)
+    interaction (button):{{layout:{x:Number,y:Number,width:Number,height:Number},text:Text,pushed:Boolean}->Graphics}out is (function button)
   is
     (
       ({
@@ -2099,7 +2182,7 @@ with
         graphics: ((the graphics for button widget)!)
       })
       with behaviour
-      ((button)({x:(10)y:(10)width:(200)height:(100)text:("OK")pushed:(false)})=((the graphics for button widget)?))
+      ((button)({layout:({x:(10)y:(10)width:(200)height:(100)})text:("OK")pushed:(false)})=((the graphics for button widget)?))
     )
 
 is
@@ -2325,6 +2408,365 @@ is
           }
         }
       }
+    }
+  }
+}]
+`
+},{
+    name: 'Ui Layout Button Click',
+fileName: 'example/ok/uiLayoutButtonClick',
+     code : `interaction
+  (simple UI):{mouse:{buttons:Number, position:{x: Number,y:Number}} in,layout:{x:Number,y:Number,width:Number,height:Number} in, graphics:Graphics out}
+with
+
+  interaction
+    (two layers containing (a:{mouse:{buttons:Number, position:{x: Number,y:Number}} out,layout:{x:Number,y:Number,width:Number,height:Number} out, graphics:Graphics in}) and (b:{mouse:{buttons:Number, position:{x: Number,y:Number}} out,layout:{x:Number,y:Number,width:Number,height:Number} out, graphics:Graphics in})):{mouse:{buttons:Number, position:{x: Number,y:Number}} in,layout:{x:Number,y:Number,width:Number,height:Number} in, graphics:Graphics out}
+  is
+    ({
+      mouse:    (both ((a).mouse) and ((b).mouse))
+      layout:   (both2 ((a).layout) and ((b).layout))
+      graphics: (graphics containing ((a).graphics) and ((b).graphics))
+    })
+
+
+  interaction
+    (split column containing (a:{mouse:{buttons:Number, position:{x: Number,y:Number}} out,layout:{x:Number,y:Number,width:Number,height:Number} out, graphics:Graphics in}) and (b:{mouse:{buttons:Number, position:{x: Number,y:Number}} out,layout:{x:Number,y:Number,width:Number,height:Number} out, graphics:Graphics in})):{mouse:{buttons:Number, position:{x: Number,y:Number}} in,layout:{x:Number,y:Number,width:Number,height:Number} in, graphics:Graphics out}
+  with
+    interaction (columnElement):{{interval:{start:Number,end:Number},rect:{x:Number,y:Number,width:Number,height:Number}}->{x:Number,y:Number,width:Number,height:Number}} out is (function columnElement)
+  is
+    (
+      ({
+        mouse:    (both ((a).mouse) and ((b).mouse))
+        layout:   ((the layout of split column containing (a) and (b))?)
+        graphics: (graphics containing ((a).graphics) and ((b).graphics))
+      })
+      with behaviour
+      (all
+        ((columnElement)({interval:({start:(0)end:(0.5)})rect:((the layout of split column containing (a) and (b))!)})=((a).layout))
+        ((columnElement)({interval:({start:(0.5)end:(1)})rect:((the layout of split column containing (a) and (b))!)})=((b).layout))
+      )
+    )
+
+
+  interaction
+    ((x:{mouse:{buttons:Number, position:{x: Number,y:Number}} out,layout:{x:Number,y:Number,width:Number,height:Number} out, graphics:Graphics in}).mouse):{buttons:Number, position:{x: Number,y:Number}} in
+  is
+    (((result of (x).mouse)!)
+    with behaviour
+    ((x)=({mouse:((result of (x).mouse)?)})))
+
+
+
+  interaction
+    ((x:{mouse:{buttons:Number, position:{x: Number,y:Number}} out,layout:{x:Number,y:Number,width:Number,height:Number} out, graphics:Graphics in}).graphics):Graphics out
+  is
+    (((result of (x).graphics)!)
+    with behaviour
+    ((x)=({graphics:((result of (x).graphics)?)})))
+
+  interaction
+    ((x:{mouse:{buttons:Number, position:{x: Number,y:Number}} out,layout:{x:Number,y:Number,width:Number,height:Number} out, graphics:Graphics in}).layout):{x:Number,y:Number,width:Number,height:Number} in
+  is
+    (((result of (x).layout)!)
+    with behaviour
+    ((x)=({layout:((result of (x).layout)?)})))
+
+
+
+  interaction
+    (both (a:{buttons:Number, position:{x: Number,y:Number}} out) and (b:{buttons:Number, position:{x: Number,y:Number}} out)):{buttons:Number, position:{x: Number,y:Number}} in
+  is
+    (
+      ( (#both(a)and(b)) ?)
+      with behaviour
+      (all
+        ( (a) = ((#both(a)and(b))!) )
+        ( (b) = ((#both(a)and(b))!) )
+      )
+    )
+
+  interaction
+    (both2 (a:{x:Number,y:Number,width:Number,height:Number} out) and (b:{x:Number,y:Number,width:Number,height:Number} out)):{x:Number,y:Number,width:Number,height:Number} in
+  is
+    (
+      ( (#both2(a)and(b)) ?)
+      with behaviour
+      (all
+        ( (a) = ((#both2(a)and(b))!) )
+        ( (b) = ((#both2(a)and(b))!) )
+      )
+    )
+
+  interaction
+    (graphics containing (a:Graphics in) and (b:Graphics in)):Graphics out
+  with
+    interaction (group graphics):{{a:Graphics,b:Graphics}->Graphics}out is (function group)
+  is
+    (
+      ((result of graphics containing (a) and (b))!)
+      with behaviour
+      (
+        (group graphics)
+        ({a:(a),b:(b)})
+        =
+        ((result of graphics containing (a) and (b))?)
+      )
+    )
+
+
+  interaction
+    (all (a:Activation out)  (b:Activation out)):Activation in
+  with
+    interaction (func all):{Activation->{a:Activation,b:Activation}} out is (function all)
+  is
+    (
+      ((variable all (a) (b))?)
+      with behaviour
+      (
+        apply
+        (func all)
+        to
+        ((variable all (a) (b))!)
+        and get
+        ({a:(a) b:(b)})
+      )
+    )
+
+
+  interaction
+    (cursor widget):{mouse:{buttons:Number, position:{x: Number,y:Number}} in,layout:{x:Number,y:Number,width:Number,height:Number} in, graphics:Graphics out}
+  with
+    interaction (cursor):{{buttons:Number, position:{x: Number,y:Number}}->Graphics}out is (function cursor)
+  is
+    (
+      ({
+        mouse: ((the mouse for cursor widget)?)
+        graphics: ((the graphics for cursor widget)!)
+      })
+      with behaviour
+      ((cursor)((the mouse for cursor widget)!)=((the graphics for cursor widget)?))
+    )
+
+
+  interaction
+    ((a:Number in)==(b:Number in)):Boolean out
+  with
+    interaction (is equal):{{a:Number,b:Number}->Boolean}out is (function isEqual)
+  is
+    (
+      ((result of (a)==(b))!)
+      with behaviour
+      (apply (is equal) to ({a:(a),b:(b)}) and get ( (result of (a)==(b))?) )
+    )
+
+
+  interaction
+    ((a:Boolean in)and(b:Boolean in)):Boolean out
+  with
+    interaction (boolean and):{{a:Boolean,b:Boolean}->Boolean} out is (function boolAnd)
+  is
+    (
+      ((result of (a)and(b))!)
+      with behaviour
+      (apply (boolean and) to ({a:(a),b:(b)}) and get ( (result of (a)and(b))?) )
+    )
+
+  interaction
+    (add margin of (m:Number in) to (a:{x:Number,y:Number,width:Number,height:Number} in)):{x:Number,y:Number,width:Number,height:Number} out
+  with
+    interaction (inset):{{rect:{x:Number,y:Number,width:Number,height:Number},margin:Number}->{x:Number,y:Number,width:Number,height:Number}} out is (function inset)
+  is
+    (
+      (((a)with added margin(m))!)
+      with behaviour
+      ((inset)({rect:(a)margin:(m)})=(((a)with added margin(m))?))
+    )
+
+  interaction
+    ((thePoint:{x:Number,y:Number}in) is inside (theRectangle:{x:Number,y:Number,width:Number,height:Number}in)):Boolean out
+  with
+    interaction (func is inside): {{point:{x: Number,y:Number},rect:{x:Number,y:Number,width:Number,height:Number}}->Boolean} out is (function isInside)
+  is
+    (
+      ((the result of (thePoint) is inside (theRectangle))!)
+      with behaviour
+      ((func is inside)({point:(thePoint),rect:(theRectangle)})=((the result of (thePoint) is inside (theRectangle))?))
+    )
+
+
+  interaction
+    (button widget):{mouse:{buttons:Number, position:{x: Number,y:Number}} in,layout:{x:Number,y:Number,width:Number,height:Number} in, graphics:Graphics out}
+  with
+    interaction (button graphics function):{{layout:{x:Number,y:Number,width:Number,height:Number},text:Text,pushed:Boolean}->Graphics}out is (function button)
+  is
+    (
+      ({
+        mouse: ({buttons:((the buttons of the mouse)?),position:((the position of the mouse)?)})
+        layout:((the layout for button widget)?)
+        graphics: ((the graphics for button widget)!)
+      })
+      with behaviour
+      (
+        (button graphics function)
+        ({
+          layout:(add margin of (20) to ((the layout for button widget)!))
+          text:("OK")
+          pushed:(((the buttons of the mouse)!)==(1))
+        })
+        =
+        ((the graphics for button widget)?)
+      )
+    )
+
+  interaction
+    (label widget):{mouse:{buttons:Number, position:{x: Number,y:Number}} in,layout:{x:Number,y:Number,width:Number,height:Number} in, graphics:Graphics out}
+  with
+    interaction (label graphics function):{{layout:{x:Number,y:Number,width:Number,height:Number},text:Text,pushed:Boolean}->Graphics}out is (function label)
+  is
+    (
+      ({
+        layout:((the layout for label widget)?)
+        graphics: ((the graphics for label widget)!)
+      })
+      with behaviour
+      (
+        (label graphics function)
+        ({
+          layout:((the layout for label widget)!)
+          text:("Label text")
+        })
+        =
+        ((the graphics for label widget)?)
+      )
+    )
+
+
+
+is
+  (two layers containing
+    (split column containing
+      (button widget) and
+      (label widget)) and
+    (cursor widget)
+  )
+`,
+     scenario : `[{
+  "memo": {},
+  "state": {},
+  "args": {},
+  "inter": {
+    "layout": {
+      "x": 0,
+      "y": 0,
+      "width": 1024,
+      "height": 768
+    },
+    "mouse": {
+      "buttons": 0,
+      "position": {
+        "x": 42,
+        "y": 63
+      },
+      "wheel": {
+        "x": 0,
+        "y": 0,
+        "z": 0
+      }
+    },
+    "graphics": {
+      "type": "group",
+      "content": [{
+        "type": "group",
+        "content": [{
+          "type": "shadow",
+          "blur": 20,
+          "offset": {
+            "x": 0,
+            "y": 4
+          },
+          "color": "rgba(0, 0, 0, 0.5)",
+          "content": {
+            "type": "group",
+            "content": [{
+              "type": "fill",
+              "style": "rgba(0, 171, 255, 1)",
+              "content": {
+                "type": "rect",
+                "x": 20,
+                "y": 20,
+                "width": 984,
+                "height": 344
+              }
+            }, {
+              "type": "fill",
+              "style": "rgba(255, 255, 255, 1)",
+              "content": {
+                "type": "text",
+                "textBaseline": "middle",
+                "textAlign": "center",
+                "font": "200 30px Helvetica neue",
+                "text": "OK",
+                "x": 512,
+                "y": 192
+              }
+            }]
+          }
+        }, {
+          "type": "fill",
+          "style": "rgba(56, 56, 56, 1)",
+          "content": {
+            "type": "text",
+            "textBaseline": "middle",
+            "textAlign": "center",
+            "font": "200 30px Helvetica neue",
+            "text": "Labeltext",
+            "x": 512,
+            "y": 576
+          }
+        }]
+      }, {
+        "type": "shadow",
+        "blur": 20,
+        "offset": {
+          "x": 0,
+          "y": 4
+        },
+        "color": "rgba(0, 0, 0, 0.5)",
+        "content": {
+          "type": "translate",
+          "x": 42,
+          "y": 63,
+          "content": {
+            "type": "scale",
+            "width": 1,
+            "height": 1,
+            "content": {
+              "type": "fill",
+              "style": "rgba(200, 0, 200, 1)",
+              "content": {
+                "type": "path",
+                "content": [{
+                  "type": "begin"
+                }, {
+                  "type": "move",
+                  "x": 0,
+                  "y": 0
+                }, {
+                  "type": "line",
+                  "x": 0,
+                  "y": 15
+                }, {
+                  "type": "line",
+                  "x": 10.6,
+                  "y": 10.6
+                }, {
+                  "type": "close"
+                }]
+              }
+            }
+          }
+        }
+      }]
     }
   }
 }]

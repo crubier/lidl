@@ -97,7 +97,7 @@ with
   interaction
     (button widget):{mouse:{buttons:Number, position:{x: Number,y:Number}} in,graphics:Graphics out}
   with
-    interaction (button):{{x:Number,y:Number,width:Number,height:Number,text:Text,pushed:Boolean}->Graphics}out is (function button)
+    interaction (button):{{layout:{x:Number,y:Number,width:Number,height:Number},text:Text,pushed:Boolean}->Graphics}out is (function button)
   is
     (
       ({
@@ -105,7 +105,7 @@ with
         graphics: ((the graphics for button widget)!)
       })
       with behaviour
-      ((button)({x:(10)y:(10)width:(200)height:(100)text:("OK")pushed:(false)})=((the graphics for button widget)?))
+      ((button)({layout:({x:(10)y:(10)width:(200)height:(100)})text:("OK")pushed:(false)})=((the graphics for button widget)?))
     )
 
 is
