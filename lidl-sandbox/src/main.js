@@ -141,6 +141,7 @@ export default class Main extends Component {
         break;
 
       case 'IntermediateGraph':
+        console.log(m.stage);
         this.setState({displayGraphs:this.state.displayGraphs.set(m.stage,m.graphSvg)});
         break;
 

@@ -36,13 +36,16 @@ module.exports = function(self) {
         //   m.header    : string      header js code
         //   m.scenario  : string      header js code
 
-        function graphToSvg(graph) {
-          let rawres = viz(graph,{format:'svg',engine:'dot'});
+        function dotToSvg(dot) {
+          let rawres = viz(dot,{format:'svg',engine:'dot'});
           let offset = rawres.search('<svg');
           rawres = rawres.substring(offset);
           rawres = rawres.replace(/(width="[^"]+pt")/g, 'width="100%"');
           rawres = rawres.replace(/(height="[^"]+pt")/g, 'height="100%"');
           return rawres;
+        }
+        function renderGraphAsap(dot,data) {
+          self.postMessage({type: 'IntermediateGraph',stage:data.stage,graphSvg:{__html:dotToSvg(dot)}});
         }
 
         var ast = Parser.parse(m.lidl);
@@ -53,7 +56,7 @@ module.exports = function(self) {
         var autoCallbacks =
         _(Config.graphTransformations)
         .map(x=>[x,function(graph,data){
-          self.postMessage({type: 'IntermediateGraph',stage:x,graphSvg:{__html:graphToSvg(graph.toDot())}});
+          _.defer(renderGraphAsap,graph.toDot(),data);
           return true;}])
         .zipObject()
         .value();
