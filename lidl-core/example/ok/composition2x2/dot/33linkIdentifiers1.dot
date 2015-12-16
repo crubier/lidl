@@ -1,52 +1,52 @@
-digraph g{node_1534 [shape="box", style="filled", color="#dff1f2", fontname="Courier", label="node_1534
+digraph g{node_6265 [shape="box", style="filled", color="#dff1f2", fontname="Courier", label="node_6265
 <%=a0%>=theInterface.theNumber;
 
 0: Number out" ]
-node_1536 [shape="box", style="filled", color="#dff1f2", fontname="Courier", label="node_1536
+node_6267 [shape="box", style="filled", color="#dff1f2", fontname="Courier", label="node_6267
 <%=a0%>=theInterface.theOther;
 
 0: Number out" ]
-node_1538 [shape="box", style="filled", color="#dff1f2", fontname="Courier", label="node_1538
+node_6269 [shape="box", style="filled", color="#dff1f2", fontname="Courier", label="node_6269
 theInterface.theResult=<%=a0%>;
 
 0: Number in" ]
-node_1540 [shape="box", style="filled", color="#dff1f2", fontname="Courier", label="node_1540
+node_6271 [shape="box", style="filled", color="#dff1f2", fontname="Courier", label="node_6271
 theInterface.theLast=<%=a0%>;
 
 0: Number in" ]
-node_1587 [shape="ellipse", style="filled", color="#ffde2f", fontname="Times", label="node_1587
+node_6318 [shape="ellipse", style="filled", color="#ffde2f", fontname="Times", label="node_6318
 Composition
 {a:$b:$}
 0: {a: Number, b: Number} out
 1: ?
 2: ?" ]
-node_1597 [shape="ellipse", style="filled", color="#ffde2f", fontname="Times", label="node_1597
+node_6328 [shape="ellipse", style="filled", color="#ffde2f", fontname="Times", label="node_6328
 Composition
 {sum:$diff:$}
 0: {sum: Number, diff: Number} in
 1: ?
 2: ?" ]
-node_1610 [shape="box", style="filled", color="#dff1f2", fontname="Courier", label="node_1610
+node_6341 [shape="box", style="filled", color="#dff1f2", fontname="Courier", label="node_6341
 <%=a0%> = active;
 
 0: Activation out" ]
-node_1613 [shape="box", style="filled", color="#dff1f2", fontname="Courier", label="node_1613
+node_6344 [shape="box", style="filled", color="#dff1f2", fontname="Courier", label="node_6344
 <%=a0%> = cool;
 
 0: {{a: Number, b: Number} -> {sum: Number, diff: Number}} out" ]
-node_1615 [shape="box", style="filled", color="#dff1f2", fontname="Courier", label="node_1615
+node_6346 [shape="box", style="filled", color="#dff1f2", fontname="Courier", label="node_6346
 if(<%=a0%> === active && <%=a1%>!==null && <%=a1%>!==undefined) {<%=a3%> = <%=a1%>(<%=a2%>);}
 
 0: Activation in
 1: {{a: Number, b: Number} -> {sum: Number, diff: Number}} in
 2: {a: Number, b: Number} in
 3: {sum: Number, diff: Number} out" ]
-node_1615 -> node_1610 [dir=none, arrowHead=none, fontname="Times-Italic", arrowsize=1, color="#9d8400", label="edge_1616",  headlabel="0: Activation out", taillabel="0: Activation in" ]
-node_1615 -> node_1613 [dir=none, arrowHead=none, fontname="Times-Italic", arrowsize=1, color="#9d8400", label="edge_1617",  headlabel="0: {{a: Number, b: Number} -> {sum: Number, diff: Number}} out", taillabel="1: {{a: Number, b: Number} -> {sum: Number, diff: Number}} in" ]
-node_1615 -> node_1587 [dir=none, arrowHead=none, fontname="Times-Italic", arrowsize=1, color="#9d8400", label="edge_1618",  headlabel="0: {a: Number, b: Number} out", taillabel="2: {a: Number, b: Number} in" ]
-node_1615 -> node_1597 [dir=none, arrowHead=none, fontname="Times-Italic", arrowsize=1, color="#9d8400", label="edge_1619",  headlabel="0: {sum: Number, diff: Number} in", taillabel="3: {sum: Number, diff: Number} out" ]
-node_1587 -> node_1534 [dir=none, arrowHead=none, fontname="Times-Italic", arrowsize=1, color="#9d8400", label="edge_1644",  headlabel="0: Number out", taillabel="1: a" ]
-node_1587 -> node_1536 [dir=none, arrowHead=none, fontname="Times-Italic", arrowsize=1, color="#9d8400", label="edge_1645",  headlabel="0: Number out", taillabel="2: b" ]
-node_1538 -> node_1597 [dir=none, arrowHead=none, fontname="Times-Italic", arrowsize=1, color="#9d8400", label="edge_1646",  headlabel="1: sum", taillabel="0: Number in" ]
-node_1540 -> node_1597 [dir=none, arrowHead=none, fontname="Times-Italic", arrowsize=1, color="#9d8400", label="edge_1647",  headlabel="2: diff", taillabel="0: Number in" ]
+node_6346 -> node_6341 [dir=none, arrowHead=none, fontname="Times-Italic", arrowsize=1, color="#9d8400", label="edge_6347",  headlabel="0: Activation out", taillabel="0: Activation in" ]
+node_6346 -> node_6344 [dir=none, arrowHead=none, fontname="Times-Italic", arrowsize=1, color="#9d8400", label="edge_6348",  headlabel="0: {{a: Number, b: Number} -> {sum: Number, diff: Number}} out", taillabel="1: {{a: Number, b: Number} -> {sum: Number, diff: Number}} in" ]
+node_6346 -> node_6318 [dir=none, arrowHead=none, fontname="Times-Italic", arrowsize=1, color="#9d8400", label="edge_6349",  headlabel="0: {a: Number, b: Number} out", taillabel="2: {a: Number, b: Number} in" ]
+node_6346 -> node_6328 [dir=none, arrowHead=none, fontname="Times-Italic", arrowsize=1, color="#9d8400", label="edge_6350",  headlabel="0: {sum: Number, diff: Number} in", taillabel="3: {sum: Number, diff: Number} out" ]
+node_6318 -> node_6265 [dir=none, arrowHead=none, fontname="Times-Italic", arrowsize=1, color="#9d8400", label="edge_6375",  headlabel="0: Number out", taillabel="1: a" ]
+node_6318 -> node_6267 [dir=none, arrowHead=none, fontname="Times-Italic", arrowsize=1, color="#9d8400", label="edge_6376",  headlabel="0: Number out", taillabel="2: b" ]
+node_6269 -> node_6328 [dir=none, arrowHead=none, fontname="Times-Italic", arrowsize=1, color="#9d8400", label="edge_6377",  headlabel="1: sum", taillabel="0: Number in" ]
+node_6271 -> node_6328 [dir=none, arrowHead=none, fontname="Times-Italic", arrowsize=1, color="#9d8400", label="edge_6378",  headlabel="2: diff", taillabel="0: Number in" ]
 }

@@ -226,6 +226,10 @@ export default class Main extends Component {
 
   clickSave(){
     localStorage.setItem("LidlSandbox."+this.state.fileName,JSON.stringify({lidl:this.state.lidl,header:this.state.header,scenario:this.state.scenario}));
+      var fileParts = [this.state.lidl];
+      var blob = new Blob(fileParts, {type : 'text/x-lidl'});
+      fileSaver.saveAs(blob,this.state.fileName+'.lidl');
+
     this.updateListOfFiles();
     this.refs.snackbarSaved.show();
   }
@@ -309,15 +313,15 @@ tooltipPosition="bottom-center"  tooltip="Name of file to save"
 
       <SmartContainer onChange={this.viewLayoutChanged.bind(this)} model={model} position={{left:0,top:56,height:this.state.position.height-56,width:this.state.position.width}}>
           <CodeEditor panelId={"CodeEditor"} panelName={"Lidl code editor"}  value={this.state.lidl} onChange={this.lidlChanged.bind(this)}/>
-          <BlockCodeEditor panelId={"BlockCodeEditor"} panelName={"Lidl visual code editor"} lidlAst={this.state.lidlAst} onChange={this.lidlAstChanged.bind(this)}/>
+          <BlockCodeEditor panelId={"BlockCodeEditor"} panelName={"Visual Lidl editor"} lidlAst={this.state.lidlAst} onChange={this.lidlAstChanged.bind(this)}/>
           <ScenarioEditor panelId={"ScenarioEditor"} panelName={"Scenario editor"}  value={this.state.scenario} onChange={this.scenarioChanged.bind(this)}/>
-          <HeaderEditor panelId={"HeaderEditor"} panelName={"Custom Header editor"} value={this.state.header} onChange={this.headerChanged.bind(this)}/>
+          <HeaderEditor panelId={"HeaderEditor"} panelName={"Header editor"} value={this.state.header} onChange={this.headerChanged.bind(this)}/>
           <ErrorDisplay panelId={"ErrorDisplay"} panelName={"Errors"}  value={this.state.error}/>
-          <Analysis panelId={"Analysis"} panelName={"Lidl code analysis"}  metrics={this.state.metrics}/>
-          <GeneratedCodeViewer panelId={"GeneratedCodeViewer"} panelName={"Generated code viewer"}  value={this.state.cleanJs}/>
-          <TraceViewer panelId={"TraceViewer"} panelName={"Trace viewer"} lidlAst={this.state.lidlAst} traceAst={this.state.traceAst} />
-          <AdvancedTraceViewer panelId={"AdvancedTraceViewer"} panelName={"Advanced Trace viewer"}  value={this.state.trace}/>
-          <ExpandedCodeViewer panelId={"ExpandedCodeViewer"} panelName={"Expanded code viewer"}  value={this.state.expandedLidl}/>
+          <Analysis panelId={"Analysis"} panelName={"Code analysis"}  metrics={this.state.metrics}/>
+          <GeneratedCodeViewer panelId={"GeneratedCodeViewer"} panelName={"Generated code"}  value={this.state.cleanJs}/>
+          <TraceViewer panelId={"TraceViewer"} panelName={"Trace"} lidlAst={this.state.lidlAst} traceAst={this.state.traceAst} />
+          <AdvancedTraceViewer panelId={"AdvancedTraceViewer"} panelName={"Advanced Trace"}  value={this.state.trace}/>
+          <ExpandedCodeViewer panelId={"ExpandedCodeViewer"} panelName={"Expanded code"}  value={this.state.expandedLidl}/>
           <Canvas panelId={"Canvas"} panelName={"Canvas"} key={10} code={this.state.js}/>
 
 {_(config.graphTransformations).map(x=>(<Graphviz key={x} panelId={"Graph "+x} panelName={_.startCase(x)}  displayGraph={this.state.displayGraphs.get(x)}/>)).value()}

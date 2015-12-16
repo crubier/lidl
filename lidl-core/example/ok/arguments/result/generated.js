@@ -259,7 +259,13 @@ var cursor = function(mouse) {
   return cursor;
 }
 
-
+var toString = function(_){
+  if(isActive(_)){
+    return _+"";
+  } else {
+    return inactive;
+  }
+}
 
 var button = function(button) {
   var button = {
@@ -369,19 +375,19 @@ var inset = function(_){
 
 ///////////////////////////////////////////////////////////////////////
 // Declaration of variables (Edges of the graph)
-var edge_697 = inactive;
-var edge_700 = inactive;
+var edge_5428 = inactive;
+var edge_5431 = inactive;
 
 ///////////////////////////////////////////////////////////////////////
 // Data flow processing (Nodes of the graph)
-// node_698
-edge_700 = active;
-// node_699
-// We dont care about edge_700, this is a fake receiver node
-// node_692
-edge_697=theArgs.a;
-// node_694
-theInterface=edge_697;
+// node_5429
+edge_5431 = active;
+// node_5430
+// We dont care about edge_5431, this is a fake receiver node
+// node_5423
+edge_5428=theArgs.a;
+// node_5425
+theInterface=edge_5428;
 
 
 ///////////////////////////////////////////////////////////////////////

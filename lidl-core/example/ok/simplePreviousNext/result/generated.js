@@ -259,7 +259,13 @@ var cursor = function(mouse) {
   return cursor;
 }
 
-
+var toString = function(_){
+  if(isActive(_)){
+    return _+"";
+  } else {
+    return inactive;
+  }
+}
 
 var button = function(button) {
   var button = {
@@ -369,30 +375,30 @@ var inset = function(_){
 
 ///////////////////////////////////////////////////////////////////////
 // Declaration of variables (Edges of the graph)
-var edge_10928 = inactive;
-var edge_10929 = inactive;
-var edge_10931 = inactive;
-var edge_10932 = inactive;
-var edge_10933 = inactive;
+var edge_15659 = inactive;
+var edge_15660 = inactive;
+var edge_15662 = inactive;
+var edge_15663 = inactive;
+var edge_15664 = inactive;
 
 ///////////////////////////////////////////////////////////////////////
 // Data flow processing (Nodes of the graph)
-// node_10906
-edge_10931 = active;
-// node_10930
-edge_10932 = edge_10931;
-edge_10933 = edge_10931;
-// node_10910
-if(edge_10932 === active) {
-edge_10929 = previousState['state_10909'];
+// node_15637
+edge_15662 = active;
+// node_15661
+edge_15663 = edge_15662;
+edge_15664 = edge_15662;
+// node_15641
+if(edge_15663 === active) {
+edge_15660 = previousState['state_15640'];
 }
-// node_10869
-theInterface.theResult=edge_10929;
-// node_10867
-edge_10928=theInterface.theNumber;
-// node_10913
-if(edge_10933 === active) {
-nextState['state_10909'] = edge_10928;
+// node_15600
+theInterface.theResult=edge_15660;
+// node_15598
+edge_15659=theInterface.theNumber;
+// node_15644
+if(edge_15664 === active) {
+nextState['state_15640'] = edge_15659;
 }
 
 
@@ -410,7 +416,7 @@ nextState['state_10909'] = edge_10928;
 function initializationFunction(data){
 return {
       memo: {},
-      state: {state_10909:null},
+      state: {state_15640:null},
       args: {},
       inter: {}
     };

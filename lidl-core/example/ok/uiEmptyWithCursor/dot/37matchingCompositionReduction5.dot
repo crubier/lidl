@@ -1,28 +1,28 @@
-digraph g{node_16928 [shape="box", style="filled", color="#dff1f2", fontname="Courier", label="node_16928
+digraph g{node_21659 [shape="box", style="filled", color="#dff1f2", fontname="Courier", label="node_21659
 <%=a0%>=theInterface.mouse;
 
 0: {buttons: Number out, position: {x: Number out, y: Number out}, wheel: {x: Number out, y: Number out, z: Number out}}" ]
-node_16930 [shape="box", style="filled", color="#dff1f2", fontname="Courier", label="node_16930
+node_21661 [shape="box", style="filled", color="#dff1f2", fontname="Courier", label="node_21661
 theInterface.graphics=<%=a0%>;
 
 0: Graphics in" ]
-node_16972 [shape="box", style="filled", color="#dff1f2", fontname="Courier", label="node_16972
+node_21703 [shape="box", style="filled", color="#dff1f2", fontname="Courier", label="node_21703
 <%=a0%> = active;
 
 0: Activation out" ]
-node_16975 [shape="box", style="filled", color="#dff1f2", fontname="Courier", label="node_16975
+node_21706 [shape="box", style="filled", color="#dff1f2", fontname="Courier", label="node_21706
 <%=a0%> = cursor;
 
 0: {{buttons: Number, position: {x: Number, y: Number}, wheel: {x: Number, y: Number, z: Number}} -> Graphics} out" ]
-node_16977 [shape="box", style="filled", color="#dff1f2", fontname="Courier", label="node_16977
+node_21708 [shape="box", style="filled", color="#dff1f2", fontname="Courier", label="node_21708
 if(<%=a0%> === active && <%=a1%>!==null && <%=a1%>!==undefined) {<%=a3%> = <%=a1%>(<%=a2%>);}
 
 0: Activation in
 1: {{buttons: Number, position: {x: Number, y: Number}, wheel: {x: Number, y: Number, z: Number}} -> Graphics} in
 2: {buttons: Number in, position: {x: Number in, y: Number in}, wheel: {x: Number in, y: Number in, z: Number in}}
 3: Graphics out" ]
-node_16977 -> node_16972 [dir=none, arrowHead=none, fontname="Times-Italic", arrowsize=1, color="#9d8400", label="edge_16978",  headlabel="0: Activation out", taillabel="0: Activation in" ]
-node_16977 -> node_16975 [dir=none, arrowHead=none, fontname="Times-Italic", arrowsize=1, color="#9d8400", label="edge_16979",  headlabel="0: {{buttons: Number, position: {x: Number, y: Number}, wheel: {x: Number, y: Number, z: Number}} -> Graphics} out", taillabel="1: {{buttons: Number, position: {x: Number, y: Number}, wheel: {x: Number, y: Number, z: Number}} -> Graphics} in" ]
-node_16977 -> node_16928 [dir=none, arrowHead=none, fontname="Times-Italic", arrowsize=1, color="#9d8400", label="edge_16995",  headlabel="0: {buttons: Number out, position: {x: Number out, y: Number out}, wheel: {x: Number out, y: Number out, z: Number out}}", taillabel="2: {buttons: Number in, position: {x: Number in, y: Number in}, wheel: {x: Number in, y: Number in, z: Number in}}" ]
-node_16930 -> node_16977 [dir=none, arrowHead=none, fontname="Times-Italic", arrowsize=1, color="#9d8400", label="edge_16996",  headlabel="3: Graphics out", taillabel="0: Graphics in" ]
+node_21708 -> node_21703 [dir=none, arrowHead=none, fontname="Times-Italic", arrowsize=1, color="#9d8400", label="edge_21709",  headlabel="0: Activation out", taillabel="0: Activation in" ]
+node_21708 -> node_21706 [dir=none, arrowHead=none, fontname="Times-Italic", arrowsize=1, color="#9d8400", label="edge_21710",  headlabel="0: {{buttons: Number, position: {x: Number, y: Number}, wheel: {x: Number, y: Number, z: Number}} -> Graphics} out", taillabel="1: {{buttons: Number, position: {x: Number, y: Number}, wheel: {x: Number, y: Number, z: Number}} -> Graphics} in" ]
+node_21708 -> node_21659 [dir=none, arrowHead=none, fontname="Times-Italic", arrowsize=1, color="#9d8400", label="edge_21726",  headlabel="0: {buttons: Number out, position: {x: Number out, y: Number out}, wheel: {x: Number out, y: Number out, z: Number out}}", taillabel="2: {buttons: Number in, position: {x: Number in, y: Number in}, wheel: {x: Number in, y: Number in, z: Number in}}" ]
+node_21661 -> node_21708 [dir=none, arrowHead=none, fontname="Times-Italic", arrowsize=1, color="#9d8400", label="edge_21727",  headlabel="3: Graphics out", taillabel="0: Graphics in" ]
 }

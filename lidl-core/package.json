@@ -1,11 +1,12 @@
 {
   "name": "lidl-core",
-  "version": "0.8.8",
+  "version": "0.8.9",
   "description": "The LIDL Interaction Desccription Language",
   "main": "index.js",
   "scripts": {
     "build": "node ./build.js && ./node_modules/.bin/babel -d lib src/",
     "test": "jest",
+    "doc":"pandoc README.md --to=html --output README.html --mathjax=http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML --standalone  --highlight-style=pygments --template=template.html --table-of-contents --toc-depth=3  --filter pandoc-citeproc && pandoc CHANGELOG.md --to=html --output CHANGELOG.html --mathjax=http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML --standalone  --highlight-style=pygments --template=template.html --table-of-contents --toc-depth=3  --filter pandoc-citeproc",
     "prepublish": "npm run build && npm run test"
   },
   "repository": {

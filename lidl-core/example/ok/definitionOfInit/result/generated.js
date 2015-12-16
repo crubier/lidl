@@ -259,7 +259,13 @@ var cursor = function(mouse) {
   return cursor;
 }
 
-
+var toString = function(_){
+  if(isActive(_)){
+    return _+"";
+  } else {
+    return inactive;
+  }
+}
 
 var button = function(button) {
   var button = {
@@ -369,52 +375,52 @@ var inset = function(_){
 
 ///////////////////////////////////////////////////////////////////////
 // Declaration of variables (Edges of the graph)
-var edge_2700 = inactive;
-var edge_2705 = inactive;
-var edge_2714 = inactive;
-var edge_2728 = inactive;
-var edge_2730 = inactive;
-var edge_2731 = inactive;
-var edge_2733 = inactive;
-var edge_2734 = inactive;
-var edge_2735 = inactive;
-var edge_2736 = inactive;
-var edge_2737 = inactive;
-var edge_2739 = inactive;
+var edge_7431 = inactive;
+var edge_7436 = inactive;
+var edge_7445 = inactive;
+var edge_7459 = inactive;
+var edge_7461 = inactive;
+var edge_7462 = inactive;
+var edge_7464 = inactive;
+var edge_7465 = inactive;
+var edge_7466 = inactive;
+var edge_7467 = inactive;
+var edge_7468 = inactive;
+var edge_7470 = inactive;
 
 ///////////////////////////////////////////////////////////////////////
 // Data flow processing (Nodes of the graph)
-// node_2695
-edge_2714 = 1;
-// node_2693
-edge_2705 = boolNot;
-// node_2691
-edge_2700 = isActive;
-// node_2682
-edge_2733 = active;
-// node_2732
-edge_2734 = edge_2733;
-edge_2735 = edge_2733;
-edge_2736 = edge_2733;
-edge_2737 = edge_2733;
-// node_2712
-if(edge_2737 === active) {
-nextState['state_2708'] = edge_2714;
+// node_7426
+edge_7445 = 1;
+// node_7424
+edge_7436 = boolNot;
+// node_7422
+edge_7431 = isActive;
+// node_7413
+edge_7464 = active;
+// node_7463
+edge_7465 = edge_7464;
+edge_7466 = edge_7464;
+edge_7467 = edge_7464;
+edge_7468 = edge_7464;
+// node_7443
+if(edge_7468 === active) {
+nextState['state_7439'] = edge_7445;
 }
-// node_2709
-if(edge_2736 === active) {
-edge_2728 = previousState['state_2708'];
+// node_7440
+if(edge_7467 === active) {
+edge_7459 = previousState['state_7439'];
 }
-// node_2698
-if(edge_2734 === active && edge_2700!==null && edge_2700!==undefined) {edge_2730 = edge_2700(edge_2728);}
-// node_2703
-if(edge_2735 === active && edge_2705!==null && edge_2705!==undefined) {edge_2731 = edge_2705(edge_2730);}
-// node_2601
-theInterface.theResult=edge_2731;
-// node_2599
-edge_2739=theInterface.theNumber;
-// node_2738
-// We dont care about edge_2739, this is a fake receiver node
+// node_7429
+if(edge_7465 === active && edge_7431!==null && edge_7431!==undefined) {edge_7461 = edge_7431(edge_7459);}
+// node_7434
+if(edge_7466 === active && edge_7436!==null && edge_7436!==undefined) {edge_7462 = edge_7436(edge_7461);}
+// node_7332
+theInterface.theResult=edge_7462;
+// node_7330
+edge_7470=theInterface.theNumber;
+// node_7469
+// We dont care about edge_7470, this is a fake receiver node
 
 
 ///////////////////////////////////////////////////////////////////////
@@ -431,7 +437,7 @@ edge_2739=theInterface.theNumber;
 function initializationFunction(data){
 return {
       memo: {},
-      state: {state_2708:null},
+      state: {state_7439:null},
       args: {},
       inter: {}
     };

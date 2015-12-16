@@ -259,7 +259,13 @@ var cursor = function(mouse) {
   return cursor;
 }
 
-
+var toString = function(_){
+  if(isActive(_)){
+    return _+"";
+  } else {
+    return inactive;
+  }
+}
 
 var button = function(button) {
   var button = {
@@ -369,48 +375,48 @@ var inset = function(_){
 
 ///////////////////////////////////////////////////////////////////////
 // Declaration of variables (Edges of the graph)
-var edge_11343 = inactive;
-var edge_11352 = inactive;
-var edge_11357 = inactive;
-var edge_11361 = inactive;
-var edge_11363 = inactive;
-var edge_11364 = inactive;
-var edge_11365 = inactive;
-var edge_11366 = inactive;
-var edge_11368 = inactive;
-var edge_11369 = inactive;
-var edge_11370 = inactive;
+var edge_16074 = inactive;
+var edge_16083 = inactive;
+var edge_16088 = inactive;
+var edge_16092 = inactive;
+var edge_16094 = inactive;
+var edge_16095 = inactive;
+var edge_16096 = inactive;
+var edge_16097 = inactive;
+var edge_16099 = inactive;
+var edge_16100 = inactive;
+var edge_16101 = inactive;
 
 ///////////////////////////////////////////////////////////////////////
 // Data flow processing (Nodes of the graph)
-// node_11339
-edge_11343 = addition;
-// node_11331
-edge_11363 = active;
-// node_11362
-edge_11364 = edge_11363;
-edge_11365 = edge_11363;
-edge_11366 = edge_11363;
-// node_11347
-if(edge_11365 === active) {
-edge_11368 = previousState['state_11346'];
+// node_16070
+edge_16074 = addition;
+// node_16062
+edge_16094 = active;
+// node_16093
+edge_16095 = edge_16094;
+edge_16096 = edge_16094;
+edge_16097 = edge_16094;
+// node_16078
+if(edge_16096 === active) {
+edge_16099 = previousState['state_16077'];
 }
-// node_11367
-edge_11369 = edge_11368;
-edge_11370 = edge_11368;
-// node_11358
-edge_11361 = {};
-edge_11361['a'] = edge_11369;
-edge_11361['b'] = edge_11370;
-// node_11341
-if(edge_11364 === active && edge_11343!==null && edge_11343!==undefined) {edge_11357 = edge_11343(edge_11361);}
-// node_11324
-theInterface=edge_11357;
-// node_11322
-edge_11352=theArgs.a;
-// node_11350
-if(edge_11366 === active) {
-nextState['state_11346'] = edge_11352;
+// node_16098
+edge_16100 = edge_16099;
+edge_16101 = edge_16099;
+// node_16089
+edge_16092 = {};
+edge_16092['a'] = edge_16100;
+edge_16092['b'] = edge_16101;
+// node_16072
+if(edge_16095 === active && edge_16074!==null && edge_16074!==undefined) {edge_16088 = edge_16074(edge_16092);}
+// node_16055
+theInterface=edge_16088;
+// node_16053
+edge_16083=theArgs.a;
+// node_16081
+if(edge_16097 === active) {
+nextState['state_16077'] = edge_16083;
 }
 
 
@@ -428,7 +434,7 @@ nextState['state_11346'] = edge_11352;
 function initializationFunction(data){
 return {
       memo: {},
-      state: {state_11346:null},
+      state: {state_16077:null},
       args: {},
       inter: {}
     };

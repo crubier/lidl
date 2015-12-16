@@ -259,7 +259,13 @@ var cursor = function(mouse) {
   return cursor;
 }
 
-
+var toString = function(_){
+  if(isActive(_)){
+    return _+"";
+  } else {
+    return inactive;
+  }
+}
 
 var button = function(button) {
   var button = {
@@ -369,171 +375,171 @@ var inset = function(_){
 
 ///////////////////////////////////////////////////////////////////////
 // Declaration of variables (Edges of the graph)
-var edge_5420 = inactive;
-var edge_5472 = inactive;
-var edge_5474 = inactive;
-var edge_5492 = inactive;
-var edge_5494 = inactive;
-var edge_5498 = inactive;
-var edge_5500 = inactive;
-var edge_5502 = inactive;
-var edge_5506 = inactive;
-var edge_5508 = inactive;
-var edge_5512 = inactive;
-var edge_5514 = inactive;
-var edge_5516 = inactive;
-var edge_5520 = inactive;
-var edge_5531 = inactive;
-var edge_5532 = inactive;
-var edge_5533 = inactive;
-var edge_5534 = inactive;
-var edge_5535 = inactive;
-var edge_5536 = inactive;
-var edge_5537 = inactive;
-var edge_5538 = inactive;
-var edge_5539 = inactive;
-var edge_5540 = inactive;
-var edge_5541 = inactive;
-var edge_5542 = inactive;
-var edge_5543 = inactive;
-var edge_5545 = inactive;
-var edge_5546 = inactive;
-var edge_5547 = inactive;
-var edge_5549 = inactive;
-var edge_5550 = inactive;
-var edge_5551 = inactive;
-var edge_5553 = inactive;
-var edge_5554 = inactive;
-var edge_5555 = inactive;
-var edge_5557 = inactive;
-var edge_5558 = inactive;
-var edge_5559 = inactive;
-var edge_5561 = inactive;
-var edge_5562 = inactive;
-var edge_5563 = inactive;
-var edge_5565 = inactive;
-var edge_5566 = inactive;
-var edge_5567 = inactive;
-var edge_5569 = inactive;
-var edge_5570 = inactive;
-var edge_5571 = inactive;
+var edge_10151 = inactive;
+var edge_10203 = inactive;
+var edge_10205 = inactive;
+var edge_10223 = inactive;
+var edge_10225 = inactive;
+var edge_10229 = inactive;
+var edge_10231 = inactive;
+var edge_10233 = inactive;
+var edge_10237 = inactive;
+var edge_10239 = inactive;
+var edge_10243 = inactive;
+var edge_10245 = inactive;
+var edge_10247 = inactive;
+var edge_10251 = inactive;
+var edge_10262 = inactive;
+var edge_10263 = inactive;
+var edge_10264 = inactive;
+var edge_10265 = inactive;
+var edge_10266 = inactive;
+var edge_10267 = inactive;
+var edge_10268 = inactive;
+var edge_10269 = inactive;
+var edge_10270 = inactive;
+var edge_10271 = inactive;
+var edge_10272 = inactive;
+var edge_10273 = inactive;
+var edge_10274 = inactive;
+var edge_10276 = inactive;
+var edge_10277 = inactive;
+var edge_10278 = inactive;
+var edge_10280 = inactive;
+var edge_10281 = inactive;
+var edge_10282 = inactive;
+var edge_10284 = inactive;
+var edge_10285 = inactive;
+var edge_10286 = inactive;
+var edge_10288 = inactive;
+var edge_10289 = inactive;
+var edge_10290 = inactive;
+var edge_10292 = inactive;
+var edge_10293 = inactive;
+var edge_10294 = inactive;
+var edge_10296 = inactive;
+var edge_10297 = inactive;
+var edge_10298 = inactive;
+var edge_10300 = inactive;
+var edge_10301 = inactive;
+var edge_10302 = inactive;
 
 ///////////////////////////////////////////////////////////////////////
 // Data flow processing (Nodes of the graph)
-// node_5408
-edge_5553 = 1;
-// node_5552
-edge_5554 = edge_5553;
-edge_5555 = edge_5553;
-// node_5405
-edge_5549 = whenThenElse;
-// node_5548
-edge_5550 = edge_5549;
-edge_5551 = edge_5549;
-// node_5403
-edge_5420 = boolNot;
-// node_5400
-edge_5545 = isActive;
-// node_5544
-edge_5546 = edge_5545;
-edge_5547 = edge_5545;
-// node_5371
-edge_5531 = active;
-// node_5530
-edge_5532 = edge_5531;
-edge_5533 = edge_5531;
-edge_5534 = edge_5531;
-edge_5535 = edge_5531;
-edge_5536 = edge_5531;
-edge_5537 = edge_5531;
-edge_5538 = edge_5531;
-edge_5539 = edge_5531;
-edge_5540 = edge_5531;
-edge_5541 = edge_5531;
-edge_5542 = edge_5531;
-edge_5543 = edge_5531;
-// node_5446
-if(edge_5539 === active) {
-edge_5514 = previousState['state_5445'];
+// node_10139
+edge_10284 = 1;
+// node_10283
+edge_10285 = edge_10284;
+edge_10286 = edge_10284;
+// node_10136
+edge_10280 = whenThenElse;
+// node_10279
+edge_10281 = edge_10280;
+edge_10282 = edge_10280;
+// node_10134
+edge_10151 = boolNot;
+// node_10131
+edge_10276 = isActive;
+// node_10275
+edge_10277 = edge_10276;
+edge_10278 = edge_10276;
+// node_10102
+edge_10262 = active;
+// node_10261
+edge_10263 = edge_10262;
+edge_10264 = edge_10262;
+edge_10265 = edge_10262;
+edge_10266 = edge_10262;
+edge_10267 = edge_10262;
+edge_10268 = edge_10262;
+edge_10269 = edge_10262;
+edge_10270 = edge_10262;
+edge_10271 = edge_10262;
+edge_10272 = edge_10262;
+edge_10273 = edge_10262;
+edge_10274 = edge_10262;
+// node_10177
+if(edge_10270 === active) {
+edge_10245 = previousState['state_10176'];
 }
-// node_5442
-if(edge_5538 === active) {
-nextState['state_5438'] = edge_5554;
+// node_10173
+if(edge_10269 === active) {
+nextState['state_10169'] = edge_10285;
 }
-// node_5439
-if(edge_5537 === active) {
-edge_5472 = previousState['state_5438'];
+// node_10170
+if(edge_10268 === active) {
+edge_10203 = previousState['state_10169'];
 }
-// node_5413
-if(edge_5532 === active && edge_5546!==null && edge_5546!==undefined) {edge_5474 = edge_5546(edge_5472);}
-// node_5418
-if(edge_5533 === active && edge_5420!==null && edge_5420!==undefined) {edge_5492 = edge_5420(edge_5474);}
-// node_5491
-edge_5494 = {};
-edge_5494['cond'] = edge_5492;
-edge_5494['source'] = edge_5541;
-// node_5423
-if(edge_5534 === active && edge_5550!==null && edge_5550!==undefined) {edge_5498 = edge_5550(edge_5494);}
-// node_5495
-edge_5508 = edge_5498['a'];
-edge_5512 = edge_5498['b'];
-// node_5511
-if(edge_5512 === active) {edge_5563 = edge_5514;}
-// node_5507
-if(edge_5508 === active) {edge_5562 = edge_5555;}
-// node_5560
-edge_5561=null;
-if(edge_5561===null ){
-  edge_5561 = edge_5562;
-} else if (edge_5562 !== null){
-  throw new Error('Multiple active assignments to the same signal edge_5561 : '+edge_5561 + ' and ' + edge_5562);
-}if(edge_5561===null ){
-  edge_5561 = edge_5563;
-} else if (edge_5563 !== null){
-  throw new Error('Multiple active assignments to the same signal edge_5561 : '+edge_5561 + ' and ' + edge_5563);
+// node_10144
+if(edge_10263 === active && edge_10277!==null && edge_10277!==undefined) {edge_10205 = edge_10277(edge_10203);}
+// node_10149
+if(edge_10264 === active && edge_10151!==null && edge_10151!==undefined) {edge_10223 = edge_10151(edge_10205);}
+// node_10222
+edge_10225 = {};
+edge_10225['cond'] = edge_10223;
+edge_10225['source'] = edge_10272;
+// node_10154
+if(edge_10265 === active && edge_10281!==null && edge_10281!==undefined) {edge_10229 = edge_10281(edge_10225);}
+// node_10226
+edge_10239 = edge_10229['a'];
+edge_10243 = edge_10229['b'];
+// node_10242
+if(edge_10243 !== inactive) {edge_10294 = edge_10245;}
+// node_10238
+if(edge_10239 !== inactive) {edge_10293 = edge_10286;}
+// node_10291
+edge_10292=null;
+if(edge_10292===null ){
+  edge_10292 = edge_10293;
+} else if (edge_10293 !== null){
+  throw new Error('Multiple active assignments to the same signal edge_10292 : '+edge_10292 + ' and ' + edge_10293);
+}if(edge_10292===null ){
+  edge_10292 = edge_10294;
+} else if (edge_10294 !== null){
+  throw new Error('Multiple active assignments to the same signal edge_10292 : '+edge_10292 + ' and ' + edge_10294);
 }
-// node_5097
-edge_5557=theInterface.theNumber;
-// node_5556
-edge_5558 = edge_5557;
-edge_5559 = edge_5557;
-// node_5428
-if(edge_5535 === active && edge_5547!==null && edge_5547!==undefined) {edge_5500 = edge_5547(edge_5558);}
-// node_5499
-edge_5502 = {};
-edge_5502['cond'] = edge_5500;
-edge_5502['source'] = edge_5542;
-// node_5433
-if(edge_5536 === active && edge_5551!==null && edge_5551!==undefined) {edge_5506 = edge_5551(edge_5502);}
-// node_5503
-edge_5516 = edge_5506['a'];
-edge_5520 = edge_5506['b'];
-// node_5519
-if(edge_5520 === active) {edge_5571 = edge_5561;}
-// node_5515
-if(edge_5516 === active) {edge_5570 = edge_5559;}
-// node_5568
-edge_5569=null;
-if(edge_5569===null ){
-  edge_5569 = edge_5570;
-} else if (edge_5570 !== null){
-  throw new Error('Multiple active assignments to the same signal edge_5569 : '+edge_5569 + ' and ' + edge_5570);
-}if(edge_5569===null ){
-  edge_5569 = edge_5571;
-} else if (edge_5571 !== null){
-  throw new Error('Multiple active assignments to the same signal edge_5569 : '+edge_5569 + ' and ' + edge_5571);
+// node_9828
+edge_10288=theInterface.theNumber;
+// node_10287
+edge_10289 = edge_10288;
+edge_10290 = edge_10288;
+// node_10159
+if(edge_10266 === active && edge_10278!==null && edge_10278!==undefined) {edge_10231 = edge_10278(edge_10289);}
+// node_10230
+edge_10233 = {};
+edge_10233['cond'] = edge_10231;
+edge_10233['source'] = edge_10273;
+// node_10164
+if(edge_10267 === active && edge_10282!==null && edge_10282!==undefined) {edge_10237 = edge_10282(edge_10233);}
+// node_10234
+edge_10247 = edge_10237['a'];
+edge_10251 = edge_10237['b'];
+// node_10250
+if(edge_10251 !== inactive) {edge_10302 = edge_10292;}
+// node_10246
+if(edge_10247 !== inactive) {edge_10301 = edge_10290;}
+// node_10299
+edge_10300=null;
+if(edge_10300===null ){
+  edge_10300 = edge_10301;
+} else if (edge_10301 !== null){
+  throw new Error('Multiple active assignments to the same signal edge_10300 : '+edge_10300 + ' and ' + edge_10301);
+}if(edge_10300===null ){
+  edge_10300 = edge_10302;
+} else if (edge_10302 !== null){
+  throw new Error('Multiple active assignments to the same signal edge_10300 : '+edge_10300 + ' and ' + edge_10302);
 }
-// node_5524
-if(edge_5543 === active) {edge_5565 = edge_5569;}
-// node_5564
-edge_5566 = edge_5565;
-edge_5567 = edge_5565;
-// node_5449
-if(edge_5540 === active) {
-nextState['state_5445'] = edge_5567;
+// node_10255
+if(edge_10274 !== inactive) {edge_10296 = edge_10300;}
+// node_10295
+edge_10297 = edge_10296;
+edge_10298 = edge_10296;
+// node_10180
+if(edge_10271 === active) {
+nextState['state_10176'] = edge_10298;
 }
-// node_5099
-theInterface.theResult=edge_5566;
+// node_9830
+theInterface.theResult=edge_10297;
 
 
 ///////////////////////////////////////////////////////////////////////
@@ -550,8 +556,8 @@ theInterface.theResult=edge_5566;
 function initializationFunction(data){
 return {
       memo: {},
-      state: {state_5438:null,
-state_5445:null},
+      state: {state_10169:null,
+state_10176:null},
       args: {},
       inter: {}
     };

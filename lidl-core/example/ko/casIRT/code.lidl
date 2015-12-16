@@ -1,0 +1,223 @@
+
+
+
+
+
+interface
+  CommandPanel
+is
+    {
+    speedSlider:Slider,
+    reticule:Reticule,
+    dis: Boolean out,
+    rot: Boolean out,
+    cal: Boolean out,
+    err: Boolean out,
+    autoButton: Button,
+    rotButton: Button,
+    activeRover:DropDown
+  }
+
+
+interface
+  Controller
+is
+  {
+    error : Boolean in,
+    modeRequest : Mode out,
+    modeActual: Mode in,
+    listOfRovers: RoverList in,
+    selectedRover: Rover out
+  }
+
+interface
+  Joystick
+is
+  {
+    axes:{x:Number,y:Number,z:Number} in,
+    slider: Number in
+  }
+
+
+data
+  Mode
+is
+  Text
+
+
+
+interaction
+    (error from (theController:Controller)):Boolean out
+is
+    (
+      (result)
+      with behaviour
+      (   (theController) = ({error:(result)})  )
+    )
+
+
+
+
+
+
+
+interaction
+    (joystick min):Number out
+is
+    (-30)
+
+interaction
+    (auto mode):Text out
+is
+   ("Auto Mode")
+
+
+interaction
+  (command panel (panelActivation:Activation in)
+        (theJoystick:Joystick)
+        (theController:Controller)
+    ):CommandPanel
+is
+(
+  ({
+    speedSlider: (slider ((panelActivation) and ((mode) == (auto mode)))
+        displaying (speedSetpoint)
+        between (0) and (2) ("m/s")
+        )
+
+    reticule: (reticule (panelActivation)
+        displaying (linear acceleration from (theJoystick))
+            between (joystick min lin) and (joystick max lin)
+            when ((mode) != (auto mode))
+        and (rotational acceleration from (theJoystick))
+            between (joystick min rot) and (joystick max rot)
+            when (true)
+        )
+
+    dis: ((mode) == (displacement mode))
+    rot: ((mode) == (rotation mode))
+    cal: ((mode) == (calibration mode))
+    err: ( (error from (theController)) or (error from (theJoystick)) )
+
+    autoButton: ( button (panelActivation)
+        with text ("Auto")
+        displaying ((mode) == (auto mode))
+        triggering (request (theController) to arm mode (auto mode))
+        )
+
+
+    rotButton: ( button (panelActivation)
+        with text ("Rot")
+        displaying ((mode) == (rotation mode))
+        triggering (request (theController) to arm mode (rotation mode))
+        )
+
+    activeRover:( drop down (panelActivation)
+        displaying (list of rovers from (theController))
+        selecting (the active rover of (theController))
+    )
+
+  })
+
+  with behaviour
+
+  ((mode)=(mode from (theController)))
+
+  )
+
+
+interface
+    Slider
+is
+   {
+        min:Number out,
+        max:Number out,
+        value:Number out
+   }
+
+
+
+interaction
+    (slider (act:Activation in)
+        displaying (theValue:Number in)
+        between (theMinValue:Number in)
+        and (theMaxValue:Number in)
+        (theUnits: Text in)
+        ):Slider
+is
+  (
+  if ((act) is active)
+  then
+  ({
+      min:(theMinValue)
+      max:(theMaxValue)
+      value:(theValue)
+  })
+  else
+  ({})
+ )
+
+
+
+interface
+   Button
+is
+    {
+       lit:Boolean out,
+       click:Activation in
+    }
+
+
+interaction
+   ( button (act:Activation in)
+        with text ( theText:Text in )
+        displaying (theLight:Boolean in)
+        triggering (theThingTodo:Activation out)
+    ):Button
+is
+(
+  if
+  ((act) is active)
+  then
+  ({
+      lit:(theLight)
+      click:(theThingTodo)
+  })
+  else
+  ({})
+ )
+
+
+interface
+  DropDown
+is
+  {
+     selected:Rover out,
+     list:RoverList out,
+     startSelection: Activation in
+     selection:Rover in
+  }
+
+interaction
+   ( drop down (act:Activation in)
+        displaying (theList:RoverList )
+        selecting (theSelection:Rover)
+    ):DropDown
+is
+(
+  if
+  ((act) is active)
+  then
+  (
+    ({
+       selected:(theSelection)
+       list:(theList)
+       startSelection: (show list)
+       selection:(theSelection)
+    })
+    with behaviour
+    (theSelection)
+  )
+  else
+  ({})
+)

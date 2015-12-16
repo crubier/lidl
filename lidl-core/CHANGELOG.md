@@ -1,5 +1,10 @@
 # LIDL changelog
 
+# 0.8.9
+
+- Interfaces taken into account when compiling
+
+
 # 0.8.8
 
 - Fixed a bug during the interface instantiation phase

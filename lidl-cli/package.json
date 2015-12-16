@@ -1,6 +1,6 @@
 {
   "name": "lidl-cli",
-  "version": "0.8.8",
+  "version": "0.8.9",
   "description": "Lidl Command Line Interface",
   "main": "index.js",
   "dependencies": {
@@ -16,6 +16,7 @@
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "build": "./node_modules/.bin/babel -d . src/",
+    "doc":"pandoc README.md --to=html --output README.html --mathjax=http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML --standalone  --highlight-style=pygments --template=template.html --table-of-contents --toc-depth=3  --filter pandoc-citeproc",
     "prepublish": "npm run build"
   },
   "repository": {

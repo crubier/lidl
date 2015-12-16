@@ -1,102 +1,102 @@
-digraph g{node_1350 [shape="ellipse", style="filled", color="#ffd1d1", fontname="Times", label="Function
+digraph g{node_6081 [shape="ellipse", style="filled", color="#ffd1d1", fontname="Times", label="Function
 functioncool" ]
-node_1353 [shape="ellipse", style="filled", color="#ffd1d1", fontname="Times", label="Custom
+node_6084 [shape="ellipse", style="filled", color="#ffd1d1", fontname="Times", label="Custom
 theNumber" ]
-node_1357 [shape="ellipse", style="filled", color="#ffd1d1", fontname="Times", label="CoReference
+node_6088 [shape="ellipse", style="filled", color="#ffd1d1", fontname="Times", label="CoReference
 $?" ]
-node_1361 [shape="ellipse", style="filled", color="#ffd1d1", fontname="Times", label="Custom
+node_6092 [shape="ellipse", style="filled", color="#ffd1d1", fontname="Times", label="Custom
 y" ]
-node_1365 [shape="ellipse", style="filled", color="#ffd1d1", fontname="Times", label="CoReference
+node_6096 [shape="ellipse", style="filled", color="#ffd1d1", fontname="Times", label="CoReference
 $?" ]
-node_1369 [shape="ellipse", style="filled", color="#ffd1d1", fontname="Times", label="Custom
+node_6100 [shape="ellipse", style="filled", color="#ffd1d1", fontname="Times", label="Custom
 theResult" ]
-node_1373 [shape="ellipse", style="filled", color="#ffd1d1", fontname="Times", label="Reference
+node_6104 [shape="ellipse", style="filled", color="#ffd1d1", fontname="Times", label="Reference
 $!" ]
-node_1377 [shape="ellipse", style="filled", color="#ffd1d1", fontname="Times", label="Custom
+node_6108 [shape="ellipse", style="filled", color="#ffd1d1", fontname="Times", label="Custom
 wow" ]
-node_1381 [shape="ellipse", style="filled", color="#ffd1d1", fontname="Times", label="Reference
+node_6112 [shape="ellipse", style="filled", color="#ffd1d1", fontname="Times", label="Reference
 $!" ]
-node_1385 [shape="ellipse", style="filled", color="#ffd1d1", fontname="Times", label="Composition
+node_6116 [shape="ellipse", style="filled", color="#ffd1d1", fontname="Times", label="Composition
 {theNumber:$theOther:$theResult:$theLast:$}" ]
-node_1392 [shape="ellipse", style="filled", color="#ffd1d1", fontname="Times", label="Custom
+node_6123 [shape="ellipse", style="filled", color="#ffd1d1", fontname="Times", label="Custom
 cool" ]
-node_1395 [shape="ellipse", style="filled", color="#ffd1d1", fontname="Times", label="Reference
+node_6126 [shape="ellipse", style="filled", color="#ffd1d1", fontname="Times", label="Reference
 $!" ]
-node_1399 [shape="ellipse", style="filled", color="#ffd1d1", fontname="Times", label="Reference
+node_6130 [shape="ellipse", style="filled", color="#ffd1d1", fontname="Times", label="Reference
 $!" ]
-node_1403 [shape="ellipse", style="filled", color="#ffd1d1", fontname="Times", label="Composition
+node_6134 [shape="ellipse", style="filled", color="#ffd1d1", fontname="Times", label="Composition
 {a:$b:$}" ]
-node_1408 [shape="ellipse", style="filled", color="#ffd1d1", fontname="Times", label="CoReference
+node_6139 [shape="ellipse", style="filled", color="#ffd1d1", fontname="Times", label="CoReference
 $?" ]
-node_1412 [shape="ellipse", style="filled", color="#ffd1d1", fontname="Times", label="CoReference
+node_6143 [shape="ellipse", style="filled", color="#ffd1d1", fontname="Times", label="CoReference
 $?" ]
-node_1416 [shape="ellipse", style="filled", color="#ffd1d1", fontname="Times", label="Composition
+node_6147 [shape="ellipse", style="filled", color="#ffd1d1", fontname="Times", label="Composition
 {sum:$diff:$}" ]
-node_1421 [shape="ellipse", style="filled", color="#ffd1d1", fontname="Times", label="FunctionApplication
+node_6152 [shape="ellipse", style="filled", color="#ffd1d1", fontname="Times", label="FunctionApplication
 apply$to$andget$" ]
-node_1427 [shape="ellipse", style="filled", color="#ffd1d1", fontname="Times", label="Behaviour
+node_6158 [shape="ellipse", style="filled", color="#ffd1d1", fontname="Times", label="Behaviour
 $withbehaviour$" ]
-node_1260 [shape="ellipse", style="filled", color="#afe7ff", fontname="Times", label="bob" ]
-node_1261 [shape="ellipse", style="filled", color="#afe7ff", fontname="Times", label="cool" ]
-node_1262 [shape="ellipse", style="filled", color="#2fcdff", fontname="Times", label="theInterface : {{a: Number, b: Number} -> {sum: Number, diff: Number}} out" ]
-node_1269 [shape="ellipse", style="filled", color="#2fcdff", fontname="Times", label="theInterface" ]
-node_1270 [shape="ellipse", style="filled", color="#2fcdff", fontname="Times", label="theInterface.theNumber : Number in" ]
-node_1272 [shape="ellipse", style="filled", color="#2fcdff", fontname="Times", label="theInterface.theOther : Number in" ]
-node_1274 [shape="ellipse", style="filled", color="#2fcdff", fontname="Times", label="theInterface.theResult : Number out" ]
-node_1276 [shape="ellipse", style="filled", color="#2fcdff", fontname="Times", label="theInterface.theLast : Number out" ]
-node_1357 -> node_1353 [dir=forward, arrowHead=normal, fontname="Times-Italic", arrowsize=1, color="#d00000", label="1",  headlabel="", taillabel="" ]
-node_1365 -> node_1361 [dir=forward, arrowHead=normal, fontname="Times-Italic", arrowsize=1, color="#d00000", label="1",  headlabel="", taillabel="" ]
-node_1373 -> node_1369 [dir=forward, arrowHead=normal, fontname="Times-Italic", arrowsize=1, color="#d00000", label="1",  headlabel="", taillabel="" ]
-node_1381 -> node_1377 [dir=forward, arrowHead=normal, fontname="Times-Italic", arrowsize=1, color="#d00000", label="1",  headlabel="", taillabel="" ]
-node_1385 -> node_1357 [dir=forward, arrowHead=normal, fontname="Times-Italic", arrowsize=1, color="#d00000", label="1",  headlabel="", taillabel="" ]
-node_1385 -> node_1365 [dir=forward, arrowHead=normal, fontname="Times-Italic", arrowsize=1, color="#d00000", label="2",  headlabel="", taillabel="" ]
-node_1385 -> node_1373 [dir=forward, arrowHead=normal, fontname="Times-Italic", arrowsize=1, color="#d00000", label="3",  headlabel="", taillabel="" ]
-node_1385 -> node_1381 [dir=forward, arrowHead=normal, fontname="Times-Italic", arrowsize=1, color="#d00000", label="4",  headlabel="", taillabel="" ]
-node_1395 -> node_1353 [dir=forward, arrowHead=normal, fontname="Times-Italic", arrowsize=1, color="#d00000", label="1",  headlabel="", taillabel="" ]
-node_1399 -> node_1361 [dir=forward, arrowHead=normal, fontname="Times-Italic", arrowsize=1, color="#d00000", label="1",  headlabel="", taillabel="" ]
-node_1403 -> node_1395 [dir=forward, arrowHead=normal, fontname="Times-Italic", arrowsize=1, color="#d00000", label="1",  headlabel="", taillabel="" ]
-node_1403 -> node_1399 [dir=forward, arrowHead=normal, fontname="Times-Italic", arrowsize=1, color="#d00000", label="2",  headlabel="", taillabel="" ]
-node_1408 -> node_1369 [dir=forward, arrowHead=normal, fontname="Times-Italic", arrowsize=1, color="#d00000", label="1",  headlabel="", taillabel="" ]
-node_1412 -> node_1377 [dir=forward, arrowHead=normal, fontname="Times-Italic", arrowsize=1, color="#d00000", label="1",  headlabel="", taillabel="" ]
-node_1416 -> node_1408 [dir=forward, arrowHead=normal, fontname="Times-Italic", arrowsize=1, color="#d00000", label="1",  headlabel="", taillabel="" ]
-node_1416 -> node_1412 [dir=forward, arrowHead=normal, fontname="Times-Italic", arrowsize=1, color="#d00000", label="2",  headlabel="", taillabel="" ]
-node_1421 -> node_1392 [dir=forward, arrowHead=normal, fontname="Times-Italic", arrowsize=1, color="#d00000", label="1",  headlabel="", taillabel="" ]
-node_1421 -> node_1403 [dir=forward, arrowHead=normal, fontname="Times-Italic", arrowsize=1, color="#d00000", label="2",  headlabel="", taillabel="" ]
-node_1421 -> node_1416 [dir=forward, arrowHead=normal, fontname="Times-Italic", arrowsize=1, color="#d00000", label="3",  headlabel="", taillabel="" ]
-node_1427 -> node_1385 [dir=forward, arrowHead=normal, fontname="Times-Italic", arrowsize=1, color="#d00000", label="1",  headlabel="", taillabel="" ]
-node_1427 -> node_1421 [dir=forward, arrowHead=normal, fontname="Times-Italic", arrowsize=1, color="#d00000", label="2",  headlabel="", taillabel="" ]
-node_1261 -> node_1350 [dir=forward, arrowHead=normal, fontname="Times-Italic", arrowsize=1, color="#ff0000", label="",  headlabel="", taillabel="" ]
-node_1260 -> node_1427 [dir=forward, arrowHead=normal, fontname="Times-Italic", arrowsize=1, color="#ff0000", label="",  headlabel="", taillabel="" ]
-node_1261 -> node_1350 [dir=forward, arrowHead=normal, fontname="Times-Italic", arrowsize=1, color="#ffd5d5", label="",  headlabel="", taillabel="" ]
-node_1260 -> node_1353 [dir=forward, arrowHead=normal, fontname="Times-Italic", arrowsize=1, color="#ffd5d5", label="",  headlabel="", taillabel="" ]
-node_1260 -> node_1357 [dir=forward, arrowHead=normal, fontname="Times-Italic", arrowsize=1, color="#ffd5d5", label="",  headlabel="", taillabel="" ]
-node_1260 -> node_1361 [dir=forward, arrowHead=normal, fontname="Times-Italic", arrowsize=1, color="#ffd5d5", label="",  headlabel="", taillabel="" ]
-node_1260 -> node_1365 [dir=forward, arrowHead=normal, fontname="Times-Italic", arrowsize=1, color="#ffd5d5", label="",  headlabel="", taillabel="" ]
-node_1260 -> node_1369 [dir=forward, arrowHead=normal, fontname="Times-Italic", arrowsize=1, color="#ffd5d5", label="",  headlabel="", taillabel="" ]
-node_1260 -> node_1373 [dir=forward, arrowHead=normal, fontname="Times-Italic", arrowsize=1, color="#ffd5d5", label="",  headlabel="", taillabel="" ]
-node_1260 -> node_1377 [dir=forward, arrowHead=normal, fontname="Times-Italic", arrowsize=1, color="#ffd5d5", label="",  headlabel="", taillabel="" ]
-node_1260 -> node_1381 [dir=forward, arrowHead=normal, fontname="Times-Italic", arrowsize=1, color="#ffd5d5", label="",  headlabel="", taillabel="" ]
-node_1260 -> node_1385 [dir=forward, arrowHead=normal, fontname="Times-Italic", arrowsize=1, color="#ffd5d5", label="",  headlabel="", taillabel="" ]
-node_1260 -> node_1392 [dir=forward, arrowHead=normal, fontname="Times-Italic", arrowsize=1, color="#ffd5d5", label="",  headlabel="", taillabel="" ]
-node_1260 -> node_1395 [dir=forward, arrowHead=normal, fontname="Times-Italic", arrowsize=1, color="#ffd5d5", label="",  headlabel="", taillabel="" ]
-node_1260 -> node_1399 [dir=forward, arrowHead=normal, fontname="Times-Italic", arrowsize=1, color="#ffd5d5", label="",  headlabel="", taillabel="" ]
-node_1260 -> node_1403 [dir=forward, arrowHead=normal, fontname="Times-Italic", arrowsize=1, color="#ffd5d5", label="",  headlabel="", taillabel="" ]
-node_1260 -> node_1408 [dir=forward, arrowHead=normal, fontname="Times-Italic", arrowsize=1, color="#ffd5d5", label="",  headlabel="", taillabel="" ]
-node_1260 -> node_1412 [dir=forward, arrowHead=normal, fontname="Times-Italic", arrowsize=1, color="#ffd5d5", label="",  headlabel="", taillabel="" ]
-node_1260 -> node_1416 [dir=forward, arrowHead=normal, fontname="Times-Italic", arrowsize=1, color="#ffd5d5", label="",  headlabel="", taillabel="" ]
-node_1260 -> node_1421 [dir=forward, arrowHead=normal, fontname="Times-Italic", arrowsize=1, color="#ffd5d5", label="",  headlabel="", taillabel="" ]
-node_1260 -> node_1427 [dir=forward, arrowHead=normal, fontname="Times-Italic", arrowsize=1, color="#ffd5d5", label="",  headlabel="", taillabel="" ]
-node_1261 -> node_1262 [dir=forward, arrowHead=normal, fontname="Times-Italic", arrowsize=1, color="#00e8ff", label="",  headlabel="", taillabel="" ]
-node_1260 -> node_1269 [dir=forward, arrowHead=normal, fontname="Times-Italic", arrowsize=1, color="#00e8ff", label="",  headlabel="", taillabel="" ]
-node_1261 -> node_1262 [dir=forward, arrowHead=normal, fontname="Times-Italic", arrowsize=1, color="#bef9ff", label="",  headlabel="", taillabel="" ]
-node_1260 -> node_1270 [dir=forward, arrowHead=normal, fontname="Times-Italic", arrowsize=1, color="#bef9ff", label="",  headlabel="", taillabel="" ]
-node_1260 -> node_1272 [dir=forward, arrowHead=normal, fontname="Times-Italic", arrowsize=1, color="#bef9ff", label="",  headlabel="", taillabel="" ]
-node_1260 -> node_1274 [dir=forward, arrowHead=normal, fontname="Times-Italic", arrowsize=1, color="#bef9ff", label="",  headlabel="", taillabel="" ]
-node_1260 -> node_1276 [dir=forward, arrowHead=normal, fontname="Times-Italic", arrowsize=1, color="#bef9ff", label="",  headlabel="", taillabel="" ]
-node_1260 -> node_1269 [dir=forward, arrowHead=normal, fontname="Times-Italic", arrowsize=1, color="#bef9ff", label="",  headlabel="", taillabel="" ]
-node_1269 -> node_1270 [dir=forward, arrowHead=normal, fontname="Times-Italic", arrowsize=1, color="#008cff", label="1",  headlabel="", taillabel="" ]
-node_1269 -> node_1272 [dir=forward, arrowHead=normal, fontname="Times-Italic", arrowsize=1, color="#008cff", label="2",  headlabel="", taillabel="" ]
-node_1269 -> node_1274 [dir=forward, arrowHead=normal, fontname="Times-Italic", arrowsize=1, color="#008cff", label="3",  headlabel="", taillabel="" ]
-node_1269 -> node_1276 [dir=forward, arrowHead=normal, fontname="Times-Italic", arrowsize=1, color="#008cff", label="4",  headlabel="", taillabel="" ]
-node_1260 -> node_1261 [dir=forward, arrowHead=normal, fontname="Times-Italic", arrowsize=1, color="#81ddff", label="1",  headlabel="", taillabel="" ]
+node_5991 [shape="ellipse", style="filled", color="#afe7ff", fontname="Times", label="bob" ]
+node_5992 [shape="ellipse", style="filled", color="#afe7ff", fontname="Times", label="cool" ]
+node_5993 [shape="ellipse", style="filled", color="#2fcdff", fontname="Times", label="theInterface : {{a: Number, b: Number} -> {sum: Number, diff: Number}} out" ]
+node_6000 [shape="ellipse", style="filled", color="#2fcdff", fontname="Times", label="theInterface" ]
+node_6001 [shape="ellipse", style="filled", color="#2fcdff", fontname="Times", label="theInterface.theNumber : Number in" ]
+node_6003 [shape="ellipse", style="filled", color="#2fcdff", fontname="Times", label="theInterface.theOther : Number in" ]
+node_6005 [shape="ellipse", style="filled", color="#2fcdff", fontname="Times", label="theInterface.theResult : Number out" ]
+node_6007 [shape="ellipse", style="filled", color="#2fcdff", fontname="Times", label="theInterface.theLast : Number out" ]
+node_6088 -> node_6084 [dir=forward, arrowHead=normal, fontname="Times-Italic", arrowsize=1, color="#d00000", label="1",  headlabel="", taillabel="" ]
+node_6096 -> node_6092 [dir=forward, arrowHead=normal, fontname="Times-Italic", arrowsize=1, color="#d00000", label="1",  headlabel="", taillabel="" ]
+node_6104 -> node_6100 [dir=forward, arrowHead=normal, fontname="Times-Italic", arrowsize=1, color="#d00000", label="1",  headlabel="", taillabel="" ]
+node_6112 -> node_6108 [dir=forward, arrowHead=normal, fontname="Times-Italic", arrowsize=1, color="#d00000", label="1",  headlabel="", taillabel="" ]
+node_6116 -> node_6088 [dir=forward, arrowHead=normal, fontname="Times-Italic", arrowsize=1, color="#d00000", label="1",  headlabel="", taillabel="" ]
+node_6116 -> node_6096 [dir=forward, arrowHead=normal, fontname="Times-Italic", arrowsize=1, color="#d00000", label="2",  headlabel="", taillabel="" ]
+node_6116 -> node_6104 [dir=forward, arrowHead=normal, fontname="Times-Italic", arrowsize=1, color="#d00000", label="3",  headlabel="", taillabel="" ]
+node_6116 -> node_6112 [dir=forward, arrowHead=normal, fontname="Times-Italic", arrowsize=1, color="#d00000", label="4",  headlabel="", taillabel="" ]
+node_6126 -> node_6084 [dir=forward, arrowHead=normal, fontname="Times-Italic", arrowsize=1, color="#d00000", label="1",  headlabel="", taillabel="" ]
+node_6130 -> node_6092 [dir=forward, arrowHead=normal, fontname="Times-Italic", arrowsize=1, color="#d00000", label="1",  headlabel="", taillabel="" ]
+node_6134 -> node_6126 [dir=forward, arrowHead=normal, fontname="Times-Italic", arrowsize=1, color="#d00000", label="1",  headlabel="", taillabel="" ]
+node_6134 -> node_6130 [dir=forward, arrowHead=normal, fontname="Times-Italic", arrowsize=1, color="#d00000", label="2",  headlabel="", taillabel="" ]
+node_6139 -> node_6100 [dir=forward, arrowHead=normal, fontname="Times-Italic", arrowsize=1, color="#d00000", label="1",  headlabel="", taillabel="" ]
+node_6143 -> node_6108 [dir=forward, arrowHead=normal, fontname="Times-Italic", arrowsize=1, color="#d00000", label="1",  headlabel="", taillabel="" ]
+node_6147 -> node_6139 [dir=forward, arrowHead=normal, fontname="Times-Italic", arrowsize=1, color="#d00000", label="1",  headlabel="", taillabel="" ]
+node_6147 -> node_6143 [dir=forward, arrowHead=normal, fontname="Times-Italic", arrowsize=1, color="#d00000", label="2",  headlabel="", taillabel="" ]
+node_6152 -> node_6123 [dir=forward, arrowHead=normal, fontname="Times-Italic", arrowsize=1, color="#d00000", label="1",  headlabel="", taillabel="" ]
+node_6152 -> node_6134 [dir=forward, arrowHead=normal, fontname="Times-Italic", arrowsize=1, color="#d00000", label="2",  headlabel="", taillabel="" ]
+node_6152 -> node_6147 [dir=forward, arrowHead=normal, fontname="Times-Italic", arrowsize=1, color="#d00000", label="3",  headlabel="", taillabel="" ]
+node_6158 -> node_6116 [dir=forward, arrowHead=normal, fontname="Times-Italic", arrowsize=1, color="#d00000", label="1",  headlabel="", taillabel="" ]
+node_6158 -> node_6152 [dir=forward, arrowHead=normal, fontname="Times-Italic", arrowsize=1, color="#d00000", label="2",  headlabel="", taillabel="" ]
+node_5992 -> node_6081 [dir=forward, arrowHead=normal, fontname="Times-Italic", arrowsize=1, color="#ff0000", label="",  headlabel="", taillabel="" ]
+node_5991 -> node_6158 [dir=forward, arrowHead=normal, fontname="Times-Italic", arrowsize=1, color="#ff0000", label="",  headlabel="", taillabel="" ]
+node_5992 -> node_6081 [dir=forward, arrowHead=normal, fontname="Times-Italic", arrowsize=1, color="#ffd5d5", label="",  headlabel="", taillabel="" ]
+node_5991 -> node_6084 [dir=forward, arrowHead=normal, fontname="Times-Italic", arrowsize=1, color="#ffd5d5", label="",  headlabel="", taillabel="" ]
+node_5991 -> node_6088 [dir=forward, arrowHead=normal, fontname="Times-Italic", arrowsize=1, color="#ffd5d5", label="",  headlabel="", taillabel="" ]
+node_5991 -> node_6092 [dir=forward, arrowHead=normal, fontname="Times-Italic", arrowsize=1, color="#ffd5d5", label="",  headlabel="", taillabel="" ]
+node_5991 -> node_6096 [dir=forward, arrowHead=normal, fontname="Times-Italic", arrowsize=1, color="#ffd5d5", label="",  headlabel="", taillabel="" ]
+node_5991 -> node_6100 [dir=forward, arrowHead=normal, fontname="Times-Italic", arrowsize=1, color="#ffd5d5", label="",  headlabel="", taillabel="" ]
+node_5991 -> node_6104 [dir=forward, arrowHead=normal, fontname="Times-Italic", arrowsize=1, color="#ffd5d5", label="",  headlabel="", taillabel="" ]
+node_5991 -> node_6108 [dir=forward, arrowHead=normal, fontname="Times-Italic", arrowsize=1, color="#ffd5d5", label="",  headlabel="", taillabel="" ]
+node_5991 -> node_6112 [dir=forward, arrowHead=normal, fontname="Times-Italic", arrowsize=1, color="#ffd5d5", label="",  headlabel="", taillabel="" ]
+node_5991 -> node_6116 [dir=forward, arrowHead=normal, fontname="Times-Italic", arrowsize=1, color="#ffd5d5", label="",  headlabel="", taillabel="" ]
+node_5991 -> node_6123 [dir=forward, arrowHead=normal, fontname="Times-Italic", arrowsize=1, color="#ffd5d5", label="",  headlabel="", taillabel="" ]
+node_5991 -> node_6126 [dir=forward, arrowHead=normal, fontname="Times-Italic", arrowsize=1, color="#ffd5d5", label="",  headlabel="", taillabel="" ]
+node_5991 -> node_6130 [dir=forward, arrowHead=normal, fontname="Times-Italic", arrowsize=1, color="#ffd5d5", label="",  headlabel="", taillabel="" ]
+node_5991 -> node_6134 [dir=forward, arrowHead=normal, fontname="Times-Italic", arrowsize=1, color="#ffd5d5", label="",  headlabel="", taillabel="" ]
+node_5991 -> node_6139 [dir=forward, arrowHead=normal, fontname="Times-Italic", arrowsize=1, color="#ffd5d5", label="",  headlabel="", taillabel="" ]
+node_5991 -> node_6143 [dir=forward, arrowHead=normal, fontname="Times-Italic", arrowsize=1, color="#ffd5d5", label="",  headlabel="", taillabel="" ]
+node_5991 -> node_6147 [dir=forward, arrowHead=normal, fontname="Times-Italic", arrowsize=1, color="#ffd5d5", label="",  headlabel="", taillabel="" ]
+node_5991 -> node_6152 [dir=forward, arrowHead=normal, fontname="Times-Italic", arrowsize=1, color="#ffd5d5", label="",  headlabel="", taillabel="" ]
+node_5991 -> node_6158 [dir=forward, arrowHead=normal, fontname="Times-Italic", arrowsize=1, color="#ffd5d5", label="",  headlabel="", taillabel="" ]
+node_5992 -> node_5993 [dir=forward, arrowHead=normal, fontname="Times-Italic", arrowsize=1, color="#00e8ff", label="",  headlabel="", taillabel="" ]
+node_5991 -> node_6000 [dir=forward, arrowHead=normal, fontname="Times-Italic", arrowsize=1, color="#00e8ff", label="",  headlabel="", taillabel="" ]
+node_5992 -> node_5993 [dir=forward, arrowHead=normal, fontname="Times-Italic", arrowsize=1, color="#bef9ff", label="",  headlabel="", taillabel="" ]
+node_5991 -> node_6001 [dir=forward, arrowHead=normal, fontname="Times-Italic", arrowsize=1, color="#bef9ff", label="",  headlabel="", taillabel="" ]
+node_5991 -> node_6003 [dir=forward, arrowHead=normal, fontname="Times-Italic", arrowsize=1, color="#bef9ff", label="",  headlabel="", taillabel="" ]
+node_5991 -> node_6005 [dir=forward, arrowHead=normal, fontname="Times-Italic", arrowsize=1, color="#bef9ff", label="",  headlabel="", taillabel="" ]
+node_5991 -> node_6007 [dir=forward, arrowHead=normal, fontname="Times-Italic", arrowsize=1, color="#bef9ff", label="",  headlabel="", taillabel="" ]
+node_5991 -> node_6000 [dir=forward, arrowHead=normal, fontname="Times-Italic", arrowsize=1, color="#bef9ff", label="",  headlabel="", taillabel="" ]
+node_6000 -> node_6001 [dir=forward, arrowHead=normal, fontname="Times-Italic", arrowsize=1, color="#008cff", label="1",  headlabel="", taillabel="" ]
+node_6000 -> node_6003 [dir=forward, arrowHead=normal, fontname="Times-Italic", arrowsize=1, color="#008cff", label="2",  headlabel="", taillabel="" ]
+node_6000 -> node_6005 [dir=forward, arrowHead=normal, fontname="Times-Italic", arrowsize=1, color="#008cff", label="3",  headlabel="", taillabel="" ]
+node_6000 -> node_6007 [dir=forward, arrowHead=normal, fontname="Times-Italic", arrowsize=1, color="#008cff", label="4",  headlabel="", taillabel="" ]
+node_5991 -> node_5992 [dir=forward, arrowHead=normal, fontname="Times-Italic", arrowsize=1, color="#81ddff", label="1",  headlabel="", taillabel="" ]
 }

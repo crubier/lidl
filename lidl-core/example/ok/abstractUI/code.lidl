@@ -1,0 +1,236 @@
+
+interaction
+  (my abstract Interface):{valueLabel:{text:Text out}, valueManipulation:{incrementButton:{text:Text out,click:Activation in},decrementButton:{text:Text out,click:Activation in}}}
+with
+
+
+  interaction
+    (all (a:Activation out)  (b:Activation out)):Activation in
+  with
+    interaction (func all):{Activation->{a:Activation,b:Activation}} out is (function all)
+  is
+    (
+      ((variable all (a) (b))?)
+      with behaviour
+      (
+        apply
+        (func all)
+        to
+        ((variable all (a) (b))!)
+        and get
+        ({a:(a) b:(b)})
+      )
+    )
+
+  interaction
+    (previous (x:Number in)):Number out
+  is
+    (
+      ((the previous(x))!)
+      with behaviour
+      (((the previous(x))?)= previous (x))
+    )
+
+  interaction
+    (not(a:Boolean in)):Boolean out
+  with
+    interaction (boolean negation):{Boolean->Boolean} out is (function boolNot)
+  is
+    (
+      ((#not (a))!)
+      with behaviour
+      ((boolean negation)  (a) = ((#not (a))?) )
+    )
+
+  interaction
+    ((a:Number in) is active):Boolean out
+  with
+    interaction (is active):{Number->Boolean}out is (function isActive)
+  is
+    (
+      ((#(a) is active)!)
+      with behaviour
+      (apply (is active) to (a) and get ((#(a) is active)?) )
+    )
+
+  interaction
+    ((a:Number in)+(b:Number in)):Number out
+  with
+    interaction (addition):{{a:Number,b:Number}->Number} out is (function addition)
+  is
+    (
+      ((result of (a)+(b))!)
+      with behaviour
+      (
+        apply
+        (addition)
+        to
+        ({a:(a)b:(b)})
+        and get
+        ((result of (a)+(b))?)
+      )
+    )
+
+  interaction
+    ((a:Number in)-(b:Number in)):Number out
+  with
+    interaction (substraction):{{a:Number,b:Number}->Number} out is (function substraction)
+  is
+    (
+      ((result of (a)-(b))!)
+      with behaviour
+      (
+        apply
+        (substraction)
+        to
+        ({a:(a)b:(b)})
+        and get
+        ((result of (a)-(b))?)
+      )
+    )
+
+  interaction
+    (init):Boolean out
+  is
+    ( not ( (previous(1) ) is active ) )
+
+  interaction
+    (all (a:Activation out) else (b:Activation out)):Activation in
+  with
+    interaction (func all):{Activation->{a:Activation,b:Activation}} out is (function all)
+  is
+    (
+      ((variable all (a) (b))?)
+      with behaviour
+      (
+        apply
+        (function all)
+        to
+        ((variable all (a) (b))!)
+        and get
+        ({a:(a) b:(b)})
+      )
+    )
+
+  interaction
+    ( (a:Number in) fallback to (b:Number in)):Number out
+  is
+    (
+      if ((a) is active)
+      then (a)
+      else (b)
+    )
+
+
+
+  interaction
+    ((u:Number in)==(v:Number in)):Boolean out
+  with
+    interaction (is equal):{{a:Number,b:Number}->Boolean}out is (function isEqual)
+  is
+    (
+      ((result of (u)==(v))!)
+      with behaviour
+      (apply (is equal) to ({a:(u),b:(v)}) and get ((result of (u)==(v))?) )
+    )
+
+
+  interaction
+    (when (cond:Boolean in) then (a:Activation out) else (b:Activation out)):Activation in
+  with
+    interaction
+      (whenThenElse):{{cond:Boolean,source:Activation}->{a:Activation,b:Activation}}out
+    is
+      (function whenThenElse)
+  is
+    (
+      ((activation of when (cond) then (a) else (b) )?)
+      with behaviour
+      (
+        apply
+        (whenThenElse)
+        to
+        ({  cond:(cond)  source:((activation of when (cond) then (a) else (b)) !)   })
+        and get
+        ({a:(a) b:(b)})
+      )
+    )
+
+  interaction
+    (if (cond:Boolean in) then (x:Number in) else (y:Number in)):Number out
+  is
+    (
+      ( (result of if (cond) then (x) else (y)) !)
+      with behaviour
+      (
+        when
+        (cond)
+        then
+        (( (result of if (cond) then (x) else (y) )?) = (x))
+        else
+        (( (result of if (cond) then (x) else (y) )?) = (y))
+      )
+    )
+
+  interaction
+    (make (x:Number ref) flow initially from (y:Number in)):Activation in
+  is
+    (
+      ((x)?) = (
+                  ((new (x))!)
+                  fallback to
+                  (if (init) then (y) else (previous ((x)!)) )
+                )
+    )
+
+
+  interaction
+    (label displaying text (theText:Text in)):{text:Text out}
+  is
+  ({
+    text:(theText)
+  })
+
+
+  interaction
+    (label displaying number (theNumber:Number in)):{text:Text out}
+  with
+    interaction (toString):{Number->Text} out is (function toString)
+  is
+    (
+      ({
+        text:((the string for (theNumber))!)
+      })
+      with behaviour
+      ((toString)(theNumber)=((the string for (theNumber))?))
+    )
+
+  interaction
+    (button displaying (theText:Text in) triggering (action:Activation out)):{text:Text out,click:Activation in}
+  is
+    ({
+      text:(theText)
+      click:(action)
+    })
+
+
+  interaction
+    (increment decrement widget setting (theOutputValue:Number out)):{incrementButton:{text:Text out,click:Activation in},decrementButton:{text:Text out,click:Activation in}}
+  is
+    (
+      ({
+        incrementButton:(button displaying ("+") triggering (((new(theValue of increment decrement setting (theOutputValue)))?) = ((previous((theValue of increment decrement setting (theOutputValue))!)) + (1))) )
+        decrementButton:(button displaying ("-") triggering (((new(theValue of increment decrement setting (theOutputValue)))?) = ((previous((theValue of increment decrement setting (theOutputValue))!)) - (1))) )
+      })
+      with behaviour
+      (all
+        (make (theValue of increment decrement setting (theOutputValue)) flow initially from (0))
+        ((theOutputValue)=((theValue of increment decrement setting (theOutputValue))!))
+      )
+    )
+
+is
+  ({
+    valueLabel:(label displaying number ((theValue)!)   )
+    valueManipulation:(increment decrement widget setting ((theValue)?)   )
+  })

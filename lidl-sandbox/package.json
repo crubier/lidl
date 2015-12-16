@@ -5,6 +5,7 @@
   "main": "index.js",
   "scripts": {
     "build": "node ./build.js",
+    "doc":"pandoc README.md --to=html --output README.html --mathjax=http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML --standalone  --highlight-style=pygments --template=template.html --table-of-contents --toc-depth=3  --filter pandoc-citeproc",
     "prepublish": "npm run build"
   },
   "author": "Vincent Lecrubier",

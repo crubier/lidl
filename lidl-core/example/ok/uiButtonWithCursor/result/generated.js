@@ -259,7 +259,13 @@ var cursor = function(mouse) {
   return cursor;
 }
 
-
+var toString = function(_){
+  if(isActive(_)){
+    return _+"";
+  } else {
+    return inactive;
+  }
+}
 
 var button = function(button) {
   var button = {
@@ -369,111 +375,111 @@ var inset = function(_){
 
 ///////////////////////////////////////////////////////////////////////
 // Declaration of variables (Edges of the graph)
-var edge_13937 = inactive;
-var edge_13942 = inactive;
-var edge_13947 = inactive;
-var edge_13952 = inactive;
-var edge_14017 = inactive;
-var edge_14020 = inactive;
-var edge_14021 = inactive;
-var edge_14022 = inactive;
-var edge_14025 = inactive;
-var edge_14029 = inactive;
-var edge_14031 = inactive;
-var edge_14033 = inactive;
-var edge_14036 = inactive;
-var edge_14037 = inactive;
-var edge_14040 = inactive;
-var edge_14041 = inactive;
-var edge_14044 = inactive;
-var edge_14045 = inactive;
-var edge_14049 = inactive;
-var edge_14050 = inactive;
-var edge_14051 = inactive;
-var edge_14053 = inactive;
-var edge_14054 = inactive;
-var edge_14055 = inactive;
-var edge_14056 = inactive;
-var edge_14057 = inactive;
-var edge_14058 = inactive;
-var edge_14059 = inactive;
-var edge_14060 = inactive;
-var edge_14061 = inactive;
-var edge_14063 = inactive;
-var edge_14064 = inactive;
-var edge_14065 = inactive;
+var edge_18668 = inactive;
+var edge_18673 = inactive;
+var edge_18678 = inactive;
+var edge_18683 = inactive;
+var edge_18748 = inactive;
+var edge_18751 = inactive;
+var edge_18752 = inactive;
+var edge_18753 = inactive;
+var edge_18756 = inactive;
+var edge_18760 = inactive;
+var edge_18762 = inactive;
+var edge_18764 = inactive;
+var edge_18767 = inactive;
+var edge_18768 = inactive;
+var edge_18771 = inactive;
+var edge_18772 = inactive;
+var edge_18775 = inactive;
+var edge_18776 = inactive;
+var edge_18780 = inactive;
+var edge_18781 = inactive;
+var edge_18782 = inactive;
+var edge_18784 = inactive;
+var edge_18785 = inactive;
+var edge_18786 = inactive;
+var edge_18787 = inactive;
+var edge_18788 = inactive;
+var edge_18789 = inactive;
+var edge_18790 = inactive;
+var edge_18791 = inactive;
+var edge_18792 = inactive;
+var edge_18794 = inactive;
+var edge_18795 = inactive;
+var edge_18796 = inactive;
 
 ///////////////////////////////////////////////////////////////////////
 // Data flow processing (Nodes of the graph)
-// node_13933
-edge_14021 = "OK";
-// node_13931
-edge_14050 = 100;
-// node_13929
-edge_14049 = 200;
-// node_13926
-edge_14063 = 10;
-// node_14062
-edge_14064 = edge_14063;
-edge_14065 = edge_14063;
-// node_14046
-edge_14051 = {};
-edge_14051['x'] = edge_14064;
-edge_14051['y'] = edge_14065;
-edge_14051['width'] = edge_14049;
-edge_14051['height'] = edge_14050;
-// node_13924
-edge_14020 = false;
-// node_14018
-edge_14022 = {};
-edge_14022['layout'] = edge_14051;
-edge_14022['text'] = edge_14021;
-edge_14022['pushed'] = edge_14020;
-// node_13922
-edge_13952 = group;
-// node_13920
-edge_13947 = all;
-// node_13918
-edge_13942 = button;
-// node_13916
-edge_13937 = cursor;
-// node_13887
-edge_14053 = active;
-// node_14052
-edge_14054 = edge_14053;
-edge_14055 = edge_14053;
-edge_14056 = edge_14053;
-edge_14057 = edge_14053;
-edge_14058 = edge_14053;
-edge_14059 = edge_14053;
-edge_14060 = edge_14053;
-edge_14061 = edge_14053;
-// node_13945
-if(edge_14056 === active && edge_13947!==null && edge_13947!==undefined) {edge_14025 = edge_13947(edge_14058);}
-// node_14023
-edge_14031 = edge_14025['a'];
-// node_13940
-if(edge_14055 === active && edge_13942!==null && edge_13942!==undefined) {edge_14044 = edge_13942(edge_14022);}
-// node_14042
-if(edge_14061 === active) {edge_14045 = edge_14044;}
-// node_13618
-edge_14033=theInterface.mouse;
-// node_14030
-if(edge_14031 === active) {edge_14037 = edge_14033;}
-// node_14034
-if(edge_14059 === active) {edge_14036 = edge_14037;}
-// node_13935
-if(edge_14054 === active && edge_13937!==null && edge_13937!==undefined) {edge_14040 = edge_13937(edge_14036);}
-// node_14038
-if(edge_14060 === active) {edge_14041 = edge_14040;}
-// node_14026
-edge_14029 = {};
-edge_14029['a'] = edge_14041;
-edge_14029['b'] = edge_14045;
-// node_13950
-if(edge_14057 === active && edge_13952!==null && edge_13952!==undefined) {edge_14017 = edge_13952(edge_14029);}
-// node_13620
-theInterface.graphics=edge_14017;
+// node_18664
+edge_18752 = "OK";
+// node_18662
+edge_18781 = 100;
+// node_18660
+edge_18780 = 200;
+// node_18657
+edge_18794 = 10;
+// node_18793
+edge_18795 = edge_18794;
+edge_18796 = edge_18794;
+// node_18777
+edge_18782 = {};
+edge_18782['x'] = edge_18795;
+edge_18782['y'] = edge_18796;
+edge_18782['width'] = edge_18780;
+edge_18782['height'] = edge_18781;
+// node_18655
+edge_18751 = false;
+// node_18749
+edge_18753 = {};
+edge_18753['layout'] = edge_18782;
+edge_18753['text'] = edge_18752;
+edge_18753['pushed'] = edge_18751;
+// node_18653
+edge_18683 = group;
+// node_18651
+edge_18678 = all;
+// node_18649
+edge_18673 = button;
+// node_18647
+edge_18668 = cursor;
+// node_18618
+edge_18784 = active;
+// node_18783
+edge_18785 = edge_18784;
+edge_18786 = edge_18784;
+edge_18787 = edge_18784;
+edge_18788 = edge_18784;
+edge_18789 = edge_18784;
+edge_18790 = edge_18784;
+edge_18791 = edge_18784;
+edge_18792 = edge_18784;
+// node_18676
+if(edge_18787 === active && edge_18678!==null && edge_18678!==undefined) {edge_18756 = edge_18678(edge_18789);}
+// node_18754
+edge_18762 = edge_18756['a'];
+// node_18671
+if(edge_18786 === active && edge_18673!==null && edge_18673!==undefined) {edge_18775 = edge_18673(edge_18753);}
+// node_18773
+if(edge_18792 !== inactive) {edge_18776 = edge_18775;}
+// node_18349
+edge_18764=theInterface.mouse;
+// node_18761
+if(edge_18762 !== inactive) {edge_18768 = edge_18764;}
+// node_18765
+if(edge_18790 !== inactive) {edge_18767 = edge_18768;}
+// node_18666
+if(edge_18785 === active && edge_18668!==null && edge_18668!==undefined) {edge_18771 = edge_18668(edge_18767);}
+// node_18769
+if(edge_18791 !== inactive) {edge_18772 = edge_18771;}
+// node_18757
+edge_18760 = {};
+edge_18760['a'] = edge_18772;
+edge_18760['b'] = edge_18776;
+// node_18681
+if(edge_18788 === active && edge_18683!==null && edge_18683!==undefined) {edge_18748 = edge_18683(edge_18760);}
+// node_18351
+theInterface.graphics=edge_18748;
 
 
 ///////////////////////////////////////////////////////////////////////

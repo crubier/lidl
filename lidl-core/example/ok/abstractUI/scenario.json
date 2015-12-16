@@ -1,0 +1,120 @@
+[{
+  "args": {},
+  "memo": {},
+  "state": {},
+  "inter": {
+    "valueLabel": {
+      "text": "0"
+    },
+    "valueManipulation": {
+      "incrementButton": {
+        "text": "+",
+        "click": null
+      },
+      "decrementButton": {
+        "text": "-",
+        "click": null
+      }
+    }
+  }
+},
+{
+  "args": {},
+  "memo": {},
+  "state": {},
+  "inter": {
+    "valueLabel": {
+      "text": "0"
+    },
+    "valueManipulation": {
+      "incrementButton": {
+        "text": "+",
+        "click": null
+      },
+      "decrementButton": {
+        "text": "-",
+        "click": null
+      }
+    }
+  }
+},
+{
+  "args": {},
+  "memo": {},
+  "state": {},
+  "inter": {
+    "valueLabel": {
+      "text": "1"
+    },
+    "valueManipulation": {
+      "incrementButton": {
+        "text": "+",
+        "click": "lidl_active_value"
+      },
+      "decrementButton": {
+        "text": "-",
+        "click": null
+      }
+    }
+  }
+},
+{
+  "args": {},
+  "memo": {},
+  "state": {},
+  "inter": {
+    "valueLabel": {
+      "text": "2"
+    },
+    "valueManipulation": {
+      "incrementButton": {
+        "text": "+",
+        "click": "lidl_active_value"
+      },
+      "decrementButton": {
+        "text": "-",
+        "click": null
+      }
+    }
+  }
+},
+{
+  "args": {},
+  "memo": {},
+  "state": {},
+  "inter": {
+    "valueLabel": {
+      "text": "2"
+    },
+    "valueManipulation": {
+      "incrementButton": {
+        "text": "+",
+        "click": null
+      },
+      "decrementButton": {
+        "text": "-",
+        "click": null
+      }
+    }
+  }
+},
+{
+  "args": {},
+  "memo": {},
+  "state": {},
+  "inter": {
+    "valueLabel": {
+      "text": "1"
+    },
+    "valueManipulation": {
+      "incrementButton": {
+        "text": "+",
+        "click": null
+      },
+      "decrementButton": {
+        "text": "-",
+        "click": "lidl_active_value"
+      }
+    }
+  }
+}]

@@ -259,7 +259,13 @@ var cursor = function(mouse) {
   return cursor;
 }
 
-
+var toString = function(_){
+  if(isActive(_)){
+    return _+"";
+  } else {
+    return inactive;
+  }
+}
 
 var button = function(button) {
   var button = {
@@ -369,39 +375,39 @@ var inset = function(_){
 
 ///////////////////////////////////////////////////////////////////////
 // Declaration of variables (Edges of the graph)
-var edge_9657 = inactive;
-var edge_9677 = inactive;
-var edge_9678 = inactive;
-var edge_9679 = inactive;
-var edge_9682 = inactive;
-var edge_9683 = inactive;
-var edge_9685 = inactive;
-var edge_9686 = inactive;
-var edge_9687 = inactive;
+var edge_14388 = inactive;
+var edge_14408 = inactive;
+var edge_14409 = inactive;
+var edge_14410 = inactive;
+var edge_14413 = inactive;
+var edge_14414 = inactive;
+var edge_14416 = inactive;
+var edge_14417 = inactive;
+var edge_14418 = inactive;
 
 ///////////////////////////////////////////////////////////////////////
 // Data flow processing (Nodes of the graph)
-// node_9652
-edge_9678 = 1;
-// node_9650
-edge_9657 = addition;
-// node_9645
-edge_9685 = active;
-// node_9684
-edge_9686 = edge_9685;
-edge_9687 = edge_9685;
-// node_9576
-edge_9677=theInterface.theNumber;
-// node_9676
-edge_9679 = {};
-edge_9679['a'] = edge_9678;
-edge_9679['b'] = edge_9677;
-// node_9655
-if(edge_9686 === active && edge_9657!==null && edge_9657!==undefined) {edge_9683 = edge_9657(edge_9679);}
-// node_9680
-if(edge_9687 === active) {edge_9682 = edge_9683;}
-// node_9578
-theInterface.theResult=edge_9682;
+// node_14383
+edge_14409 = 1;
+// node_14381
+edge_14388 = addition;
+// node_14376
+edge_14416 = active;
+// node_14415
+edge_14417 = edge_14416;
+edge_14418 = edge_14416;
+// node_14307
+edge_14408=theInterface.theNumber;
+// node_14407
+edge_14410 = {};
+edge_14410['a'] = edge_14409;
+edge_14410['b'] = edge_14408;
+// node_14386
+if(edge_14417 === active && edge_14388!==null && edge_14388!==undefined) {edge_14414 = edge_14388(edge_14410);}
+// node_14411
+if(edge_14418 !== inactive) {edge_14413 = edge_14414;}
+// node_14309
+theInterface.theResult=edge_14413;
 
 
 ///////////////////////////////////////////////////////////////////////

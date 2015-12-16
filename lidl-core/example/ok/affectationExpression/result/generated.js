@@ -259,7 +259,13 @@ var cursor = function(mouse) {
   return cursor;
 }
 
-
+var toString = function(_){
+  if(isActive(_)){
+    return _+"";
+  } else {
+    return inactive;
+  }
+}
 
 var button = function(button) {
   var button = {
@@ -369,47 +375,47 @@ var inset = function(_){
 
 ///////////////////////////////////////////////////////////////////////
 // Declaration of variables (Edges of the graph)
-var edge_608 = inactive;
-var edge_613 = inactive;
-var edge_635 = inactive;
-var edge_636 = inactive;
-var edge_637 = inactive;
-var edge_640 = inactive;
-var edge_641 = inactive;
-var edge_643 = inactive;
-var edge_644 = inactive;
-var edge_645 = inactive;
-var edge_646 = inactive;
-var edge_648 = inactive;
+var edge_5339 = inactive;
+var edge_5344 = inactive;
+var edge_5366 = inactive;
+var edge_5367 = inactive;
+var edge_5368 = inactive;
+var edge_5371 = inactive;
+var edge_5372 = inactive;
+var edge_5374 = inactive;
+var edge_5375 = inactive;
+var edge_5376 = inactive;
+var edge_5377 = inactive;
+var edge_5379 = inactive;
 
 ///////////////////////////////////////////////////////////////////////
 // Data flow processing (Nodes of the graph)
-// node_647
-edge_648 = inactive; //Fake sender node
-// node_604
-edge_613 = addition;
-// node_602
-edge_608 = return1;
-// node_594
-edge_643 = active;
-// node_642
-edge_644 = edge_643;
-edge_645 = edge_643;
-edge_646 = edge_643;
-// node_606
-if(edge_644 === active && edge_608!==null && edge_608!==undefined) {edge_636 = edge_608(edge_648);}
-// node_502
-edge_635=theInterface.theNumber;
-// node_634
-edge_637 = {};
-edge_637['a'] = edge_636;
-edge_637['b'] = edge_635;
-// node_611
-if(edge_645 === active && edge_613!==null && edge_613!==undefined) {edge_641 = edge_613(edge_637);}
-// node_638
-if(edge_646 === active) {edge_640 = edge_641;}
-// node_504
-theInterface.theResult=edge_640;
+// node_5378
+edge_5379 = inactive; //Fake sender node
+// node_5335
+edge_5344 = addition;
+// node_5333
+edge_5339 = return1;
+// node_5325
+edge_5374 = active;
+// node_5373
+edge_5375 = edge_5374;
+edge_5376 = edge_5374;
+edge_5377 = edge_5374;
+// node_5337
+if(edge_5375 === active && edge_5339!==null && edge_5339!==undefined) {edge_5367 = edge_5339(edge_5379);}
+// node_5233
+edge_5366=theInterface.theNumber;
+// node_5365
+edge_5368 = {};
+edge_5368['a'] = edge_5367;
+edge_5368['b'] = edge_5366;
+// node_5342
+if(edge_5376 === active && edge_5344!==null && edge_5344!==undefined) {edge_5372 = edge_5344(edge_5368);}
+// node_5369
+if(edge_5377 !== inactive) {edge_5371 = edge_5372;}
+// node_5235
+theInterface.theResult=edge_5371;
 
 
 ///////////////////////////////////////////////////////////////////////

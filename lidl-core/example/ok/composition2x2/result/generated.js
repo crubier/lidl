@@ -259,7 +259,13 @@ var cursor = function(mouse) {
   return cursor;
 }
 
-
+var toString = function(_){
+  if(isActive(_)){
+    return _+"";
+  } else {
+    return inactive;
+  }
+}
 
 var button = function(button) {
   var button = {
@@ -369,38 +375,38 @@ var inset = function(_){
 
 ///////////////////////////////////////////////////////////////////////
 // Declaration of variables (Edges of the graph)
-var edge_1616 = inactive;
-var edge_1617 = inactive;
-var edge_1649 = inactive;
-var edge_1650 = inactive;
-var edge_1651 = inactive;
-var edge_1653 = inactive;
-var edge_1654 = inactive;
-var edge_1655 = inactive;
+var edge_6347 = inactive;
+var edge_6348 = inactive;
+var edge_6380 = inactive;
+var edge_6381 = inactive;
+var edge_6382 = inactive;
+var edge_6384 = inactive;
+var edge_6385 = inactive;
+var edge_6386 = inactive;
 
 ///////////////////////////////////////////////////////////////////////
 // Data flow processing (Nodes of the graph)
-// node_1613
-edge_1617 = cool;
-// node_1610
-edge_1616 = active;
-// node_1536
-edge_1650=theInterface.theOther;
-// node_1534
-edge_1649=theInterface.theNumber;
-// node_1648
-edge_1651 = {};
-edge_1651['a'] = edge_1649;
-edge_1651['b'] = edge_1650;
-// node_1615
-if(edge_1616 === active && edge_1617!==null && edge_1617!==undefined) {edge_1653 = edge_1617(edge_1651);}
-// node_1652
-edge_1654 = edge_1653['sum'];
-edge_1655 = edge_1653['diff'];
-// node_1540
-theInterface.theLast=edge_1655;
-// node_1538
-theInterface.theResult=edge_1654;
+// node_6344
+edge_6348 = cool;
+// node_6341
+edge_6347 = active;
+// node_6267
+edge_6381=theInterface.theOther;
+// node_6265
+edge_6380=theInterface.theNumber;
+// node_6379
+edge_6382 = {};
+edge_6382['a'] = edge_6380;
+edge_6382['b'] = edge_6381;
+// node_6346
+if(edge_6347 === active && edge_6348!==null && edge_6348!==undefined) {edge_6384 = edge_6348(edge_6382);}
+// node_6383
+edge_6385 = edge_6384['sum'];
+edge_6386 = edge_6384['diff'];
+// node_6271
+theInterface.theLast=edge_6386;
+// node_6269
+theInterface.theResult=edge_6385;
 
 
 ///////////////////////////////////////////////////////////////////////

@@ -100,7 +100,6 @@ describe('lidl graph compiler', function () {
 
 
     describe('Compilation of file ' + file, function () {
-      console.log("====================================================");
       console.log("Compiling and testing " + file);
 
       // removeOneSidedAffectation

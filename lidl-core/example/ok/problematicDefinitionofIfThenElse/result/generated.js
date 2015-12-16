@@ -259,7 +259,13 @@ var cursor = function(mouse) {
   return cursor;
 }
 
-
+var toString = function(_){
+  if(isActive(_)){
+    return _+"";
+  } else {
+    return inactive;
+  }
+}
 
 var button = function(button) {
   var button = {
@@ -369,57 +375,57 @@ var inset = function(_){
 
 ///////////////////////////////////////////////////////////////////////
 // Declaration of variables (Edges of the graph)
-var edge_9103 = inactive;
-var edge_9104 = inactive;
-var edge_9155 = inactive;
-var edge_9158 = inactive;
-var edge_9163 = inactive;
-var edge_9175 = inactive;
-var edge_9176 = inactive;
-var edge_9177 = inactive;
-var edge_9179 = inactive;
-var edge_9181 = inactive;
-var edge_9183 = inactive;
-var edge_9185 = inactive;
-var edge_9186 = inactive;
-var edge_9187 = inactive;
-var edge_9188 = inactive;
+var edge_13834 = inactive;
+var edge_13835 = inactive;
+var edge_13886 = inactive;
+var edge_13889 = inactive;
+var edge_13894 = inactive;
+var edge_13906 = inactive;
+var edge_13907 = inactive;
+var edge_13908 = inactive;
+var edge_13910 = inactive;
+var edge_13912 = inactive;
+var edge_13914 = inactive;
+var edge_13916 = inactive;
+var edge_13917 = inactive;
+var edge_13918 = inactive;
+var edge_13919 = inactive;
 
 ///////////////////////////////////////////////////////////////////////
 // Data flow processing (Nodes of the graph)
-// node_9154
-edge_9155 = -8000;
-// node_9151
-edge_9176 = 1;
-// node_9149
-edge_9163 = whenThenElse;
-// node_9147
-edge_9158 = isEqual;
-// node_9138
-edge_9185 = active;
-// node_9184
-edge_9186 = edge_9185;
-edge_9187 = edge_9185;
-edge_9188 = edge_9185;
-// node_9098
-edge_9103=theInterface.theNumber;
-// node_9100
-theInterface.theResult=edge_9104;
-// node_9096
-edge_9175=theArgs.a;
-// node_9174
-edge_9177 = {};
-edge_9177['a'] = edge_9175;
-edge_9177['b'] = edge_9176;
-// node_9156
-if(edge_9186 === active && edge_9158!==null && edge_9158!==undefined) {edge_9179 = edge_9158(edge_9177);}
-// node_9178
-edge_9181 = {};
-edge_9181['cond'] = edge_9179;
-edge_9181['source'] = edge_9188;
-// node_9161
-if(edge_9187 === active && edge_9163!==null && edge_9163!==undefined) {edge_9183 = edge_9163(edge_9181);}
-// node_9182
+// node_13885
+edge_13886 = -8000;
+// node_13882
+edge_13907 = 1;
+// node_13880
+edge_13894 = whenThenElse;
+// node_13878
+edge_13889 = isEqual;
+// node_13869
+edge_13916 = active;
+// node_13915
+edge_13917 = edge_13916;
+edge_13918 = edge_13916;
+edge_13919 = edge_13916;
+// node_13829
+edge_13834=theInterface.theNumber;
+// node_13831
+theInterface.theResult=edge_13835;
+// node_13827
+edge_13906=theArgs.a;
+// node_13905
+edge_13908 = {};
+edge_13908['a'] = edge_13906;
+edge_13908['b'] = edge_13907;
+// node_13887
+if(edge_13917 === active && edge_13889!==null && edge_13889!==undefined) {edge_13910 = edge_13889(edge_13908);}
+// node_13909
+edge_13912 = {};
+edge_13912['cond'] = edge_13910;
+edge_13912['source'] = edge_13919;
+// node_13892
+if(edge_13918 === active && edge_13894!==null && edge_13894!==undefined) {edge_13914 = edge_13894(edge_13912);}
+// node_13913
 
 
 ///////////////////////////////////////////////////////////////////////

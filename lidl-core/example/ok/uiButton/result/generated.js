@@ -259,7 +259,13 @@ var cursor = function(mouse) {
   return cursor;
 }
 
-
+var toString = function(_){
+  if(isActive(_)){
+    return _+"";
+  } else {
+    return inactive;
+  }
+}
 
 var button = function(button) {
   var button = {
@@ -369,58 +375,58 @@ var inset = function(_){
 
 ///////////////////////////////////////////////////////////////////////
 // Declaration of variables (Edges of the graph)
-var edge_11766 = inactive;
-var edge_11767 = inactive;
-var edge_11782 = inactive;
-var edge_11785 = inactive;
-var edge_11786 = inactive;
-var edge_11787 = inactive;
-var edge_11791 = inactive;
-var edge_11792 = inactive;
-var edge_11793 = inactive;
-var edge_11795 = inactive;
-var edge_11796 = inactive;
-var edge_11797 = inactive;
-var edge_11799 = inactive;
+var edge_16497 = inactive;
+var edge_16498 = inactive;
+var edge_16513 = inactive;
+var edge_16516 = inactive;
+var edge_16517 = inactive;
+var edge_16518 = inactive;
+var edge_16522 = inactive;
+var edge_16523 = inactive;
+var edge_16524 = inactive;
+var edge_16526 = inactive;
+var edge_16527 = inactive;
+var edge_16528 = inactive;
+var edge_16530 = inactive;
 
 ///////////////////////////////////////////////////////////////////////
 // Data flow processing (Nodes of the graph)
-// node_11763
-edge_11786 = "OK";
-// node_11761
-edge_11792 = 100;
-// node_11759
-edge_11791 = 200;
-// node_11756
-edge_11795 = 10;
-// node_11794
-edge_11796 = edge_11795;
-edge_11797 = edge_11795;
-// node_11788
-edge_11793 = {};
-edge_11793['x'] = edge_11796;
-edge_11793['y'] = edge_11797;
-edge_11793['width'] = edge_11791;
-edge_11793['height'] = edge_11792;
-// node_11754
-edge_11785 = false;
-// node_11783
-edge_11787 = {};
-edge_11787['layout'] = edge_11793;
-edge_11787['text'] = edge_11786;
-edge_11787['pushed'] = edge_11785;
-// node_11752
-edge_11767 = button;
-// node_11749
-edge_11766 = active;
-// node_11765
-if(edge_11766 === active && edge_11767!==null && edge_11767!==undefined) {edge_11782 = edge_11767(edge_11787);}
-// node_11691
-theInterface.graphics=edge_11782;
-// node_11689
-edge_11799=theInterface.mouse;
-// node_11798
-// We dont care about edge_11799, this is a fake receiver node
+// node_16494
+edge_16517 = "OK";
+// node_16492
+edge_16523 = 100;
+// node_16490
+edge_16522 = 200;
+// node_16487
+edge_16526 = 10;
+// node_16525
+edge_16527 = edge_16526;
+edge_16528 = edge_16526;
+// node_16519
+edge_16524 = {};
+edge_16524['x'] = edge_16527;
+edge_16524['y'] = edge_16528;
+edge_16524['width'] = edge_16522;
+edge_16524['height'] = edge_16523;
+// node_16485
+edge_16516 = false;
+// node_16514
+edge_16518 = {};
+edge_16518['layout'] = edge_16524;
+edge_16518['text'] = edge_16517;
+edge_16518['pushed'] = edge_16516;
+// node_16483
+edge_16498 = button;
+// node_16480
+edge_16497 = active;
+// node_16496
+if(edge_16497 === active && edge_16498!==null && edge_16498!==undefined) {edge_16513 = edge_16498(edge_16518);}
+// node_16422
+theInterface.graphics=edge_16513;
+// node_16420
+edge_16530=theInterface.mouse;
+// node_16529
+// We dont care about edge_16530, this is a fake receiver node
 
 
 ///////////////////////////////////////////////////////////////////////

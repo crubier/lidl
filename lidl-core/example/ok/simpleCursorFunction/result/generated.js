@@ -259,7 +259,13 @@ var cursor = function(mouse) {
   return cursor;
 }
 
-
+var toString = function(_){
+  if(isActive(_)){
+    return _+"";
+  } else {
+    return inactive;
+  }
+}
 
 var button = function(button) {
   var button = {
@@ -369,23 +375,23 @@ var inset = function(_){
 
 ///////////////////////////////////////////////////////////////////////
 // Declaration of variables (Edges of the graph)
-var edge_10421 = inactive;
-var edge_10422 = inactive;
-var edge_10423 = inactive;
-var edge_10425 = inactive;
+var edge_15152 = inactive;
+var edge_15153 = inactive;
+var edge_15154 = inactive;
+var edge_15156 = inactive;
 
 ///////////////////////////////////////////////////////////////////////
 // Data flow processing (Nodes of the graph)
-// node_10418
-edge_10422 = cursor;
-// node_10415
-edge_10421 = active;
-// node_10406
-edge_10423=theArgs.mouse;
-// node_10420
-if(edge_10421 === active && edge_10422!==null && edge_10422!==undefined) {edge_10425 = edge_10422(edge_10423);}
-// node_10408
-theInterface=edge_10425;
+// node_15149
+edge_15153 = cursor;
+// node_15146
+edge_15152 = active;
+// node_15137
+edge_15154=theArgs.mouse;
+// node_15151
+if(edge_15152 === active && edge_15153!==null && edge_15153!==undefined) {edge_15156 = edge_15153(edge_15154);}
+// node_15139
+theInterface=edge_15156;
 
 
 ///////////////////////////////////////////////////////////////////////

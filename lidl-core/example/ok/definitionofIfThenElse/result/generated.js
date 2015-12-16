@@ -259,7 +259,13 @@ var cursor = function(mouse) {
   return cursor;
 }
 
-
+var toString = function(_){
+  if(isActive(_)){
+    return _+"";
+  } else {
+    return inactive;
+  }
+}
 
 var button = function(button) {
   var button = {
@@ -369,78 +375,78 @@ var inset = function(_){
 
 ///////////////////////////////////////////////////////////////////////
 // Declaration of variables (Edges of the graph)
-var edge_6779 = inactive;
-var edge_6784 = inactive;
-var edge_6794 = inactive;
-var edge_6795 = inactive;
-var edge_6796 = inactive;
-var edge_6798 = inactive;
-var edge_6800 = inactive;
-var edge_6804 = inactive;
-var edge_6806 = inactive;
-var edge_6808 = inactive;
-var edge_6810 = inactive;
-var edge_6812 = inactive;
-var edge_6814 = inactive;
-var edge_6815 = inactive;
-var edge_6816 = inactive;
-var edge_6817 = inactive;
-var edge_6819 = inactive;
-var edge_6820 = inactive;
-var edge_6821 = inactive;
+var edge_11510 = inactive;
+var edge_11515 = inactive;
+var edge_11525 = inactive;
+var edge_11526 = inactive;
+var edge_11527 = inactive;
+var edge_11529 = inactive;
+var edge_11531 = inactive;
+var edge_11535 = inactive;
+var edge_11537 = inactive;
+var edge_11539 = inactive;
+var edge_11541 = inactive;
+var edge_11543 = inactive;
+var edge_11545 = inactive;
+var edge_11546 = inactive;
+var edge_11547 = inactive;
+var edge_11548 = inactive;
+var edge_11550 = inactive;
+var edge_11551 = inactive;
+var edge_11552 = inactive;
 
 ///////////////////////////////////////////////////////////////////////
 // Data flow processing (Nodes of the graph)
-// node_6774
-edge_6812 = 4;
-// node_6771
-edge_6808 = 3;
-// node_6768
-edge_6795 = 1;
-// node_6766
-edge_6784 = whenThenElse;
-// node_6764
-edge_6779 = isEqual;
-// node_6755
-edge_6814 = active;
-// node_6813
-edge_6815 = edge_6814;
-edge_6816 = edge_6814;
-edge_6817 = edge_6814;
-// node_6735
-edge_6794=theArgs.t;
-// node_6793
-edge_6796 = {};
-edge_6796['a'] = edge_6794;
-edge_6796['b'] = edge_6795;
-// node_6777
-if(edge_6815 === active && edge_6779!==null && edge_6779!==undefined) {edge_6798 = edge_6779(edge_6796);}
-// node_6797
-edge_6800 = {};
-edge_6800['cond'] = edge_6798;
-edge_6800['source'] = edge_6817;
-// node_6782
-if(edge_6816 === active && edge_6784!==null && edge_6784!==undefined) {edge_6804 = edge_6784(edge_6800);}
-// node_6801
-edge_6806 = edge_6804['a'];
-edge_6810 = edge_6804['b'];
-// node_6809
-if(edge_6810 === active) {edge_6821 = edge_6812;}
-// node_6805
-if(edge_6806 === active) {edge_6820 = edge_6808;}
-// node_6818
-edge_6819=null;
-if(edge_6819===null ){
-  edge_6819 = edge_6820;
-} else if (edge_6820 !== null){
-  throw new Error('Multiple active assignments to the same signal edge_6819 : '+edge_6819 + ' and ' + edge_6820);
-}if(edge_6819===null ){
-  edge_6819 = edge_6821;
-} else if (edge_6821 !== null){
-  throw new Error('Multiple active assignments to the same signal edge_6819 : '+edge_6819 + ' and ' + edge_6821);
+// node_11505
+edge_11543 = 4;
+// node_11502
+edge_11539 = 3;
+// node_11499
+edge_11526 = 1;
+// node_11497
+edge_11515 = whenThenElse;
+// node_11495
+edge_11510 = isEqual;
+// node_11486
+edge_11545 = active;
+// node_11544
+edge_11546 = edge_11545;
+edge_11547 = edge_11545;
+edge_11548 = edge_11545;
+// node_11466
+edge_11525=theArgs.t;
+// node_11524
+edge_11527 = {};
+edge_11527['a'] = edge_11525;
+edge_11527['b'] = edge_11526;
+// node_11508
+if(edge_11546 === active && edge_11510!==null && edge_11510!==undefined) {edge_11529 = edge_11510(edge_11527);}
+// node_11528
+edge_11531 = {};
+edge_11531['cond'] = edge_11529;
+edge_11531['source'] = edge_11548;
+// node_11513
+if(edge_11547 === active && edge_11515!==null && edge_11515!==undefined) {edge_11535 = edge_11515(edge_11531);}
+// node_11532
+edge_11537 = edge_11535['a'];
+edge_11541 = edge_11535['b'];
+// node_11540
+if(edge_11541 !== inactive) {edge_11552 = edge_11543;}
+// node_11536
+if(edge_11537 !== inactive) {edge_11551 = edge_11539;}
+// node_11549
+edge_11550=null;
+if(edge_11550===null ){
+  edge_11550 = edge_11551;
+} else if (edge_11551 !== null){
+  throw new Error('Multiple active assignments to the same signal edge_11550 : '+edge_11550 + ' and ' + edge_11551);
+}if(edge_11550===null ){
+  edge_11550 = edge_11552;
+} else if (edge_11552 !== null){
+  throw new Error('Multiple active assignments to the same signal edge_11550 : '+edge_11550 + ' and ' + edge_11552);
 }
-// node_6737
-theInterface=edge_6819;
+// node_11468
+theInterface=edge_11550;
 
 
 ///////////////////////////////////////////////////////////////////////

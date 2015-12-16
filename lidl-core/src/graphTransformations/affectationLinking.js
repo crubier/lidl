@@ -49,7 +49,7 @@ export default function affectationLinking(graph) {
               type: 'InteractionInstance',
               content: {
                 type: 'InteractionNative',
-                content: 'if(<%=a0%> === active) {<%=a1%> = <%=a2%>;}\n'
+                content: 'if(<%=a0%> !== inactive) {<%=a1%> = <%=a2%>;}\n'
               },
               ports: theNode.ports
             });
@@ -86,7 +86,7 @@ export default function affectationLinking(graph) {
               type: 'InteractionInstance',
               content: {
                 type: 'InteractionNative',
-                content: 'if(<%=a0%> === active) {<%=a2%> = <%=a1%>;}\n'
+                content: 'if(<%=a0%> !== inactive) {<%=a2%> = <%=a1%>;}\n'
               },
               ports: theNode.ports
             });

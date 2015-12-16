@@ -1,14 +1,14 @@
-digraph g{node_10236 [shape="box", style="filled", color="#dff1f2", fontname="Courier", label="node_10236
+digraph g{node_14967 [shape="box", style="filled", color="#dff1f2", fontname="Courier", label="node_14967
 <%=a0%>=theInterface.theNumber;
 
 0: Number out" ]
-node_10238 [shape="box", style="filled", color="#dff1f2", fontname="Courier", label="node_10238
+node_14969 [shape="box", style="filled", color="#dff1f2", fontname="Courier", label="node_14969
 theInterface.theResult=<%=a0%>;
 
 0: Number in" ]
-node_10258 [shape="box", style="filled", color="#dff1f2", fontname="Courier", label="node_10258
+node_14989 [shape="box", style="filled", color="#dff1f2", fontname="Courier", label="node_14989
 <%=a0%> = active;
 
 0: Activation out" ]
-node_10238 -> node_10236 [dir=none, arrowHead=none, fontname="Times-Italic", arrowsize=1, color="#9d8400", label="edge_10271",  headlabel="0: Number out", taillabel="0: Number in" ]
+node_14969 -> node_14967 [dir=none, arrowHead=none, fontname="Times-Italic", arrowsize=1, color="#9d8400", label="edge_15002",  headlabel="0: Number out", taillabel="0: Number in" ]
 }
