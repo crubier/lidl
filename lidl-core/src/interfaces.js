@@ -203,7 +203,7 @@ if(_.isUndefined(theInterface))return undefined;
         };
       }
     default:
-      throw "Trying to get the globalisation of something which is not an interface";
+      throw "Trying to get the globalisation of something which is not an interface: "+theInterface;
   }
 };
 
@@ -250,7 +250,7 @@ if(_.isUndefined(theInterface))return undefined;
           .value()
       };
     default:
-      throw "Trying to get the globalisation of something which is not an interface";
+      throw "Trying to get the localisation of something which is not an interface: "+theInterface;
   }
 };
 
@@ -312,6 +312,7 @@ if(_.isUndefined(inter))return undefined;
 export function isCompatible(int1, int2) {
   if(_.isUndefined(int1))return true;
   if(_.isUndefined(int2))return true;
+  console.log("Is compatible");
   let i1 = localisationInterface(int1);
   let i2 = localisationInterface(int2);
   var res;
@@ -359,6 +360,7 @@ export function isCompatible(int1, int2) {
 }
 
 export function subInterface(interfac,elementName){
+  console.log("subInterface");
   return _(localisationInterface(interfac).element).find(x=>(x.key===elementName)).value;
 }
 

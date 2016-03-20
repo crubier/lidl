@@ -32,7 +32,9 @@ function serialize(object,indentation) {
     case 'DataArray':
       return  '['+serialize(object.element)+']' ;
     default:
-      throw new Error('Cannot serialize '+object.type);
+      // throw new Error('Cannot serialize '+object.type);
+      console.log(new Error('Cannot serialize '+object.type));
+      return "";
   }
 }
 

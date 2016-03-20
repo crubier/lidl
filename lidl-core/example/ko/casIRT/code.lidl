@@ -77,6 +77,8 @@ interaction
         (theJoystick:Joystick)
         (theController:Controller)
     ):CommandPanel
+with
+  reference (mode):Mode
 is
 (
   ({

@@ -19,6 +19,10 @@ var cool = function(_) {
   }
 };
 
+
+var isInactive = function(y){return !isActive(y);};
+
+
 var fallback = function(_) {
   return (isActive(_.a) ? _.a : _.b);
 };

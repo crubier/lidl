@@ -1,0 +1,15 @@
+[{
+  "args": {
+    "user":{
+      "clr":"lidl_active_value",
+      "msg":null
+    },
+    "robot":{
+      "ack":"Cleared",
+      "alert":"Alert: Robot is catching fire !"
+    }
+  },
+  "memo": {},
+  "state": {},
+  "inter": "lidl_active_value"
+}]
