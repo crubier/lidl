@@ -1,0 +1,157 @@
+"use strict";
+///////////////////////////////////////////////////////////////////////////////////
+// LIDL type definitions and utilities
+///////////////////////////////////////////////////////////////////////////////////
+type Activation = ?"active";
+
+type Boolean = ?boolean;
+
+type Number = ?number;
+
+type Text = ?text;
+
+type Func<X,Y> = (x:X)=>Y;
+
+type Input<Y> = Func<void,Y>;
+
+type Output<X> = Func<X,void>;
+
+const inactive:Activation = null;
+const active:Activation = "active";
+
+// Activation of some data
+function activation<T>(x:T):boolean {
+  if (x===inactive) {
+    return false;
+  } else {
+    return true;
+  }
+}
+
+// Execute two lidl systems against each other
+function lidl<T>(a:Output<T>,b:Input<T>):void {
+  return a(b());
+}
+
+// Execute two lidl systems against each other in the other way
+function colidl<T>(a:Input<T>,b:Output<T>):void {
+  return b(a());
+}
+
+///////////////////////////////////////////////////////////////////////////////////
+// LIDL base interactions
+///////////////////////////////////////////////////////////////////////////////////
+function literal<T>(a:T):Input<T> {
+  return ()=>{
+    return a;
+  };
+}
+
+function sink<T>(name:String):Output<T> {
+  return (x)=>{
+    console.log(name + ": " + x);
+    return active;
+  };
+}
+
+function compose<Xa,Ya,Xb,Yb>(k:{a:Func<Xa,Ya>,b:Func<Xb,Yb>}):Func<{a:Xa,b:Xb},{a:Ya,b:Yb}> {
+  return (x)=> {
+    if(x!=null) {
+      if(activation(x.a) && activation(x.b)) {
+        return {a:k.a(x.a),b:k.b(x.b)};
+      } else {
+        return {a:k.a(),b:k.b()};
+      }
+    } else {
+      return {a:k.a(),b:k.b()};
+    }
+  }
+}
+
+// function compose<Xa>(k:{a:Input<X>,b:Input<X>}):Input<{a:X,b:X}> {
+//   return (x)=> {
+//     return {a:k.a(),b:k.b()};
+//   }
+// }
+
+function functionApplication<Tin,Tout>(f:Input<Func<Tin,Tout>>,a:Input<Tin>,b:Output<Tout>):Output<Activation> {
+  return (x)=>{
+    if(activation(f) && activation(a) && activation(x)) {
+      return b(f()(a()));
+    } else {
+      return b(inactive);
+    }
+  };
+}
+
+function affectation<Tin,Tout>(a:Input<Tin>,b:Output<Tout>):Output<Activation> {
+  return (x)=>{
+    if(activation(a) && activation(x)) {
+      return b(a());
+    } else {
+      return b(inactive);
+    }
+  };
+}
+
+function behaviour<T>(a:T,b:Output<Activation>):T {
+  b(active);
+  return a;
+}
+///////////////////////////////////////////////////////////////////////////////////
+// LIDL JS FFI headers (functions defined in JS or other language)
+///////////////////////////////////////////////////////////////////////////////////
+function identity<X>(_:X):X {
+  return _;
+}
+
+function addition(_:{a:Number,b:Number}):Number {
+  if (activation(_.a) && activation(_.b)) {
+    return _.a + _.b;
+  } else {
+    return inactive;
+  }
+}
+///////////////////////////////////////////////////////////////////////////////////
+// LIDL standard library (interactions composed using base interactions only)
+///////////////////////////////////////////////////////////////////////////////////
+// function add(a:Input<Number>,b:Input<Number>):Input<Number> {
+//
+//   return behaviour(x,functionApplication(literal(addition),))
+// }
+
+
+///////////////////////////////////////////////////////////////////////////////////
+// Tests
+///////////////////////////////////////////////////////////////////////////////////
+lidl(
+  functionApplication(literal(identity),literal(1),sink("joe1")),
+  literal(active)
+);
+
+lidl(
+  functionApplication(literal(identity),literal(1),sink("joenull")),
+  literal(inactive)
+);
+
+lidl(
+  functionApplication(literal(addition),compose({a:literal(1),b:literal(1)}),sink("bob")),
+  literal(active)
+);
+
+lidl(
+  behaviour(sink("beh1"),functionApplication(literal(addition),compose({a:literal(5),b:literal(1)}),sink("beh2"))),
+  literal("lol")
+);
+
+colidl(
+  behaviour(literal("lol"),functionApplication(literal(addition),compose({a:literal(5),b:literal(1)}),sink("beh3"))),
+  sink("beh4")
+);
+
+lidl(
+  behaviour(sink("beh1"),functionApplication(literal(addition),compose({a:literal(5),b:literal(1)}),sink("beh2"))),
+  literal("lol")
+);
+
+console.log("ok");

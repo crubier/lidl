@@ -1,0 +1,16 @@
+{
+  "private": "true",
+  "name": "lidl-js",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "Vincent Lecrubier <vincent.lecrubier@gmail.com> (http://www.vincentlecrubier.fr/)",
+  "license": "ISC",
+  "dependencies": {
+    "babel-plugin-transform-flow-comments": "^6.7.0",
+    "flow-bin": "^0.22.1"
+  }
+}
