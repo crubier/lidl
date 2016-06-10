@@ -14,7 +14,7 @@ type Context = Map<string,any>;
 
 type Func<X,Y> = (x:X)=>Y;
 
-type LidlFunc<X,Y> = (x:X,context:Context)=>{y:Y,context:Context};
+type LidlFunc<X,Y> = (x:X,context:Context)=>Y;
 
 type Input<Y> = LidlFunc<void,Y>;
 

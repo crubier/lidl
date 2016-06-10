@@ -1,3 +1,4 @@
 {
-  "plugins": ["transform-flow-comments"]
+  "plugins": ["transform-flow-comments"],
+  "presets": ["es2015","stage-0"]
 }

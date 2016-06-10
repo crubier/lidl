@@ -1,0 +1,7 @@
+[package]
+name = "lidl"
+version = "1.0.0"
+authors = ["Vincent Lecrubier <vincent.lecrubier@gmail.com>"]
+
+[dependencies]
+void = "1"
