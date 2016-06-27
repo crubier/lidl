@@ -3,8 +3,10 @@
 
 
 
-getExpandedLidl;var _lodash = require('lodash');var _lodash2 = _interopRequireDefault(_lodash);function _interopRequireDefault(obj) {return obj && obj.__esModule ? obj : { default: obj };} // This function should be called with a graph just after the instantiateInterfaceStage
+getExpandedLidl;var _lodash = require("lodash");var _lodash2 = _interopRequireDefault(_lodash);function _interopRequireDefault(obj) {return obj && obj.__esModule ? obj : { default: obj };} // This function should be called with a graph just after the instantiateInterfaceStage
 function getExpandedLidl(graph) {
+  return { source: "change code in getExpandedLidl.js to see this" };
+
   var defNode = 
   graph.
   findNode({ type: 'InteractionDefinition' });
