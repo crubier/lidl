@@ -1,0 +1,1565 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+  <meta http-equiv="Content-Style-Type" content="text/css" />
+  <meta name="generator" content="pandoc" />
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  <title></title>
+  <style type="text/css">code{white-space: pre;}</style>
+<style>
+/*! normalize.css v3.0.2 | MIT License | git.io/normalize */
+/**
+* 1. Set default font family to sans-serif.
+* 2. Prevent iOS text size adjust after orientation change, without disabling
+*    user zoom.
+*/
+
+html {
+  font-family: sans-serif;
+  /* 1 */
+
+  -ms-text-size-adjust: 100%;
+  /* 2 */
+
+  -webkit-text-size-adjust: 100%;
+  /* 2 */
+}
+/**
+* Remove default margin.
+*/
+
+body {
+  margin: 0;
+  margin-left: 5%;
+  margin-right: 5%;
+}
+/* HTML5 display definitions
+========================================================================== */
+/**
+* Correct `block` display not defined for any HTML5 element in IE 8/9.
+* Correct `block` display not defined for `details` or `summary` in IE 10/11
+* and Firefox.
+* Correct `block` display not defined for `main` in IE 11.
+*/
+
+article,
+aside,
+details,
+figcaption,
+figure,
+footer,
+header,
+hgroup,
+main,
+menu,
+nav,
+section,
+summary {
+  display: block;
+}
+/**
+* 1. Correct `inline-block` display not defined in IE 8/9.
+* 2. Normalize vertical alignment of `progress` in Chrome, Firefox, and Opera.
+*/
+
+audio,
+canvas,
+progress,
+video {
+  display: inline-block;
+  /* 1 */
+
+  vertical-align: baseline;
+  /* 2 */
+}
+/**
+* Prevent modern browsers from displaying `audio` without controls.
+* Remove excess height in iOS 5 devices.
+*/
+
+audio:not([controls]) {
+  display: none;
+  height: 0;
+}
+/**
+* Address `[hidden]` styling not present in IE 8/9/10.
+* Hide the `template` element in IE 8/9/11, Safari, and Firefox < 22.
+*/
+
+[hidden],
+template {
+  display: none;
+}
+/* Links
+========================================================================== */
+/**
+* Remove the gray background color from active links in IE 10.
+*/
+
+a {
+  background-color: transparent;
+}
+/**
+* Improve readability when focused and also mouse hovered in all browsers.
+*/
+
+a:active,
+a:hover {
+  outline: 0;
+}
+/* Text-level semantics
+========================================================================== */
+/**
+* Address styling not present in IE 8/9/10/11, Safari, and Chrome.
+*/
+
+abbr[title] {
+  border-bottom: 1px dotted;
+}
+/**
+* Address style set to `bolder` in Firefox 4+, Safari, and Chrome.
+*/
+
+b,
+strong {
+  font-weight: bold;
+}
+/**
+* Address styling not present in Safari and Chrome.
+*/
+
+dfn {
+  font-style: italic;
+}
+/**
+* Address variable `h1` font-size and margin within `section` and `article`
+* contexts in Firefox 4+, Safari, and Chrome.
+*/
+
+h1 {
+  font-size: 2em;
+  margin: 0.67em 0;
+}
+/**
+* Address styling not present in IE 8/9.
+*/
+
+mark {
+  background: #ff0;
+  color: #000;
+}
+/**
+* Address inconsistent and variable font size in all browsers.
+*/
+
+small {
+  font-size: 80%;
+}
+/**
+* Prevent `sub` and `sup` affecting `line-height` in all browsers.
+*/
+
+sub,
+sup {
+  font-size: 75%;
+  line-height: 0;
+  position: relative;
+  vertical-align: baseline;
+}
+sup {
+  top: -0.5em;
+}
+sub {
+  bottom: -0.25em;
+}
+/* Embedded content
+========================================================================== */
+/**
+* Remove border when inside `a` element in IE 8/9/10.
+*/
+
+img {
+  border: 0;
+  margin-left: auto;
+  margin-right: auto;
+}
+/**
+* Correct overflow not hidden in IE 9/10/11.
+*/
+
+svg:not(:root) {
+  overflow: hidden;
+}
+/* Grouping content
+========================================================================== */
+/**
+* Address margin not present in IE 8/9 and Safari.
+*/
+
+figure {
+  margin: 1em 40px;
+}
+/**
+* Address differences between Firefox and other browsers.
+*/
+
+hr {
+  -moz-box-sizing: content-box;
+  box-sizing: content-box;
+  height: 0;
+}
+/**
+* Contain overflow in all browsers.
+*/
+
+pre {
+  overflow: auto;
+}
+/**
+* Address odd `em`-unit font size rendering in all browsers.
+*/
+
+code,
+kbd,
+pre,
+samp {
+  font-family: monospace, monospace;
+  font-size: 1em;
+}
+/* Forms
+========================================================================== */
+/**
+* Known limitation: by default, Chrome and Safari on OS X allow very limited
+* styling of `select`, unless a `border` property is set.
+*/
+/**
+* 1. Correct color not being inherited.
+*    Known issue: affects color of disabled elements.
+* 2. Correct font properties not being inherited.
+* 3. Address margins set differently in Firefox 4+, Safari, and Chrome.
+*/
+
+button,
+input,
+optgroup,
+select,
+textarea {
+  color: inherit;
+  /* 1 */
+
+  font: inherit;
+  /* 2 */
+
+  margin: 0;
+  /* 3 */
+}
+/**
+* Address `overflow` set to `hidden` in IE 8/9/10/11.
+*/
+
+button {
+  overflow: visible;
+}
+/**
+* Address inconsistent `text-transform` inheritance for `button` and `select`.
+* All other form control elements do not inherit `text-transform` values.
+* Correct `button` style inheritance in Firefox, IE 8/9/10/11, and Opera.
+* Correct `select` style inheritance in Firefox.
+*/
+
+button,
+select {
+  text-transform: none;
+}
+/**
+* 1. Avoid the WebKit bug in Android 4.0.* where (2) destroys native `audio`
+*    and `video` controls.
+* 2. Correct inability to style clickable `input` types in iOS.
+* 3. Improve usability and consistency of cursor style between image-type
+*    `input` and others.
+*/
+
+button,
+html input[type="button"],
+/* 1 */
+
+input[type="reset"],
+input[type="submit"] {
+  -webkit-appearance: button;
+  /* 2 */
+
+  cursor: pointer;
+  /* 3 */
+}
+/**
+* Re-set default cursor for disabled elements.
+*/
+
+button[disabled],
+html input[disabled] {
+  cursor: default;
+}
+/**
+* Remove inner padding and border in Firefox 4+.
+*/
+
+button::-moz-focus-inner,
+input::-moz-focus-inner {
+  border: 0;
+  padding: 0;
+}
+/**
+* Address Firefox 4+ setting `line-height` on `input` using `!important` in
+* the UA stylesheet.
+*/
+
+input {
+  line-height: normal;
+}
+/**
+* It's recommended that you don't attempt to style these elements.
+* Firefox's implementation doesn't respect box-sizing, padding, or width.
+*
+* 1. Address box sizing set to `content-box` in IE 8/9/10.
+* 2. Remove excess padding in IE 8/9/10.
+*/
+
+input[type="checkbox"],
+input[type="radio"] {
+  box-sizing: border-box;
+  /* 1 */
+
+  padding: 0;
+  /* 2 */
+}
+/**
+* Fix the cursor style for Chrome's increment/decrement buttons. For certain
+* `font-size` values of the `input`, it causes the cursor style of the
+* decrement button to change from `default` to `text`.
+*/
+
+input[type="number"]::-webkit-inner-spin-button,
+input[type="number"]::-webkit-outer-spin-button {
+  height: auto;
+}
+/**
+* 1. Address `appearance` set to `searchfield` in Safari and Chrome.
+* 2. Address `box-sizing` set to `border-box` in Safari and Chrome
+*    (include `-moz` to future-proof).
+*/
+
+input[type="search"] {
+  -webkit-appearance: textfield;
+  /* 1 */
+
+  -moz-box-sizing: content-box;
+  -webkit-box-sizing: content-box;
+  /* 2 */
+
+  box-sizing: content-box;
+}
+/**
+* Remove inner padding and search cancel button in Safari and Chrome on OS X.
+* Safari (but not Chrome) clips the cancel button when the search input has
+* padding (and `textfield` appearance).
+*/
+
+input[type="search"]::-webkit-search-cancel-button,
+input[type="search"]::-webkit-search-decoration {
+  -webkit-appearance: none;
+}
+/**
+* Define consistent border, margin, and padding.
+*/
+
+fieldset {
+  border: 1px solid #c0c0c0;
+  margin: 0 2px;
+  padding: 0.35em 0.625em 0.75em;
+}
+/**
+* 1. Correct `color` not being inherited in IE 8/9/10/11.
+* 2. Remove padding so people aren't caught out if they zero out fieldsets.
+*/
+
+legend {
+  border: 0;
+  /* 1 */
+
+  padding: 0;
+  /* 2 */
+}
+/**
+* Remove default vertical scrollbar in IE 8/9/10/11.
+*/
+
+textarea {
+  overflow: auto;
+}
+/**
+* Don't inherit the `font-weight` (applied by a rule above).
+* NOTE: the default cannot safely be changed in Chrome and Safari on OS X.
+*/
+
+optgroup {
+  font-weight: bold;
+}
+/* Tables
+========================================================================== */
+/**
+* Remove most spacing between table cells.
+*/
+table {
+  border-collapse: collapse;
+  border-spacing: 0;
+}
+td,
+th {
+  padding: 0;
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+/*
+* Skeleton V2.0.2
+* Copyright 2014, Dave Gamache
+* www.getskeleton.com
+* Free to use under the MIT license.
+* http://www.opensource.org/licenses/mit-license.php
+* 12/15/2014
+*/
+/* Table of contents
+––––––––––––––––––––––––––––––––––––––––––––––––––
+- Grid
+- Base Styles
+- Typography
+- Links
+- Buttons
+- Forms
+- Lists
+- Code
+- Tables
+- Spacing
+- Utilities
+- Clearing
+- Media Queries
+*/
+/* Grid
+–––––––––––––––––––––––––––––––––––––––––––––––––– */
+
+.container {
+  position: relative;
+  width: 100%;
+  max-width: 960px;
+  margin: 0 auto;
+  padding: 0 20px;
+  box-sizing: border-box;
+}
+.column,
+.columns {
+  width: 100%;
+  float: left;
+  box-sizing: border-box;
+}
+/* For devices larger than 400px */
+
+@media (min-width: 400px) {
+  .container {
+    width: 85%;
+    padding: 0;
+  }
+}
+/* For devices larger than 550px */
+
+@media (min-width: 550px) {
+  .container {
+    width: 80%;
+  }
+  .column,
+  .columns {
+    margin-left: 4%;
+  }
+  .column:first-child,
+  .columns:first-child {
+    margin-left: 0;
+  }
+  .one.column,
+  .one.columns {
+    width: 4.66666666667%;
+  }
+  .two.columns {
+    width: 13.3333333333%;
+  }
+  .three.columns {
+    width: 22%;
+  }
+  .four.columns {
+    width: 30.6666666667%;
+  }
+  .five.columns {
+    width: 39.3333333333%;
+  }
+  .six.columns {
+    width: 48%;
+  }
+  .seven.columns {
+    width: 56.6666666667%;
+  }
+  .eight.columns {
+    width: 65.3333333333%;
+  }
+  .nine.columns {
+    width: 74.0%;
+  }
+  .ten.columns {
+    width: 82.6666666667%;
+  }
+  .eleven.columns {
+    width: 91.3333333333%;
+  }
+  .twelve.columns {
+    width: 100%;
+    margin-left: 0;
+  }
+  .one-third.column {
+    width: 30.6666666667%;
+  }
+  .two-thirds.column {
+    width: 65.3333333333%;
+  }
+  .one-half.column {
+    width: 48%;
+  }
+  /* Offsets */
+
+  .offset-by-one.column,
+  .offset-by-one.columns {
+    margin-left: 8.66666666667%;
+  }
+  .offset-by-two.column,
+  .offset-by-two.columns {
+    margin-left: 17.3333333333%;
+  }
+  .offset-by-three.column,
+  .offset-by-three.columns {
+    margin-left: 26%;
+  }
+  .offset-by-four.column,
+  .offset-by-four.columns {
+    margin-left: 34.6666666667%;
+  }
+  .offset-by-five.column,
+  .offset-by-five.columns {
+    margin-left: 43.3333333333%;
+  }
+  .offset-by-six.column,
+  .offset-by-six.columns {
+    margin-left: 52%;
+  }
+  .offset-by-seven.column,
+  .offset-by-seven.columns {
+    margin-left: 60.6666666667%;
+  }
+  .offset-by-eight.column,
+  .offset-by-eight.columns {
+    margin-left: 69.3333333333%;
+  }
+  .offset-by-nine.column,
+  .offset-by-nine.columns {
+    margin-left: 78.0%;
+  }
+  .offset-by-ten.column,
+  .offset-by-ten.columns {
+    margin-left: 86.6666666667%;
+  }
+  .offset-by-eleven.column,
+  .offset-by-eleven.columns {
+    margin-left: 95.3333333333%;
+  }
+  .offset-by-one-third.column,
+  .offset-by-one-third.columns {
+    margin-left: 34.6666666667%;
+  }
+  .offset-by-two-thirds.column,
+  .offset-by-two-thirds.columns {
+    margin-left: 69.3333333333%;
+  }
+  .offset-by-one-half.column,
+  .offset-by-one-half.columns {
+    margin-left: 52%;
+  }
+}
+/* Base Styles
+–––––––––––––––––––––––––––––––––––––––––––––––––– */
+/* NOTE
+html is set to 62.5% so that all the REM measurements throughout Skeleton
+are based on 10px sizing. So basically 1.5rem = 15px :) */
+
+html {
+  font-size: 62.5%;
+}
+body {
+  font-size: 1.5em;
+  /* currently ems cause chrome bug misinterpreting rems on body element */
+
+  line-height: 1.6;
+  font-weight: 400;
+  font-family: "Raleway", "HelveticaNeue", "Helvetica Neue", Helvetica, Arial, sans-serif;
+  color: #222;
+}
+/* Typography
+–––––––––––––––––––––––––––––––––––––––––––––––––– */
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+  margin-top: 0;
+  margin-bottom: 2rem;
+  font-weight: 300;
+}
+h1 {
+  margin-top: 2em;
+  font-size: 4.0rem;
+  line-height: 1.2;
+  letter-spacing: -.1rem;
+}
+h2 {
+  margin-top: 2em;
+  font-size: 3.6rem;
+  line-height: 1.25;
+  letter-spacing: -.1rem;
+}
+h3 {
+  margin-top: 2em;
+  font-size: 3.0rem;
+  line-height: 1.3;
+  letter-spacing: -.1rem;
+}
+h4 {
+  margin-top: 2em;
+  font-size: 2.4rem;
+  line-height: 1.35;
+  letter-spacing: -.08rem;
+}
+h5 {
+  margin-top: 2em;
+  font-size: 1.8rem;
+  line-height: 1.5;
+  letter-spacing: -.05rem;
+}
+h6 {
+  margin-top: 2em;
+  font-size: 1.5rem;
+  line-height: 1.6;
+  letter-spacing: 0;
+}
+/* Larger than phablet */
+
+@media (min-width: 550px) {
+  h1 {
+    font-size: 5.0rem;
+  }
+  h2 {
+    font-size: 4.2rem;
+  }
+  h3 {
+    font-size: 3.6rem;
+  }
+  h4 {
+    font-size: 3.0rem;
+  }
+  h5 {
+    font-size: 2.4rem;
+  }
+  h6 {
+    font-size: 1.5rem;
+  }
+}
+p {
+  margin-top: 0;
+}
+/* Links
+–––––––––––––––––––––––––––––––––––––––––––––––––– */
+
+a {
+  color: #1EAEDB;
+}
+a:hover {
+  color: #0FA0CE;
+}
+/* Buttons
+–––––––––––––––––––––––––––––––––––––––––––––––––– */
+
+.button,
+button,
+input[type="submit"],
+input[type="reset"],
+input[type="button"] {
+  display: inline-block;
+  height: 38px;
+  padding: 0 30px;
+  color: #555;
+  text-align: center;
+  font-size: 11px;
+  font-weight: 600;
+  line-height: 38px;
+  letter-spacing: .1rem;
+  text-transform: uppercase;
+  text-decoration: none;
+  white-space: nowrap;
+  background-color: transparent;
+  border-radius: 4px;
+  border: 1px solid #bbb;
+  cursor: pointer;
+  box-sizing: border-box;
+}
+.button:hover,
+button:hover,
+input[type="submit"]:hover,
+input[type="reset"]:hover,
+input[type="button"]:hover,
+.button:focus,
+button:focus,
+input[type="submit"]:focus,
+input[type="reset"]:focus,
+input[type="button"]:focus {
+  color: #333;
+  border-color: #888;
+  outline: 0;
+}
+.button.button-primary,
+button.button-primary,
+input[type="submit"].button-primary,
+input[type="reset"].button-primary,
+input[type="button"].button-primary {
+  color: #FFF;
+  background-color: #33C3F0;
+  border-color: #33C3F0;
+}
+.button.button-primary:hover,
+button.button-primary:hover,
+input[type="submit"].button-primary:hover,
+input[type="reset"].button-primary:hover,
+input[type="button"].button-primary:hover,
+.button.button-primary:focus,
+button.button-primary:focus,
+input[type="submit"].button-primary:focus,
+input[type="reset"].button-primary:focus,
+input[type="button"].button-primary:focus {
+  color: #FFF;
+  background-color: #1EAEDB;
+  border-color: #1EAEDB;
+}
+/* Forms
+–––––––––––––––––––––––––––––––––––––––––––––––––– */
+
+input[type="email"],
+input[type="search"],
+input[type="text"],
+input[type="tel"],
+input[type="url"],
+input[type="password"],
+textarea,
+select {
+  height: 38px;
+  padding: 6px 10px;
+  /* The 6px vertically centers text on FF, ignored by Webkit */
+
+  background-color: #fff;
+  border: 1px solid #D1D1D1;
+  border-radius: 4px;
+  box-shadow: none;
+  box-sizing: border-box;
+}
+/* Removes awkard default styles on some inputs for iOS */
+
+input[type="email"],
+input[type="search"],
+input[type="text"],
+input[type="tel"],
+input[type="url"],
+input[type="password"],
+textarea {
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  appearance: none;
+}
+textarea {
+  min-height: 65px;
+  padding-top: 6px;
+  padding-bottom: 6px;
+}
+input[type="email"]:focus,
+input[type="search"]:focus,
+input[type="text"]:focus,
+input[type="tel"]:focus,
+input[type="url"]:focus,
+input[type="password"]:focus,
+textarea:focus,
+select:focus {
+  border: 1px solid #33C3F0;
+  outline: 0;
+}
+label,
+legend {
+  display: block;
+  margin-bottom: .5rem;
+  font-weight: 600;
+}
+fieldset {
+  padding: 0;
+  border-width: 0;
+}
+input[type="checkbox"],
+input[type="radio"] {
+  display: inline;
+}
+label > .label-body {
+  display: inline-block;
+  margin-left: .5rem;
+  font-weight: normal;
+}
+/* Lists
+–––––––––––––––––––––––––––––––––––––––––––––––––– */
+
+/*ul {
+list-style: circle inside;
+}
+ol {
+list-style: decimal inside;
+}
+ol,
+ul {
+padding-left: 0;
+margin-top: 0;
+}
+ul ul,
+ul ol,
+ol ol,
+ol ul {
+margin: 1.5rem 0 1.5rem 3rem;
+font-size: 100%;
+}
+li {
+margin-bottom: 1rem;
+}*/
+/* Code
+–––––––––––––––––––––––––––––––––––––––––––––––––– */
+
+code {
+  padding: .2rem .5rem;
+  margin: 0 .2rem;
+  font-size: 100%;
+  white-space: nowrap;
+  background: #F1F1F1;
+  border: 1px solid #E1E1E1;
+  border-radius: 4px;
+  overflow:auto;
+}
+pre > code {
+  display: block;
+  padding: 1rem 1.5rem;
+  white-space: pre-wrap;
+}
+/* Tables
+–––––––––––––––––––––––––––––––––––––––––––––––––– */
+
+th,
+td {
+  padding: 12px 15px;
+  border-bottom: 1px solid #E1E1E1;
+}
+th:first-child,
+td:first-child {
+  padding-left: 0;
+}
+th:last-child,
+td:last-child {
+  padding-right: 0;
+}
+/* Spacing
+–––––––––––––––––––––––––––––––––––––––––––––––––– */
+
+button,
+.button {
+  margin-bottom: 1rem;
+}
+input,
+textarea,
+select,
+fieldset {
+  margin-bottom: 1.5rem;
+}
+pre,
+blockquote,
+form,
+dl,
+figure,
+table,
+p,
+/*ul,*/
+ol,
+form {
+  margin-bottom: 2.5rem;
+}
+p {
+  margin-top: 0;
+}
+/* Utilities
+–––––––––––––––––––––––––––––––––––––––––––––––––– */
+
+.u-full-width {
+  width: 100%;
+  box-sizing: border-box;
+}
+.u-max-full-width {
+  max-width: 100%;
+  box-sizing: border-box;
+}
+.u-pull-right {
+  float: right;
+}
+.u-pull-left {
+  float: left;
+}
+/* Misc
+–––––––––––––––––––––––––––––––––––––––––––––––––– */
+
+hr {
+  margin-top: 3rem;
+  margin-bottom: 3.5rem;
+  border-width: 0;
+  border-top: 1px solid #E1E1E1;
+}
+/* Clearing
+–––––––––––––––––––––––––––––––––––––––––––––––––– */
+/* Self Clearing Goodness */
+
+.container:after,
+.row:after,
+.u-cf {
+  content: "";
+  display: table;
+  clear: both;
+}
+/* Media Queries
+–––––––––––––––––––––––––––––––––––––––––––––––––– */
+/*
+Note: The best way to structure the use of media queries is to create the queries
+near the relevant code. For example, if you wanted to change the styles for buttons
+on small devices, paste the mobile query code up in the buttons section and style it
+there.
+*/
+/* Larger than mobile */
+
+@media (min-width: 380px) {}
+/* Larger than phablet (also point when grid becomes active) */
+
+@media (min-width: 540px) {}
+/* Larger than tablet */
+
+@media (min-width: 760px) {}
+/* Larger than desktop */
+
+@media (min-width: 1000px) {}
+/* Larger than Desktop HD */
+
+@media (min-width: 1200px) {}
+
+/* Custom by crubier for pandoc */
+
+div.figure {
+  display:block;
+  float:center;
+  border: 0;
+  width:intrinsic;
+  max-width: 90%;
+  margin-left: auto;
+  margin-right: auto;
+  margin-bottom:25px;
+  padding:0px;
+  text-align:center;
+}
+
+img {
+  display:inline-block;
+  float:center;
+  border: 0;
+  max-width: 90%;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+table {
+  margin-left:auto;
+  margin-right:auto;
+}
+
+body::-webkit-scrollbar {
+  display:none;
+}
+
+
+body {
+  text-align: justify;
+  text-justify: inter-word;
+}
+
+#BUTTONS {
+  position:fixed;
+  right:0px;
+  top:0px;
+  height:auto;
+  width:auto;
+  text-align:right;
+  padding:10px;
+  z-index:999;
+}
+
+#BUTTONS svg {
+  margin:10px;
+}
+
+
+#TOC a {
+  text-decoration:none;
+  color:#000000;
+}
+
+#TOC a:active {
+  text-decoration:none;
+  color:#000000;
+}
+
+#TOC a:hover {
+  text-decoration:none;
+  /*color:#000000;*/
+}
+
+#TOC a:link {
+  text-decoration:none;
+  color:#000000;
+}
+
+#TOC a:visited {
+  text-decoration:none;
+  color:#000000;
+}
+
+#TOC:before {
+  content: "Table of contents";
+}
+
+#TOC , #SEARCH {
+  position:fixed;
+  top:0px;
+  left:0px;
+  height:auto;
+  max-height:100%;
+  width:100%;
+  background-color:#FFFFFF;
+  overflow:auto;
+  padding:20px;
+  box-sizing:border-box;
+  -webkit-transition: top 0.3s ease-out,box-shadow 0.3s ease-out;
+  -moz-transition: top 0.3s ease-out,box-shadow 0.3s ease-out;
+  -o-transition: top 0.3s ease-out,box-shadow 0.3s ease-out;
+  -ms-transition: top 0.3s ease-out,box-shadow 0.3s ease-out;
+  transition: top 0.3s ease-out,box-shadow 0.3s ease-out;
+  z-index:998;
+}
+
+#TOC.tocvisible , #SEARCH.searchvisible {
+  top:0px;
+  -moz-box-shadow: 0px 10px 10px 0px rgba(0, 0, 0, 0.26);
+  -webkit-box-shadow: 0px 10px 10px 0px rgba(0, 0, 0, 0.26);
+  -o-box-shadow: 0px 10px 10px 0px rgba(0, 0, 0, 0.26);
+  box-shadow: 0px 10px 10px 0px rgba(0, 0, 0, 0.26);
+  filter:progid:DXImageTransform.Microsoft.Shadow(color=rgba(0, 0, 0, 0.26), Direction=180, Strength=10);
+}
+
+#TOC.tochidden , #SEARCH.searchhidden {
+  top:-100%;
+}
+
+#SEARCH input {
+  z-index:1000;
+  margin-bottom:0;
+}
+</style>
+</head>
+<body>
+<div id="BUTTONS">
+<svg onclick="showmenu(evt)" width="38" height="38" viewBox="0 0 2048 2048" xmlns="http://www.w3.org/2000/svg"><path d="M1792 1472v128q0 26-19 45t-45 19h-1408q-26 0-45-19t-19-45v-128q0-26 19-45t45-19h1408q26 0 45 19t19 45zm0-512v128q0 26-19 45t-45 19h-1408q-26 0-45-19t-19-45v-128q0-26 19-45t45-19h1408q26 0 45 19t19 45zm0-512v128q0 26-19 45t-45 19h-1408q-26 0-45-19t-19-45v-128q0-26 19-45t45-19h1408q26 0 45 19t19 45z"/></svg>
+<svg onclick="showsearch(evt)" width="38" height="38" viewBox="0 0 2048 2048" xmlns="http://www.w3.org/2000/svg"><path d="M1344 960q0-185-131.5-316.5t-316.5-131.5-316.5 131.5-131.5 316.5 131.5 316.5 316.5 131.5 316.5-131.5 131.5-316.5zm512 832q0 52-38 90t-90 38q-54 0-90-38l-343-342q-179 124-399 124-143 0-273.5-55.5t-225-150-150-225-55.5-273.5 55.5-273.5 150-225 225-150 273.5-55.5 273.5 55.5 225 150 150 225 55.5 273.5q0 220-124 399l343 343q37 37 37 90z"/></svg>
+</div>
+<div id="SEARCH">
+<input type="text" id="searchinput"></input>
+</div>
+<div id="TOC">
+<ul>
+<li><a href="#rws-ihm-specification-using-lidl">RWS IHM specification using LIDL</a></li>
+<li><a href="#textual-specification">Textual specification</a><ul>
+<li><a href="#color-code">Color code</a></li>
+<li><a href="#definitions">Definitions</a></li>
+<li><a href="#specification">Specification</a></li>
+</ul></li>
+<li><a href="#lidl-specification">LIDL specification</a><ul>
+<li><a href="#data-types">Data types</a><ul>
+<li><a href="#pre-existing-data-types">Pre existing data types</a></li>
+<li><a href="#systems">Systems</a></li>
+<li><a href="#alerts">Alerts</a><ul>
+<li><a href="#alerts-on-rovers">Alerts on rovers</a></li>
+<li><a href="#alerts-on-gps-stations">Alerts on GPS Stations</a></li>
+<li><a href="#alerts-on-supervision-stations">Alerts on supervision stations</a></li>
+<li><a href="#general-case-alert">General case alert</a></li>
+<li><a href="#alert-occurence">Alert occurence</a></li>
+<li><a href="#alert-levels">Alert levels</a></li>
+<li><a href="#alert-autoclear-and-autoack">Alert autoclear and autoack</a></li>
+</ul></li>
+<li><a href="#alert-signals">Alert signals</a></li>
+<li><a href="#procedure">Procedure</a></li>
+</ul></li>
+<li><a href="#interfaces">Interfaces</a><ul>
+<li><a href="#alert-signal-presentation">Alert signal presentation</a></li>
+<li><a href="#procedure-presentation">Procedure presentation</a></li>
+<li><a href="#user-interface">User interface</a></li>
+</ul></li>
+<li><a href="#interactions">Interactions</a></li>
+</ul></li>
+</ul>
+</div>
+<br/>
+<br/>
+<br/>
+<h1 id="rws-ihm-specification-using-lidl">RWS IHM specification using LIDL</h1>
+<h1 id="textual-specification">Textual specification</h1>
+<h2 id="color-code">Color code</h2>
+<p>This specification has been annotated using color codes in order to classify sentences in different concepts that can or cannot be expressed using LIDL.</p>
+<ul>
+<li><span style="color:FireBrick">Data types</span></li>
+<li><span style="color:DarkTurquoise">Interfaces</span></li>
+<li><span style="color:Green">Interactions</span></li>
+<li><span style="color:MediumVioletRed">Architecture</span></li>
+<li><span style="color:Goldenrod">Timing/External/Ergonomy</span></li>
+</ul>
+<h2 id="definitions">Definitions</h2>
+<ol>
+<li><span style="color:MediumVioletRed">The RWS is the system in charge of the computation and presentation of alerts. It is composed of two mains part: a RWS core in charge of computing the state of all alerts, and a RWS HMI in charge of the presentation of the alerts to the supervisor.</span></li>
+<li><span style="color:MediumVioletRed">The supervision operator is referred to as supervisor in the specification.</span></li>
+<li><span style="color:FireBrick">The terms <strong>“event occurrence”</strong> refers to something that takes place at a certain place in space and time. The term <strong>“event”</strong> refers to the set of all event occurrences that share certain common characteristics, in the same way as a class describes all the individual objects that share the same structure. An event is a class of event occurrences. &quot;Activation of alert A&quot; is an event. The actual activations of alert A at times t_1, t_2, t_n are occurrences of the event &quot;Activation of alert A&quot;.</span></li>
+<li><span style="color:FireBrick">An alert refers to some specific condition on the monitored system. For instance, “left wheel is blocked” is an alert. Satisfaction (or “activation”) of the condition “left wheel is blocked” is an event. The actual blocking of the wheel at time t is an occurrence of the event “left wheel is blocked”.</span></li>
+<li><span style="color:FireBrick">An alert signal is the means by which the supervisor is informed of the occurrence of the alert activation.</span><span style="color:DarkTurquoise"> The transmission of the alert signal to the supervisor is also called “presentation”.</span><span style="color:Green"> It shall be noted that if the occurrence of the alert signal is conditioned by the satisfaction of some alert condition, the signal may continue to exist while the condition is negated. It shall also be noted that the signal may cease to be transmitted to the supervisor for some time or be transmitted to the supervisor on demand (see specification).</span></li>
+<li><span style="color:MediumVioletRed">Activation conditions are evaluated from data produced by the rovers, the supervision station, the in-door stations, and the activation state of other alerts.</span></li>
+<li><span style="color:FireBrick">The monitored system is composed of: (i) a set of rovers, (ii) a supervision station, (iii) a set of in-door GPS stations (3 stations). It also covers all required communication means between these elements.</span></li>
+<li><span style="color:FireBrick">The global system is composed of the monitored system and the supervisor.</span></li>
+<li><span style="color:FireBrick">Alerts are categorized as &quot;caution&quot;, &quot;warning&quot; or &quot;advisory&quot;.</span></li>
+</ol>
+<h2 id="specification">Specification</h2>
+<ol style="list-style-type: decimal">
+<li><strong>Signalling of alerts</strong> <span style="color:Green">The RWS IHM shall signal alerts occurrences to the supervision operator.</span> <span style="color:DarkTurquoise">The reception of an alert signal shall provide the supervisor with sufficient information about the situation (e.g., which alert, at what time,…) </span><span style="color:Goldenrod">during sufficient time. We consider that situation awareness is possible if the information is presented continuously to the supervisor for at least 3 seconds.</span></li>
+<li><strong>Separation between alerts signals</strong> <span style="color:Green">The signalling of an alert occurrence shall not alter / jeopardize the signalling of another alert occurrence.</span> <em>Rationale: Let the occurrence of alert A be presented to the supervisor when occurrence of alert B occurs. Then the message related to B shall not cover the message related to A up to the point where it makes message related to A unintelligible. Separation between messages related to alert A and alert B may be ensure in space and/or time.</em></li>
+<li><strong>Navigation through alert signals</strong> <span style="color:Green">If all alert signals cannot be transmitted at once to the supervisor, s/he shall be able to “navigate” through the set of alert signals in order for the transmission to be done sequentially.</span></li>
+<li><strong>The RWS is hosted on the supervision station.</strong> <span style="color:MediumVioletRed">The rovers communicate directly with the supervision station. The in-door GPS stations communicate indirectly with the supervision station through the rovers.</span></li>
+<li><strong>Uniqueness of alert signals</strong> <span style="color:FireBrick">There shall be a unique signal for a given alert.</span> <span style="color:Green">If the signal for alert A is active (presented or not to the supervisor), then no other occurrence of alert A can be signalled to the supervisor.</span></li>
+<li><strong>Presentation latency</strong> <span style="color:Green">An alert signal shall be transmitted to the supervisor within at most 100ms after the triggering of the activation condition.</span></li>
+<li><strong>Presentation duration</strong> <span style="color:Green">An alert signal shall be transmissible (not necessarily transmitted) to the supervisor until it is cleared.</span></li>
+<li><strong>Acknowledgment</strong> <span style="color:DarkTurquoise">The RWS IHM shall provide the supervisor with a means to confirm that s/he has actually received the alert signal. This is referred to as « acknowledgement ».</span></li>
+<li><strong>Automatic acknowledgment</strong> <span style="color:Green">An alert may be acknowledged automatically when the alert activation condition is negated.</span></li>
+<li><strong>Concurrence between automatic and manual acknowledgment</strong> <span style="color:Green">An alert shall always be acknowledgeable by the supervisor even if automatic acknowledgment is configured.</span></li>
+<li><strong>Acknowledgment configuration</strong> <span style="color:FireBrick">The choice between automatic or supervisor-initiated acknowledgement shall be alert-specific and be defined by configuration.</span></li>
+<li><strong>Acknowledgment state transmission</strong> <span style="color:FireBrick">The alert signal shall transmit the acknowledgement state of the alert.</span></li>
+<li><strong>Indication of non-transmitted alert signals</strong> <span style="color:Green">If the RWS IHM cannot transmit the alert signal to the supervisor (for instance due to lack of space), it shall at least transmit</span><span style="color:DarkTurquoise"> a signal indicating that there is a non-transmissible alert signal.</span></li>
+<li><strong>Provision of means to transmit alert signals</strong> <span style="color:Green">If the RWS IHM cannot transmit the alert signal to the supervisor (for instance due to lack of space), it shall provide</span><span style="color:DarkTurquoise"> some means</span> <span style="color:Green">to activate the transmission of those alert signals.</span> <span style="color:DarkTurquoise">Hints shall be provided to the supervisor</span><span style="color:Green"> to facilitate this operation.</span></li>
+<li><strong>Number of non-transmitted alert signals</strong> <span style="color:Green">If all active alerts cannot be presented simultaneously,</span> <span style="color:DarkTurquoise">an indicator shall be provided to the supervisor</span> <span style="color:Green">to let him know the total number of non-transmitted alert signals.</span></li>
+<li><strong>Manual clearing of alert signals</strong> <span style="color:DarkTurquoise">The RWS HMI shall provide a means for the supervisor</span> <span style="color:Green">to clear an alert signal.</span></li>
+<li><strong>Clearing alert signals</strong> <span style="color:Green">Once cleared, an alert signal shall cease to be transmitted to the supervisor. Note that a new occurrence of the same alert signal may be transmitted later to the supervisor if the associated alert condition becomes asserted again.</span></li>
+<li><strong>Relation between acknowledging and clearing alert signals</strong> <span style="color:Green">An alert may only be cleared after being acknowledged.</span></li>
+<li><strong>Automatic clearing of alert signals</strong> <span style="color:Green">An acknowledged alert signal may be cleared automatically when its activation condition is negated.</span></li>
+<li><strong>Clearing configuration</strong> <span style="color:FireBrick">The choice between automatic or supervisor-initiated clearing shall be alert-specific and be defined by configuration. </span></li>
+<li><strong>Priorities of alert signals</strong> <span style="color:Green">Alert signals shall be transmitted to the supervisor in such a way that alerts with high priorities are received by the supervisor preferably before alerts with lower priorities. Priority is defined according to the following precedence relations (level n+1 is used to sort alerts when attributes at levels n are equal):</span>
+<ol style="list-style-type: decimal">
+<li><span style="color:Green">&quot;warning&quot; &gt; &quot;caution&quot; &gt; &quot;advisory&quot;</span></li>
+<li><span style="color:Green">priority within the category</span></li>
+<li><span style="color:Green">&quot;not acked&quot; &gt; &quot;acked&quot;</span></li>
+<li><span style="color:Green">increasing time stamp. Timestamps are unique and monotonically</span> increasing.</li>
+</ol></li>
+<li><strong>Attention getter</strong> <span style="color:Goldenrod">The attention of the supervisor shall be captured when an alert signal occurs.</span></li>
+<li><strong>Procedures</strong> <span style="color:Green">The supervisor shall be able to activate the</span><span style="color:DarkTurquoise"> presentation of the procedure</span> <span style="color:FireBrick">associated with any signalled alert. Any alert may have an associated procedure. This is defined by configuration.</span></li>
+<li><strong>Relation between procedures and alert signals</strong> <span style="color:Goldenrod">The presentation of the alert / procedure shall clearly establish the relation between the alert signal and the procedure.</span></li>
+<li><strong>Procedure contents</strong> <span style="color:FireBrick">A procedure describes a sequence of actions to be performed by the supervisor. Each actions is called a “step”. Each step is associated with a message to be presented to the supervisor. The message describes an action to be carried out by the supervisor to diagnose, correct, etc. the associated alert.</span> <span style="color:Green">At a given step in the procedure,</span> <span style="color:DarkTurquoise">the last 2 steps (if possible) and the next 2 steps (if possible) shall be presented to the user</span> <span style="color:Goldenrod">so that s/he can build a mental representation of what he is doing and anticipate the next actions.</span></li>
+<li><strong>Presentation of the current step</strong> <span style="color:DarkTurquoise">The current step shall be clearly indicated on the presented procedure.</span></li>
+<li><strong>Cancelling a procedure</strong> <span style="color:DarkTurquoise">The supervisor shall be able to cancel a procedure.</span><span style="color:Green"> Cancelling a procedure means « ceasing » to present the procedure. The procedure may be presented again. In that case, it shall start again at the first step of the procedure.</span></li>
+<li><strong>Presentation of the procedure state</strong> <span style="color:FireBrick">The state of the procedure (“not yet started”, “completed”, or “at step <X>”) shall be transmitted by the alert signal.</span></li>
+<li><strong>Stacking of procedures</strong> <span style="color:Green">It shall be able to present procedure for alert B while procedure for alert A is being presented. The supervisor shall be able to come back to procedure A and continue the procedure from the step where it was interrupted.</span></li>
+<li><strong>Initial step of the procedures</strong> <span style="color:Green">All procedures are set in their initial state at system startup.</span></li>
+<li><strong>Effect of alert signal clearing on procedures</strong> <span style="color:Green">When an alert is manually cleared, the procedure shall be abandoned (even if it was interrupted by the opening of another alert). Note: the procedure shall not be abandoned if the alert is automatically cleared.</span></li>
+<li><strong>Effect of alert signal clearing on procedure stacking</strong> <span style="color:Green"> When a procedure is cancelled, any active procedure that was interrupted by the one that is cancelled shall be presented again (in FIFO order).</span><br />
+</li>
+<li><strong>Procedure actions</strong> <span style="color:Green">The next step of a procedure may be determined</span><span style="color:DarkTurquoise"> by a supervisor action.</span> <span style="color:FireBrick">Actions are “YES/NO/ DONE”.</span></li>
+</ol>
+<h1 id="lidl-specification">LIDL specification</h1>
+<h2 id="data-types">Data types</h2>
+<p>In this section we describe the <span style="color:FireBrick">Data types</span> expressed in the specification. We mainly use the <code>data</code> keyword of LIDL.</p>
+<p>We use the <em>new</em> Algebraic data types notation of LIDL here, because it is much more expressive and convenient than the previous record-only data types.</p>
+<p>Note that we also define several interactions which are associated with the data types. These data types and their associated interactions represent the abstract data types we are interested in.</p>
+<h3 id="pre-existing-data-types">Pre existing data types</h3>
+<p>LIDL has several built-in types. Here are their &quot;definition&quot; using the algebraic data type syntax:</p>
+<pre><code>data Boolean is (true)|(false)
+
+data Number is (1)|(2)|(3)| ... |(-1)|... |(-0.1)|...
+
+data Text is (&quot;a&quot;)|(&quot;b&quot;)| ... | (&quot;aa&quot;) | (&quot;ab&quot;) | ...
+
+data Date is Number</code></pre>
+<h3 id="systems">Systems</h3>
+<p>Here we define the systems expressed in the <a href="#textual-specification">specification</a>, using data types.</p>
+<p>There are several rovers, which are indexed using a number:</p>
+<pre><code>data Rover is
+  (Rover (index:Number))</code></pre>
+<p>There are several gps stations:</p>
+<pre><code>data GPSStation is
+  (GPS Station (index:Number))</code></pre>
+<p>There is only one supervision station:</p>
+<pre><code>data SupervisionStation is
+  (Supervision station)</code></pre>
+<p>What we call a <code>System</code> is anything which falls in the 3 categories we just described:</p>
+<pre><code>data System is
+    SupervisionStation
+  | Rover
+  | GPSStation</code></pre>
+<p>We could also have written all of the above in one go, this way:</p>
+<pre><code>data System is
+    (Supervision station)
+  | (Rover (index:Number))
+  | (GPS station (index:Number))</code></pre>
+<p>Each data type described in LIDL is associated with several interactions. Examples of interactions associated with the <code>System</code> data type:</p>
+<ul>
+<li><code>(Supervision station)</code></li>
+<li><code>(Rover (3))</code></li>
+<li><code>(GPS station (2))</code></li>
+</ul>
+<h3 id="alerts">Alerts</h3>
+<p>Here, we define the different categories of alerts, using data types</p>
+<h4 id="alerts-on-rovers">Alerts on rovers</h4>
+<p>There are several categories of alerts concerning rovers</p>
+<pre><code>data AlertOnRover is
+    (GPS Loss)
+  | (Data Loss)
+  | (Low Battery)
+  | (Critical Battery)
+  | ((which:Wheel) is Blocked)</code></pre>
+<p>The last option <code>(... is Blocked)</code> refers to a data type called <code>Wheel</code> which describes the different types of wheel that a rover has. The rovers have two wheels:</p>
+<pre><code>data Wheel is
+    (Left wheel)
+  | (Right wheel)</code></pre>
+<p>Examples of interactions that are automatically defined by LIDL when the data types above are defined:</p>
+<ul>
+<li>Constructor (Used to create a data flow with a constant value)
+<ul>
+<li><code>(GPS Loss)           :AlertOnRover out</code></li>
+<li><code>((Left wheel) is Blocked)  :AlertOnRover out</code></li>
+</ul></li>
+<li>Matcher (Used in the switch/case interaction, allows some kind of pattern matching/comparison)
+<ul>
+<li><code>(GPS Loss)               :{value: AlertOnRover in, didMatch: Boolean out}</code></li>
+<li><code>(any AlertOnRover)       :{value: AlertOnRover in, didMatch: Boolean out}</code></li>
+<li><code>((Left wheel) is Blocked):{value: AlertOnRover in, didMatch: Boolean out}</code></li>
+<li><code>((any Wheel) is Blocked) :{value: AlertOnRover in, didMatch: Boolean out}</code></li>
+</ul></li>
+<li>Mutation (To modify an instance of a type), here they allow to modify instances of alarts...
+<ul>
+<li><code>(do not change)                      :{before: AlertOnRover in, after: AlertOnRover out}</code></li>
+<li><code>(change to GPS Loss)                 :{before: AlertOnRover in, after: AlertOnRover out}</code></li>
+<li><code>((change to Right wheel) is Blocked) :{before: AlertOnRover in, after: AlertOnRover out}</code></li>
+</ul></li>
+</ul>
+<p>The automatical definition of these interactions is formally defined, and will be explicited in the appendix of Vincent Lecrubier's Thesis.</p>
+<h4 id="alerts-on-gps-stations">Alerts on GPS Stations</h4>
+<p>There are 3 kinds of alerts on GPS stations:</p>
+<pre><code>data AlertOnGPSStation is
+    (GPS Loss)
+  | (Data Loss)
+  | (Power Loss)</code></pre>
+<p>Examples of interactions:</p>
+<ul>
+<li><code>(GPS Loss)</code></li>
+<li><code>(Power Loss)</code></li>
+</ul>
+<h4 id="alerts-on-supervision-stations">Alerts on supervision stations</h4>
+<p>There is only 1 kind of alert on the supervision station</p>
+<pre><code>data AlertOnSupervisionStation is
+    (Power Loss)</code></pre>
+<p>Examples of interactions:</p>
+<ul>
+<li><code>(Power Loss)</code></li>
+</ul>
+<h4 id="general-case-alert">General case alert</h4>
+<p>To specify an alert in the general case, we need to specify the <em>alert</em> and the <em>system on which the alert happened</em>. There a three categories of alerts, one for each category of system:</p>
+<pre><code>data Alert is
+    ((alert:AlertOnRover) on (rover:Rover))
+  | ((alert:AlertOnGPSStation) on (gpsStation:GPSStation))
+  | ((alert:AlertOnSupervisionStation) on supervision station)</code></pre>
+<p>Examples of interactions that LIDL automatically associates with this data type:</p>
+<ul>
+<li><code>((Low Battery) on (Rover (1)))</code></li>
+<li><code>((Data Loss) on (GPS Station (2)))</code></li>
+<li><code>((Power Loss) on supervision station)</code></li>
+</ul>
+<h4 id="alert-occurence">Alert occurence</h4>
+<p>An alert occurence is the product of an <em>alert</em> and of a <em>date</em>. It is an alert associated with a specific date:</p>
+<pre><code>data AlertOccurence is
+    (Alert (category:Alert) at (date:Date))</code></pre>
+<p>Examples of interactions:</p>
+<ul>
+<li><code>(((Low Battery) on (Rover (1))) at (2016-06-01T06:00:00Z))</code></li>
+</ul>
+<h4 id="alert-levels">Alert levels</h4>
+<p>There are three alert levels:</p>
+<pre><code>data AlertLevel is
+    (Caution)
+  | (Warning)
+  | (Advisory)</code></pre>
+<p>We can write an interaction that associates each alert with its specific alert level:</p>
+<pre><code>interaction (level of (alert:Alert in) is (level:AlertLevel out))   : Behaviour
+  ( switch  (alert)                                           : (level)
+    case    ((GPS Loss) on (Rover (1)))                       : (Caution)
+    case    ((GPS Loss) on (Rover (any Number)))              : (Warning)
+    case    ((GPS Loss) on (GPS Station (any Number)))        : (Caution)
+    case    ((Power Loss) on supervision station)             : (Caution)
+    case    ((Low Battery) on (any Rover))                    : (Advisory)
+    case    (((any Wheel) is blocked) on (any Rover))         : (Advisory)
+    case    (any AlertOnGPSStation)                           : (Warning)
+    case    (any AlertOnSupervisionStation)                   : (Caution)
+  )</code></pre>
+<p>Pattern matching using Comparator interactions allows us to be very specific about alert levels. When several cases match, the case which is written higher in the list is selected. For example here, <code>((GPS Loss) on (Rover (1)))</code> will be associated with <code>(Caution)</code> even though it also matches <code>((GPS Loss) on (Rover (any Number)))</code>.</p>
+<p>Once this behaviour (that associates a level with each alert) is specified, we can use the <code>... with behaviour ...</code> interaction in order to <em>syntactically project</em> the behaviour along two prefered directions. This can be used later in order to facilitate the expression of certain behaviours. We can define the following interactions:</p>
+<pre><code>interaction (level of (alert:Alert in)):AlertLevel out is
+  (
+    (x) with behaviour
+    (level of (alert) is (x))
+  )
+
+interaction (an alarm with level (level:AlertLevel out)):Alert in is
+  (
+    (x) with behaviour
+    (level of (x) is (level))
+  )</code></pre>
+<p>Examples of interactions that can be expressed using the definitions above:</p>
+<ul>
+<li><code>(level of ((Low Battery) on (Rover (1))))</code> which gives the value <code>(Advisory)</code></li>
+<li><code>(level of ((Power Loss) on supervision station))</code> which gives the value <code>(Caution)</code></li>
+<li><code>((an alarm with level (x)) = (my alert))</code> which means that <code>(x)</code> will receive the level of <code>(my alert)</code></li>
+</ul>
+<h4 id="alert-autoclear-and-autoack">Alert autoclear and autoack</h4>
+<p>The same way we defined alert levels, we can express which alert have auto ack and auto clear</p>
+<pre><code>interaction ((alert:Alert in) has automatic ack (autoAck:Boolean out) and auto clear (autoClr:Boolean out))   : Behaviour
+  ( switch  (alert)                                     : ((autoAck),(autoClr))
+    case    ((GPS Loss) on (Rover (any Number)))        : ((true),(true))
+    case    ((GPS Loss) on (GPS Station (any Number)))  : ((true),(true))
+    case    ((Power Loss) on supervision station)       : ((true),(false))
+    case    (any AlertOnGPSStation)                     : ((false),(false))
+    case    (any AlertOnSupervisionStation)             : ((true),(false))
+    case    (any AlertOnRover)                          : ((true),(false))
+  )
+
+interaction ((alert:Alert in) has auto ack):Boolean out is
+  (
+    (x) with behaviour
+    ((alert) has automatic ack (x) and auto clear (y))   
+  )
+
+interaction ((alert:Alert in) has auto clear):Boolean out is
+  (
+    (y) with behaviour
+    ((alert) has automatic ack (x) and auto clear (y))   
+  )</code></pre>
+<p>Examples of interactions that can be expressed using the definitions above:</p>
+<ul>
+<li><code>(((Low Battery) on (Rover (1))) has auto clear)</code> which gives the value <code>(false)</code> (Last case of the switch interaction)</li>
+<li><code>(((GPS Loss) on (Rover (12))) has auto ack)</code> which gives the value <code>(true)</code> (First case of the switch interaction)</li>
+</ul>
+<h3 id="alert-signals">Alert signals</h3>
+<p>An alert signal is a composite data that contains a message, an alert level, a date, a state, and a procedure. This is an abstraction of what is presented to the user.</p>
+<pre><code>data AlertSignal is
+  ( AlertSignal (message:Text) (level:AlertLevel)
+    (date:Date) (state:AlertState) (procedure:Procedure) )</code></pre>
+<p>The alert signal can be in several states which are explicited in various places of the textual specification:</p>
+<pre><code>data AlertState is
+  (active) | (acknowledged) | (cleared)</code></pre>
+<h3 id="procedure">Procedure</h3>
+<p>A procedure is associated with each alert signal. A procedure can be in several states, not started, completed, or at a specific state:</p>
+<pre><code>data ProcedureState is
+  (not yet started) | (completed) | (at step (index:Number))</code></pre>
+<p>There are two kinds of steps in a procedure: imperative steps (example : &quot;Do this&quot;-&gt;&quot;Done&quot;), or conditional steps (example: &quot;Is it ok ?&quot;-&gt;&quot;Yes/No&quot;)</p>
+<pre><code>data ProcedureStep is
+    (imperative  (message:Text))
+  | (conditional (message:Text))</code></pre>
+<p>A procedure is a sequence of steps, in a certain state:</p>
+<pre><code>data Procedure is
+   (procedure (steps:[ProcedureStep]) (state:ProcedureState))
+ | (no procedure)</code></pre>
+<p>Example of interactions that can be written using the definitions above:</p>
+<ul>
+<li>Construction (represent a dataflow denoting a procedure)
+<ul>
+<li><code>(procedure ([  (imperative (“Do this”))  (imperative (“Do that”))  (conditional (“Is that done ?”)) ]) (at step (2)) )</code></li>
+<li><code>(no procedure)</code></li>
+</ul></li>
+<li>Mutation (modifies a procedure)
+<ul>
+<li><code>(procedure (do not change) (at step (increment)))</code> increments the step at which the procedure is</li>
+<li><code>(procedure (change element (2) by (imperative (&quot;Do these&quot;))) (do not change))</code> changes the second step of a procedure by replacing it with an imperative step whose message is &quot;Do these&quot;, but no not change its state.</li>
+</ul></li>
+<li>Matcher (matches certain procedures)
+<ul>
+<li><code>(procedure (any [ProcedureStep]) (at step (any Number)))</code> matches any procedure which is started and not completed</li>
+<li><code>(procedure (any [ProcedureStep]) (completed))</code> matches any procedure which is completed</li>
+</ul></li>
+</ul>
+<p>The user can perform 3 actions on a step of a procedure</p>
+<pre><code>data Action is
+  (yes) | (no) | (done)</code></pre>
+<h2 id="interfaces">Interfaces</h2>
+<p>Here we read the <a href="#textual-specification">specification</a> and express the <span style="color:DarkTurquoise">Interfaces</span> using LIDL.</p>
+<h3 id="alert-signal-presentation">Alert signal presentation</h3>
+<pre><code>interface AlertSignalPresentation is
+  {     
+    signal       :  AlertSignal out,
+    ack          :  Activation in
+    clr          :  Activation in
+    launchproc   :  Activation in
+    cancelproc   :  Activation in
+  }
+
+
+
+interface AlertSignalPresentationList is
+   AlertSignalPresentation[5]
+
+interface AlertSignalPresentationList is
+   {    1: AlertSignalPresentation,
+         2: AlertSignalPresentation,
+         3: AlertSignalPresentation,
+         4: AlertSignalPresentation,
+         5: AlertSignalPresentation
+   }
+
+
+
+interface SignalPresentationAutreMethode is
+   {     signal :  [AlertSignal] out,
+         ack    :  [Activation] in
+   }</code></pre>
+<h3 id="procedure-presentation">Procedure presentation</h3>
+<pre><code>interface ProcedureStepPresentation is
+  {
+     message    : Text out,
+     procAction : Action in
+  }</code></pre>
+<p>Interpretation 1 (Bonne):</p>
+<pre><code>interface ProcedurePresentation is
+  {
+    currentStep   : ProcedureStepPresentation,
+    steps         : ProcedureStepPresentation[MAX_STEP]
+  }</code></pre>
+<p>Interpretation 2, prends la specification vraiment au pied de la lettre:</p>
+<pre><code>interface ProcedurePresentation is
+  {
+    stepminus2   : ProcedureStepPresentation,
+    stepminus1   : ProcedureStepPresentation,
+    currentStep  : ProcedureStepPresentation,
+    stepplus1    : ProcedureStepPresentation,
+    stepplus2    : ProcedureStepPresentation
+  }</code></pre>
+<h3 id="user-interface">User interface</h3>
+<pre><code>interface User is
+  {
+     alertSignals                         : AlertSignalPresentationList
+     currentProcedure                     : ProcedurePresentation
+     indicationOfOtherPendingAlertSignals : Boolean out
+     numberOfOtherPendingAlertSignals     : Number out
+     setTransmissible                     : Number in
+  }</code></pre>
+<h2 id="interactions">Interactions</h2>
+<p>The <a href="#textual-specification">specification</a> expresses several <span style="color:Green">Interactions</span>. Here we describe them using LIDL.</p>
+<p><strong>TO BE DONE</strong></p>
+<pre><code>interaction
+  (present alert signals ):AlertSignalPresentationList
+is
+  ()</code></pre>
+<div id="refs" class="references">
+
+</div>
+<script>
+
+var menu = false;
+var search = false;
+
+render();
+document.getElementById('TOC').addEventListener("click", showmenu, false);
+
+
+function showmenu(evt) {
+  menu=!menu;
+  search=search&&!menu;
+  render();
+}
+
+function showsearch(evt){
+  // document.getElementById("searchinput").value="";
+  search=!search;
+  menu=menu&&!search;
+  render();
+}
+
+function dosearch() {
+  window.find(document.getElementById("searchinput").value,false,false,true,false,true,false);
+  document.getElementById("searchinput").focus();
+}
+
+function render() {
+  document.getElementById('TOC').className = menu?"tocvisible":"tochidden";
+  document.getElementById('SEARCH').className = search?"searchvisible":"searchhidden";
+  if(search)document.getElementById("searchinput").focus();
+}
+
+document.getElementById('searchinput').onkeypress = function(e){
+  if (!e) e = window.event;
+  var keyCode = e.keyCode || e.which;
+  if (keyCode == '13'){
+    dosearch();
+    return false;
+  }
+};
+</script>
+</body>
+</html>
