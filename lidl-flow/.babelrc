@@ -1,0 +1,16 @@
+{
+  "plugins": ["external-helpers"],
+  "presets": [
+    "flow",
+    "stage-0",
+    [
+      "env",
+      {
+        "targets": {
+          "browsers": ["last 2 Chrome versions"]
+        },
+        "modules": false
+      }
+    ]
+  ]
+}

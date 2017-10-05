@@ -1,0 +1,44 @@
+
+<data>
+<interface>
+<interaction>
+
+[Activation]:<data>
+[Boolean]:<data>
+[Number]:<data>
+[Text]:<data>
+[Maybe [t:<data>]]:<data> is
+  [t]|(inactive)
+
+[[x:<data>] in]:<interface>
+[[x:<data>] out]:<interface>
+
+[Construction [x:<data>]]:<interface> is
+  [[x]out]
+
+[Destruction [x:<data>]]:<interface> is
+  [[x]in]
+
+[Mutation [x:<data>]]:<interface> is
+  (mutation (before:[[x]in]) (after:[[x]in]))
+
+[Comparison [x:<data>]]:<interface> is
+  (comparison (value:[[x]in]) (match:[[Boolean] out]))
+
+[Function [x:<data>] [y:<data>]]:<interface> is
+  (function (point:[[x] in]) (image:[[y] out]))
+
+(increment):[Function [Number] [Number]] is
+  (
+    ( function (x) (y) ) with behaviour
+    ( switch (x)         : (y)
+      case   (0)         : (1)
+    )
+  )
+
+
+
+(push (a:[[t]in])):[Mutation [Stack of [t]]] is
+  ()
+
+(map (increment) on ([(0),(1),(2),(3)]))
