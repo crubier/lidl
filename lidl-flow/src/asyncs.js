@@ -2,10 +2,10 @@
 
 import { isNil } from "lodash/fp";
 
-const NUM_RETRIES = 10;
-const DELAY = 1;
+const NUM_RETRIES = 1000;
+const DELAY = 0;
 
-export const retry = async (f, retries = NUM_RETRIES, delay = DELAY) => {
+export const retry = async (f: number => void, retries: number = NUM_RETRIES, delay: number = DELAY): Promise<any> => {
   let i = 0;
   // eslint-disable-line no-constant-condition
   while (true) {
@@ -22,15 +22,20 @@ export const retry = async (f, retries = NUM_RETRIES, delay = DELAY) => {
   }
 };
 
-export const available = async (variable, retries = NUM_RETRIES, delay = DELAY) => {
+export const getChannel = async (
+  channels: { [string]: any },
+  index: string,
+  retries: number = NUM_RETRIES,
+  delay: number = DELAY
+): Promise<any> => {
   let i = 0;
   // eslint-disable-line no-constant-condition
   while (true) {
-    if (!isNil(variable)) {
-      return variable;
+    if (!isNil(channels[index])) {
+      return channels[index];
     } else {
-      if (i === retries) {
-        throw new Error("Could not receive variable");
+      if (i >= retries) {
+        throw new Error(`Could not receive variable after ${i} tries`);
       } else {
         i = i + 1;
       }
@@ -39,7 +44,12 @@ export const available = async (variable, retries = NUM_RETRIES, delay = DELAY) 
   }
 };
 
-export const sleep = (duration = DELAY) => {
+export const setChannel = async (channels: { [string]: any }, index: string, value: any): Promise<void> => {
+  channels[index] = value;
+  return;
+};
+
+export const sleep = (duration: number = DELAY): Promise<void> => {
   return new Promise(resolve => {
     setTimeout(() => resolve(), duration);
   });
