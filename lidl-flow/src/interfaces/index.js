@@ -1,4 +1,6 @@
 /* @flow */
+import { type Value } from "../types";
+
 export type Input<T: Value> = { type: "input", set: T => Promise<void> };
 export type Output<T: Value> = { type: "output", get: void => Promise<T> };
 export type CompositeInterface = {

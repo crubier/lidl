@@ -5,10 +5,13 @@
   "main": "bin/index.js",
   "scripts": {
     "test": "jest",
+    "test-watch": "jest --watch",
     "build": "NODE_ENV=production rollup -c",
     "dev": "rollup -c -w",
     "check": "flow src/index.js",
-    "start": "node bin/index.js"
+    "start": "node bin/index.js",
+    "doc": "documentation serve src/** -f html -o docs",
+    "doc-watch": "documentation serve --watch src/**"
   },
   "author":
     "Vincent Lecrubier <vincent.lecrubier@gmail.com> (http://www.vincentlecrubier.fr/)",
@@ -34,6 +37,7 @@
     "rollup-plugin-node-resolve": "^3.0.0"
   },
   "dependencies": {
+    "documentation": "^5.3.3",
     "jest": "^21.2.1",
     "lodash": "^4.17.4"
   }
