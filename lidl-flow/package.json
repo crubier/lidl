@@ -4,16 +4,23 @@
   "description": "",
   "main": "bin/index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1",
-    "build": "./node_modules/.bin/rollup -c",
-    "dev": "./node_modules/.bin/rollup -c -w",
-    "check": "./node_modules/.bin/flow src/index.js",
+    "test": "jest",
+    "build": "NODE_ENV=production rollup -c",
+    "dev": "rollup -c -w",
+    "check": "flow src/index.js",
     "start": "node bin/index.js"
   },
-  "author": "Vincent Lecrubier <vincent.lecrubier@gmail.com> (http://www.vincentlecrubier.fr/)",
+  "author":
+    "Vincent Lecrubier <vincent.lecrubier@gmail.com> (http://www.vincentlecrubier.fr/)",
   "license": "ISC",
+  "jest": {
+    "transform": {
+      "^.+\\.jsx?$": "babel-jest"
+    }
+  },
   "devDependencies": {
     "babel-cli": "^6.26.0",
+    "babel-jest": "^21.2.0",
     "babel-plugin-external-helpers": "^6.22.0",
     "babel-preset-env": "^1.6.0",
     "babel-preset-flow": "^6.23.0",
@@ -27,6 +34,7 @@
     "rollup-plugin-node-resolve": "^3.0.0"
   },
   "dependencies": {
+    "jest": "^21.2.1",
     "lodash": "^4.17.4"
   }
 }

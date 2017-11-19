@@ -1,11 +1,14 @@
-// @flow
-
+/* @flow */
 import { isNil } from "lodash/fp";
 
 const NUM_RETRIES = 1000;
 const DELAY = 0;
 
-export const retry = async (f: number => void, retries: number = NUM_RETRIES, delay: number = DELAY): Promise<any> => {
+export const retry = async (
+  f: number => void,
+  retries: number = NUM_RETRIES,
+  delay: number = DELAY
+): Promise<any> => {
   let i = 0;
   // eslint-disable-line no-constant-condition
   while (true) {
@@ -44,7 +47,11 @@ export const getChannel = async (
   }
 };
 
-export const setChannel = async (channels: { [string]: any }, index: string, value: any): Promise<void> => {
+export const setChannel = async (
+  channels: { [string]: any },
+  index: string,
+  value: any
+): Promise<void> => {
   channels[index] = value;
   return;
 };

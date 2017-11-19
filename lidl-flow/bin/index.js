@@ -207,6 +207,15 @@ var isArray = Array.isArray || function (arr) {
   return toString.call(arr) == '[object Array]';
 };
 
+/*!
+ * The buffer module from node.js, for the browser.
+ *
+ * @author   Feross Aboukhadijeh <feross@feross.org> <http://feross.org>
+ * @license  MIT
+ */
+/* eslint-disable no-proto */
+
+
 var INSPECT_MAX_BYTES = 50;
 
 /**
@@ -2006,7 +2015,8 @@ Item.prototype.run = function () {
 
 
 
-// from https://github.com/kumavis/browser-process-hrtime/blob/master/index.js
+// generate timestamp or delta
+// see http://nodejs.org/api/process.html#process_process_hrtime
 
 var inherits;
 if (typeof Object.create === 'function'){
@@ -2032,6 +2042,29 @@ if (typeof Object.create === 'function'){
   };
 }
 var inherits$1 = inherits;
+
+// Copyright Joyent, Inc. and other Node contributors.
+//
+// Permission is hereby granted, free of charge, to any person obtaining a
+// copy of this software and associated documentation files (the
+// "Software"), to deal in the Software without restriction, including
+// without limitation the rights to use, copy, modify, merge, publish,
+// distribute, sublicense, and/or sell copies of the Software, and to permit
+// persons to whom the Software is furnished to do so, subject to the
+// following conditions:
+//
+// The above copyright notice and this permission notice shall be included
+// in all copies or substantial portions of the Software.
+//
+// THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS
+// OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF
+// MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN
+// NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM,
+// DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR
+// OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE
+// USE OR OTHER DEALINGS IN THE SOFTWARE.
+
+
 
 // Mark that a method should not be used.
 // Returns a modified function which warns once by default.
@@ -2438,6 +2471,7 @@ function objectToString(o) {
 }
 
 
+// log is just a thin wrapper to console.log that prepends a timestamp
 
 
 
@@ -2569,6 +2603,11 @@ function isView(arrbuf) {
 function assert(value, message) {
   if (!value) fail(value, true, message, '==', ok);
 }
+// 2. The AssertionError is defined in assert.
+// new assert.AssertionError({ message: message,
+//                             actual: actual,
+//                             expected: expected })
+
 var regex = /\s*function\s+([^\(\s]*)\s*/;
 // based on https://github.com/ljharb/function.prototype.name/blob/adeeeec8bfcc6068b187d7d9fb3d5bb1d3a30899/implementation.js
 function getName(func) {
@@ -2678,6 +2717,9 @@ function ok(value, message) {
   if (!value) fail(value, true, message, '==', ok);
 }
 assert.ok = ok;
+// 5. The equality assertion tests shallow, coercive equality with
+// ==.
+// assert.equal(actual, expected, message_opt);
 assert.equal = equal;
 function equal(actual, expected, message) {
   if (actual != expected) fail(actual, expected, message, '==', equal);
@@ -3155,7 +3197,7 @@ const sleep = (duration = DELAY) => {
 };
 
 let main = (() => {
-  var _ref8 = asyncToGenerator(function* (tests) {
+  var _ref9 = asyncToGenerator(function* (tests) {
     for (let a of fp.keys(tests)) {
       console.log("=================================================");
       console.log("");
@@ -3165,10 +3207,12 @@ let main = (() => {
     }
   });
 
-  return function main(_x4) {
-    return _ref8.apply(this, arguments);
+  return function main(_x5) {
+    return _ref9.apply(this, arguments);
   };
 })();
+
+///////////////////////////////////////////////////////////////////////////////
 
 ///////////////////////////////////////////////////////////////////////////////
 
@@ -3244,7 +3288,7 @@ function print(prefix = "") {
 }
 
 // Sets the left value to the right value
-function affect(left, right) {
+function affectSimple(left, right) {
   return {
     type: "input",
     set: (() => {
@@ -3268,16 +3312,9 @@ function affect(left, right) {
 }
 
 // // Equivalent to the left value while outputing active to the right
-// function withBehaviour<T>(left: Output<T>, right: Input<Activation>): Output<T> {
-//   return async (activation: Activation) => {
-//     if (activation === "active") {
-//       const value: T = await right();
-//       await left(value);
-//       return;
-//     } else {
-//       await left("inactive");
-//       return;
-//     }
+// function withBehaviour<T:Interface>(left: T, right: Input<Activation>): T {
+//   return async (interf: T) => {
+//
 //   };
 // }
 
@@ -3285,23 +3322,23 @@ function affect(left, right) {
 
 const tests = {
   test1: (() => {
-    var _ref6 = asyncToGenerator(function* () {
+    var _ref7 = asyncToGenerator(function* () {
       const [output1, input1, output2, lol] = yield Promise.all([receive("toto").get(), send("toto").set(3), constant("inactive").get(), print("Bob").set(5)]);
       assert(output1 === 3);
       assert(output2 === "inactive");
     });
 
     return function test1() {
-      return _ref6.apply(this, arguments);
+      return _ref7.apply(this, arguments);
     };
   })(),
   test2: (() => {
-    var _ref7 = asyncToGenerator(function* () {
-      const [input1] = yield Promise.all([affect(print("Bob"), constant(120)).set("active")]);
+    var _ref8 = asyncToGenerator(function* () {
+      const [input1] = yield Promise.all([affectSimple(print("Bob"), constant(120)).set("active")]);
     });
 
     return function test2() {
-      return _ref7.apply(this, arguments);
+      return _ref8.apply(this, arguments);
     };
   })()
 };

@@ -1,16 +1,24 @@
 {
-  "plugins": ["external-helpers"],
-  "presets": [
-    "flow",
-    "stage-0",
-    [
-      "env",
-      {
-        "targets": {
-          "browsers": ["last 2 Chrome versions"]
-        },
-        "modules": false
-      }
-    ]
-  ]
+  "ignore": ["node_modules/**"],
+  "env": {
+    "test": {
+      "presets": ["flow", "stage-0", "env"]
+    },
+    "production": {
+      "plugins": ["external-helpers"],
+      "presets": [
+        "flow",
+        "stage-0",
+        [
+          "env",
+          {
+            "targets": {
+              "browsers": ["last 2 Chrome versions"]
+            },
+            "modules": false
+          }
+        ]
+      ]
+    }
+  }
 }
