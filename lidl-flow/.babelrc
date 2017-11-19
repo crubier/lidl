@@ -2,13 +2,13 @@
   "ignore": ["node_modules/**"],
   "env": {
     "test": {
-      "presets": ["flow", "stage-0", "env"]
+      "presets": ["flow", "env", "stage-0"]
     },
     "production": {
       "plugins": ["external-helpers"],
       "presets": [
         "flow",
-        "stage-0",
+
         [
           "env",
           {
@@ -17,7 +17,8 @@
             },
             "modules": false
           }
-        ]
+        ],
+        "stage-0"
       ]
     }
   }

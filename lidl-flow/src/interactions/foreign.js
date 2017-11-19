@@ -12,10 +12,9 @@ import {
   type Interface
 } from "../interfaces";
 
-///////////////////////////////////////////////////////////////////////////////
-// Interactions
-
-// Receive from an external function
+/**
+ * Receive from an external function
+ */
 export function receive<T: Value>(func: any => T | Promise<T>): Output<T> {
   return {
     type: "output",
@@ -34,7 +33,9 @@ export function receive<T: Value>(func: any => T | Promise<T>): Output<T> {
   };
 }
 
-// Send to an external function
+/**
+ * Send to an external function
+ */
 export function send<T: Value>(func: (T | Promise<T>) => any): Input<T> {
   return {
     type: "input",

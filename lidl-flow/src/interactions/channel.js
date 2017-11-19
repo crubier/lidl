@@ -92,7 +92,7 @@ class Channel<T: Value> {
    */
   perform() {
     const result: T = this.stateSources.reduce(
-      (aggregatedValue, currentFunction) => {
+      (aggregatedValue: T, currentFunction: SourceFunction<T>) => {
         const currentValue = currentFunction();
         if (currentValue === "inactive") {
           return aggregatedValue;
@@ -112,7 +112,7 @@ class Channel<T: Value> {
           }
         }
       },
-      ("inactive": T)
+      (("inactive": any): T)
     );
     this.stateSinks.forEach(currentFunction => currentFunction(result));
   }
