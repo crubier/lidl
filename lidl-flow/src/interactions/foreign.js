@@ -14,6 +14,7 @@ import {
 
 /**
  * Receive from an external function
+ * @param func A function that returns a value or a promise of a value
  */
 export function receive<T: Value>(func: any => T | Promise<T>): Output<T> {
   return {
@@ -35,6 +36,7 @@ export function receive<T: Value>(func: any => T | Promise<T>): Output<T> {
 
 /**
  * Send to an external function
+ * @param func A function that gets a value or a promise of a value
  */
 export function send<T: Value>(func: (T | Promise<T>) => any): Input<T> {
   return {

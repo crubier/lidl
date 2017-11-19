@@ -4,8 +4,8 @@
   "description": "",
   "main": "bin/index.js",
   "scripts": {
-    "test": "jest",
-    "test-watch": "jest --watch",
+    "test": "jest --coverage",
+    "test-watch": "jest --watch --coverage",
     "build": "NODE_ENV=production rollup -c",
     "dev": "rollup -c -w",
     "check": "flow src/index.js",
@@ -19,7 +19,8 @@
   "jest": {
     "transform": {
       "^.+\\.jsx?$": "babel-jest"
-    }
+    },
+    "coverageReporters": ["json", "lcov", "text"]
   },
   "devDependencies": {
     "babel-cli": "^6.26.0",
