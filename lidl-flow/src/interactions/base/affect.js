@@ -11,8 +11,11 @@ import {
   type Input,
   type Output,
   type Composite,
-  type Interface
+  type Interface,
+  isCompatible
 } from "../../interfaces";
+
+import { concat, map, flatMap, values } from "lodash/fp";
 
 ///////////////////////////////////////////////////////////////////////////////
 // Interactions
@@ -63,6 +66,70 @@ export function affectOutput<T: Value>(
   };
 }
 
+function performAffectationToValue(v: Value, i: Interface): Promise<any>[] {
+  if (i.type === "input") {
+    return [i.set(v)];
+  } else if (i.type === "output") {
+    return [i.get()];
+  } else if (i.type === "composite") {
+    return flatMap(x => performAffectationToValue(v, x), values(i.elements));
+  } else {
+    throw new Error(
+      `Cannot send value "${v.toString()}" to unknown interface "${i.toString()}" of type "${
+        i.type
+      }"`
+    );
+  }
+}
+
+function performAffectation(i: Interface, j: Interface): Promise<any>[] {
+  if (i.type === "input") {
+    return [i.set(v)];
+  } else if (i.type === "output") {
+    return [i.get()];
+  } else if (i.type === "composite") {
+    return flatMap(x => performAffectationToValue(v, x), values(i.elements));
+  } else {
+    throw new Error(
+      `Cannot send value "${v.toString()}" to unknown interface "${i.toString()}" of type "${
+        i.type
+      }"`
+    );
+  }
+}
+
+export function affectComposite(
+  left: Composite,
+  right: Composite
+): Input<Activation> {
+  if (isCompatible(left, right)) {
+    console.log("OKKKK");
+    console.log(left.elements);
+    return {
+      type: "input",
+      set: async (activation: Activation) => {
+        if (activation === "active") {
+          return await Promise.all(
+            concat(
+              performAffectationToValue("inactive", left),
+              performAffectationToValue("inactive", right)
+            )
+          );
+        } else {
+          return await Promise.all(
+            concat(
+              performAffectationToValue("inactive", left),
+              performAffectationToValue("inactive", right)
+            )
+          );
+        }
+      }
+    };
+  } else {
+    throw new Error("Incompatible interfaces in affectation");
+  }
+}
+
 /** General purpose affectation
  * @param left left hand side
  * @param right right hand side
@@ -75,6 +142,8 @@ export function affect<I: Interface, J: Interface>(
     return (affectInput(left, right): any); //FIXME
   } else if (left.type === "output" && right.type === "input") {
     return (affectOutput(left, right): any); //FIXME
+  } else if (left.type === "composite" && right.type === "composite") {
+    return (affectComposite(left, right): any); //FIXME
   } else {
     throw new Error("Unsupported affect");
   }
