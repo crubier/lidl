@@ -38,13 +38,29 @@ type SinkFunction<T> = T => any;
  *   - Several sinks which send data on the other side
  */
 class Channel<T: Value> {
-  state: T[];
+  /** Sources that gave their value at a given step
+   */
   stateSources: SourceFunction<T>[];
+
+  /** Sinks that want their value at a given step
+   */
   stateSinks: SinkFunction<T>[];
+
+  /** All registred sources, list created before run time
+   */
   sources: PromiseSourceFunction<T>[];
+
+  /** All registred sinks, list created before run time
+   */
   sinks: PromiseSinkFunction<T>[];
+
+  /** Name of the channel
+   */
   name: string;
 
+  /** Constructor
+   * @param name the name of the channel
+   */
   constructor(name) {
     this.name = name;
     this.sources = [];
@@ -57,7 +73,6 @@ class Channel<T: Value> {
    * @returns nothing
    */
   initializeState(): void {
-    this.state = [];
     this.stateSources = [];
     this.stateSinks = [];
     // console.log(
@@ -92,7 +107,7 @@ class Channel<T: Value> {
   }
 
   /**
-   * Perform the actual
+   * Perform the actual work of the channel
    */
   perform() {
     // console.log(`Performing channel "${this.name}"`);
