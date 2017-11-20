@@ -15,7 +15,9 @@ import {
   isCompatible
 } from "../../interfaces";
 
-import { concat, map, flatMap, values } from "lodash/fp";
+import { all } from "./all";
+
+import { values, mergeWith } from "lodash/fp";
 
 ///////////////////////////////////////////////////////////////////////////////
 // Interactions
@@ -65,70 +67,73 @@ export function affectOutput<T: Value>(
     }
   };
 }
-
-function performAffectationToValue(v: Value, i: Interface): Promise<any>[] {
-  if (i.type === "input") {
-    return [i.set(v)];
-  } else if (i.type === "output") {
-    return [i.get()];
-  } else if (i.type === "composite") {
-    return flatMap(x => performAffectationToValue(v, x), values(i.elements));
-  } else {
-    throw new Error(
-      `Cannot send value "${v.toString()}" to unknown interface "${i.toString()}" of type "${
-        i.type
-      }"`
-    );
-  }
-}
-
-function performAffectation(i: Interface, j: Interface): Promise<any>[] {
-  if (i.type === "input") {
-    return [i.set(v)];
-  } else if (i.type === "output") {
-    return [i.get()];
-  } else if (i.type === "composite") {
-    return flatMap(x => performAffectationToValue(v, x), values(i.elements));
-  } else {
-    throw new Error(
-      `Cannot send value "${v.toString()}" to unknown interface "${i.toString()}" of type "${
-        i.type
-      }"`
-    );
-  }
-}
-
-export function affectComposite(
-  left: Composite,
-  right: Composite
-): Input<Activation> {
-  if (isCompatible(left, right)) {
-    console.log("OKKKK");
-    console.log(left.elements);
-    return {
-      type: "input",
-      set: async (activation: Activation) => {
-        if (activation === "active") {
-          return await Promise.all(
-            concat(
-              performAffectationToValue("inactive", left),
-              performAffectationToValue("inactive", right)
-            )
-          );
-        } else {
-          return await Promise.all(
-            concat(
-              performAffectationToValue("inactive", left),
-              performAffectationToValue("inactive", right)
-            )
-          );
-        }
-      }
-    };
-  } else {
-    throw new Error("Incompatible interfaces in affectation");
-  }
-}
+//
+// function performAffectationToValue(v: Value, i: Interface): Promise<any>[] {
+//   if (i.type === "input") {
+//     return [i.set(v)];
+//   } else if (i.type === "output") {
+//     return [i.get()];
+//   } else if (i.type === "composite") {
+//     return flatMap(x => performAffectationToValue(v, x), values(i.elements));
+//   } else {
+//     throw new Error(
+//       `Cannot send value "${v.toString()}" to unknown interface "${i.toString()}" of type "${
+//         i.type
+//       }"`
+//     );
+//   }
+// }
+//
+// function getAtomicAffectations(
+//   i: Interface,
+//   j: Interface
+// ): Input<Activation>[] {
+//   if (i.type === "input") {
+//     return [i.set(v)];
+//   } else if (i.type === "output") {
+//     return [i.get()];
+//   } else if (i.type === "composite") {
+//     return flatMap(x => performAffectationToValue(v, x), values(i.elements));
+//   } else {
+//     throw new Error(
+//       `Cannot send value "${v.toString()}" to unknown interface "${i.toString()}" of type "${
+//         i.type
+//       }"`
+//     );
+//   }
+// }
+//
+// export function affectComposite(
+//   left: Composite,
+//   right: Composite
+// ): Input<Activation> {
+//   if (isCompatible(left, right)) {
+//     console.log("OKKKK");
+//     console.log(left.elements);
+//     return {
+//       type: "input",
+//       set: async (activation: Activation) => {
+//         if (activation === "active") {
+//           return await Promise.all(
+//             concat(
+//               performAffectationToValue("inactive", left),
+//               performAffectationToValue("inactive", right)
+//             )
+//           );
+//         } else {
+//           return await Promise.all(
+//             concat(
+//               performAffectationToValue("inactive", left),
+//               performAffectationToValue("inactive", right)
+//             )
+//           );
+//         }
+//       }
+//     };
+//   } else {
+//     throw new Error("Incompatible interfaces in affectation");
+//   }
+// }
 
 /** General purpose affectation
  * @param left left hand side
@@ -139,12 +144,22 @@ export function affect<I: Interface, J: Interface>(
   right: J
 ): Input<Activation> {
   if (left.type === "input" && right.type === "output") {
-    return (affectInput(left, right): any); //FIXME
+    return affectInput(left, right);
   } else if (left.type === "output" && right.type === "input") {
-    return (affectOutput(left, right): any); //FIXME
+    return affectOutput(left, right);
   } else if (left.type === "composite" && right.type === "composite") {
-    return (affectComposite(left, right): any); //FIXME
+    return all(
+      ...values(
+        mergeWith(
+          (leftElement, rightElement, key) => affect(leftElement, rightElement),
+          left.elements,
+          right.elements
+        )
+      )
+    );
   } else {
-    throw new Error("Unsupported affect");
+    throw new Error(
+      `Unsupported affect between ${left.toString()} and ${right.toString()}`
+    );
   }
 }

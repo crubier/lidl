@@ -1,5 +1,5 @@
 import { send, receive } from "../foreign";
-import { affectInput, affectOutput, affect, affectComposite } from "../affect";
+import { affectInput, affectOutput, affect } from "../affect";
 import { composition } from "../composition";
 
 test("affect input", async () => {
@@ -66,11 +66,11 @@ test("affect simple", async () => {
 });
 
 test("affect composite", async () => {
-  await affectComposite(
+  await affect(
     composition({ a: receive(() => 54) }),
     composition({ a: send(i => expect(i).toEqual("inactive")) })
   ).set("inactive");
-  await affectComposite(
+  await affect(
     composition({ a: receive(() => 54) }),
     composition({ a: send(i => expect(i).toEqual(54)) })
   ).set("active");
