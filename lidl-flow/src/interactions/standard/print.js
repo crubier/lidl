@@ -2,6 +2,6 @@
 
 import { send } from "../base/foreign";
 
-export function print(name: string) {
-  return send(x => console.log(`${name}: ${x.toString()}`));
+export function print(name: string, loggingFunction = console.log) {
+  return send(x => loggingFunction(`${name}: ${x.toString()}`));
 }
