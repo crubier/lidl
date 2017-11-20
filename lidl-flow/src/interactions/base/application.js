@@ -14,6 +14,9 @@ import {
   type Interface
 } from "../../interfaces";
 
+import { isInactive } from "../../types";
+import { isNil } from "lodash/fp";
+
 /** Sets the arguments value to the input value
  * @param args operands which will receive the value of the input
  */
@@ -32,8 +35,9 @@ export function application<T: Value, U: Value>(
     type: "input",
     set: async (value: Activation) => {
       if (value != "inactive") {
+        const xPromise = isNil(x) ? "inactive" : await x.get();
         const [_, result] = await Promise.all([
-          f.elements.input.set(await x.get()),
+          f.elements.input.set(xPromise),
           f.elements.output.get()
         ]);
         await y.set(result);
