@@ -68,6 +68,11 @@ class Channel<T: Value> {
     this.state = [];
     this.stateSources = [];
     this.stateSinks = [];
+    // console.log(
+    //   `Initialized state of channel "${this.name}", which contains ${
+    //     this.sinks.length
+    //   } sinks and ${this.sources.length} sources`
+    // );
   }
 
   /** # Customizable
@@ -77,6 +82,13 @@ class Channel<T: Value> {
    * @returns true if everything is ready to output (all sinks are listening and all sources have given their value)
    */
   isReady(): boolean {
+    // console.log(
+    //   `Checking state of channel "${this.name}", which has ${
+    //     this.sinks.length
+    //   }/${this.stateSinks.length} sinks ready and ${this.sources.length}/${
+    //     this.stateSources.length
+    //   } sources ready`
+    // );
     if (
       this.stateSources.length === this.sources.length &&
       this.stateSinks.length === this.sinks.length
@@ -91,9 +103,19 @@ class Channel<T: Value> {
    * Perform the actual
    */
   perform() {
+    // console.log(`Performing channel "${this.name}"`);
     const result: T = this.stateSources.reduce(
-      (aggregatedValue: T, currentFunction: SourceFunction<T>) => {
+      (
+        aggregatedValue: T,
+        currentFunction: SourceFunction<T>,
+        index: number
+      ) => {
         const currentValue = currentFunction();
+        // console.log(
+        //   `Received value ${currentValue.toString()} at index ${
+        //     index
+        //   } for channel "${this.name}"`
+        // );
         if (currentValue === "inactive") {
           return aggregatedValue;
         } else {
@@ -104,9 +126,9 @@ class Channel<T: Value> {
               return aggregatedValue;
             } else {
               throw new Error(
-                `Incompatible values given to channel ${
+                `Incompatible values given to channel "${
                   this.name
-                }: ${currentValue.toString()} and ${aggregatedValue.toString()}`
+                }": ${currentValue.toString()} and ${aggregatedValue.toString()}`
               );
             }
           }
@@ -114,7 +136,16 @@ class Channel<T: Value> {
       },
       (("inactive": any): T)
     );
-    this.stateSinks.forEach(currentFunction => currentFunction(result));
+    // console.log(`Chose value ${result.toString()} for channel "${this.name}"`);
+    this.stateSinks.forEach((currentFunction, index) => {
+      const currentValue = result;
+      // console.log(
+      //   `Sent value ${currentValue.toString()} at index ${index} for channel "${
+      //     this.name
+      //   }"`
+      // );
+      currentFunction(result);
+    });
   }
 
   /**
@@ -123,13 +154,18 @@ class Channel<T: Value> {
    */
   addSource(): PromiseSourceFunction<T> {
     const sourceFunction: PromiseSourceFunction<T> = async (x: T) => {
-      this.stateSinks.push(() => x);
+      this.stateSources.push(() => x);
       if (this.isReady()) {
         this.perform();
         this.initializeState();
       }
     };
     this.sources.push(sourceFunction);
+    // console.log(
+    //   `Added a source to channel "${this.name}", which now contains ${
+    //     this.sources.length
+    //   } sources`
+    // );
     return sourceFunction;
   }
 
@@ -148,6 +184,11 @@ class Channel<T: Value> {
       });
     };
     this.sinks.push(sinkFunction);
+    // console.log(
+    //   `Added a sink to channel "${this.name}", which now contains ${
+    //     this.sinks.length
+    //   } sinks`
+    // );
     return sinkFunction;
   }
 
