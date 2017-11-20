@@ -3,8 +3,8 @@ import { type Value } from "../types";
 
 export type Input<T: Value> = { type: "input", set: T => Promise<any> };
 export type Output<T: Value> = { type: "output", get: any => Promise<T> };
-export type CompositeInterface = {
+export type Composite = {
   type: "composite",
-  content: { [string]: Interface }
+  elements: { [string]: Interface }
 };
-export type Interface = Input<*> | Output<*> | CompositeInterface;
+export type Interface = Input<*> | Output<*> | Composite;

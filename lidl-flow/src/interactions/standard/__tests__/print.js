@@ -1,6 +1,7 @@
 import { print } from "../print";
+import { literal } from "../literal";
+
 import { affect } from "../../base/affect";
-import { literal } from "../../base/literal";
 
 test("no channel", async () => {
   const spy = jest.spyOn(global.console, "log");

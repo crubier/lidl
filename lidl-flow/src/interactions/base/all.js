@@ -10,7 +10,7 @@ import {
 import {
   type Input,
   type Output,
-  type CompositeInterface,
+  type Composite,
   type Interface
 } from "../../interfaces";
 
