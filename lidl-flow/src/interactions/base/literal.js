@@ -1,26 +1,18 @@
 /* @flow */
 
-///////////////////////////////////////////////////////////////////////////////
-
-import assert from "assert";
-import { keys } from "lodash/fp";
-import { getChannel, setChannel } from "../utils/asyncs";
-
-///////////////////////////////////////////////////////////////////////////////
-
 import {
   type Activation,
   type Boolean,
   type Number,
   type Text,
   type Value
-} from "../types";
+} from "../../types";
 import {
   type Input,
   type Output,
   type CompositeInterface,
   type Interface
-} from "../interfaces";
+} from "../../interfaces";
 
 let channels: { [string]: any } = {};
 

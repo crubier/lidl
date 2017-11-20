@@ -1,13 +1,5 @@
 /* @flow */
 
-///////////////////////////////////////////////////////////////////////////////
-
-import assert from "assert";
-import { keys } from "lodash/fp";
-import { getChannel, setChannel } from "../utils/asyncs";
-
-///////////////////////////////////////////////////////////////////////////////
-
 import {
   type inactive,
   type Activation,
@@ -15,13 +7,13 @@ import {
   type Number,
   type Text,
   type Value
-} from "../types";
+} from "../../types";
 import {
   type Input,
   type Output,
   type CompositeInterface,
   type Interface
-} from "../interfaces";
+} from "../../interfaces";
 
 /**
  * An async function that will need to be called with the value to be sent to the channel

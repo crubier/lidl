@@ -4,13 +4,13 @@ import {
   type Number,
   type Text,
   type Value
-} from "../types";
+} from "../../types";
 import {
   type Input,
   type Output,
   type CompositeInterface,
   type Interface
-} from "../interfaces";
+} from "../../interfaces";
 
 /**
  * Receive from an external function
