@@ -1,19 +1,64 @@
 import { send, receive } from "../foreign";
-import { affectSimple } from "../affect";
+import { affectInput, affectOutput, affect } from "../affect";
 
-test("simple affect", async () => {
-  await affectSimple(send(i => expect(i).toEqual(5)), receive(() => 5)).set(
+test("affect input", async () => {
+  await affectInput(send(i => expect(i).toEqual(5)), receive(() => 5)).set(
     "active"
   );
-  await affectSimple(
+  await affectInput(
     send(i => expect(i).toEqual("inactive")),
     receive(() => "inactive")
   ).set("active");
-  await affectSimple(
+  await affectInput(
     send(i => expect(i).toEqual("inactive")),
     receive(() => 5)
   ).set("inactive");
-  await affectSimple(
+  await affectInput(
+    send(i => expect(i).toEqual("inactive")),
+    receive(() => "inactive")
+  ).set("inactive");
+});
+
+test("affect output", async () => {
+  await affectOutput(receive(() => 5), send(i => expect(i).toEqual(5))).set(
+    "active"
+  );
+  await affectOutput(
+    receive(() => "inactive"),
+    send(i => expect(i).toEqual("inactive"))
+  ).set("active");
+  await affectOutput(
+    receive(() => 5),
+    send(i => expect(i).toEqual("inactive"))
+  ).set("inactive");
+  await affectOutput(
+    receive(() => "inactive"),
+    send(i => expect(i).toEqual("inactive"))
+  ).set("inactive");
+});
+
+test("affect simple", async () => {
+  await affect(receive(() => 5), send(i => expect(i).toEqual(5))).set("active");
+  await affect(
+    receive(() => "inactive"),
+    send(i => expect(i).toEqual("inactive"))
+  ).set("active");
+  await affect(receive(() => 5), send(i => expect(i).toEqual("inactive"))).set(
+    "inactive"
+  );
+  await affect(
+    receive(() => "inactive"),
+    send(i => expect(i).toEqual("inactive"))
+  ).set("inactive");
+  await affect(send(i => expect(i).toEqual(5)), receive(() => 5)).set("active");
+  await affect(
+    send(i => expect(i).toEqual("inactive")),
+    receive(() => "inactive")
+  ).set("active");
+  await affect(send(i => expect(i).toEqual("inactive")), receive(() => 5)).set(
+    "inactive"
+  );
+  await affect(
     send(i => expect(i).toEqual("inactive")),
     receive(() => "inactive")
   ).set("inactive");
