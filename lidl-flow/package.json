@@ -4,7 +4,7 @@
   "description": "",
   "main": "bin/index.js",
   "scripts": {
-    "test": "jest --coverage",
+    "test": "jest --coverage --verbose",
     "test-watch": "jest --watch --coverage",
     "build": "NODE_ENV=production rollup -c",
     "dev": "rollup -c -w",
@@ -13,17 +13,14 @@
     "doc": "documentation serve src/** -f html -o docs",
     "doc-watch": "documentation serve --watch src/**"
   },
-  "author": "Vincent Lecrubier <vincent.lecrubier@gmail.com> (http://www.vincentlecrubier.fr/)",
+  "author":
+    "Vincent Lecrubier <vincent.lecrubier@gmail.com> (http://www.vincentlecrubier.fr/)",
   "license": "ISC",
   "jest": {
     "transform": {
       "^.+\\.jsx?$": "babel-jest"
     },
-    "coverageReporters": [
-      "json",
-      "lcov",
-      "text"
-    ]
+    "coverageReporters": ["json", "lcov", "text"]
   },
   "devDependencies": {
     "babel-cli": "^6.26.0",
