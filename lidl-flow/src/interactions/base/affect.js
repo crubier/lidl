@@ -17,7 +17,11 @@ import {
 
 import { all } from "./all";
 
-import { values, mergeWith } from "lodash/fp";
+import { send, receive } from "./foreign";
+
+import { composition } from "./composition";
+
+import { mapValues, has, isNil, values, mergeWith } from "lodash/fp";
 
 ///////////////////////////////////////////////////////////////////////////////
 // Interactions
@@ -67,73 +71,30 @@ export function affectOutput<T: Value>(
     }
   };
 }
-//
-// function performAffectationToValue(v: Value, i: Interface): Promise<any>[] {
-//   if (i.type === "input") {
-//     return [i.set(v)];
-//   } else if (i.type === "output") {
-//     return [i.get()];
-//   } else if (i.type === "composite") {
-//     return flatMap(x => performAffectationToValue(v, x), values(i.elements));
-//   } else {
-//     throw new Error(
-//       `Cannot send value "${v.toString()}" to unknown interface "${i.toString()}" of type "${
-//         i.type
-//       }"`
-//     );
-//   }
-// }
-//
-// function getAtomicAffectations(
-//   i: Interface,
-//   j: Interface
-// ): Input<Activation>[] {
-//   if (i.type === "input") {
-//     return [i.set(v)];
-//   } else if (i.type === "output") {
-//     return [i.get()];
-//   } else if (i.type === "composite") {
-//     return flatMap(x => performAffectationToValue(v, x), values(i.elements));
-//   } else {
-//     throw new Error(
-//       `Cannot send value "${v.toString()}" to unknown interface "${i.toString()}" of type "${
-//         i.type
-//       }"`
-//     );
-//   }
-// }
-//
-// export function affectComposite(
-//   left: Composite,
-//   right: Composite
-// ): Input<Activation> {
-//   if (isCompatible(left, right)) {
-//     console.log("OKKKK");
-//     console.log(left.elements);
-//     return {
-//       type: "input",
-//       set: async (activation: Activation) => {
-//         if (activation === "active") {
-//           return await Promise.all(
-//             concat(
-//               performAffectationToValue("inactive", left),
-//               performAffectationToValue("inactive", right)
-//             )
-//           );
-//         } else {
-//           return await Promise.all(
-//             concat(
-//               performAffectationToValue("inactive", left),
-//               performAffectationToValue("inactive", right)
-//             )
-//           );
-//         }
-//       }
-//     };
-//   } else {
-//     throw new Error("Incompatible interfaces in affectation");
-//   }
-// }
+
+/** This function generates a stub for a given interface
+ * A stub sends "inactive" through its outputs, and does not care about its inputs
+ * @param i The interface to generate a stub for
+ * @returns a stub interface compatible with i
+ */
+function stubForInterface(i: Interface): Interface {
+  if (isNil(i)) {
+    throw new Error(`Cannot create stub for null interface`);
+  } else if (!has("type", i)) {
+    throw new Error(`Cannot create stub for interface with no type defined`);
+  } else if (i.type === "input") {
+    // The stub sends inactive values
+    return receive(() => "inactive");
+  } else if (i.type === "output") {
+    // The stub does not care about what it receives
+    return send(x => null);
+  } else if (i.type === "composite") {
+    // The stub decomposes
+    return composition(mapValues(e => stubForInterface(e), i.elements));
+  } else {
+    throw new Error(`Cannot create stub for interface of type ${i.type}`);
+  }
+}
 
 /** General purpose affectation
  * @param left left hand side
@@ -143,21 +104,42 @@ export function affect<I: Interface, J: Interface>(
   left: I,
   right: J
 ): Input<Activation> {
-  if (left.type === "input" && right.type === "output") {
+  if (isNil(left) && isNil(right)) {
+    // If nothing on both sides, then this interaction is basically useless
+    return send(x => null);
+  } else if (isNil(left)) {
+    // If nothing on left, then we make a stub for the right to work
+    return affect(stubForInterface(right), right);
+  } else if (isNil(right)) {
+    // If nothing on right, then we make a stub for the left to work
+    return affect(left, stubForInterface(left));
+  } else if (left.type === "input" && right.type === "output") {
+    // Dataflow is ok and going in the usual direction
     return affectInput(left, right);
   } else if (left.type === "output" && right.type === "input") {
+    // Dataflow is ok and going in the opposite direction
     return affectOutput(left, right);
   } else if (left.type === "composite" && right.type === "composite") {
-    return all(
-      ...values(
-        mergeWith(
-          (leftElement, rightElement, key) => affect(leftElement, rightElement),
-          left.elements,
-          right.elements
+    // Complex affectations get decomposed into smaller elements
+    if (isCompatible(left, right)) {
+      return all(
+        ...values(
+          mergeWith(
+            (leftElement, rightElement, key) =>
+              affect(leftElement, rightElement),
+            left.elements,
+            right.elements
+          )
         )
-      )
-    );
+      );
+    } else {
+      // Undefined behaviour
+      throw new Error(
+        `Unsupported affect incompatible interfaces ${left.toString()} and ${right.toString()}`
+      );
+    }
   } else {
+    // Undefined behaviour
     throw new Error(
       `Unsupported affect between ${left.toString()} and ${right.toString()}`
     );

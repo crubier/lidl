@@ -74,4 +74,87 @@ test("affect composite", async () => {
     composition({ a: receive(() => 54) }),
     composition({ a: send(i => expect(i).toEqual(54)) })
   ).set("active");
+  await affect(
+    composition({ a: receive(() => "inactive") }),
+    composition({ a: send(i => expect(i).toEqual("inactive")) })
+  ).set("active");
+  await affect(
+    composition({
+      a: receive(() => "inactive"),
+      b: send(i => expect(i).toEqual("inactive"))
+    }),
+    composition({
+      a: send(i => expect(i).toEqual("inactive")),
+      b: receive(() => "inactive")
+    })
+  ).set("active");
+  await affect(
+    composition({
+      a: receive(() => "5"),
+      b: send(i => expect(i).toEqual("2"))
+    }),
+    composition({
+      a: send(i => expect(i).toEqual("5")),
+      b: receive(() => "2")
+    })
+  ).set("active");
+  await affect(
+    composition({
+      a: receive(() => "5"),
+      b: send(i => expect(i).toEqual("inactive"))
+    }),
+    composition({
+      a: send(i => expect(i).toEqual("inactive")),
+      b: receive(() => "2")
+    })
+  ).set("inactive");
+});
+
+test("affect deep composite", async () => {
+  await affect(
+    composition({
+      a: receive(() => "5"),
+      b: send(i => expect(i).toEqual("2")),
+      c: composition({
+        a: receive(() => "91"),
+        b: send(i => expect(i).toEqual("22"))
+      })
+    }),
+    composition({
+      a: send(i => expect(i).toEqual("5")),
+      b: receive(() => "2"),
+      c: composition({
+        a: send(i => expect(i).toEqual("91")),
+        b: receive(() => "22")
+      })
+    })
+  ).set("active");
+
+  await affect(
+    composition({
+      a: receive(() => "5"),
+      b: send(i => expect(i).toEqual("2")),
+      c: composition({
+        a: receive(() => "inactive"),
+        b: send(i => expect(i).toEqual("inactive"))
+      })
+    }),
+    composition({
+      a: send(i => expect(i).toEqual("5")),
+      b: receive(() => "2"),
+      c: null
+    })
+  ).set("active");
+
+  await affect(
+    composition({
+      a: receive(() => "5"),
+      b: send(i => expect(i).toEqual("inactive")),
+      c: composition({
+        a: receive(() => "inactive"),
+        b: send(i => expect(i).toEqual("inactive"))
+      })
+    }),
+    null
+  ).set("active");
 });
