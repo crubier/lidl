@@ -23,10 +23,8 @@ import { composition } from "./composition";
 
 import { mapValues, has, isNil, values, mergeWith } from "lodash/fp";
 
-///////////////////////////////////////////////////////////////////////////////
-// Interactions
-
-/** Send Right value to Left
+/** Basic affectation
+ * Send Right value to Left
  * This is the usual affectation
  */
 export function affectInput<T: Value>(
@@ -49,7 +47,8 @@ export function affectInput<T: Value>(
   };
 }
 
-/** Send Left value to Right
+/** Basic affectation
+ * Send Left value to Right
  * This is the reverse affectation
  */
 export function affectOutput<T: Value>(
@@ -96,7 +95,7 @@ function stubForInterface(i: Interface): Interface {
   }
 }
 
-/** General purpose affectation
+/** General purpose affectation which takes all cases into account
  * @param left left hand side
  * @param right right hand side
  */
