@@ -17,11 +17,15 @@ import {
 /** Sets the arguments value to the input value
  * @param args operands which will receive the value of the input
  */
+//TODO
 export function allInput<T: Value>(...args: Input<T>[]): Input<T> {
   return {
     type: "input",
-    set: async (value: T) => {
-      return await Promise.all(args.map(arg => arg.set(value)));
+    set: async function(flow: AsyncGenerator<T, void, void>) {
+      const argsSet = args.map(arg => arg.set(value));
+      for await (const value of flow) {
+      }
+      // return await Promise.all(args.map(arg => arg.set(value)));
     }
   };
 }

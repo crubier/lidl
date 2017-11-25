@@ -2,8 +2,14 @@
 import { type Value } from "../types";
 import { every, mergeWith, isNil } from "lodash/fp";
 
-export type Input<T: Value> = { type: "input", set: T => Promise<any> };
-export type Output<T: Value> = { type: "output", get: any => Promise<T> };
+export type Input<T: Value> = {
+  type: "input",
+  set: (AsyncGenerator<T, void, void>) => any
+};
+export type Output<T: Value> = {
+  type: "output",
+  get: any => AsyncGenerator<T, void, void>
+};
 export type Composite = {
   type: "composite",
   elements: { [string]: Interface }
