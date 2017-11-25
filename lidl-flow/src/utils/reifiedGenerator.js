@@ -62,7 +62,9 @@ export default class ReifiedGenerator<Y: mixed, R: mixed, N: mixed> {
       await this.isReady();
     }
 
-    defer(() => this.channels.yield.resolve(value));
+    // defer(() => this.channels.yield.resolve(value));
+    this.channels.yield.resolve(value);
+
     const next = await this.channels.next.promise;
 
     if (waitForDone) {
@@ -80,7 +82,10 @@ export default class ReifiedGenerator<Y: mixed, R: mixed, N: mixed> {
     if (waitForReady) {
       await this.isReady();
     }
-    defer(() => this.channels.return.resolve(value));
+
+    // defer(() => this.channels.return.resolve(value));
+    this.channels.return.resolve(value);
+
     if (waitForDone) {
       await this.isDone();
     }
@@ -95,7 +100,10 @@ export default class ReifiedGenerator<Y: mixed, R: mixed, N: mixed> {
     if (waitForReady) {
       await this.isReady();
     }
-    defer(() => this.channels.throw.resolve(value));
+
+    // defer(() => this.channels.throw.resolve(value));
+    this.channels.throw.resolve(value);
+
     if (waitForDone) {
       await this.isDone();
     }
@@ -113,6 +121,7 @@ export default class ReifiedGenerator<Y: mixed, R: mixed, N: mixed> {
 
   async isReady() {
     await Promise.props(mapValues(channel => channel.isReady, this.channels));
+    // console.log("IS READY");
   }
 
   async isDone() {
@@ -121,6 +130,7 @@ export default class ReifiedGenerator<Y: mixed, R: mixed, N: mixed> {
       this.channels.return.isDone,
       this.channels.throw.isDone
     ]);
+    // console.log("IS DONE");
   }
 
   async *generator(
@@ -131,6 +141,7 @@ export default class ReifiedGenerator<Y: mixed, R: mixed, N: mixed> {
       if (waitForReady) {
         await this.isReady();
       }
+      console.log("IS READY");
 
       const { which, result } = await Promise.any([
         this.channels.yield.promise.then(r => ({
@@ -145,17 +156,25 @@ export default class ReifiedGenerator<Y: mixed, R: mixed, N: mixed> {
       ]);
 
       if (which === "yield") {
+        console.log("WILL YIELD");
         const value = yield result;
+
         defer(() => this.channels.next.resolve(value));
+        // this.channels.next.resolve(value);
+
+        console.log("DID YIELD");
       } else if (which === "return") {
+        console.log("WILL RETURN");
         return result;
       } else if (which === "throw") {
+        console.log("WILL THROW");
         throw result;
       }
 
       if (waitForDone) {
         await this.isDone();
       }
+      console.log("IS DONE");
       this.getReady();
     }
   }
