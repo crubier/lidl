@@ -8,7 +8,7 @@ export type Composite = {
   type: "composite",
   elements: { [string]: Interface }
 };
-export type Interface = Input<*> | Output<*> | Composite;
+export type Interface = Input<Value> | Output<Value> | Composite;
 
 export function isCompatible(i: Interface, j: Interface): boolean {
   if (isNil(i) || isNil(j)) {
