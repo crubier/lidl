@@ -2,41 +2,152 @@
 
 import { defer } from "lodash/fp";
 
-export default class Source<T: mixed> {
-  resolve: T => mixed;
+type Return<R> = { done: true, value: R };
+type Yield<T> = { done: false, value: T };
+type Result<T, R> = Return<R> | Yield<T>;
 
-  reject: mixed => mixed;
+export default class Source<T: mixed, R: mixed> {
+  resolveValueToYield: (Result<T, R>) => mixed;
+  rejectValueToYield: mixed => mixed;
 
-  promise: Promise<T> = new Promise((resolve, reject) => {
-    this.resolve = resolve;
-    this.reject = reject;
-  });
+  resolveDidYield: () => mixed;
+  rejectDidYield: mixed => mixed;
 
-  async yield(value: T): Promise<void> {
-    defer(() => this.resolve(value));
-    // this.resolve(value);
+  isReadyToReceive: Promise<void>;
+  isReadyToSend: Promise<void>;
+
+  valueToYield: Promise<Result<T, R>>;
+  didYield: Promise<void>;
+
+  constructor() {
+    this.getReady();
+  }
+
+  async yield(
+    value: T,
+    waitForReady: boolean = true,
+    waitForDone: boolean = true
+  ): Promise<void> {
+    if (waitForReady) {
+      await this.isReady();
+    }
+    console.log("yield ready!", value);
+    defer(() => this.resolveValueToYield({ value, done: false }));
+    if (waitForDone) {
+      await this.isDone();
+    }
+    console.log("yield done!", value);
     return;
   }
 
-  async throw(value: mixed): Promise<void> {
-    defer(() => this.reject(value));
-    // this.reject(value);
+  async return(
+    value: R,
+    waitForReady: boolean = true,
+    waitForDone: boolean = true
+  ): Promise<void> {
+    if (waitForReady) {
+      await this.isReady();
+    }
+    defer(() => this.resolveValueToYield({ value, done: true }));
+    if (waitForDone) {
+      await this.isDone();
+    }
     return;
   }
 
-  async *generator(): AsyncGenerator<T, void, void> {
-    let promise = this.promise;
+  async throw(
+    value: mixed,
+    waitForReady: boolean = true,
+    waitForDone: boolean = true
+  ): Promise<void> {
+    if (waitForReady) {
+      await this.isReady();
+    }
+    defer(() => this.rejectValueToYield(value));
+    if (waitForDone) {
+      await this.isDone();
+    }
+    return;
+  }
+
+  getReadyToReceive() {
+    this.isReadyToReceive = new Promise(
+      (resolveIsReadyToReceive, rejectIsReadyToReceive) => {
+        try {
+          this.valueToYield = new Promise(
+            (resolveValueToYield, rejectValueToYield) => {
+              this.resolveValueToYield = resolveValueToYield;
+              this.rejectValueToYield = rejectValueToYield;
+              resolveIsReadyToReceive();
+            }
+          );
+        } catch (e) {
+          rejectIsReadyToReceive();
+        }
+      }
+    );
+  }
+
+  getReadyToSend() {
+    this.isReadyToSend = new Promise(
+      (resolveIsReadyToSend, rejectIsReadyToSend) => {
+        try {
+          this.didYield = new Promise((resolveDidYield, rejectDidYield) => {
+            this.resolveDidYield = resolveDidYield;
+            this.rejectDidYield = rejectDidYield;
+            resolveIsReadyToSend();
+          });
+        } catch (e) {
+          rejectIsReadyToSend();
+        }
+      }
+    );
+  }
+
+  getReady() {
+    this.getReadyToReceive();
+    this.getReadyToSend();
+  }
+
+  async isReady() {
+    await this.isReadyToReceive;
+    await this.isReadyToSend;
+  }
+
+  async isDone() {
+    await this.didYield;
+  }
+
+  async *generator(
+    waitForReady: boolean = true,
+    waitForDone: boolean = true
+  ): AsyncGenerator<T, R | void, void> {
     while (true) {
-      console.log(promise);
+      if (waitForReady) {
+        await this.isReady();
+      }
+      console.log("generator ready!");
       try {
-        yield await promise;
+        const result = await this.valueToYield;
+        console.log("generator!", result);
+        if (result.done) {
+          defer(() => this.resolveDidYield());
+          return result.value;
+        } else {
+          console.log("generator yield!");
+          yield result.value;
+          defer(() => this.resolveDidYield());
+        }
       } catch (e) {
+        defer(() => this.rejectDidYield());
         throw e;
       }
-      promise = new Promise((resolve, reject) => {
-        this.resolve = resolve;
-        this.reject = reject;
-      });
+
+      if (waitForDone) {
+        await this.isDone();
+      }
+      console.log("generator done!");
+      this.getReady();
     }
   }
 }
