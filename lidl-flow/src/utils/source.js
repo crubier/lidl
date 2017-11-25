@@ -31,12 +31,12 @@ export default class Source<T: mixed, R: mixed> {
     if (waitForReady) {
       await this.isReady();
     }
-    console.log("yield ready!", value);
+    // console.log("yield ready!", value);
     defer(() => this.resolveValueToYield({ value, done: false }));
     if (waitForDone) {
       await this.isDone();
     }
-    console.log("yield done!", value);
+    // console.log("yield done!", value);
     return;
   }
 
@@ -126,27 +126,25 @@ export default class Source<T: mixed, R: mixed> {
       if (waitForReady) {
         await this.isReady();
       }
-      console.log("generator ready!");
       try {
         const result = await this.valueToYield;
-        console.log("generator!", result);
         if (result.done) {
-          defer(() => this.resolveDidYield());
+          this.resolveDidYield();
           return result.value;
         } else {
-          console.log("generator yield!");
+          // TODO Here ?
+          // this.resolveDidYield();
           yield result.value;
-          defer(() => this.resolveDidYield());
+          // Or here ?
+          this.resolveDidYield();
         }
       } catch (e) {
-        defer(() => this.rejectDidYield());
+        this.rejectDidYield();
         throw e;
       }
-
       if (waitForDone) {
         await this.isDone();
       }
-      console.log("generator done!");
       this.getReady();
     }
   }
