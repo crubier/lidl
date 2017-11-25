@@ -32,13 +32,10 @@ test(
     const gen = source.generator(true, true);
     await source.yield(1, true, false);
     expect((await gen.next()).value).toEqual(1);
-    // console.log("==================================>1");
     await source.yield(2, true, false);
     expect((await gen.next()).value).toEqual(2);
-    // console.log("==================================>2");
     await source.yield(5, true, false);
     expect((await gen.next()).value).toEqual(5);
-    // console.log("==================================>3");
   },
   500
 );
