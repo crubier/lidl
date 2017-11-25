@@ -1,6 +1,7 @@
 /* @flow */
 
 import {
+  type inactive,
   type Activation,
   type Boolean,
   type Number,
@@ -35,7 +36,7 @@ export function application<T: Value, U: Value>(
     type: "input",
     set: async (value: Activation) => {
       if (value != "inactive") {
-        const xPromise = isNil(x) ? "inactive" : await x.get();
+        const xPromise = isNil(x) ? (("inactive": any): T) : (await x.get(): T);
         const [_, result] = await Promise.all([
           f.elements.input.set(xPromise),
           f.elements.output.get()
