@@ -12,6 +12,8 @@ import {
   type Interface
 } from "../../interfaces";
 
+import { isNil } from "lodash/fp";
+
 /**
  * Receive from an external function
  * @param func A function that returns a value or a promise of a value
@@ -19,25 +21,33 @@ import {
 export function receive<T: Value>(func: any => T | Promise<T>): Output<T> {
   return {
     type: "output",
-    get: async () => {
+    get: async function*(): AsyncGenerator<T, void, void> {
       if (func != null) {
-        const result = func();
-        if (result != null) {
-          if (result.then != null) {
-            const promiseResult = await result;
-            if (promiseResult != null) {
-              return promiseResult;
-            } else {
-              return "inactive";
-            }
+        while (true) {
+          const result = func();
+          if (isNil(result)) {
+            yield "inactive";
           } else {
-            return result;
+            if (result.then != null) {
+              const r = await result;
+              if (isNil(r)) {
+                yield "inactive";
+              } else {
+                yield r;
+              }
+            } else {
+              if (isNil(result)) {
+                yield "inactive";
+              } else {
+                yield result;
+              }
+            }
           }
-        } else {
-          return "inactive";
         }
       } else {
-        return "inactive";
+        while (true) {
+          yield "inactive";
+        }
       }
     }
   };
@@ -50,25 +60,19 @@ export function receive<T: Value>(func: any => T | Promise<T>): Output<T> {
 export function send<T: Value>(func: (T | Promise<T>) => any): Input<T> {
   return {
     type: "input",
-    set: async (x: T) => {
+    set: async function(flow: AsyncGenerator<T, void, void>) {
       if (func != null) {
-        const result = func(x);
-        if (result) {
-          if (result.then != null) {
-            const promiseResult = await result;
-            if (promiseResult != null) {
-              return promiseResult;
-            } else {
-              return "inactive";
+        for await (const value of flow) {
+          const result = func(value);
+          if (result) {
+            if (result.then != null) {
+              await result;
             }
-          } else {
-            return result;
           }
-        } else {
-          return "inactive";
         }
       } else {
-        return "inactive";
+        for await (const value of flow) {
+        }
       }
     }
   };

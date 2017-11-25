@@ -36,7 +36,6 @@ export function allInput<T: Value>(...args: Input<T>[]): Input<T> {
           })
         );
       }
-      // return await Promise.all(args.map(arg => arg.set(value)));
     }
   };
 }
