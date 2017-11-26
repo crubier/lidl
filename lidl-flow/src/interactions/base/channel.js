@@ -222,7 +222,7 @@ class Channel<T: Value> {
  * @param channelName the name of the channel
  * @returns a Lidl Output
  */
-export function receive<T: Value>(channelName: string): Output<T> {
+export function receiveOutput<T: Value>(channelName: string): Output<T> {
   const channel = Channel.getInstance(channelName);
   const sinkFunction = channel.addSink();
   return {
@@ -238,13 +238,13 @@ export function receive<T: Value>(channelName: string): Output<T> {
  * @param channelName the name of the channel
  * @returns a Lidl Input
  */
-export function send<T: Value>(channelName: string): Input<T> {
+export function sendInput<T: Value>(channelName: string): Input<T> {
   const channel = Channel.getInstance(channelName);
-  const sourceFunctionGenerator = channel.addSource();
+  const sourceFunction = channel.addSource();
   return {
     type: "input",
     set: async (x: T) => {
-      return await sourceFunctionGenerator(x);
+      return await sourceFunction(x);
     }
   };
 }
