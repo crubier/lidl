@@ -15,6 +15,8 @@ import {
   type Interface
 } from "../../interfaces";
 
+import { mapValues, has, isNil, values, mergeWith } from "lodash/fp";
+
 /**
  * An async function that will need to be called with the value to be sent to the channel
  */
@@ -241,6 +243,20 @@ export function receiveOutput<T: Value>(channelName: string): Output<T> {
 export function sendInput<T: Value>(channelName: string): Input<T> {
   const channel = Channel.getInstance(channelName);
   const sourceFunction = channel.addSource();
+  return {
+    type: "input",
+    set: async (x: T) => {
+      return await sourceFunction(x);
+    }
+  };
+}
+
+/**
+ * Send to a global channel
+ * @param channelName the name of the channel
+ * @returns a Lidl Input
+ */
+export function sendComposite<T: Value>(channelName: string): Interface {
   return {
     type: "input",
     set: async (x: T) => {

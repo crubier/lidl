@@ -3,12 +3,15 @@ import { type Value } from "../types";
 import { every, mergeWith, isNil } from "lodash/fp";
 
 export type Input<T: Value> = { type: "input", set: T => Promise<any> };
+
 export type Output<T: Value> = { type: "output", get: any => Promise<T> };
+
 export type Composite = {
   type: "composite",
   elements: { [string]: Interface }
 };
-export type Interface = Input<*> | Output<*> | Composite;
+
+export type Interface = Input<Value> | Output<Value> | Composite;
 
 export function isCompatible(i: Interface, j: Interface): boolean {
   if (isNil(i) || isNil(j)) {
