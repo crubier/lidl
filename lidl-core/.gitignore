@@ -169,3 +169,7 @@ $RECYCLE.BIN/
 
 # Texpad temp directory
 .texpadtmp/
+
+example/*/*/pdf
+example/*/*/dot
+example/*/*/result
