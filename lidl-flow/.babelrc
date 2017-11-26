@@ -2,13 +2,18 @@
   "ignore": ["node_modules/**"],
   "env": {
     "test": {
-      "presets": ["flow", "env", "stage-0"]
+      "presets": ["stage-0", "react", "env"],
+      "plugins": [["flow-runtime"], "transform-decorators-legacy"]
     },
     "production": {
-      "plugins": ["external-helpers"],
+      "plugins": [
+        ["flow-runtime"],
+        "transform-decorators-legacy",
+        "external-helpers"
+      ],
       "presets": [
-        "flow",
-
+        "stage-0",
+        "react",
         [
           "env",
           {
@@ -17,8 +22,7 @@
             },
             "modules": false
           }
-        ],
-        "stage-0"
+        ]
       ]
     }
   }
