@@ -16,7 +16,8 @@ function run(code, scenario) {
     if (i < scenario.length - 1) {
       trace[i + 1] = {};
       trace[i + 1].state = trace[i].state;
-      trace[i + 1].memo = trace[i].memo;}}
-
-
-  return trace;}
+      trace[i + 1].memo = trace[i].memo;
+    }
+  }
+  return trace;
+}

@@ -1,8 +1,1 @@
-(
-    ({
-      theNumber:((theNumber)?)
-      theResult:((theResult)!)
-    })
-  with behaviour
-    (apply (function identity) to ((theNumber)!) and get ((theResult)?))
-  )
+change code in getExpandedLidl.js to see this

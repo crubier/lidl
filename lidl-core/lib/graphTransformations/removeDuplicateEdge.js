@@ -1,4 +1,4 @@
-"use strict";Object.defineProperty(exports, "__esModule", { value: true });exports.default = 
+"use strict";Object.defineProperty(exports, "__esModule", { value: true });exports.default =
 
 
 
@@ -11,9 +11,9 @@ function removeDuplicateEdge(graph) {
   commit();
 
   graph.
-  reduceUndirectedEdges({ type: 'InteractionInstanceOperand', maybeDuplicate: true }, 
+  reduceUndirectedEdges({ type: 'InteractionInstanceOperand', maybeDuplicate: true },
   function (theResult, theEdge) {
-    var identicalEdges = 
+    var identicalEdges =
     graph.
     matchUndirectedEdges({ type: 'InteractionInstanceOperand', maybeDuplicate: true, from: { node: theEdge.from.node, index: theEdge.from.index }, to: { node: theEdge.to.node, index: theEdge.to.index } }).
     value();
@@ -25,4 +25,5 @@ function removeDuplicateEdge(graph) {
       finish(identicalEdge);}).
     commit();
 
-    theEdge.maybeDuplicate = false;});}
+    theEdge.maybeDuplicate = false;});
+}

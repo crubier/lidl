@@ -1,4 +1,4 @@
-"use strict";Object.defineProperty(exports, "__esModule", { value: true });exports.default = 
+"use strict";Object.defineProperty(exports, "__esModule", { value: true });exports.default =
 
 
 
@@ -9,4 +9,5 @@ keepOnlyOrdering;var _lodash = require('lodash');var _lodash2 = _interopRequireD
   forEach(function (e) {
     graph.
     finish(e);}).
-  commit();}
+  commit();
+}

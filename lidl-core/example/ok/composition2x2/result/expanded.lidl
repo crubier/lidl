@@ -1,15 +1,1 @@
-(
-    ({
-      theNumber:( (theNumber)?)
-      theOther:( (y)?)
-      theResult:( (theResult)!)
-      theLast:( (wow)!)
-    })
-  with behaviour
-    ( apply (function cool)
-      to
-      ({a:( (theNumber)!)b:( (y)!)})
-      and get
-      ({sum:( (theResult)?)diff:( (wow)?)})
-    )
-  )
+change code in getExpandedLidl.js to see this

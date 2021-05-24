@@ -105,24 +105,24 @@ function isValidData(theData) {if (theData.hasOwnProperty("type")) {switch (theD
       if (_.isEmpty(_.xor(_.map(data1.element, "key"), _.map(data2.element, "key")))) {
         // If same set of keys, compare type of elements
         return _.reduce(
-        _.zip(_.sortBy(data1.element, "key"), _.sortBy(data2.element, "key")), 
+        _.zip(_.sortBy(data1.element, "key"), _.sortBy(data2.element, "key")),
         function (result, element, n) {
-          return result && compareData(element[0].value, element[1].value);}, 
+          return result && compareData(element[0].value, element[1].value);
+        },
+        true);
 
-        true);} else 
-
-      {
-        return false;}
-
+      } else {
+        return false;
+      }
       break;
     case "DataFunctionDataFunction":
       return compareData(data1.codomain, data2.codomain) && compareData(data1.domain, data2.domain);
     default:
       if (data1.type === "DataOperation" || data2.type === "DataOperation") {
-        return compareData(computeData(data1), computeData(data2));} else 
-
+        return compareData(computeData(data1), computeData(data2));
+      } else
       {
-        return false;}}}
+        return false;
+      }}
 
-
-;
+};

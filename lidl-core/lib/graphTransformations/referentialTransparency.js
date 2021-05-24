@@ -1,4 +1,4 @@
-"use strict";Object.defineProperty(exports, "__esModule", { value: true });exports.default = 
+"use strict";Object.defineProperty(exports, "__esModule", { value: true });exports.default =
 
 
 
@@ -19,24 +19,24 @@ function referentialTransparency(graph) {// First we mark all nodes as not refer
   commit();
 
   graph.
-  reduceNodes({ type: 'Interaction', content: { type: 'InteractionSimple' }, referentialTransparencySolved: false, referentialTransparencySolvable: true }, 
+  reduceNodes({ type: 'Interaction', content: { type: 'InteractionSimple' }, referentialTransparencySolved: false, referentialTransparencySolvable: true },
   function (theResult, theNode) {
     // console.log("========------------------------------------===");
     // console.log(theNode.id+ " "+theNode.content.operator);
     // console.log("==+++++++++++++++++++++===");
-    var theChildrenEdges = 
+    var theChildrenEdges =
     graph.
     matchUndirectedEdges({ type: 'InteractionOperand', from: { node: theNode } }).
     filter(function (e) {return e.from.index > 0;}) // Only children, not the parent which has index 0
     .value();
 
     // Find the definition this interaction is part of
-    var parentDef = 
+    var parentDef =
     graph.
     findDirectedEdge({ type: 'DefinitionSubInteraction', to: { node: theNode } }).
     from.node;
 
-    var similarNodes = 
+    var similarNodes =
     graph.
     matchNodes({ type: 'Interaction', content: { operator: theNode.content.operator } }) // Same operator
     .reject(function (n) {return (// Within the same definition
@@ -65,7 +65,7 @@ function referentialTransparency(graph) {// First we mark all nodes as not refer
     // We create a node to merge all the nodes similar to theNode
     // TODO Merge nodes differently than tjust picking the first
     // for example put all syntactic locations of nodes to improve traceback
-    var newNode = 
+    var newNode =
     graph.
     addNode(theNode);
 
@@ -120,4 +120,7 @@ function referentialTransparency(graph) {// First we mark all nodes as not refer
       // .tap(x=>{console.log("xxxx");console.log(_.map(x,y=>(y.from.index+ " " +y.to.node.id +" "+y.to.node.content.operator+ " "+y.to.node.referentialTransparencySolved)))})
       .every(function (x) {return x.to.node.referentialTransparencySolved === true;});}).
     forEach(function (n) {n.referentialTransparencySolvable = true;}).
-    commit();});}
+    commit();
+
+  });
+}

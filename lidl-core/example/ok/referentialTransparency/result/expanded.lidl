@@ -1,4 +1,1 @@
-({
-    theNumber:(( x ((variable y b)?) ((variable b)!))?)
-    theResult:(( x ((variable y b)?) ((variable b)!))!)
-  })
+change code in getExpandedLidl.js to see this

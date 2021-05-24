@@ -1,4 +1,4 @@
-"use strict";Object.defineProperty(exports, "__esModule", { value: true });exports.default = 
+"use strict";Object.defineProperty(exports, "__esModule", { value: true });exports.default =
 
 
 
@@ -7,22 +7,22 @@ getExpandedLidl;var _lodash = require("lodash");var _lodash2 = _interopRequireDe
 function getExpandedLidl(graph) {
   return { source: "change code in getExpandedLidl.js to see this" };
 
-  var defNode = 
+  var defNode =
   graph.
   findNode({ type: 'InteractionDefinition' });
 
-  var rootNode = 
+  var rootNode =
   graph.
   findDirectedEdge({ type: 'DefinitionInteractionInstance', from: { node: defNode } }).
   to.node;
 
-  return { source: getLidl(graph, rootNode) };}
+  return { source: getLidl(graph, rootNode) };
 
-
+}
 
 function getLidl(graph, node) {
 
-  var operand = 
+  var operand =
   graph.
   matchUndirectedEdges({ type: 'InteractionInstanceOperand', from: { node: node } }).
   filter(function (e) {return e.to.index === 0 && e.from.index > 0;}).
@@ -31,13 +31,15 @@ function getLidl(graph, node) {
   map(function (n) {return getLidl(graph, n);}).
   value();
 
-  var operator = 
+  var operator =
   node.
   content.
   formating.
   split('$');
 
-  return '(' + 
+  return '(' +
   _lodash2.default.range(2 * operator.length - 1).
   map(function (x) {return x % 2 === 0 ? operator[x / 2] : operand[(x - 1) / 2];}).
-  join('') + ')';}
+  join('') + ')';
+
+}

@@ -1,5 +1,5 @@
-"use strict";Object.defineProperty(exports, "__esModule", { value: true });exports.default = 
 
+"use strict";Object.defineProperty(exports, "__esModule", { value: true });exports.default =
 
 
 
@@ -11,11 +11,12 @@ removeOneSidedAffectation;var _lodash = require('lodash');var _lodash2 = _intero
     filter(function (theNode) {return (
         graph.
         matchUndirectedEdges({ type: 'InteractionInstanceOperand', from: { node: theNode, index: 1 } }).
-        isEmpty() || 
+        isEmpty() ||
 
         graph.
         matchUndirectedEdges({ type: 'InteractionInstanceOperand', from: { node: theNode, index: 2 } }).
         isEmpty());}).
     forEach(function (theNode) {return graph.finish(theNode);}).
-    isEmpty();} while (
-  didMatch);}
+    isEmpty();
+  } while (didMatch);
+}

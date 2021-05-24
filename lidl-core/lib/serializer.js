@@ -1,5 +1,5 @@
-'use strict';var _lodash = require('lodash');var _lodash2 = _interopRequireDefault(_lodash);function _interopRequireDefault(obj) {return obj && obj.__esModule ? obj : { default: obj };}
-
+'use strict';
+var _lodash = require('lodash');var _lodash2 = _interopRequireDefault(_lodash);function _interopRequireDefault(obj) {return obj && obj.__esModule ? obj : { default: obj };}
 
 function serialize(object, indentation) {
   if (_lodash2.default.isUndefined(object)) return "?";
@@ -34,9 +34,9 @@ function serialize(object, indentation) {
     default:
       // throw new Error('Cannot serialize '+object.type);
       console.log(new Error('Cannot serialize ' + object.type));
-      return "";}} // var escodegen = require('escodegen');
+      return "";}
 
-
+} // var escodegen = require('escodegen');
 
 
 var indentString = '  ';
@@ -44,64 +44,64 @@ var indentString = '  ';
 function serializeInteractionSimple(object, indentation) {
   var r = serializeInteractionSimpleRow(object);
   if (r.length > 80) {
-    r = serializeInteractionSimpleNeat(object, indentation);}
-
-  return r;}
-
+    r = serializeInteractionSimpleNeat(object, indentation);
+  }
+  return r;
+}
 
 function serializeInteractionSimpleRow(object) {
   if (object.operand.length === 0) {
-    return '(' + object.operator + ')';} else 
-  {
+    return '(' + object.operator + ')';
+  } else {
     var list = object.operator.split("$");
     var res = '(';
     res = res + list[0];
     for (var i = 1; i < list.length; i++) {
       res = res + serializeInteractionSimpleRow(object.operand[i - 1]);
-      res = res + list[i];}
-
+      res = res + list[i];
+    }
     res = res + ')';
-    return res;}}
-
-
+    return res;
+  }
+}
 
 function serializeInteractionSimpleNeat(object, indentation) {
   var baseIndent = _lodash2.default.repeat(indentString, indentation);
   var nextIndent = baseIndent + indentString;
   if (object.operand.length === 0) {
-    return '\n' + baseIndent + '(' + object.operator + ')';} else 
-  {
+    return '\n' + baseIndent + '(' + object.operator + ')';
+  } else {
 
     var list = object.operator.split("$");
     var res = '(\n' + baseIndent;
     res = res + (list[0].length === 0 ? "" : indentString + list[0] + '\n' + baseIndent);
     for (var i = 1; i < list.length; i++) {
       res = res + indentString + serialize(object.operand[i - 1], indentation + 1) + '\n' + baseIndent;
-      res = res + (list[i].length === 0 ? "" : indentString + list[i] + '\n' + baseIndent);}
-
+      res = res + (list[i].length === 0 ? "" : indentString + list[i] + '\n' + baseIndent);
+    }
     res = res + ')';
-    return res;}}
+    return res;
 
+  }
 
-
-
+}
 
 
 function serializeInteractionSignatureSimpleRow(object, indent) {
   if (object.operand.length === 0) {
-    return '(' + object.operator + ')';} else 
-  {
+    return '(' + object.operator + ')';
+  } else {
     var list = object.operator.split("$");
     var res = '(';
     res = res + list[0];
     for (var i = 1; i < list.length; i++) {
       res = res + serialize(object.operand[i - 1]);
-      res = res + list[i];}
-
+      res = res + list[i];
+    }
     res = res + ')';
-    return res;}}
-
-
+    return res;
+  }
+}
 
 
 

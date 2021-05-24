@@ -1,4 +1,4 @@
-"use strict";Object.defineProperty(exports, "__esModule", { value: true });exports.default = 
+"use strict";Object.defineProperty(exports, "__esModule", { value: true });exports.default =
 
 
 
@@ -6,8 +6,8 @@
 
 addInterfaceInformationToInteractions;var _lodash = require('lodash');var _lodash2 = _interopRequireDefault(_lodash);var _interactions = require('../interactions.js');var _interactions2 = _interopRequireDefault(_interactions);function _interopRequireDefault(obj) {return obj && obj.__esModule ? obj : { default: obj };} //This transformation adds information about the interfaces of each interaction node, by infering from the definitions
 function addInterfaceInformationToInteractions(graph) {addInterfaceInformationToArguments(graph);
-  addInterfaceInformationToMainInteractions(graph);}
-
+  addInterfaceInformationToMainInteractions(graph);
+}
 
 function addInterfaceInformationToArguments(graph) {
   graph.
@@ -24,10 +24,10 @@ function addInterfaceInformationToArguments(graph) {
     to.node;
 
     // Add the appropriate interaction to the interaction node on ports 0
-    theNode.ports = [theArgumentInterfaceNode.content];}).
-
-  commit();}
-
+    theNode.ports = [theArgumentInterfaceNode.content];
+  }).
+  commit();
+}
 
 
 function addInterfaceInformationToMainInteractions(graph) {
@@ -45,6 +45,7 @@ function addInterfaceInformationToMainInteractions(graph) {
     to.node;
 
     // The main interaction has the same interface as the definition
-    theMainInteractionNode.ports = [theInterfaceNode.content];}).
-
-  commit();}
+    theMainInteractionNode.ports = [theInterfaceNode.content];
+  }).
+  commit();
+}

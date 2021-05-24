@@ -1,4 +1,4 @@
-"use strict";Object.defineProperty(exports, "__esModule", { value: true });exports.default = 
+"use strict";Object.defineProperty(exports, "__esModule", { value: true });exports.default =
 
 
 
@@ -19,7 +19,7 @@ nonMatchingCompositionCompilation;var _lodash = require('lodash');var _lodash2 =
     var code = isCompo ? "<%=a0%> = {};\n" : "";
     var ports = [theNode.ports[0]];
 
-    var compositionElementNameWithTheirIndex = 
+    var compositionElementNameWithTheirIndex =
     graph.
     matchUndirectedEdges({ type: 'InteractionInstanceOperand', from: { node: theNode } }).
     reject(function (theEdge) {return _lodash2.default.isUndefined(theEdge.from.compositionElementName);}).
@@ -39,20 +39,20 @@ nonMatchingCompositionCompilation;var _lodash = require('lodash');var _lodash2 =
     forEach(function (el) {
       if (isCompo) {
         code = code.concat("<%=a0%>['" + el.compositionElementName + "'] = <%=a" + el.index + "%>;\n");
-        ports[el.index] = (0, _interfaces.conjugateInterface)((0, _interfaces.subInterface)(theNode.ports[0], el.compositionElementName));} else 
-      {
+        ports[el.index] = (0, _interfaces.conjugateInterface)((0, _interfaces.subInterface)(theNode.ports[0], el.compositionElementName));
+      } else {
         code = code.concat("<%=a" + el.index + "%> = <%=a0%>['" + el.compositionElementName + "'];\n");
-        ports[el.index] = (0, _interfaces.conjugateInterface)((0, _interfaces.subInterface)(theNode.ports[0], el.compositionElementName));}}).
-
+        ports[el.index] = (0, _interfaces.conjugateInterface)((0, _interfaces.subInterface)(theNode.ports[0], el.compositionElementName));
+      }}).
     commit();
 
     // console.log("  "+code);
     // console.log("  "+JSON.stringify(ports));
 
     var newNode = graph.
-    addNode({ type: 'InteractionInstance', content: { 
-        'type': 'InteractionNative', 
-        'content': code }, 
+    addNode({ type: 'InteractionInstance', content: {
+        'type': 'InteractionNative',
+        'content': code },
       ports: ports });
 
     graph.
@@ -60,22 +60,23 @@ nonMatchingCompositionCompilation;var _lodash = require('lodash');var _lodash2 =
     // .reject(theEdge=>_.isUndefined(theEdge.from.compositionElementName))
     .forEach(function (theEdge) {
       graph.
-      addEdge({ 
-        type: 'InteractionInstanceOperand', 
-        from: { 
-          node: newNode, 
-          index: theEdge.from.index }, 
+      addEdge({
+        type: 'InteractionInstanceOperand',
+        from: {
+          node: newNode,
+          index: theEdge.from.index },
 
-        to: theEdge.to });}).
-
+        to: theEdge.to });
+    }).
     commit();
 
     graph.
-    finish(theNode);}).
-
+    finish(theNode);
+  }).
   commit();
 
   // Then we find decomposition nodes and reduce them
 
   //TODO loop
+
 }

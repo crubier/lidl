@@ -1,4 +1,4 @@
-"use strict";Object.defineProperty(exports, "__esModule", { value: true });exports.default = 
+"use strict";Object.defineProperty(exports, "__esModule", { value: true });exports.default =
 
 
 
@@ -15,7 +15,7 @@ createDataFlowDirection;var _lodash = require('lodash');var _lodash2 = _interopR
 
   // First we infer type of ports on edges from types of ports of nodes they lead to
   graph.
-  matchUndirectedEdges({ 
+  matchUndirectedEdges({
     type: 'InteractionInstanceOperand' }).
 
   forEach(function (theEdge) {
@@ -24,9 +24,9 @@ createDataFlowDirection;var _lodash = require('lodash');var _lodash2 = _interopR
     // console.log(theEdge.from.node.ports);
     // console.log(theEdge.from.index);
     // if (_.isUndefined(theEdge.from.node.ports)) console.log('UUUUU' + theEdge.from.node.content.operator);
-    var portOnOrigin = 
+    var portOnOrigin =
     _lodash2.default.cloneDeep(theEdge.from.node.ports[theEdge.from.index]);
-    var portOnDestination = 
+    var portOnDestination =
     _lodash2.default.cloneDeep(theEdge.to.node.ports[theEdge.to.index]);
     // Here we infer that ports on one end are conjugated with ports on other end
     // console.log("EDGE0 "+theEdge.id +" "+ theEdge.from.index+" "+ portOnOrigin+" "+ theEdge.to.index + " " + portOnDestination);
@@ -39,9 +39,9 @@ createDataFlowDirection;var _lodash = require('lodash');var _lodash2 = _interopR
     try {
       theEdge.to.ports = (0, _interfaces.mergeInterface)(portOnDestination, (0, _interfaces.conjugateInterface)(portOnOrigin));
       // console.log("EDGE2 "+theEdge.id +" "+ theEdge.from.index+" "+ portOnOrigin+" "+ theEdge.to.index + " " + portOnDestination);
-    } catch (e) {}
-    // console.log("X EDGE2 "+e+" "+theEdge.id +" "+ theEdge.from.index+" "+ portOnOrigin+" "+ theEdge.to.index + " " + portOnDestination);
+    } catch (e) {
 
+    } // console.log("X EDGE2 "+e+" "+theEdge.id +" "+ theEdge.from.index+" "+ portOnOrigin+" "+ theEdge.to.index + " " + portOnDestination);
     // console.log("EDGE3 "+theEdge.id +" "+ theEdge.from.index+" "+ portOnOrigin+" "+ theEdge.to.index + " " + portOnDestination);
     if (!(0, _interfaces.isCompatible)(theEdge.from.ports, theEdge.to.ports)) {
       // Useless edge, we delete it
@@ -72,7 +72,7 @@ createDataFlowDirection;var _lodash = require('lodash');var _lodash2 = _interopR
 
   // Then we infer types of ports on Nodes from types of ports on edges that lead to them
   graph.
-  matchNodes({ 
+  matchNodes({
     type: 'InteractionInstance' }).
 
   forEach(function (theNode) {
@@ -91,8 +91,10 @@ createDataFlowDirection;var _lodash = require('lodash');var _lodash2 = _interopR
       theNode.ports[theEdge.to.index] = (0, _interfaces.mergeInterface)(theNode.ports[theEdge.to.index], theEdge.to.ports);
       // }catch(e){console.log("X NODE2 " +theNode.id + " "  +theEdge.from.index +" "+JSON.stringify(theNode.ports[theEdge.to.index]) + " "+JSON.stringify(theEdge.to.ports));}
     }).
-    commit();}).
+    commit();
 
 
+  }).
+  commit();
 
-  commit();}
+}

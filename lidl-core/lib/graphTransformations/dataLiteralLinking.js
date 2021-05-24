@@ -1,14 +1,14 @@
-"use strict";Object.defineProperty(exports, "__esModule", { value: true });exports.default = 
 
+"use strict";Object.defineProperty(exports, "__esModule", { value: true });exports.default =
 
 
 
 dataLiteralLinking;var _lodash = require('lodash');var _lodash2 = _interopRequireDefault(_lodash);function _interopRequireDefault(obj) {return obj && obj.__esModule ? obj : { default: obj };}function dataLiteralLinking(graph) {
   graph.
-  reduceNodes({ type: 'InteractionInstance', content: { operatorType: 'Activation' } }, 
+  reduceNodes({ type: 'InteractionInstance', content: { operatorType: 'Activation' } },
   function (theResult, theNode) {
     var literal = theNode.content.operator;
-    var source = 
+    var source =
     graph.
     addNode({ type: 'InteractionInstance', content: { type: 'InteractionNative', 'content': '<%=a0%> = ' + literal + ';\n' }, ports: [{ type: 'InterfaceAtomic', direction: 'out', data: { type: 'DataAtomic', name: 'Activation' } }] });
     graph.
@@ -18,14 +18,14 @@ dataLiteralLinking;var _lodash = require('lodash');var _lodash2 = _interopRequir
         addEdge({ type: 'InteractionInstanceOperand', from: { node: source, index: 0 }, to: x.to }));}).
     commit();
     graph.
-    finish(theNode);});
-
+    finish(theNode);
+  });
 
   graph.
-  reduceNodes({ type: 'InteractionInstance', content: { operatorType: 'Boolean' } }, 
+  reduceNodes({ type: 'InteractionInstance', content: { operatorType: 'Boolean' } },
   function (theResult, theNode) {
     var literal = theNode.content.operator;
-    var source = 
+    var source =
     graph.
     addNode({ type: 'InteractionInstance', content: { type: 'InteractionNative', 'content': '<%=a0%> = ' + literal + ';\n' }, ports: [{ type: 'InterfaceAtomic', direction: 'out', data: { type: 'DataAtomic', name: 'Boolean' } }] });
     graph.
@@ -35,14 +35,14 @@ dataLiteralLinking;var _lodash = require('lodash');var _lodash2 = _interopRequir
         addEdge({ type: 'InteractionInstanceOperand', from: { node: source, index: 0 }, to: x.to }));}).
     commit();
     graph.
-    finish(theNode);});
-
+    finish(theNode);
+  });
 
   graph.
-  reduceNodes({ type: 'InteractionInstance', content: { operatorType: 'Number' } }, 
+  reduceNodes({ type: 'InteractionInstance', content: { operatorType: 'Number' } },
   function (theResult, theNode) {
     var literal = theNode.content.operator;
-    var source = 
+    var source =
     graph.
     addNode({ type: 'InteractionInstance', content: { type: 'InteractionNative', 'content': '<%=a0%> = ' + literal + ';\n' }, ports: [{ type: 'InterfaceAtomic', direction: 'out', data: { type: 'DataAtomic', name: 'Number' } }] });
     graph.
@@ -52,14 +52,14 @@ dataLiteralLinking;var _lodash = require('lodash');var _lodash2 = _interopRequir
         addEdge({ type: 'InteractionInstanceOperand', from: { node: source, index: 0 }, to: x.to }));}).
     commit();
     graph.
-    finish(theNode);});
-
+    finish(theNode);
+  });
 
   graph.
-  reduceNodes({ type: 'InteractionInstance', content: { operatorType: 'Text' } }, 
+  reduceNodes({ type: 'InteractionInstance', content: { operatorType: 'Text' } },
   function (theResult, theNode) {
     var literal = theNode.content.operator;
-    var source = 
+    var source =
     graph.
     addNode({ type: 'InteractionInstance', content: { type: 'InteractionNative', 'content': '<%=a0%> = ' + literal + ';\n' }, ports: [{ type: 'InterfaceAtomic', direction: 'out', data: { type: 'DataAtomic', name: 'Text' } }] });
     graph.
@@ -69,4 +69,7 @@ dataLiteralLinking;var _lodash = require('lodash');var _lodash2 = _interopRequir
         addEdge({ type: 'InteractionInstanceOperand', from: { node: source, index: 0 }, to: x.to }));}).
     commit();
     graph.
-    finish(theNode);});}
+    finish(theNode);
+  });
+
+}

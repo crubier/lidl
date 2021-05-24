@@ -1,0 +1,66 @@
+@import "reset.css";
+html,
+body {
+  font-family: "Roboto", sans-serif;
+  font-weight: 300;
+}
+.react-sanfona-item-title {
+  background-color: rgba(0, 0, 0, 0.07);
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
+  font-size: 100%;
+  color: #383838;
+  font-weight: 300;
+  padding: 5px 20px 5px 20px;
+  cursor: pointer;
+  cursor: hand;
+}
+table,
+th,
+td {
+  border-collapse: collapse;
+  font-weight: 300;
+}
+tr {
+  height: 26px;
+  min-height: 26px;
+}
+tr:hover {
+  background-color: rgba(0, 0, 0, 0.03);
+}
+th,
+td {
+  padding: 5px;
+  text-align: center;
+}
+th {
+  background-color: rgba(0, 0, 0, 0.03);
+}
+/*
+.public_fixedDataTable_header,
+.public_fixedDataTable_header .public_fixedDataTableCell_main {
+  background-image: linear-gradient(#fff, #fff) !important;
+}*/
+.block-enter {
+  transform: scale(0.01, 0.01);
+}
+.block-enter.block-enter-active {
+  transform: scale(1, 1);
+  transition: transform 300ms ease-in;
+}
+.block-leave {
+  transform: scale(1, 1);
+}
+.block-leave.block-leave-active {
+  transform: scale(0.01, 0.01);
+  transition: transform 300ms ease-in;
+}
+.block-appear {
+  transform: scale(0.01, 0.01);
+}
+.block-appear.block-appear-active {
+  transform: scale(1, 1);
+  transition: transform 300ms ease-in;
+}

@@ -1,4 +1,4 @@
-"use strict";Object.defineProperty(exports, "__esModule", { value: true });exports.default = 
+"use strict";Object.defineProperty(exports, "__esModule", { value: true });exports.default =
 
 clearSubInformation;function clearSubInformation(graph) {
   graph.
@@ -13,4 +13,5 @@ clearSubInformation;function clearSubInformation(graph) {
   forEach(function (x) {
     graph.
     finish(x);}).
-  commit();}
+  commit();
+}

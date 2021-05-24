@@ -1,4 +1,4 @@
-"use strict";Object.defineProperty(exports, "__esModule", { value: true });exports.default = 
+"use strict";Object.defineProperty(exports, "__esModule", { value: true });exports.default =
 
 
 
@@ -9,25 +9,25 @@ addInterfaceToGraph;var _lodash = require("lodash");var _lodash2 = _interopRequi
   switch (interfac.type) {
     case "InterfaceAtomic":
 
-      rootNode = 
+      rootNode =
       graph.
-      addNode({ 
-        type: 'Interface', 
-        name: prefix, 
+      addNode({
+        type: 'Interface',
+        name: prefix,
         content: interfac });
 
 
       break;
     case "InterfaceComposite":
-      rootNode = 
+      rootNode =
       graph.
-      addNode({ 
-        type: 'Interface', 
-        name: prefix, 
+      addNode({
+        type: 'Interface',
+        name: prefix,
         content: interfac });
 
 
-      var nodeOfElement = 
+      var nodeOfElement =
       (0, _lodash2.default)(interfac.element).
       map(function (x) {return addInterfaceToGraph(graph, x.value, prefix + "." + x.key, definitionNode);}).
       value();
@@ -35,25 +35,25 @@ addInterfaceToGraph;var _lodash = require("lodash");var _lodash2 = _interopRequi
       (0, _lodash2.default)(nodeOfElement).
       forEach(function (x, index) {return (
           graph.
-          addEdge({ 
-            type: 'InterfaceElement', 
-            from: { 
-              node: rootNode, 
-              index: index + 1 }, 
+          addEdge({
+            type: 'InterfaceElement',
+            from: {
+              node: rootNode,
+              index: index + 1 },
 
-            to: { 
-              node: x, 
+            to: {
+              node: x,
               index: 0 } }));}).
 
 
       commit();
       break;
     case "InterfaceNamed":
-      rootNode = 
+      rootNode =
       graph.
-      addNode({ 
-        type: 'Interface', 
-        name: prefix, 
+      addNode({
+        type: 'Interface',
+        name: prefix,
         content: interfac });
 
       break;
@@ -65,13 +65,14 @@ addInterfaceToGraph;var _lodash = require("lodash");var _lodash2 = _interopRequi
 
 
   graph.
-  addEdge({ 
-    type: 'DefinitionSubInterface', 
-    from: { 
-      node: definitionNode }, 
+  addEdge({
+    type: 'DefinitionSubInterface',
+    from: {
+      node: definitionNode },
 
-    to: { 
+    to: {
       node: rootNode } });
 
 
-  return rootNode;}
+  return rootNode;
+}

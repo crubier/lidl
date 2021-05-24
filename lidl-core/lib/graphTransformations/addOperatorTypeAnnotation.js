@@ -1,4 +1,4 @@
-"use strict";Object.defineProperty(exports, "__esModule", { value: true });exports.default = 
+"use strict";Object.defineProperty(exports, "__esModule", { value: true });exports.default =
 
 
 
@@ -7,4 +7,5 @@ addOperatorTypeAnnotation;var _operator = require('../operator.js');var _operato
     matchNodes({ type: 'Interaction', content: { type: "InteractionSimple" } }).
     forEach(function (x) {
         x.content.operatorType = _operator2.default.parse(x.content.operator);}).
-    commit();}
+    commit();
+}

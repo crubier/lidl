@@ -1,4 +1,4 @@
-"use strict";Object.defineProperty(exports, "__esModule", { value: true });exports.default = 
+"use strict";Object.defineProperty(exports, "__esModule", { value: true });exports.default =
 
 
 
@@ -19,19 +19,19 @@ function referentialTransparencyInstances(graph) {// First we mark all nodes as 
   commit();
 
   graph.
-  reduceNodes({ type: 'InteractionInstance', content: { type: 'InteractionSimple' }, referentialTransparencySolved: false, referentialTransparencySolvable: true }, 
+  reduceNodes({ type: 'InteractionInstance', content: { type: 'InteractionSimple' }, referentialTransparencySolved: false, referentialTransparencySolvable: true },
   function (theResult, theNode) {
     // console.log("========------------------------------------===");
     // console.log(theNode.id+ " "+theNode.content.operator);
     // console.log("==+++++++++++++++++++++===");
-    var theChildrenEdges = 
+    var theChildrenEdges =
     graph.
     matchUndirectedEdges({ type: 'InteractionInstanceOperand', from: { node: theNode } }).
     filter(function (e) {return e.from.index > 0;}) // Only children, not the parent which has index 0
     .value();
 
 
-    var similarNodes = 
+    var similarNodes =
     graph.
     matchNodes({ type: 'InteractionInstance', content: { operator: theNode.content.operator } }) // Same operator
     .filter(function (n) {return (// All chidren of similarNode are children of theNode
@@ -56,7 +56,7 @@ function referentialTransparencyInstances(graph) {// First we mark all nodes as 
     // We create a node to merge all the nodes similar to theNode
     // TODO Merge nodes differently than tjust picking the first
     // for example put all syntactic locations of nodes to improve traceback
-    var newNode = 
+    var newNode =
     graph.
     addNode(theNode);
 
@@ -102,4 +102,7 @@ function referentialTransparencyInstances(graph) {// First we mark all nodes as 
       // .tap(x=>{console.log("xxxx");console.log(_.map(x,y=>(y.from.index+ " " +y.to.node.id +" "+y.to.node.content.operator+ " "+y.to.node.referentialTransparencySolved)))})
       .every(function (x) {return x.to.node.referentialTransparencySolved === true;});}).
     forEach(function (n) {n.referentialTransparencySolvable = true;}).
-    commit();});}
+    commit();
+
+  });
+}

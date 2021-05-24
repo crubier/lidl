@@ -1,4 +1,4 @@
-"use strict";Object.defineProperty(exports, "__esModule", { value: true });exports.default = 
+"use strict";Object.defineProperty(exports, "__esModule", { value: true });exports.default =
 
 
 
@@ -15,17 +15,17 @@ function orderGraph(graph) {
   commit();
 
   graph.
-  reduceNodes({ markedDuringGraphOrdering: false }, 
+  reduceNodes({ markedDuringGraphOrdering: false },
   function (theResult, theNode) {
-    visit(theNode, [theNode]);});
-
+    visit(theNode, [theNode]);
+  });
 
   function visit(n, stack) {
 
     if (n.temporarilyMarkedDuringGraphOrdering === true) {
       //TODO Add traceback to initial AST (change code everywhere in order to add traceability)
-      throw new Error("the interaction DAG contains cycles: " + (0, _lodash2.default)(stack).concat([n]).map('id').join(" -> "));} else 
-    {
+      throw new Error("the interaction DAG contains cycles: " + (0, _lodash2.default)(stack).concat([n]).map('id').join(" -> "));
+    } else {
       if (n.markedDuringGraphOrdering !== true) {
         n.temporarilyMarkedDuringGraphOrdering = true;
         graph.
@@ -40,11 +40,11 @@ function orderGraph(graph) {
 
         n.markedDuringGraphOrdering = true;
         n.temporarilyMarkedDuringGraphOrdering = false;
-        orderingList.unshift(n);}}}
+        orderingList.unshift(n);
+      }
+    }
 
-
-
-
+  }
 
   // The list is now ordered ! (Hopefully)
   //  We write the order in the nodes
@@ -59,10 +59,10 @@ function orderGraph(graph) {
     if (prev !== null) {
       // console.log(prev.id + "  "+current.id);
       graph.
-      addEdge({ type: 'InteractionInstanceOrdering', executionOrder: index, from: { node: prev }, to: { node: current } });}
-
-    return current;}, 
-  null);
+      addEdge({ type: 'InteractionInstanceOrdering', executionOrder: index, from: { node: prev }, to: { node: current } });
+    }
+    return current;
+  }, null);
 
 
 
@@ -70,4 +70,6 @@ function orderGraph(graph) {
   // .forEach(function(node, ii) {console.log("iii "+ii);node.hasExecutionOrder=true;node.executionOrder = ii;})
   // .forEach((node, index) =>{console.log(node.executionOrder);})
   // .commit();
+
+
 }

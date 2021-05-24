@@ -1,5 +1,1 @@
-(
-    ( (this)?)
-    with behaviour
-    ((((#( (this)!).theResult)!) with behaviour (( (this)!)=({theResult:((#( (this)!).theResult)?)})))=(((#( (this)!).theNumber)!) with behaviour (({theNumber:((#( (this)!).theNumber)?)})=( (this)!))) )
-  )
+change code in getExpandedLidl.js to see this

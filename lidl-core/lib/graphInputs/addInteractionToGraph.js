@@ -1,4 +1,4 @@
-"use strict";Object.defineProperty(exports, "__esModule", { value: true });exports.default = 
+"use strict";Object.defineProperty(exports, "__esModule", { value: true });exports.default =
 
 
 
@@ -6,21 +6,21 @@ addInteractionToGraph;var _lodash = require('lodash');var _lodash2 = _interopReq
   var rootNode;
   switch (interaction.type) {
     case 'InteractionSimple':
-      rootNode = 
+      rootNode =
       graph.
-      addNode({ 
-        type: 'Interaction', 
-        content: interaction, 
+      addNode({
+        type: 'Interaction',
+        content: interaction,
         ports: [] });
 
 
       graph.
-      addEdge({ 
-        type: 'DefinitionSubInteraction', 
-        from: { 
-          node: definitionNode }, 
+      addEdge({
+        type: 'DefinitionSubInteraction',
+        from: {
+          node: definitionNode },
 
-        to: { 
+        to: {
           node: rootNode } });
 
 
@@ -29,35 +29,35 @@ addInteractionToGraph;var _lodash = require('lodash');var _lodash2 = _interopReq
       map(function (operand) {return addInteractionToGraph(graph, operand, definitionNode);}).
       forEach(function (x, index) {
         graph.
-        addEdge({ 
-          type: 'InteractionOperand', 
-          content: interaction, 
-          from: { 
-            node: rootNode, 
-            index: index + 1 }, 
+        addEdge({
+          type: 'InteractionOperand',
+          content: interaction,
+          from: {
+            node: rootNode,
+            index: index + 1 },
 
-          to: { 
-            node: x, 
-            index: 0 } });}).
+          to: {
+            node: x,
+            index: 0 } });
 
 
-
+      }).
       commit();
 
       break;
     case 'InteractionNative':
-      rootNode = graph.addNode({ 
-        type: 'Interaction', 
-        content: interaction, 
+      rootNode = graph.addNode({
+        type: 'Interaction',
+        content: interaction,
         ports: [] });
 
       graph.
-      addEdge({ 
-        type: 'DefinitionSubInteraction', 
-        from: { 
-          node: definitionNode }, 
+      addEdge({
+        type: 'DefinitionSubInteraction',
+        from: {
+          node: definitionNode },
 
-        to: { 
+        to: {
           node: rootNode } });
 
 
@@ -66,4 +66,5 @@ addInteractionToGraph;var _lodash = require('lodash');var _lodash2 = _interopReq
       throw new Error('Trying to transform into a graph an invalid interaction of type ' + interaction.type);}
 
 
-  return rootNode;}
+  return rootNode;
+}

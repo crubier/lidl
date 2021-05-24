@@ -7,8 +7,8 @@ describe('sat solver', function () {
   it('simple', function () {
     expect(s.satSolve(3, [[-1, 2], [1], [-1, -3]])).toEqual([true, true, false]);
     expect(s.satSolve(3, [[-1, 2], [1], [-1, -3], [3]])).toEqual(null);
-    expect(s.satSolve(3, [[-1], [2], [-3]])).toEqual([false, true, false]);});
-
+    expect(s.satSolve(3, [[-1], [2], [-3]])).toEqual([false, true, false]);
+  });
 
   // it('realTest',function(){
   //     console.log("==========================")
@@ -41,13 +41,13 @@ describe('sat solver', function () {
     expect(s.solvePath(['a', 'b'], [['a'], ['a', 'b']])).toContain([true, false]);
     expect(s.solvePath(['a', 'b'], [['a'], ['a', 'b']])).toContain([true, true]);
     expect(s.solvePath(['a', 'b'], [['a'], ['a', 'b']])).not.toContain([false, true]);
-    expect(s.solvePath(['a', 'b'], [['a'], ['a', 'b']])).not.toContain([false, false]);});});
+    expect(s.solvePath(['a', 'b'], [['a'], ['a', 'b']])).not.toContain([false, false]);
+  });
 
 
 
 
-
-
+});
 
 //
 //

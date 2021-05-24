@@ -1,7 +1,7 @@
 "use strict";
 
 // This transformation removes all definitions from a graph exepted one: the selected rootNode
-Object.defineProperty(exports, "__esModule", { value: true });exports.default = 
+Object.defineProperty(exports, "__esModule", { value: true });exports.default =
 removeNonRootDefinition;function removeNonRootDefinition(graph, rootNode) {
   graph.
   matchNodes({ type: 'InteractionDefinition' }).
@@ -31,6 +31,8 @@ removeNonRootDefinition;function removeNonRootDefinition(graph, rootNode) {
 
     // Finally we remove the definition node
     graph.
-    finish(x);}).
+    finish(x);
+  }).
+  commit();
 
-  commit();}
+}

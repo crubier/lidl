@@ -1,8 +1,1 @@
-(
-      ({
-        mouse: ((the mouse for button widget)?)
-        graphics: ((the graphics for button widget)!)
-      })
-      with behaviour
-      ((function button)({layout:({x:(10)y:(10)width:(200)height:(100)})text:("OK")pushed:(false)})=((the graphics for button widget)?))
-    )
+change code in getExpandedLidl.js to see this

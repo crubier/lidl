@@ -1,8 +1,1 @@
-({
-    theNumber:((x)?)
-    theResult:(
-      ((the previous((x)!))!)
-      with behaviour
-      ( ((the previous((x)!))?) = previous ((x)!))
-    )
-  })
+change code in getExpandedLidl.js to see this

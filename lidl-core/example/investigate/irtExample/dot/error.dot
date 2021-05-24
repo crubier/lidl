@@ -438,12 +438,12 @@ if( ( <%=a1%> === inactive ) && ( <%=a2%> === active )) {
 } else {
   <%=a0%> = inactive;
 }
-if( ( <%=a1%> === active ) && ( <%=a2%> === active )) {
+if( ( <%=a1%> === active ) && ( <%=a2%> === inactive )) {
   <%=a0%> = active;
 } else {
   <%=a0%> = inactive;
 }
-if( ( <%=a1%> === active ) && ( <%=a2%> === inactive )) {
+if( ( <%=a1%> === active ) && ( <%=a2%> === active )) {
   <%=a0%> = active;
 } else {
   <%=a0%> = inactive;
@@ -460,17 +460,17 @@ Affectation
 $=$
 0: Activation in" ]
 node_31046 [shape="box", style="filled", color="#dff1f2", fontname="Courier", label="node_31046
-if( ( <%=a1%> === inactive ) && ( <%=a2%> === active )) {
-  <%=a0%> = active;
-} else {
-  <%=a0%> = inactive;
-}
 if( ( <%=a1%> === active ) && ( <%=a2%> === inactive )) {
   <%=a0%> = active;
 } else {
   <%=a0%> = inactive;
 }
 if( ( <%=a1%> === active ) && ( <%=a2%> === active )) {
+  <%=a0%> = active;
+} else {
+  <%=a0%> = inactive;
+}
+if( ( <%=a1%> === inactive ) && ( <%=a2%> === active )) {
   <%=a0%> = active;
 } else {
   <%=a0%> = inactive;

@@ -1,4 +1,4 @@
-"use strict";Object.defineProperty(exports, "__esModule", { value: true });exports.default = 
+"use strict";Object.defineProperty(exports, "__esModule", { value: true });exports.default =
 
 
 
@@ -9,22 +9,25 @@ linkInterface;var _lodash = require('lodash');var _lodash2 = _interopRequireDefa
   forEach(function (edge) {
 
     // First, lets find the 4 nodes of the chain (rootDefNode is in this chain too)
-    var mainInteractionInstanceNode = 
+    var mainInteractionInstanceNode =
     graph.
     findDirectedEdge({ type: 'DefinitionInteractionInstance', from: { node: rootDefNode } }).
     to.node;
 
-    var interfaceNode = 
+    var interfaceNode =
     edge.to.node;
 
-    var interfaceInteractionInstanceNode = 
+    var interfaceInteractionInstanceNode =
     graph.
     findDirectedEdge({ type: 'InterfaceInteractionInstance', from: { node: interfaceNode } }).
     to.node;
 
 
     graph.
-    addEdge({ type: 'InteractionInstanceOperand', from: { node: mainInteractionInstanceNode, index: 0 }, to: { node: interfaceInteractionInstanceNode, index: 0 } });}).
+    addEdge({ type: 'InteractionInstanceOperand', from: { node: mainInteractionInstanceNode, index: 0 }, to: { node: interfaceInteractionInstanceNode, index: 0 } });
+
+  }).
+  commit();
 
 
-  commit();}
+}

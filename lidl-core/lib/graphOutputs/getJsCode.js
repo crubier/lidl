@@ -1,10 +1,10 @@
-"use strict";Object.defineProperty(exports, "__esModule", { value: true });exports.default = 
+"use strict";Object.defineProperty(exports, "__esModule", { value: true });exports.default =
 
 
 
 getJsCode;var _lodash = require('lodash');var _lodash2 = _interopRequireDefault(_lodash);function _interopRequireDefault(obj) {return obj && obj.__esModule ? obj : { default: obj };}function getJsCode(graph, header) {
 
-  var nodesCode = 
+  var nodesCode =
   graph.
   matchNodes({ type: 'InteractionInstance', codeGenerated: true, hasExecutionOrder: true }).
   sortBy('executionOrder').
@@ -12,14 +12,14 @@ getJsCode;var _lodash = require('lodash');var _lodash2 = _interopRequireDefault(
   join('');
 
   var edgeTemplate = _lodash2.default.template("var <%=id%> = inactive;");
-  var edgesCode = 
+  var edgesCode =
   graph.
   matchDirectedEdges({ type: 'InteractionInstanceOperand' }).
   map(edgeTemplate).
   join('\n');
 
   var stateTemplate = _lodash2.default.template("<%=stateVariableName%>:null");
-  var statesCode = 
+  var statesCode =
   graph.
   matchNodes({ type: 'InteractionInstance', containsAState: true }).
   unique('stateVariableName').
@@ -28,11 +28,11 @@ getJsCode;var _lodash = require('lodash');var _lodash2 = _interopRequireDefault(
 
   // console.log(edgesCode);
 
-  var conf = { 
-    'edgesCode': edgesCode, 
-    'nodesCode': nodesCode, 
-    'statesCode': statesCode, 
-    'customHeader': header, 
+  var conf = {
+    'edgesCode': edgesCode,
+    'nodesCode': nodesCode,
+    'statesCode': statesCode,
+    'customHeader': header,
     'standardHeader': jsStandardHeader };
 
 
@@ -74,17 +74,17 @@ getJsCode;var _lodash = require('lodash');var _lodash2 = _interopRequireDefault(
   // console.log("==================================================================");
   // console.log(initCode);
   // console.log("==================================================================");
-  return { 
-    source: _lodash2.default.template(jsSourceTemplate)({ 
-      transitionFunction: transCode, 
-      initializationFunction: initCode }), 
+  return {
+    source: _lodash2.default.template(jsSourceTemplate)({
+      transitionFunction: transCode,
+      initializationFunction: initCode }),
 
-    partialSource: { 
-      transitionFunction: transCode, 
-      initializationFunction: initCode } };}
+    partialSource: {
+      transitionFunction: transCode,
+      initializationFunction: initCode } };
 
 
-
+}
 
 
 
@@ -99,5 +99,5 @@ var active = "lidl_active_value";\n\
 var inactive = null;\n\
 ';
 
-var jsSourceTemplate = 
+var jsSourceTemplate =
 'function transitionFunction(data){\n<%=transitionFunction%>\n}\n\nfunction initializationFunction(data){\n<%=initializationFunction%>\n}\n\nmodule.export={transitionFunction:  transitionFunction ,initializationFunction: initializationFunction};';
