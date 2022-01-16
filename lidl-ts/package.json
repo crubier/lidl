@@ -1,0 +1,16 @@
+{
+  "name": "lidl-ts",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "vitest",
+    "coverage": "vitest --coverage"
+  },
+  "author": "",
+  "license": "ISC",
+  "devDependencies": {
+    "prettier": "^2.5.1",
+    "vitest": "^0.1.16"
+  }
+}
