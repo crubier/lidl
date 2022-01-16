@@ -35,7 +35,7 @@
     "immutable": "^3.7.5",
     "js-beautify": "^1.5.10",
     "lidl-core": "^0.8.8",
-    "lodash": "^3.10.1",
+    "lodash": "^4.17.21",
     "material-ui": "^0.13.4",
     "react": "^0.14.3",
     "react-ace": "^2.6.0",
