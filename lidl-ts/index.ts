@@ -241,3 +241,33 @@ export const noneIn = <T>(...interactions: Array<In<T>>): In<T> => {
     return;
   };
 };
+
+export const composeIn = <T>(interactions: Array<Out<T>>): Out<Array<T>> => {
+  return async (): Promise<Data<Array<T>>> => {
+    const promises = [];
+    for (const interaction of interactions) {
+      promises.push(interaction());
+    }
+    return await Promise.all(promises);
+  };
+};
+
+export const decomposeOut = <T>(interactions: Array<In<T>>): In<Array<T>> => {
+  return async (value: Promise<Data<Array<T>>>): Promise<void> => {
+    const result = await value;
+    if (result === inactive) {
+      const promises = [];
+      for (let i = 0; i < interactions.length; i++) {
+        promises.push(interactions[i](constantInactive()));
+      }
+      await Promise.all(promises);
+      return;
+    }
+    const promises = [];
+    for (let i = 0; i < interactions.length; i++) {
+      promises.push(interactions[i](Promise.resolve(result[i])));
+    }
+    await Promise.all(promises);
+    return;
+  };
+};

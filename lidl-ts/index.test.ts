@@ -16,6 +16,8 @@ import {
   apply,
   createSource,
   previous,
+  decomposeOut,
+  composeIn,
 } from "./index";
 
 // Edit an assertion and save to see HMR in action
@@ -429,5 +431,75 @@ test("case4", async () => {
     ["b", inactive],
     ["b", 5],
     ["b", 8],
+  ]);
+});
+
+test("composition", async () => {
+  // Utilities
+  const sink = createSink();
+  const source = createSource([
+    ["a", 0],
+    ["b", 10],
+    ["a", 1],
+    ["b", 11],
+    ["a", 2],
+    ["b", 12],
+    ["a", 3],
+    ["b", 13],
+    ["a", 4],
+    ["b", 14],
+    ["a", 5],
+    ["b", 15],
+    ["a", 6],
+    ["b", 16],
+    ["a", 7],
+    ["b", 17],
+    ["a", 8],
+    ["b", 18],
+    ["a", 9],
+    ["b", 19],
+  ]);
+
+  // Interaction
+  const interaction = affect(
+    decomposeOut([sink.send("x"), sink.send("y")]),
+    composeIn([source.receive("a"), source.receive("b")])
+  );
+
+  // Run
+  expect(await interaction(constantActive())).toEqual(undefined);
+  expect(await interaction(constantActive())).toEqual(undefined);
+  expect(await interaction(constantActive())).toEqual(undefined);
+  expect(await interaction(constantInactive())).toEqual(undefined);
+  expect(await interaction(constantActive())).toEqual(undefined);
+  expect(await interaction(constantActive())).toEqual(undefined);
+  expect(await interaction(constantInactive())).toEqual(undefined);
+  expect(await interaction(constantInactive())).toEqual(undefined);
+  expect(await interaction(constantActive())).toEqual(undefined);
+  expect(await interaction(constantActive())).toEqual(undefined);
+
+  // Trace
+  // console.log(sink.content);
+  assert.deepEqual(sink.content, [
+    ["x", 0],
+    ["y", 10],
+    ["x", 1],
+    ["y", 11],
+    ["x", 2],
+    ["y", 12],
+    ["x", inactive],
+    ["y", inactive],
+    ["x", 4],
+    ["y", 14],
+    ["x", 5],
+    ["y", 15],
+    ["x", inactive],
+    ["y", inactive],
+    ["x", inactive],
+    ["y", inactive],
+    ["x", 8],
+    ["y", 18],
+    ["x", 9],
+    ["y", 19],
   ]);
 });
