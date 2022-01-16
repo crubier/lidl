@@ -41,6 +41,7 @@ import {
 // })
 
 test("affect", async () => {
+  console.log(JSON.stringify({ a: Symbol("OKOK"), b: 2 }));
   // Utilities
   const log = createSink();
 
