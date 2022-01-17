@@ -122,7 +122,7 @@ export const createSource = (initialContent = []) => {
   return source;
 };
 
-// Fondamental LIDL interactions
+// Fundamental LIDL interactions
 // y = x
 export const affect = <T>(y: In<T>, x: Out<T>): In<Activation> => {
   return async (activation: Promise<Activation>) => {
