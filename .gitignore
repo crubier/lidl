@@ -29,3 +29,5 @@ node_modules/
 src/brouillon
 
 .publish
+lidl-core/.yarn/cache/
+lidl-core/.yarn/install-state.gz
