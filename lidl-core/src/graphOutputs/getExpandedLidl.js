@@ -24,7 +24,7 @@ function getLidl(graph, node) {
     })
     .filter((e) => e.to.index === 0 && e.from.index > 0)
     .sortBy((e) => e.from.index)
-    .pluck("to.node")
+    .map("to.node")
     .map((n) => getLidl(graph, n))
     .value();
 

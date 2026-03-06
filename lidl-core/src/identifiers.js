@@ -9,11 +9,10 @@ function getIdentifierSetOfInteraction(interaction) {
     case "InteractionSimple":
       return operator.parse(interaction.operator) === "Identifier"
         ? [interaction]
-        : _.uniq(
+        : _.uniqBy(
             _.flatten(
               _.map(interaction.operand, getIdentifierSetOfInteraction),
             ),
-            false,
             serializer.serializeInteractionSimpleRow,
           );
     case "InteractionNative":

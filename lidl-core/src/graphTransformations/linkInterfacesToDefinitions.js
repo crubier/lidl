@@ -43,7 +43,7 @@ export default function linkInterfacesToDefinitions(graph) {
               node: parentDef,
             },
           })
-          .pluck("to.node")
+          .map("to.node")
           .filter(
             (defNode) => defNode.content.signature === theNode.content.name,
           )

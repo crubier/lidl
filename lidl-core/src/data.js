@@ -6,7 +6,7 @@ function intersectionObjects2(a, b, areEqualFunction) {
 
   for (var i = 0; i < a.length; i++) {
     var aElement = a[i];
-    var existsInB = _.any(b, function (bElement) {
+    var existsInB = _.some(b, function (bElement) {
       return areEqualFunction(bElement, aElement);
     });
     if (existsInB) {
@@ -72,11 +72,11 @@ export function computeData(theData) {
   if (theData.type === "DataOperation") {
     switch (theData.operator) {
       case "union":
-        if (_.every(theData.operand, "type", "DataComposite")) {
+        if (_.every(theData.operand, ["type", "DataComposite"])) {
           return {
             type: "DataComposite",
             element: _.sortBy(
-              _.unique(
+              _.uniqBy(
                 _.union.apply(null, _.map(theData.operand, "element")),
                 "key",
               ),
@@ -90,11 +90,11 @@ export function computeData(theData) {
         }
         break;
       case "intersection":
-        if (_.every(theData.operand, "type", "DataComposite")) {
+        if (_.every(theData.operand, ["type", "DataComposite"])) {
           return {
             type: "DataComposite",
             element: _.sortBy(
-              _.unique(
+              _.uniqBy(
                 _.intersectionObjects.apply(
                   null,
                   _.map(theData.operand, "element"),

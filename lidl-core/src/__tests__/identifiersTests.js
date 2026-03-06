@@ -22,7 +22,7 @@ describe("identifier", function () {
         )
         .map(serializer.serialize);
 
-      expect(_.contains(ids, "(variable1)")).toBeTruthy();
+      expect(_.includes(ids, "(variable1)")).toBeTruthy();
     });
 
     it("should work on example 2", function () {
@@ -34,8 +34,8 @@ describe("identifier", function () {
         )
         .map(serializer.serialize);
 
-      expect(_.contains(ids, "(variable1)")).toBeTruthy();
-      expect(_.contains(ids, "(cos(variable1))")).toBeFalsy();
+      expect(_.includes(ids, "(variable1)")).toBeTruthy();
+      expect(_.includes(ids, "(cos(variable1))")).toBeFalsy();
     });
 
     it("should work on example 3", function () {
@@ -47,9 +47,9 @@ describe("identifier", function () {
         )
         .map(serializer.serialize);
 
-      expect(_.contains(ids, "(variable1)")).toBeTruthy();
-      expect(_.contains(ids, "(variable2)")).toBeTruthy();
-      expect(_.contains(ids, "(cos(variable1)lol(variable2))")).toBeFalsy();
+      expect(_.includes(ids, "(variable1)")).toBeTruthy();
+      expect(_.includes(ids, "(variable2)")).toBeTruthy();
+      expect(_.includes(ids, "(cos(variable1)lol(variable2))")).toBeFalsy();
     });
 
     it("should work on example 4", function () {
@@ -65,13 +65,13 @@ describe("identifier", function () {
         .map(serializer.serialize);
 
       expect(
-        _.contains(ids, "(variablebob(variabled3)ss(variablef5))"),
+        _.includes(ids, "(variablebob(variabled3)ss(variablef5))"),
       ).toBeTruthy();
-      expect(_.contains(ids, "(variabled3)")).toBeTruthy();
-      expect(_.contains(ids, "(variable2)")).toBeTruthy();
-      expect(_.contains(ids, "(variablef5)")).toBeFalsy();
+      expect(_.includes(ids, "(variabled3)")).toBeTruthy();
+      expect(_.includes(ids, "(variable2)")).toBeTruthy();
+      expect(_.includes(ids, "(variablef5)")).toBeFalsy();
       expect(
-        _.contains(
+        _.includes(
           ids,
           "(cos(variablebob(variabled3)ss(variablef5))lol(variable2)dgd(variabled3))",
         ),

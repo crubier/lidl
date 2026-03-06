@@ -175,8 +175,8 @@ function simplifyPathExpression(graph, p) {
       ) => ({
         compositionNode: x[0].compositionNode, // Merge target interactions by taking the first
         condition: _(x)
-          .pluck("condition")
-          .map((y) => _.unique(y, (z) => z.node.id + " " + z.index))
+          .map("condition")
+          .map((y) => _.uniqBy(y, (z) => z.node.id + " " + z.index))
           .value(), // Merge conditions, and remove duplicates conditions from paths
       }),
     )
@@ -189,7 +189,7 @@ function simplifyPathExpression(graph, p) {
           cond: c,
           stringRep: c.node.id + " " + c.index,
         }))
-        .unique("stringRep")
+        .uniqBy("stringRep")
         .value();
 
       if (allConds.length == 0) {
@@ -208,11 +208,11 @@ function simplifyPathExpression(graph, p) {
             .value();
 
           //           console.log("hhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhh");
-          //           console.log(_.pluck(allConds,'stringRep'));
+          //           console.log(_.map(allConds,'stringRep'));
           // console.log(satProblem);
           //           console.log("iiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiii");
           let solution = sat.solvePath(
-            _.pluck(allConds, "stringRep"),
+            _.map(allConds, "stringRep"),
             satProblem,
           );
           // console.log(solution);
@@ -541,7 +541,7 @@ export default function matchingCompositionReduction(graph) {
       _([coPortsFrom, coPortsTo])
         .flatten()
         .sortBy("ports.coCompositionElementName")
-        .unique(true, "ports.coCompositionElementName")
+        .uniqBy("ports.coCompositionElementName")
         .forEach((x) => {
           coPortNodes[x.ports.coCompositionElementName] =
             internalGraph.addNode(x);
@@ -588,7 +588,7 @@ export default function matchingCompositionReduction(graph) {
       _([portsFrom, portsTo])
         .flatten()
         .sortBy("ports.compositionElementName")
-        .unique(true, "ports.compositionElementName")
+        .uniqBy("ports.compositionElementName")
         .forEach((x) => {
           portNodes[x.ports.compositionElementName] = internalGraph.addNode(x);
         })

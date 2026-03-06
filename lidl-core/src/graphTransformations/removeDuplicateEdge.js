@@ -24,7 +24,7 @@ export default function removeDuplicateEdge(graph) {
         .value();
 
       _(identicalEdges)
-        .rest()
+        .tail()
         .forEach((identicalEdge) => {
           graph.finish(identicalEdge);
         })

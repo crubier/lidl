@@ -151,7 +151,7 @@ function findMatchingDefinition(interaction, interactionDefinition) {
 
   // Third case : The interaction is an argument of the definition
   if (
-    _.any(interactionDefinition.signature.operand, "name", interaction.operator)
+    _.some(interactionDefinition.signature.operand, { name: interaction.operator })
   ) {
     // return {type:'InteractionDefinition',interaction:"Argument",signature:{operand:[{"name":interaction.operator}]}}; /* TODO precise this return value*/
     return "Argument"; /* TODO problem is here !*/

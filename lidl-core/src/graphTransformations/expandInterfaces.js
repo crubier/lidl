@@ -27,7 +27,7 @@ export default function expandInterfaces(graph) {
             },
           },
         })
-        .pluck("to.node")
+        .map("to.node")
         .forEach((subInterfaceNode) => {
           // Find the definition of this sub interaction
           let subInterfaceDefNode = graph.findDirectedEdge({

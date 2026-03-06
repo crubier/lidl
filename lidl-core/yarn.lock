@@ -2331,21 +2331,14 @@ __metadata:
     babel-preset-stage-0: ^6.1.18
     fs-extra: ^0.26.2
     jest-cli: ^0.8.0
-    lodash: ^3.10.1
+    lodash: ^4.17.21
     pegjs: ^0.9.0
     prettier: ^3.8.1
     viz.js: ^1.3.0
   languageName: unknown
   linkType: soft
 
-"lodash@npm:^3.10.1":
-  version: 3.10.1
-  resolution: "lodash@npm:3.10.1"
-  checksum: 53065d3712a2fd90b55690c5af19f9625a5bbb2b7876ff76d782ee1dc22618fd4dff191d44a8e165a17b5b81a851c3e884d3b5b25e314422fbe24bb299542685
-  languageName: node
-  linkType: hard
-
-"lodash@npm:^4.17.4":
+"lodash@npm:^4.17.21, lodash@npm:^4.17.4":
   version: 4.17.23
   resolution: "lodash@npm:4.17.23"
   checksum: 7daad39758a72872e94651630fbb54ba76868f904211089721a64516ce865506a759d9ad3d8ff22a2a49a50a09db5d27c36f22762d21766e47e3ba918d6d7bab

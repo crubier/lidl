@@ -22,7 +22,7 @@ export default function getJsCode(graph, header) {
   var stateTemplate = _.template("<%=stateVariableName%>:null");
   var statesCode = graph
     .matchNodes({ type: "InteractionInstance", containsAState: true })
-    .unique("stateVariableName")
+    .uniqBy("stateVariableName")
     .map(stateTemplate)
     .join(",\n");
 

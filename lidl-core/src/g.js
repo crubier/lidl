@@ -4,6 +4,20 @@ import _ from "lodash";
 
 import { serialize } from "./serializer";
 
+// Lodash 4 compatibility shims for Lodash 3 chain behavior:
+// 1) _.forEach on implicit chains auto-unwraps in Lodash 4, breaking
+//    .forEach().value() and mid-chain .forEach() patterns. Re-wrap the result.
+// 2) _.commit() was removed in Lodash 4. It forced lazy chain evaluation and
+//    returned a new wrapper. We restore it as value() + re-wrap.
+const _origForEach = _.prototype.forEach;
+_.prototype.forEach = function (iteratee) {
+  var result = _origForEach.call(this, iteratee);
+  return result != null && typeof result === "object" ? _(result) : result;
+};
+_.prototype.commit = function () {
+  return _(this.value());
+};
+
 class Graph {
   ///////////////////////////////////////////////////////////////////////////////
   constructor(nodes, edges) {
@@ -204,7 +218,7 @@ class Graph {
           .map(this.inverse.bind(this))
           .value(),
       )
-      .unique("id");
+      .uniqBy("id");
   }
 
   ///////////////////////////////////////////////////////////////////////////////

@@ -46,13 +46,13 @@ export default function nonMatchingCompositionCompilation(graph) {
         .map((theElement) =>
           _(theElement)
             .tap((x) => {
-              if (_.size(_.unique(x, (y) => y.compositionElementName)) > 1) {
+              if (_.size(_.uniqBy(x, (y) => y.compositionElementName)) > 1) {
                 throw new Error(
                   "Error: there are different edges with the same index but different compositionElementName",
                 );
               }
             })
-            .unique((z) => z.compositionElementName)
+            .uniqBy((z) => z.compositionElementName)
             .first(),
         )
         .value();

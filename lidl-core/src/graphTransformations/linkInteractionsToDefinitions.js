@@ -39,7 +39,7 @@ export default function linkInteractionsToDefinitions(graph) {
             type: "DefinitionDefinition",
             from: { node: parentDef },
           })
-          .pluck("to.node")
+          .map("to.node")
           .filter(
             (defNode) =>
               defNode.content.signature.operator === theNode.content.operator,
@@ -67,7 +67,7 @@ export default function linkInteractionsToDefinitions(graph) {
         // Second case : Interaction definition is an argument ( aka operand) of current definition
         let argPos =
           _(parentDef.content.signature.operand)
-            .pluck("name")
+            .map("name")
             .indexOf(theNode.content.operator) + 1;
         if (argPos > 0) {
           let argNode = graph.findDirectedEdge({
