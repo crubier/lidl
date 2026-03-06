@@ -6,6 +6,8 @@
   "scripts": {
     "build": "node ./build.js && babel -d lib src/",
     "test": "jest",
+    "format": "prettier --write \"src/**/*.js\" \"index.js\"",
+    "format:check": "prettier --check \"src/**/*.js\" \"index.js\"",
     "doc": "pandoc README.md --to=html --output README.html --mathjax=http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML --standalone  --highlight-style=pygments --template=template.html --table-of-contents --toc-depth=3  --filter pandoc-citeproc && pandoc CHANGELOG.md --to=html --output CHANGELOG.html --mathjax=http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML --standalone  --highlight-style=pygments --template=template.html --table-of-contents --toc-depth=3  --filter pandoc-citeproc",
     "prepublish": "npm run build && npm run test"
   },
@@ -69,6 +71,7 @@
     "fs-extra": "^0.26.2",
     "jest-cli": "^0.8.0",
     "pegjs": "^0.9.0",
+    "prettier": "^3.8.1",
     "viz.js": "^1.3.0"
   }
 }

@@ -1,13 +1,13 @@
-"use strict"
+"use strict";
 
-import _ from 'lodash'
+import _ from "lodash";
 
-export default function keepOnlyInteractions(graph){
+export default function keepOnlyInteractions(graph) {
   graph
-  .matchNodes()
-  .reject({type:'InteractionInstance'})
-  .forEach(n=>{
-    graph
-    .finish(n);})
-  .commit();
+    .matchNodes()
+    .reject({ type: "InteractionInstance" })
+    .forEach((n) => {
+      graph.finish(n);
+    })
+    .commit();
 }

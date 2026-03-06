@@ -1,7 +1,7 @@
-// File automatically generated when performing     npm run build   
+// File automatically generated when performing     npm run build
 // It contains examples of lidl code from the example/ok folder
-module.exports={
-header:`var isActive = function(_) {
+module.exports = {
+  header: `var isActive = function(_) {
   return (_ !== null && _ !== undefined);
 };
 
@@ -365,10 +365,11 @@ var inset = function(_){
 }
 
 `,
-lidl:[{
-    name: 'Abstract UI',
-fileName: 'example/ok/abstractUI',
-     code : `
+  lidl: [
+    {
+      name: "Abstract UI",
+      fileName: "example/ok/abstractUI",
+      code: `
 interaction
   (my abstract Interface):{valueLabel:{text:Text out}, valueManipulation:{incrementButton:{text:Text out,click:Activation in},decrementButton:{text:Text out,click:Activation in}}}
 with
@@ -605,7 +606,7 @@ is
     valueManipulation:(increment decrement widget setting ((theValue)?)   )
   })
 `,
-     scenario : `[{
+      scenario: `[{
   "args": {},
   "memo": {},
   "state": {},
@@ -725,11 +726,12 @@ is
     }
   }
 }]
-`
-},{
-    name: 'Affectation Expression',
-fileName: 'example/ok/affectationExpression',
-     code : `interaction
+`,
+    },
+    {
+      name: "Affectation Expression",
+      fileName: "example/ok/affectationExpression",
+      code: `interaction
   (bob):{theNumber:Number in,theResult:Number out}
 with
 
@@ -781,7 +783,7 @@ is
     )
   )
 `,
-     scenario : `[
+      scenario: `[
   {
     "args":  {},
     "inter":  { "theNumber": 50,  "theResult": 51 }
@@ -803,16 +805,17 @@ is
     "inter":  { "theNumber": 67,  "theResult": 68 }
   }
 ]
-`
-},{
-    name: 'Arguments',
-fileName: 'example/ok/arguments',
-     code : `interaction
+`,
+    },
+    {
+      name: "Arguments",
+      fileName: "example/ok/arguments",
+      code: `interaction
   (bob(a:Number in)):Number out
 is
   (a)
 `,
-     scenario : `[
+      scenario: `[
   {
     "args":  {"a":28},
     "inter":  28
@@ -830,11 +833,12 @@ is
     "inter":  6
   }
 ]
-`
-},{
-    name: 'Compilation Example Thesis',
-fileName: 'example/ok/compilationExampleThesis',
-     code : `interaction
+`,
+    },
+    {
+      name: "Compilation Example Thesis",
+      fileName: "example/ok/compilationExampleThesis",
+      code: `interaction
   (My Simple User Interface):{theNumber: Number in, theResult: Number out}
 with
   interaction (add one):{Number->Number}out is (function addOne)
@@ -848,7 +852,7 @@ is
     (apply (add one) to ((x)!) and get ((y)?) )
   )
 `,
-     scenario : `[
+      scenario: `[
   {
     "args":  {},
     "inter":  { "theNumber": 50,  "theResult": 51 }
@@ -870,11 +874,12 @@ is
     "inter":  { "theNumber": 67,  "theResult": 68 }
   }
 ]
-`
-},{
-    name: 'Composition 2 X 1',
-fileName: 'example/ok/composition2x1',
-     code : `interaction
+`,
+    },
+    {
+      name: "Composition 2 X 1",
+      fileName: "example/ok/composition2x1",
+      code: `interaction
   (bob):{theNumber:Number in,theOther:Number in,theResult:Number out}
 with
   interaction
@@ -898,7 +903,7 @@ is
     )
   )
 `,
-     scenario : `[
+      scenario: `[
   {
     "args":  {},
     "inter":  { "theNumber": 50,"theOther": 50,   "theResult": 100 }
@@ -920,11 +925,12 @@ is
     "inter":  { "theNumber": 67,"theOther": 50,  "theResult": 117 }
   }
 ]
-`
-},{
-    name: 'Composition 2 X 2',
-fileName: 'example/ok/composition2x2',
-     code : `interaction
+`,
+    },
+    {
+      name: "Composition 2 X 2",
+      fileName: "example/ok/composition2x2",
+      code: `interaction
   (bob):{theNumber:Number in,theOther:Number in,theResult:Number out,theLast:Number out}
 with
  interaction
@@ -948,7 +954,7 @@ is
     )
   )
 `,
-     scenario : `[
+      scenario: `[
   {
     "args":  {},
     "inter":  { "theNumber": 50,"theOther": 50,   "theResult": 100,"theLast":0 }
@@ -970,11 +976,12 @@ is
     "inter":  { "theNumber": 67,"theOther": 50,  "theResult": 117,"theLast":17 }
   }
 ]
-`
-},{
-    name: 'Definition Of Init',
-fileName: 'example/ok/definitionOfInit',
-     code : `interaction
+`,
+    },
+    {
+      name: "Definition Of Init",
+      fileName: "example/ok/definitionOfInit",
+      code: `interaction
   (bob):{theNumber:Number in,theResult:Boolean out}
 with
 
@@ -1049,7 +1056,7 @@ is
     theResult:(init)
   })
 `,
-     scenario : `[
+      scenario: `[
   {
     "args":  {},
     "inter":  { "theNumber": 50,  "theResult": true }
@@ -1071,11 +1078,12 @@ is
     "inter":  { "theNumber": 67,  "theResult": false }
   }
 ]
-`
-},{
-    name: 'Definition Of Make Flow',
-fileName: 'example/ok/definitionOfMakeFlow',
-     code : `interaction
+`,
+    },
+    {
+      name: "Definition Of Make Flow",
+      fileName: "example/ok/definitionOfMakeFlow",
+      code: `interaction
   (bob):{theNumber:Number in,theResult:Number out}
 with
 
@@ -1234,7 +1242,7 @@ is
     (make ( y ) flow initially from (1) )
   )
 `,
-     scenario : `[
+      scenario: `[
   {
     "args":  {},
     "inter":  { "theNumber": null,  "theResult": 1 }
@@ -1276,11 +1284,12 @@ is
     "inter":  { "theNumber": 42,  "theResult": 42 }
   }
 ]
-`
-},{
-    name: 'Definition Of Previous',
-fileName: 'example/ok/definitionOfPrevious',
-     code : `interaction
+`,
+    },
+    {
+      name: "Definition Of Previous",
+      fileName: "example/ok/definitionOfPrevious",
+      code: `interaction
   (bob):{theNumber:Number in,theResult:Number out}
 with
 
@@ -1299,7 +1308,7 @@ is
     theResult:(previous((x)!))
   })
 `,
-     scenario : `[
+      scenario: `[
   {
     "args":  {},
     "inter":  { "theNumber": 50,  "theResult": null }
@@ -1321,11 +1330,12 @@ is
     "inter":  { "theNumber": 67,  "theResult": 42 }
   }
 ]
-`
-},{
-    name: 'Definitionof If Then Else',
-fileName: 'example/ok/definitionofIfThenElse',
-     code : `interaction
+`,
+    },
+    {
+      name: "Definitionof If Then Else",
+      fileName: "example/ok/definitionofIfThenElse",
+      code: `interaction
  (test (t:Number in)):Number out
 with
 
@@ -1382,7 +1392,7 @@ with
 is
   (if((t)==(1))then(3)else(4))
 `,
-     scenario : `[
+      scenario: `[
   {
     "args":  {"t":0},
     "inter":  4
@@ -1400,11 +1410,12 @@ is
     "inter":  4
   }
 ]
-`
-},{
-    name: 'Dereferencing',
-fileName: 'example/ok/dereferencing',
-     code : `interaction
+`,
+    },
+    {
+      name: "Dereferencing",
+      fileName: "example/ok/dereferencing",
+      code: `interaction
   (bob):{theNumber:Number in,theResult:Number out}
 with
 
@@ -1425,7 +1436,7 @@ is
     ((( (this)!).theResult)=(( (this)!).theNumber) )
   )
 `,
-     scenario : `[
+      scenario: `[
   {
     "args":  {},
     "inter":  { "theNumber": 50,  "theResult": 50 }
@@ -1447,11 +1458,12 @@ is
     "inter":  { "theNumber": 67,  "theResult": 67 }
   }
 ]
-`
-},{
-    name: 'Fake Affectation',
-fileName: 'example/ok/fakeAffectation',
-     code : `interaction
+`,
+    },
+    {
+      name: "Fake Affectation",
+      fileName: "example/ok/fakeAffectation",
+      code: `interaction
   (bob):{theNumber:Number in,theResult:Number out}
 with
   interaction
@@ -1470,7 +1482,7 @@ is
     (((theResult)?)=fake=((theNumber)!))
   )
 `,
-     scenario : `[
+      scenario: `[
   {
     "args":  {},
     "inter":  { "theNumber": 50,  "theResult": 50 }
@@ -1492,11 +1504,12 @@ is
     "inter":  { "theNumber": 67,  "theResult": 67 }
   }
 ]
-`
-},{
-    name: 'Function Application',
-fileName: 'example/ok/functionApplication',
-     code : `interaction
+`,
+    },
+    {
+      name: "Function Application",
+      fileName: "example/ok/functionApplication",
+      code: `interaction
   (bob):{theNumber:Number in,theResult:Number out}
 with
   interaction (add one):{Number->Number}out is (function addOne)
@@ -1510,7 +1523,7 @@ is
     (apply(add one) to ((theNumber)!) and get ((theResult)?))
   )
 `,
-     scenario : `[
+      scenario: `[
   {
     "args":  {},
     "inter":  { "theNumber": 50,  "theResult": 51 }
@@ -1532,11 +1545,12 @@ is
     "inter":  { "theNumber": 67,  "theResult": 68 }
   }
 ]
-`
-},{
-    name: 'Literals',
-fileName: 'example/ok/literals',
-     code : `interaction
+`,
+    },
+    {
+      name: "Literals",
+      fileName: "example/ok/literals",
+      code: `interaction
   (ok literal):Number out
 with
 
@@ -1553,7 +1567,7 @@ with
 is
   ((9)+(9))
 `,
-     scenario : `
+      scenario: `
 [
   {
     "args": {},
@@ -1572,11 +1586,12 @@ is
   "inter" : 18
 }
 ]
-`
-},{
-    name: 'Problematic Definitionof If Then Else',
-fileName: 'example/ok/problematicDefinitionofIfThenElse',
-     code : `interaction
+`,
+    },
+    {
+      name: "Problematic Definitionof If Then Else",
+      fileName: "example/ok/problematicDefinitionofIfThenElse",
+      code: `interaction
  (test (a:Number in)):{theNumber:Number in,theResult:Number out}
 with
 
@@ -1630,7 +1645,7 @@ with
 is
   (if((a)==(1))then({theNumber:((b)?),theResult:((b)!)})else({theNumber:((b)?),theResult:(-8000)}))
 `,
-     scenario : `[
+      scenario: `[
   {
     "args":  {"t":0},
     "inter":  4
@@ -1648,11 +1663,12 @@ is
     "inter":  4
   }
 ]
-`
-},{
-    name: 'Real Affectation Expression',
-fileName: 'example/ok/realAffectationExpression',
-     code : `interaction
+`,
+    },
+    {
+      name: "Real Affectation Expression",
+      fileName: "example/ok/realAffectationExpression",
+      code: `interaction
   (bob):{theNumber:Number in,theResult:Number out}
 with
 
@@ -1681,7 +1697,7 @@ is
     (((theResult)?)=((1)+((theNumber)!)))
   )
 `,
-     scenario : `[
+      scenario: `[
   {
     "args":  {},
     "inter":  { "theNumber": 50,  "theResult": 51 }
@@ -1703,11 +1719,12 @@ is
     "inter":  { "theNumber": 67,  "theResult": 68 }
   }
 ]
-`
-},{
-    name: 'Referential Transparency',
-fileName: 'example/ok/referentialTransparency',
-     code : `interaction
+`,
+    },
+    {
+      name: "Referential Transparency",
+      fileName: "example/ok/referentialTransparency",
+      code: `interaction
   (main):{theNumber:Number in,theResult:Number out}
 with
 
@@ -1725,7 +1742,7 @@ is
     theResult:(( x (z) (x))!)
   })
 `,
-     scenario : `[
+      scenario: `[
   {
     "args":  {},
     "inter":  { "theNumber": 50,  "theResult": 50 }
@@ -1747,11 +1764,12 @@ is
     "inter":  { "theNumber": 67,  "theResult": 67 }
   }
 ]
-`
-},{
-    name: 'Resolver',
-fileName: 'example/ok/resolver',
-     code : `interaction
+`,
+    },
+    {
+      name: "Resolver",
+      fileName: "example/ok/resolver",
+      code: `interaction
   (bob):{theNumber:Number in,theOther:Number in, theResult:Number out, theLast:Number out}
 is
   ({
@@ -1761,7 +1779,7 @@ is
     theLast:((x)!)
   })
 `,
-     scenario : `[
+      scenario: `[
   {
     "args":  {},
     "inter":  { "theNumber": 50, "theOther":null, "theResult": 50, "theLast": 50 }
@@ -1783,11 +1801,12 @@ is
     "inter":  { "theNumber": 67, "theOther":null, "theResult": 67, "theLast": 67 }
   }
 ]
-`
-},{
-    name: 'Simple',
-fileName: 'example/ok/simple',
-     code : `interaction
+`,
+    },
+    {
+      name: "Simple",
+      fileName: "example/ok/simple",
+      code: `interaction
   (main):{theNumber:Number in,theResult:Number out}
 is
   ({
@@ -1795,7 +1814,7 @@ is
     theResult:((x)!)
   })
 `,
-     scenario : `[
+      scenario: `[
   {
     "args":  {},
     "inter":  { "theNumber": 50,  "theResult": 50 }
@@ -1817,11 +1836,12 @@ is
     "inter":  { "theNumber": 67,  "theResult": 67 }
   }
 ]
-`
-},{
-    name: 'Simple Cursor Function',
-fileName: 'example/ok/simpleCursorFunction',
-     code : `interaction
+`,
+    },
+    {
+      name: "Simple Cursor Function",
+      fileName: "example/ok/simpleCursorFunction",
+      code: `interaction
   (cursor of (mouse:Mouse in)):Graphics out
 with
   interaction (cursor):{Mouse->Graphics}out is (function cursor)
@@ -1830,7 +1850,7 @@ is
   with behaviour
   ((cursor)(mouse)=((#cursor of (mouse))?)))
 `,
-     scenario : `[{
+      scenario: `[{
   "args": {
     "mouse": {
       "buttons": 0,
@@ -1937,11 +1957,12 @@ is
     }
   }
 }]
-`
-},{
-    name: 'Simple Func',
-fileName: 'example/ok/simpleFunc',
-     code : `interaction
+`,
+    },
+    {
+      name: "Simple Func",
+      fileName: "example/ok/simpleFunc",
+      code: `interaction
   (bob):{theNumber:Number in,theResult:Number out}
 with
   interaction
@@ -1956,7 +1977,7 @@ with
 is
   ({theNumber:((a)?),theResult:(bob((a)!))})
 `,
-     scenario : `[
+      scenario: `[
   {
     "args":  {},
     "inter":  { "theNumber": 50,  "theResult": 51 }
@@ -1978,11 +1999,12 @@ is
     "inter":  { "theNumber": 67,  "theResult": 68 }
   }
 ]
-`
-},{
-    name: 'Simple Previous Next',
-fileName: 'example/ok/simplePreviousNext',
-     code : `interaction
+`,
+    },
+    {
+      name: "Simple Previous Next",
+      fileName: "example/ok/simplePreviousNext",
+      code: `interaction
   (main):{theNumber:Number in,theResult:Number out}
 is
   (
@@ -1994,7 +2016,7 @@ is
     ( ((y)?) = previous ((x)!) )
   )
 `,
-     scenario : `[
+      scenario: `[
   {
     "args":  {},
     "inter":  { "theNumber": 50,  "theResult": null }
@@ -2016,11 +2038,12 @@ is
     "inter":  { "theNumber": 67,  "theResult": 42 }
   }
 ]
-`
-},{
-    name: 'Sum Of Previous',
-fileName: 'example/ok/sumOfPrevious',
-     code : `interaction
+`,
+    },
+    {
+      name: "Sum Of Previous",
+      fileName: "example/ok/sumOfPrevious",
+      code: `interaction
   (wow (a:Number in)):Number out
 with
 
@@ -2039,7 +2062,7 @@ with
 is
     ((previous(a))+(previous(a)))
 `,
-     scenario : `
+      scenario: `
 [
   {
     "args": {
@@ -2060,11 +2083,12 @@ is
     "inter" : 16
   }
 ]
-`
-},{
-    name: 'Ui Button',
-fileName: 'example/ok/uiButton',
-     code : `interaction
+`,
+    },
+    {
+      name: "Ui Button",
+      fileName: "example/ok/uiButton",
+      code: `interaction
   (simple UI):{mouse:Mouse in,graphics:Graphics out}
 with
 
@@ -2085,7 +2109,7 @@ with
 is
   (button widget)
 `,
-     scenario : `[{
+      scenario: `[{
   "memo": {},
   "state": {},
   "args": {},
@@ -2140,11 +2164,12 @@ is
     }
   }
 }]
-`
-},{
-    name: 'Ui Button With Cursor',
-fileName: 'example/ok/uiButtonWithCursor',
-     code : `interaction
+`,
+    },
+    {
+      name: "Ui Button With Cursor",
+      fileName: "example/ok/uiButtonWithCursor",
+      code: `interaction
   (simple UI):{mouse:Mouse in,graphics:Graphics out}
 with
 
@@ -2257,7 +2282,7 @@ with
 is
   (group widget containing (cursor widget) and (button widget))
 `,
-     scenario : `[{
+      scenario: `[{
   "memo": {},
   "state": {},
   "args": {},
@@ -2357,11 +2382,12 @@ is
 
   }
 }]
-`
-},{
-    name: 'Ui Cursor',
-fileName: 'example/ok/uiCursor',
-     code : `interaction
+`,
+    },
+    {
+      name: "Ui Cursor",
+      fileName: "example/ok/uiCursor",
+      code: `interaction
   (simple UI):{mouse:Mouse in,graphics:Graphics out}
 with
 
@@ -2382,7 +2408,7 @@ with
 is
   (cursor widget)
 `,
-     scenario : `[{
+      scenario: `[{
   "args": {},
   "inter": {
     "mouse": {
@@ -2442,11 +2468,12 @@ is
     }
   }
 }]
-`
-},{
-    name: 'Ui Detailled Button With Cursor',
-fileName: 'example/ok/uiDetailledButtonWithCursor',
-     code : `interaction
+`,
+    },
+    {
+      name: "Ui Detailled Button With Cursor",
+      fileName: "example/ok/uiDetailledButtonWithCursor",
+      code: `interaction
   (simple UI):{mouse:{buttons:Number, position:{x: Number,y:Number}} in,graphics:Graphics out}
 with
 
@@ -2559,7 +2586,7 @@ with
 is
   (group widget containing (button widget) and (cursor widget) )
 `,
-     scenario : `[{
+      scenario: `[{
   "memo": {},
   "state": {},
   "args": {},
@@ -2659,11 +2686,12 @@ is
 
   }
 }]
-`
-},{
-    name: 'Ui Empty With Cursor',
-fileName: 'example/ok/uiEmptyWithCursor',
-     code : `interaction
+`,
+    },
+    {
+      name: "Ui Empty With Cursor",
+      fileName: "example/ok/uiEmptyWithCursor",
+      code: `interaction
   (empty UI with cursor):{
         mouse: {
           buttons: Number,
@@ -2722,7 +2750,7 @@ is
         graphics: (cursor of ((mouse)!))
   })
 `,
-     scenario : `[{
+      scenario: `[{
   "args": {},
   "inter": {
     "mouse": {
@@ -2782,11 +2810,12 @@ is
     }
   }
 }]
-`
-},{
-    name: 'Ui Layout Button Click',
-fileName: 'example/ok/uiLayoutButtonClick',
-     code : `interaction
+`,
+    },
+    {
+      name: "Ui Layout Button Click",
+      fileName: "example/ok/uiLayoutButtonClick",
+      code: `interaction
   (simple UI):{mouse:{buttons:Number, position:{x: Number,y:Number}} in,layout:{x:Number,y:Number,width:Number,height:Number} in, graphics:Graphics out}
 with
 
@@ -3021,7 +3050,7 @@ is
     (cursor widget)
   )
 `,
-     scenario : `[{
+      scenario: `[{
   "memo": {},
   "state": {},
   "args": {},
@@ -3141,6 +3170,7 @@ is
     }
   }
 }]
-`
-}]
+`,
+    },
+  ],
 };

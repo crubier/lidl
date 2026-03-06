@@ -1,79 +1,81 @@
-"use strict"
+"use strict";
 
-import _ from 'lodash'
+import _ from "lodash";
 
 export default function behaviourSeparation(graph) {
-  let activeSource =
-    graph
-    .addNode({
-      type: 'InteractionInstance',
-      content: {
-        type: 'InteractionNative',
-        content: '<%=a0%> = active;\n'
-      },
-      ports: [{
-        type: 'InterfaceAtomic',
-        direction: 'out',
+  let activeSource = graph.addNode({
+    type: "InteractionInstance",
+    content: {
+      type: "InteractionNative",
+      content: "<%=a0%> = active;\n",
+    },
+    ports: [
+      {
+        type: "InterfaceAtomic",
+        direction: "out",
         data: {
-          type: 'DataAtomic',
-          name: 'Activation'
-        }
-      }]
-    });
+          type: "DataAtomic",
+          name: "Activation",
+        },
+      },
+    ],
+  });
 
-  graph
-    .reduceNodes({
-      type: 'InteractionInstance',
+  graph.reduceNodes(
+    {
+      type: "InteractionInstance",
       content: {
-        operatorType: "Behaviour"
-      }
-    }, (theResut, theNode) => {
+        operatorType: "Behaviour",
+      },
+    },
+    (theResut, theNode) => {
       graph
         .matchUndirectedEdges({
-          type: 'InteractionInstanceOperand',
+          type: "InteractionInstanceOperand",
           from: {
             node: theNode,
-            index: 2
-          }
+            index: 2,
+          },
         })
-        .forEach(x =>
-          graph
-          .addEdge({
-            type: 'InteractionInstanceOperand',
+        .forEach((x) =>
+          graph.addEdge({
+            type: "InteractionInstanceOperand",
             from: {
               node: activeSource,
-              index: 0
+              index: 0,
             },
-            to: x.to
-          }))
+            to: x.to,
+          }),
+        )
         .commit();
       graph
         .matchUndirectedEdges({
-          type: 'InteractionInstanceOperand',
+          type: "InteractionInstanceOperand",
           from: {
             node: theNode,
-            index: 0
-          }
+            index: 0,
+          },
         })
-        .forEach(x =>
+        .forEach((x) =>
           graph
-          .matchUndirectedEdges({
-            type: 'InteractionInstanceOperand',
-            from: {
-              node: theNode,
-              index: 1
-            }
-          })
-          .forEach(y =>
-            graph
-            .addEdge({
-              type: 'InteractionInstanceOperand',
-              from: x.to,
-              to: y.to
-            }))
-          .commit())
+            .matchUndirectedEdges({
+              type: "InteractionInstanceOperand",
+              from: {
+                node: theNode,
+                index: 1,
+              },
+            })
+            .forEach((y) =>
+              graph.addEdge({
+                type: "InteractionInstanceOperand",
+                from: x.to,
+                to: y.to,
+              }),
+            )
+            .commit(),
+        )
         .commit();
-      graph
-        .finish(theNode);
-    });
+      graph.finish(theNode);
+    },
+  );
 }

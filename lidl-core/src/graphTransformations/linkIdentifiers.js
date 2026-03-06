@@ -1,52 +1,50 @@
-"use strict"
+"use strict";
 
-import _ from 'lodash'
+import _ from "lodash";
 
-import exportGraph from '../exportGraph'
+import exportGraph from "../exportGraph";
 
-import {
-  serialize
-}
-from '../serializer'
-
+import { serialize } from "../serializer";
 
 // Here the goal is to find identifiers, and for each one, link its reference nodes to its co reference nodes
 export default function linkIdentifiers(graph) {
   // Find identifier nodes
   graph
     .matchNodes({
-      type: 'InteractionInstance',
+      type: "InteractionInstance",
       content: {
-        type: 'InteractionSimple',
-        operatorType: 'Identifier'
-      }
+        type: "InteractionSimple",
+        operatorType: "Identifier",
+      },
     })
     .forEach((theNode) => {
       // Each identifier node should be associated with at most one identifier (if referential transparency worked ok)
-      let theReferenceNode =
-        graph
+      let theReferenceNode = graph
         .matchUndirectedEdges({
-          type: 'InteractionInstanceOperand',
+          type: "InteractionInstanceOperand",
           from: {
             node: theNode,
-            index: 0
+            index: 0,
           },
           to: {
             node: {
-              type: 'InteractionInstance',
+              type: "InteractionInstance",
               content: {
-                type: 'InteractionSimple',
-                operatorType: 'Reference'
-              }
+                type: "InteractionSimple",
+                operatorType: "Reference",
+              },
             },
-            index: 1
-          }
+            index: 1,
+          },
         })
-        .map(theEdge => theEdge.to.node)
+        .map((theEdge) => theEdge.to.node)
         .value();
 
       if (theReferenceNode.length > 1) {
-        throw new Error('Fatal: referentialTransparency failed, there are two references to identifier ' + serialize(theNode.content));
+        throw new Error(
+          "Fatal: referentialTransparency failed, there are two references to identifier " +
+            serialize(theNode.content),
+        );
       } else if (theReferenceNode.length < 1) {
         // console.log("No reference for " + serialize(theNode.content));
         return; // Nothing to do in this case
@@ -55,30 +53,32 @@ export default function linkIdentifiers(graph) {
       }
 
       // Each identifier node should be associated with at most one CO identifier (if referential transparency worked ok)
-      let theCoReferenceNode =
-        graph
+      let theCoReferenceNode = graph
         .matchUndirectedEdges({
-          type: 'InteractionInstanceOperand',
+          type: "InteractionInstanceOperand",
           from: {
             node: theNode,
-            index: 0
+            index: 0,
           },
           to: {
             node: {
-              type: 'InteractionInstance',
+              type: "InteractionInstance",
               content: {
-                type: 'InteractionSimple',
-                operatorType: 'CoReference'
-              }
+                type: "InteractionSimple",
+                operatorType: "CoReference",
+              },
             },
-            index: 1
-          }
+            index: 1,
+          },
         })
-        .map(theEdge => theEdge.to.node)
+        .map((theEdge) => theEdge.to.node)
         .value();
 
       if (theCoReferenceNode.length > 1) {
-        throw new Error('Fatal: referentialTransparency failed, there are two co references to identifier ' + serialize(theNode.content));
+        throw new Error(
+          "Fatal: referentialTransparency failed, there are two co references to identifier " +
+            serialize(theNode.content),
+        );
       } else if (theCoReferenceNode.length < 1) {
         // console.log("No CO reference for " + serialize(theNode.content));
         return; // Nothing to do in this case
@@ -89,28 +89,27 @@ export default function linkIdentifiers(graph) {
       // Now we have the reference and the CO reference to the same identifier node, we just have to link them
       graph
         .matchUndirectedEdges({
-          type: 'InteractionInstanceOperand',
+          type: "InteractionInstanceOperand",
           from: {
             node: theReferenceNode,
-            index:0
-          }
+            index: 0,
+          },
         })
-        .forEach(theEdge => {
+        .forEach((theEdge) => {
           graph
             .matchUndirectedEdges({
-              type: 'InteractionInstanceOperand',
+              type: "InteractionInstanceOperand",
               from: {
                 node: theCoReferenceNode,
-                index:0
-              }
+                index: 0,
+              },
             })
-            .forEach(theCoEdge => {
-              graph
-                .addEdge({
-                  type: 'InteractionInstanceOperand',
-                  from: theEdge.to,
-                  to: theCoEdge.to
-                });
+            .forEach((theCoEdge) => {
+              graph.addEdge({
+                type: "InteractionInstanceOperand",
+                from: theEdge.to,
+                to: theCoEdge.to,
+              });
             })
             .commit();
         })
@@ -118,47 +117,40 @@ export default function linkIdentifiers(graph) {
     })
     .commit();
 
-
-
-
   // In the end we can remove all identifier, reference and coreference nodes
   graph
     .matchNodes({
-      type: 'InteractionInstance',
+      type: "InteractionInstance",
       content: {
-        type: 'InteractionSimple',
-        operatorType: 'Identifier'
-      }
+        type: "InteractionSimple",
+        operatorType: "Identifier",
+      },
     })
-    .forEach(theNode => graph.finish(theNode))
+    .forEach((theNode) => graph.finish(theNode))
     .commit();
 
   graph
     .matchNodes({
-      type: 'InteractionInstance',
+      type: "InteractionInstance",
       content: {
-        type: 'InteractionSimple',
-        operatorType: 'Reference'
-      }
+        type: "InteractionSimple",
+        operatorType: "Reference",
+      },
     })
-    .forEach(theNode => graph.finish(theNode))
+    .forEach((theNode) => graph.finish(theNode))
     .commit();
 
   graph
     .matchNodes({
-      type: 'InteractionInstance',
+      type: "InteractionInstance",
       content: {
-        type: 'InteractionSimple',
-        operatorType: 'CoReference'
-      }
+        type: "InteractionSimple",
+        operatorType: "CoReference",
+      },
     })
-    .forEach(theNode => graph.finish(theNode))
+    .forEach((theNode) => graph.finish(theNode))
     .commit();
 }
-
-
-
-
 
 // export default function linkIdentifiers(graph) {
 //   graph
