@@ -10,115 +10,63 @@ The LIDL compiler works by converting an AST into a graph, running ~29 transform
 
 ---
 
-## Phase -1: Update Dependencies (Low Effort, Prerequisite)
+## Phase -1: Update Dependencies (Low Effort, Prerequisite) — DONE
 
-### -1.1 Upgrade lodash from 3.x to 4.x
+### -1.1 Upgrade lodash from 3.x to 4.x — DONE
 
-**File:** `package.json` — currently depends on `lodash ^3.10.1` (from 2015)
+**File:** `package.json` — updated from `lodash ^3.10.1` to `^4.17.21`
 
-Lodash 3 → 4 has breaking changes that must be addressed before any other work. Key migration items:
+Breaking API changes fixed:
+- `_.pluck` → `_.map`
+- `_.contains` → `_.includes`
+- `_.any` → `_.some`
+- `_.unique` → `_.uniqBy`
+- `_.rest` → `_.tail`
+- `_.every` 3-argument shorthand → matches-pair shorthand
+- Chaining: added compatibility shims for `_.prototype.forEach` (auto-unwrap) and `_.prototype.commit` (removed in v4) in `g.js`
+- `_(string).words(regex)` → `_.words(string, regex)` (static call) in `tagCompositionElementEdges.js`
 
-- **Removed `_.pluck`** — replace with `_.map(collection, property)`
-- **Removed `_.where`** — replace with `_.filter(collection, predicate)`
-- **`_.first` / `_.last`** no longer accept a count argument
-- **`_.flatten`** is now shallow by default — use `_.flattenDeep` for recursive
-- **`_.pairs`** → `_.toPairs`
-- **`_.rest`** → `_.tail`
-- **`_.sortByOrder`** → `_.orderBy`
-- **Chaining** — `_(arr).method().value()` still works, but some method names changed
-- **`_.isMatch`** behavior changed — verify all pattern-matching uses in graph queries
-- **`_.callback` / `_.iteratee`** changes — affects any custom iteratee shorthand
-
-**Strategy:**
-1. Update `package.json` to `lodash ^4.17.21`
-2. Run `npm test` — note all failures
-3. Fix each breaking API usage
-4. Run `npm test` — all tests must pass
-
-**Expected impact:** 1.5–2× performance from lodash internals alone. Unblocks future native ES6 replacements.
-
-**Checkpoint:** `npm test` — all tests pass.
+**Checkpoint:** `npm test` — all 316 tests pass. ✓
 
 ---
 
-## Phase 0: Port to Bun + TypeScript (Medium Effort, Foundation for Everything Else)
+## Phase 0: Port to Bun + TypeScript (Medium Effort, Foundation for Everything Else) — DONE
 
-### 0.1 Replace Node.js + Babel with Bun
+### 0.1 Replace Node.js + Babel with Bun — DONE
 
-The current toolchain relies on Node.js with Babel (es2015 + stage-0 presets) to transpile ES6 modules and modern syntax. Bun natively supports ES modules, modern JavaScript, and TypeScript out of the box — no transpilation step needed.
+Removed all Babel/Jest infrastructure and switched to Bun:
+- Removed `babel-jest`, `babel-preset-es2015`, `babel-preset-react`, `babel-preset-stage-0`, `jest-cli` dev dependencies
+- Removed `babel`, `browserify`, `jest` configuration blocks from `package.json`
+- Updated `main` entry to point to `src/` instead of `lib/` (no more transpilation step)
+- Updated all `npm` scripts to `bun` equivalents (`bun test`, `bun run build`)
+- Removed `jest.dontMock()` and `jest.autoMockOff()` calls from all 10 test files (Bun doesn't automock)
+- Fixed `toContain` → `toContainEqual` for deep-equality assertions (Bun's `toContain` uses reference equality)
+- Fixed ESM/CJS conflicts: files mixing `import` statements with `module.exports` were made consistently CJS
+- Renamed test files to `*.test.js` naming convention for Bun test discovery
 
-**What to remove:**
-- `babel-jest`, `babel-preset-es2015`, `babel-preset-react`, `babel-preset-stage-0` dev dependencies
-- `babel` and `browserify` configuration blocks in `package.json`
-- The `build.js` script (PEG.js grammar compilation should move to a Bun-compatible build step)
-- The `lib/` transpilation output directory
+**Checkpoint:** `bun test` — all 316 tests pass. ✓
 
-**What to replace:**
-- `jest` / `jest-cli` → `bun test` (Bun has a built-in Jest-compatible test runner)
-- `node ./build.js` → a Bun script or `bun run` task
-- `npm` scripts → `bun` equivalents
+### 0.2 Convert all `.js` files to TypeScript — DONE
 
-**Expected impact:** Faster startup, faster test runs, zero transpilation overhead. Bun's runtime is also significantly faster than Node.js for CPU-bound work like graph transformations.
+Converted the entire `src/` directory to TypeScript:
+- Added `tsconfig.json` with `moduleResolution: "bundler"`, `allowJs: true`, `strict: false`
+- Renamed all 56 source files from `.js` → `.ts` (except 3 generated files: `parser.js`, `operator.js`, `examples.js`)
+- Renamed all 10 test files from `.test.js` → `.test.ts`
+- Converted all `require()`/`module.exports` patterns to ESM `import`/`export`
+- Added basic type annotations to function signatures in core modules (`g.ts`, `serializer.ts`, `interactions.ts`, `identifiers.ts`, `satSolver.ts`, `config.ts`, `resolver.ts`, `exportGraph.ts`)
+- Fixed import of `satSolver` in `matchingCompositionReduction.ts` (default → namespace import)
+- Removed unused `import interactions from "../interfaces"` in `expandInterfaces.ts`
 
-**Checkpoint:** `bun test` — all tests pass.
+**Checkpoint:** `bun test` — all 316 tests pass. ✓
 
-### 0.2 Convert all `.js` files to TypeScript
+### 0.3 Replace PEG.js with Peggy — DONE
 
-The entire `src/` directory (~40 source files, ~30 graph transformation files, ~10 test files) is untyped JavaScript. Converting to TypeScript provides:
+- Replaced `pegjs ^0.9.0` with `peggy ^5.1.0` in dev dependencies
+- Updated `build.js`: `peg.buildParser()` → `peggy.generate()`
+- Grammar syntax is fully compatible — no grammar changes needed
+- Regenerated `parser.js` and `operator.js` with Peggy
 
-- **Compile-time safety** for the complex graph operations, port types, and interface algebra — catching bugs that currently only surface at runtime
-- **Self-documenting code** — the graph node/edge structures, operator types, and interface shapes become explicit instead of implicit
-- **Better IDE support** — autocompletion, refactoring, and navigation across the compilation pipeline
-- **Foundation for future optimization** — typed code is easier to reason about when rewriting data structures (Phase 3)
-
-**Conversion strategy:**
-1. Add a `tsconfig.json` (Bun supports TypeScript natively, no `tsc` compilation step needed for execution)
-2. Rename `.js` → `.ts` files incrementally, starting with leaf modules (`data.ts`, `interfaces.ts`, `serializer.ts`) and working inward
-3. Define core types first: `Graph`, `Node`, `Edge`, `Port`, `Interface`, `Interaction`, `Operator` — these structures are used everywhere
-4. The PEG.js grammar (`parser.pegjs`, `operator.pegjs`) stays as-is, but the generated parser gets a `.d.ts` type declaration
-5. Convert test files to `.test.ts` (Bun's test runner supports TypeScript directly)
-
-**Key types to define:**
-
-```ts
-interface GraphNode {
-  id: string;
-  type: string;
-  finished: boolean;
-  content: Record<string, unknown>;
-  ports: Port[];
-  incomingEdges: GraphEdge[];
-  outgoingEdges: GraphEdge[];
-}
-
-interface GraphEdge {
-  id: string;
-  type: string;
-  finished: boolean;
-  from: { node: GraphNode; index: number };
-  to: { node: GraphNode; index: number };
-}
-
-interface Port {
-  name: string;
-  type: DataType;
-  direction: "in" | "out" | "ref";
-}
-```
-
-**Expected impact:** No direct runtime speedup, but dramatically reduces debugging time and makes every subsequent optimization safer and faster to implement.
-
-**Checkpoint:** `bun test` — all tests pass, no type errors.
-
-### 0.3 Replace PEG.js with a maintained alternative
-
-PEG.js (`^0.9.0`) has been unmaintained since 2020. The successor **Peggy** is a drop-in replacement with active maintenance, bug fixes, and TypeScript type definitions.
-
-**Fix:** Replace `pegjs` with `peggy` in dev dependencies. Update the grammar build step. The grammar syntax is fully compatible.
-
-**Expected impact:** Maintained tooling, TypeScript support for generated parsers, minor parser performance improvements.
-
-**Checkpoint:** `bun test` — all tests pass.
+**Checkpoint:** `bun test` — all 316 tests pass. ✓
 
 ---
 
@@ -279,19 +227,19 @@ Consider rewriting the graph engine in Rust or C++ and exposing it to JavaScript
 
 ## Summary Table
 
-| Priority | Change | Expected Impact | Effort |
-|----------|--------|-----------------|--------|
-| -1.1 | Upgrade lodash 3.x → 4.x | 1.5–2× overall | Low |
-| 0.1 | Replace Node.js + Babel with Bun | Faster startup, tests, and runtime | Low–Medium |
-| 0.2 | Convert all `.js` to TypeScript | Safety, DX, foundation for later phases | Medium |
-| 0.3 | Replace PEG.js with Peggy | Maintained tooling, TS types | Low |
-| 1.1 | Remove `createDataFlowDirection` from `resolveMultiplePorts` loop | 2–5× on large programs | Low |
-| 1.2 | Fixed-point loops instead of hard-coded repetition | Variable (avoids wasted passes) | Low |
-| 1.3 | `Set` instead of `_.includes` in `expandDefinitions` | 2× on this pass | Low |
-| 1.4 | Stop SAT solver after first solution | Variable | Low |
-| 2.1 | Eliminate `_.cloneDeep` in `createDataFlowDirection` | 2–3× on this pass (×15) | Medium |
-| 2.2 | Hash indexes for `referentialTransparency` | 3–5× on this pass | Medium |
-| 3.1 | Rewrite Graph with `Map`/`Set` and adjacency lists | 5–10× overall | High |
-| 3.2 | Immediate removal instead of soft-delete + `clean()` | 1.2–1.5× | Medium–High |
-| 4.1 | Incremental compilation | Orders of magnitude | Very High |
-| 4.2 | Compiled-language graph backend (WASM) | 10×+ graph layer | Very High |
+| Priority | Change | Expected Impact | Effort | Status |
+|----------|--------|-----------------|--------|--------|
+| -1.1 | Upgrade lodash 3.x → 4.x | 1.5–2× overall | Low | DONE |
+| 0.1 | Replace Node.js + Babel with Bun | Faster startup, tests, and runtime | Low–Medium | DONE |
+| 0.2 | Convert all `.js` to TypeScript | Safety, DX, foundation for later phases | Medium | DONE |
+| 0.3 | Replace PEG.js with Peggy | Maintained tooling, TS types | Low | DONE |
+| 1.1 | Remove `createDataFlowDirection` from `resolveMultiplePorts` loop | 2–5× on large programs | Low | |
+| 1.2 | Fixed-point loops instead of hard-coded repetition | Variable (avoids wasted passes) | Low | |
+| 1.3 | `Set` instead of `_.includes` in `expandDefinitions` | 2× on this pass | Low | |
+| 1.4 | Stop SAT solver after first solution | Variable | Low | |
+| 2.1 | Eliminate `_.cloneDeep` in `createDataFlowDirection` | 2–3× on this pass (×15) | Medium | |
+| 2.2 | Hash indexes for `referentialTransparency` | 3–5× on this pass | Medium | |
+| 3.1 | Rewrite Graph with `Map`/`Set` and adjacency lists | 5–10× overall | High | |
+| 3.2 | Immediate removal instead of soft-delete + `clean()` | 1.2–1.5× | Medium–High | |
+| 4.1 | Incremental compilation | Orders of magnitude | Very High | |
+| 4.2 | Compiled-language graph backend (WASM) | 10×+ graph layer | Very High | |
