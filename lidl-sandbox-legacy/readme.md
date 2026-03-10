@@ -8,18 +8,18 @@ To use the LIDL sandbox, just open [dist/index.html](dist/index.html) in a recen
 
 As a user, you have to give three different inputs:
 
-- A LIDL program, using the Lidl code editor
-- A JS header, using the header editor
-- A scenario, using the scenario editor
+  - A LIDL program, using the Lidl code editor
+  - A JS header, using the header editor
+  - A scenario, using the scenario editor
 
 The LIDL sandbox compiles the LIDL program, links it with the Header, and outputs some JS code. This JS code is then executed on the given scenario, resulting in a Trace. In the end, this gives several different outputs:
 
-- Expanded LIDL code, which can be absurdly large for some reason, even though this size does not represent any physical size.
-- Generated JS code, in the NPM module format.
-- Trace, which allows to examine the generated trace.
-- Graphs which allow to see the inner workings of the compiler
-- Canvas, which allows to executed the code as a WIMP application if it is possible.
-- Error, which shows errors that happened at any stage of the compilation or execution process.
+  - Expanded LIDL code, which can be absurdly large for some reason, even though this size does not represent any physical size.
+  - Generated JS code, in the NPM module format.
+  - Trace, which allows to examine the generated trace.
+  - Graphs which allow to see the inner workings of the compiler
+  - Canvas, which allows to executed the code as a WIMP application if it is possible.
+  - Error, which shows errors that happened at any stage of the compilation or execution process.
 
 ## Details
 
@@ -27,10 +27,10 @@ The LIDL sandbox compiles the LIDL program, links it with the Header, and output
 
 The Scenarios and Trace are described in the [JSON format](http://www.json.org). They are represented by a list of JSON records which have 4 fields:
 
-- `inter`: The values of the main interface of the interaction
-- `args`: The values of the arguments of the interaction, labelled by their name
-- `state`: The value of the internal state of the LIDL system
-- `memo`: The values that are memoized by the LIDL runtime to save time
+  - `inter`: The values of the main interface of the interaction
+  - `args`: The values of the arguments of the interaction, labelled by their name
+  - `state`: The value of the internal state of the LIDL system
+  - `memo`: The values that are memoized by the LIDL runtime to save time
 
 Only the input parts of `inter` and `args` are necessary in the scenario, since the outputs, state and memo are created by the LIDL runtime.
 
