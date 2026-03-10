@@ -22,6 +22,7 @@ class Graph {
   edges: any[];
   nodeTypeIndex: Record<string, any[]>;
   edgeTypeIndex: Record<string, any[]>;
+  version: number;
 
   constructor(nodes?: any[], edges?: any[]) {
     this.nodes = nodes === undefined ? [] : nodes;
@@ -30,12 +31,14 @@ class Graph {
       nodes === undefined ? {} : _(nodes).groupBy("type").value();
     this.edgeTypeIndex =
       edges === undefined ? {} : _(edges).groupBy("type").value();
+    this.version = 0;
   }
 
   ///////////////////////////////////////////////////////////////////////////////
   // Only way to add a node to the graph
 
   addNode(node: any): any {
+    this.version++;
     var res = _.assign(_.omit(_.omit(_.clone(node), "id"), "finished"), {
       id: _.uniqueId("node_"),
       finished: false,
@@ -54,6 +57,7 @@ class Graph {
   }
 
   addEdge(edge: any): any {
+    this.version++;
     var res = _.assign(_.omit(_.omit(_.clone(edge), "id"), "finished"), {
       id: _.uniqueId("edge_"),
       finished: false,
@@ -427,6 +431,7 @@ class Graph {
   // finish a node or an edge
   finish(x: any): any {
     x.finished = true;
+    this.version++;
     return x;
   }
 

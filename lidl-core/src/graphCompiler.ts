@@ -240,20 +240,14 @@ export function graphTransformationPipeline(
     tagCompositionElementEdges(graph);
     if (false === callCallback("tagCompositionElementEdges")) return graph;
 
-    matchingCompositionReduction(graph);
-    if (false === callCallback("matchingCompositionReduction")) return graph;
-    createDataFlowDirection(graph);
-    if (false === callCallback("createDataFlowDirection")) return graph;
-    matchingCompositionReduction(graph);
-    if (false === callCallback("matchingCompositionReduction")) return graph;
-    createDataFlowDirection(graph);
-    if (false === callCallback("createDataFlowDirection")) return graph;
-    matchingCompositionReduction(graph);
-    if (false === callCallback("matchingCompositionReduction")) return graph;
-    createDataFlowDirection(graph);
-    if (false === callCallback("createDataFlowDirection")) return graph;
-
-    //TODO Should loop that, either in the method or here ... until fixed point
+    // Fixed-point loop: matchingCompositionReduction + createDataFlowDirection
+    while (true) {
+      let didReduce = matchingCompositionReduction(graph);
+      if (false === callCallback("matchingCompositionReduction")) return graph;
+      createDataFlowDirection(graph);
+      if (false === callCallback("createDataFlowDirection")) return graph;
+      if (!didReduce) break;
+    }
 
     linkIdentifiers(graph);
     if (false === callCallback("linkIdentifiers")) return graph;
@@ -261,47 +255,31 @@ export function graphTransformationPipeline(
     createDataFlowDirection(graph);
     if (false === callCallback("createDataFlowDirection")) return graph;
 
-    matchingCompositionReduction(graph);
-    if (false === callCallback("matchingCompositionReduction")) return graph;
-    createDataFlowDirection(graph);
-    if (false === callCallback("createDataFlowDirection")) return graph;
-    matchingCompositionReduction(graph);
-    if (false === callCallback("matchingCompositionReduction")) return graph;
-    createDataFlowDirection(graph);
-    if (false === callCallback("createDataFlowDirection")) return graph;
-    matchingCompositionReduction(graph);
-    if (false === callCallback("matchingCompositionReduction")) return graph;
-    createDataFlowDirection(graph);
-    if (false === callCallback("createDataFlowDirection")) return graph;
-
-    //TODO Should loop that, either in the method or here ... until fixed point
+    // Fixed-point loop: matchingCompositionReduction + createDataFlowDirection
+    while (true) {
+      let didReduce = matchingCompositionReduction(graph);
+      if (false === callCallback("matchingCompositionReduction")) return graph;
+      createDataFlowDirection(graph);
+      if (false === callCallback("createDataFlowDirection")) return graph;
+      if (!didReduce) break;
+    }
 
     removeOneSidedAffectation(graph);
     if (false === callCallback("removeOneSidedAffectation")) return graph;
 
-    createDataFlowDirection(graph);
-    if (false === callCallback("createDataFlowDirection")) return graph;
-    nonMatchingCompositionCompilation(graph);
-    if (false === callCallback("nonMatchingCompositionCompilation"))
-      return graph;
-    affectationLinking(graph);
-    if (false === callCallback("affectationLinking")) return graph;
-    createDataFlowDirection(graph);
-    if (false === callCallback("createDataFlowDirection")) return graph;
-    nonMatchingCompositionCompilation(graph);
-    if (false === callCallback("nonMatchingCompositionCompilation"))
-      return graph;
-    affectationLinking(graph);
-    if (false === callCallback("affectationLinking")) return graph;
-    createDataFlowDirection(graph);
-    if (false === callCallback("createDataFlowDirection")) return graph;
-    nonMatchingCompositionCompilation(graph);
-    if (false === callCallback("nonMatchingCompositionCompilation"))
-      return graph;
-    affectationLinking(graph);
-    if (false === callCallback("affectationLinking")) return graph;
+    // Fixed-point loop: nonMatchingCompositionCompilation + affectationLinking + createDataFlowDirection
+    while (true) {
+      let v = graph.version;
+      createDataFlowDirection(graph);
+      if (false === callCallback("createDataFlowDirection")) return graph;
+      nonMatchingCompositionCompilation(graph);
+      if (false === callCallback("nonMatchingCompositionCompilation"))
+        return graph;
+      affectationLinking(graph);
+      if (false === callCallback("affectationLinking")) return graph;
+      if (graph.version === v) break;
+    }
 
-    //TODO Should loop that too ... until fixed point ... but always end with another:
     createDataFlowDirection(graph);
     if (false === callCallback("createDataFlowDirection")) return graph;
 

@@ -127,25 +127,21 @@ Replaced the [Peggy](https://peggyjs.org/) PEG parser generator with [Ohm](https
 
 **Checkpoint:** `bun test` — all 316 tests pass. ✓
 
-### 1.2 Replace hard-coded pass repetition with fixed-point loops
+### 1.2 Replace hard-coded pass repetition with fixed-point loops — DONE
 
-**File:** `src/graphCompiler.ts`
+**Files:** `src/graphCompiler.ts`, `src/g.ts`, `src/graphTransformations/matchingCompositionReduction.ts`
 
-The pipeline repeats several passes a fixed number of times (usually 3), as acknowledged by TODO comments in the source:
+The pipeline repeated several passes a fixed number of times (3×), as acknowledged by TODO comments in the source.
 
-```
-//TODO Should loop that, either in the method or here ... until fixed point
-```
+**Fix:**
+- Added a `version` counter to the `Graph` class, incremented on every `addNode`, `addEdge`, and `finish` call
+- `matchingCompositionReduction` now returns a boolean indicating whether any actual composition reductions occurred (as opposed to just consuming search edges)
+- Replaced all three hard-coded 3× repetition blocks with `while` loops:
+  - Loops 1 & 2 (`matchingCompositionReduction` + `createDataFlowDirection`): break when `matchingCompositionReduction` returns `false`
+  - Loop 3 (`createDataFlowDirection` + `nonMatchingCompositionCompilation` + `affectationLinking`): break when `graph.version` is unchanged across the iteration
+- Most test cases converge in 1–2 iterations instead of always running 3
 
-The affected pass groups:
-- `matchingCompositionReduction` + `createDataFlowDirection` (×3 before `linkIdentifiers`, ×3 after)
-- `nonMatchingCompositionCompilation` + `affectationLinking` + `createDataFlowDirection` (×3)
-
-**Fix:** Implement fixed-point iteration — loop until no graph changes occur. Add a dirty flag or change counter to the `Graph` class so passes can report whether they made modifications.
-
-**Expected impact:** Avoids wasted passes when convergence happens early (common case). Guarantees correctness when 3 iterations aren't enough (edge cases).
-
-**Checkpoint:** `bun test` — all tests pass.
+**Checkpoint:** `bun test` — all 316 tests pass. ✓
 
 ### 1.3 Replace `_.includes` with `Set` in `expandDefinitions`
 
@@ -279,7 +275,7 @@ Consider rewriting the graph engine in Rust or C++ and exposing it to JavaScript
 | 0.4 | Complete ESM migration, remove remaining JS | Clean module system, Bun-native APIs | Medium | DONE |
 | 0.5.1 | Migrate parsers from Peggy to Ohm | Cleaner grammar, better DX & extensibility | Medium | DONE |
 | 1.1 | Remove `createDataFlowDirection` from `resolveMultiplePorts` loop | 2–5× on large programs | Low | DONE |
-| 1.2 | Fixed-point loops instead of hard-coded repetition | Variable (avoids wasted passes) | Low | |
+| 1.2 | Fixed-point loops instead of hard-coded repetition | Variable (avoids wasted passes) | Low | DONE |
 | 1.3 | `Set` instead of `_.includes` in `expandDefinitions` | 2× on this pass | Low | |
 | 1.4 | Stop SAT solver after first solution | Variable | Low | |
 | 2.1 | Eliminate `_.cloneDeep` in `createDataFlowDirection` | 2–3× on this pass (×15) | Medium | |

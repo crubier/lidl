@@ -887,6 +887,7 @@ export default function matchingCompositionReduction(graph) {
     .commit();
 
   // Finally we finish the treated composition nodes
+  let didReduce = false;
   graph
     .matchNodes({
       type: "InteractionInstance",
@@ -897,11 +898,10 @@ export default function matchingCompositionReduction(graph) {
       },
     })
     .forEach((theNode) => {
-      // console.log('finish');
-      // console.log(theNode);
       graph.finish(theNode);
+      didReduce = true;
     })
     .commit();
 
-  // TODO LOOP all this until fixed point (no new composition matches)
+  return didReduce;
 }
