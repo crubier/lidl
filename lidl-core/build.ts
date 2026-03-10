@@ -1,5 +1,4 @@
 import * as path from "path";
-import * as fs from "fs";
 import _ from "lodash";
 
 const srcDir = path.resolve(import.meta.dir, "src");
@@ -9,10 +8,11 @@ const commonHeader = await Bun.file(
   path.join(exampleDir, "common.lidl.js"),
 ).text();
 
-const exampleSubdirs = fs
-  .readdirSync(exampleDir)
-  .map((x) => path.join(exampleDir, x))
-  .filter((ffile) => fs.statSync(ffile).isDirectory());
+const glob = new Bun.Glob("*/code.lidl");
+const exampleSubdirs: string[] = [];
+for await (const match of glob.scan(exampleDir)) {
+  exampleSubdirs.push(path.join(exampleDir, path.dirname(match)));
+}
 
 const examples = await Promise.all(
   exampleSubdirs.map(async (ffile) => ({
