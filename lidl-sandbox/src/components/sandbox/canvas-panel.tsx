@@ -332,16 +332,13 @@ export default function CanvasPanel({ code }: CanvasPanelProps) {
     };
   }, []);
 
-  if (!code?.partialSource) {
-    return (
-      <div className="flex items-center justify-center h-full text-muted-foreground text-sm">
-        No compiled code
-      </div>
-    );
-  }
-
   return (
     <div ref={containerRef} className="relative w-full h-full overflow-hidden">
+      {!code?.partialSource && (
+        <div className="absolute inset-0 flex items-center justify-center text-muted-foreground text-sm z-10">
+          No compiled code
+        </div>
+      )}
       <canvas
         ref={canvasRef}
         className="absolute inset-0"

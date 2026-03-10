@@ -1,18 +1,22 @@
 "use client";
 
-import { useState, useCallback, useEffect, useRef, useMemo } from "react";
+import {
+  createContext,
+  useContext,
+  useState,
+  useCallback,
+  useEffect,
+  useRef,
+  useMemo,
+} from "react";
 import _ from "lodash";
-import {
-  Panel,
-  Group as PanelGroup,
-  Separator as PanelResizeHandle,
-} from "react-resizable-panels";
-import {
-  Tabs,
-  TabsContent,
-  TabsList,
-  TabsTrigger,
-} from "@/components/ui/tabs";
+import { DockviewReact, type DockviewReadyEvent, type DockviewTheme } from "dockview";
+
+const themeLidl: DockviewTheme = {
+  name: "lidl",
+  className: "dockview-theme-lidl",
+  gap: 0,
+};
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import {
@@ -47,15 +51,181 @@ import CanvasPanel from "@/components/sandbox/canvas-panel";
 
 const BUILD_KEY = "lidl-sandbox-next-v1";
 
+// ---------------------------------------------------------------------------
+// Context shared by all dockview panel components
+// ---------------------------------------------------------------------------
+
+interface SandboxContextType {
+  lidl: string;
+  header: string;
+  scenario: string;
+  lidlAst: any;
+  displayGraphs: Record<string, string>;
+  selectedGraphStage: string;
+  setSelectedGraphStage: (stage: string) => void;
+  cleanJs: string | null;
+  jsData: any;
+  expandedLidl: string | null;
+  traceAst: any[];
+  trace: string | null;
+  metrics: Record<string, number> | null;
+  errors: string[];
+  handleLidlChange: (v: string) => void;
+  handleHeaderChange: (v: string) => void;
+  handleScenarioChange: (v: string) => void;
+}
+
+const SandboxContext = createContext<SandboxContextType>(null!);
+
+// ---------------------------------------------------------------------------
+// Dockview panel components
+// ---------------------------------------------------------------------------
+
+function LidlCodePanel() {
+  const { lidl, handleLidlChange } = useContext(SandboxContext);
+  return <CodeEditor value={lidl} onChange={handleLidlChange} />;
+}
+
+function ExpandedPanel() {
+  const { expandedLidl } = useContext(SandboxContext);
+  return <CodeEditor value={expandedLidl ?? ""} readOnly />;
+}
+
+function ScenarioPanel() {
+  const { scenario, handleScenarioChange } = useContext(SandboxContext);
+  return (
+    <CodeEditor value={scenario} onChange={handleScenarioChange} language="json" />
+  );
+}
+
+function HeaderPanel() {
+  const { header, handleHeaderChange } = useContext(SandboxContext);
+  return (
+    <CodeEditor value={header} onChange={handleHeaderChange} language="javascript" />
+  );
+}
+
+function GraphsPanel() {
+  const { displayGraphs, selectedGraphStage, setSelectedGraphStage } =
+    useContext(SandboxContext);
+  return (
+    <div className="flex flex-col h-full w-full">
+      <div className="p-1 border-b shrink-0">
+        <Select value={selectedGraphStage} onValueChange={(v) => v && setSelectedGraphStage(v)}>
+          <SelectTrigger className="h-7 text-xs">
+            <SelectValue />
+          </SelectTrigger>
+          <SelectContent>
+            {config.graphTransformations.map((stage: string) => (
+              <SelectItem key={stage} value={stage} className="text-xs">
+                {_.startCase(stage)}
+              </SelectItem>
+            ))}
+          </SelectContent>
+        </Select>
+      </div>
+      <div className="flex-1 min-h-0 overflow-auto">
+        <GraphvizViewer dot={displayGraphs[selectedGraphStage]} />
+      </div>
+    </div>
+  );
+}
+
+function ErrorsPanel() {
+  const { errors } = useContext(SandboxContext);
+  return (
+    <div className="overflow-auto p-3 h-full">
+      {errors.length === 0 ? (
+        <p className="text-green-600 text-center text-sm">No problems</p>
+      ) : (
+        <ul className="space-y-1">
+          {errors.map((e, i) => (
+            <li key={i} className="text-destructive text-xs font-mono">
+              {e}
+            </li>
+          ))}
+        </ul>
+      )}
+    </div>
+  );
+}
+
+function GeneratedPanel() {
+  const { cleanJs } = useContext(SandboxContext);
+  return <CodeEditor value={cleanJs ?? ""} readOnly language="javascript" />;
+}
+
+function CanvasTab() {
+  const { jsData } = useContext(SandboxContext);
+  return <CanvasPanel code={jsData} />;
+}
+
+function TracePanel() {
+  const { lidlAst, traceAst } = useContext(SandboxContext);
+  return (
+    <div className="overflow-auto h-full">
+      <TraceTable lidlAst={lidlAst} traceAst={traceAst} />
+    </div>
+  );
+}
+
+function RawTracePanel() {
+  const { trace } = useContext(SandboxContext);
+  return <CodeEditor value={trace ?? ""} readOnly language="json" />;
+}
+
+function AnalysisPanel() {
+  const { metrics } = useContext(SandboxContext);
+  return (
+    <div className="overflow-auto p-3 h-full">
+      {metrics ? (
+        <div className="space-y-1">
+          {Object.entries(metrics).map(([k, v]) => (
+            <p key={k} className="text-xs">
+              <span className="font-medium">{_.startCase(k)}</span>: {String(v)}
+            </p>
+          ))}
+        </div>
+      ) : (
+        <p className="text-muted-foreground text-center text-xs">
+          No metrics available
+        </p>
+      )}
+    </div>
+  );
+}
+
+// ---------------------------------------------------------------------------
+// Components map (stable reference for DockviewReact)
+// ---------------------------------------------------------------------------
+
+const dockviewComponents: Record<string, React.FC> = {
+  lidlCode: LidlCodePanel,
+  expanded: ExpandedPanel,
+  scenario: ScenarioPanel,
+  header: HeaderPanel,
+  graphs: GraphsPanel,
+  errors: ErrorsPanel,
+  generated: GeneratedPanel,
+  canvas: CanvasTab,
+  trace: TracePanel,
+  rawTrace: RawTracePanel,
+  analysis: AnalysisPanel,
+};
+
+// ---------------------------------------------------------------------------
+// Main sandbox component
+// ---------------------------------------------------------------------------
+
 export default function Sandbox() {
   const [fileName, setFileName] = useState("autoSave");
   const [lidl, setLidl] = useState(examples.lidl[0].code);
   const [header, setHeader] = useState(examples.header);
   const [scenario, setScenario] = useState(examples.lidl[0].scenario);
   const [lidlAst, setLidlAst] = useState<any>(null);
-  const [displayGraphs, setDisplayGraphs] = useState<
-    Record<string, string>
-  >({});
+  const [displayGraphs, setDisplayGraphs] = useState<Record<string, string>>(
+    {},
+  );
   const [selectedGraphStage, setSelectedGraphStage] = useState(
     config.graphTransformations[0],
   );
@@ -64,9 +234,7 @@ export default function Sandbox() {
   const [expandedLidl, setExpandedLidl] = useState<string | null>(null);
   const [traceAst, setTraceAst] = useState<any[]>([]);
   const [trace, setTrace] = useState<string | null>(null);
-  const [metrics, setMetrics] = useState<Record<string, number> | null>(
-    null,
-  );
+  const [metrics, setMetrics] = useState<Record<string, number> | null>(null);
   const [errors, setErrors] = useState<string[]>([]);
   const [listOfFiles, setListOfFiles] = useState<string[]>([]);
   const [isCompiling, setIsCompiling] = useState(false);
@@ -79,6 +247,8 @@ export default function Sandbox() {
   headerRef.current = header;
   scenarioRef.current = scenario;
 
+  // ---- Compilation --------------------------------------------------------
+
   const doRecompile = useCallback(
     (lidlCode: string, headerCode: string, scenarioCode: string) => {
       setIsCompiling(true);
@@ -89,8 +259,7 @@ export default function Sandbox() {
           setLidlAst(ast);
 
           const graphs: Record<string, string> = {};
-          const cbs: Record<string, (graph: any, data?: any) => boolean> =
-            {};
+          const cbs: Record<string, (graph: any, data?: any) => boolean> = {};
 
           for (const stage of config.graphTransformations) {
             cbs[stage] = (graph: any) => {
@@ -183,6 +352,8 @@ export default function Sandbox() {
     [],
   );
 
+  // ---- Handlers -----------------------------------------------------------
+
   const handleLidlChange = useCallback(
     (v: string) => {
       setLidl(v);
@@ -255,6 +426,93 @@ export default function Sandbox() {
     [doRecompile],
   );
 
+  // ---- Dockview setup -----------------------------------------------------
+
+  const handleDockviewReady = useCallback((event: DockviewReadyEvent) => {
+    const api = event.api;
+
+    // Column 1: LIDL Code + Expanded (tabbed)
+    api.addPanel({
+      id: "lidl-code",
+      component: "lidlCode",
+      title: "LIDL Code",
+    });
+    api.addPanel({
+      id: "expanded",
+      component: "expanded",
+      title: "Expanded",
+      position: { referencePanel: "lidl-code", direction: "within" },
+    });
+
+    // Column 2 top: Scenario + Header + Graphs (tabbed, right of column 1)
+    api.addPanel({
+      id: "scenario",
+      component: "scenario",
+      title: "Scenario",
+      position: { referencePanel: "lidl-code", direction: "right" },
+    });
+    api.addPanel({
+      id: "header",
+      component: "header",
+      title: "Header",
+      position: { referencePanel: "scenario", direction: "within" },
+    });
+    api.addPanel({
+      id: "graphs",
+      component: "graphs",
+      title: "Graphs",
+      position: { referencePanel: "scenario", direction: "within" },
+    });
+
+    // Column 3: Trace + Raw Trace + Analysis (tabbed, right of column 2)
+    api.addPanel({
+      id: "trace",
+      component: "trace",
+      title: "Trace",
+      position: { referencePanel: "scenario", direction: "right" },
+    });
+    api.addPanel({
+      id: "raw-trace",
+      component: "rawTrace",
+      title: "Raw Trace",
+      position: { referencePanel: "trace", direction: "within" },
+    });
+    api.addPanel({
+      id: "analysis",
+      component: "analysis",
+      title: "Analysis",
+      position: { referencePanel: "trace", direction: "within" },
+    });
+
+    // Column 2 bottom: Errors + Generated JS + Canvas (tabbed, below Scenario)
+    api.addPanel({
+      id: "errors",
+      component: "errors",
+      title: "Errors",
+      position: { referencePanel: "scenario", direction: "below" },
+    });
+    api.addPanel({
+      id: "generated",
+      component: "generated",
+      title: "Generated JS",
+      position: { referencePanel: "errors", direction: "within" },
+    });
+    api.addPanel({
+      id: "canvas",
+      component: "canvas",
+      title: "Canvas",
+      position: { referencePanel: "errors", direction: "within" },
+    });
+
+    // Activate the primary tabs
+    api.getPanel("lidl-code")?.api.setActive();
+    api.getPanel("scenario")?.api.setActive();
+    api.getPanel("errors")?.api.setActive();
+    api.getPanel("trace")?.api.setActive();
+  }, []);
+
+  // ---- Initialization -----------------------------------------------------
+
   useEffect(() => {
     if (localStorage.getItem("LidlSandboxImportedDefaults") !== BUILD_KEY) {
       for (const ex of examples.lidl) {
@@ -274,321 +532,134 @@ export default function Sandbox() {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
-  return (
-    <div className="flex flex-col h-screen bg-background">
-      {/* Toolbar */}
-      <div className="flex items-center gap-2 px-3 h-11 border-b shrink-0">
-        <span className="font-semibold text-sm tracking-tight mr-2">
-          LIDL Sandbox
-        </span>
+  // ---- Context value ------------------------------------------------------
 
-        <DropdownMenu>
-          <DropdownMenuTrigger asChild>
-            <Button variant="outline" size="sm" className="h-7 text-xs">
+  const contextValue = useMemo<SandboxContextType>(
+    () => ({
+      lidl,
+      header,
+      scenario,
+      lidlAst,
+      displayGraphs,
+      selectedGraphStage,
+      setSelectedGraphStage,
+      cleanJs,
+      jsData,
+      expandedLidl,
+      traceAst,
+      trace,
+      metrics,
+      errors,
+      handleLidlChange,
+      handleHeaderChange,
+      handleScenarioChange,
+    }),
+    [
+      lidl,
+      header,
+      scenario,
+      lidlAst,
+      displayGraphs,
+      selectedGraphStage,
+      cleanJs,
+      jsData,
+      expandedLidl,
+      traceAst,
+      trace,
+      metrics,
+      errors,
+      handleLidlChange,
+      handleHeaderChange,
+      handleScenarioChange,
+    ],
+  );
+
+  // ---- Render -------------------------------------------------------------
+
+  return (
+    <SandboxContext.Provider value={contextValue}>
+      <div className="flex flex-col h-screen bg-background">
+        {/* Toolbar */}
+        <div className="flex items-center gap-2 px-3 h-11 border-b shrink-0">
+          <span className="font-semibold text-sm tracking-tight mr-2">
+            LIDL Sandbox
+          </span>
+
+          <DropdownMenu>
+            <DropdownMenuTrigger className="inline-flex shrink-0 items-center justify-center rounded-md border border-border bg-background px-2.5 h-7 text-xs font-medium hover:bg-muted hover:text-foreground transition-all outline-none">
               <FolderOpen className="w-3.5 h-3.5 mr-1" />
               Open
-            </Button>
-          </DropdownMenuTrigger>
-          <DropdownMenuContent align="start">
-            {listOfFiles.map((name) => (
-              <DropdownMenuItem
-                key={name}
-                onClick={() => handleLoad(name)}
-              >
-                {name}
-              </DropdownMenuItem>
-            ))}
-            {listOfFiles.length === 0 && (
-              <DropdownMenuItem disabled>No saved files</DropdownMenuItem>
+            </DropdownMenuTrigger>
+            <DropdownMenuContent align="start">
+              {listOfFiles.map((name) => (
+                <DropdownMenuItem
+                  key={name}
+                  onClick={() => handleLoad(name)}
+                >
+                  {name}
+                </DropdownMenuItem>
+              ))}
+              {listOfFiles.length === 0 && (
+                <DropdownMenuItem disabled>No saved files</DropdownMenuItem>
+              )}
+            </DropdownMenuContent>
+          </DropdownMenu>
+
+          <Input
+            className="w-40 h-7 text-xs"
+            value={fileName}
+            onChange={(e) => setFileName(e.target.value)}
+          />
+
+          <Button
+            variant="outline"
+            size="sm"
+            className="h-7 text-xs"
+            onClick={handleSave}
+          >
+            <Save className="w-3.5 h-3.5 mr-1" />
+            Save
+          </Button>
+
+          <Separator orientation="vertical" className="h-5" />
+
+          <Button
+            size="sm"
+            className="h-7 text-xs"
+            onClick={handleRecompileAll}
+            disabled={isCompiling}
+          >
+            {isCompiling ? (
+              <Loader2 className="w-3.5 h-3.5 mr-1 animate-spin" />
+            ) : (
+              <Play className="w-3.5 h-3.5 mr-1" />
             )}
-          </DropdownMenuContent>
-        </DropdownMenu>
+            Recompile
+          </Button>
 
-        <Input
-          className="w-40 h-7 text-xs"
-          value={fileName}
-          onChange={(e) => setFileName(e.target.value)}
-        />
-
-        <Button
-          variant="outline"
-          size="sm"
-          className="h-7 text-xs"
-          onClick={handleSave}
-        >
-          <Save className="w-3.5 h-3.5 mr-1" />
-          Save
-        </Button>
-
-        <Separator orientation="vertical" className="h-5" />
-
-        <Button
-          size="sm"
-          className="h-7 text-xs"
-          onClick={handleRecompileAll}
-          disabled={isCompiling}
-        >
-          {isCompiling ? (
-            <Loader2 className="w-3.5 h-3.5 mr-1 animate-spin" />
-          ) : (
-            <Play className="w-3.5 h-3.5 mr-1" />
+          {errors.length > 0 && (
+            <span className="text-destructive text-xs ml-auto font-medium">
+              {errors.length} error{errors.length > 1 ? "s" : ""}
+            </span>
           )}
-          Recompile
-        </Button>
+        </div>
 
-        {errors.length > 0 && (
-          <span className="text-destructive text-xs ml-auto font-medium">
-            {errors.length} error{errors.length > 1 ? "s" : ""}
-          </span>
-        )}
+        {/* Dockview */}
+        <div className="flex-1 min-h-0">
+          <DockviewReact
+            theme={themeLidl}
+            components={dockviewComponents}
+            onReady={handleDockviewReady}
+          />
+        </div>
       </div>
-
-      {/* Panels */}
-      <PanelGroup direction="horizontal" className="flex-1 min-h-0">
-        {/* Left: Code Editors */}
-        <Panel defaultSize={25} minSize={15}>
-          <Tabs defaultValue="code" className="flex flex-col h-full">
-            <TabsList className="w-full justify-start rounded-none border-b bg-muted/40 h-8 px-1 shrink-0">
-              <TabsTrigger value="code" className="text-xs h-6">
-                LIDL Code
-              </TabsTrigger>
-              <TabsTrigger value="expanded" className="text-xs h-6">
-                Expanded
-              </TabsTrigger>
-            </TabsList>
-            <div className="flex-1 min-h-0 relative">
-              <TabsContent
-                value="code"
-                className="absolute inset-0 m-0"
-              >
-                <CodeEditor
-                  value={lidl}
-                  onChange={handleLidlChange}
-                />
-              </TabsContent>
-              <TabsContent
-                value="expanded"
-                className="absolute inset-0 m-0"
-              >
-                <CodeEditor value={expandedLidl ?? ""} readOnly />
-              </TabsContent>
-            </div>
-          </Tabs>
-        </Panel>
-
-        <PanelResizeHandle className="w-px bg-border hover:w-1 hover:bg-primary/50 transition-all" />
-
-        {/* Center */}
-        <Panel defaultSize={50} minSize={20}>
-          <PanelGroup direction="vertical">
-            {/* Center top */}
-            <Panel defaultSize={50} minSize={10}>
-              <Tabs
-                defaultValue="scenario"
-                className="flex flex-col h-full"
-              >
-                <TabsList className="w-full justify-start rounded-none border-b bg-muted/40 h-8 px-1 shrink-0">
-                  <TabsTrigger
-                    value="scenario"
-                    className="text-xs h-6"
-                  >
-                    Scenario
-                  </TabsTrigger>
-                  <TabsTrigger value="header" className="text-xs h-6">
-                    Header
-                  </TabsTrigger>
-                  <TabsTrigger value="graphs" className="text-xs h-6">
-                    Graphs
-                  </TabsTrigger>
-                </TabsList>
-                <div className="flex-1 min-h-0 relative">
-                  <TabsContent
-                    value="scenario"
-                    className="absolute inset-0 m-0"
-                  >
-                    <CodeEditor
-                      value={scenario}
-                      onChange={handleScenarioChange}
-                      language="json"
-                    />
-                  </TabsContent>
-                  <TabsContent
-                    value="header"
-                    className="absolute inset-0 m-0"
-                  >
-                    <CodeEditor
-                      value={header}
-                      onChange={handleHeaderChange}
-                      language="javascript"
-                    />
-                  </TabsContent>
-                  <TabsContent
-                    value="graphs"
-                    className="absolute inset-0 m-0"
-                  >
-                    <div className="flex flex-col h-full">
-                      <div className="p-1 border-b shrink-0">
-                        <Select
-                          value={selectedGraphStage}
-                          onValueChange={setSelectedGraphStage}
-                        >
-                          <SelectTrigger className="h-7 text-xs">
-                            <SelectValue />
-                          </SelectTrigger>
-                          <SelectContent>
-                            {config.graphTransformations.map(
-                              (stage: string) => (
-                                <SelectItem
-                                  key={stage}
-                                  value={stage}
-                                  className="text-xs"
-                                >
-                                  {_.startCase(stage)}
-                                </SelectItem>
-                              ),
-                            )}
-                          </SelectContent>
-                        </Select>
-                      </div>
-                      <div className="flex-1 min-h-0 overflow-auto">
-                        <GraphvizViewer
-                          dot={displayGraphs[selectedGraphStage]}
-                        />
-                      </div>
-                    </div>
-                  </TabsContent>
-                </div>
-              </Tabs>
-            </Panel>
-
-            <PanelResizeHandle className="h-px bg-border hover:h-1 hover:bg-primary/50 transition-all" />
-
-            {/* Center bottom */}
-            <Panel defaultSize={50} minSize={10}>
-              <Tabs
-                defaultValue="errors"
-                className="flex flex-col h-full"
-              >
-                <TabsList className="w-full justify-start rounded-none border-b bg-muted/40 h-8 px-1 shrink-0">
-                  <TabsTrigger value="errors" className="text-xs h-6">
-                    Errors
-                    {errors.length > 0 ? ` (${errors.length})` : ""}
-                  </TabsTrigger>
-                  <TabsTrigger
-                    value="generated"
-                    className="text-xs h-6"
-                  >
-                    Generated JS
-                  </TabsTrigger>
-                  <TabsTrigger value="canvas" className="text-xs h-6">
-                    Canvas
-                  </TabsTrigger>
-                </TabsList>
-                <div className="flex-1 min-h-0 relative">
-                  <TabsContent
-                    value="errors"
-                    className="absolute inset-0 m-0 overflow-auto p-3"
-                  >
-                    {errors.length === 0 ? (
-                      <p className="text-green-600 text-center text-sm">
-                        No problems
-                      </p>
-                    ) : (
-                      <ul className="space-y-1">
-                        {errors.map((e, i) => (
-                          <li
-                            key={i}
-                            className="text-destructive text-xs font-mono"
-                          >
-                            {e}
-                          </li>
-                        ))}
-                      </ul>
-                    )}
-                  </TabsContent>
-                  <TabsContent
-                    value="generated"
-                    className="absolute inset-0 m-0"
-                  >
-                    <CodeEditor
-                      value={cleanJs ?? ""}
-                      readOnly
-                      language="javascript"
-                    />
-                  </TabsContent>
-                  <TabsContent
-                    value="canvas"
-                    className="absolute inset-0 m-0"
-                  >
-                    <CanvasPanel code={jsData} />
-                  </TabsContent>
-                </div>
-              </Tabs>
-            </Panel>
-          </PanelGroup>
-        </Panel>
-
-        <PanelResizeHandle className="w-px bg-border hover:w-1 hover:bg-primary/50 transition-all" />
-
-        {/* Right: Trace & Analysis */}
-        <Panel defaultSize={25} minSize={15}>
-          <Tabs defaultValue="trace" className="flex flex-col h-full">
-            <TabsList className="w-full justify-start rounded-none border-b bg-muted/40 h-8 px-1 shrink-0">
-              <TabsTrigger value="trace" className="text-xs h-6">
-                Trace
-              </TabsTrigger>
-              <TabsTrigger value="advanced" className="text-xs h-6">
-                Raw Trace
-              </TabsTrigger>
-              <TabsTrigger value="analysis" className="text-xs h-6">
-                Analysis
-              </TabsTrigger>
-            </TabsList>
-            <div className="flex-1 min-h-0 relative">
-              <TabsContent
-                value="trace"
-                className="absolute inset-0 m-0 overflow-auto"
-              >
-                <TraceTable lidlAst={lidlAst} traceAst={traceAst} />
-              </TabsContent>
-              <TabsContent
-                value="advanced"
-                className="absolute inset-0 m-0"
-              >
-                <CodeEditor
-                  value={trace ?? ""}
-                  readOnly
-                  language="json"
-                />
-              </TabsContent>
-              <TabsContent
-                value="analysis"
-                className="absolute inset-0 m-0 overflow-auto p-3"
-              >
-                {metrics ? (
-                  <div className="space-y-1">
-                    {Object.entries(metrics).map(([k, v]) => (
-                      <p key={k} className="text-xs">
-                        <span className="font-medium">
-                          {_.startCase(k)}
-                        </span>
-                        : {String(v)}
-                      </p>
-                    ))}
-                  </div>
-                ) : (
-                  <p className="text-muted-foreground text-center text-xs">
-                    No metrics available
-                  </p>
-                )}
-              </TabsContent>
-            </div>
-          </Tabs>
-        </Panel>
-      </PanelGroup>
-    </div>
+    </SandboxContext.Provider>
   );
 }
+
+// ---------------------------------------------------------------------------
+// Trace helpers
+// ---------------------------------------------------------------------------
 
 function TraceTable({
   lidlAst,
@@ -612,7 +683,8 @@ function TraceTable({
     );
     const args = _.flatMap(
       lidlAst[0].signature.operand || [],
-      (arg: any) => (interfaces as any).listOfAtoms(arg.interfac, arg.name),
+      (arg: any) =>
+        (interfaces as any).listOfAtoms(arg.interfac, arg.name),
     );
 
     type Col = { name: string; path: string; dir: string };

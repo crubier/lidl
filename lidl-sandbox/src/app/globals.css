@@ -1,14 +1,15 @@
 @import "tailwindcss";
 @import "tw-animate-css";
 @import "shadcn/tailwind.css";
+@import "dockview/dist/styles/dockview.css";
 
 @custom-variant dark (&:is(.dark *));
 
 @theme inline {
   --color-background: var(--background);
   --color-foreground: var(--foreground);
-  --font-sans: var(--font-sans);
-  --font-mono: var(--font-geist-mono);
+  --font-sans: var(--font-geist-sans, ui-sans-serif, system-ui, -apple-system, sans-serif);
+  --font-mono: var(--font-geist-mono, ui-monospace, monospace);
   --color-sidebar-ring: var(--sidebar-ring);
   --color-sidebar-border: var(--sidebar-border);
   --color-sidebar-accent-foreground: var(--sidebar-accent-foreground);
@@ -83,6 +84,7 @@
 }
 
 .dark {
+  color-scheme: dark;
   --background: oklch(0.145 0 0);
   --foreground: oklch(0.985 0 0);
   --card: oklch(0.205 0 0);
@@ -121,16 +123,134 @@
     @apply border-border outline-ring/50;
   }
   body {
-    @apply bg-background text-foreground;
-  }
-  html {
-    @apply font-sans;
+    @apply bg-background text-foreground font-sans;
   }
   html,
   body {
     height: 100%;
     overflow: hidden;
   }
+}
+
+.dockview-theme-lidl {
+  box-sizing: border-box;
+  font-family: inherit;
+  --dv-paneview-active-outline-color: var(--ring);
+  --dv-tabs-and-actions-container-font-size: 13px;
+  --dv-tabs-and-actions-container-height: 35px;
+  --dv-drag-over-background-color: oklch(0.5 0 0 / 30%);
+  --dv-drag-over-border-color: transparent;
+  --dv-tabs-container-scrollbar-color: var(--muted-foreground);
+  --dv-icon-hover-background-color: var(--accent);
+  --dv-floating-box-shadow: 8px 8px 8px 0px oklch(0 0 0 / 20%);
+  --dv-overlay-z-index: 999;
+  --dv-tab-font-size: inherit;
+  --dv-border-radius: 0px;
+  --dv-tab-margin: 0;
+  --dv-sash-color: var(--border);
+  --dv-active-sash-color: var(--ring);
+  --dv-active-sash-transition-duration: 0.1s;
+  --dv-active-sash-transition-delay: 0.5s;
+  background-color: var(--background);
+  --dv-group-view-background-color: var(--background);
+  --dv-tabs-and-actions-container-background-color: var(--muted);
+  --dv-activegroup-visiblepanel-tab-background-color: var(--accent);
+  --dv-activegroup-hiddenpanel-tab-background-color: var(--muted);
+  --dv-inactivegroup-visiblepanel-tab-background-color: var(--accent);
+  --dv-inactivegroup-hiddenpanel-tab-background-color: var(--muted);
+  --dv-tab-divider-color: transparent;
+  --dv-activegroup-visiblepanel-tab-color: var(--foreground);
+  --dv-activegroup-hiddenpanel-tab-color: var(--muted-foreground);
+  --dv-inactivegroup-visiblepanel-tab-color: var(--muted-foreground);
+  --dv-inactivegroup-hiddenpanel-tab-color: var(--muted-foreground);
+  --dv-separator-border: transparent;
+  --dv-paneview-header-border-color: var(--foreground);
+  --dv-scrollbar-background-color: var(--muted-foreground);
+}
+
+.dockview-theme-lidl .dv-resize-container:has(> .dv-groupview) {
+  border-radius: 8px;
+}
+.dockview-theme-lidl .dv-resize-container {
+  border-radius: 10px !important;
+  border: none;
+}
+.dockview-theme-lidl .dv-groupview {
+  overflow: hidden;
+  border-radius: 10px;
+}
+.dockview-theme-lidl .dv-groupview .dv-tabs-and-actions-container {
+  border-bottom: 1px solid var(--border);
+}
+.dockview-theme-lidl .dv-groupview .dv-tabs-and-actions-container .dv-tab {
+  margin: 4px;
+  border-radius: 8px;
+}
+.dockview-theme-lidl .dv-groupview .dv-tabs-and-actions-container .dv-tab .dv-svg {
+  height: 8px;
+  width: 8px;
+}
+.dockview-theme-lidl .dv-groupview .dv-tabs-and-actions-container .dv-tab:hover {
+  background-color: var(--accent) !important;
+}
+.dockview-theme-lidl .dv-groupview .dv-content-container {
+  background-color: var(--background);
+}
+.dockview-theme-lidl .dv-groupview.dv-active-group {
+  border: 1px solid var(--border);
+}
+.dockview-theme-lidl .dv-groupview.dv-inactive-group {
+  border: 1px solid transparent;
+}
+
+.dockview-theme-lidl .dv-vertical > .dv-sash-container > .dv-sash {
+  background-color: transparent;
+}
+.dockview-theme-lidl .dv-vertical > .dv-sash-container > .dv-sash:not(.disabled)::after {
+  content: "";
+  height: 4px;
+  width: 40px;
+  border-radius: 2px;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  background-color: var(--dv-sash-color);
+  position: absolute;
+}
+.dockview-theme-lidl .dv-vertical > .dv-sash-container > .dv-sash:not(.disabled):hover,
+.dockview-theme-lidl .dv-vertical > .dv-sash-container > .dv-sash:not(.disabled):active {
+  background-color: transparent;
+}
+.dockview-theme-lidl .dv-vertical > .dv-sash-container > .dv-sash:not(.disabled):hover::after,
+.dockview-theme-lidl .dv-vertical > .dv-sash-container > .dv-sash:not(.disabled):active::after {
+  background-color: var(--dv-active-sash-color);
+}
+.dockview-theme-lidl .dv-horizontal > .dv-sash-container > .dv-sash {
+  background-color: transparent;
+}
+.dockview-theme-lidl .dv-horizontal > .dv-sash-container > .dv-sash:not(.disabled)::after {
+  content: "";
+  height: 40px;
+  width: 4px;
+  border-radius: 2px;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  background-color: var(--dv-sash-color);
+  position: absolute;
+}
+.dockview-theme-lidl .dv-horizontal > .dv-sash-container > .dv-sash:not(.disabled):hover,
+.dockview-theme-lidl .dv-horizontal > .dv-sash-container > .dv-sash:not(.disabled):active {
+  background-color: transparent;
+}
+.dockview-theme-lidl .dv-horizontal > .dv-sash-container > .dv-sash:not(.disabled):hover::after,
+.dockview-theme-lidl .dv-horizontal > .dv-sash-container > .dv-sash:not(.disabled):active::after {
+  background-color: var(--dv-active-sash-color);
+}
+
+.dockview-theme-lidl .dv-drop-target-container .dv-drop-target-anchor.dv-drop-target-anchor-container-changed {
+  opacity: 0;
+  transition: none;
 }
 
 .cm-editor {
