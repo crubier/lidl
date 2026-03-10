@@ -20,18 +20,36 @@ class Graph {
   ///////////////////////////////////////////////////////////////////////////////
   nodes: any[];
   edges: any[];
-  nodeTypeIndex: Record<string, any[]>;
-  edgeTypeIndex: Record<string, any[]>;
+  nodeTypeIndex: Map<string, Set<any>>;
+  edgeTypeIndex: Map<string, Set<any>>;
   version: number;
 
   constructor(nodes?: any[], edges?: any[]) {
-    this.nodes = nodes === undefined ? [] : nodes;
-    this.edges = edges === undefined ? [] : edges;
-    this.nodeTypeIndex =
-      nodes === undefined ? {} : _(nodes).groupBy("type").value();
-    this.edgeTypeIndex =
-      edges === undefined ? {} : _(edges).groupBy("type").value();
+    this.nodes = nodes ?? [];
+    this.edges = edges ?? [];
     this.version = 0;
+
+    this.nodeTypeIndex = new Map();
+    for (const n of this.nodes) {
+      const type = n.type ?? "";
+      let set = this.nodeTypeIndex.get(type);
+      if (!set) {
+        set = new Set();
+        this.nodeTypeIndex.set(type, set);
+      }
+      if (!n.finished) set.add(n);
+    }
+
+    this.edgeTypeIndex = new Map();
+    for (const e of this.edges) {
+      const type = e.type ?? "";
+      let set = this.edgeTypeIndex.get(type);
+      if (!set) {
+        set = new Set();
+        this.edgeTypeIndex.set(type, set);
+      }
+      if (!e.finished) set.add(e);
+    }
   }
 
   ///////////////////////////////////////////////////////////////////////////////
@@ -39,185 +57,106 @@ class Graph {
 
   addNode(node: any): any {
     this.version++;
-    var res = _.assign(_.omit(_.omit(_.clone(node), "id"), "finished"), {
-      id: _.uniqueId("node_"),
-      finished: false,
-      incomingEdges: [],
-      outgoingEdges: [],
-      incomingEdgeTypeIndex: {},
-      outgoingEdgeTypeIndex: {},
-    });
-    if (res.type === undefined || res.type === null) res.type = "";
-    // Update graph index
+    const res: any = Object.assign({}, node);
+    delete res.id;
+    delete res.finished;
+    res.id = _.uniqueId("node_");
+    res.finished = false;
+    res.incomingEdges = new Set();
+    res.outgoingEdges = new Set();
+    res.incomingEdgeTypeIndex = new Map();
+    res.outgoingEdgeTypeIndex = new Map();
+    if (res.type == null) res.type = "";
     this.nodes.push(res);
-    if (this.nodeTypeIndex[res.type] === undefined)
-      this.nodeTypeIndex[res.type] = [];
-    this.nodeTypeIndex[res.type].push(res);
+    let typeSet = this.nodeTypeIndex.get(res.type);
+    if (!typeSet) {
+      typeSet = new Set();
+      this.nodeTypeIndex.set(res.type, typeSet);
+    }
+    typeSet.add(res);
     return res;
   }
 
   addEdge(edge: any): any {
     this.version++;
-    var res = _.assign(_.omit(_.omit(_.clone(edge), "id"), "finished"), {
-      id: _.uniqueId("edge_"),
-      finished: false,
-    });
-    if (res.type === undefined || res.type === null) res.type = "";
-    // Update graph index
+    const res: any = Object.assign({}, edge);
+    delete res.id;
+    delete res.finished;
+    res.id = _.uniqueId("edge_");
+    res.finished = false;
+    if (res.type == null) res.type = "";
     this.edges.push(res);
-    if (this.edgeTypeIndex[res.type] === undefined)
-      this.edgeTypeIndex[res.type] = [];
-    this.edgeTypeIndex[res.type].push(res);
-    // Update index of nodes at each end
-    // If the index for this type does not exist we create it
-    res.from.node.outgoingEdges.push(res);
-    if (res.from.node.outgoingEdgeTypeIndex[res.type] === undefined)
-      res.from.node.outgoingEdgeTypeIndex[res.type] = [];
-    res.from.node.outgoingEdgeTypeIndex[res.type].push(res);
-    // If the index for this type does not exist we create it
-    res.to.node.incomingEdges.push(res);
-    if (res.to.node.incomingEdgeTypeIndex[res.type] === undefined)
-      res.to.node.incomingEdgeTypeIndex[res.type] = [];
-    res.to.node.incomingEdgeTypeIndex[res.type].push(res);
+    let typeSet = this.edgeTypeIndex.get(res.type);
+    if (!typeSet) {
+      typeSet = new Set();
+      this.edgeTypeIndex.set(res.type, typeSet);
+    }
+    typeSet.add(res);
+    // Per-node indexes
+    const fromNode = res.from.node;
+    fromNode.outgoingEdges.add(res);
+    let fromTypeSet = fromNode.outgoingEdgeTypeIndex.get(res.type);
+    if (!fromTypeSet) {
+      fromTypeSet = new Set();
+      fromNode.outgoingEdgeTypeIndex.set(res.type, fromTypeSet);
+    }
+    fromTypeSet.add(res);
+    const toNode = res.to.node;
+    toNode.incomingEdges.add(res);
+    let toTypeSet = toNode.incomingEdgeTypeIndex.get(res.type);
+    if (!toTypeSet) {
+      toTypeSet = new Set();
+      toNode.incomingEdgeTypeIndex.set(res.type, toTypeSet);
+    }
+    toTypeSet.add(res);
     return res;
   }
 
   ///////////////////////////////////////////////////////////////////////////////
+  // Resolve the best edge source for a given pattern (already active-only)
+  private _getEdgeSource(pattern: any): any[] {
+    if (pattern.type !== undefined) {
+      if (pattern.from?.node?.outgoingEdgeTypeIndex instanceof Map) {
+        const set = pattern.from.node.outgoingEdgeTypeIndex.get(pattern.type);
+        return set ? [...set] : [];
+      }
+      if (pattern.to?.node?.incomingEdgeTypeIndex instanceof Map) {
+        const set = pattern.to.node.incomingEdgeTypeIndex.get(pattern.type);
+        return set ? [...set] : [];
+      }
+      const set = this.edgeTypeIndex.get(pattern.type);
+      return set ? [...set] : [];
+    }
+    if (pattern.from?.node?.outgoingEdges instanceof Set) {
+      return [...pattern.from.node.outgoingEdges];
+    }
+    if (pattern.to?.node?.incomingEdges instanceof Set) {
+      return [...pattern.to.node.incomingEdges];
+    }
+    return this.edges.filter((e) => !e.finished);
+  }
+
+  ///////////////////////////////////////////////////////////////////////////////
   // Functions that match and do things "in parallel"
-  // Match all unfinished nodes that comply to a pattern
+
   matchNodes(pattern?: any): any {
-    // Naive: return _(this.nodes).filter(this.nodeIsNotFinished.bind(this)).filter(pattern);
     if (pattern === undefined) {
-      return _(this.nodes).filter(this.nodeIsNotFinished.bind(this));
-    } else if (pattern.type !== undefined) {
-      return _(this.nodeTypeIndex[pattern.type])
-        .filter(this.nodeIsNotFinished.bind(this))
-        .filter(pattern);
-    } else {
-      return _(this.nodes)
-        .filter(this.nodeIsNotFinished.bind(this))
-        .filter(pattern);
+      return _(this.nodes.filter((n) => !n.finished));
     }
+    if (pattern.type !== undefined) {
+      const typeSet = this.nodeTypeIndex.get(pattern.type);
+      return _(typeSet ? [...typeSet] : []).filter(pattern);
+    }
+    return _(this.nodes.filter((n) => !n.finished)).filter(pattern);
   }
-  // Match all unfinished edges that comply to a pattern
+
   matchDirectedEdges(pattern?: any): any {
-    // Naive: return _(this.edges).filter(this.edgeIsNotFinished.bind(this)).filter(pattern);
     if (pattern === undefined) {
-      // No pattern, we return all edges of the graph
-      return _(this.edges).filter(this.edgeIsNotFinished.bind(this));
-    } else if (pattern.type !== undefined) {
-      // We have a pattern and it specifies a type of edge
-      if (
-        pattern.from !== undefined &&
-        pattern.to !== undefined &&
-        pattern.from.node !== undefined &&
-        pattern.to.node !== undefined
-      ) {
-        if (pattern.from.node.outgoingEdgeTypeIndex !== undefined) {
-          // The node is an actual graph node with indexes and stuff
-          return _(pattern.from.node.outgoingEdgeTypeIndex[pattern.type])
-            .filter(this.edgeIsNotFinished.bind(this))
-            .filter(pattern);
-        } else if (pattern.to.node.incomingEdgeTypeIndex !== undefined) {
-          // The node is an actual graph node with indexes and stuff
-          return _(pattern.to.node.incomingEdgeTypeIndex[pattern.type])
-            .filter(this.edgeIsNotFinished.bind(this))
-            .filter(pattern);
-        } else {
-          // The node is not an actual node but a pattern, it does not have indexes, but it has a type
-          return _(this.edgeTypeIndex[pattern.type])
-            .filter(this.edgeIsNotFinished.bind(this))
-            .filter(pattern);
-        }
-      } else if (
-        pattern.from !== undefined &&
-        pattern.from.node !== undefined
-      ) {
-        // The pattern specifies a source node
-        if (pattern.from.node.outgoingEdgeTypeIndex !== undefined) {
-          // The node is an actual graph node with indexes and stuff
-          return _(pattern.from.node.outgoingEdgeTypeIndex[pattern.type])
-            .filter(this.edgeIsNotFinished.bind(this))
-            .filter(pattern);
-        } else {
-          // The node is not an actual node but a pattern, it does not have indexes, but it has a type
-          return _(this.edgeTypeIndex[pattern.type])
-            .filter(this.edgeIsNotFinished.bind(this))
-            .filter(pattern);
-        }
-      } else if (pattern.to !== undefined && pattern.to.node !== undefined) {
-        if (pattern.to.node.incomingEdgeTypeIndex !== undefined) {
-          // The node is an actual graph node with indexes and stuff
-          return _(pattern.to.node.incomingEdgeTypeIndex[pattern.type])
-            .filter(this.edgeIsNotFinished.bind(this))
-            .filter(pattern);
-        } else {
-          // The node is not an actual node but a pattern, it does not have indexes, but it has a type
-          return _(this.edgeTypeIndex[pattern.type])
-            .filter(this.edgeIsNotFinished.bind(this))
-            .filter(pattern);
-        }
-      } else {
-        return _(this.edgeTypeIndex[pattern.type])
-          .filter(this.edgeIsNotFinished.bind(this))
-          .filter(pattern);
-      }
-    } else {
-      // We have a pattern but it does not specify a type of edge
-      if (
-        pattern.from !== undefined &&
-        pattern.to !== undefined &&
-        pattern.from.node !== undefined &&
-        pattern.to.node !== undefined
-      ) {
-        if (pattern.from.node.outgoingEdges !== undefined) {
-          // The node is an actual graph node with indexes and stuff
-          return _(pattern.from.node.outgoingEdges)
-            .filter(this.edgeIsNotFinished.bind(this))
-            .filter(pattern);
-        } else if (pattern.to.node.incomingEdges !== undefined) {
-          // The node is an actual graph node with indexes and stuff
-          return _(pattern.to.node.incomingEdges)
-            .filter(this.edgeIsNotFinished.bind(this))
-            .filter(pattern);
-        } else {
-          return _(this.edges)
-            .filter(this.edgeIsNotFinished.bind(this))
-            .filter(pattern);
-        }
-      } else if (
-        pattern.from !== undefined &&
-        pattern.from.node !== undefined
-      ) {
-        if (pattern.from.node.outgoingEdges !== undefined) {
-          // The node is an actual graph node with indexes and stuff
-          return _(pattern.from.node.outgoingEdges)
-            .filter(this.edgeIsNotFinished.bind(this))
-            .filter(pattern);
-        } else {
-          return _(this.edges)
-            .filter(this.edgeIsNotFinished.bind(this))
-            .filter(pattern);
-        }
-      } else if (pattern.to !== undefined && pattern.to.node !== undefined) {
-        if (pattern.to.node.incomingEdges !== undefined) {
-          // The node is an actual graph node with indexes and stuff
-          return _(pattern.to.node.incomingEdges)
-            .filter(this.edgeIsNotFinished.bind(this))
-            .filter(pattern);
-        } else {
-          return _(this.edges)
-            .filter(this.edgeIsNotFinished.bind(this))
-            .filter(pattern);
-        }
-      } else {
-        return _(this.edges)
-          .filter(this.edgeIsNotFinished.bind(this))
-          .filter(pattern);
-      }
+      return _(this.edges.filter((e) => !e.finished));
     }
+    return _(this._getEdgeSource(pattern)).filter(pattern);
   }
-  // Match all unfinished edges and their opposite that comply to a pattern
+
   matchUndirectedEdges(pattern?: any): any {
     return this.matchDirectedEdges(pattern)
       .union(
@@ -230,140 +169,31 @@ class Graph {
 
   ///////////////////////////////////////////////////////////////////////////////
   // Functions that match and do things "in series"
-  // Find a node that comply to a pattern
+
   findNode(pattern?: any): any {
-    // Naive: return _(this.nodes).filter(this.nodeIsNotFinished.bind(this)).find(pattern);
     if (pattern === undefined) {
-      return _(this.nodes).filter(this.nodeIsNotFinished.bind(this)).first();
-    } else if (pattern.type !== undefined) {
-      return _(this.nodeTypeIndex[pattern.type])
-        .filter(this.nodeIsNotFinished.bind(this))
-        .find(pattern);
-    } else {
-      return _(this.nodes)
-        .filter(this.nodeIsNotFinished.bind(this))
-        .find(pattern);
+      for (const n of this.nodes) {
+        if (!n.finished) return n;
+      }
+      return undefined;
     }
+    if (pattern.type !== undefined) {
+      const typeSet = this.nodeTypeIndex.get(pattern.type);
+      return _(typeSet ? [...typeSet] : []).find(pattern);
+    }
+    return _(this.nodes.filter((n) => !n.finished)).find(pattern);
   }
-  // Find an edge that comply to a pattern
+
   findDirectedEdge(pattern?: any): any {
-    // Naive: return _(this.edges).filter(this.edgeIsNotFinished.bind(this)).find(pattern);
     if (pattern === undefined) {
-      // No pattern, we return all edges of the graph
-      return _(this.edges).find(this.edgeIsNotFinished.bind(this));
-    } else if (pattern.type !== undefined) {
-      // We have a pattern and it specifies a type of edge
-      if (
-        pattern.from !== undefined &&
-        pattern.to !== undefined &&
-        pattern.from.node !== undefined &&
-        pattern.to.node !== undefined
-      ) {
-        if (pattern.from.node.outgoingEdgeTypeIndex !== undefined) {
-          // The node is an actual graph node with indexes and stuff
-          return _(pattern.from.node.outgoingEdgeTypeIndex[pattern.type])
-            .filter(this.edgeIsNotFinished.bind(this))
-            .find(pattern);
-        } else if (pattern.to.node.incomingEdgeTypeIndex !== undefined) {
-          // The node is an actual graph node with indexes and stuff
-          return _(pattern.to.node.incomingEdgeTypeIndex[pattern.type])
-            .filter(this.edgeIsNotFinished.bind(this))
-            .find(pattern);
-        } else {
-          // The node is not an actual node but a pattern, it does not have indexes, but it has a type
-          return _(this.edgeTypeIndex[pattern.type])
-            .filter(this.edgeIsNotFinished.bind(this))
-            .find(pattern);
-        }
-      } else if (
-        pattern.from !== undefined &&
-        pattern.from.node !== undefined
-      ) {
-        // The pattern specifies a source node
-        if (pattern.from.node.outgoingEdgeTypeIndex !== undefined) {
-          // The node is an actual graph node with indexes and stuff
-          return _(pattern.from.node.outgoingEdgeTypeIndex[pattern.type])
-            .filter(this.edgeIsNotFinished.bind(this))
-            .find(pattern);
-        } else {
-          // The node is not an actual node but a pattern, it does not have indexes, but it has a type
-          return _(this.edgeTypeIndex[pattern.type])
-            .filter(this.edgeIsNotFinished.bind(this))
-            .find(pattern);
-        }
-      } else if (pattern.to !== undefined && pattern.to.node !== undefined) {
-        if (pattern.to.node.incomingEdgeTypeIndex !== undefined) {
-          // The node is an actual graph node with indexes and stuff
-          return _(pattern.to.node.incomingEdgeTypeIndex[pattern.type])
-            .filter(this.edgeIsNotFinished.bind(this))
-            .find(pattern);
-        } else {
-          // The node is not an actual node but a pattern, it does not have indexes, but it has a type
-          return _(this.edgeTypeIndex[pattern.type])
-            .filter(this.edgeIsNotFinished.bind(this))
-            .find(pattern);
-        }
-      } else {
-        return _(this.edgeTypeIndex[pattern.type])
-          .filter(this.edgeIsNotFinished.bind(this))
-          .find(pattern);
+      for (const e of this.edges) {
+        if (!e.finished) return e;
       }
-    } else {
-      // We have a pattern but it does not specify a type of edge
-      if (
-        pattern.from !== undefined &&
-        pattern.to !== undefined &&
-        pattern.from.node !== undefined &&
-        pattern.to.node !== undefined
-      ) {
-        if (pattern.from.node.outgoingEdges !== undefined) {
-          // The node is an actual graph node with indexes and stuff
-          return _(pattern.from.node.outgoingEdges)
-            .filter(this.edgeIsNotFinished.bind(this))
-            .find(pattern);
-        } else if (pattern.to.node.incomingEdges !== undefined) {
-          // The node is an actual graph node with indexes and stuff
-          return _(pattern.to.node.incomingEdges)
-            .filter(this.edgeIsNotFinished.bind(this))
-            .find(pattern);
-        } else {
-          return _(this.edges)
-            .filter(this.edgeIsNotFinished.bind(this))
-            .find(pattern);
-        }
-      } else if (
-        pattern.from !== undefined &&
-        pattern.from.node !== undefined
-      ) {
-        if (pattern.from.node.outgoingEdges !== undefined) {
-          // The node is an actual graph node with indexes and stuff
-          return _(pattern.from.node.outgoingEdges)
-            .filter(this.edgeIsNotFinished.bind(this))
-            .find(pattern);
-        } else {
-          return _(this.edges)
-            .filter(this.edgeIsNotFinished.bind(this))
-            .find(pattern);
-        }
-      } else if (pattern.to !== undefined && pattern.to.node !== undefined) {
-        if (pattern.to.node.incomingEdges !== undefined) {
-          // The node is an actual graph node with indexes and stuff
-          return _(pattern.to.node.incomingEdges)
-            .filter(this.edgeIsNotFinished.bind(this))
-            .find(pattern);
-        } else {
-          return _(this.edges)
-            .filter(this.edgeIsNotFinished.bind(this))
-            .find(pattern);
-        }
-      } else {
-        return _(this.edges)
-          .filter(this.edgeIsNotFinished.bind(this))
-          .find(pattern);
-      }
+      return undefined;
     }
+    return _(this._getEdgeSource(pattern)).find(pattern);
   }
-  // Find an edge or its opposite that comply to a pattern
+
   findUndirectedEdge(pattern?: any): any {
     var res = this.findDirectedEdge(pattern);
     if (!_.isUndefined(res)) return res;
@@ -373,7 +203,12 @@ class Graph {
   // Maps on those.
   // Note that the functions need to mutate the graph
   // otherwise the call will loop forever
-  reduceNodes(pattern: any, iteratee: Function, accumulator?: any, thisArg?: any): any {
+  reduceNodes(
+    pattern: any,
+    iteratee: Function,
+    accumulator?: any,
+    thisArg?: any,
+  ): any {
     var current = this.findNode(pattern);
     var result = accumulator === undefined ? [] : accumulator;
     var boundIteratee = _.bind(iteratee, thisArg);
@@ -384,7 +219,12 @@ class Graph {
     }
     return _(result);
   }
-  reduceDirectedEdges(pattern: any, iteratee: Function, accumulator?: any, thisArg?: any): any {
+  reduceDirectedEdges(
+    pattern: any,
+    iteratee: Function,
+    accumulator?: any,
+    thisArg?: any,
+  ): any {
     var current = this.findDirectedEdge(pattern);
     var result = accumulator === undefined ? [] : accumulator;
     var boundIteratee = _.bind(iteratee, thisArg);
@@ -395,7 +235,12 @@ class Graph {
     }
     return _(result);
   }
-  reduceUndirectedEdges(pattern: any, iteratee: Function, accumulator?: any, thisArg?: any): any {
+  reduceUndirectedEdges(
+    pattern: any,
+    iteratee: Function,
+    accumulator?: any,
+    thisArg?: any,
+  ): any {
     var current = this.findUndirectedEdge(pattern);
     var result = accumulator === undefined ? [] : accumulator;
     var boundIteratee = _.bind(iteratee, thisArg);
@@ -422,17 +267,57 @@ class Graph {
   }
 
   ///////////////////////////////////////////////////////////////////////////////
-  // Remove finished elements from the graph
+  // Compact master arrays (indexes are maintained eagerly by finish())
   clean(): void {
-    _.remove(this.edges, this.edgeIsFinished.bind(this));
-    _.remove(this.nodes, this.nodeIsFinished.bind(this));
+    this.nodes = this.nodes.filter((n) => !n.finished);
+    this.edges = this.edges.filter((e) => !e.finished);
   }
 
-  // finish a node or an edge
   finish(x: any): any {
+    if (x.finished) return x;
     x.finished = true;
     this.version++;
+
+    if (x.outgoingEdges instanceof Set) {
+      // Finishing a node — remove from type index and cascade-finish edges
+      const typeSet = this.nodeTypeIndex.get(x.type);
+      if (typeSet) typeSet.delete(x);
+
+      // Collect all unique incident edges before modifying
+      const incidentEdges = new Set<any>();
+      for (const e of x.outgoingEdges) incidentEdges.add(e);
+      for (const e of x.incomingEdges) incidentEdges.add(e);
+
+      for (const edge of incidentEdges) {
+        if (!edge.finished) {
+          edge.finished = true;
+          this._removeEdgeFromIndexes(edge);
+        }
+      }
+
+      x.outgoingEdges.clear();
+      x.incomingEdges.clear();
+      x.outgoingEdgeTypeIndex.clear();
+      x.incomingEdgeTypeIndex.clear();
+    } else {
+      // Finishing an edge
+      this._removeEdgeFromIndexes(x);
+    }
+
     return x;
+  }
+
+  private _removeEdgeFromIndexes(edge: any): void {
+    const typeSet = this.edgeTypeIndex.get(edge.type);
+    if (typeSet) typeSet.delete(edge);
+
+    const fromNode = edge.from.node;
+    fromNode.outgoingEdges?.delete(edge);
+    fromNode.outgoingEdgeTypeIndex?.get(edge.type)?.delete(edge);
+
+    const toNode = edge.to.node;
+    toNode.incomingEdges?.delete(edge);
+    toNode.incomingEdgeTypeIndex?.get(edge.type)?.delete(edge);
   }
 
   // Check if a node is finished

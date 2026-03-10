@@ -189,43 +189,27 @@ Two optimizations applied to both files:
 
 ## Phase 3: Graph Data Structure Rewrite (High Effort, Highest Impact)
 
-### 3.1 Replace graph arrays with `Map`/`Set` and proper adjacency lists
+### 3.1 Replace graph arrays with `Map`/`Set` and proper adjacency lists — DONE
 
 **File:** `src/g.ts`
 
-The `Graph` class is the root bottleneck. It stores nodes and edges in **plain arrays** and uses `finished` flags for soft-deletion. Nearly every operation suffers:
+Rewrote the `Graph` class internals:
 
-- **`matchNodes` / `matchDirectedEdges`** do linear scans through full arrays, filtering out `finished` elements on every call. As compilation progresses, the array grows while the ratio of active elements shrinks.
+- **Type indexes**: Changed `nodeTypeIndex` and `edgeTypeIndex` from `Record<string, any[]>` to `Map<string, Set<any>>`. Sets contain only active (non-finished) elements, eliminating the need to filter finished elements on every query.
+- **Per-node adjacency indexes**: Changed `incomingEdges`/`outgoingEdges` from `any[]` to `Set<any>`, and `incomingEdgeTypeIndex`/`outgoingEdgeTypeIndex` from `Record<string, any[]>` to `Map<string, Set<any>>`. O(1) add/delete instead of O(N) array operations.
+- **Immediate removal on `finish()`**: When a node is finished, it is removed from the node type index and all incident edges are cascade-finished (removed from all indexes). When an edge is finished, it is removed from the global edge type index and both endpoint nodes' adjacency indexes.
+- **Simplified query methods**: `matchNodes`, `matchDirectedEdges`, `findNode`, `findDirectedEdge` no longer need `filter(notFinished)` since indexes only contain active elements. Edge source resolution consolidated into a single `_getEdgeSource` helper.
+- **`clean()` simplified**: Now just compacts the append-only master arrays; indexes are already maintained eagerly by `finish()`.
 
-- **`reduceNodes` / `reduceDirectedEdges`** call `findNode` in a loop, which rescans the entire array from the beginning for each element — making processing N matching nodes O(N × total_nodes) instead of O(total_nodes).
+**Checkpoint:** `bun test` — all 316 tests pass. ✓
 
-- **`graph.clean()`** is called between every pipeline step (~50 times), doing `_.remove()` on the full arrays each time.
-
-- **Pattern matching with lodash** performs deep property comparisons on every element, which is slow for complex patterns.
-
-The graph already has `nodeTypeIndex` / `edgeTypeIndex` (Maps of arrays by type) and per-node `incomingEdges` / `outgoingEdges` arrays with type indexes. However, these secondary indexes are not consistently used by `matchNodes` and suffer from the same soft-deletion pollution.
-
-**Fix:** Rewrite `Graph` to use:
-- `Map<id, node>` for O(1) node/edge lookup by ID
-- Type-keyed `Map<type, Set<node>>` indexes for O(matched) type queries instead of O(total)
-- Proper adjacency `Set`s instead of arrays with `finished` filtering
-- Immediate removal instead of soft-delete + periodic `clean()`
-
-**Expected impact:** 5–10× overall. Every transformation pass benefits.
-
-**Checkpoint:** `bun test` — all tests pass.
-
-### 3.2 Eliminate `graph.clean()` — remove elements immediately
+### 3.2 Eliminate `graph.clean()` — remove elements immediately — DONE
 
 **File:** `src/g.ts`
 
-Currently, "deleting" a node or edge sets `finished = true`. The actual removal happens in `clean()`, which is called ~50 times (once per pipeline step via `callCallback`). Each `clean()` call does `_.remove()` on the full arrays.
+Subsumed by 3.1. All index removal now happens immediately in `finish()`. The `clean()` method still exists but only compacts the master arrays (a lightweight filter), no longer the correctness-critical operation it was before.
 
-This is part of the Phase 3 rewrite — when using `Map`/`Set`, elements can be deleted in O(1) with no need for a deferred cleanup pass.
-
-**Expected impact:** 1.2–1.5× (subsumed by 3.1 if done together).
-
-**Checkpoint:** `bun test` — all tests pass.
+**Checkpoint:** `bun test` — all 316 tests pass. ✓
 
 ---
 
@@ -264,8 +248,8 @@ Consider rewriting the graph engine in Rust or C++ and exposing it to JavaScript
 | 1.3 | `Set` instead of `_.includes` in `expandDefinitions` | 2× on this pass | Low | DONE |
 | 1.4 | Stop SAT solver after first solution | Variable | Low | DONE |
 | 2.1 | Eliminate `_.cloneDeep` in `createDataFlowDirection` | 2–3× on this pass (×15) | Medium | DONE |
-| 2.2 | Hash indexes for `referentialTransparency` | 3–5× on this pass | Medium | |
-| 3.1 | Rewrite Graph with `Map`/`Set` and adjacency lists | 5–10× overall | High | |
-| 3.2 | Immediate removal instead of soft-delete + `clean()` | 1.2–1.5× | Medium–High | |
+| 2.2 | Hash indexes for `referentialTransparency` | 3–5× on this pass | Medium | DONE |
+| 3.1 | Rewrite Graph with `Map`/`Set` and adjacency lists | 5–10× overall | High | DONE |
+| 3.2 | Immediate removal instead of soft-delete + `clean()` | 1.2–1.5× | Medium–High | DONE |
 | 4.1 | Incremental compilation | Orders of magnitude | Very High | |
 | 4.2 | Compiled-language graph backend (WASM) | 10×+ graph layer | Very High | |
