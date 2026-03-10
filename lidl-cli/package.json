@@ -1,23 +1,14 @@
 {
   "name": "lidl-cli",
-  "version": "0.8.9",
+  "version": "0.9.0",
   "description": "Lidl Command Line Interface",
-  "main": "index.js",
+  "type": "module",
   "dependencies": {
-    "chalk": "^1.1.1",
-    "lidl-core": "0.x",
-    "yargs": "^3.31.0"
-  },
-  "devDependencies": {
-    "babel-cli": "^6.3.15",
-    "babel-preset-es2015": "^6.3.13",
-    "babel-preset-stage-0": "^6.3.13"
+    "lidl-core": "file:../lidl-core"
   },
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1",
-    "build": "./node_modules/.bin/babel -d . src/",
-    "doc":"pandoc README.md --to=html --output README.html --mathjax=http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML --standalone  --highlight-style=pygments --template=template.html --table-of-contents --toc-depth=3  --filter pandoc-citeproc",
-    "prepublish": "npm run build"
+    "lidl": "bun src/index.ts",
+    "build": "bun build --compile --minify --sourcemap --bytecode src/index.ts --outfile lidl"
   },
   "repository": {
     "type": "git",
@@ -28,23 +19,10 @@
   ],
   "author": "Vincent Lecrubier <vincent.lecrubier@gmail.com> (http://www.vincentlecrubier.fr/)",
   "license": "MIT",
-  "preferGlobal": true,
   "bin": {
-    "lidl": "index.js"
+    "lidl": "src/index.ts"
   },
-  "babel": {
-    "retainLines": true,
-    "presets": [
-      "es2015",
-      "stage-0"
-    ]
-  },
-  "browserify": {
-    "debug": true,
-    "transform": [
-      [
-        "babelify"
-      ]
-    ]
+  "devDependencies": {
+    "@types/bun": "^1.3.10"
   }
 }
