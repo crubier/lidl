@@ -11,14 +11,21 @@ describe("lidl graph compiler", async function () {
     // ,'example/nok'
   ];
 
+  const testCases: { file: string; header: string }[] = [];
   for (const testPath of testPaths) {
     const header = path.join(testPath, "common.lidl.js");
     const glob = new Bun.Glob("*/code.lidl");
     for await (const match of glob.scan(testPath)) {
-      const ffile = path.join(testPath, path.dirname(match));
-      await runTestCase(ffile, header);
+      testCases.push({
+        file: path.join(testPath, path.dirname(match)),
+        header,
+      });
     }
   }
+
+  await Promise.all(
+    testCases.map(({ file, header }) => runTestCase(file, header)),
+  );
 
   async function runTestCase(file: string, commonHeader: string) {
     function printGraph(graph: any, name: string) {
@@ -59,14 +66,13 @@ describe("lidl graph compiler", async function () {
       return trace;
     }
 
-    await Bun.spawn(["rm", "-rf", path.join(file, "result"), path.join(file, "dot"), path.join(file, "pdf")]).exited;
-    await Bun.spawn(["mkdir", "-p", path.join(file, "result"), path.join(file, "dot"), path.join(file, "pdf")]).exited;
-
-    const code = await Bun.file(path.join(file, "code.lidl")).text();
-    const header = await Bun.file(commonHeader).text();
-    const scenarioText = await Bun.file(
-      path.join(file, "scenario.json"),
-    ).text();
+    const [code, header, scenarioText] = await Promise.all([
+      Bun.spawn(["rm", "-rf", path.join(file, "result"), path.join(file, "dot"), path.join(file, "pdf")]).exited
+        .then(() => Bun.spawn(["mkdir", "-p", path.join(file, "result"), path.join(file, "dot"), path.join(file, "pdf")]).exited)
+        .then(() => Bun.file(path.join(file, "code.lidl")).text()),
+      Bun.file(commonHeader).text(),
+      Bun.file(path.join(file, "scenario.json")).text(),
+    ]);
 
     describe("Compilation of file " + file, function () {
       console.log("Compiling and testing " + file);
