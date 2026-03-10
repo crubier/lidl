@@ -8,188 +8,299 @@ This design document proposes an async effect system that preserves LIDL's pure 
 
 ## Core Principle
 
-**LIDL's transition function stays pure and synchronous.** The runtime (outside the transition) handles async I/O, injecting responses back as interface inputs in future steps.
+**LIDL's transition function stays pure and synchronous.** The runtime (outside the transition) handles async I/O, injecting responses back as interface inputs in **future** steps. A response never arrives in the same step as its request. There is always at least one step boundary between a request going out and a response coming in.
 
 This mirrors how the Canvas runtime already works:
 - Mouse events come in at `inter.mouse`
 - Graphics go out at `inter.graphics`
 - The runtime handles the actual DOM/Canvas I/O between steps
+- The interaction never sees the result of its output in the same step
 
 Async effects extend this pattern: requests go out via `inter`, the runtime executes them, and responses come back via `inter` in a future step.
 
-## Static Effects — Interface Path as Correlation Key
+## Fundamental Timing Model
 
-For request-response pairs known at compile time, the **interface path itself** is the correlation key. No explicit IDs are needed.
-
-### Single Effect
+Every effect follows this timeline:
 
 ```
-interaction (fetchUserData): {
-  request: HttpRequest out,
-  response: HttpResponse in
+Step N:   interaction emits requests via inter.X.requests (out)
+          runtime picks up the requests AFTER step N completes
+          runtime fires the async operations
+
+Step N+1: inter.X.responses is [] (async not done yet)
+          interaction may emit more requests, or do nothing
+
+...       (zero or more steps pass, other events may trigger steps)
+
+Step N+K: some async operations complete
+          runtime injects all completed responses into inter.X.responses
+          runtime triggers a new step
+          interaction sees inter.X.responses as a non-empty list
+```
+
+The interaction must be written to tolerate an arbitrary number of steps between request and response. It must handle `responses` being an empty list `[]` gracefully during those intermediate steps.
+
+## Effect Interface: Lists of Requests and Responses
+
+The fundamental effect interface uses **lists** for both directions. Each step can emit zero or more requests, and receive zero or more responses.
+
+### Basic Shape
+
+```
+interaction (httpChannel): {
+  requests:  [{ id: Text, payload: HttpRequest }] out,
+  responses: [{ id: Text, payload: HttpResponse }] in
 } is ...
 ```
 
-Runtime behavior:
-1. After a step, the runtime inspects `inter.request`. If it is `active`, fire the HTTP request.
-2. While the request is pending, `inter.response` remains `inactive` (null).
-3. When the response arrives, the runtime sets `inter.response` to the response data and triggers a new step.
-4. The interaction can use `if (response) is active` to react.
+- **`requests`**: a list of outgoing requests emitted this step. Each carries an `id` chosen by the interaction. An empty list `[]` means "no new requests this step."
+- **`responses`**: a list of incoming responses delivered this step. Each carries the `id` of the request it answers. An empty list `[]` means "no responses arrived since the last step."
 
-The correlation is implicit: `request` and `response` are structurally paired by being in the same interface composite. The runtime knows that a request emitted at path `X.request` expects a response at path `X.response`.
+### Why Lists
 
-### Multiple Independent Effects
+A single `request`/`response` slot can only hold one value per step. Real systems need:
+- **Multiple requests per step**: fan-out, batch fetching, sending a request while another is in-flight.
+- **Multiple responses per step**: several async operations may complete between two steps (or simultaneously). Delivering them all at once gives the interaction the full picture rather than artificially serializing responses across steps.
+
+Lists make both natural. Empty list = nothing happening. Non-empty list = work to do.
+
+### Correlation via `id`
+
+Every request carries an `id` (chosen by the interaction). Every response carries the `id` of the request it answers. The runtime matches responses to requests by `id`, and the interaction uses `id` to route responses to the right logic.
+
+This is a single, uniform mechanism — no separate "static" vs "dynamic" vs "sequenced" strategies. The `id` field handles all cases:
+
+- **Single request**: interaction uses a constant `id` like `"fetch"`.
+- **Cancel-on-new-request**: interaction reuses the same `id`. The runtime replaces the pending request with the new one, discarding the old response when it arrives.
+- **Multiple in-flight**: interaction generates unique `id`s (counter, UUID, or derived from request parameters). Each request/response pair is tracked independently.
+
+### Worked Example: Dashboard
 
 ```
 interaction (dashboard): {
-  fetchUser:  { request: HttpRequest out, response: HttpResponse in },
-  fetchPosts: { request: HttpRequest out, response: HttpResponse in }
+  requests:  [{ id: Text, url: Text, method: Text }] out,
+  responses: [{ id: Text, status: Number, body: Text }] in
 } is ...
 ```
 
-Out-of-order responses are not a problem: `fetchUser.response` and `fetchPosts.response` are independent paths. If `fetchPosts` resolves before `fetchUser`, the runtime injects `fetchPosts.response` first and triggers a step. `fetchUser.response` remains `inactive` until its response arrives.
+```
+Step 0: requests = [
+          { id: "users",  url: "/api/users",  method: "GET" },
+          { id: "posts",  url: "/api/posts",  method: "GET" }
+        ]
+        responses = []
 
-### Effect Type Convention
+        Runtime fires both requests.
 
-A standard `Effect` data type could formalize this pattern:
+Step 1: (triggered by mouse event)
+        requests = []
+        responses = []    ← both still pending
+
+Step 2: /api/posts completes
+        requests = []
+        responses = [{ id: "posts", status: 200, body: "[...]" }]
+
+        Interaction processes the posts response.
+        /api/users still pending.
+
+Step 3: /api/users completes
+        requests = []
+        responses = [{ id: "users", status: 200, body: "[...]" }]
+
+        Interaction processes the users response.
+```
+
+If both responses happen to complete between step 1 and the next event:
 
 ```
-data Effect is { request: HttpRequest, response: HttpResponse }
+Step 2: both complete simultaneously
+        requests = []
+        responses = [
+          { id: "posts", status: 200, body: "[...]" },
+          { id: "users", status: 200, body: "[...]" }
+        ]
 
-interaction (fetchUserData): Effect is ...
+        Interaction processes both in one step.
 ```
 
-Or generically (once LIDL supports type parameters):
+### Worked Example: Search-as-you-type (Cancel-on-new-request)
+
+The interaction reuses the same `id` for every search query. The runtime treats a new request with an existing `id` as a replacement — the old pending request is cancelled.
+
+```
+Step 0: user types "re"
+        requests = [{ id: "search", query: "re" }]
+        responses = []
+
+        Runtime fires request for "re".
+
+Step 1: user types "rea" (before "re" response arrives)
+        requests = [{ id: "search", query: "rea" }]
+        responses = []
+
+        Runtime sees id="search" already pending.
+        Cancels (or marks stale) the "re" request. Fires "rea".
+
+Step 2: stale response for "re" arrives → runtime discards it (id replaced).
+        response for "rea" arrives.
+        requests = []
+        responses = [{ id: "search", results: [...] }]
+```
+
+### Worked Example: Paginated Fetch (Multiple in-flight)
+
+```
+Step 0: requests = [
+          { id: "page-1", url: "/api/items?page=1" },
+          { id: "page-2", url: "/api/items?page=2" },
+          { id: "page-3", url: "/api/items?page=3" }
+        ]
+
+Step 3: page 2 and page 3 complete (page 1 still slow)
+        responses = [
+          { id: "page-3", body: "[...]" },
+          { id: "page-2", body: "[...]" }
+        ]
+
+Step 5: page 1 completes
+        responses = [{ id: "page-1", body: "[...]" }]
+```
+
+The interaction accumulates results in `state` and can render partial results as pages arrive out of order.
+
+## Effect Type Convention
+
+A standard generic type formalizes the pattern:
 
 ```
 data Effect(Request, Response) is {
-  request: Request out,
+  requests:  [{ id: Text, payload: Request }] out,
+  responses: [{ id: Text, payload: Response }] in
+}
+```
+
+For simple single-request channels where `id` management is boilerplate, a convenience wrapper could auto-assign `id`:
+
+```
+data SimpleEffect(Request, Response) is {
+  request:  Request out,
   response: Response in
 }
 ```
 
-## Dynamic Effects — Explicit Correlation IDs
+The runtime would treat `SimpleEffect` as sugar for an `Effect` with an auto-managed constant `id`. If a new request is emitted while one is pending, cancel-on-new-request applies.
 
-For an unknown or dynamic number of concurrent requests (e.g., fetching pages of results, parallel API calls based on runtime data), static interface paths are insufficient.
+## Activation Integration
 
-### Design
+LIDL's existing activation model integrates naturally with the list-based approach:
 
-Use an explicit correlation ID in the interface:
+| State | Value | Meaning |
+|-------|-------|---------|
+| No requests this step | `requests` is `[]` | No new work |
+| Requests emitted | `requests` is `[...]` (non-empty) | Runtime fires them |
+| No responses yet | `responses` is `[]` | Nothing completed |
+| Responses arrived | `responses` is `[...]` (non-empty) | Interaction processes them |
 
-```
-{
-  request:  { id: Text, payload: HttpRequest } out,
-  response: { id: Text, payload: HttpResponse } in
-}
-```
+The `inactive`/`active` concept maps naturally: an empty list is semantically `inactive` (nothing to do), a non-empty list is `active` (data to process). The interaction checks `if (responses) is active` or tests list length.
 
-- The interaction generates a unique `id` per request (e.g., a counter stored in `state`).
-- The runtime maintains a pending request table keyed by `id`.
-- When a response arrives, the runtime matches it by `id`, injects it at `inter.response`, and triggers a step.
-- The interaction routes responses by checking `(response.id) is equal to (expectedId)`.
+A response is always `[]` in the same step that the corresponding request was sent. Responses only appear in future steps.
 
-### Pending State in `memo`
+## Pending State in `memo`
 
-The `memo` field (currently an unused placeholder `{}` in every step) stores pending request metadata:
+The `memo` field (currently an unused placeholder `{}` in every step) stores pending request metadata managed by the runtime:
 
 ```javascript
 memo: {
   pendingRequests: {
-    "req-1": { url: "https://api.example.com/users", sentAt: 1234567890 },
-    "req-2": { url: "https://api.example.com/posts", sentAt: 1234567891 }
+    "users": { url: "/api/users", sentAt: 1234567890 },
+    "posts": { url: "/api/posts", sentAt: 1234567891 },
+    "page-1": { url: "/api/items?page=1", sentAt: 1234567892 }
   }
 }
 ```
 
-The runtime manages `memo.pendingRequests` — adding entries when requests go out, removing them when responses arrive.
-
-## Activation Integration
-
-LIDL's existing activation model integrates naturally:
-
-| State | Value | Meaning |
-|-------|-------|---------|
-| Request not yet sent | `request` is `inactive` | No action |
-| Request sent | `request` is `active` with request data | Runtime fires the request |
-| Response pending | `response` is `inactive` | Not yet received |
-| Response received | `response` is `active` with response data | Interaction can process it |
-| Error | `response` is `active` with error data | Interaction handles the error |
-
-This reuses LIDL's existing activation semantics (`active` = `"lidl_active_value"` or data, `inactive` = `null`) with zero new concepts.
+The runtime adds entries when requests go out, removes them when responses are delivered, and replaces entries when a new request reuses an existing `id` (cancel-on-new-request).
 
 ## Runtime Loop
 
 The runtime event loop generalizes the current Canvas runtime:
 
 ```
-1. Build lidlIn from previous state + new inputs (events, responses)
+1. Build lidlIn from previous state + new inputs:
+   a. Collect all responses that completed since last step into a list
+   b. Set inter.X.responses = [completed responses]
+   c. External events (mouse, keyboard, timer) update their respective inter fields
 2. result = trans(lidlIn)
 3. Inspect result.inter for outgoing effect requests:
-   a. For each active request field at a known effect path:
-      - Record in pending table (keyed by interface path or explicit ID)
-      - Fire the async operation
-4. When a response arrives:
-   a. Match to pending request (by interface path or correlation ID)
-   b. Remove from pending table
-   c. Inject response data into interfaceState at the matching path
-   d. Trigger a new step (go to 1)
-5. External events (mouse, keyboard, timer, WebSocket message):
-   a. Update interfaceState with new input data
-   b. Trigger a new step (go to 1)
+   a. For each non-empty requests list at a known effect path:
+      - For each request in the list:
+        - If id matches an existing pending request: cancel the old one (replace)
+        - Add to pending table keyed by id
+        - Fire the async operation
+4. When async operations complete:
+   a. Store completed responses in a ready queue
+   b. If no step is currently running, trigger a new step (go to 1)
 ```
+
+Key properties:
+- All responses that are ready at the time of a step are delivered together in one list.
+- If more responses arrive while a step is running, they are queued for the next step.
+- The runtime never delivers a response in the same step that its request was emitted.
 
 ## Effect Types Beyond HTTP
 
-The same pattern applies to other async effects:
+The same list-based pattern applies to other async effects:
 
 ### Timers
 
 ```
-interaction (delayedAction): {
-  start: { delay: Number, payload: Any } out,
-  fired: Any in
+interaction (timers): {
+  starts: [{ id: Text, delay: Number }] out,
+  fires:  [{ id: Text }] in
 } is ...
 ```
 
-The runtime sets a timer when `start` is active, and injects `fired` when it triggers.
+The interaction can start multiple timers per step, each with a unique `id`. When a timer fires, it appears in `fires`. Starting a new timer with the same `id` cancels the old one.
 
 ### WebSocket
 
 ```
 interaction (liveData): {
-  connect: { url: Text } out,
-  send: Text out,
-  receive: Text in,
-  status: ConnectionStatus in
+  commands: [{ type: Text, url: Text, message: Text }] out,
+  events:   [{ type: Text, message: Text }] in
 } is ...
 ```
 
-The runtime manages the WebSocket lifecycle. Messages arrive as `receive` activations.
+Commands: `{type: "connect", url: "..."}`, `{type: "send", message: "..."}`, `{type: "close"}`.
+Events: `{type: "open"}`, `{type: "message", message: "..."}`, `{type: "close"}`, `{type: "error", message: "..."}`.
+
+Multiple messages can arrive between steps and are delivered together in one list.
 
 ### Storage
 
 ```
 interaction (persistence): {
-  write: { key: Text, value: Any } out,
-  read: { key: Text } out,
-  result: { key: Text, value: Any } in
-} is ...
+  commands:  [{ id: Text, op: Text, key: Text, value: Any }] out,
+  results:   [{ id: Text, key: Text, value: Any }] in
+}
 ```
+
+Multiple reads/writes per step, results matched by `id`.
 
 ## Implementation Phases
 
 ### Phase 1: Runtime Effect Loop
 
-Extend the Canvas runtime (`canvas-panel.tsx`) and the CLI runner to inspect outgoing interface values for effect markers. Implement HTTP request/response handling.
+Extend the Canvas runtime (`canvas-panel.tsx`) and the CLI runner to support list-based effect interfaces. Implement HTTP request/response handling with `id`-based correlation and cancel-on-reuse semantics.
 
 ### Phase 2: Effect Type Conventions
 
-Define standard data types for `HttpRequest`, `HttpResponse`, `Timer`, `WebSocket`, etc. in a LIDL standard library.
+Define standard data types for `HttpRequest`, `HttpResponse`, `Timer`, `WebSocket`, etc. in a LIDL standard library. Formalize `Effect` and `SimpleEffect` generic types.
 
 ### Phase 3: Static Analysis
 
 Extend the compiler to detect effect interfaces and validate that request/response pairs are correctly typed (matching directions, compatible data types).
 
-### Phase 4: Dynamic Correlation
+### Phase 4: Convenience Sugar
 
-Implement `memo`-based pending request tracking and correlation ID matching for dynamic effect patterns.
+Implement `SimpleEffect` as sugar for the common single-request pattern with auto-managed `id` and cancel-on-new-request semantics.
