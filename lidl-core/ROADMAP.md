@@ -166,34 +166,24 @@ The only current caller (`matchingCompositionReduction`) needs all solutions to 
 
 ## Phase 2: Targeted Algorithmic Improvements (Medium Effort, High Impact)
 
-### 2.1 Eliminate `_.cloneDeep` in `createDataFlowDirection`
+### 2.1 Eliminate `_.cloneDeep` in `createDataFlowDirection` — DONE
 
 **File:** `src/graphTransformations/createDataFlowDirection.ts`
 
-This pass runs ~15 times during compilation. Each invocation calls `_.cloneDeep()` on every edge's port data:
+Removed both `_.cloneDeep()` calls on port data. Analysis showed `conjugateInterface` and `mergeInterface` are pure functions that create new objects and never mutate their inputs, making the deep clones unnecessary. Also removed the unused `lodash` import.
 
-```js
-let portOnOrigin = _.cloneDeep(theEdge.from.node.ports[theEdge.from.index]);
-let portOnDestination = _.cloneDeep(theEdge.to.node.ports[theEdge.to.index]);
-```
+**Checkpoint:** `bun test` — all 316 tests pass. ✓
 
-**Fix:** Use structural sharing or immutable data for port types so "copying" is free. Alternatively, track which edges actually changed and only reprocess those (incremental dataflow).
-
-**Expected impact:** 2–3× on this pass (compounded across ~15 invocations).
-
-**Checkpoint:** `bun test` — all tests pass.
-
-### 2.2 Build hash indexes for `referentialTransparency` node grouping
+### 2.2 Build hash indexes for `referentialTransparency` node grouping — DONE
 
 **Files:** `src/graphTransformations/referentialTransparency.ts`, `referentialTransparencyInstances.ts`
 
-For each "solvable" node, the pass searches all nodes with the same operator, then for each candidate compares all children edges bidirectionally — yielding O(N² × E²) complexity.
+Two optimizations applied to both files:
 
-**Fix:** Build a hash index of nodes keyed by operator string. Group them, then compare children using sorted edge lists or hash-based set comparison.
+1. **Operator index**: Pre-built `Map<string, node[]>` grouping nodes by `content.operator`. Candidate lookup is now O(group size) instead of O(all nodes).
+2. **Set-based children comparison**: Built `Set<string>` from children edge keys (`index:toIndex:toNodeId`). Bidirectional equivalence check is now O(E) instead of O(E²).
 
-**Expected impact:** 3–5× on this pass.
-
-**Checkpoint:** `bun test` — all tests pass.
+**Checkpoint:** `bun test` — all 316 tests pass. ✓
 
 ---
 
@@ -273,7 +263,7 @@ Consider rewriting the graph engine in Rust or C++ and exposing it to JavaScript
 | 1.2 | Fixed-point loops instead of hard-coded repetition | Variable (avoids wasted passes) | Low | DONE |
 | 1.3 | `Set` instead of `_.includes` in `expandDefinitions` | 2× on this pass | Low | DONE |
 | 1.4 | Stop SAT solver after first solution | Variable | Low | DONE |
-| 2.1 | Eliminate `_.cloneDeep` in `createDataFlowDirection` | 2–3× on this pass (×15) | Medium | |
+| 2.1 | Eliminate `_.cloneDeep` in `createDataFlowDirection` | 2–3× on this pass (×15) | Medium | DONE |
 | 2.2 | Hash indexes for `referentialTransparency` | 3–5× on this pass | Medium | |
 | 3.1 | Rewrite Graph with `Map`/`Set` and adjacency lists | 5–10× overall | High | |
 | 3.2 | Immediate removal instead of soft-delete + `clean()` | 1.2–1.5× | Medium–High | |

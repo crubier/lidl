@@ -1,10 +1,6 @@
-import _ from "lodash";
-
 import {
   mergeInterface,
-  madeOnlyOf,
   conjugateInterface,
-  isUndefined,
   isCompatible,
 } from "../interfaces";
 
@@ -20,12 +16,8 @@ export default function createDataFlowDirection(graph) {
       // console.log(theEdge.from.node.ports);
       // console.log(theEdge.from.index);
       // if (_.isUndefined(theEdge.from.node.ports)) console.log('UUUUU' + theEdge.from.node.content.operator);
-      let portOnOrigin = _.cloneDeep(
-        theEdge.from.node.ports[theEdge.from.index],
-      );
-      let portOnDestination = _.cloneDeep(
-        theEdge.to.node.ports[theEdge.to.index],
-      );
+      let portOnOrigin = theEdge.from.node.ports[theEdge.from.index];
+      let portOnDestination = theEdge.to.node.ports[theEdge.to.index];
       // Here we infer that ports on one end are conjugated with ports on other end
       // console.log("EDGE0 "+theEdge.id +" "+ theEdge.from.index+" "+ portOnOrigin+" "+ theEdge.to.index + " " + portOnDestination);
       try {

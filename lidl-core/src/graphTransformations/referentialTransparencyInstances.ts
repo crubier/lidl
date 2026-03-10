@@ -1,5 +1,9 @@
 import _ from "lodash";
 
+function edgeKey(e) {
+  return `${e.from.index}:${e.to.index}:${e.to.node.id}`;
+}
+
 // During this phase we add the folowing decoration to nodes:
 // - finished if the node is to be deleted from the graph
 // - referentialTransparencySolved if the node is the result of the merger of other nodes.
@@ -23,6 +27,24 @@ export default function referentialTransparencyInstances(graph) {
     })
     .commit();
 
+  // Build operator index: group InteractionInstance nodes by operator string
+  const operatorIndex: Map<string, any[]> = new Map();
+  graph
+    .matchNodes({
+      type: "InteractionInstance",
+      content: { type: "InteractionSimple" },
+    })
+    .forEach((n) => {
+      const op = n.content.operator;
+      let group = operatorIndex.get(op);
+      if (!group) {
+        group = [];
+        operatorIndex.set(op, group);
+      }
+      group.push(n);
+    })
+    .commit();
+
   graph.reduceNodes(
     {
       type: "InteractionInstance",
@@ -31,67 +53,46 @@ export default function referentialTransparencyInstances(graph) {
       referentialTransparencySolvable: true,
     },
     (theResult, theNode) => {
-      // console.log("========------------------------------------===");
-      // console.log(theNode.id+ " "+theNode.content.operator);
-      // console.log("==+++++++++++++++++++++===");
       let theChildrenEdges = graph
         .matchUndirectedEdges({
           type: "InteractionInstanceOperand",
           from: { node: theNode },
         })
-        .filter((e) => e.from.index > 0) // Only children, not the parent which has index 0
+        .filter((e) => e.from.index > 0)
         .value();
 
-      let similarNodes = graph
-        .matchNodes({
-          type: "InteractionInstance",
-          content: { operator: theNode.content.operator },
-        }) // Same operator
-        .filter(
-          (
-            n, // All chidren of similarNode are children of theNode
-          ) =>
-            graph
-              .matchUndirectedEdges({
-                type: "InteractionInstanceOperand",
-                from: { node: n },
-              })
-              .filter((e) => e.from.index > 0) // We check for similarity of children only, not parents !
-              .every(
-                (e) =>
-                  _(theChildrenEdges)
-                    .filter({
-                      from: { index: e.from.index },
-                      to: { index: e.to.index, node: e.to.node },
-                    })
-                    .size() === 1,
-              ),
-        )
-        .filter(
-          (
-            n, // All children of theNode are children of the similarNode
-          ) =>
-            _(theChildrenEdges).every(
-              (ce) =>
-                graph
-                  .matchUndirectedEdges({
-                    type: "InteractionInstanceOperand",
-                    from: { node: n },
-                  })
-                  .filter((e) => e.from.index > 0)
-                  .filter({
-                    from: { index: ce.from.index },
-                    to: { index: ce.to.index, node: ce.to.node },
-                  })
-                  .size() === 1,
-            ),
-        )
-        .value();
+      const theChildrenKeys = new Set(theChildrenEdges.map(edgeKey));
+
+      // Use operator index instead of full graph scan
+      const candidates = operatorIndex.get(theNode.content.operator) || [];
+      let similarNodes = candidates.filter((n) => {
+        if (n.finished) return false;
+
+        // Compare children using Set-based comparison
+        const nChildrenEdges = graph
+          .matchUndirectedEdges({
+            type: "InteractionInstanceOperand",
+            from: { node: n },
+          })
+          .filter((e) => e.from.index > 0)
+          .value();
+
+        if (nChildrenEdges.length !== theChildrenKeys.size) return false;
+
+        const nKeys = new Set(nChildrenEdges.map(edgeKey));
+        if (nKeys.size !== theChildrenKeys.size) return false;
+        for (const key of nKeys) {
+          if (!theChildrenKeys.has(key)) return false;
+        }
+        return true;
+      });
 
       // We create a node to merge all the nodes similar to theNode
-      // TODO Merge nodes differently than tjust picking the first
-      // for example put all syntactic locations of nodes to improve traceback
       let newNode = graph.addNode(theNode);
+
+      // Add new node to operator index
+      let group = operatorIndex.get(theNode.content.operator);
+      if (group) group.push(newNode);
 
       // Attach the newNode to the definition theNode is in
       graph
@@ -131,7 +132,6 @@ export default function referentialTransparencyInstances(graph) {
               from: { node: similarNode, index: 0 },
             })
             .forEach((edgeFromSimilarNode) => {
-              // console.log()
               graph.addEdge({
                 type: "InteractionInstanceOperand",
                 from: {
@@ -163,7 +163,6 @@ export default function referentialTransparencyInstances(graph) {
                 from: { node: n },
               })
               .filter((x) => x.from.index > 0)
-              // .tap(x=>{console.log("xxxx");console.log(_.map(x,y=>(y.from.index+ " " +y.to.node.id +" "+y.to.node.content.operator+ " "+y.to.node.referentialTransparencySolved)))})
               .every((x) => {
                 return x.to.node.referentialTransparencySolved === true;
               })
