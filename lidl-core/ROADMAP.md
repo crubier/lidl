@@ -152,17 +152,15 @@ The pipeline repeated several passes a fixed number of times (3×), as acknowled
 
 **Checkpoint:** `bun test` — all 316 tests pass. ✓
 
-### 1.4 Stop SAT solver after first solution (when sufficient)
+### 1.4 Stop SAT solver after first solution (when sufficient) — DONE
 
 **File:** `src/satSolver.ts`
 
-`solvePath` finds **all** satisfying assignments by restarting the solver with accumulated negation clauses. For N solutions this is O(N × SAT_cost). Many callers only need one solution.
+Added an optional `{ firstOnly?: boolean }` parameter to `solvePath`. When `firstOnly` is true, the solver returns after the first satisfying assignment instead of enumerating all solutions via negation-clause restart.
 
-**Fix:** Add an option to stop after the first satisfying assignment. Use it where all-solutions enumeration isn't required.
+The only current caller (`matchingCompositionReduction`) needs all solutions to generate multi-branch code, so it remains unchanged. The option is available for future callers.
 
-**Expected impact:** Variable — significant when many solutions exist.
-
-**Checkpoint:** `bun test` — all tests pass.
+**Checkpoint:** `bun test` — all 316 tests pass. ✓
 
 ---
 
@@ -274,7 +272,7 @@ Consider rewriting the graph engine in Rust or C++ and exposing it to JavaScript
 | 1.1 | Remove `createDataFlowDirection` from `resolveMultiplePorts` loop | 2–5× on large programs | Low | DONE |
 | 1.2 | Fixed-point loops instead of hard-coded repetition | Variable (avoids wasted passes) | Low | DONE |
 | 1.3 | `Set` instead of `_.includes` in `expandDefinitions` | 2× on this pass | Low | DONE |
-| 1.4 | Stop SAT solver after first solution | Variable | Low | |
+| 1.4 | Stop SAT solver after first solution | Variable | Low | DONE |
 | 2.1 | Eliminate `_.cloneDeep` in `createDataFlowDirection` | 2–3× on this pass (×15) | Medium | |
 | 2.2 | Hash indexes for `referentialTransparency` | 3–5× on this pass | Medium | |
 | 3.1 | Rewrite Graph with `Map`/`Set` and adjacency lists | 5–10× overall | High | |
