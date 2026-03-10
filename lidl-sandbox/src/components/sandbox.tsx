@@ -48,6 +48,7 @@ import {
 import CodeEditor from "@/components/sandbox/code-editor";
 import GraphvizViewer from "@/components/sandbox/graphviz-viewer";
 import CanvasPanel from "@/components/sandbox/canvas-panel";
+import BlockCodeEditor from "@/components/sandbox/block-code-editor";
 
 const BUILD_KEY = "lidl-sandbox-next-v1";
 
@@ -174,6 +175,11 @@ function RawTracePanel() {
   return <CodeEditor value={trace ?? ""} readOnly language="json" />;
 }
 
+function BlockCodePanel() {
+  const { lidlAst } = useContext(SandboxContext);
+  return <BlockCodeEditor lidlAst={lidlAst} />;
+}
+
 function AnalysisPanel() {
   const { metrics } = useContext(SandboxContext);
   return (
@@ -211,6 +217,7 @@ const dockviewComponents: Record<string, React.FC> = {
   trace: TracePanel,
   rawTrace: RawTracePanel,
   analysis: AnalysisPanel,
+  blockCode: BlockCodePanel,
 };
 
 // ---------------------------------------------------------------------------
@@ -441,6 +448,12 @@ export default function Sandbox() {
       id: "expanded",
       component: "expanded",
       title: "Expanded",
+      position: { referencePanel: "lidl-code", direction: "within" },
+    });
+    api.addPanel({
+      id: "block-code",
+      component: "blockCode",
+      title: "Block View",
       position: { referencePanel: "lidl-code", direction: "within" },
     });
 
