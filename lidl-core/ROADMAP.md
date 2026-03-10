@@ -6,7 +6,7 @@ This document outlines a prioritized plan for improving the performance of the L
 
 The LIDL compiler works by converting an AST into a graph, running ~29 transformation passes over it, and generating JavaScript. The pipeline currently suffers from several structural performance issues that compound on larger programs. The improvements below are ordered by expected impact relative to implementation effort.
 
-> **Verification rule:** After completing each step, run the full test suite (`npm test` or `bun test` after the Bun migration). Do not proceed to the next step until all tests pass. This ensures no regressions are introduced along the way.
+> **Verification rule:** After completing each step, run the full test suite (`bun test`). Do not proceed to the next step until all tests pass. This ensures no regressions are introduced along the way.
 
 ---
 
@@ -59,6 +59,23 @@ Converted the entire `src/` directory to TypeScript:
 
 **Checkpoint:** `bun test` — all 316 tests pass. ✓
 
+### 0.4 Complete ESM migration and remove remaining JS — DONE
+
+Finished the JS → TS migration for the remaining entry points and build tooling:
+- Converted `index.js` → `index.ts` with ESM re-exports
+- Converted `build.js` → `build.ts` using Bun APIs (`Bun.file()`, `Bun.write()`, top-level `await`)
+- Generated `examples.ts` instead of `examples.js` (proper TypeScript with typed export)
+- Generated `parser.js` and `operator.js` with `export default` (ESM) instead of `module.exports` (CJS)
+- Added `parser.d.ts` and `operator.d.ts` type declarations for generated parsers
+- Updated `package.json`: `"main": "index.ts"`, `"type": "module"`, removed `fs-extra` dependency
+- Updated `tsconfig.json`: removed `allowJs`, excluded generated `.js` from type-checking
+- Removed all `"use strict"` directives (redundant in ES modules) from ~40 source files
+- Standardized all imports to extension-less paths
+- Replaced `fs-extra` with native `fs` in tests (`fs.removeSync` → `fs.rmSync`)
+- Replaced fire-and-forget `exec("dot ...")` with synchronous `Bun.spawnSync()` for PDF generation in tests
+
+**Checkpoint:** `bun test` — all 316 tests pass. ✓
+
 ### 0.3 Replace PEG.js with Peggy — DONE
 
 - Replaced `pegjs ^0.9.0` with `peggy ^5.1.0` in dev dependencies
@@ -72,21 +89,21 @@ Converted the entire `src/` directory to TypeScript:
 
 ## Phase 1: Quick Wins (Low Effort, High Impact)
 
-### 1.1 Remove `createDataFlowDirection` from inside `resolveMultiplePorts` loop
+### 1.1 Remove `createDataFlowDirection` from inside `resolveMultiplePorts` loop — DONE
 
-**File:** `src/graphTransformations/resolveMultiplePorts.js`
+**File:** `src/graphTransformations/resolveMultiplePorts.ts`
 
-`resolveMultiplePorts` calls `createDataFlowDirection(graph)` inside its `reduceUndirectedEdges` loop — meaning a full graph-wide dataflow pass runs for **every single edge** being processed. For E edges, total cost is O(E²).
+`resolveMultiplePorts` called `createDataFlowDirection(graph)` inside its `reduceUndirectedEdges` loop — meaning a full graph-wide dataflow pass ran for **every single edge** being processed. For E edges, total cost was O(E²).
 
-**Fix:** Batch the changes and run `createDataFlowDirection` once at the end of `resolveMultiplePorts`.
+**Fix:** Moved `createDataFlowDirection` from inside the per-edge callback to a single call after the `reduceUndirectedEdges` loop. The newly created fan-out/fan-in edges already have their ports set explicitly when constructed, so per-iteration inference was redundant. The pipeline also calls `createDataFlowDirection` immediately after `resolveMultiplePorts` anyway.
 
 **Expected impact:** 2–5× on large programs.
 
-**Checkpoint:** `bun test` — all tests pass.
+**Checkpoint:** `bun test` — all 316 tests pass. ✓
 
 ### 1.2 Replace hard-coded pass repetition with fixed-point loops
 
-**File:** `src/graphCompiler.js`
+**File:** `src/graphCompiler.ts`
 
 The pipeline repeats several passes a fixed number of times (usually 3), as acknowledged by TODO comments in the source:
 
@@ -106,7 +123,7 @@ The affected pass groups:
 
 ### 1.3 Replace `_.includes` with `Set` in `expandDefinitions`
 
-**File:** `src/graphTransformations/expandDefinitions.js`
+**File:** `src/graphTransformations/expandDefinitions.ts`
 
 The `copy()` function uses `_.includes(defInteractionInstanceNodes, edge.from.node)` to filter edges. This is O(N) per check. For M edges and N nodes, the total is O(M × N).
 
@@ -118,7 +135,7 @@ The `copy()` function uses `_.includes(defInteractionInstanceNodes, edge.from.no
 
 ### 1.4 Stop SAT solver after first solution (when sufficient)
 
-**File:** `src/satSolver.js`
+**File:** `src/satSolver.ts`
 
 `solvePath` finds **all** satisfying assignments by restarting the solver with accumulated negation clauses. For N solutions this is O(N × SAT_cost). Many callers only need one solution.
 
@@ -134,7 +151,7 @@ The `copy()` function uses `_.includes(defInteractionInstanceNodes, edge.from.no
 
 ### 2.1 Eliminate `_.cloneDeep` in `createDataFlowDirection`
 
-**File:** `src/graphTransformations/createDataFlowDirection.js`
+**File:** `src/graphTransformations/createDataFlowDirection.ts`
 
 This pass runs ~15 times during compilation. Each invocation calls `_.cloneDeep()` on every edge's port data:
 
@@ -151,7 +168,7 @@ let portOnDestination = _.cloneDeep(theEdge.to.node.ports[theEdge.to.index]);
 
 ### 2.2 Build hash indexes for `referentialTransparency` node grouping
 
-**Files:** `src/graphTransformations/referentialTransparency.js`, `referentialTransparencyInstances.js`
+**Files:** `src/graphTransformations/referentialTransparency.ts`, `referentialTransparencyInstances.ts`
 
 For each "solvable" node, the pass searches all nodes with the same operator, then for each candidate compares all children edges bidirectionally — yielding O(N² × E²) complexity.
 
@@ -167,7 +184,7 @@ For each "solvable" node, the pass searches all nodes with the same operator, th
 
 ### 3.1 Replace graph arrays with `Map`/`Set` and proper adjacency lists
 
-**File:** `src/g.js`
+**File:** `src/g.ts`
 
 The `Graph` class is the root bottleneck. It stores nodes and edges in **plain arrays** and uses `finished` flags for soft-deletion. Nearly every operation suffers:
 
@@ -193,7 +210,7 @@ The graph already has `nodeTypeIndex` / `edgeTypeIndex` (Maps of arrays by type)
 
 ### 3.2 Eliminate `graph.clean()` — remove elements immediately
 
-**File:** `src/g.js`
+**File:** `src/g.ts`
 
 Currently, "deleting" a node or edge sets `finished = true`. The actual removal happens in `clean()`, which is called ~50 times (once per pipeline step via `callCallback`). Each `clean()` call does `_.remove()` on the full arrays.
 
@@ -233,7 +250,8 @@ Consider rewriting the graph engine in Rust or C++ and exposing it to JavaScript
 | 0.1 | Replace Node.js + Babel with Bun | Faster startup, tests, and runtime | Low–Medium | DONE |
 | 0.2 | Convert all `.js` to TypeScript | Safety, DX, foundation for later phases | Medium | DONE |
 | 0.3 | Replace PEG.js with Peggy | Maintained tooling, TS types | Low | DONE |
-| 1.1 | Remove `createDataFlowDirection` from `resolveMultiplePorts` loop | 2–5× on large programs | Low | |
+| 0.4 | Complete ESM migration, remove remaining JS | Clean module system, Bun-native APIs | Medium | DONE |
+| 1.1 | Remove `createDataFlowDirection` from `resolveMultiplePorts` loop | 2–5× on large programs | Low | DONE |
 | 1.2 | Fixed-point loops instead of hard-coded repetition | Variable (avoids wasted passes) | Low | |
 | 1.3 | `Set` instead of `_.includes` in `expandDefinitions` | 2× on this pass | Low | |
 | 1.4 | Stop SAT solver after first solution | Variable | Low | |

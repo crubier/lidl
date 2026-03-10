@@ -200,7 +200,8 @@ export default function resolveMultiplePorts(graph) {
         throw new Error("what ? that should be impossible");
       } //else  _(similarInputEdges).size() === 1 so no problem
 
-      createDataFlowDirection(graph);
     },
   );
+
+  createDataFlowDirection(graph);
 }
