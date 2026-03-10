@@ -4,6 +4,8 @@ import * as runner from "../runner";
 import _ from "lodash";
 import * as path from "path";
 
+const skipOutput = !!process.env.LIDL_SKIP_OUTPUT;
+
 describe("lidl graph compiler", async function () {
   var testPaths = [
     "example/ok",
@@ -29,6 +31,7 @@ describe("lidl graph compiler", async function () {
 
   async function runTestCase(file: string, commonHeader: string) {
     function printGraph(graph: any, name: string) {
+      if (skipOutput) return;
       const dotFile = path.join(file, "dot", name + ".dot");
       const pdfFile = path.join(file, "pdf", name + ".pdf");
       Bun.write(dotFile, graph.toDot()).then(() => {
@@ -66,10 +69,14 @@ describe("lidl graph compiler", async function () {
       return trace;
     }
 
+    const setupPromise = skipOutput
+      ? Bun.file(path.join(file, "code.lidl")).text()
+      : Bun.spawn(["rm", "-rf", path.join(file, "result"), path.join(file, "dot"), path.join(file, "pdf")]).exited
+          .then(() => Bun.spawn(["mkdir", "-p", path.join(file, "result"), path.join(file, "dot"), path.join(file, "pdf")]).exited)
+          .then(() => Bun.file(path.join(file, "code.lidl")).text());
+
     const [code, header, scenarioText] = await Promise.all([
-      Bun.spawn(["rm", "-rf", path.join(file, "result"), path.join(file, "dot"), path.join(file, "pdf")]).exited
-        .then(() => Bun.spawn(["mkdir", "-p", path.join(file, "result"), path.join(file, "dot"), path.join(file, "pdf")]).exited)
-        .then(() => Bun.file(path.join(file, "code.lidl")).text()),
+      setupPromise,
       Bun.file(commonHeader).text(),
       Bun.file(path.join(file, "scenario.json")).text(),
     ]);
@@ -171,20 +178,26 @@ describe("lidl graph compiler", async function () {
           return true;
         },
         getJsCode: function (graph: any, data: any) {
-          Bun.write(path.join(file, "result", "generated.js"), data.source);
+          if (!skipOutput) {
+            Bun.write(path.join(file, "result", "generated.js"), data.source);
+          }
           let trace = runner.run(data, JSON.parse(scenarioText));
           checkTraceAgainstOracle(trace, JSON.parse(scenarioText));
-          Bun.write(
-            path.join(file, "result", "trace.json"),
-            JSON.stringify(trace),
-          );
+          if (!skipOutput) {
+            Bun.write(
+              path.join(file, "result", "trace.json"),
+              JSON.stringify(trace),
+            );
+          }
           return true;
         },
         getExpandedLidlCode: function (graph: any, data: any) {
-          Bun.write(
-            path.join(file, "result", "expanded.lidl"),
-            data.source,
-          );
+          if (!skipOutput) {
+            Bun.write(
+              path.join(file, "result", "expanded.lidl"),
+              data.source,
+            );
+          }
           return true;
         },
         error: function (graph: any, data: any) {
