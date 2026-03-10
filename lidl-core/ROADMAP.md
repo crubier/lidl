@@ -87,6 +87,32 @@ Finished the JS → TS migration for the remaining entry points and build toolin
 
 ---
 
+## Phase 0.5: Replace Peggy with Ohm (Medium Effort, DX & Maintainability) — DONE
+
+### 0.5.1 Migrate parsers from Peggy to Ohm — DONE
+
+**Files changed:** `src/parser.ts`, `src/operator.ts`, `build.ts`, `package.json`
+
+Replaced the [Peggy](https://peggyjs.org/) PEG parser generator with [Ohm](https://github.com/ohmjs/ohm), a modern parsing toolkit that cleanly separates grammars from semantic actions:
+
+- Rewrote `parser.pegjs` → Ohm grammar inlined in `src/parser.ts` with TypeScript semantic actions that build the same AST
+- Rewrote `operator.pegjs` → Ohm grammar inlined in `src/operator.ts` with classification semantics
+- Both modules export the same `{ parse(input, options?) }` API — zero changes needed in consuming code
+- Simplified `build.ts` to only generate `examples.ts` (no more parser code generation)
+- Removed `peggy` from devDependencies, added `ohm-js` to dependencies
+- Deleted generated files: `parser.js`, `operator.js`, `parser.d.ts`, `operator.d.ts`, `parser.pegjs`, `operator.pegjs`
+
+**Benefits achieved:**
+- **Separation of concerns:** Grammar is a pure syntax definition; semantic actions are typed TypeScript
+- **No build step for parsers:** Grammars are loaded at runtime — no code generation needed
+- **Better error messages:** Ohm provides clear, user-friendly parse error descriptions
+- **Extensible:** Grammar inheritance enables extending LIDL syntax without modifying existing rules
+- **Type-safe:** Full TypeScript throughout, no `.d.ts` stubs for generated code
+
+**Checkpoint:** `bun test` — all 316 tests pass. ✓
+
+---
+
 ## Phase 1: Quick Wins (Low Effort, High Impact)
 
 ### 1.1 Remove `createDataFlowDirection` from inside `resolveMultiplePorts` loop — DONE
@@ -251,6 +277,7 @@ Consider rewriting the graph engine in Rust or C++ and exposing it to JavaScript
 | 0.2 | Convert all `.js` to TypeScript | Safety, DX, foundation for later phases | Medium | DONE |
 | 0.3 | Replace PEG.js with Peggy | Maintained tooling, TS types | Low | DONE |
 | 0.4 | Complete ESM migration, remove remaining JS | Clean module system, Bun-native APIs | Medium | DONE |
+| 0.5.1 | Migrate parsers from Peggy to Ohm | Cleaner grammar, better DX & extensibility | Medium | DONE |
 | 1.1 | Remove `createDataFlowDirection` from `resolveMultiplePorts` loop | 2–5× on large programs | Low | DONE |
 | 1.2 | Fixed-point loops instead of hard-coded repetition | Variable (avoids wasted passes) | Low | |
 | 1.3 | `Set` instead of `_.includes` in `expandDefinitions` | 2× on this pass | Low | |

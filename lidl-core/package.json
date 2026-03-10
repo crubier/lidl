@@ -32,11 +32,11 @@
   },
   "license": "MIT",
   "dependencies": {
-    "lodash": "^4.17.21"
+    "lodash": "^4.17.21",
+    "ohm-js": "^17.5.0"
   },
   "devDependencies": {
     "@types/bun": "^1.3.10",
-    "peggy": "^5.1.0",
     "prettier": "^3.8.1",
     "viz.js": "^1.3.0"
   }
