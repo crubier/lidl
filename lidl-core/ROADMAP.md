@@ -143,17 +143,14 @@ The pipeline repeated several passes a fixed number of times (3×), as acknowled
 
 **Checkpoint:** `bun test` — all 316 tests pass. ✓
 
-### 1.3 Replace `_.includes` with `Set` in `expandDefinitions`
+### 1.3 Replace `_.includes` with `Set` in `expandDefinitions` — DONE
 
 **File:** `src/graphTransformations/expandDefinitions.ts`
 
-The `copy()` function uses `_.includes(defInteractionInstanceNodes, edge.from.node)` to filter edges. This is O(N) per check. For M edges and N nodes, the total is O(M × N).
+- Replaced three `_.includes(defInteractionInstanceNodes, ...)` calls with a `Set` for O(1) membership testing
+- Replaced `_.findIndex` in `copy()` with a `Map<original, copy>` for O(1) node lookup per edge endpoint
 
-**Fix:** Convert the node arrays to `Set` objects for O(1) membership testing.
-
-**Expected impact:** 2× on this pass.
-
-**Checkpoint:** `bun test` — all tests pass.
+**Checkpoint:** `bun test` — all 316 tests pass. ✓
 
 ### 1.4 Stop SAT solver after first solution (when sufficient)
 
@@ -276,7 +273,7 @@ Consider rewriting the graph engine in Rust or C++ and exposing it to JavaScript
 | 0.5.1 | Migrate parsers from Peggy to Ohm | Cleaner grammar, better DX & extensibility | Medium | DONE |
 | 1.1 | Remove `createDataFlowDirection` from `resolveMultiplePorts` loop | 2–5× on large programs | Low | DONE |
 | 1.2 | Fixed-point loops instead of hard-coded repetition | Variable (avoids wasted passes) | Low | DONE |
-| 1.3 | `Set` instead of `_.includes` in `expandDefinitions` | 2× on this pass | Low | |
+| 1.3 | `Set` instead of `_.includes` in `expandDefinitions` | 2× on this pass | Low | DONE |
 | 1.4 | Stop SAT solver after first solution | Variable | Low | |
 | 2.1 | Eliminate `_.cloneDeep` in `createDataFlowDirection` | 2–3× on this pass (×15) | Medium | |
 | 2.2 | Hash indexes for `referentialTransparency` | 3–5× on this pass | Medium | |

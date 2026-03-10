@@ -423,6 +423,8 @@ function instantiateInteraction(graph, interactionNode, stackDefNode) {
       .map((x) => x.to.node)
       .value();
 
+    const defInstanceNodeSet = new Set(defInteractionInstanceNodes);
+
     // Copy edges of type InteractionInstanceOperand
     let defInteractionInstanceEdges = graph
       .matchDirectedEdges({
@@ -430,8 +432,8 @@ function instantiateInteraction(graph, interactionNode, stackDefNode) {
       })
       .filter(
         (e) =>
-          _.includes(defInteractionInstanceNodes, e.to.node) &&
-          _.includes(defInteractionInstanceNodes, e.from.node),
+          defInstanceNodeSet.has(e.to.node) &&
+          defInstanceNodeSet.has(e.from.node),
       )
       .value();
 
@@ -440,7 +442,7 @@ function instantiateInteraction(graph, interactionNode, stackDefNode) {
       .matchDirectedEdges({
         type: "InteractionInstanceIsOperandOf",
       })
-      .filter((e) => _.includes(defInteractionInstanceNodes, e.from.node))
+      .filter((e) => defInstanceNodeSet.has(e.from.node))
       .value();
     //
     // console.log(defInteractionInstanceIsOperandOf);
@@ -582,14 +584,10 @@ function copy(graph, subgraph) {
     .map((n) => graph.addNode(n))
     .value();
 
-  // Find the copied (or not) version of a node
+  const nodeMap = new Map(subgraph.nodes.map((n, i) => [n, newNodes[i]]));
+
   function copied(nod) {
-    let k = _(subgraph.nodes).findIndex(nod);
-    if (k >= 0) {
-      return newNodes[k];
-    } else {
-      return nod;
-    }
+    return nodeMap.get(nod) ?? nod;
   }
 
   let newEdges = _(subgraph.edges)
