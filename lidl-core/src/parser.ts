@@ -1,6 +1,6 @@
 import * as ohm from "ohm-js";
 
-const grammar = ohm.grammar(String.raw`LIDL {
+export const grammar = ohm.grammar(String.raw`LIDL {
   Start = Content*
 
   Content = InteractionDefinition

@@ -33,7 +33,7 @@ export default function CodeEditor({
     <Editor
       height="100%"
       language={language}
-      theme={resolvedTheme === "dark" ? "vs-dark" : "light"}
+      theme={resolvedTheme === "dark" ? "lidl-dark" : "lidl-light"}
       value={value}
       onChange={(v) => onChange?.(v ?? "")}
       beforeMount={handleBeforeMount}
@@ -54,6 +54,7 @@ export default function CodeEditor({
           verticalScrollbarSize: 8,
           horizontalScrollbarSize: 8,
         },
+        "semanticHighlighting.enabled": true,
       }}
     />
   );

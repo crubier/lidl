@@ -11,3 +11,5 @@ export * as compiler from "./src/compiler";
 export * as graphCompiler from "./src/graphCompiler";
 export * as runner from "./src/runner";
 export { default as examples } from "./src/examples";
+export { tokenize, TOKEN_TYPES } from "./src/tokenizer";
+export type { SemanticToken, TokenType } from "./src/tokenizer";
