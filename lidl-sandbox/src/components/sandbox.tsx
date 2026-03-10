@@ -34,7 +34,7 @@ import {
 } from "@/components/ui/dropdown-menu";
 import { Separator } from "@/components/ui/separator";
 import { toast } from "sonner";
-import { Loader2, Save, Play, FolderOpen } from "lucide-react";
+import { Loader2, Save, Play, FolderOpen, AlignLeft } from "lucide-react";
 
 import {
   graphCompiler,
@@ -43,6 +43,7 @@ import {
   config,
   examples,
   interfaces,
+  format,
 } from "lidl-core";
 
 import CodeEditor from "@/components/sandbox/code-editor";
@@ -390,6 +391,17 @@ export default function Sandbox() {
     doRecompile(lidlRef.current, headerRef.current, scenarioRef.current);
   }, [doRecompile, debouncedRecompile]);
 
+  const handleFormat = useCallback(() => {
+    try {
+      const formatted = format(lidlRef.current);
+      setLidl(formatted);
+      debouncedRecompile(formatted, headerRef.current, scenarioRef.current);
+      toast.success("Formatted");
+    } catch (e: any) {
+      toast.error(`Format failed: ${e.message}`);
+    }
+  }, [debouncedRecompile]);
+
   const updateListOfFiles = useCallback(() => {
     const keys: string[] = [];
     for (let i = 0; i < localStorage.length; i++) {
@@ -648,6 +660,16 @@ export default function Sandbox() {
               <Play className="w-3.5 h-3.5 mr-1" />
             )}
             Recompile
+          </Button>
+
+          <Button
+            variant="outline"
+            size="sm"
+            className="h-7 text-xs"
+            onClick={handleFormat}
+          >
+            <AlignLeft className="w-3.5 h-3.5 mr-1" />
+            Format
           </Button>
 
           {errors.length > 0 && (

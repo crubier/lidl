@@ -1,0 +1,33 @@
+{
+  "name": "lidl-lsp",
+  "version": "0.1.0",
+  "description": "LIDL Language Server Protocol implementation",
+  "type": "module",
+  "main": "src/server.ts",
+  "scripts": {
+    "start": "bun src/server.ts --stdio",
+    "build": "bun build --target=node src/server.ts --outdir=dist"
+  },
+  "contributes": {
+    "languages": [
+      {
+        "id": "lidl",
+        "aliases": ["LIDL", "lidl"],
+        "extensions": [".lidl"],
+        "configuration": "./language-configuration.json"
+      }
+    ]
+  },
+  "dependencies": {
+    "lidl-core": "file:../lidl-core",
+    "vscode-languageclient": "^9.0.1",
+    "vscode-languageserver": "^9.0.1",
+    "vscode-languageserver-textdocument": "^1.0.12"
+  },
+  "devDependencies": {
+    "@types/bun": "^1.3.10"
+  },
+  "keywords": ["lidl", "lsp", "language-server"],
+  "author": "Vincent Lecrubier <vincent.lecrubier@gmail.com>",
+  "license": "MIT"
+}
