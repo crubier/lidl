@@ -1,7 +1,7 @@
 import _ from "lodash";
 
 // This function should be called with a graph just after the instantiateInterfaceStage
-export default function getExpandedLidl(graph) {
+export default function getExpandedLidl(graph, _rootDefinitionNode?) {
   return { source: "change code in getExpandedLidl.js to see this" };
 
   let defNode = graph.findNode({ type: "InteractionDefinition" });

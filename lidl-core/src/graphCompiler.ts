@@ -42,7 +42,7 @@ import getInteractionMetrics from "./graphOutputs/getInteractionMetrics";
 
 export function compile(ast, header, callbacks) {
   // A function to properly call each callback correctly
-  function callCallback(element, data) {
+  function callCallback(element, data?) {
     graph.clean(); // Also it cleans the graph
     if (_.isUndefined(callbacks[element])) {
       return true; // No callback for this stage ? We continue compiling;
@@ -114,7 +114,7 @@ export function graphTransformationPipeline(
   var step = 0;
   var callBackIterationCounter = {};
   // A function to properly call each callback correctly
-  function callCallback(element, data) {
+  function callCallback(element, data?) {
     graph.clean(); // Also it cleans the graph
     step = step + 1;
     if (callBackIterationCounter[element] === undefined)
